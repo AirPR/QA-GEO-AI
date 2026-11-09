@@ -1,4 +1,7 @@
-# QA-Workflow — User Guide
+# QA-GEO-AI — User Guide
+
+> **This repository:** the GEO QA workflow in the Onclusive organization (AirPR).
+> It was imported on 9 November 2026 from `QA-Workflow1` as a single commit. The history before that date (who changed which test case, and when) stays in the private repository [assiyabenramdane-dot/QA-Workflow1](https://github.com/assiyabenramdane-dot/QA-Workflow1).
 
 A Claude Code–driven QA pipeline: import Jira epics → generate test cases → push to Quality Plus → run Playwright → report results → file bugs → regression coverage.
 
@@ -21,8 +24,8 @@ A Claude Code–driven QA pipeline: import Jira epics → generate test cases �
 
 ```powershell
 # 1. Clone
-git clone <repo-url> QA-Workflow1
-cd QA-Workflow1
+git clone https://github.com/AirPR/QA-GEO-AI QA-GEO-AI
+cd QA-GEO-AI
 
 # 2. Install Node dependencies (Playwright, csv-parse, xlsx, docx, pptxgenjs…)
 npm install
@@ -80,7 +83,8 @@ claude            # run from the repo root; type / and check the commands appear
     ├── processed/  Auto-generated working files (parsed results, logs, auth session) — don't edit
     ├── output/     Shareable deliverables: CSVs, reports, regression matrices
     └── templates/  Report/CSV/QP scripts (build-multi-epic-report.js, qp-import.js…)
-apps/geo/data/      Imported Jira epics per version (GEO-R1.0 …)
+apps/geo/           Imported GEO epics: {VERSION}/{EPIC}/ (EPIC.md, STORY_*.md, epic-data.json, test plans, run findings)
+apps/Analytics/     Imported Analytics (UP) epics, same layout
 Docs/               HowTo.txt (lessons learned), selectors_reference.md
 ```
 
@@ -93,7 +97,7 @@ Rules of thumb: `raw/` is read-only data, `processed/` is machine-written, only 
 Open a terminal in the repo root and start Claude Code:
 
 ```powershell
-cd QA-Workflow1
+cd QA-GEO-AI
 claude
 ```
 
@@ -103,7 +107,7 @@ Then type slash commands. **Always run them as slash commands** (`/gen-tc-csv �
 
 | # | Command | What it does | Output |
 |---|---|---|---|
-| 1 | `/import-jira-epic GEO-123[,GEO-456]` | Pulls epics + Stories from Jira (REST) into local docs | `apps/geo/data/{VERSION}/{EPIC}/EPIC.md`, `STORY_*.md`, `epic-data.json` |
+| 1 | `/import-jira-epic GEO-123[,GEO-456]` | Pulls epics + Stories from Jira (REST) into local docs | `apps/geo/{VERSION}/{EPIC}/EPIC.md`, `STORY_*.md`, `epic-data.json` |
 | 2 | `/gen-test-plan` *(optional)* | QA test plan from an epic or Jira ticket, optional push to Jira | markdown test plan |
 | 3 | `/gen-tc-csv` | Test cases (Given/When/Then) from the Acceptance Criteria | `.claude/Data/output/csv/testcases-coverage-epic{KEY}.csv` |
 | 4 | `/analyze-gaps` | Compares ACs (Jira + Confluence) with the CSV | gap report |
@@ -164,7 +168,7 @@ Both write to `.claude/Data/output/reports/runs/{DDMMYYYY-HHMM}/`. The latest ru
 | What | Where |
 |---|---|
 | Test case CSVs | `.claude/Data/output/csv/` |
-| HTML reports + screenshots | `.claude/Data/output/reports/runs/{DDMMYYYY-HHMM}/` |
+| HTML reports + screenshots | `.claude/Data/output/reports/runs/{VERSION}_{EPIC}_{DDMMYYYY-HHMM}/`: one consolidated folder per epic (several reports inside when an epic has staging, production and non-regression campaigns) |
 | Regression coverage | `.claude/Data/output/regression/` |
 | Parsed results and logs (working files) | `.claude/Data/processed/testcases/test-results/` |
 
