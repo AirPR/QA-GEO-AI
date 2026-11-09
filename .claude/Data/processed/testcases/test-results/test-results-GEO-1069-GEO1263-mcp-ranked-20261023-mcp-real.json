@@ -1,0 +1,281 @@
+{
+  "spec": "GEO-1069-GEO1263-mcp-ranked-20261023",
+  "runDate": "2026-10-23",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "analyses": {
+    "primary": {
+      "name": "Nike",
+      "id": "cce7a7dc-7519-446f-b6d9-d6dc60598835",
+      "entityDomain": "nike.com",
+      "entityDomainConfirmed": true,
+      "entityLogoUrl": "cdn.brandfetch.io icon (HTTP 410 in browser)",
+      "L1": "https://www.google.com/s2/favicons?domain=nike.com&sz=64"
+    },
+    "secondary": {
+      "name": "Decathlon",
+      "id": "b6c8b664-e146-464a-bbd7-78d9deb99926",
+      "entityDomain": "decathlon.com",
+      "entityDomainConfirmed": true,
+      "entityLogoUrl": "cdn.brandfetch.io icon (HTTP 410 in browser)",
+      "L1": "https://www.google.com/s2/favicons?domain=decathlon.com&sz=64"
+    }
+  },
+  "account": {
+    "language_before": "en-GB",
+    "language_after": "en-GB",
+    "org": "QA-GEO"
+  },
+  "summary": {
+    "total": 5,
+    "pass": 5,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "successRate": 100,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1263-001",
+      "title": "Captured domain logo is shown on every brand surface of the app",
+      "story_id": "GEO-1263",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-001_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-001_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-001_step2b_overview_sidebar_header.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-001_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-001_step4_category_rankings.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-001_step5_competitive_view.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-001_step6_decathlon_category_rankings.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis A1 exists with a captured domain",
+          "status": "PASS",
+          "expected": "A1 is listed in the analyses list",
+          "data": "A1, logo L1 (licter.com)"
+        },
+        {
+          "title": "When the user opens the report list",
+          "status": "PASS",
+          "expected": "The A1 row shows logo L1",
+          "data": ""
+        },
+        {
+          "title": "And the user opens the Overview of A1",
+          "status": "PASS",
+          "expected": "The dashboard sidebar and header show logo L1",
+          "data": ""
+        },
+        {
+          "title": "Then the target brand row of the brand rankings in Overview shows logo L1",
+          "status": "PASS",
+          "expected": "Logo L1, not the favicon of a domain cited by the AI answers",
+          "data": ""
+        },
+        {
+          "title": "When the user opens a Category view",
+          "status": "PASS",
+          "expected": "The target brand row of the rankings shows logo L1",
+          "data": "First category of A1"
+        },
+        {
+          "title": "And the user opens a competitive view",
+          "status": "PASS",
+          "expected": "The target brand shows logo L1",
+          "data": "e.g. the competitor comparison of A1"
+        }
+      ],
+      "notes": "Observed (Nike): report list row img = google favicon nike.com sz=64 (L1); dashboard sidebar/header brand block \"Nike logo\" = L1 (the brand header is the sidebar block; no separate header logo exists); Overview brand rankings target row (data-testid dashboard-rankings-row-Nike, highlighted) = L1; Category view \"Running Shoes\" rankings target row = L1; competitive view: the Competitive prompts of the prompts table won by Nike show L1 in the winner cell (Brand Prioritization matrix and Share of Voice show no brand logos at all, there is no other competitor comparison page). For Nike the AI-cited domain is also nike.com, so the \"not the favicon of a cited domain\" clause is not discriminating on Nike; it is proven on Decathlon: API brand-rankings gives the target row domain decathlon.com.dz (Overview) and decathlon.co.uk (Category Sporting Goods), while the UI target row shows the decathlon.com favicon (stored domain) on both. Same logo source on every surface (Google favicon of the stored domain). | Test data substitution (user decision 2026-10-23): A1 \"Licter\" + licter.com could not be created (prompt pool 996/1000), so the TC was replayed on existing ranked staging analyses: Nike cce7a7dc (primary, stored entityDomain nike.com, entityDomainConfirmed=true) and Decathlon b6c8b664 (second check, stored entityDomain decathlon.com, entityDomainConfirmed=true). \"The captured domain\" = the stored domain; L1 = the logo the app serves for it. Both brands are Brandfetch suggestions, not custom brands with a typed website (per P1 a captured website behaves like a selected suggestion), so the custom-brand path itself is still to be confirmed on A1. Logo source: the stored entityLogoUrl (cdn.brandfetch.io icon) answers HTTP 410 Gone in the browser, so the app falls back to the Google favicon of the stored domain (https://www.google.com/s2/favicons?domain=nike.com&sz=64), which is L1 on every surface checked."
+    },
+    {
+      "tc_id": "TC-GEO-1263-002",
+      "title": "Captured domain logo is used on the cover and rankings of the PowerPoint and PDF exports",
+      "story_id": "GEO-1263",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-002_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-002_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-002_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-002_step5_pdf_cover.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-002_step6_pdf_rankings.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Overview of analysis A1 is open",
+          "status": "PASS",
+          "expected": "The sidebar shows logo L1",
+          "data": "A1, logo L1 (licter.com)"
+        },
+        {
+          "title": "When the user exports the analysis as PowerPoint",
+          "status": "PASS",
+          "expected": "The .pptx file is downloaded",
+          "data": ""
+        },
+        {
+          "title": "Then the cover slide shows logo L1",
+          "status": "PASS",
+          "expected": "Logo L1 of licter.com",
+          "data": ""
+        },
+        {
+          "title": "And the target brand row of the rankings slide shows logo L1",
+          "status": "PASS",
+          "expected": "Logo L1, not the favicon of a domain cited by the AI answers",
+          "data": ""
+        },
+        {
+          "title": "When the user exports the analysis as PDF",
+          "status": "PASS",
+          "expected": "The .pdf file is downloaded",
+          "data": ""
+        },
+        {
+          "title": "Then the cover and the rankings target row of the PDF show logo L1",
+          "status": "PASS",
+          "expected": "Logo L1 on both",
+          "data": ""
+        }
+      ],
+      "notes": "Exports downloaded from the Overview \"Export analysis\" menu (account language en-GB unchanged): Nike_AI_Visibility_Report.pptx and Nike_AI_Visibility_Report.pdf (13 slides/pages). PPTX unzipped: slide 1 (cover) brand picture = ppt/media/image2.png (64x64), md5 77eda24e83cf762efc7d767d1da44e92 = md5 of https://www.google.com/s2/favicons?domain=nike.com&sz=64 (L1); slide 7 \"How you rank against competitors\" row 3 Nike uses the same image2.png; competitors use their own media files. PDF (pdf.js render + image XObjects): page 1 cover logo img_p0_2 (64x64) and page 7 Nike row img_p6_3 (64x64) are pixel-identical to each other and to L1 (mean RGB diff 0). step3_then = evidence page built from the unzipped PPTX media; step5/step6 = rendered PDF pages. Export files kept locally in .playwright-mcp/geo1263-ranked-exports/. | Test data substitution (user decision 2026-10-23): A1 \"Licter\" + licter.com could not be created (prompt pool 996/1000), so the TC was replayed on existing ranked staging analyses: Nike cce7a7dc (primary, stored entityDomain nike.com, entityDomainConfirmed=true) and Decathlon b6c8b664 (second check, stored entityDomain decathlon.com, entityDomainConfirmed=true). \"The captured domain\" = the stored domain; L1 = the logo the app serves for it. Both brands are Brandfetch suggestions, not custom brands with a typed website (per P1 a captured website behaves like a selected suggestion), so the custom-brand path itself is still to be confirmed on A1. Logo source: the stored entityLogoUrl (cdn.brandfetch.io icon) answers HTTP 410 Gone in the browser, so the app falls back to the Google favicon of the stored domain (https://www.google.com/s2/favicons?domain=nike.com&sz=64), which is L1 on every surface checked."
+    },
+    {
+      "tc_id": "TC-GEO-1263-006",
+      "title": "Competitor logos and brand variant rows are unchanged by the captured domain",
+      "story_id": "GEO-1263",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-006_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-006_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-006_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-006_step4_decathlon_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Overview of analysis A1 is open",
+          "status": "PASS",
+          "expected": "The brand rankings are displayed",
+          "data": "A1, logo L1 (licter.com)"
+        },
+        {
+          "title": "Then only the target brand row shows logo L1",
+          "status": "PASS",
+          "expected": "Logo L1 on the target brand row",
+          "data": ""
+        },
+        {
+          "title": "And each competitor row shows its own logo",
+          "status": "PASS",
+          "expected": "Competitor logos are not replaced by logo L1",
+          "data": ""
+        },
+        {
+          "title": "And the brand variant rows keep their own visuals",
+          "status": "PASS",
+          "expected": "Variant rows are not replaced by logo L1",
+          "data": ""
+        },
+        {
+          "title": "When the user opens a Category view",
+          "status": "PASS",
+          "expected": "Same result: L1 on the target brand row only, competitor and variant rows unchanged",
+          "data": "First category of A1"
+        }
+      ],
+      "notes": "Nike Overview + Category: only the target row is highlighted with L1; each competitor row keeps its own favicon (asics.com, newbalance.co.uk, saucony.com, brooksrunning.com, puma.com, hoka.com, adidas.com, on-running.com, mizuno.com); Asics variants keep their own per-variant domains (e.g. asics.co.uk for Gel-Kayano 30). Nike variant rows show nike.com because their own API domains are all nike.com (not discriminating on Nike). Discriminating check on Decathlon Overview (step4): target row = decathlon.com (stored domain) while its API cited domain is decathlon.com.dz; variant rows keep their own domains decathlon.com.dz, decathlon.fr, decathlon.fr, i.e. variants are NOT replaced by L1. Category view (Nike Running Shoes, step3): same result. | Test data substitution (user decision 2026-10-23): A1 \"Licter\" + licter.com could not be created (prompt pool 996/1000), so the TC was replayed on existing ranked staging analyses: Nike cce7a7dc (primary, stored entityDomain nike.com, entityDomainConfirmed=true) and Decathlon b6c8b664 (second check, stored entityDomain decathlon.com, entityDomainConfirmed=true). \"The captured domain\" = the stored domain; L1 = the logo the app serves for it. Both brands are Brandfetch suggestions, not custom brands with a typed website (per P1 a captured website behaves like a selected suggestion), so the custom-brand path itself is still to be confirmed on A1. Logo source: the stored entityLogoUrl (cdn.brandfetch.io icon) answers HTTP 410 Gone in the browser, so the app falls back to the Google favicon of the stored domain (https://www.google.com/s2/favicons?domain=nike.com&sz=64), which is L1 on every surface checked."
+    },
+    {
+      "tc_id": "TC-GEO-1263-008",
+      "title": "Prompts table shows the captured-domain logo for the target brand as winner",
+      "story_id": "GEO-1263",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-008_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-008_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-008_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-008_step4_decathlon_winner.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Overview of analysis A1 is open",
+          "status": "PASS",
+          "expected": "The sidebar shows logo L1",
+          "data": "A1, logo L1 (licter.com)"
+        },
+        {
+          "title": "When the user opens the prompts table of A1",
+          "status": "PASS",
+          "expected": "The prompts are listed with their winner",
+          "data": ""
+        },
+        {
+          "title": "And the user locates a prompt whose winner is the target brand",
+          "status": "PASS",
+          "expected": "The prompt row shows \"Licter\" as winner",
+          "data": "\"Licter\""
+        },
+        {
+          "title": "Then the winner cell shows logo L1",
+          "status": "PASS",
+          "expected": "Logo L1 of licter.com, not a lettermark and not the favicon of a domain cited by the AI answers",
+          "data": ""
+        }
+      ],
+      "notes": "The prompts table lives in the Category view (latest collection, date picker ignored). Nike Running Shoes: 9 prompts have Nike as winner (API winnerIsTarget=true, winnerDomain=nike.com); every winner cell shows L1 (google favicon nike.com sz=64), not a lettermark and not a cited-domain favicon. Decathlon Sporting Goods: 12 prompts won by Decathlon, API winnerDomain=decathlon.com (stored domain), every winner cell shows the decathlon.com favicon (step4). Side observation (not in the GEO-1263 \"Where the brand logo appears\" table): in the prompt detail panel \"Ranking - ChatGPT\", the target variant row shows a check icon instead of a logo, competitors show logos; pre-existing marker of the target brand, no action proposed. | Test data substitution (user decision 2026-10-23): A1 \"Licter\" + licter.com could not be created (prompt pool 996/1000), so the TC was replayed on existing ranked staging analyses: Nike cce7a7dc (primary, stored entityDomain nike.com, entityDomainConfirmed=true) and Decathlon b6c8b664 (second check, stored entityDomain decathlon.com, entityDomainConfirmed=true). \"The captured domain\" = the stored domain; L1 = the logo the app serves for it. Both brands are Brandfetch suggestions, not custom brands with a typed website (per P1 a captured website behaves like a selected suggestion), so the custom-brand path itself is still to be confirmed on A1. Logo source: the stored entityLogoUrl (cdn.brandfetch.io icon) answers HTTP 410 Gone in the browser, so the app falls back to the Google favicon of the stored domain (https://www.google.com/s2/favicons?domain=nike.com&sz=64), which is L1 on every surface checked."
+    },
+    {
+      "tc_id": "TC-GEO-1263-011",
+      "title": "Sources on the captured domain are treated as the brand's own domain",
+      "story_id": "GEO-1263",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-011_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-011_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-011_step2b_target_sources_top.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-011_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp-ranked-20261023/TC-GEO-1263-011_step4_decathlon_target_sources.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis A1 is open and its AI answers cite licter.com",
+          "status": "PASS",
+          "expected": "licter.com is listed in AI Citation Sources",
+          "data": "A1, licter.com"
+        },
+        {
+          "title": "When the user reads how licter.com is classified in AI Citation Sources",
+          "status": "PASS",
+          "expected": "The classification of licter.com is recorded (Corporate expected, the same classification as the domain of a selected suggestion; there is no \"Owned Media\" type in AI Citation Sources)",
+          "data": ""
+        },
+        {
+          "title": "And the user opens the Target Sources of the Action Center",
+          "status": "PASS",
+          "expected": "The target source cards are listed",
+          "data": "A1"
+        },
+        {
+          "title": "Then licter.com is never proposed as a target source",
+          "status": "PASS",
+          "expected": "No target source card for licter.com (owned domain excluded, as for a selected suggestion)",
+          "data": ""
+        }
+      ],
+      "notes": "Nike: nike.com is listed in AI Engines Citation Sources (Overview and Category) with type Corporate, frequency 1 (classification recorded: Corporate, as expected). Action Center > Target Sources (tab ALL, all 22 cards loaded via \"Show 10 more sources\", API 22 sources): no card for nike.com, while other Corporate frequency-1 domains are proposed (sky.com, runkituk.co.uk, runningbath.co.uk, runcompany.co.uk, coachweb.com, runningdirect.co.uk), so the absence is due to the owned-domain exclusion, not to the type or frequency. Decathlon second check: decathlon.com cited 4 times (Corporate), plus decathlon.fr 34, decathlon.co.uk 13, decathlon.media 9, decathlonpro.fr 3 (all Corporate); Target Sources (102 cards fully loaded = API 102): no decathlon domain proposed. | Test data substitution (user decision 2026-10-23): A1 \"Licter\" + licter.com could not be created (prompt pool 996/1000), so the TC was replayed on existing ranked staging analyses: Nike cce7a7dc (primary, stored entityDomain nike.com, entityDomainConfirmed=true) and Decathlon b6c8b664 (second check, stored entityDomain decathlon.com, entityDomainConfirmed=true). \"The captured domain\" = the stored domain; L1 = the logo the app serves for it. Both brands are Brandfetch suggestions, not custom brands with a typed website (per P1 a captured website behaves like a selected suggestion), so the custom-brand path itself is still to be confirmed on A1. Logo source: the stored entityLogoUrl (cdn.brandfetch.io icon) answers HTTP 410 Gone in the browser, so the app falls back to the Google favicon of the stored domain (https://www.google.com/s2/favicons?domain=nike.com&sz=64), which is L1 on every surface checked."
+    }
+  ]
+}

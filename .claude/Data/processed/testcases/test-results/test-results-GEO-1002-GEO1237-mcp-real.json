@@ -1,0 +1,471 @@
+{
+  "spec": "GEO-1002-GEO1237",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1237",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "summary": {
+    "total": 11,
+    "pass": 7,
+    "fail": 2,
+    "skip": 2,
+    "partial": 0,
+    "successRate": 63.6,
+    "successRateExecuted": 77.8,
+    "verdict": "CONDITIONAL"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me at start and end)",
+    "organisation": "QA-GEO (org_id dcea498b-a5cc-4c2a-b078-82530de16998), role SUPER_ADMIN, existing session (no login needed)",
+    "featureFlag": "unbranded_analysis = true: 5-step wizard, Brand analysis card + Continue used",
+    "pool": "P = 1000; U = 570 at start (6 analyses), U = 703 at end (7 analyses: +133 from the TC-010 creation)",
+    "backOffice": "Read-only: Organisations > QA-GEO > View: Prompt pool 570 of 1000, Authorised AI Engine providers ChatGPT, Gemini, Grok, Claude, Perplexity (all on); closed with Close, nothing edited",
+    "analysesCreated": [
+      {
+        "name": "Decathlon",
+        "domain": "decathlon.com",
+        "uuid": "b6c8b664-e146-464a-bbd7-78d9deb99926",
+        "scope": "United Kingdom · English + France · French; Sporting Goods + Outdoor Gear; 133 kept / 7 unticked; ChatGPT, Gemini, Grok",
+        "tc": "TC-GEO-1237-010"
+      }
+    ],
+    "stepperRecheck": "Prompts step > stepper \"Brand & Country\": no dialog, Brand & Country opened with all choices kept (recheck_stepper_brand_country.png). Additional: Review step > stepper \"Categories\": \"Exit setup?\" dialog (wizard.discardModal.title / stepChangesDescription) opened; \"Exit and Discard\" kept the user in the wizard on Categories with every choice kept (Decathlon, GB + FR, both categories) - same as the previous run (recheck_review_to_categories_exit_dialog.png, recheck_after_exit_and_discard.png).",
+    "stateChanges": "One analysis created (TC-010). No back-office change, no deletion. The wizard ended with the creation (no wizard left open)."
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1237-001",
+      "title": "Review shows the scope with its markets and categories, and the AI engines",
+      "story_id": "GEO-1237",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step within the pool",
+          "expected": "Review & Launch is enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Review & Launch",
+          "expected": "The Review step loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the scope shows the markets",
+          "expected": "United Kingdom · English and France · French, with no \"Primary\" tag",
+          "status": "PASS"
+        },
+        {
+          "title": "And the scope shows the categories",
+          "expected": "C1 and C2",
+          "status": "PASS"
+        },
+        {
+          "title": "And the AI engines are shown",
+          "expected": "The engines allowed for organisation T are shown as toggles",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). Prompts step: 140 rows, all ticked, ring \"710 / 1000 prompts · 140 selected\", Review & Launch enabled. Review: header \"Check your scope and AI engines. Then create your analysis.\" (wizard.review.header); Analysis Scope > Markets \"United Kingdom · English\", \"France · French\" (wizard.review.marketLabel), no \"Primary\" text anywhere in main; Categories \"Sporting Goods\" (C1), \"Outdoor Gear\" (C2); AI Engines: 5 switches (Toggle ChatGPT/Gemini/Grok/Claude/Perplexity) = the 5 engines authorised for QA-GEO in the back office.",
+      "description": "Verify that Review shows the scope with its markets and categories, and the AI engines, with no \"Primary\" tag on markets. Covers AC-1."
+    },
+    {
+      "tc_id": "TC-GEO-1237-002",
+      "title": "A market with no kept prompt is shown dropped and named in the warning",
+      "story_id": "GEO-1237",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user unticks every prompt of FR (FR)",
+          "data": "Filter Market = FR (FR), untick all 70 rows",
+          "expected": "No FR (FR) prompt is ticked",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Review & Launch",
+          "expected": "Review loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then France · French is greyed with a \"dropped\" tag",
+          "expected": "France · French greyed with \"dropped\"; United Kingdom · English not dropped",
+          "status": "PASS"
+        },
+        {
+          "title": "And the warning names France as dropped",
+          "expected": "The warning names France",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). Market filter FR (FR) (70 rows), header checkbox \"Tick or untick every prompt\" unticks only the filtered rows: 0 ticked, ring \"640 / 1000 prompts · 70 selected\". Review: amber banner \"1 market will be dropped: France.\" + \"It kept no prompts, so it will not appear in results.\" (wizard.review.dropped.markets_one, dropped.body_one). \"France · French\" row has opacity-75 and grey text with a \"dropped\" tag (wizard.review.droppedTag); \"United Kingdom · English\" opacity 1, no tag. Create Analysis enabled.",
+      "description": "Verify that a market with no kept prompt is greyed with a \"dropped\" tag on Review and named in the warning. Covers AC-2."
+    },
+    {
+      "tc_id": "TC-GEO-1237-003",
+      "title": "A category with no kept prompt is shown dropped and named in the warning",
+      "story_id": "GEO-1237",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user unticks every prompt of category C2",
+          "data": "Filter Category = C2, untick all 60 rows",
+          "expected": "No C2 prompt is ticked",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Review & Launch",
+          "expected": "Review loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then C2 is greyed with a \"dropped\" tag",
+          "expected": "C2 greyed with \"dropped\"; C1 not dropped",
+          "status": "PASS"
+        },
+        {
+          "title": "And the warning names C2 as dropped",
+          "expected": "The warning names C2",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). Category filter Outdoor Gear (C2, 60 rows) unticked with the header checkbox: ring \"650 / 1000 prompts · 80 selected\". Review: banner \"1 category will be dropped: Outdoor Gear.\" + \"It kept no prompts, so it will not appear in results.\" (wizard.review.dropped.categories_one); Outdoor Gear greyed (opacity 0.75) with \"dropped\"; Sporting Goods not dropped. Create Analysis enabled.",
+      "description": "Verify that a category with no kept prompt in any market is greyed with a \"dropped\" tag on Review and named in the warning. Covers AC-2."
+    },
+    {
+      "tc_id": "TC-GEO-1237-004",
+      "title": "A question type with no kept prompt is named with the metrics it will not produce",
+      "story_id": "GEO-1237",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user unticks every Brand Image prompt",
+          "data": "Filter Type = Brand Image, untick all 20 rows",
+          "expected": "No Brand Image prompt is ticked",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Review & Launch",
+          "expected": "Review loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the warning names the missing question type",
+          "expected": "The warning names Brand Image",
+          "status": "PASS"
+        },
+        {
+          "title": "And the warning names the metrics the analysis will not produce",
+          "expected": "The warning names the Corporate Reputation cards and Brand Territory",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). Type filter Brand Image (20 rows: 10 GB (EN) + 10 FR (FR), category \"Overview\") unticked: ring \"690 / 1000 prompts · 120 selected\". Review: banner \"Some metrics will not be produced.\" + \"No Brand Image prompts are kept, so the Corporate Reputation cards and Brand Territory stay empty, with a prompt to add questions.\" (wizard.review.dropped.metricsTitle, wizard.review.missing.brandImage). Both the question type and the metrics are named: known bug GEO-1271 NOT reproduced on this build (candidate for re-test / closure).",
+      "description": "Verify that a question type with no ticked prompt in the whole analysis is named in the warning with the metrics the analysis will not produce (e.g. no Brand Image: no Corporate Reputation cards nor Brand Territory). Covers AC-2. Known open bug GEO-1271: the missing Brand Image warning does not name the metrics that stay empty."
+    },
+    {
+      "tc_id": "TC-GEO-1237-005",
+      "title": "When every category is dropped Create Analysis stays disabled",
+      "story_id": "GEO-1237",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given only Brand Image prompts are ticked",
+          "data": "Untick every C1 and C2 row (120)",
+          "expected": "\"20 selected\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Review & Launch",
+          "expected": "Review loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every category is shown dropped",
+          "expected": "C1 and C2 greyed with \"dropped\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the banner says at least one category needs a kept prompt",
+          "expected": "The banner states that at least one category needs a kept prompt",
+          "status": "PASS"
+        },
+        {
+          "title": "And Create Analysis stays disabled",
+          "expected": "Create Analysis cannot be clicked",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). Sporting Goods (60) and Outdoor Gear (60) unticked via category filter + header checkbox: 140 rows, 20 ticked (Brand Image), ring \"590 / 1000 prompts · 20 selected\"; Review & Launch enabled. Review: banner \"At least one category needs a kept prompt.\" + \"Go back to Prompts and tick at least one prompt in a category. Create Analysis stays disabled until then.\" (wizard.review.noCategory.title/body); Sporting Goods and Outdoor Gear both greyed with \"dropped\"; Create Analysis disabled (button.disabled = true). No separate \"2 categories will be dropped\" banner in this case (only the noCategory banner).",
+      "description": "Verify that an analysis needs at least one category with a ticked prompt: if every category is dropped, even with Brand Image prompts ticked, the banner says so and Create Analysis stays disabled. Covers AC-2 (functional rule of the story, not TAC5)."
+    },
+    {
+      "tc_id": "TC-GEO-1237-006",
+      "title": "Only the engines allowed for the organisation are shown, on by default",
+      "story_id": "GEO-1237",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: one toggle per allowed engine, all on. Observed: QA-GEO authorises ChatGPT, Gemini, Grok, Claude, Perplexity (back office View Organisation, all 5 switches aria-checked=true), Review shows the 5 toggles but only ChatGPT and Gemini are on by default; Grok, Claude and Perplexity are off (aria-checked=false).",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-006_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-006_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the allowed AI engines of organisation T are known",
+          "data": "Allowed engines from the back office",
+          "expected": "The list of allowed engines is noted",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reaches Review",
+          "expected": "Review loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each allowed engine is a toggle, on by default",
+          "expected": "One toggle per allowed engine, all on",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the other engines are not shown",
+          "expected": "No engine outside the allowed list; no \"Available on higher plans\" or Upgrade block",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). Back office read-only (Organisations > QA-GEO > Actions > View > Close; nothing edited): \"Authorised AI Engine providers\" ChatGPT, Gemini, Grok, Claude, Perplexity. Review (minimal scope GB (EN), Sporting Goods, 40 prompts): 5 toggles, ChatGPT and Gemini on, Grok/Claude/Perplexity off (red frames in step3). No engine outside the allowed list, no \"Available on higher plans\" / Upgrade text (the \"other engines not shown\" part is weakly tested since all 5 engines are allowed for QA-GEO). Analysis: the story Technical Details say \"If neither Gemini nor ChatGPT is allowed, every allowed engine starts on\" (and TAC3), which implies the default set is ChatGPT + Gemini when they are allowed: the observed behaviour matches that rule, so this is most likely a TC/AC wording issue rather than a product bug. To confirm with the PO before any bug.",
+      "description": "Verify that the engines allowed for the organisation in the back office are toggles, on by default, and that the other engines are not shown (no \"Available on higher plans\" or Upgrade block). Covers AC-3. Needs setup: read the allowed AI engines of organisation T in the back office."
+    },
+    {
+      "tc_id": "TC-GEO-1237-007",
+      "title": "At least one engine stays on",
+      "story_id": "GEO-1237",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-007_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-007_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Review with every allowed engine on",
+          "expected": "All engine toggles are on",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user turns off every engine but one",
+          "expected": "The toggles turn off",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user tries to turn off the last engine",
+          "expected": "The last toggle stays on (or Create Analysis is disabled with no engine on)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then at least one engine stays on",
+          "expected": "The analysis cannot be created with no engine",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). Given: Grok, Claude, Perplexity switched on by hand = 5 on. Turned off Gemini, Grok, Claude, Perplexity: ChatGPT alone on, Create Analysis enabled. Clicking the last on toggle (ChatGPT): it stays on and no state with 0 engines is ever reached. Reproduced a second time with Perplexity as the last one. SIDE FINDING: clicking the last remaining engine does not just keep it on, it switches ALL 5 engines back on (silent reset, no message). The CSV expectation is met, but this side effect should be confirmed with the PO.",
+      "description": "Verify that at least one engine stays on: the last engine on cannot be turned off. Covers AC-3."
+    },
+    {
+      "tc_id": "TC-GEO-1237-008",
+      "title": "Engines never consume slots",
+      "story_id": "GEO-1237",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 1 expected \"The pool figures show U + 40 / P\" on Review. Observed: the Review step shows no pool figures at all (no ring, no \"/ 1000\", no pool or slot text in the page); the pool ring exists only on the Prompts step.",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-008_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-008_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-008_step3_then.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-008_step4_dashboard_after_creation.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Review with S kept prompts",
+          "data": "S = 40",
+          "expected": "The pool figures show \"U + 40 / P\"",
+          "status": "FAIL"
+        },
+        {
+          "title": "When the user turns one engine off",
+          "expected": "The pool figures are unchanged",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user turns it back on",
+          "expected": "The pool figures are unchanged",
+          "status": "PASS"
+        },
+        {
+          "title": "Then after creation the slots do not depend on the engines",
+          "data": "Create the analysis with 2 engines, then open the dashboard",
+          "expected": "The pool block reads \"U + 40 / P\" and the Prompts column of the new analysis reads 40",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). Review with 40 kept: no pool figures (step1). Grok turned off on Review, Back to Prompts: ring \"610 / 1000 prompts · 40 selected\" (U + 40 / P) unchanged; Review again: Grok still off (choice kept). Grok turned back on, Back to Prompts: ring still \"610 / 1000 prompts · 40 selected\". Step 4 (create with 2 engines and check U + 40) not executed: only one analysis creation allowed per run, used by TC-010. Supporting evidence from the TC-010 creation: 133 prompts with 3 engines -> dashboard pool 570 -> 703 / 1000 (= U + 133, not x3) and Prompts column 133 (step4_dashboard_after_creation.png). AC-4 itself holds; the FAIL is on the CSV wording of step 1 (pool figures on Review), see proposed CSV change.",
+      "description": "Verify that changing the engine toggles never changes the pool count, on Review and after creation. Covers AC-4."
+    },
+    {
+      "tc_id": "TC-GEO-1237-009",
+      "title": "Create Analysis is disabled when Review loads over the pool",
+      "story_id": "GEO-1237",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-009_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-009_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Review with 40 kept prompts within the pool",
+          "expected": "Create Analysis is enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the pool of organisation T is lowered to U + 30 from the back office tab",
+          "data": "Pool: U + 30",
+          "expected": "The back office saves the pool",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user goes Back to Prompts and then opens Review again from the stepper",
+          "expected": "Review loads with the current pool",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then a red banner says how many prompts to untick",
+          "expected": "The red banner states 10 prompts to untick",
+          "status": "SKIP"
+        },
+        {
+          "title": "And Create Analysis is disabled",
+          "expected": "Create Analysis cannot be clicked",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). SKIP: state-changing action not allowed (user decision) - the TC needs the pool of QA-GEO lowered in the back office. In-wizard alternative tried: on Review with 140 prompts within the pool (Create Analysis enabled, step1); then Categories via the stepper, 5 custom categories added (Running Shoes, Cycling Equipment, Camping Gear, Swimwear, Fitness Equipment) and Generate Prompts = 440 ticked vs 430 free: ring \"1010 / 1000 prompts · 440 selected\", \"10 prompts over. Untick prompts or contact your account manager.\" (wizard.pool.overWizard_other). Review & Launch disabled AND the stepper Review button aria-disabled=\"true\" (data-testid wizard-stepper-step-review): Review cannot be reached over the pool from the wizard, so the Review red banner (wizard.review.over.title_other / body_other) and the disabled Create Analysis on Review cannot be observed without a back-office pool change. No assertion of the Then part was made.",
+      "description": "Verify that when the pool is over the limit while Review loads, Create Analysis is disabled and a red banner says how many prompts to untick. Covers AC-5. Needs setup: the pool must go over while the user is on Review (pool lowered in the back office from a second tab, or another analysis created meanwhile); the user then reloads Review through the stepper. See ambiguity on how Review is reached over the pool."
+    },
+    {
+      "tc_id": "TC-GEO-1237-010",
+      "title": "The creation confirmation states the created scope and offers View analysis",
+      "story_id": "GEO-1237",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-010_step1_given.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-010_step2_when.png",
+        "screenshots-GEO-1002-GEO1237/TC-GEO-1237-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Review with 133 kept prompts, 7 unticked, 2 markets, 2 categories and 3 engines",
+          "expected": "Create Analysis is enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Create Analysis",
+          "expected": "The analysis is scheduled and the \"Analysis created\" confirmation opens; Back to Dashboard is hidden",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the confirmation states the prompts, markets, categories and engines",
+          "expected": "133 prompts, 2 markets, 2 categories and the names of the 3 engines",
+          "status": "PASS"
+        },
+        {
+          "title": "And the confirmation states the unticked suggestions kept on the analysis and that prompt changes apply at the next run",
+          "expected": "7 unticked suggestions kept; the next-run sentence; no subtitle and no \"You'll receive an email\" line",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks View analysis",
+          "expected": "The new analysis opens",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same unsaved wizard throughout (Brand analysis card + Continue): phase A Decathlon (decathlon.com), United Kingdom - English (EN), AI Insights English (EN), discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed = 40 prompts (TC-006/007/008); phase B France - French (FR) added via the stepper, Outdoor Gear re-added as custom category (FR translation \"Équipement d'extérieur\") = 140 prompts (TC-001..005); phase C 5 more custom categories = 440 prompts vs 430 free slots (TC-009 attempt); then back to 2 categories, 140 prompts, 7 unticked (TC-010 creation). ONLY analysis created in this run: Decathlon (decathlon.com), UUID b6c8b664-e146-464a-bbd7-78d9deb99926, markets United Kingdom · English + France · French, categories Sporting Goods + Outdoor Gear (custom), 140 suggested, 7 unticked (GB (EN) Brand Image rows), 133 kept, engines ChatGPT, Gemini, Grok (Claude and Perplexity off). Pool 570 -> 703 / 1000. Confirmation dialog: H2 \"Analysis created\" (wizard.analysisCreated.title), \"Decathlon is scheduled.\" (scheduled), \"133 prompts across 2 markets and 2 categories run on ChatGPT, Gemini and Grok.\" (summary), \"7 suggested prompts you did not keep stay on the analysis. Activate them any time.\" (unticked_other), \"Prompt changes apply at the next run.\" (nextRun), buttons View analysis / Go to Dashboard; no subtitle, no \"You'll receive an email\" line; Back to Dashboard button not present. View analysis opened /geo/report/b6c8b664-e146-464a-bbd7-78d9deb99926 (\"Analysing Decathlon\", Querying AI engines).",
+      "description": "Verify that the confirmation of a scheduled analysis states its prompts, markets, categories and engines, the unticked suggestions kept on the analysis, that prompt changes apply at the next run, and offers View analysis, with no subtitle. Covers AC-6."
+    },
+    {
+      "tc_id": "TC-GEO-1237-011",
+      "title": "The unticked-suggestions line is hidden when there are none",
+      "story_id": "GEO-1237",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the user is on Review with 40 kept prompts and none unticked",
+          "expected": "Create Analysis is enabled",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user clicks Create Analysis",
+          "expected": "The confirmation opens",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then no line about unticked suggestions is shown",
+          "expected": "40 prompts, 1 market, 1 category and the engines are stated; no unticked-suggestions line",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user clicks Go to Dashboard",
+          "expected": "The GEO dashboard list is displayed with the new analysis",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: state-changing action not allowed (user decision) - a second analysis creation is needed and only one creation is allowed per run (used by TC-GEO-1237-010). Not executed, no screenshot.",
+      "description": "Verify that the confirmation hides the line about unticked suggestions when none were left, and that Go to Dashboard returns to the list. Covers AC-6."
+    }
+  ]
+}

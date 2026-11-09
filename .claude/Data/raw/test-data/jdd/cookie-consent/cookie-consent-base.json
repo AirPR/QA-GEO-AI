@@ -1,0 +1,88 @@
+{
+  "_meta": {
+    "description": "Base JDD — Cookie Consent GEO-200 (stories GEO-327 to GEO-334 + GEO-237)",
+    "note": "Fusionné avec jdd/common.json et cookie-consent-default.json au chargement. cc_cookie payloads capturés sur staging-geo.onclusive.com le 2026-05-22 via inspection Playwright.",
+    "spec": "cookie-consent.spec.js"
+  },
+
+  "pages": {
+    "dashboard": "/dashboard/9864c210-948d-4813-aab8-6a007e9127c2",
+    "upsell": "/upsell",
+    "settings": "/settings"
+  },
+
+  "cc_cookie": {
+    "name": "cc_cookie",
+    "domain": "staging-geo.onclusive.com",
+    "path": "/",
+    "note": "Payloads vanilla-cookieconsent v3. L'app lit le champ 'categories' pour déterminer le consentement. consentId et timestamps sont regénérés à chaque test via makeCcCookieValue().",
+
+    "templates": {
+      "all_accepted": {
+        "categories": ["necessary", "analytics", "functional_support"],
+        "revision": 0,
+        "data": null,
+        "services": { "necessary": [], "analytics": [], "functional_support": [] },
+        "languageCode": "en",
+        "note": "hasRespondedToConsent=true, areFunctionalCookiesEnabled=true, areAnalyticsCookiesEnabled=true"
+      },
+      "essential_only": {
+        "categories": ["necessary"],
+        "revision": 0,
+        "data": null,
+        "services": { "necessary": [], "analytics": [], "functional_support": [] },
+        "languageCode": "en",
+        "note": "hasRespondedToConsent=true, areFunctionalCookiesEnabled=false, areAnalyticsCookiesEnabled=false"
+      },
+      "functional_disabled": {
+        "categories": ["necessary"],
+        "revision": 0,
+        "data": null,
+        "services": { "necessary": [], "analytics": [], "functional_support": [] },
+        "languageCode": "en",
+        "note": "Alias de essential_only. Utilisé pour les TCs GEO-333/334 qui nécessitent hasRespondedToConsent=true ET areFunctionalCookiesEnabled=false."
+      },
+      "malformed": {
+        "raw_value": "NOT_VALID_JSON_{corrupted}",
+        "note": "Cookie corrompu — déclenche AC6 GEO-327 (fallback 'not yet consented')"
+      }
+    }
+  },
+
+  "selectors": {
+    "note": "Voir aussi selectors_blueprint.json section 'cookie_consent' pour la référence complète",
+    "banner": {
+      "root": "[data-testid='cookie-banner']",
+      "title": "[data-testid='cookie-banner-title']",
+      "subtitle": "[data-testid='cookie-banner-subtitle']",
+      "accept_all": "[data-testid='cc-cta-accept']",
+      "essential_only": "[data-testid='cc-cta-necessary']",
+      "manage_prefs": "[data-testid='cc-cta-show']"
+    },
+    "preferences_modal": {
+      "root": "[data-testid='cookie-preferences-modal']",
+      "overlay": "[data-testid='cookie-preferences-overlay']",
+      "close": "[data-testid='cookie-preferences-close']",
+      "section_essential": "[data-testid='cookie-preferences-section-necessary']",
+      "badge_always_on": "[data-testid='cookie-preferences-badge-necessary']",
+      "section_functional": "[data-testid='cookie-preferences-section-functional-support']",
+      "section_analytics": "[data-testid='cookie-preferences-section-analytics']",
+      "toggle_functional": "[role='switch'][aria-label='Toggle Functional & Support cookies']",
+      "toggle_analytics": "[role='switch'][aria-label='Toggle Analytics cookies']",
+      "accept_all": "[data-testid='cc-pref-cta-accept-all']",
+      "cancel": "[data-testid='cc-pref-cta-cancel']",
+      "save": "[data-testid='cc-pref-cta-save']"
+    },
+    "cookie_inventory": {
+      "grid_essential": "[data-testid='cookie-settings-grid-necessary']",
+      "grid_functional": "[data-testid='cookie-settings-grid-functional-support']",
+      "grid_analytics": "[data-testid='cookie-settings-grid-analytics']",
+      "badge_inactive": "[data-testid*='cookie-settings-badge-inactive']"
+    },
+    "sidebar": {
+      "root": "[data-testid='main-sidebar']",
+      "help_button": "[data-testid='main-sidebar'] button:has-text('Help')",
+      "note_help": "Le bouton Help n'a pas de data-testid propre — utiliser aria-label ou text selector"
+    }
+  }
+}

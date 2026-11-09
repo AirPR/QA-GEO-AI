@@ -1,0 +1,173 @@
+{
+  "epic": {
+    "id": "GEO-101",
+    "key": "GEO-101",
+    "title": "EPIC-005: Dashboard — Category Views & Actions Center",
+    "status": "In Progress",
+    "assignee": "Youssef.AitLaydi",
+    "description": "L'utilisateur analyse chaque catégorie en détail et voit les zones d'amélioration avec Priority Source Targets. Story 5.1: Category View — Perception Summary & KPI Cards. Story 5.1b: Category View — Brand Prioritization Matrix. Story 5.1c: Category View — Brand Rankings. Story 5.2: Category View — Unified Questions Table. Story 5.3: Category View — Perception Topics & Citation Sources. Story 5.4: Actions Center — Visibility Improvements Display. Story 5.4b: Actions Center — Competitive Improvements Display. Story 5.4c: Actions Center — Reputation Improvements Display. Story 5.5: Actions Center — Priority Source Targets & Detail Panel.",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-101",
+    "stories": [
+      {
+        "id": "GEO-70",
+        "title": "[Story 5.1] Category View — Perception Summary & KPI Cards",
+        "storyId": "Story 5.1",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-70",
+        "description": "As an Editor I want to see category-specific perception summary and KPIs So that I can assess performance within each category.",
+        "acceptanceCriteria": [
+          "Given an Editor navigating to a category view, When the view loads, Then it shows: per-category AI Perception Summary with key insight, 5 KPI cards (same metrics scoped to category), all respect market/LLM filters"
+        ],
+        "dependencies": [
+          "Sister stories: Story 5.1b, Story 5.1c"
+        ]
+      },
+      {
+        "id": "GEO-69",
+        "title": "[Story 5.1b] Category View — Brand Prioritization Matrix",
+        "storyId": "Story 5.1b",
+        "status": "To Do",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-69",
+        "description": "As an Editor I want to see a brand matrix scoped to a category So that I can identify brand positioning within the category.",
+        "acceptanceCriteria": [
+          "Given an Editor on a category view, When the matrix loads, Then it shows Brand Prioritization Matrix (brands as data points, scoped to category), respects market/LLM filters"
+        ],
+        "dependencies": [
+          "Story 5.1"
+        ]
+      },
+      {
+        "id": "GEO-68",
+        "title": "[Story 5.1c] Category View — Brand Rankings",
+        "storyId": "Story 5.1c",
+        "status": "To Do",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-68",
+        "description": "As an Editor I want to see brand rankings scoped to a category So that I can see who leads in this category.",
+        "acceptanceCriteria": [
+          "Given an Editor on a category view, When rankings load, Then it shows Brand Rankings table scoped to category, respects market/LLM filters"
+        ],
+        "dependencies": [
+          "Story 5.1"
+        ]
+      },
+      {
+        "id": "GEO-67",
+        "title": "[Story 5.2] Category View — Unified Questions Table",
+        "storyId": "Story 5.2",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-67",
+        "description": "As an Editor I want to see all questions for a category with per-LLM responses and favorability So that I can understand exactly how each AI engine answers.",
+        "acceptanceCriteria": [
+          "Questions table grouped by type (Visibility/Competitive/Perception) with per-LLM responses and favorability rules",
+          "Filtering by favorability (Favorable/Split/Not Favorable) combinable with question type",
+          "Expanding questions shows full ranking lists, win/loss per LLM, cited sources, and full LLM response text"
+        ],
+        "dependencies": [
+          "Story 5.1"
+        ]
+      },
+      {
+        "id": "GEO-66",
+        "title": "[Story 5.3] Category View — Perception Topics & Citation Sources",
+        "storyId": "Story 5.3",
+        "status": "To Do",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-66",
+        "description": "As an Editor I want to see perception topics and citation sources per category So that I can understand reputation themes and source landscape for each category.",
+        "acceptanceCriteria": [
+          "Perception topics with sentiment filtering (All/Positive/Mixed/Negative) and LLM attribution badges",
+          "Citation sources including perception-related sources and reputation gaps",
+          "Source detail showing full URL, page title, normalized domain, and which LLM(s) cited it"
+        ],
+        "dependencies": [
+          "Story 5.1"
+        ],
+        "notes": "Perception summary and concepts should be created from all response types (perception, visibility, competitive) not just perception"
+      },
+      {
+        "id": "GEO-65",
+        "title": "[Story 5.4] Actions Center — Visibility Improvements Display",
+        "storyId": "Story 5.4",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-65",
+        "description": "As an Editor I want to see visibility-related improvement areas So that I know where my brand is underperforming in AI search.",
+        "improvementTypes": [
+          "low_visibility",
+          "poor_position",
+          "category_market_low",
+          "owned_media_gap"
+        ],
+        "displayFields": [
+          "type badge",
+          "severity indicator (Critical/Warning/Info)",
+          "category name",
+          "LLM",
+          "target domain count",
+          "sorted by severity"
+        ],
+        "dependencies": [
+          "Story 3.5b (Improvement Areas Pre-computation from Pipeline)"
+        ]
+      },
+      {
+        "id": "GEO-64",
+        "title": "[Story 5.4b] Actions Center — Competitive Improvements Display",
+        "storyId": "Story 5.4b",
+        "status": "To Do",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-64",
+        "description": "As an Editor I want to see competitive improvement areas So that I know where competitors are winning.",
+        "improvementTypes": [
+          "low_favorability",
+          "category_market_losing",
+          "low_source_favorability"
+        ],
+        "acceptanceCriteria": [
+          "Renders pre-computed results from Story 3.5b",
+          "Improvements scoped to selected market when filter applied"
+        ],
+        "dependencies": [
+          "Story 3.5b (Pre-computed Improvement Detection)"
+        ]
+      },
+      {
+        "id": "GEO-63",
+        "title": "[Story 5.4c] Actions Center — Reputation Improvements Display",
+        "storyId": "Story 5.4c",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-63",
+        "description": "As an Editor I want to see reputation improvement areas So that I know where sentiment is negative.",
+        "improvementTypes": [
+          "negative_sentiment (max 3 per category, highest severity first)"
+        ],
+        "dependencies": [
+          "Story 3.5b (Pre-computed Improvement Detection)"
+        ]
+      },
+      {
+        "id": "GEO-62",
+        "title": "[Story 5.5] Actions Center — Priority Source Targets & Detail Panel",
+        "storyId": "Story 5.5",
+        "status": "Backlog",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-62",
+        "description": "As an Editor I want to expand improvement areas and see priority source targets So that I have a concrete outreach plan for PR actions.",
+        "detailPanelSections": [
+          "Quick Stats (relevant KPIs for the issue)",
+          "Priority Source Targets (third-party domains with favorability, citation count, gap count)",
+          "Owned Media (brand-owned domains)",
+          "Competitor Media (competitor-owned domains)"
+        ],
+        "prioritySourceFields": [
+          "favorability (Favorable/Neutral/Unfavorable)",
+          "total citation count",
+          "gaps count (questions where brand underperforms and domain is cited)",
+          "per-LLM logo badges",
+          "sorted by impact potential"
+        ],
+        "dependencies": [
+          "Story 5.4",
+          "Story 5.4b",
+          "Story 5.4c"
+        ]
+      }
+    ]
+  }
+}

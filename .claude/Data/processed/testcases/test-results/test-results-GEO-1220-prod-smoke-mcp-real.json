@@ -1,0 +1,68 @@
+{
+  "spec": "GEO-1220-prod-smoke-mcp",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "environment": "production (read-only smoke, GEO-R1.3 go-live)",
+  "url": "https://geo.onclusive.com/geo/",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1220-018",
+      "title": "TC-GEO-1220-018 - The search filters by domain, type and override and returns a paginated list",
+      "story_id": "GEO-1220",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Write steps not executed in production (read-only smoke): the PUT of the Given and the final DELETE were not sent. Every search assertion PASS; the DELETE 204 assertion is not verified.",
+      "steps": [
+        {
+          "title": "Given the cache holds an override row and Gemini rows",
+          "status": "PASS",
+          "note": "No PUT sent. The prod cache already holds one override row, opinion-assurances.fr (REVIEW_SITES, origin OVERRIDE, overriddenBy \"ops-script\", reason \"CNP Assurances Q&A 2026-10-05\", 28/10 22:03 UTC), and 238,665 GEMINI rows. Test data substituted: {D} = opinion-assurances.fr, {P} = \"opinio\"."
+        },
+        {
+          "title": "When the user searches with every filter",
+          "status": "PASS",
+          "note": "GET /geo/api/v1/admin/source-classifications?domain=opinio&sourceType=REVIEW_SITES&overridden=true&page=0&size=20 -> 200 {content, page, size, totalElements, totalPages}; page 0, size 20, totalElements 1; {D} in content."
+        },
+        {
+          "title": "Then only matching rows are returned",
+          "status": "PASS",
+          "note": "Every row: domain contains \"opinio\", sourceType REVIEW_SITES, origin OVERRIDE. Cross-check ?domain=opinio without other filters -> 232 rows (OVERRIDE + GEMINI), so the filters do narrow the list."
+        },
+        {
+          "title": "And each row gives the documented fields",
+          "status": "PASS",
+          "note": "domain, sourceType, origin, overriddenBy, overriddenAt, reason, updatedAt all present on the override row (GEMINI rows carry domain, sourceType, origin, updatedAt only)."
+        },
+        {
+          "title": "And the search of the AC returns only matching rows",
+          "status": "PASS",
+          "note": "?domain=assurances&sourceType=REVIEW_SITES&overridden=true&page=0&size=20 -> 200, 1 row opinion-assurances.fr / REVIEW_SITES / OVERRIDE."
+        },
+        {
+          "title": "And the search without filter lists Gemini and override rows only",
+          "status": "PASS",
+          "note": "?page=N&size=20 -> 200, totalElements 238,665, totalPages 11,934; pages 0, 1, 2, 100, 5000 and 11933 (last, 5 rows) sampled: origin GEMINI only, never REGEX."
+        },
+        {
+          "title": "And the user removes the override",
+          "status": "SKIP",
+          "note": "DELETE not sent: production read-only; the override belongs to ops-script and applies to every organisation."
+        }
+      ],
+      "notes": "Production read-only smoke, 29/10/2026, SUPER_ADMIN main account. Calls sent with the logged-in browser session (fetch, credentials included), GET only. The back office (/geo/backoffice) is reachable but only shows \"Users & Organisations\" (Users / Organisations tabs): no source-classification screen, so the TC was run on the API as the CSV describes. Screenshots render the JSON responses (the back-office users page was not captured: personal data).",
+      "screenshots": [
+        "screenshots-GEO-1220-prod-smoke-mcp/TC-GEO-1220-018_step1_given.png",
+        "screenshots-GEO-1220-prod-smoke-mcp/TC-GEO-1220-018_step2_when.png",
+        "screenshots-GEO-1220-prod-smoke-mcp/TC-GEO-1220-018_step3_then.png"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1259 @@
+{
+ "spec": "GEO-1002-rerun-sync-20261022",
+ "runDate": "2026-10-22",
+ "runMode": "mcp-playwright",
+ "mode": "structured",
+ "url": "https://staging-geo.onclusive.com/geo",
+ "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+ "rerun_of": [
+  "test-results-GEO-1002-GEO1229-mcp-real.json",
+  "test-results-GEO-1002-GEO1230-mcp-real.json",
+  "test-results-GEO-1002-GEO1232-mcp-real.json",
+  "test-results-GEO-1002-GEO1234-mcp-real.json",
+  "test-results-GEO-1002-GEO1235-mcp-real.json",
+  "test-results-GEO-1002-GEO1237-mcp-real.json",
+  "test-results-GEO-1002-GEO1238-mcp-real.json",
+  "test-results-GEO-1002-GEO1239-mcp-real.json",
+  "test-results-GEO-1002-GEO1240-mcp-real.json",
+  "test-results-GEO-1002-GEO1251-mcp-real.json",
+  "test-results-GEO-1002-rerun-fixes-mcp-real.json"
+ ],
+ "reason": "Rerun of the 25 TCs changed or added by the GEO-1002 sync of 2026-10-22 (CSV step texts aligned to PO / dev answers, bugs GEO-1500 / 1501 / 1503 / 1504 / 1506 Passed QA, GEO-1272 and GEO-1511 Ready for QA, GEO-1515 imported) and of the reruns the sync listed. Original runs untouched.",
+ "startTime": "2026-10-22 20:11",
+ "summary": {
+  "total": 25,
+  "pass": 15,
+  "fail": 0,
+  "skip": 3,
+  "partial": 7,
+  "successRate": 74,
+  "successRateExecuted": 84.1,
+  "verdict": "CONDITIONAL"
+ },
+ "environment": {
+  "url": "https://staging-geo.onclusive.com/geo",
+  "account": "QA account from .env, SUPER_ADMIN (fresh Auth0 login in the isolated MCP context)",
+  "language": "en-GB (GET /geo/api/v1/auth/me at start 20:12 and at end 20:48)",
+  "organisation": "QA-GEO (never switched)",
+  "featureFlag": "unbranded_analysis = true",
+  "pool": "P = 1000, U = 992 at start and at end (GET /quota), 11 analyses both times",
+  "viewport": "1280x720 (TC-GEO-1231-011 also 1920x1080 and 1440x900)",
+  "writeGuard": "context.route('**/geo/api/**') aborting every non-GET call except discover-categories, translate-category and questions/adapt-batch, installed before login, removed with context.unrouteAll() at 20:48. Network log: only GET + the allowed stateless POSTs (discover-categories, adapt-batch). The same guard was installed on the extra Intercom context (TC-GEO-1231-011), closed at the end. A cookie-banner hiding style (addInitScript, display only) stays on the MCP context.",
+  "stateChanges": "None saved. No analysis created (Create Analysis never clicked), no Manage Scope add / tick / untick / type or category change / delete confirmed (selects and dialogs opened and closed with Escape / Cancel / Exit and Discard), back office read only (View closed with Escape), no organisation or language switch. Jira: GET only (GEO-1515 fields and attachment)."
+ },
+ "sideFindings": [
+  "After GEO-1515, the only organisations still showing \"—\" are the 16 deleted ones (Status = all statuses); their Actions are all disabled. TC-GEO-1515-002 Then needs to say whether deleted organisations are in scope (CSV gap / PO question).",
+  "GEO-1272 FIXED: the Prompts sort of the organisations list is now global across pages (\"—\" rows at the end in both directions, 1-page and 2-page cases).",
+  "GEO-1511 / F-10 FIXED: wizard Prompts step, Manage Scope > Prompts and the Add Country / Add Category dialogs pin the tracker bar at the scroller top (12 px white padding), no row above it.",
+  "Analysis W of TC-GEO-1251-002 (Nike cce7a7dc) is no longer Competitive-only: its 30 Visibility / Reputation / Brand Image prompts were ticked on 2026-10-21 (collections 21/10 and 22/10 with 80 answers). Only the 20/10 collection is a no-Visibility collection. GEO-1249 (fewer than 3 competitors) still not exercised.",
+  "Decathlon b6c8b664 (analysis A) got a 3rd market DZ (AR) on 2026-10-20 14:50 (version history). QA-GEO pool has 8 free slots (992 / 1000): the precondition \"enough free slots for a new market\" of TC-GEO-1239-009 / 014 is not met (Add Country shows 1062 / 1000 and \"62 prompts over\").",
+  "Typography (known): \"Are you sure you want to remove Sporting Goods ? ...\" (space before \"?\") in the wizard remove-category confirmation.",
+  "Wizard stepper: after going back to Brand & Country, Prompts and Summary are aria-disabled even though prompts were generated (forward only through Categories > Generate Prompts, every choice kept). With no category on the Categories step, the Prompts step has no aria-disabled and a pointer cursor but does nothing (a11y, minor).",
+  "Manage Scope rows show the Category / Type selects on hover: a single mis-click on an option would save at once (Q-05 design)."
+ ],
+ "results": [
+  {
+   "tc_id": "TC-GEO-1515-001",
+   "title": "The PM review list gives each production organisation with its old quota, computed pool and usage",
+   "story_id": "GEO-1515",
+   "status": "PASS",
+   "previousStatus": "NEW (first run)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "steps": [
+    {
+     "title": "Given the QA account is on the Jira ticket GEO-1515",
+     "expected": "The ticket shows the attachment geo-1515-1-organisations.csv",
+     "observed": "GET /rest/api/3/issue/GEO-1515?fields=attachment (read only): attachment 770235 geo-1515-1-organisations.csv, 7467 bytes, created 2026-10-21T09:20 -0400; status Ready for QA, fix version 1.3",
+     "status": "PASS"
+    },
+    {
+     "title": "When the attachment geo-1515-1-organisations.csv is opened",
+     "expected": "One row per live production organisation (84 rows on 2026-10-21), posted before the 1.3 production deploy",
+     "observed": "84 data rows + header, posted 2026-10-21 (before the 1.3 production deploy per the TC precondition); is_suspended = f on all 84 rows",
+     "status": "PASS"
+    },
+    {
+     "title": "Then each row gives the name, the old quota values, the computed pool and the prompts used today",
+     "expected": "Columns organisation, countries, categories, visibility, competitive, perception, brand_image, computed_pool and prompts_used_today are filled for every row",
+     "observed": "13 columns (organisation, organisation_id, is_suspended, countries, categories, visibility, competitive, perception, brand_image, computed_pool, prompts_used_today, default_quota_8000, warning); no empty cell in the expected columns on any of the 84 rows (warning column empty everywhere)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the computed pool follows the formula of AC-1",
+     "testData": "Nabep 3, 2, 5, 5, 5, 5; Roche Italia 1, 1, 20, 20, 20, 10; QA-GEO 20, 20, 20, 20, 20, 20",
+     "expected": "computed_pool = 105 for Nabep, 70 for Roche Italia, 24400 for QA-GEO",
+     "observed": "Nabep 105, Roche Italia 70, QA-GEO 24400; the formula countries x categories x (visibility + competitive + perception) + countries x brand_image matches computed_pool on 84 / 84 rows",
+     "status": "PASS"
+    },
+    {
+     "title": "And the organisations still on the default quota are flagged",
+     "testData": "Column default_quota_8000",
+     "expected": "Every row with 25 countries, 5 categories and 20 prompts per type is flagged t; on 2026-10-21 no row is on the default quota and every row is f",
+     "observed": "0 row with 25 / 5 / 20 / 20 / 20 / 20; default_quota_8000 = f on 84 / 84 rows",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Executed from the Jira REST API (GET only, nothing posted) and the downloaded attachment; the screenshots are renderings of the API answer and of the CSV (the Jira web UI is not logged in in the isolated browser). Sampled rows for TC-GEO-1515-003: Trial - Great Eastern 140, Onclusive - TechOps 1600 (prompts_used_today 0).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1515-001_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1515-001_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1515-001_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1515-003",
+   "title": "After the 1.3 production deploy the pools written match the review list",
+   "story_id": "GEO-1515",
+   "status": "SKIP",
+   "previousStatus": "NEW (first run)",
+   "duration": 0,
+   "error": null,
+   "gapType": "not run on production (user decision 2026-10-22)",
+   "skipReason": "Production back office: not run on production (user decision 2026-10-22). Release 1.3 not deployed in production yet (GEO-1515 Ready for QA, fix version 1.3).",
+   "steps": [
+    {
+     "title": "Given release 1.3 is deployed in production and the super admin is on Administration > Organizations",
+     "expected": "The organisations list loads with the Prompts column",
+     "observed": "Not run: production (user decision 2026-10-22)",
+     "status": "SKIP"
+    },
+    {
+     "title": "When the super admin reads the Prompts column of the sampled organisations",
+     "testData": "Nabep, Roche Italia, Trial - Great Eastern, Onclusive - TechOps, QA-GEO",
+     "expected": "Each row shows \"U / P\"",
+     "observed": "Not run",
+     "status": "SKIP"
+    },
+    {
+     "title": "Then each pool equals the computed pool of the review list",
+     "testData": "Nabep 105; Roche Italia 70; Trial - Great Eastern 140; Onclusive - TechOps 1600; QA-GEO 24400",
+     "expected": "P = computed_pool for each sampled organisation",
+     "observed": "Not run. Reference values confirmed in the review list (TC-GEO-1515-001): Nabep 105, Roche Italia 70, Trial - Great Eastern 140, Onclusive - TechOps 1600, QA-GEO 24400",
+     "status": "SKIP"
+    },
+    {
+     "title": "And the organisations full on day one show as full, not red",
+     "testData": "Nabep, Roche Italia",
+     "expected": "\"105 / 105\" and \"70 / 70\" in the default colour",
+     "observed": "Not run",
+     "status": "SKIP"
+    },
+    {
+     "title": "And an organisation with no prompt shows its full pool",
+     "testData": "Onclusive - TechOps",
+     "expected": "\"0 / 1600\"",
+     "observed": "Not run",
+     "status": "SKIP"
+    },
+    {
+     "title": "And no organisation shows \"—\" or a red value",
+     "testData": "Whole list, every page",
+     "expected": "No \"—\" row and no red Prompts value",
+     "observed": "Not run",
+     "status": "SKIP"
+    }
+   ],
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1515-001_step3_then.png"
+   ],
+   "notes": "Only evidence attached: the review-list sample used as reference (shared with TC-GEO-1515-001). To run right after the 1.3 production deploy."
+  },
+  {
+   "tc_id": "TC-GEO-1230-006",
+   "title": "An organisation without a pool shows an empty field, no hint and \"—\" in the list",
+   "story_id": "GEO-1230",
+   "status": "SKIP",
+   "previousStatus": "PARTIAL (2026-10-20)",
+   "duration": 0,
+   "error": null,
+   "gapType": "missing data / not applicable after GEO-1515",
+   "skipReason": "Not applicable after GEO-1515 (precondition): no editable organisation without a pool exists on staging. Active and suspended organisations all show \"U / P\" (GEO Stress Test 2026-10 now 3486 / 474250, NEW-ORG-2109 0 / 80); the only \"—\" rows are 16 deleted organisations, whose Actions menu has View / Edit / Suspend / Reactivate / Soft-delete all disabled. No dev setup requested.",
+   "steps": [
+    {
+     "title": "Given the super admin is on Administration > Organizations",
+     "testData": "Organisation N",
+     "expected": "The row of N shows \"—\" in the Prompts column",
+     "observed": "Default view (Status = active, 8 organisations): no \"—\" row. Status = all statuses (26 organisations, 2 pages): \"—\" only on the 16 deleted organisations",
+     "status": "SKIP"
+    },
+    {
+     "title": "When the super admin opens the edit form of organisation N",
+     "expected": "The \"Prompt pool\" field is empty, labelled \"Prompt pool\" without asterisk (optional for a not-configured organisation), and no usage hint is shown",
+     "observed": "Not applicable: on a deleted \"—\" organisation (ZZ-TEST-2) every action incl. Edit is disabled; menu closed with Escape",
+     "status": "SKIP"
+    },
+    {
+     "title": "And the super admin enters a pool and saves",
+     "testData": "Prompt pool: 100",
+     "expected": "The pool is saved and the row of N shows \"U / 100\"",
+     "observed": "Not applicable (no organisation N); never saved in the back office (user decision)",
+     "status": "SKIP"
+    },
+    {
+     "title": "Then the saved pool cannot be cleared back to empty",
+     "testData": "Clear the field and save",
+     "expected": "The empty value is refused and the pool stays 100",
+     "observed": "Not applicable (no organisation N)",
+     "status": "SKIP"
+    }
+   ],
+   "notes": "Back office read only; nothing edited. Screenshots: all-statuses list (step1_given), Actions menu of a deleted \"—\" organisation with every action disabled (step2_when), active list with every Prompts cell outlined (step3_then).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1230-006_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1230-006_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1230-006_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1230-009",
+   "title": "The Prompts column of the organisations list is sortable",
+   "story_id": "GEO-1230",
+   "status": "PASS",
+   "previousStatus": "PASS (2026-10-20), then FAIL in rerun-fixes 2026-10-20 (GEO-1272 partially fixed)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1230-009_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1230-009_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1230-009_step3_then.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1230-009_step4_desc_page2.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the super admin is on Administration > Organizations",
+     "expected": "The list shows the \"Prompts\" column",
+     "observed": "Columns Name, Customer number, User quota, Prompts, Frequency, US, Status, Created at, Actions (sort button data-testid backoffice-organisations-sort-prompts)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the super admin sorts the Prompts column ascending",
+     "expected": "The organisations are ordered by prompts in use, lowest first",
+     "observed": "Active view: 0 / 80, 0 / 80, 0 / 80, 0 / 15500, 246 / 250, 702 / 1000, 992 / 1000, 3486 / 474250. All statuses: page 1 = the 10 organisations with a pool in the same ascending order, then 10 \"—\"; page 2 = 6 \"—\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the super admin sorts the Prompts column descending",
+     "expected": "The organisations are ordered by prompts in use, highest first",
+     "observed": "Active view: 3486, 992, 702, 246, 0, 0, 0, 0. All statuses: page 1 = 3486 / 474250 down to 0 / 15500 (10 rows) then 10 \"—\"; page 2 = 6 \"—\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the organisations without a pool are not mixed between the others",
+     "testData": "Default view (active organisations, one page), then Status = all statuses (2 pages)",
+     "expected": "Every \"—\" row is grouped at the end, in both directions and across pages, never between two organisations with a value",
+     "observed": "Default view: no \"—\" row any more (every active organisation has a pool after GEO-1515), sort correct both ways. All statuses (26 organisations, 2 pages): the sort is now global (page 1 holds all 10 valued rows in both directions); the 16 \"—\" rows (all deleted organisations) are at the end in both directions and fill page 2",
+     "status": "PASS"
+    }
+   ],
+   "notes": "GEO-1272 retest (Ready for QA 2026-10-21): FIXED for the 1-page and the 2-page case (sort now applied across pages). A 3rd click returns to the unsorted default order (Created at desc), where \"—\" rows are mixed, as before (no sort applied). Status filter set back to active; nothing edited."
+  },
+  {
+   "tc_id": "TC-GEO-1515-002",
+   "title": "From release 1.3 no existing organisation is left without a pool",
+   "story_id": "GEO-1515",
+   "status": "PARTIAL",
+   "previousStatus": "NEW (first run)",
+   "duration": 0,
+   "error": null,
+   "gapType": "CSV gap / PO question: deleted organisations still show \"—\"",
+   "steps": [
+    {
+     "title": "Given the GEO-1515 ticket has fix version 1.3 and staging runs release 1.3",
+     "testData": "Fix version of GEO-1515",
+     "expected": "Fix version = 1.3",
+     "observed": "Jira GET: fix version 1.3, status Ready for QA. The staging release number is not displayed in the UI (1.3 assumed per the precondition; GEO Stress Test 2026-10, \"—\" on 2026-10-20, now has a pool)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the super admin opens Administration > Organizations",
+     "expected": "The organisations list loads with the Prompts column",
+     "observed": "Default view: 8 active organisations with the Prompts column",
+     "status": "PASS"
+    },
+    {
+     "title": "And the super admin sorts the Prompts column and reads every page",
+     "expected": "Every organisation is reviewed",
+     "observed": "Status = all statuses: 26 organisations on 2 pages, sorted ascending and descending, every page read",
+     "status": "PASS"
+    },
+    {
+     "title": "Then no organisation shows \"—\" in the Prompts column",
+     "expected": "Every row shows \"U / P\" with a pool P of at least 1",
+     "observed": "Active (8) and suspended (2: test 003 0 / 80, QA-ORG-1 0 / 15500) organisations all show \"U / P\" with P >= 80. The 16 deleted organisations (Test Org, ZZ-TEST-2, ZZ-TEST-DELETE., test A/B, Biogen, R&D, test 004, test 002, test001 x2, test 001, QA-Validation-0-Test, test-Org, QA-Validation-Test-Org, Onclusive UAT, Deloitte) still show \"—\" (outlined amber in step3_then)",
+     "status": "PARTIAL"
+    }
+   ],
+   "notes": "Strictly the Then is not met on deleted organisations; they are most likely out of scope (\"existing organisations\"; a deleted organisation cannot be edited), hence PARTIAL, not FAIL. CSV gap: restrict the Then to active and suspended organisations, or PO/dev to confirm deleted organisations keep \"—\".",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1515-002_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1515-002_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1515-002_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1239-013",
+   "title": "With no pool configured, the add actions are disabled while editing, deleting and unticking stay possible",
+   "story_id": "GEO-1239",
+   "status": "SKIP",
+   "previousStatus": "PARTIAL (rerun-fixes 2026-10-20)",
+   "duration": 0,
+   "error": null,
+   "gapType": "missing data / not applicable after GEO-1515",
+   "skipReason": "Not applicable after GEO-1515 (precondition): \"GEO Stress Test 2026-10\" now shows 3486 / 474250 in Administration > Organizations and no active or suspended organisation is left without a pool (only deleted ones show \"—\"). No dev setup requested; organisation not switched (user rule).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-013_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-013_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Manage Scope > Prompts of analysis N of an organisation with no pool",
+     "testData": "Organisation \"GEO Stress Test\", analysis N",
+     "expected": "The prompts of N are listed",
+     "observed": "Not applicable: GEO Stress Test 2026-10 has a pool (3486 / 474250)",
+     "status": "SKIP"
+    },
+    {
+     "title": "When the user looks at the add actions of the Prompts section",
+     "expected": "Add prompt, Add country and Add category are disabled",
+     "observed": "Not applicable",
+     "status": "SKIP"
+    },
+    {
+     "title": "And the user tries to tick a suggested prompt",
+     "testData": "A row under Suggested Prompts (if N has one)",
+     "expected": "The suggestion cannot be ticked",
+     "observed": "Not applicable",
+     "status": "SKIP"
+    },
+    {
+     "title": "And the user edits the wording of a kept prompt and saves",
+     "testData": "New wording: existing wording + \" in 2026\"",
+     "expected": "The edit is saved",
+     "observed": "Not applicable",
+     "status": "SKIP"
+    },
+    {
+     "title": "Then unticking and deleting prompts stay possible",
+     "testData": "Untick 1 kept prompt, then delete 1 other kept prompt",
+     "expected": "Both changes are applied; Add prompt, Add country and Add category stay disabled",
+     "observed": "Not applicable",
+     "status": "SKIP"
+    }
+   ],
+   "notes": "Evidence: organisations lists (all statuses and active), every non-deleted Prompts cell \"U / P\"."
+  },
+  {
+   "tc_id": "TC-GEO-1240-004",
+   "title": "The sortable Prompts column shows the slots of each analysis and adds up to the pool block",
+   "story_id": "GEO-1240",
+   "status": "PASS",
+   "previousStatus": "FAIL (2026-10-20, first click direction; CSV aligned by the sync)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1240-004_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1240-004_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1240-004_step3_then.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1240-004_step4_analysis_ticked.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the GEO dashboard of organisation T is loaded",
+     "expected": "The Analysis table is displayed",
+     "observed": "QA-GEO dashboard, 11 analyses listed (no Show more), pool block 992 / 1000",
+     "status": "PASS"
+    },
+    {
+     "title": "Then a \"Prompts\" column is shown after Categories",
+     "expected": "\"Prompts\" header right after \"Categories\"",
+     "observed": "Headers: Brand / Topic, Countries, Categories, Prompts, Last update, Actions",
+     "status": "PASS"
+    },
+    {
+     "title": "And the column adds up to the pool block",
+     "testData": "Sum of the Prompts column (Show more to list every analysis)",
+     "expected": "The sum equals U of the pool block \"U / P\"",
+     "observed": "169 + 38 + 203 + 80 + 5 + 3 + 70 + 70 + 40 + 140 + 174 = 992 = U (pool block 992 / 1000, GET /quota promptsUsed 992)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the value of an analysis equals its kept prompts across its markets",
+     "testData": "Analysis A (Manage Scope > Prompts: ticked rows)",
+     "expected": "The Prompts value of A equals its number of ticked rows",
+     "observed": "Electric bikes (42c3ab89, 1 market GB (EN)): Prompts = 5; Manage Scope > Prompts \"5 selected\", 5 ticked rows of 31",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user sorts the Prompts column",
+     "testData": "Click the header twice",
+     "expected": "The analyses are ordered by Prompts descending then ascending; the Brand sort is removed",
+     "observed": "1st click: 203, 174, 169, 140, 80, 70, 70, 40, 38, 5, 3 (aria-sort descending); 2nd click: 3 ... 203 (ascending); Brand / Topic aria-sort none after the 1st click",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Read only. Analysis count went from 7 to 11 since 2026-10-20 (U 703 -> 992)."
+  },
+  {
+   "tc_id": "TC-GEO-1229-007",
+   "title": "The dashboard market filter lists a country once and rolls up its languages",
+   "story_id": "GEO-1229",
+   "status": "PARTIAL",
+   "previousStatus": "PARTIAL (2026-10-20)",
+   "duration": 0,
+   "error": null,
+   "gapType": "missing data: no analysis with one country in two languages (no analysis created, user decision 2026-10-22)",
+   "steps": [
+    {
+     "title": "Given the user is on the Overview of analysis M",
+     "testData": "Analysis M",
+     "expected": "The Overview is displayed",
+     "observed": "No analysis M exists: markets of the 11 QA-GEO analyses (GET /reports/{id}) are bike US-en; Electric bikes GB-en; Licter US-en; Lictorix Geo US-en; Nike GB-en; Decathlon b6c8b664 GB-en, FR-fr, DZ-ar; Decathlon 27bec573 GB-en, FR-fr; kids toys MA-fr; adidas IN-hi, MA-fr, US-en; Orange FR-fr, MA-ar; Toyota US-en, FR-fr, ES-es. Substitute: Toyota 439acd96 Overview (read only)",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "When the user opens the market (country) filter",
+     "expected": "The filter lists \"United States\" once and \"France\" once (no separate entry per language)",
+     "observed": "Options: All Countries, United States, France, Spain (one entry per country); not conclusive with one language per country",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "And the user selects \"United States\" only",
+     "expected": "The filter shows United States selected",
+     "observed": "Trigger \"United States\", aria-label \"Country filter — 1 selected\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the results roll up both languages of the country",
+     "expected": "The prompts and results shown include the English and the Spanish prompts of United States, and none of France",
+     "observed": "Not verifiable: no analysis has United States in two languages; creating analysis M is not allowed (user decision 2026-10-22)",
+     "status": "SKIP"
+    }
+   ],
+   "notes": "Same blocker as on 2026-10-20. Needs an analysis with US-en + US-es + FR-fr (setup).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1229-007_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1229-007_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1229-007_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1251-002",
+   "title": "Competitive prompts run with up to 5 competitors when there is no Visibility",
+   "story_id": "GEO-1251",
+   "status": "PARTIAL",
+   "previousStatus": "FAIL (2026-10-20, Brand Rankings / Prioritization empty; CSV aligned by the sync)",
+   "duration": 0,
+   "error": null,
+   "gapType": "missing data: analysis W is no longer Competitive-only (Visibility, Reputation and Brand Image prompts of Nike ticked since 2026-10-21); GEO-1249 fewer-than-3-competitors case still not exercised",
+   "steps": [
+    {
+     "title": "Given analysis W has been collected once",
+     "testData": "Analysis W",
+     "expected": "The dashboard of W is available",
+     "observed": "W = Nike cce7a7dc. Its scope changed after the 2026-10-20 run: GET /scope now 40 kept prompts (10 Visibility, 10 Competitive, 10 Reputation, 10 Brand Image), collections 20/10 (20 answers = 10 Competitive x 2 engines), 21/10 and 22/10 (80 answers). Only the 20 Oct 2026 collection is a \"no Visibility\" collection; the dashboard was set to 20 Oct 2026 with the date picker. No other QA-GEO analysis has a market x category with Competitive and no Visibility prompt",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "When the user opens the Competitive results of GB (EN) x C1",
+     "expected": "The Competitive prompts and answers are listed",
+     "observed": "Running Shoes > Prompts Analysis: 10 Competitive prompts listed with winners (the list shows the current scope: Visibility 10, Competitive 10, Perception 10, even with the date set to 20 Oct)",
+     "status": "PASS"
+    },
+    {
+     "title": "Then each prompt names up to 5 competitors in place of the placeholders",
+     "expected": "No \"[Competitor N]\" placeholder left; 1 to 3 competitor names (one per template slot; up to 5 are resolved in the background); the prompt reads naturally, with no trailing \"or ?\" (GEO-1249)",
+     "observed": "10 / 10 prompts name 3 competitors, e.g. \"Best for Running Shoes: Nike, Asics, Saucony or New Balance?\", \"Nike vs Asics vs Saucony vs New Balance for Running Shoes?\"; no placeholder, no \"or ?\", no \"and  for\". But these prompts come from the current collections, which have Visibility prompts; the no-Visibility prompts of 20/10 (Adidas, Brooks Running, Hoka) are only in the 2026-10-20 evidence. GEO-1249 (fewer than 3 competitors) not exercised",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "And the results appear like any other Competitive result",
+     "expected": "Competitive charts of C1 are filled (AI Choice; Share of Voice = share of Competitive wins, only brands ranked #1 listed); Brand Rankings stays empty, as the Summary warning states: \"No Visibility prompts are kept, so Visibility %, Average Position and Brand Rankings stay empty, and Share of Voice counts Competitive answers only.\" (Brand Prioritization not asserted, question to the dev)",
+     "observed": "Overview, 20 Oct 2026: AI Choice 95% Good; Share of Voice Nike 95%, Brooks 5% (only #1 brands); Visibility and Avg Position N/A; \"No brand ranking data available.\" (outlined green); \"No data available for the category prioritization matrix.\" (not asserted)",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Read only (dashboard date filter not saved). The CSV expectation of step 4 is now met on the W collection. Precondition no longer holds for the current state of Nike (someone ticked the other 30 prompts on 2026-10-21): to re-run fully, a Competitive-only analysis is needed (no analysis created, user decision 2026-10-22).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1251-002_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1251-002_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1251-002_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1239-002",
+   "title": "Retained unticked suggestions show at the end of the table and can be ticked when the pool has room",
+   "story_id": "GEO-1239",
+   "status": "PARTIAL",
+   "previousStatus": "PARTIAL (2026-10-20)",
+   "duration": 0,
+   "error": null,
+   "gapType": "blocked save (user decision 2026-10-22: Manage Scope saves at once) + needs a later collection",
+   "blockedRequest": "Tick of suggestion G = PATCH /reports/{id}/prompts/kept on click (seen 2026-10-20); not clicked",
+   "steps": [
+    {
+     "title": "Given the user is on Manage Scope > Prompts of analysis A",
+     "expected": "The kept prompts are listed",
+     "observed": "A = Decathlon b6c8b664 (GB (EN), FR (FR) and since 2026-10-20 DZ (AR); Sporting Goods, Outdoor Gear). 210 rows: 203 kept prompts ticked first; ring \"992 / 1000 prompts · 203 selected\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user scrolls to the end of the table",
+     "expected": "The unticked suggestions are listed, unticked and greyed, at the end of the table (no \"Suggested Prompts\" heading)",
+     "observed": "The 7 unticked suggestions are rows 204-210 (GB (EN), Overview, Brand Image), checkbox \"Keep this prompt\" unticked, prompt text greyed rgb(148, 163, 184) vs oklch(0.446 ...) for kept rows; no \"Suggested Prompts\" heading (outlined green in step2_when)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user ticks one suggested prompt",
+     "testData": "Suggested prompt G",
+     "expected": "The ring increases by 1 and G is kept at once (no Save button)",
+     "observed": "NOT DONE: a tick is saved at once (PATCH /prompts/kept), forbidden by the user decision 2026-10-22. The checkbox of G \"What do you think of Decathlon?\" is enabled (pool 992 / 1000, 8 free slots), outlined amber in step3_then",
+     "status": "SKIP"
+    },
+    {
+     "title": "Then G is kept from the next run",
+     "testData": "Next collection of A",
+     "expected": "G is collected and appears in the results of the next run only; the tick is not written in the version history",
+     "observed": "Not verified: needs a saved tick and a later collection",
+     "status": "SKIP"
+    }
+   ],
+   "notes": "Step 2 now passes with the aligned CSV wording (no heading expected). Remaining steps need a real save on A.",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-002_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-002_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-002_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1239-007",
+   "title": "A category change keeps the prompt history where it was collected",
+   "story_id": "GEO-1239",
+   "status": "PARTIAL",
+   "previousStatus": "SKIP (2026-10-20)",
+   "duration": 0,
+   "error": null,
+   "gapType": "blocked save (user decision 2026-10-22) + needs a later collection",
+   "blockedRequest": "Category change = PATCH /reports/{id}/prompts/{promptId}/classification on select change (seen 2026-10-20); select opened and closed with Escape only",
+   "steps": [
+    {
+     "title": "Given prompt K of category C1 has past results",
+     "testData": "Prompt K",
+     "expected": "K is listed under C1",
+     "observed": "K = \"Best Sporting Goods?\" (Sporting Goods, Visibility, GB (EN), kept; A collected daily since 2026-10-19)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user changes the category of K to C2 with the row select",
+     "testData": "Category: C2",
+     "expected": "K is listed under C2 at once (no Save button, no confirmation)",
+     "observed": "NOT DONE (saves at once). Row select data-testid manage-prompt-row-category-select-42504f0c... opened: Sporting Goods (selected), Outdoor Gear; closed with Escape, K still Sporting Goods / Visibility",
+     "status": "SKIP"
+    },
+    {
+     "title": "Then the version history shows K deleted from C1 and added to C2",
+     "expected": "Two entries: deleted from C1, added to C2",
+     "observed": "Not verified. Version history opened read-only: latest entries 20 October 2026, 50 changes (Algeria (Arabic) prompts added 14:50); nothing new",
+     "status": "SKIP"
+    },
+    {
+     "title": "And the past results of K stay under C1",
+     "testData": "Category view C1, past runs",
+     "expected": "The past results of K are still counted in C1",
+     "observed": "Not verified",
+     "status": "SKIP"
+    },
+    {
+     "title": "And the next run collects K under C2",
+     "testData": "Next collection of A",
+     "expected": "K results appear under C2 from the next run",
+     "observed": "Not verified",
+     "status": "SKIP"
+    }
+   ],
+   "notes": "Only the Given and the select content are verified.",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-007_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-007_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-007_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1239-008",
+   "title": "A type change ends the old series and starts a new one",
+   "story_id": "GEO-1239",
+   "status": "PARTIAL",
+   "previousStatus": "SKIP (2026-10-20)",
+   "duration": 0,
+   "error": null,
+   "gapType": "blocked save (user decision 2026-10-22) + needs a later collection",
+   "blockedRequest": "Type change = row select, saves at once (same classification PATCH); select opened and closed with Escape only",
+   "steps": [
+    {
+     "title": "Given prompt K of type Visibility has past results",
+     "testData": "Prompt K",
+     "expected": "K shows type Visibility",
+     "observed": "K = \"Best Sporting Goods?\" (Visibility, no [Competitor N] placeholder, GB (EN), collected since 2026-10-19)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user changes the type of K to Reputation with the row select",
+     "testData": "Type: Reputation",
+     "expected": "K shows type Reputation at once (no Save button, no confirmation)",
+     "observed": "NOT DONE (saves at once). Type select opened: Visibility (selected), Reputation, Competitive, Brand Image, Other; closed with Escape, K still Visibility",
+     "status": "SKIP"
+    },
+    {
+     "title": "Then the Visibility series of K ends",
+     "testData": "Visibility results, past runs",
+     "expected": "The past Visibility results of K stay and get no new data point",
+     "observed": "Not verified",
+     "status": "SKIP"
+    },
+    {
+     "title": "And a new Reputation series starts from the next run",
+     "testData": "Next collection of A",
+     "expected": "K results appear as Reputation from the next run",
+     "observed": "Not verified",
+     "status": "SKIP"
+    }
+   ],
+   "notes": "Only the Given and the select content are verified.",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-008_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-008_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-008_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1239-009",
+   "title": "Adding a market brings fresh suggestions, all ticked, with the pool in view",
+   "story_id": "GEO-1239",
+   "status": "PARTIAL",
+   "previousStatus": "PARTIAL (2026-10-20)",
+   "duration": 0,
+   "error": null,
+   "gapType": "blocked save (Add Country never confirmed) + missing data: pool has 8 free slots, not enough for a new market (precondition)",
+   "blockedRequest": "Add Country confirmation (scope POST) not clicked; Add Country was disabled anyway (over pool, then 0 ticked)",
+   "steps": [
+    {
+     "title": "Given the user is in Manage Scope of analysis A",
+     "expected": "Add market is available",
+     "observed": "\"Add Country\" enabled in Manage Scope of Decathlon b6c8b664",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user adds a market",
+     "testData": "Market: Spain - Spanish (ES)",
+     "expected": "Fresh suggestions for Spain are generated, all ticked, with the pool ring in view",
+     "observed": "Add Country > Spain / Spanish (ES) > Next: 70 ES (ES) suggestions, all ticked (\"70 selected\"), ring \"1062 / 1000 prompts\" in red with \"62 prompts over. Untick prompts or contact your account manager.\"; Add Country disabled (over the pool)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user unticks every suggestion of the new market",
+     "expected": "Save is refused with no ticked prompt",
+     "observed": "Header checkbox (dialog draft only, nothing sent): \"992 / 1000 · 0 selected\", Add Country disabled (outlined green)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user ticks back all but 3 suggestions and saves",
+     "expected": "The market is added; the ring reflects the ticked prompts",
+     "observed": "NOT DONE: confirming Add Country saves the market (user decision 2026-10-22); with 8 free slots, 67 ticked prompts would also be over the pool",
+     "status": "SKIP"
+    },
+    {
+     "title": "Then the 3 unticked suggestions join the suggestions at the end of the table",
+     "testData": "Manage Scope > Prompts",
+     "expected": "The 3 rows are listed unticked and greyed at the end of the table (no \"Suggested Prompts\" heading); the new prompts show as \"Added\" in the version history",
+     "observed": "Not verified (no market added)",
+     "status": "SKIP"
+    }
+   ],
+   "notes": "Over-the-pool refusal now observed (not tested on 2026-10-20). Closed with Cancel > Exit and Discard; scope unchanged (3 markets, 203 kept).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-009_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-009_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-009_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1239-014",
+   "title": "Cancel in Add Country asks to discard the country addition",
+   "story_id": "GEO-1239",
+   "status": "PASS",
+   "previousStatus": "NEW (first run; F-05 on 2026-10-20)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-014_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-014_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-014_step3_then.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1239-014_step4_after_discard.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is in Manage Scope of analysis A",
+     "expected": "Add Country is available",
+     "observed": "Decathlon b6c8b664 Manage Scope, \"Add Country\" enabled (outlined green)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens Add Country, picks a country and reaches the Prompts step of the dialog",
+     "testData": "Country: Spain - Spanish (ES)",
+     "expected": "The suggestions for Spain are shown",
+     "observed": "70 ES (ES) suggestions on the Prompts step (ring 1062 / 1000, over the pool: the precondition \"enough free slots\" is not met, 8 free, but the dialog still reaches the Prompts step)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user clicks Cancel",
+     "expected": "\"Discard Country\" opens with \"Your country addition is incomplete. Exiting now will result in the loss of all unsaved progress. Are you sure you want to proceed?\" and the buttons Cancel and Exit and Discard",
+     "observed": "\"Discard Country\" | \"Your country addition is incomplete. Exiting now will result in the loss of all unsaved progress. Are you sure you want to proceed?\" | Cancel | Exit and Discard (exact)",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the dialog names the country, not a category",
+     "expected": "\"Discard Category\" and \"Your category creation is incomplete\" are not shown",
+     "observed": "0 occurrence of either text",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user clicks Exit and Discard",
+     "expected": "The dialog closes; Spain - Spanish (ES) is not added and no entry is written in the version history",
+     "observed": "Dialog closed; GET /scope: markets en-GB, fr-FR, ar-DZ (no es-ES), 203 kept; version history still headed 20 October 2026 (no new entry)",
+     "status": "PASS"
+    }
+   ],
+   "notes": "GEO-1503 regression OK. Side check: Add Category > Cancel still opens \"Discard Category\" / \"Your category creation is incomplete...\" (correct for a category)."
+  },
+  {
+   "tc_id": "TC-GEO-1238-004",
+   "title": "Back on the first step with choices entered opens \"Exit setup?\"",
+   "story_id": "GEO-1238",
+   "status": "PASS",
+   "previousStatus": "PASS (2026-10-20)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "steps": [
+    {
+     "title": "Given the user is on Brand & Country with a brand entered",
+     "testData": "Brand \"Decathlon\"",
+     "expected": "The brand is shown",
+     "observed": "Decathlon / decathlon.com selected (wizard opened with New Analysis, Brand analysis card + Continue)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user clicks Back in the footer",
+     "expected": "The Analysis Type step is displayed with Brand analysis still selected",
+     "observed": "\"Choose what you want to measure\" displayed; radio BRAND checked, UNBRANDED unchecked",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user clicks Back in the footer on Analysis Type",
+     "expected": "The \"Exit setup?\" confirmation opens naming \"Decathlon\"",
+     "observed": "\"Exit setup?\" | \"There is no draft: nothing is saved yet\" | \"Your analysis configuration for Decathlon is incomplete.\" | Resume Setup | Exit and Discard",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Resume Setup kept the user on Analysis Type (Brand selected); Continue showed Decathlon / decathlon.com still entered on Brand & Country.",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-004_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-004_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-004_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1235-007",
+   "title": "The pool tracker line and the table header stay pinned while the body scrolls",
+   "story_id": "GEO-1235",
+   "status": "PASS",
+   "previousStatus": "PASS (2026-10-19, side finding F-10: rows visible above the pinned bar)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-007_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-007_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-007_step3_then.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-007_step5_manage_scope_prompts.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-007_step6_add_country_dialog.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-007_step7_add_category_dialog.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Prompts step with 140 prompts",
+     "expected": "The pool tracker line and the table header are displayed",
+     "observed": "Decathlon (decathlon.com), GB (EN) + FR (FR), Sporting Goods + Outdoor Gear (discovery returned exactly these 2): 140 rows, tracker \"1132 / 1000 prompts · 140 selected\" + \"132 prompts over...\" + Add prompt; column header below",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user scrolls down until the pool tracker line reaches the top",
+     "expected": "The tracker line stops at the top",
+     "observed": "Scroll container wizard-layout-content (top 113 px). scrollTop 0: bar at 171 px; from scrollTop 100 to the end (6384) the bar stays at 113 px",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the tracker line and the table header stay pinned",
+     "testData": "Keep scrolling to the last row",
+     "expected": "The ring and the column headers stay visible",
+     "observed": "Ring visible at every position; column header pinned at 173 px; last row reached (bottom 598 px, above the footer)",
+     "status": "PASS"
+    },
+    {
+     "title": "And only the table body scrolls",
+     "testData": "Also check, as asked in GEO-1511 comment 866530: analysis > Prompts, and the Add market and Add category dialogs of Manage Scope",
+     "expected": "The rows move under the pinned header; no row shows above the pinned bar, which pins at the top with a small gap (about 12 px) (GEO-1511); the footer stays fixed",
+     "observed": "Wizard: the pinned bar (sticky top-0, white, pt-3 = 12 px) starts exactly at the container top, so no row can show above it; the 12 px white gap is above the ring; footer fixed at 672 px. Manage Scope > Prompts of Decathlon b6c8b664: bar pinned at the container top (112 px), header at 172 px, no row above. Add Country dialog (Spain, 70 rows) and Add Category dialog (\"Cycling\", 90 rows): bar pinned at the dialog scroller top, header just below, no row above; both dialogs closed with Cancel > Exit and Discard",
+     "status": "PASS"
+    }
+   ],
+   "notes": "F-10 / GEO-1511 (PR #839) FIXED in the wizard, Manage Scope > Prompts and the two Manage Scope dialogs."
+  },
+  {
+   "tc_id": "TC-GEO-1235-003",
+   "title": "Category header menu: sort, value checkboxes with live counts and Clear filter",
+   "story_id": "GEO-1235",
+   "status": "PASS",
+   "previousStatus": "PARTIAL (2026-10-19, extra value Other 0; aligned by QA decision Q-06)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-003_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-003_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-003_step3_then.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-003_step4_clear.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Prompts step",
+     "expected": "The Category header has a sort trigger",
+     "observed": "Trigger \"Sort and filter Category\" (data-testid wizard-prompt-col-menu-category), 140 rows, no filter",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user clicks the sort trigger of the Category header",
+     "expected": "A menu opens with \"Sort ascending\", \"Sort descending\", a checkbox list and \"Clear filter\"",
+     "observed": "Sort ascending, Sort descending (menuitemradio), 4 checkboxes (menuitemcheckbox), Clear filter (menuitem)",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the checkbox list shows each value with its live count",
+     "expected": "C1 (60), C2 (60), Overview (20) and Other (0) (listed with no prompt in Other, by design: QA decision 2026-10-22, Q-06)",
+     "observed": "Sporting Goods 60, Outdoor Gear 60, Other 0, Overview 20 (same values and counts; display order puts Other before Overview)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user checks C1 and chooses Sort ascending",
+     "expected": "Only C1 prompts are listed and the header shows the number 2 (1 value + 1 sort)",
+     "observed": "60 rows, all Sporting Goods; header \"CATEGORY 2\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user clicks Clear filter",
+     "expected": "All prompts are listed again, the sort is removed and the header shows no number",
+     "observed": "140 rows, header \"CATEGORY\"; menu reopened: both sort radios and all checkboxes aria-checked=false",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Order of the checkbox list (Other before Overview) differs from the order written in the CSV; the CSV does not state an order (wording only)."
+  },
+  {
+   "tc_id": "TC-GEO-1235-004",
+   "title": "Type and Market menus: sort order, one sort at a time, counts follow the other filters",
+   "story_id": "GEO-1235",
+   "status": "PASS",
+   "previousStatus": "PASS (2026-10-19)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Prompts step",
+     "expected": "No filter or sort is applied",
+     "observed": "Headers CATEGORY / TYPE / MARKET with no number, 140 rows",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the Type header menu and chooses Sort ascending",
+     "expected": "Rows are ordered Visibility, Reputation, Competitive, Brand Image",
+     "observed": "Type menu: Sort ascending, Sort descending, Visibility 40, Reputation 40, Competitive 40, Brand Image 20, Other 0, Clear filter. After Sort ascending: Visibility (40) > Reputation (40) > Competitive (40) > Brand Image (20); header \"TYPE 1\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user opens the Market header menu and chooses Sort ascending",
+     "expected": "Rows are ordered on the market label (FR (FR) before GB (EN)); the Type sort is replaced and the Type header loses its number",
+     "observed": "FR (FR) (70) > GB (EN) (70); header \"MARKET 1\", Type header back to \"TYPE\", Type sort radios both unchecked",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user checks C2 in the Category menu and opens the Type menu",
+     "testData": "Category = C2",
+     "expected": "Visibility (20), Competitive (20), Reputation (20), Brand Image (0) and Other (0) still listed",
+     "observed": "60 rows (Outdoor Gear); Type menu: Visibility 20, Reputation 20, Competitive 20, Brand Image 0, Other 0",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Filters cleared afterwards (140 rows).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-004_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-004_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1235-004_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1234-003",
+   "title": "Category and market selects list only the analysis values, market prefilled",
+   "story_id": "GEO-1234",
+   "status": "PASS",
+   "previousStatus": "PARTIAL (2026-10-19, \"Other\" placeholder vs \"empty\"; CSV aligned)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "steps": [
+    {
+     "title": "Given the user has opened a new row with Add prompt",
+     "expected": "The new row is at the top; Category and Type show the placeholder \"Other\" (no value selected; flag ON, GEO-1247 AC3); the Type select lists Visibility, Reputation, Competitive, Brand Image, Other",
+     "observed": "Draft row at the top (text input); category-select \"Other\" and type-select \"Other\", both with data-placeholder (no value); Type options: Visibility, Reputation, Competitive, Brand Image, Other; confirm disabled until a text is typed",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the category select",
+     "expected": "Only C1 and C2 are listed, with no Add category action",
+     "observed": "Options: Sporting Goods, Outdoor Gear; no Add category action",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user opens the market select",
+     "expected": "Only GB (EN) and FR (FR) are listed; the select is prefilled with GB (EN), the first market of the analysis",
+     "observed": "Options: GB (EN) (selected), FR (FR); trigger \"GB (EN)\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user picks type Brand Image",
+     "testData": "Type: Brand Image",
+     "expected": "The category select is cleared and disabled and shows \"Overview\"",
+     "observed": "Category select shows \"Overview\", disabled, no placeholder",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Draft row cancelled, nothing added.",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1234-003_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1234-003_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1234-003_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1234-004",
+   "title": "Market select is prefilled with the filtered market",
+   "story_id": "GEO-1234",
+   "status": "PASS",
+   "previousStatus": "PARTIAL (2026-10-19, \"Other\" placeholder; CSV aligned)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "steps": [
+    {
+     "title": "Given the table is filtered on market FR (FR) only",
+     "testData": "Market filter = FR (FR)",
+     "expected": "Only FR (FR) prompts are listed",
+     "observed": "70 rows, all FR (FR)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user clicks Add prompt",
+     "expected": "A new row opens at the top",
+     "observed": "Draft row at the top (outlined green in step3_then)",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the market select is prefilled with the filtered market",
+     "expected": "Market = FR (FR); Category and Type show the placeholder \"Other\" (no value selected)",
+     "observed": "market-select \"FR (FR)\"; category-select \"Other\" (placeholder), type-select \"Other\" (placeholder)",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Draft cancelled and filter cleared (140 rows).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1234-004_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1234-004_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1234-004_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1232-008",
+   "title": "After removing a market, the remove-category confirmation counts only the remaining market",
+   "story_id": "GEO-1232",
+   "status": "PASS",
+   "previousStatus": "NEW (first run; regression of GEO-1501)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1232-008_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1232-008_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1232-008_step3_then.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1232-008_step4_cancel.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Prompts step with prompts generated for GB (EN) and FR (FR)",
+     "testData": "Filter Category = C1",
+     "expected": "The C1 prompts of GB (EN) and FR (FR) are listed (60)",
+     "observed": "Category = Sporting Goods: 60 rows (GB (EN) 30, FR (FR) 30)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user goes back to Brand & Country and removes France - French (FR)",
+     "testData": "Market removed: FR (FR)",
+     "expected": "Only United Kingdom - English (EN) is left",
+     "observed": "Stepper Brand & Country (no dialog), \"Remove France\" (no confirmation): only United Kingdom / English (EN) left",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user goes forward to Categories without generating the prompts again and clicks the cross of C1",
+     "expected": "A confirmation opens",
+     "observed": "Stepper Categories (Sporting Goods, Outdoor Gear, EN only), cross \"Delete Sporting Goods\": confirmation \"Remove \\\"Sporting Goods\\\" category\" opens",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the confirmation counts only the prompts of the remaining market",
+     "expected": "\"30 prompts across your markets will be deleted with it.\" (the 30 C1 prompts of GB (EN)), not 60",
+     "observed": "\"Are you sure you want to remove Sporting Goods ? This action cannot be undone. | 30 prompts across your markets will be deleted with it. | Cancel | Remove\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user cancels the removal",
+     "testData": "Cancel",
+     "expected": "The confirmation closes and C1 stays listed",
+     "observed": "Confirmation closed, Sporting Goods still listed",
+     "status": "PASS"
+    }
+   ],
+   "notes": "GEO-1501 regression OK. Known typography side finding still present: space before \"?\" in \"remove Sporting Goods ?\" (wizard.deleteCategory.description). \"markets\" still read (GEO-1514 not delivered)."
+  },
+  {
+   "tc_id": "TC-GEO-1238-007",
+   "title": "A stepper back-click or the footer Back opens the previous step with no dialog and keeps every choice",
+   "story_id": "GEO-1238",
+   "status": "PASS",
+   "previousStatus": "NEW (first run; regression of GEO-1500)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-007_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-007_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-007_step3_then.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-007_step4_brand.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-007_step5_back_footer.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-007_step6_kept.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1238-007_step7_exit_setup.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Prompts step after Generate Prompts",
+     "testData": "Brand \"Decathlon\"; GB (EN); C1 and C2",
+     "expected": "The prompts are listed with \"N selected\"",
+     "observed": "Same draft after TC-GEO-1232-008 (FR removed): Generate Prompts, \"1062 / 1000 prompts · 70 selected\" (a Category = Sporting Goods filter from the previous TC was still applied)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user clicks Categories in the stepper and adds a category",
+     "testData": "Category: \"Cycling\"",
+     "expected": "The Categories step opens directly, with no dialog; \"Cycling\" is listed (Custom)",
+     "observed": "Categories opened, no dialog; Add Category modal (translation United Kingdom · English \"Cycling\") > Add category: \"Cycling | Custom | EN\" listed",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user removes C2 and goes forward to Prompts",
+     "testData": "Confirm the removal of C2",
+     "expected": "The \"Cycling\" suggestions are listed and no C2 prompt is left",
+     "observed": "Remove \"Outdoor Gear\" confirmed (\"30 prompts across your markets will be deleted with it.\"), Generate Prompts: 70 rows = Overview 10, Sporting Goods 30, Cycling 30; no Outdoor Gear",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user unticks one prompt and clicks Brand & Country in the stepper",
+     "expected": "Brand & Country opens directly, with no \"Exit setup?\" dialog",
+     "observed": "\"What do you think of Decathlon for Cycling?\" unticked (69 selected); Brand & Country opened, no dialog; Decathlon / decathlon.com, United Kingdom English (EN)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user goes forward again to Prompts and clicks Back in the footer",
+     "expected": "The Categories step opens directly, with no dialog",
+     "observed": "From Brand & Country the stepper Prompts and Summary are aria-disabled, so forward = stepper Categories then Generate Prompts (no dialog); on Prompts, footer Back opened Categories directly, no dialog",
+     "status": "PASS"
+    },
+    {
+     "title": "Then every choice is kept when going forward again",
+     "testData": "Continue to Prompts",
+     "expected": "Brand \"Decathlon\", GB (EN), \"Cycling\" kept, C2 still removed, the unticked prompt still unticked and the \"selected\" count unchanged",
+     "observed": "Generate Prompts: 70 rows (Overview 10, Sporting Goods 30, Cycling 30), the Cycling prompt still unticked, \"1061 / 1000 prompts · 69 selected\" (unchanged)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user clicks Back to Dashboard",
+     "expected": "\"Exit setup?\" opens; the user clicks Resume Setup and stays on Prompts with every choice intact",
+     "observed": "\"Exit setup?\" ... \"Your analysis configuration for Decathlon is incomplete.\"; Resume Setup: still /geo/new on Prompts, 69 selected",
+     "status": "PASS"
+    }
+   ],
+   "notes": "GEO-1500 regression OK. Observation: from Brand & Country the stepper does not allow jumping forward to Prompts (aria-disabled) even when prompts were generated; the footer path (Categories > Generate Prompts) keeps every choice."
+  },
+  {
+   "tc_id": "TC-GEO-1237-006",
+   "title": "Only the engines allowed for the organisation are shown, on by default",
+   "story_id": "GEO-1237",
+   "status": "PASS",
+   "previousStatus": "FAIL (2026-10-20, only ChatGPT + Gemini on; CSV aligned by Q-04 / GEO-1237 Rules)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "steps": [
+    {
+     "title": "Given the allowed AI engines of organisation T are known",
+     "testData": "Allowed engines from the back office",
+     "expected": "The list of allowed engines is noted",
+     "observed": "Back office View Organisation — QA-GEO (read only, closed with Escape): Authorised AI Engine providers ChatGPT, Gemini, Grok, Claude, Perplexity, all aria-checked=true",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user reaches Summary",
+     "expected": "Summary loads",
+     "observed": "Draft scope: Decathlon, GB (EN), Sporting Goods + Cycling, 5 prompts ticked (1 Brand Image, 2 Sporting Goods, 2 Cycling: 997 / 1000), Review & Launch: Summary loaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then each allowed engine is a toggle, with ChatGPT and Gemini on by default",
+     "expected": "One toggle per allowed engine; ChatGPT and Gemini are on when allowed, every other allowed engine is off; if neither ChatGPT nor Gemini is allowed, every allowed engine is on",
+     "observed": "5 toggles: ChatGPT true, Gemini true, Grok false, Claude false, Perplexity false",
+     "status": "PASS"
+    },
+    {
+     "title": "And the other engines are not shown",
+     "expected": "No engine outside the allowed list; no \"Available on higher plans\" or Upgrade block",
+     "observed": "Only the 5 allowed engines; no \"Available on higher plans\" / Upgrade text",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Create Analysis NOT clicked (no analysis created, user decision 2026-10-22). The \"neither ChatGPT nor Gemini allowed\" branch is not testable on QA-GEO (all 5 allowed).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1237-006_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1237-006_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1237-006_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1232-002",
+   "title": "With no category, an empty state invites the user to add one",
+   "story_id": "GEO-1232",
+   "status": "PASS",
+   "previousStatus": "PASS (2026-10-19, side finding GEO-1504)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Categories step",
+     "expected": "The detected categories are listed",
+     "observed": "Same draft (Decathlon, GB (EN)): Sporting Goods (AI generated) and Cycling (Custom, added in TC-GEO-1238-007); Outdoor Gear removed earlier",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user removes every category and confirms each removal",
+     "expected": "The list becomes empty",
+     "observed": "Remove \"Sporting Goods\" category > Remove, Remove \"Cycling\" category > Remove: no category left",
+     "status": "PASS"
+    },
+    {
+     "title": "Then an empty state invites the user to add a category",
+     "expected": "The empty state reads \"No categories for {brand}\" and \"Add at least one category for {brand}.\" with an \"Add Category\" button; \"We could not detect categories\" is not shown (GEO-1504, Passed QA 2026-10-22)",
+     "observed": "\"Add at least one category for Decathlon.\" | \"No categories for Decathlon\" | \"Add your own categories; each one is translated to every market language.\" | button \"Add Category\"; \"We could not detect categories\" absent",
+     "status": "PASS"
+    },
+    {
+     "title": "And Generate Prompts is disabled",
+     "expected": "Generate Prompts cannot be clicked",
+     "observed": "wizard-next-btn \"Generate Prompts\" disabled",
+     "status": "PASS"
+    },
+    {
+     "title": "And the stepper does not let the user jump to Prompts or Summary",
+     "expected": "Clicking Prompts or Summary in the stepper does nothing",
+     "observed": "Clicks on Prompts and Summary leave the user on the empty Categories step. Summary has aria-disabled=\"true\"; Prompts has no aria-disabled and a cursor-pointer class (looks clickable) but does nothing",
+     "status": "PASS"
+    }
+   ],
+   "notes": "GEO-1504 regression OK. Observation (accessibility, minor): the Prompts step of the stepper is not marked aria-disabled in this state although it does nothing (it was aria-disabled on 2026-10-19 before prompts were generated).",
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1232-002_step1_given.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1232-002_step2_when.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1232-002_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1231-011",
+   "title": "The footer buttons stay fully visible and clickable next to the Intercom launcher",
+   "story_id": "GEO-1231",
+   "status": "PASS",
+   "previousStatus": "NEW (first run; regression of GEO-1506)",
+   "duration": 0,
+   "error": null,
+   "gapType": null,
+   "screenshots": [
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1231-011_1920x1080_step1.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1231-011_1920x1080_step2.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1231-011_1920x1080_step3.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1231-011_1920x1080_step4.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1231-011_1440x900_step4.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1231-011_1280x720_step1.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1231-011_1280x720_step4.png",
+    "screenshots-GEO-1002-rerun-sync-20261022/TC-GEO-1231-011_1280x720_step5_summary.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the browser window is 1920x1080 and the user is on the Analysis Type step with the Brand analysis card selected",
+     "testData": "Window 1920x1080",
+     "expected": "The footer shows Back and Continue, centred; the Intercom launcher is at the bottom right",
+     "observed": "Separate isolated context (session copied in memory, Chrome 141 user agent, cookies \"Accept All\", same write guard): Intercom launcher .intercom-lightweight-app-launcher at x 1852-1900, y 1012-1060. Footer Back (1019-1098) + Continue (1122-1229): group centre 1124 = footer centre 1124",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user goes through steps 1 to 4",
+     "testData": "Analysis Type, Brand & Country, Categories, Prompts",
+     "expected": "The primary action reads Continue, Discover Categories, Generate Prompts, then Review & Launch",
+     "observed": "Continue, Discover Categories, Generate Prompts, Review & Launch (Decathlon, GB (EN), 2 detected categories, 70 prompts; 69 unticked so that Summary can open within the pool: 993 / 1000)",
+     "status": "PASS"
+    },
+    {
+     "title": "Then on each step the footer buttons never overlap the Intercom launcher",
+     "expected": "The primary action is fully readable, with a clear gap to the launcher (no overlap)",
+     "observed": "1920x1080: no overlap, horizontal gap 585-623 px on steps 1-4",
+     "status": "PASS"
+    },
+    {
+     "title": "And the primary action is clickable at its centre and at its right edge",
+     "testData": "Click near the right edge of the primary action",
+     "expected": "The click is taken by the button, not by the launcher (the next step opens)",
+     "observed": "elementFromPoint at the centre and 3 px from the right edge = the button on steps 1-4; mouse click 3 px from the right edge opened the next step each time (Brand & Country, Categories, Prompts, Summary with Create Analysis)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the same checks are done at the other window sizes",
+     "testData": "Windows 1440x900 and 1280x720",
+     "expected": "Same result on steps 1 to 4: no overlap, buttons fully visible and clickable",
+     "observed": "1440x900: launcher 1372-1420, gap 345-383 px, centred (884 = 884), right-edge clicks open the next step. 1280x720: launcher 1212-1260 / 652-700, gap 265-303 px, centred (804 = 804), right-edge clicks open the next step",
+     "status": "PASS"
+    }
+   ],
+   "notes": "GEO-1506 regression OK. Create Analysis never clicked; each wizard left with Back to Dashboard > Exit and Discard; the extra context was closed at the end."
+  }
+ ],
+ "endTime": "2026-10-22 20:48",
+ "runFolder": "22102026-2048"
+}

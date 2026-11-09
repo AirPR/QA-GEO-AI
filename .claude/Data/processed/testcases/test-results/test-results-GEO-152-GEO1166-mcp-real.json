@@ -1,0 +1,354 @@
+{
+  "spec": "GEO-152-GEO1166-mcp",
+  "runDate": "2026-10-04",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "story": "GEO-1166",
+  "summary": {
+    "total": 7,
+    "pass": 7,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1166-001",
+      "title": "Footer stays sticky at every panel scroll position",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-001_step1_given.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-001_step2_when.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-001_step2b_scroll_middle.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-001_step2c_scroll_bottom.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the \"Action Center\" page of the Toyota analysis",
+          "status": "PASS",
+          "expected": "The \"Target Sources\" list is displayed with the tabs \"All\", \"Improve visibility\", \"Improve perception\" and the ranked sources",
+          "observed": "Action Center loaded (org QA-GEO, Toyota). Heading \"Target Sources\", tabs ALL / IMPROVE VISIBILITY / IMPROVE PERCEPTION (uppercase via CSS), 12 ranked cards + \"Show 184 more sources\"."
+        },
+        {
+          "title": "When the user opens the details panel of the source ranked #1",
+          "status": "PASS",
+          "expected": "The details panel opens over the list with a footer showing \"Previous\" (left), \"Source 1 of N\" (center) and \"Next source\" (right)",
+          "observed": "Panel = <dialog> fixed right (470px). Footer <nav> children: \"Previous\" | \"Source 1 of 196\" | \"Next source\". Header \"#1 · frandroid.com\"."
+        },
+        {
+          "title": "And the user scrolls the panel content to the middle",
+          "status": "PASS",
+          "expected": "The articles and prompts scroll under the footer; \"Previous\", \"Source 1 of N\" and \"Next source\" stay visible at the bottom of the panel",
+          "observed": "Scroll container scrollTop=277/554: footer nav top=837, bottom=900 (= viewport/dialog bottom); Previous, counter and Next source hit-testable (elementFromPoint)."
+        },
+        {
+          "title": "And the user scrolls the panel content to the very bottom",
+          "status": "PASS",
+          "expected": "The end of \"Prompts associated with this source\" is reachable and the footer is still visible and not overlapping hidden content",
+          "observed": "scrollTop=554/554: heading \"Prompts associated with this source\" present; last element \"Show 78 more prompts\" bottom=805 <= footer top=837 (not hidden). Footer still at 837-900."
+        },
+        {
+          "title": "Then the user scrolls back to the top of the panel",
+          "status": "PASS",
+          "expected": "The footer remains fixed at the bottom of the panel at every scroll position",
+          "observed": "scrollTop=0: footer still at 837-900. Scroll container bottom=837 = footer top at every position (content scrolls under / above the footer, never overlapped)."
+        }
+      ],
+      "notes": "Footer texts observed: \"Previous\" / \"Source 1 of 196\" / \"Next source\". N=196 (date range \"Last 7 days\"; precondition mentions 261 for 2026-10-02 - N is generic in the CSV). Sticky measured at scrollTop 0 / 277 / 554 (max): footer bounding box constant y=837..900 inside the 900px viewport."
+    },
+    {
+      "tc_id": "TC-GEO-1166-002",
+      "title": "Next source swaps panel content in place and syncs the selected card",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-002_step1_given.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-002_step1b_open_card1.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-002_step2_when.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the \"Action Center\" page of the Toyota analysis in card view",
+          "status": "PASS",
+          "expected": "The \"Target Sources\" cards are displayed in ranked order",
+          "observed": "Card view active (button \"Card view\" pressed). Cards in ranked order: 1 frandroid.com, 2 autobild.es, 3 ouest-france.fr, 4 zonebourse.com."
+        },
+        {
+          "title": "And the user opens the details panel of the source ranked #1",
+          "status": "PASS",
+          "expected": "The panel header shows \"#1 · {domain of card 1}\", the footer shows \"Source 1 of N\" and card #1 shows the selected state",
+          "observed": "Header \"#1 · frandroid.com\"; footer \"Source 1 of 196\"; card #1 aria-pressed=\"true\", bg rgb(224,242,254), border rgb(3,105,161)."
+        },
+        {
+          "title": "When the user clicks \"Next source\"",
+          "status": "PASS",
+          "expected": "The panel stays open (no close / reopen) and its content is replaced by the source ranked #2",
+          "observed": "Same <dialog> node stays open (marker kept, 0 close events). Content replaced by autobild.es."
+        },
+        {
+          "title": "Then the panel header, badges, article tabs and prompts belong to the source of card #2",
+          "status": "PASS",
+          "expected": "The header reads \"#2 · {domain of card 2}\" with its source type and reason badges; the footer reads \"Source 2 of N\"",
+          "observed": "Header \"#2 · autobild.es | Journalism | Improve visibility | Improve perception\"; article tabs \"Lack of visibility (21)\" / \"Negative perception (1)\" (were 41 / 5); prompts changed (Spanish prompts of autobild.es); footer \"Source 2 of 196\"."
+        },
+        {
+          "title": "And the selected state behind the panel moved to card #2",
+          "status": "PASS",
+          "expected": "Card #2 shows the selected state and card #1 no longer does",
+          "observed": "Card #2 (autobild.es) aria-pressed=\"true\" + selected background; card #1 aria-pressed=\"false\", white background."
+        }
+      ],
+      "notes": "Footer: \"Source 1 of 196\" -> \"Source 2 of 196\". Panel not closed/reopened (same dialog element, no close transition)."
+    },
+    {
+      "tc_id": "TC-GEO-1166-003",
+      "title": "Previous swaps panel content back in place and syncs the selected card",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-003_step1_given.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-003_step1b_open_card3.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-003_step2_when.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the \"Action Center\" page of the Toyota analysis in card view",
+          "status": "PASS",
+          "expected": "The \"Target Sources\" cards are displayed in ranked order",
+          "observed": "Card view, cards ranked 1 frandroid.com, 2 autobild.es, 3 ouest-france.fr."
+        },
+        {
+          "title": "And the user opens the details panel of the source ranked #3",
+          "status": "PASS",
+          "expected": "The panel header shows \"#3 · {domain of card 3}\", the footer shows \"Source 3 of N\" and card #3 shows the selected state",
+          "observed": "Header \"#3 · ouest-france.fr | Journalism | Improve visibility\"; footer \"Source 3 of 196\"; card #3 aria-pressed=\"true\"."
+        },
+        {
+          "title": "When the user clicks \"Previous\"",
+          "status": "PASS",
+          "expected": "The panel stays open (no close / reopen) and its content is replaced by the source ranked #2",
+          "observed": "Same <dialog> node stays open (0 close events); content replaced by autobild.es."
+        },
+        {
+          "title": "Then the panel header, badges, article tabs and prompts belong to the source of card #2",
+          "status": "PASS",
+          "expected": "The header reads \"#2 · {domain of card 2}\"; the footer reads \"Source 2 of N\"",
+          "observed": "Header \"#2 · autobild.es\"; tabs \"Lack of visibility (21)\" / \"Negative perception (1)\"; footer \"Source 2 of 196\"."
+        },
+        {
+          "title": "And the selected state behind the panel moved to card #2",
+          "status": "PASS",
+          "expected": "Card #2 shows the selected state and card #3 no longer does",
+          "observed": "Card #2 aria-pressed=\"true\" (selected bg); card #3 aria-pressed=\"false\"."
+        }
+      ],
+      "notes": "Footer: \"Source 3 of 196\" -> \"Source 2 of 196\" after Previous."
+    },
+    {
+      "tc_id": "TC-GEO-1166-004",
+      "title": "Counter shows the position within the filtered scope",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-004_step1_given.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-004_step1b_perception_tab.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-004_step2_type_filter_open.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-004_step2_when.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-004_step3_then.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-004_step4_next_source.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the \"Action Center\" page of the Toyota analysis",
+          "status": "PASS",
+          "expected": "The \"Target Sources\" list is displayed with the tabs \"All\", \"Improve visibility\", \"Improve perception\" and the ranked sources",
+          "observed": "Target Sources list displayed with tabs ALL / IMPROVE VISIBILITY / IMPROVE PERCEPTION; ALL scope = 196 sources."
+        },
+        {
+          "title": "When the user selects the \"Improve perception\" tab",
+          "status": "PASS",
+          "expected": "Only sources with the \"Improve perception\" badge are listed; the user notes their count Y",
+          "test_data": "Tab: Improve perception",
+          "observed": "IMPROVE PERCEPTION tab selected (aria-selected=true): 12 cards + \"Show 33 more sources\" => Y=45; every card carries the IMPROVE PERCEPTION badge."
+        },
+        {
+          "title": "And the user selects a source type in the source type filter",
+          "status": "PASS",
+          "expected": "The list keeps only the sources of that type in the \"Improve perception\" tab; the user notes the new count Y",
+          "test_data": "Source type: Journalism (or any type listed with a count)",
+          "observed": "Source type menu options: All types, Aggregators (4), Corporate (1), Journalism (31), Review Sites (8), Social / UGC (1). Selected \"Journalism (31)\": 31 cards after expanding, all Journalism + Improve perception => Y=31."
+        },
+        {
+          "title": "And the user opens the details panel of the 2nd source of the filtered list",
+          "status": "PASS",
+          "expected": "The details panel opens for that source",
+          "observed": "2nd filtered source = guideautoweb.com (global rank #5 in ALL tab). Panel opened: header \"#2 · guideautoweb.com\"."
+        },
+        {
+          "title": "Then the footer counter reads \"Source 2 of Y\"",
+          "status": "PASS",
+          "expected": "The counter shows 2 (position in the filtered list) and Y (number of sources in the filtered list), not the global rank or the 261 total",
+          "observed": "Footer counter reads \"Source 2 of 31\" (not 5 / not 196)."
+        },
+        {
+          "title": "And the user clicks \"Next source\"",
+          "status": "PASS",
+          "expected": "The panel shows the 3rd source of the filtered list (not the next global rank) and the counter reads \"Source 3 of Y\"",
+          "observed": "Next source -> header \"#3 · fiches-auto.fr\" (3rd of the filtered list; global next would have been #6 caranddriver.com); counter \"Source 3 of 31\"."
+        }
+      ],
+      "notes": "Counter scope = filtered list: \"Source 2 of 31\" then \"Source 3 of 31\" with tab Improve perception + type Journalism. Panel header rank also follows the filtered position (#2, #3)."
+    },
+    {
+      "tc_id": "TC-GEO-1166-005",
+      "title": "Previous is disabled on the first source",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-005_step1_given.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-005_step2_when.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-005_step2b_previous_button.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the \"Action Center\" page of the Toyota analysis",
+          "status": "PASS",
+          "expected": "The \"Target Sources\" list is displayed with the tabs \"All\", \"Improve visibility\", \"Improve perception\" and the ranked sources",
+          "observed": "Target Sources list displayed (ALL tab, card view)."
+        },
+        {
+          "title": "When the user opens the details panel of the first source of the list",
+          "status": "PASS",
+          "expected": "The footer reads \"Source 1 of N\"",
+          "observed": "Panel of first source: header \"#1 · frandroid.com\", footer \"Source 1 of 196\"."
+        },
+        {
+          "title": "Then the \"Previous\" button is displayed in its disabled state",
+          "status": "PASS",
+          "expected": "\"Previous\" is greyed out while \"Next source\" stays enabled",
+          "observed": "Previous: aria-disabled=\"true\", opacity 0.5, cursor not-allowed (native disabled property = false). Next source: aria-disabled=\"false\", opacity 1."
+        },
+        {
+          "title": "And the user clicks the disabled \"Previous\" button",
+          "status": "PASS",
+          "expected": "Nothing happens: the panel still shows the first source and the counter still reads \"Source 1 of N\" (no jump to the last source)",
+          "observed": "Forced click on Previous: header still \"#1 · frandroid.com\", counter still \"Source 1 of 196\", card #1 still selected (no wrap-around to #196)."
+        }
+      ],
+      "notes": "Disabled state implemented via aria-disabled=\"true\" + opacity 0.5 + cursor not-allowed (no native disabled attribute). Click verified as a no-op."
+    },
+    {
+      "tc_id": "TC-GEO-1166-006",
+      "title": "Next source is disabled on the last source",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-006_step1_given.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-006_step1b_perception_tab.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-006_step2_when.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-006_step2b_next_button.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the \"Action Center\" page of the Toyota analysis",
+          "status": "PASS",
+          "expected": "The \"Target Sources\" list is displayed",
+          "observed": "Target Sources list displayed (ALL tab)."
+        },
+        {
+          "title": "And the user selects the \"Improve perception\" tab to get a short list",
+          "status": "PASS",
+          "expected": "The filtered list is displayed; the user notes its count N",
+          "test_data": "Tab: Improve perception",
+          "observed": "IMPROVE PERCEPTION tab: 12 cards + \"Show 33 more sources\" -> expanded to N=45 (last card #45 headtopics.com)."
+        },
+        {
+          "title": "When the user opens the details panel of the last source of the list",
+          "status": "PASS",
+          "expected": "The footer reads \"Source N of N\"",
+          "observed": "Panel of last source: header \"#45 · headtopics.com\", footer \"Source 45 of 45\"."
+        },
+        {
+          "title": "Then the \"Next source\" button is displayed in its disabled state",
+          "status": "PASS",
+          "expected": "\"Next source\" is greyed out while \"Previous\" stays enabled",
+          "observed": "Next source: aria-disabled=\"true\", opacity 0.5, cursor not-allowed. Previous: aria-disabled=\"false\", opacity 1."
+        },
+        {
+          "title": "And the user clicks the disabled \"Next source\" button",
+          "status": "PASS",
+          "expected": "Nothing happens: the panel still shows the last source and the counter still reads \"Source N of N\" (no jump to the first source)",
+          "observed": "Forced click on Next source: header still \"#45 · headtopics.com\", counter still \"Source 45 of 45\" (no jump to #1); card headtopics.com still selected."
+        }
+      ],
+      "notes": "Footer on last source: \"Previous\" / \"Source 45 of 45\" / \"Next source\" (Next source aria-disabled). Click verified as a no-op."
+    },
+    {
+      "tc_id": "TC-GEO-1166-007",
+      "title": "Previous and Next source work in the list view overlay",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-007_step1_given.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-007_step1b_list_view.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-007_step2_when.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-007_step2b_next_source.png",
+        "screenshots-GEO-152-GEO1166-mcp/TC-GEO-1166-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the \"Action Center\" page of the Toyota analysis",
+          "status": "PASS",
+          "expected": "The \"Target Sources\" list is displayed",
+          "observed": "Target Sources list displayed (card view): 1 frandroid.com, 2 autobild.es, 3 ouest-france.fr, 4 zonebourse.com, 5 guideautoweb.com."
+        },
+        {
+          "title": "And the user switches to the list (table) view",
+          "status": "PASS",
+          "expected": "The sources are displayed as table rows in the same ranked order as the cards",
+          "observed": "List view button pressed: table rows <tr data-source-domain> in the same order (1 frandroid.com, 2 autobild.es, 3 ouest-france.fr, 4 zonebourse.com, 5 guideautoweb.com, 6 caranddriver.com)."
+        },
+        {
+          "title": "When the user opens the details panel of the row ranked #1",
+          "status": "PASS",
+          "expected": "The panel opens over the table with the footer \"Previous\" (disabled), \"Source 1 of N\" and \"Next source\"; row #1 shows the selected state",
+          "observed": "Panel over table: header \"#1 · frandroid.com\"; footer \"Previous / Source 1 of 196 / Next source\"; Previous aria-disabled=\"true\" (opacity 0.5); row #1 aria-selected=\"true\" (bg rgb(224,242,254))."
+        },
+        {
+          "title": "And the user clicks \"Next source\"",
+          "status": "PASS",
+          "expected": "The panel stays open and shows \"#2 · {domain of row 2}\"; the counter reads \"Source 2 of N\"; row #2 shows the selected state and row #1 no longer does",
+          "observed": "Same dialog stays open (0 close events); header \"#2 · autobild.es\"; counter \"Source 2 of 196\"; row #2 aria-selected=\"true\", row #1 aria-selected=\"false\"."
+        },
+        {
+          "title": "Then the user clicks \"Previous\"",
+          "status": "PASS",
+          "expected": "The panel shows \"#1 · {domain of row 1}\" again; the counter reads \"Source 1 of N\"; row #1 is selected again",
+          "observed": "Header \"#1 · frandroid.com\"; counter \"Source 1 of 196\"; row #1 aria-selected=\"true\" again, row #2 false; Previous disabled again."
+        }
+      ],
+      "notes": "List view overlay behaves like card view: in-place swap, row selection synced via aria-selected."
+    }
+  ]
+}

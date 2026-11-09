@@ -1,0 +1,942 @@
+{
+  "spec": "GEO-152-PROD-rerun-mcp",
+  "runDate": "2026-10-12/13",
+  "runMode": "mcp-playwright",
+  "env": "production",
+  "url": "https://geo.onclusive.com/geo/dashboard/bfbb34ce-e1a3-435e-aec0-1b7a66d98c3c",
+  "csv": ".claude/Data/output/csv/GEO-R1.2/testcases-coverage-epicGEO-152.csv",
+  "scope": "Re-run of the 15 FAILED TCs of the 2026-10-07 PROD run (runs/07102026-1739 consolidated report)",
+  "organisation": "Onclusive (account was on QA-GEO at start, switched)",
+  "bundle": "index-D76A8LXj.js",
+  "analysis": "Toyota bfbb34ce, Last 7 days (window 05/10-12/10, 7 snapshots), AI Engines 3 (gemini, openai, perplexity; Grok disabled since 07/10), All Countries, 108 target sources",
+  "accountLanguageStart": "en-GB",
+  "accountLanguageEnd": "en-GB",
+  "languageEvents": "fr-FR then es-ES during TC-GEO-1124-010, restored to en-GB on 2026-10-13 08:36 local",
+  "qaDecisions": "User QA decisions 2026-10-13 accepted without re-verification: 1117-010 / 1118-014 / 1123-008 PASS (snapshot-related, TC unchanged); 1126-003 / 1168-022 PASS (TC aligned in the CSV); 1118-004 known bug GEO-1257",
+  "csvAlignment": "GEO-1222 (Abandoned): last header \"Articles\" (EN/FR) / \"Artículos\" (ES) applied to TC-GEO-1124-005, TC-GEO-1124-010, TC-GEO-1168-022; TC-GEO-1123-009 aligned 2026-10-13 (QA decision, user evidence): tooltip checked on the prompts-section engine tabs; TC-GEO-1126-003 and TC-GEO-1168-022 aligned 2026-10-13 (QA decision)",
+  "runFolder": "13102026-0939",
+  "summary": {
+    "total": 15,
+    "pass": 11,
+    "fail": 3,
+    "skip": 0,
+    "partial": 0,
+    "blocked": 1,
+    "failKnownBug": 3,
+    "passAligned": 5,
+    "failNew": 0,
+    "successRate": 78.6,
+    "verdict": "CONDITIONAL"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1116-004",
+      "title": "Owned brand and competitor domains are never listed as target sources",
+      "story_id": "GEO-1116",
+      "status": "PASS",
+      "category": "PASS",
+      "previousStatus": "FAIL",
+      "previousGroup": "A",
+      "previousError": "Competitor domains listed as target sources. Expected: none of the recorded competitor domains is listed. Observed (prod Toyota bfbb34ce, Last 7 days, All Countries, ALL tab, 97 sources): hyundai.com listed #13 (Corporate, IMPROVE VISIBILITY, Not visible in 14 articles) and kia.com listed #27 (Corporate, IMPROVE VISIBILITY, Not visible in 10 articles). Both are cited by AI engines (All domains modal) and Hyundai / Kia are the #1 / #2 brands of the Overview Brand Rankings. Framed in red in step3_then.",
+      "linkedBugs": [
+        {
+          "key": "GEO-1223",
+          "status": "Done"
+        },
+        {
+          "key": "GEO-1190",
+          "status": "Done"
+        }
+      ],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1116-004_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1116-004_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1116-004_step3_then.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1116-004_step3_competitors.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1116-004_step4_expanded.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of the Toyota analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "expected": "The Overview is displayed with the section \"AI Engines Citation Sources\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"All domains\" and searches \"toyota\"",
+          "data": "Search field: toyota",
+          "expected": "The modal lists the Toyota-owned domains cited by AI engines, e.g. toyota.fr, toyota.es, toyota.com (record them)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user searches the domains of the competitors of the analysis",
+          "data": "Competitor domains of the analysis, e.g. hyundai.com, honda.com, peugeot.fr",
+          "expected": "The competitor domains cited by AI engines are listed (record them)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Action Center and clicks \"Show N more sources\" until all sources are listed",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "All target sources are listed and the \"Show N more sources\" button is no longer displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user searches the Toyota-owned domains in the list",
+          "data": "Ctrl+F \"toyota.\" and each recorded domain",
+          "expected": "No target source has a domain whose registrable name is \"toyota\" (toyota.fr, toyota.es, toyota.com, toyota.co.uk...)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user searches each recorded competitor domain in the list",
+          "data": "Each competitor domain recorded in step 3",
+          "expected": "None of the recorded competitor domains is listed as a target source",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks media domains carrying the brand name as a subdomain",
+          "data": "e.g. toyota.caranddriver.com (only if cited in the window)",
+          "expected": "A media domain whose registrable name is not \"toyota\" is not excluded because of the brand subdomain (record \"not cited\" if absent)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Prod Toyota bfbb34ce, Last 7 days (window 05/10 09:19 - 12/10 09:19, 7 snapshots), AI Engines 3 (Grok now disabled in the scope; 4 engines on 07/10), All Countries, ALL tab. Overview > All domains (\"Showing 55 of 864 domains\"): owned domains cited = toyota.fr (60), toyota.es (51), toyota.com (34); competitors from Brand Rankings = Hyundai, Kia, Tesla, Volkswagen, Renault, Peugeot, Ford, BMW, Dacia; competitor domains cited = hyundai.com (21), kia.com (22), peugeot.fr (15). Target Sources fully expanded: 108 sources, no \"Show N more sources\" button left; none is toyota.*, hyundai.com, kia.com or peugeot.fr (GEO-1223 fix holds). Brand-subdomain media (e.g. toyota.caranddriver.com): not cited in the window. Recorded (open PO question, not asserted): stellantis.com and chrysler.fr (Peugeot parent group) are still listed as Corporate targets."
+    },
+    {
+      "tc_id": "TC-GEO-1117-010",
+      "title": "Only a criticism, failure, risk or harm attributable to the brand is a negative verdict",
+      "story_id": "GEO-1117",
+      "status": "PASS",
+      "category": "PASS (QA decision, snapshot-related)",
+      "previousStatus": "FAIL",
+      "previousGroup": "A",
+      "previousError": "Not every negative passage carries a criticism / failure / risk / harm of Toyota. First 5 sources of IMPROVE PERCEPTION (edmunds.com, alvolante.it, frandroid.com, caradisiac.com, electrek.co), 40 passages read. Passages without any criticism: edmunds.com https://www.edmunds.com/toyota/rav4/2023/ '2023 Toyota RAV4 Prices, Reviews, and Pictures | Edmunds Your Privacy By accessing this website...' (page boilerplate, framed red in step3_then); caradisiac.com 'La Toyota Yaris Cross se défend toujours face à la concurrence ? - Page 4 J'ai compris - Actu - Essais...' (navigation boilerplate); frandroid.com 'Essai Toyota bZ4X : notre avis complet ... la moins chère à dépasser les 500' and 'Essai Toyota C-HR Plus : notre avis complet ... pourquoi cette voiture électrique n'a' (titles, no criticism, framed red in step2_when); alvolante.it 'Tutto nuovo dentro e fuori e irrobustito nella meccanica, il nuovo Toyota Hilux conferma le ottime doti in fuori strada...' (favourable). Expected: every listed passage is a clear criticism; observed: 5 passages are boilerplate, titles or favourable statements.",
+      "linkedBugs": [
+        {
+          "key": "GEO-1224",
+          "status": "Done"
+        },
+        {
+          "key": "GEO-1204",
+          "status": "Backlog"
+        }
+      ],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1117-010_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1117-010_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1117-010_step3_then.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1117-010_step4_trustpilot.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the \"Negative perception (N)\" tab of the first 5 sources with the \"Improve perception\" badge",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "Each tab lists articles with a quoted passage under \"Each of these articles mentions Toyota negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads each passage",
+          "data": "",
+          "expected": "The passages are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each passage states or implies a criticism, a failure, a risk or a harm attributable to Toyota or to one of its products",
+          "data": "e.g. a recall, a lawsuit, a poor test result, a reliability complaint",
+          "expected": "Every passage carries a criticism, failure, risk or harm of Toyota or a Toyota product (record any passage that does not)",
+          "status": "PASS"
+        },
+        {
+          "title": "And no passage is only a favourable statement about a competitor",
+          "data": "e.g. \"Tesla leads the EV market\"",
+          "expected": "No article is listed as negative only because a competitor is praised",
+          "status": "PASS"
+        },
+        {
+          "title": "And no passage is only a weak or incidental remark inside an otherwise neutral article",
+          "data": "",
+          "expected": "Every listed passage is a clear criticism, not an incidental remark or an ambiguous sentence (ambiguous pages are neutral, not negative)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "QA decision 2026-10-13 (user): the residual non-critical passages are tied to old snapshots (judged before the 08/10 GEO-1224 fix); they are fixed on new snapshots. TC unchanged. Former observation: Known bug GEO-1204 (Backlog) + residual of GEO-1224 (Done). First 5 IMPROVE PERCEPTION sources (edmunds.com, trustpilot.com, motortrend.com, electrek.co, frandroid.com), 76 passages read. The passage reported in GEO-1224 is fixed (edmunds.com/toyota/rav4/2023 now \"Toyota RAV4… The merely satisfactory engine and indifferent steering, however, prevent it from being a top choice for a small SUV.\"), but passages without any criticism remain: trustpilot.com x2 \"Opiniones sobre Toyota España | Lee las opiniones sobre el servicio de toyota.es…\" (review-page header = GEO-1204 pattern, framed red in step4_trustpilot); edmunds.com 4Runner 2026 consumer reviews \"2026 Toyota 4Runner SUV Consumer Reviews - 5 Car Reviews | Edmunds Your Privacy By accessing this website…\" (title + privacy banner = pre-fix GEO-1224 passage, framed red in step3_then); frandroid.com \"Toyota améliore de fond en comble son rival électrique du Tesla Model Y : voici toutes les améliorations — Frandroid Toyota vient de\" (title, favourable); motortrend.com \"Subaru Solterra and Toyota bZ4X electric twins.\" (no criticism). Expected: every passage carries a criticism, failure, risk or harm of Toyota; observed: at least 5 do not. GEO-1224 changelog (08/10): reported URLs keep their old passage until judged again within 7 days of their last check; 4 days later these pre-fix passages are still displayed. Step 4: no passage is only a favourable statement about a competitor; borderline comparative-loss passages recorded (motortrend \"...edged out the Toyota RAV4 to take the top\", \"...Ioniq 6 ... outclassing… EVs from the likes of Volkswagen and Toyota\"). 3 edmunds rows have no quote at all (see TC-GEO-1123-008)."
+    },
+    {
+      "tc_id": "TC-GEO-1118-004",
+      "title": "A card shows rank, logo, domain, type, reason badges and reason lines",
+      "story_id": "GEO-1118",
+      "status": "FAIL",
+      "category": "FAIL (known bug)",
+      "previousStatus": "FAIL",
+      "previousGroup": "A",
+      "previousError": "Domain name clipped on the cards. Expected: each card shows the domain in bold next to its logo. Observed: the domain line (<p>, font-weight 600, line-height 20px, overflow hidden) is rendered 14px high on cards with two stacked badges (scrollHeight 20 > clientHeight 14) and 18px on card #1, so the bottom of the domain text is cut on 10 of the first 12 cards (e.g. caranddriver.com, edmunds.com, elpais.com, autobild.es). Fixed card height 154px. Framed in red in step3_then, zoom in step4_domain_clip.",
+      "linkedBugs": [
+        {
+          "key": "GEO-1257",
+          "status": "Backlog"
+        }
+      ],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": "Known bug GEO-1257 (Backlog, created 2026-10-13). Domain name still clipped on the cards. Expected: each card shows the domain in bold next to its logo. Observed: the domain <p> (font-weight 600, line-height 20px, overflow hidden, truncate) is 14px high on cards #2-#12 (scrollHeight 20 > clientHeight 14) and 18px on card #1; the bottom of the glyphs (descenders, e.g. \"p\" of headtopics.com) is cut on 12/12 cards. Card height fixed at 154px. Framed red in step3_then; zoom in step4_domain_clip / step5_zoom.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1118-004_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1118-004_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1118-004_step3_then.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1118-004_step4_domain_clip.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1118-004_step5_zoom.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis in card view",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The first 12 source cards are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the first 12 cards",
+          "data": "",
+          "expected": "Each card shows its rank, a logo (or a neutral placeholder) next to the domain in bold, a source type chip (e.g. \"Journalism\") and its reason badge(s)",
+          "status": "FAIL"
+        },
+        {
+          "title": "Then the user compares the badges and the lines of each card",
+          "data": "",
+          "expected": "A card with \"IMPROVE VISIBILITY\" shows \"Not visible in N article(s)\", a card with \"IMPROVE PERCEPTION\" shows \"Negative perception in N article(s)\", a card with both badges shows both lines",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user looks for a citation count on the cards",
+          "data": "",
+          "expected": "No card shows \"Cited\", \"gap answers\" or \"failing articles\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same defect as 07/10; bug GEO-1257 created 2026-10-13. Otherwise the 12 cards show rank, favicon (loaded), domain, type chip and badges; IMPROVE VISIBILITY <-> \"Not visible in N articles\", IMPROVE PERCEPTION <-> \"Negative perception in N articles\"; no \"Cited\", \"gap answers\" or \"failing articles\" text on any card. On 12/10 all 12 first cards carry both badges."
+    },
+    {
+      "tc_id": "TC-GEO-1118-014",
+      "title": "[Figma] Two badges are stacked on the card and inline in the panel header",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "category": "PASS (QA decision, snapshot-related)",
+      "previousStatus": "FAIL",
+      "previousGroup": "A",
+      "previousError": "Badges not stacked on card #1. Expected: on a card with both badges, one badge is displayed above the other at the top right of the card. Observed (1600px viewport): on frandroid.com (#1, the example of the TC) IMPROVE VISIBILITY and IMPROVE PERCEPTION sit side by side on one line (same y=357, x=416 and x=567) right after the logo, not stacked at the top right; on cards #2+ they are stacked (y=349 / 369) because the badge container wraps only when space runs out (flex-wrap). Framed in red in step3_then.",
+      "linkedBugs": [],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1118-014_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1118-014_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1118-014_step3_then.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1118-014_step4_panel.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis in card view",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The cards are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user locates a card with both badges",
+          "data": "e.g. frandroid.com",
+          "expected": "The card shows \"IMPROVE VISIBILITY\" and \"IMPROVE PERCEPTION\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the two badges are stacked on the card",
+          "data": "",
+          "expected": "One badge is displayed above the other at the top right of the card",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of that source",
+          "data": "",
+          "expected": "The panel header shows both badges",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the two badges are displayed inline in the panel header",
+          "data": "",
+          "expected": "The badges sit side by side on one line next to the type chip",
+          "status": "PASS"
+        }
+      ],
+      "notes": "QA decision 2026-10-13 (user): the badges are stacked on new snapshots (fixed); the side-by-side layout of card #1 was seen only on the old snapshot data. TC unchanged. Former observation: Badges not stacked on card #1. Expected: on a card with both badges, one badge is displayed above the other at the top right of the card. Observed (1600px viewport): card #1 edmunds.com shows IMPROVE VISIBILITY and IMPROVE PERCEPTION side by side on one line (same y=357, x=416 / x=567) right after the logo; cards #2-#12 (e.g. frandroid.com, now #3) stack them at the top right (y=349 / 369) because the badge container only wraps when space runs out. Framed red in step3_then. Panel header of edmunds.com: \"Improve visibility\" / \"Improve perception\" inline on one line (same y=42) next to the \"Review Sites\" chip - PASS (step4_panel). The TC example frandroid.com is now #3 and stacked; the first card is the failing one, as on 07/10."
+    },
+    {
+      "tc_id": "TC-GEO-1123-008",
+      "title": "Negative passages are verbatim, highlight the brand and stay within 140 characters",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "category": "PASS (QA decision, snapshot-related)",
+      "previousStatus": "FAIL",
+      "previousGroup": "B",
+      "previousError": "Step 5 (verbatim): first passage of frandroid.com \"Negative perception (9)\" = \"Essai Toyota bZ4X : notre avis complet - Voitures - Frandroid Essai Toyota bZ4X : la voiture électrique la moins chère à dépasser les 500\". Its first 5 words \"Essai Toyota bZ4X : notre\" are NOT found in the visible text of the article page (https://www.frandroid.com/marques/toyota/1390173_essai-toyota-bz4x-...; Ctrl+F finds nothing): they only exist in the HTML <title> tag. The passage is the page <title> glued to the H1, not a sentence of the page. Expected: words found on the page as shown in the passage. New (not in the known-bug list; close to GEO-1204 family: passage not supporting a negative verdict). Also cut mid-word \"500\" without \"…\" (GEO-1201, known).",
+      "linkedBugs": [
+        {
+          "key": "GEO-1224",
+          "status": "Done"
+        },
+        {
+          "key": "GEO-1201",
+          "status": "Done"
+        },
+        {
+          "key": "GEO-1204",
+          "status": "Backlog"
+        }
+      ],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1123-008_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1123-008_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1123-008_step3_then.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1123-008_article.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of the first source with the \"IMPROVE PERCEPTION\" badge",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The details panel opens",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Negative perception (N)\"",
+          "data": "",
+          "expected": "\"Each of these articles mentions Toyota negatively.\" is shown and every row shows a quoted passage in italics with a vertical bar on its left",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every passage shows a highlighted brand or product name",
+          "data": "",
+          "expected": "Each passage contains Toyota or a Toyota product name shown in bold on a highlight chip",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user counts the characters of each passage",
+          "data": "Text inside the curly quotes, spaces included",
+          "expected": "No passage is longer than 140 characters",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the article of the first passage and searches its words",
+          "data": "Ctrl+F on the first 5 words of the passage",
+          "expected": "The words are found on the page as shown in the passage (verbatim)",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": "QA decision 2026-10-13 (user): the rows without a quote and the old passages are tied to specific snapshots. TC unchanged. Step 5 (verbatim) stays BLOCKED (edmunds.com 403 to automated access). Former observation: Step 2: not every row shows a quoted passage. First IMPROVE PERCEPTION source = #1 edmunds.com, \"Negative perception (22)\": 3 of 22 rows have no passage at all (\"2026 Kia Sorento vs 2027 Toyota Land Cruiser - Car Comparison\", \"Hyundai Elantra Hybrid vs Toyota Corolla Hybrid - Edmunds\", \"Toyota Highlander vs Hyundai Palisade\"), framed red in step3_then. This matches the GEO-1224 changelog (\"When no name is close to the criticism, the article stays in the list without a quote\") but contradicts the TC expectation. Step 5 (verbatim) BLOCKED: the article of the first passage (edmunds.com/toyota/rav4/2023) answers 403 Access Denied to the automated browser and to curl (screenshot TC-GEO-1123-008_article.png). Line \"Each of these articles mentions Toyota negatively.\" shown. The 19 rows with a passage: italic quote with a left bar, every one has a <mark> highlight (font-weight 600, background #E0F2FE) on Toyota or a Toyota product; max 140 characters (0 over 140 across the 318 negative passages of the analysis). The 07/10 failure (frandroid passage = HTML <title> + H1) cannot be replayed as such: frandroid is no longer the first IMPROVE PERCEPTION source. Residual old-format passages in this panel: \"...But its subpar on-r\" (GEO-1201) and \"2026 Toyota 4Runner SUV Consumer Reviews ... Your Privacy...\" (GEO-1224 / GEO-1204). Proposal (not applied): align step 2 to the GEO-1224 behaviour (a row may have no quote) after PO confirmation."
+    },
+    {
+      "tc_id": "TC-GEO-1123-009",
+      "title": "Each failing article shows the AI engines that cited it",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "category": "PASS (aligned, user evidence)",
+      "previousStatus": "FAIL",
+      "previousGroup": "B",
+      "previousError": "Step 3: hovering the engine icon of an article row (frandroid.com, span aria-label=\"Cited by perplexity\" wrapping the Perplexity img) shows no tooltip: no [role=tooltip] element appears and neither the span nor the img has a title attribute (engine name only in aria-label, lowercase \"perplexity\"). Expected: a tooltip shows the engine name. New (not in the known-bug list).",
+      "linkedBugs": [],
+      "aligned": true,
+      "alignedBy": "QA decision 2026-10-13, user evidence",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1123-009_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1123-009_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1123-009_step3_then.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1123-009_step4_negative_tab.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1123-009_step3_article_icons_no_tooltip.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of the source ranked #1",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The details panel opens with its articles listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each article row shows the icon(s) of the AI engine(s) that cited it",
+          "data": "",
+          "expected": "At least one engine icon (ChatGPT, Gemini and/or Perplexity) is right-aligned on each row",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user hovers an engine tab of the \"Prompts associated with this source\" filter",
+          "data": "",
+          "expected": "A tooltip shows the engine name and its prompt count (e.g. \"ChatGPT (17)\")",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the \"Negative perception (N)\" tab",
+          "data": "",
+          "expected": "Each negative article row also shows its engine icons",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Tooltip verified on the prompts-section engine tabs from user evidence (2026-10-13 08:54); article-row icons carry no tooltip by design. User capture (prod, panel \"Prompts associated with this source\"): hovering the ChatGPT tab (icon + 17) shows the tooltip \"ChatGPT (17)\" (step3_then). TC aligned in the CSV on 2026-10-13 (QA decision, user-authorised). Panel #1 edmunds.com: 10/10 \"Lack of visibility\" rows and 10/10 visible \"Negative perception\" rows carry right-aligned engine icons. Local trace kept: step3_article_icons_no_tooltip (hover on an article-row icon, no tooltip)."
+    },
+    {
+      "tc_id": "TC-GEO-1126-003",
+      "title": "Sources preview shows the count heading, URL rows and the \"All sources\" control",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "category": "PASS (aligned, QA decision)",
+      "previousStatus": "FAIL",
+      "previousGroup": "B",
+      "previousError": "Step 2: the cited-URLs section heading reads \"Sources\" with no count (expected e.g. \"Sources (n)\"); step 4 cannot compare the heading total with \"All sources (98)\". Observed on prod en-GB, panel of caranddriver.com (Overview > AI Engines Citation Sources > first domain). Staging FR run (2026-10-05) showed \"URL citées (27)\" with the count. New (not in the known-bug list).",
+      "linkedBugs": [
+        {
+          "key": "GEO-625",
+          "status": "Passed QA"
+        }
+      ],
+      "aligned": true,
+      "alignedBy": "QA decision 2026-10-13",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1126-003_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1126-003_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1126-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of the first domain of \"AI Engines Citation Sources\" is open",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "expected": "The panel is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user scrolls to the \"Sources\" section",
+          "data": "",
+          "expected": "The section heading reads \"Sources\" with no count; the total is shown on the \"All sources (N)\" control",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the first URLs are listed with their title, address and citing engine icons",
+          "data": "",
+          "expected": "Each row shows a favicon, the page title, the address and the engine icons",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"All sources\" control carries the total",
+          "data": "",
+          "expected": "\"All sources (N)\" is displayed with the total number of cited URLs N (the heading carries no count)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "QA decision 2026-10-13 (user), TC aligned in the CSV: the \"Sources\" heading carries no total by design; the total is on the \"All sources (N)\" control. Observed: heading \"Sources\", control \"All sources 77\" -> matches the aligned expectation. Former observation: Step 2: the section heading of the details panel reads \"Sources\" with no count (expected e.g. \"Sources (n)\"); step 4: the control reads \"All sources 77\" but there is no heading total to compare it with. Observed on prod en-GB, panel of caranddriver.com (Overview > AI Engines Citation Sources > first domain). Both framed red in step3_then. Not aligned: GEO-625 (Passed QA) unified the Sources surfaces (\"Sources - {context}\" modal titles, counter labels) but never explicitly settled a count-less \"Sources\" panel heading, so the TC runs unchanged. Rows: favicon, title, address and engine icons present. Side observation: one row title reads \"www.caranddriver.com · 2026-toyota-bz-driveTested: 2026 Toyota bZ Is Quicker, Nicer Inside, and Better ...\" (breadcrumb glued to the title)."
+    },
+    {
+      "tc_id": "TC-GEO-1183-006",
+      "title": "A sentence longer than 140 characters is shortened with \"…\" joins and not cut mid-word",
+      "story_id": "GEO-1183",
+      "status": "FAIL",
+      "category": "FAIL (known bug)",
+      "previousStatus": "FAIL",
+      "previousGroup": "B",
+      "previousError": "Equivalent long sentence on prod: carbuyer.co.uk (Toyota) \"Toyota RAV4 review\" passage \"For its latest outing, the Toyota RAV4 transformed from a rather dull wallflower into a striking mid-size SUV… its interior and infotainment\". Page sentence continues \"...its interior and infotainment system both feel somewhat dated and it lacks refinement\": the passage ends on a cut without \"…\" and drops the criticism (\"feel somewhat dated\"). Across the panels: Toyota 125/165, LEGO 9/10, Toyota UK 15/22 passages end without punctuation or \"…\", many mid-word (edmunds.com \"...Unfortunatel\", \"...on-r\"; alvolante.it \"...la C-\"; brickfanatics.com \"...on last ye\"). Matches known bug GEO-1201 (passage cut mid-word, no \"…\").",
+      "linkedBugs": [
+        {
+          "key": "GEO-1201",
+          "status": "Done"
+        }
+      ],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": "Residual of GEO-1201 (Done): passages still cut without \"…\", many mid-word. Toyota analysis (318 negative passages, 68 sources): 131 end without punctuation or \"…\", of which at least 38 end on a partial word, e.g. edmunds.com \"...But its subpar on-r\", frandroid.com \"...un prix d'appel agr\" (the exact example of the GEO-1201 changelog, still unchanged on prod), \"...ou de planificate\", kbb.com \"...needing to be replaced. Toy\", electrek.co \"...C-HR vehicles becau\", largus.fr \"...propre à la marque. Hab\", trustpilot.com \"...à chaque utilisation, to\". caranddriver.com (Toyota equivalent of the TC panel): \"Toyota RAV4 HIGHS: ... LOWS: Buzzy engine, less-than-comfy rear seat, dour\" ends on a cut without \"…\" (framed red in step3_then); mid-word example framed in step4_midword.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1183-006_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1183-006_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1183-006_step3_then.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1183-006_step4_midword.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the details panel of caranddriver.com in the Tesla analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\"",
+          "expected": "The details panel opens on the right with the header \"#N · caranddriver.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the passage of the article \"Presenting Car and Driver's 2024 EV of the Year\"",
+          "data": "The page sentence is longer than 140 characters so it cannot be shown whole",
+          "expected": "The article row shows a quoted passage in italics",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the passage is shortened with \"…\" at each cut",
+          "data": "Expected shape (Jira example): \"…before any Tesla loyalists complain that we aren't giving the Cybertruck its due, know that the one we rented broke on the second day…\"",
+          "expected": "The passage starts and/or ends with \"…\" where the page sentence was cut and does not end on a partial word such as \"e\" or \"abus\"",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the passage keeps both the part with the name and the part with the criticism",
+          "data": "Name = \"Tesla\" or \"Cybertruck\", criticism = \"broke on the second day\"",
+          "expected": "The passage contains the name and \"broke on the second day\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And no passage of the Tesla, Nike and Lidl Nederland panels ends mid-word",
+          "data": "Capture examples: caranddriver.com \"…Maybe the car was abus\" (Tesla), insideevs.com \"…from both model\" (Tesla), birminghammail.co.uk \"…as soon as I o\" (Lidl)",
+          "expected": "Every passage ends on a complete word, on the page punctuation or on \"…\"",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Tesla caranddriver \"EV of the Year\" panel not available on prod; rule applied to the caranddriver.com panel of the Toyota analysis and to all Toyota panels (LEGO 578ad917 is no longer listed in org Onclusive). Post-fix format seen too: 139 passages contain an inner \"…\" join and caranddriver \"6th Place: Toyota Sequoia ... toward boxy,…\" (the 08/10 \"boxy, har\" example) is now fixed. The pre-fix passages are still displayed 4 days after the 08/10 fix (changelog: re-judged within 7 days of their last check)."
+    },
+    {
+      "tc_id": "TC-GEO-1183-008",
+      "title": "Passages show the page text without raw markdown syntax",
+      "story_id": "GEO-1183",
+      "status": "PASS",
+      "category": "PASS",
+      "previousStatus": "FAIL",
+      "previousGroup": "B",
+      "previousError": "Step 4 (no \"**\" or \"#\" markers), adapted to prod: automoto.it (Toyota, Improve perception, panel \"#69 · automoto.it\" on ALL) passage \"come BMW o dei modelli più adatti alle famiglie come Toyota e Volkswagen. Ci concentriamo proprio su queste, le **\"top five\"\" shows a raw bold marker \"**\" before the quoted words. Expected: page text without markdown markers. Same defect family as the staging FAIL of this TC (Nike \"**shoes**\"); no bug ID in the known list -> new on prod.",
+      "linkedBugs": [
+        {
+          "key": "GEO-1202",
+          "status": "Done"
+        }
+      ],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1183-008_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1183-008_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1183-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the details panel of insideevs.com in the Tesla analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\"",
+          "expected": "The details panel opens on the right with the header \"#N · insideevs.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the passage of the article \"The Best EVs To Buy In March 2026: Our Favorites In Every Category\"",
+          "data": "Capture: \"Unfortunately, [Tesla did remove standard Autosteer](https://insideevs.com/news/785225/tesla-removes-autopilot-base-models/) from both model\"",
+          "expected": "The article row shows a quoted passage in italics",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the passage shows the link text only",
+          "data": "",
+          "expected": "The passage reads \"Unfortunately, Tesla did remove standard Autosteer from both model…\" with no \"[\", \"](\" or URL",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Nike passages show no \"**\" or \"#\" markers",
+          "data": "dickssportinggoods.com: \"…replace Nike track **shoes** that did n't last…\" and thestreet.com: \"…TheStreet # Nike making its most famous sneakers harder to buy\"",
+          "expected": "The passages show \"shoes\" and \"Nike making its most famous sneakers harder to buy\" without \"**\" or \"#\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And no passage of the Tesla, Nike and Lidl Nederland panels contains a raw markdown link",
+          "data": "Search the panels for \"](http\"",
+          "expected": "No passage contains a markdown link or a URL that is not visible as text on the article page",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Adapted to prod as on 07/10 (Tesla / Nike articles not available on prod): all 318 negative passages of the Toyota analysis read through the panel API used by the UI: 0 contain \"**\", \"#\", \"[\", \"](\", \"![\", a URL or a backslash; titles 0 backslash. The pipes found in 6 passages are page-title separators (e.g. \"Opiniones sobre Toyota España | Lee las opiniones...\"), not markdown tables. The 07/10 automoto.it \"**top five**\" passage left the window (automoto.it is no longer an IMPROVE PERCEPTION source), so that exact passage could not be re-read. Evidence: insideevs.com (9 clean passages; one quotes the page label \"page ad skin\", page text not markdown) and frandroid.com panels."
+    },
+    {
+      "tc_id": "TC-GEO-1178-008",
+      "title": "Negative articles also show the passage where the brand is mentioned negatively",
+      "story_id": "GEO-1178",
+      "status": "FAIL",
+      "category": "FAIL (known bug)",
+      "previousStatus": "FAIL",
+      "previousGroup": "D",
+      "previousError": "Expected: each negative row shows a passage mentioning Toyota negatively. Observed: row 3 passage is cut mid-word with no '…': '“Au terme de cet essai, le bilan est mitigé, pour ne pas dire décevant. Certes, le Toyota BZ5 avance quelques arguments : un prix d’appel agr”' (also rows 1-2 cut mid-sentence: '...dépasser les 500”', '...n’a”'). Known bug GEO-1201.",
+      "linkedBugs": [
+        {
+          "key": "GEO-1201",
+          "status": "Done"
+        }
+      ],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": "Residual of GEO-1201 (Done). Source B = frandroid.com (both badges, #3), \"Negative perception (12)\": row passages still cut with no \"…\": \"…Certes, le Toyota BZ5 avance quelques arguments : un prix d'appel agr\" (same text as on 07/10 and as the GEO-1201 changelog example), \"…tels l'absence de boîte à gants ou de planificate\", \"…Il estime que cette motorisation\", and one passage is the page title \"Toyota améliore de fond en comble son rival électrique du Tesla Model Y : voici toutes les améliorations — Frandroid Toyota vient de\" (not negative). Framed red in step3_then.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1178-008_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1178-008_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1178-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "data": "Source B",
+          "expected": "The \"Lack of visibility (a)\" tab is selected",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Negative perception (b)\" tab",
+          "data": "",
+          "expected": "The negative articles are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each negative article row shows its title, URL and citing engine icons",
+          "data": "",
+          "expected": "Each row shows the bold title, the grey URL starting with the domain of B and the right-aligned engine icons",
+          "status": "PASS"
+        },
+        {
+          "title": "And each negative article row shows the passage where Toyota is mentioned negatively",
+          "data": "Brand: Toyota",
+          "expected": "Under the URL, each row shows a passage of the article mentioning Toyota negatively, in italics, inside curly quotes, with a vertical bar on its left",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Given: the panel opens on \"Lack of visibility (36)\" (selected). Each negative row shows the bold title, the grey URL starting with frandroid.com/ and a right-aligned engine icon (12/12); each row has an italic quoted passage with the left bar."
+    },
+    {
+      "tc_id": "TC-GEO-1124-005",
+      "title": "PowerPoint shows the top 3 sources as cards and the next ones in the table",
+      "story_id": "GEO-1124",
+      "status": "PASS",
+      "category": "PASS",
+      "previousStatus": "FAIL",
+      "previousGroup": "C",
+      "previousError": "Step \"And the table lists ranks 4 to 10 with their counts\": expected exactly 4 columns \"#\", \"Source\", \"Type\", \"Failing articles\"; observed the 4th header reads \"Articles\" (ppt/slides/slide32.xml, default export; same on PDF page 32). Known bug GEO-1222.",
+      "linkedBugs": [
+        {
+          "key": "GEO-1222",
+          "status": "Abandoned"
+        }
+      ],
+      "aligned": true,
+      "alignedBy": "GEO-1222",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-005_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-005_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the reason lines of the cards ranked 1 to 3 and the total M",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The reason lines and M are noted",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Presentation .pptx\"",
+          "data": "",
+          "expected": "A .pptx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last slide shows three top cards for ranks 1, 2 and 3",
+          "data": "",
+          "expected": "Each card shows its rank, favicon, domain, badges and the same reason lines as the app joined with \" · \" (e.g. \"Not visible in N articles · Negative perception in N articles\"), singular \"1 article\" when a count is 1 (record whether a brief sentence is shown)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the table lists ranks 4 to 10 with their counts",
+          "data": "",
+          "expected": "The table has exactly 4 columns \"#\", \"Source\", \"Type\", \"Articles\"; each row shows its missing and negative counts as in the app; no \"Cited\" column",
+          "status": "PASS"
+        },
+        {
+          "title": "And the subtitle states the full total",
+          "data": "",
+          "expected": "\"Top 10 of M verified target sources · every claim checked against the page itself\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Aligned per GEO-1222 (last header \"Articles\"). App: M = 108, top 3 edmunds.com / headtopics.com / frandroid.com. PPTX (32 slides, Last 7 days, en-GB) slide 32 read from XML and PDF page 32 rendered: cards #1-#3 with rank, favicon, domain, badges \"Improve visibility\" / \"Improve perception\" and the app reason lines joined with \" · \" (e.g. \"Not visible in 47 articles · Negative perception in 22 articles\"); no count of 1 among the top 3 (singular form not observable on the cards); brief sentence on cards: NOT shown (recorded). Table headers \"# | Source | Type | Articles\", ranks 4-10 with the same missing / negative counts as the app (caranddriver 34/8 ... kbb 17/8), no Cited column. Subtitle \"Top 10 of 108 verified target sources · every claim checked against the page itself\"."
+    },
+    {
+      "tc_id": "TC-GEO-1124-008",
+      "title": "Export Target Sources section uses the 7-day source window",
+      "story_id": "GEO-1124",
+      "status": "PASS",
+      "category": "PASS (QA decision)",
+      "previousStatus": "FAIL",
+      "previousGroup": "C",
+      "previousError": "Step \"And the AI Citation Sources slide follows the selected period only\": expected the domain total for \"Latest report\" to be lower than the \"Last 7 days\" count; observed identical values: PPTX \"Top 10 of 55 source domains · 5,515 citations analysed\" for both periods, app \"All domains 55\" / \"Showing 55 of 1293 domains\" for both, and GET /overview/citation-sources returns totalDomainCount 1293 / totalUrls 5515 for 1 day, 7 days, 30 days and no range, although one snapshot exists per day (2026-09-26 .. 10-07). The citation sources data ignores the selected period. No known bug matches (new).",
+      "linkedBugs": [],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-008_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-008_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the Target Sources total T7 with \"Last 7 days\"",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "T7 and the #1 source are noted",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the period \"Last analysis\", clicks \"Apply\" and exports the analysis as \"Presentation .pptx\"",
+          "data": "Date preset: Last analysis",
+          "expected": "A .pptx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Target Sources slide is built on at least 7 days",
+          "data": "",
+          "expected": "The subtitle states M = T7 and the #1 card is the #1 source noted in step 1 (any difference is recorded with the snapshot dates)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the AI Citation Sources slide follows the selected period only",
+          "data": "Slide \"Which sources shape your AI presence\"",
+          "expected": "Its domain total equals the \"All domains\" count of the Overview for \"Last analysis\", lower than the \"Last 7 days\" count",
+          "status": "PASS"
+        }
+      ],
+      "notes": "QA decision 2026-10-13: not a bug (AI Citation Sources slide identical for Latest report and Last 7 days is accepted). CSV wording unchanged, pending user confirmation. Former observation: Step \"And the AI Citation Sources slide follows the selected period only\": expected the domain total for \"Latest report\" to be lower than the \"Last 7 days\" count; observed identical values: PPTX \"Latest report\" slide 8 \"Top 10 of 55 source domains · 3,141 citations analysed\" = PPTX \"Last 7 days\" slide 13 (same text), app Overview \"All domains 55\" for both periods, and GET /overview/citation-sources returns totalDomainCount 864 / totalUrls 3141 for 1 day, 7 days, 30 days and no range. The citation sources data still ignores the selected period. Red frames on the period button and \"All domains 55\" in step3_then. Prod label \"Latest report\" (CSV: \"Last analysis\"). T7 = 108, #1 edmunds.com. After \"Latest report\" + Apply: Target Sources request from=to=2026-10-12 but window 05/10-12/10 with 7 snapshots, total 108, #1 edmunds.com; PPTX \"Latest report\" = 17 slides, last slide \"Top 10 of 108\", #1 edmunds.com -> M = T7 (step 3 PASS). Period restored to \"Last 7 days\" afterwards."
+    },
+    {
+      "tc_id": "TC-GEO-1124-010",
+      "title": "PDF Target Sources table has 4 separate columns ending with the failing articles header",
+      "story_id": "GEO-1124",
+      "status": "PASS",
+      "category": "PASS",
+      "previousStatus": "FAIL",
+      "previousGroup": "E",
+      "previousError": "Known bug GEO-1222. Last column header of the PDF Target Sources table (page 32/32): en-GB \"Articles\" (expected \"Failing articles\"), fr-FR \"Articles\" (expected \"Articles problématiques\"), es-ES \"Artículos\" (expected \"Artículos problemáticos\").",
+      "linkedBugs": [
+        {
+          "key": "GEO-1222",
+          "status": "Abandoned"
+        }
+      ],
+      "aligned": true,
+      "alignedBy": "GEO-1222",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-010_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-010_step2_when_fr_settings.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-010_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-010_step3_then.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-010_step4_es_app_list_view.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1124-010_step5_restored_en-GB.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user exports the Toyota analysis as \"PDF\" in British English",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "expected": "A PDF file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last page shows the ranked sources table with 4 columns",
+          "data": "Last page (41 of 41 on 2026-10-06)",
+          "expected": "The headers are \"#\", \"Source\", \"Type\", \"Articles\"; no \"Cited\" header",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the interface language to French, saves and exports the analysis as \"PDF\"",
+          "data": "Interface Language = French",
+          "expected": "A French PDF file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last page table headers are separate and in French",
+          "data": "Title \"Où l'effort RP paie d'abord\"",
+          "expected": "The last header reads \"Articles\", separate from \"Type\", with no \"Citée\" column and no concatenation",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the interface language to Spanish, saves and exports the analysis as \"PDF\"",
+          "data": "Interface Language = Spanish",
+          "expected": "A Spanish PDF file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last page table headers are separate and in Spanish",
+          "data": "Title \"Dónde rinde primero el esfuerzo de RR. PP.\"",
+          "expected": "The last header reads \"Artículos\", with no \"Citada\" column and no concatenation",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user switches the interface language back to British English and clicks \"Save changes\"",
+          "data": "Interface Language = British English",
+          "expected": "The interface is displayed in British English",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Aligned per GEO-1222. PDF exports (32 pages, last page = Action Center · Target Sources, rendered with pdf.js, no text layer): en-GB headers \"# | Source | Type | Articles\"; fr-FR title \"Où l'effort RP paie d'abord\", headers \"# | Source | Type | Articles\", no \"Citée\" column, no concatenation; es-ES title \"Dónde rinde primero el esfuerzo de RR. PP.\", headers \"# | Fuente | Tipo | Artículos\", no \"Citada\" column. The app List view uses the same headers (en-GB \"Articles\", es-ES \"Artículos\", step4 capture). Account language: switched fr-FR then es-ES via Settings > Preferences, restored to British English (GET /auth/me = en-GB, Settings shows \"British English\"). Side note: the FR/ES footer prints \"1,172\" with an English thousands separator."
+    },
+    {
+      "tc_id": "TC-GEO-1168-022",
+      "title": "PPT and PDF export use the split copy and chips with no Cited column",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "category": "PASS (aligned, QA decision)",
+      "previousStatus": "FAIL",
+      "previousGroup": "D",
+      "previousError": "Expected: table last column header 'Failing articles' with per-row missing (eye-off) / negative (thumb-down) counts as the app chips. Observed (PPTX slide 32 and PDF page 32): header reads 'Articles' (known bug GEO-1222); rows show the counts as coloured text lines ('Not visible in 22 articles' blue / 'Negative perception in 1 article' purple) without the eye-off / thumb-down chip icons (no picture in the PPTX table besides the 10 source logos).",
+      "linkedBugs": [
+        {
+          "key": "GEO-1222",
+          "status": "Abandoned"
+        }
+      ],
+      "aligned": true,
+      "alignedBy": "GEO-1222 + QA decision 2026-10-13",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1168-022_step0_app_list_view.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1168-022_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1168-022_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1168-022_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the reason lines of source B and of a source S with a count of 1",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The reason lines are noted",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Presentation .pptx\"",
+          "data": "",
+          "expected": "The .pptx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the top source card of source B uses the split copy",
+          "data": "Source B among the top 3 (e.g. #1)",
+          "expected": "\"Not visible in a articles · Negative perception in b articles\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And a count of 1 uses the singular form",
+          "data": "Source S among the exported sources",
+          "expected": "\"... in 1 article\" (never \"1 articles\")",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the Target Sources table shows the split counts in its last column",
+          "data": "",
+          "expected": "Each row shows its missing and negative counts as text lines (e.g. \"Not visible in N articles\" / \"Negative perception in N articles\") under the header \"Articles\"; no icon chips required",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Target Sources table has no Cited column",
+          "data": "",
+          "expected": "Exactly 4 columns \"#\", \"Source\", \"Type\", \"Articles\"; no \"Cited\" column",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"PDF\"",
+          "data": "",
+          "expected": "The PDF file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the PDF shows the same split copy and counts as the PPT with no Cited column",
+          "data": "Last page rendered and read visually",
+          "expected": "Same card lines and same table, 4 columns, no Cited column",
+          "status": "PASS"
+        }
+      ],
+      "notes": "QA decision 2026-10-13 (user), TC aligned in the CSV: the export \"Articles\" column shows the split counts as text lines (\"Not visible in N articles\" / \"Negative perception in N articles\"), not as the app chips - expected behaviour. Observed in PPTX slide 32 and PDF page 32 -> matches the aligned expectation. Step \"a count of 1 uses the singular form\" stays SKIP (no exported source with a count of 1 on 12/10). Former observation: Step \"And the Target Sources table shows the split counts in its last column\": the header is now accepted (\"Articles\", GEO-1222), but the rows still show the counts as coloured text lines (\"Not visible in 34 articles\" blue / \"Negative perception in 8 articles\" purple) without the eye-off / thumb-down chips used by the app (app List view: chips data-testid=\"actions-table-missing-chip\" with eye-off icon + \"47\", thumb-down + \"22\", step0 capture). Same in PPTX slide 32 and PDF page 32. Framed red in step3_then. Aligned per GEO-1222: header \"Articles\" expected and observed; exactly 4 columns \"# | Source | Type | Articles\", no Cited column (PPTX and PDF). B = edmunds.com: card \"Not visible in 47 articles · Negative perception in 22 articles\" (split copy OK). Singular step SKIP: on 12/10 no exported source (top 10) has a count of 1 (smallest = 2), so \"1 article\" cannot be observed in the export. PDF identical to PPTX. Already listed on 06/10 as TNR-stories ST-030 (export Articles column = text instead of chips), no bug created."
+    },
+    {
+      "tc_id": "TC-GEO-1125-011",
+      "title": "Lite PQL result table has no Favorability column and stays aligned with its ghost rows",
+      "story_id": "GEO-1125",
+      "status": "BLOCKED",
+      "category": "BLOCKED",
+      "previousStatus": "FAIL",
+      "previousGroup": "C",
+      "previousError": "Step \"And the columns of the ghost rows are aligned with the columns of the real table\": expected no column shifted or overflowing; observed the \"Frequency\" header content (label + sort icon) is 93 px wide in an 88 px column (scrollWidth 93 > clientWidth 88): the sort icon is clipped at the right edge of the card (red frame in step3). Column edges are aligned (0 px difference). The same 5 px overflow was recorded on staging 2026-10-05 as PARTIAL and not reported; no known bug in the list (new).",
+      "linkedBugs": [
+        {
+          "key": "GEO-1253",
+          "status": "Backlog"
+        }
+      ],
+      "aligned": false,
+      "alignedBy": null,
+      "duration": 0,
+      "error": "BLOCKED: the Lite result page of the 07/10 run is not reachable. Logged in with the PQL account in a separate browser context: /geo/upsell shows only the empty \"Analyze your brand\" form (\"No credit card. Results will be available here.\"), no result table and no ghost rows; quota 1/3 used (the 07/10 analysis); no Lite result endpoint answers without creating a new analysis. Creating a new Lite analysis on production is not allowed for this rerun, so the TC was not executed. Known bug GEO-1253 (Backlog) cannot be re-checked.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1125-011_step1_given.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1125-011_step2_when.png",
+        "screenshots-GEO-152-PROD-rerun/TC-GEO-1125-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in with the PQL account on staging and a Lite analysis result is displayed",
+          "data": "Account: assiya.benramdane+geo@onclusive.com",
+          "expected": "The Lite result page shows the result table and the gated ghost rows beneath it",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the result table renders",
+          "data": "",
+          "expected": "The table headers and the first real rows are displayed",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the result table has exactly the columns Domain, Type and Frequency",
+          "data": "",
+          "expected": "Exactly three headers \"Domain\", \"Type\" and \"Frequency\"; no chevron column; the section is named \"AI Engines Citation Sources\"",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And no Favorability column is displayed in the result table",
+          "data": "",
+          "expected": "No header reads \"Favorability\" and no cell shows the blurred grey favorability pill",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And no Favorability column is displayed in the gated ghost rows",
+          "data": "",
+          "expected": "No ghost row shows a blurred grey favorability pill in a dedicated column",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And the real table and the ghost rows table have the same column count",
+          "data": "",
+          "expected": "Both tables have the same number of col entries in their colgroup and the same number of cells per row",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And the columns of the ghost rows are aligned with the columns of the real table",
+          "data": "",
+          "expected": "For each column, the left and right edges of the ghost row cells match the header and real row cells (within 1 px); no column is shifted or overflowing",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": "PQL context closed afterwards. No form submitted."
+    }
+  ]
+}

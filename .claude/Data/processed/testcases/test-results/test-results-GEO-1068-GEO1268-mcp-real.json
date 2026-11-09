@@ -1,0 +1,412 @@
+{
+  "spec": "GEO-1068-GEO1268",
+  "runDate": "2026-10-21",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1068.csv",
+  "story": "GEO-1268",
+  "environment": "staging",
+  "notes": [
+    "Pre-run 2026-10-21 12:37: MCP context already authenticated (single tab, no other MCP client). GET /geo/api/v1/auth/me -> 200, language en-GB, org_name QA-GEO, features.unbranded_analysis=true. Write guard installed on the context before the first navigation (GET only on **/geo/api/**). Viewport 1280x720. No organisation switch performed.",
+    "End of run 2026-10-21 12:46: GET /auth/me -> org QA-GEO, en-GB (no organisation change). context.unrouteAll() done. No POST/PUT/DELETE sent, no export used, nothing saved. Read-only GETs used as cross-checks: overview/top-concepts (Toyota, default filters) for raw frequencies of the tie; overview/top-concepts Sep 28 - Oct 4 with and without grok (TC-006/008)."
+  ],
+  "summary": {
+    "total": 9,
+    "pass": 9,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "successRate": 100,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1268-001",
+      "title": "TC-GEO-1268-001 - Sort by Sentiment orders concepts Positive, then Mixed, then Negative with no score shown",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS",
+          "expected": "The Top Concepts list is displayed with its sort menu",
+          "observed": "B = Toyota (439acd96), Overview, default filters (Oct 14 - 20, 2026, All Countries, ChatGPT+Gemini+Perplexity). Card \"Top Topics Associated with Your Brand\" > \"All Topics\" with sort button \"Sort by Frequency\" (default) and pills All (31) / Positive (28) / Mixed (1) / Negative (2). 31 rows."
+        },
+        {
+          "title": "When the user opens the sort menu",
+          "status": "PASS",
+          "expected": "The menu lists \"Frequency\", \"Sentiment\" and \"A–Z\", and no score entry",
+          "observed": "Menu has exactly 3 entries: \"Sort by Frequency\", \"Sort by Sentiment\", \"Sort A-Z\" (ASCII hyphen U+002D, not en dash). No score entry; no signed number in the menu."
+        },
+        {
+          "title": "And the user selects Sentiment",
+          "status": "PASS",
+          "expected": "The list is re-ordered",
+          "observed": "Button now reads \"Sort by Sentiment\"; order changed (e.g. \"prix élevé\" Mixed 6% moved from position 14 to 29, \"bruit à l'accélération\" Negative from 11 to 30)."
+        },
+        {
+          "title": "Then the Positive concepts come first, then the Mixed ones, then the Negative ones",
+          "status": "PASS",
+          "expected": "Every \"Positive\" row is above every \"Mixed\" row, and every \"Mixed\" row is above every \"Negative\" row",
+          "observed": "Rows 1-28 Positive, row 29 Mixed (prix élevé), rows 30-31 Negative (bruit à l'accélération 7%, service après-vente 2%). No group inversion (automatic check on 31 rows)."
+        },
+        {
+          "title": "And no numeric score is exposed",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown on the rows or in the sort menu",
+          "observed": "Card and sort menu scanned: 0 \"{n} sentiment\" text, 0 signed number. Rows show only \"{n} sources • {Label}\" and the frequency %."
+        }
+      ],
+      "notes": "Menu labels are \"Sort by Frequency\" / \"Sort by Sentiment\" / \"Sort A-Z\" (CSV writes \"Frequency\", \"Sentiment\", \"A–Z\" with an en dash) - same three entries, wording-only difference (CSV change proposed). The API top-concepts response still carries sentimentScore per topic (not shown in the UI; backend out of scope). A3 (reversal) checked in TC-002.",
+      "story_id": "GEO-1268",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-001_step1_given.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-001_step2_when.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1268-002",
+      "title": "TC-GEO-1268-002 - Inside a polarity group concepts are ordered by frequency, then A–Z",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B sorted by Sentiment",
+          "status": "PASS",
+          "expected": "The concepts are grouped Positive, Mixed, Negative",
+          "observed": "Toyota Overview (default filters), Sort by Sentiment: 28 Positive, then 1 Mixed, then 2 Negative."
+        },
+        {
+          "title": "When the user reads the frequency % inside the Positive group",
+          "status": "PASS",
+          "expected": "The frequency % decreases from top to bottom (highest first)",
+          "observed": "Positive group: 45, 32, 30, 17, 17, 15, 14, 10, 7, 7, 6, 6, 5 x5, 4 x3, 3 x5, 2, 2, 1 - never increasing."
+        },
+        {
+          "title": "And the user reads the frequency % inside the Mixed and the Negative groups",
+          "status": "PASS",
+          "expected": "In each group the frequency % decreases from top to bottom",
+          "observed": "Mixed: prix élevé 6% (single row). Negative: bruit à l'accélération 7%, then service après-vente 2%."
+        },
+        {
+          "title": "Then concepts with the same frequency are ordered by name A→Z",
+          "status": "PASS",
+          "expected": "The concept whose name comes first alphabetically is listed first",
+          "observed": "B-tie found in Toyota Overview: \"confort de conduite\" and \"fiabilité à long terme\", both Positive, API frequency 0.17 = 0.17 (UI 17%). Sentiment sort lists \"confort de conduite\" first (the Frequency sort lists them in the reverse API order: fiabilité à long terme first). Other ties also A→Z: consommation de carburant < fiabilité des véhicules (7%), usage familial < valeur de revente (6%), capacité tout-terrain < coûts d'entretien < gamme de modèles < leadership hybride < liderazgo en el mercado (5%), Coût d'entretien < coût et valeur < popularité SUV (4%), Conduite urbaine < étiquette ECO < rapport qualité-prix < satisfaction client < sécurité (3%), marque préférée des Français < praticité familiale (2%)."
+        }
+      ],
+      "notes": "A3 observations: (1) the Sentiment sort cannot be reversed - selecting \"Sort by Sentiment\" again keeps Positive -> Mixed -> Negative; the menu offers no direction toggle. (2) The A→Z tie-break is case-insensitive and accent-insensitive (\"Conduite urbaine\" < \"étiquette ECO\" < \"rapport qualité-prix\"; \"Coût d'entretien\" < \"coût et valeur\"; \"satisfaction\" < \"sécurité\"), consistent with a locale compare. Tie verified on API values (top-concepts frequency given with 2 decimals) - a tie on unrounded values cannot be proven from the UI.",
+      "story_id": "GEO-1268",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-002_step1_given.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-002_step2_when.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1268-003",
+      "title": "TC-GEO-1268-003 - With a polarity filter on, the Sentiment sort orders the single group by frequency",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B sorted by Sentiment",
+          "status": "PASS",
+          "expected": "The concepts are grouped Positive, Mixed, Negative",
+          "observed": "Toyota Overview (default filters), Sort by Sentiment, All (31) pressed: 28 Positive, 1 Mixed, 2 Negative in that order."
+        },
+        {
+          "title": "When the user selects the Negative filter pill",
+          "status": "PASS",
+          "expected": "Only \"Negative\" concepts are listed",
+          "observed": "Negative (2) pressed (All released): 2 rows, both \"Negative\": bruit à l'accélération 7%, service après-vente 2%. Sort stays \"Sort by Sentiment\"."
+        },
+        {
+          "title": "Then the list is ordered by frequency",
+          "status": "PASS",
+          "expected": "The frequency % decreases from top to bottom, as with the Frequency sort under the same filter",
+          "observed": "Negative: 7% then 2% under Sentiment sort; Frequency sort under the same filter gives the same 2 rows in the same order. Extra control with the Positive filter (28 rows): Sentiment and Frequency sorts give the identical frequency % sequence and the same set of rows; they differ only inside ties (Sentiment sort applies A→Z, Frequency sort keeps the API order, e.g. 17%: confort de conduite / fiabilité à long terme swapped)."
+        },
+        {
+          "title": "And no numeric score is exposed",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown on any row",
+          "observed": "0 \"{n} sentiment\" text and 0 signed number in the card with the Negative and Positive filters."
+        }
+      ],
+      "notes": "A2 observations: filter pills are single-select (selecting Positive while Negative is on replaces it; All is released when a polarity is chosen). The distribution tiles above the list (\"90% Positive 28 topics\" / \"3% Mixed 1 topic\" / \"6% Negative 2 topics\") are buttons whose aria-pressed follows the active pill (Negative tile pressed with the Negative pill). Frequency sort has no A→Z tie-break (ties in API order) while Sentiment sort has one - possible PO question, outside the AC wording.",
+      "story_id": "GEO-1268",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-003_step1_given.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-003_step2_when.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1268-004",
+      "title": "TC-GEO-1268-004 - Unbranded Top Topics and Other page sort by Sentiment in polarity groups",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of unbranded analysis U",
+          "status": "PASS",
+          "expected": "\"Top Topics in the Category\" is displayed with its sort menu (\"Frequency\", \"Sentiment\", \"A–Z\")",
+          "observed": "U = Electric bikes (42c3ab89), Overview, default period (20 Oct 2026), GB. Card \"Top Topics in the Category\" > \"All Topics\", 12 rows, pills All (12) / Positive (9) / Mixed (1) / Negative (2). Sort menu entries: \"Sort by Frequency\", \"Sort by Sentiment\", \"Sort A-Z\"."
+        },
+        {
+          "title": "When the user sorts Top Topics by Sentiment",
+          "status": "PASS",
+          "expected": "The list is re-ordered",
+          "observed": "Sort by Sentiment selected; order changed (e.g. battery degradation Negative 33% moved from row 9 to row 11, comfort now above integrated accessories)."
+        },
+        {
+          "title": "Then the topics are grouped Positive, then Mixed, then Negative, by frequency inside each group",
+          "status": "PASS",
+          "expected": "Every \"Positive\" row is above every \"Mixed\" row, above every \"Negative\" row; the frequency % decreases inside each group",
+          "observed": "Positive: comfort 67, integrated accessories 67, battery capacity 50, commuting suitability 33, folding capabilities 33, maintenance needs 33, motor type 33, safety features 33, value for money 17; Mixed: legal requirements 17; Negative: battery degradation 33, servicing networks 17. Groups in order, % non-increasing per group, ties A→Z."
+        },
+        {
+          "title": "And no numeric score is exposed",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown on any row",
+          "observed": "0 \"{n} sentiment\" text and 0 signed number in the card; rows read \"{q} quotes • {n} sources • {Label}\" + %."
+        },
+        {
+          "title": "When the user opens the Other category page of U and sorts its concepts by Sentiment",
+          "status": "PASS",
+          "expected": "The concepts are grouped Positive, Mixed, Negative, by frequency inside each group, with no score",
+          "observed": "Other page (category 003f836d), card \"Top Topics in the Category\", sort reset to Frequency on arrival; Sort by Sentiment -> commuting suitability 100, folding capabilities 100, value for money 50 (Positive), servicing networks 50 (Negative). No Mixed topic exists on this page (pill Mixed (0)), so only the Positive -> Negative order can be observed; ties A→Z; no score."
+        }
+      ],
+      "notes": "Other page has no Mixed topic (known test data) - the Mixed position is verified on the Overview only. The sort choice is not kept when navigating to another page (Overview Sentiment -> Other page opens on Frequency); same on Toyota when switching analysis.",
+      "story_id": "GEO-1268",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-004_step1_given.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-004_step2_when.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1268-005",
+      "title": "TC-GEO-1268-005 - Polarity filters list only the concepts of the selected polarity",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS",
+          "expected": "The Positive, Mixed and Negative filter pills are shown above the list with their counts",
+          "observed": "Toyota Overview (default filters): pills \"All (31)\" (pressed), \"Positive (28)\", \"Mixed (1)\", \"Negative (2)\" above the list; 31 rows (28 Positive, 1 Mixed, 2 Negative)."
+        },
+        {
+          "title": "When the user selects the Positive filter pill",
+          "status": "PASS",
+          "expected": "Only \"Positive\" concepts are listed and their number equals the count of the Positive pill",
+          "observed": "Positive (28) pressed: 28 rows, all \"Positive\" (= pill count 28)."
+        },
+        {
+          "title": "And the user deselects Positive and selects Mixed",
+          "status": "PASS",
+          "expected": "Only \"Mixed\" concepts are listed and their number equals the count of the Mixed pill",
+          "observed": "Click on the active Positive pill releases it (All (31) pressed again, 31 rows); then Mixed (1) pressed: 1 row \"prix élevé | 12 sources • Mixed | 6%\" (= pill count 1)."
+        },
+        {
+          "title": "And the user deselects Mixed and selects Negative",
+          "status": "PASS",
+          "expected": "Only \"Negative\" concepts are listed and their number equals the count of the Negative pill",
+          "observed": "Mixed released, Negative (2) pressed: 2 rows, both \"Negative\" (bruit à l'accélération 7%, service après-vente 2%) = pill count 2."
+        },
+        {
+          "title": "Then removing the filter restores the full list",
+          "status": "PASS",
+          "expected": "All concepts are listed again; their number equals the sum of the three pill counts",
+          "observed": "Click on the active Negative pill: All (31) pressed again, 31 rows = 28 + 1 + 2."
+        }
+      ],
+      "notes": "A2 observations: single selection (one polarity at a time; selecting another polarity replaces the current one). A filter is removed either by clicking the active pill again (toggle) or by clicking \"All (n)\". The three distribution tiles above the list mirror the pill state (aria-pressed). Whether pill counts follow the global filters: see TC-GEO-1268-006 (counts change with period/engines).",
+      "story_id": "GEO-1268",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-005_step1_given.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-005_step2_when.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1268-006",
+      "title": "TC-GEO-1268-006 - Polarity filter counts and results of an older analysis match the baseline",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PASS",
+          "expected": "The Positive, Mixed and Negative filter pills are shown with their counts",
+          "observed": "Toyota (439acd96) Overview, custom period applied via the date picker: \"28 Sept 2026 – 4 Oct 2026\"; Countries = All Countries (= United States, France, Spain, the only 3 markets of O); AI engines ChatGPT, Gemini, Perplexity pressed. Grok (and Claude) toggles disabled on O -> Grok cannot be selected in the UI; covered by a read-only API cross-check incl. grok (see Then). Pills: All (7), Positive (5), Mixed (1), Negative (1)."
+        },
+        {
+          "title": "When the user compares the three pill counts with the baseline",
+          "status": "PASS",
+          "expected": "The pills show Positive 5, Mixed 1, Negative 1",
+          "observed": "Pills Positive (5), Mixed (1), Negative (1) = baseline XLSX Overview Top Concepts (5 Positive, 1 Mixed, 1 Negative)."
+        },
+        {
+          "title": "And the user selects the Positive filter",
+          "status": "PASS",
+          "expected": "The list shows Fiabilité, Efficacité énergétique, Leadership hybride, Usage urbain and Coûts d'entretien only",
+          "observed": "5 rows, all Positive: Efficacité énergétique, Fiabilité, Leadership hybride, Usage urbain, Coûts d'entretien (same set as the baseline; order follows the active Sentiment sort with A→Z inside the 13% tie)."
+        },
+        {
+          "title": "And the user selects the Mixed filter",
+          "status": "PASS",
+          "expected": "The list shows Coût d'achat only",
+          "observed": "1 row: Coût d'achat (Mixed)."
+        },
+        {
+          "title": "And the user selects the Negative filter",
+          "status": "PASS",
+          "expected": "The list shows Bruit à l'accélération only",
+          "observed": "1 row: Bruit à l'accélération (Negative)."
+        },
+        {
+          "title": "Then filtering behaves as before the release",
+          "status": "PASS",
+          "expected": "Same counts and same filtered concepts as the baseline; only the row display is simplified",
+          "observed": "UI counts and filtered sets identical to the baseline. Read-only GET overview/top-concepts (Sep 28 - Oct 4, master markets) with llms=gemini,openai,perplexity AND with grok added: both return positiveCount 5 / mixedCount 1 / negativeCount 1 with the same 5 / 1 / 1 concept names as the baseline. Rows show \"{n} sources • {Label}\" + frequency, no score."
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-006_step1_given.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-006_step2_when.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-006_step3_mixed.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-006_step3_then.png"
+      ],
+      "notes": "Grok unavailable on O (toggle disabled) - baseline filter set not fully reproducible in the UI; the polarity counts and filtered sets are not affected (API with grok = API without grok = baseline). Removal of category \"Voitures électriques\" does not change the polarity counts on the Overview. A2: pill counts DO follow the global filters (31 -> 7 topics when switching from Last 7 days to Sep 28 - Oct 4; distribution tiles follow too). The Sort by Sentiment choice persisted across the period change.",
+      "story_id": "GEO-1268",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1268-007",
+      "title": "TC-GEO-1268-007 - Unbranded polarity filters list only the topics of the selected polarity",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of unbranded analysis U",
+          "status": "PASS",
+          "expected": "\"Top Topics in the Category\" shows the Positive, Mixed and Negative filter pills with their counts",
+          "observed": "Electric bikes Overview (20 Oct 2026, GB): pills All (12) pressed, Positive (9), Mixed (1), Negative (2)."
+        },
+        {
+          "title": "When the user selects each polarity filter in turn",
+          "status": "PASS",
+          "expected": "Each filter lists only the topics of that polarity and their number equals the pill count",
+          "observed": "Positive: 9 rows, all Positive (= 9). Mixed: 1 row, legal requirements (Mixed) (= 1). Negative: 2 rows, battery degradation and servicing networks (Negative) (= 2). Each selection replaces the previous one (single select)."
+        },
+        {
+          "title": "And the user removes the filter",
+          "status": "PASS",
+          "expected": "All topics are listed again",
+          "observed": "Click on the active Negative pill: All (12) pressed again, 12 rows."
+        },
+        {
+          "title": "When the user opens the Other category page of U and selects the Positive filter",
+          "status": "PASS",
+          "expected": "Only \"Positive\" concepts are listed and their number equals the pill count",
+          "observed": "Other page (003f836d): Positive (3) pressed -> 3 rows, all Positive (folding capabilities, commuting suitability, value for money) = pill count 3; the \"75% Positive 3 topics\" tile is pressed in sync."
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-007_step1_given.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-007_step2_when.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-007_step3_removed.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-007_step3_then.png"
+      ],
+      "notes": "Extra observation (Other page): the \"Mixed (0)\" pill is enabled; selecting it shows the empty state \"No topics available for this sentiment\". Same filter behaviour as brand Top Concepts (single select, toggle-off or All to remove).",
+      "story_id": "GEO-1268",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1268-008",
+      "title": "TC-GEO-1268-008 - The sentiment distribution summary above the list is unchanged",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PASS",
+          "expected": "The sentiment distribution summary is displayed above the Top Concepts list",
+          "observed": "Toyota Overview, 28 Sept 2026 – 4 Oct 2026, All Countries (US, FR, ES), ChatGPT + Gemini + Perplexity (Grok disabled on O). Summary = 3 tiles \"71% Positive 5 topics\" / \"14% Mixed 1 topic\" / \"14% Negative 1 topic\" at y=240, above the list (y=392). Sort by Frequency, All (7)."
+        },
+        {
+          "title": "When the user compares the summary with the baseline",
+          "status": "PASS",
+          "expected": "The summary shows 71% positive, 14% mixed and 14% negative",
+          "observed": "71% / 14% / 14% with 5 / 1 / 1 topics = baseline XLSX \"71% Positive · 14% Mixed · 14% Negative\" and PPTX slide 4 (5 / 1 / 1 topics). API distribution (with and without grok): 71.43 / 14.29 / 14.29."
+        },
+        {
+          "title": "And the user sorts the list by Sentiment",
+          "status": "PASS",
+          "expected": "The list is re-ordered",
+          "observed": "Sort by Sentiment: order changes from Fiabilité, Efficacité énergétique, Usage urbain, Leadership hybride, Coûts d'entretien, Bruit à l'accélération, Coût d'achat to Efficacité énergétique, Fiabilité, Leadership hybride, Usage urbain, Coûts d'entretien, Coût d'achat (Mixed), Bruit à l'accélération (Negative)."
+        },
+        {
+          "title": "Then the distribution summary is unchanged",
+          "status": "PASS",
+          "expected": "The summary still shows 71% positive, 14% mixed and 14% negative",
+          "observed": "Tiles identical after the sort: \"71% Positive 5 topics\", \"14% Mixed 1 topic\", \"14% Negative 1 topic\"."
+        }
+      ],
+      "notes": "Summary is rendered as three clickable tiles (aria-label \"Positive: 5 topics (71%)\" etc.) that also act as polarity filters (aria-pressed synced with the pills). Grok not selectable on O; API cross-check incl. grok gives the same distribution, so the missing engine does not affect this check.",
+      "story_id": "GEO-1268",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-008_step1_given.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-008_step2_when.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-008_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1268-009",
+      "title": "TC-GEO-1268-009 - Unbranded Top Topics shows its sentiment distribution summary",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of unbranded analysis U",
+          "status": "PASS",
+          "expected": "\"Top Topics in the Category\" is displayed",
+          "observed": "Electric bikes (42c3ab89) Overview, 20 Oct 2026, GB: card \"Top Topics in the Category\" (\"Click on a topic to view quotes and sources\") with 12 topics."
+        },
+        {
+          "title": "When the user looks above the list of topics",
+          "status": "PASS",
+          "expected": "The sentiment distribution summary shows the share of positive, mixed and negative topics",
+          "observed": "Above the list (tiles y=240, list y=392): \"75% Positive 9 topics\", \"8% Mixed 1 topic\", \"17% Negative 2 topics\" with a coloured bar."
+        },
+        {
+          "title": "Then the summary is consistent with the filter pills",
+          "status": "PASS",
+          "expected": "The positive, mixed and negative shares follow the Positive, Mixed and Negative pill counts",
+          "observed": "Pills Positive (9), Mixed (1), Negative (2), All (12): 9/12 = 75%, 1/12 = 8.3% -> 8%, 2/12 = 16.7% -> 17%; tile topic counts 9 / 1 / 2 = pill counts."
+        }
+      ],
+      "notes": "Side observation: on the unbranded Other category page the summary shows only two tiles (75% Positive 3 topics, 25% Negative 1 topic) - the Mixed tile is hidden when its count is 0, while the pill \"Mixed (0)\" is still displayed. No AC on this; mentioned for information (A9 open point).",
+      "story_id": "GEO-1268",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-009_step1_given.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-009_step2_when.png",
+        "screenshots-GEO-1068-GEO1268/TC-GEO-1268-009_step3_then.png"
+      ]
+    }
+  ],
+  "runFolder": ".claude/Data/output/reports/runs/21102026-1246/"
+}

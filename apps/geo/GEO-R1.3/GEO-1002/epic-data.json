@@ -1,0 +1,1048 @@
+{
+  "epic": {
+    "id": "GEO-1002",
+    "key": "GEO-1002",
+    "title": "Setup Revamp - Prompt-Pool Quota and New-Analysis Wizard",
+    "jiraSummary": "EPIC-045: Setup Revamp - Prompt-Pool Quota and New-Analysis Wizard",
+    "status": "Ready for QA",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-07-20",
+    "updated": "2026-10-20",
+    "updatedAt": "2026-10-20T05:34:24.618-0400",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1002",
+    "version": "GEO-R1.3",
+    "functionalNeed": "This epic rebuilds the new-analysis wizard around a prompt pool. Today coverage is sold as a fixed per-brand, per-country and per-category unit, so cost grows with every client and agencies onboard only their largest accounts, and the Prompts step never shows what a selection will consume. Sales feedback and the pricing signals ask for the same things: multi-brand packaging, a simpler meter and no per-engine pricing. With this epic, prompts are the only meter, never engines: brands, categories, countries and languages are unlimited, and one pool is shared by every analysis of the organisation. A prompt costs one slot per market.\n\nThe wizard has four steps: Brand & Country, Categories, Prompts and Review. It opens from the New Analysis button of the GEO dashboard, straight on Brand & Country. The sidebar stepper names each step and carries Back to Dashboard, the footer keeps Back and the primary action fixed, and everything above the footer scrolls. Everything set during creation stays manageable after launch in Manage Scope.\n\nThe unbranded analysis and the Other fallback for unclassified prompts are in EPIC-035. It adds an Analysis Type step before Brand & Country and builds on this wizard and this pool, so this epic ships first. Until EPIC-035 ships, every prompt has a category and a question type.",
+    "dependencies": [
+      "EPIC-002 (GEO-104) and EPIC-006 (GEO-100): this wizard replaces the EPIC-002 wizard, and the pool replaces the per-type quotas, Countries and Categories max that the wizard and Manage Scope enforce today.",
+      "EPIC-029 (GEO-680): story 1.12 adds the Prompt pool field next to its user quota in the back office.",
+      "EPIC-023 (GEO-656, shipped): the Language for AI Insights on Brand & Country stays as it works today.",
+      "EPIC-045 (GEO-1069): the brand website asked for a custom brand applies on Brand & Country."
+    ],
+    "notes": [
+      "Updated 2026-10-09: over the pool, the wizard blocks only the launch; adding and ticking prompts stay possible so the user can assemble every prompt, then untick down to the pool (story 1.7). Criteria marked (Updated 2026-10-09) changed.",
+      "Updated 2026-10-20: competitors are resolved in the background when a market and category has no usable Visibility answer (story 1.4, delivered by STORY-45.13 / GEO-1251); in Manage Scope, a pool with no free slot disables Add prompt, Add country and Add category up front (story 1.10). Criteria marked (Updated 2026-10-20) changed.",
+      "This epic is the product side of the prompt-based pricing initiative (pricing v0.3). Plan names and price points are set outside the product, and engine access per plan is the upgrade lever. The functional rules come from the GEO flexible scope behaviour spec (rule IDs such as S3.12 are quoted where useful). The design is the Figma page \"Onboarding / New Analysis V3\" of the Measure - GEO Module file: https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=13458-101707",
+      "Every UI string of this epic, with its key and its en-US, en-GB, fr-FR and es-ES text, is in the strings sheet, together with the glossary and the quota keys to remove. The criteria quote the English text only: https://docs.google.com/spreadsheets/d/1G3C6DF1B_GmOrga4BB9GYtxv1fc-x7mCsnxyVsumL8Y/edit"
+    ],
+    "scope": [
+      "User Story 1.1: Share one prompt pool across all analyses",
+      "User Story 1.2: Set the brand and the markets",
+      "User Story 1.3: Review the detected categories",
+      "User Story 1.4: Review the suggested prompts",
+      "User Story 1.5: Add a prompt inline",
+      "User Story 1.6: Sort, filter and edit the prompt table",
+      "User Story 1.7: Track the pool while selecting prompts",
+      "User Story 1.8: Review and create the analysis",
+      "User Story 1.9: Leave the wizard",
+      "User Story 1.10: Manage prompts after launch",
+      "User Story 1.11: See the prompt pool on the GEO dashboard",
+      "User Story 1.12: Set the prompt pool of an organisation in the back office"
+    ],
+    "outOfScope": [
+      "The unbranded analysis, the Analysis Type step and the Other fallback (EPIC-035)",
+      "Plan names and price points (pricing v0.3, set by Management and Sales)",
+      "Buying or requesting prompts in the product: no payment, no pack or upgrade request; a larger pool goes through the account manager",
+      "Billing and invoicing changes, and the advance-notice policy for price changes at renewal",
+      "Agency workspaces and consolidated billing (client workspaces spec)",
+      "AI \"Suggest more\" on the Prompts step, and save as draft in the wizard",
+      "Bulk paste and CSV import of custom prompts, a later scale path"
+    ],
+    "downstream": [
+      "Markets and categories dropped at creation do not appear in results or exports"
+    ],
+    "stillOpen": [
+      "The pool and the plan given to existing organisations when the per-type quotas go, with the revenue impact checked by Revenue Ops first",
+      "The engine set per plan: toggles exist for 5 engines only (Google AI Overviews, AI Mode and Copilot need theirs before a plan shows all 8), and the middle plans lose margin on current capture costs until the UI capture work ships",
+      "Whether a no-card trial exists, and how it is set up for the organisation"
+    ],
+    "designUrl": "https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=13458-101707",
+    "stringsSheetUrl": "https://docs.google.com/spreadsheets/d/1G3C6DF1B_GmOrga4BB9GYtxv1fc-x7mCsnxyVsumL8Y/edit",
+    "ignoredChildren": [
+      {
+        "key": "GEO-1274",
+        "type": "Bug",
+        "title": "[45.12] Back office Create organisation: the required Prompt pool field has no asterisk",
+        "status": "Ready for QA"
+      },
+      {
+        "key": "GEO-1272",
+        "type": "Bug",
+        "title": "[45.12] Back office Organisations: sorting by Prompts mixes the organisations with no pool between the others",
+        "status": "Code Review"
+      },
+      {
+        "key": "GEO-1271",
+        "type": "Bug",
+        "title": "[45.8] Wizard Review: the missing Brand Image warning does not name the metrics that stay empty",
+        "status": "Ready for QA"
+      },
+      {
+        "key": "GEO-1012",
+        "type": "Design Task",
+        "title": "Design the new analysis wizard and prompt pool",
+        "status": "Done"
+      }
+    ],
+    "stories": [
+      {
+        "id": "GEO-1229",
+        "type": "Story",
+        "title": "Share one prompt pool across all analyses",
+        "storyNumber": "STORY-45.1",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:18:45.284-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1229",
+        "file": "STORY_GEO-1229_Share_one_prompt_pool_across_all_analyse.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-1-share-one-prompt-pool-across-all-analyses.md",
+        "userStory": {
+          "as": "an agency user",
+          "want": "to spend one prompt quota across any brand, category, country or language",
+          "so": "each additional client becomes cheaper to onboard instead of costing a new fixed unit"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "One pool, no structural cap",
+            "given": "a pool of N prompts",
+            "when": "I keep prompts in any analysis",
+            "then": "the balance decreases and no per-brand, per-category, per-country or per-language cap blocks me"
+          },
+          {
+            "id": "AC2",
+            "title": "One slot per market, unticked costs nothing",
+            "given": "a kept prompt",
+            "when": "it runs in two markets",
+            "then": "it consumes two slots; an unticked prompt consumes none"
+          },
+          {
+            "id": "AC3",
+            "title": "Deleting an analysis frees its slots",
+            "given": "an analysis is deleted",
+            "when": "the change is saved",
+            "then": "its slots return to the pool immediately"
+          },
+          {
+            "id": "AC4",
+            "title": "Downgrade never touches what exists",
+            "given": "the pool is reduced by a downgrade or a non-renewal",
+            "when": "it applies",
+            "then": "existing prompts and running analyses are untouched and only adding prompts is blocked until the count fits"
+          },
+          {
+            "id": "AC5",
+            "title": "Filter by country, languages roll up",
+            "given": "an analysis with several country and language pairs",
+            "when": "I filter it",
+            "then": "I filter by country and its languages roll up together"
+          }
+        ],
+        "acCount": 5,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1231",
+        "type": "Story",
+        "title": "Set the brand and the markets",
+        "storyNumber": "STORY-45.2",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:19:07.974-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1231",
+        "file": "STORY_GEO-1231_Set_the_brand_and_the_markets.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-2-set-the-brand-and-the-markets.md",
+        "userStory": {
+          "as": "a user on Brand & Country",
+          "want": "to name my brand and add as many markets as I need",
+          "so": "the prompts are localised for each country and language"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Questions",
+            "given": "Brand & Country loads",
+            "when": "it renders",
+            "then": "it asks \"What brand are you analyzing?\" and \"Which countries do you want to analyze?\""
+          },
+          {
+            "id": "AC2",
+            "title": "Add a country: country first, then language",
+            "given": "I click Add country",
+            "when": "the composer opens",
+            "then": "I pick a country first, and the language select, disabled until then, is prefilled with its primary language and lists its other languages"
+          },
+          {
+            "id": "AC3",
+            "title": "Change a market's language, no limit",
+            "given": "a market row",
+            "when": "I change its language",
+            "then": "it applies, and one country in two languages means two market rows, with no limit on markets"
+          },
+          {
+            "id": "AC4",
+            "title": "Language for AI Insights",
+            "given": "Brand & Country",
+            "when": "I fill it",
+            "then": "the Language for AI Insights below the markets applies to this analysis's insights and summaries only"
+          },
+          {
+            "id": "AC5",
+            "title": "Empty brand",
+            "given": "the brand is empty",
+            "when": "I try to continue",
+            "then": "the field shows a red border and a message naming it, such as \"Add your brand to continue.\""
+          },
+          {
+            "id": "AC6",
+            "title": "Discovery loading screen",
+            "given": "Brand & Country is valid",
+            "when": "I continue",
+            "then": "a loading screen states that category discovery takes about 20 seconds"
+          },
+          {
+            "id": "AC7",
+            "title": "Wizard shell (epic intro, applies to every step)",
+            "given": "I click New Analysis on the GEO dashboard",
+            "when": "the wizard opens",
+            "then": "it opens on the first step of the setup (Brand & Country; once the unbranded analysis epic GEO-1209 ships, Analysis Type comes first), the sidebar stepper names each step and carries Back to Dashboard, the footer keeps Back and the primary action fixed, and everything above the footer scrolls"
+          }
+        ],
+        "acCount": 7,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08, updated 2026-10-09)",
+          "Design"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1232",
+        "type": "Story",
+        "title": "Review the detected categories",
+        "storyNumber": "STORY-45.3",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-19",
+        "updatedAt": "2026-10-19T05:17:55.461-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1232",
+        "file": "STORY_GEO-1232_Review_the_detected_categories.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-3-review-the-detected-categories.md",
+        "userStory": {
+          "as": "a user on Categories",
+          "want": "to keep, add or remove categories with their translations",
+          "so": "the analysis covers the areas I care about"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Detected categories with badge and translations; empty state",
+            "given": "Categories loads",
+            "when": "categories are detected from the brand",
+            "then": "each shows an AI-generated badge and its translation per market language; with none, an empty state invites me to add one"
+          },
+          {
+            "id": "AC2",
+            "title": "Add category modal with editable translations",
+            "given": "I click Add category",
+            "when": "the modal opens",
+            "then": "I enter a name and review an editable translation per market"
+          },
+          {
+            "id": "AC3",
+            "title": "Removing a category with prompts states the impact",
+            "given": "I remove a category that holds prompts",
+            "when": "I click remove",
+            "then": "a confirmation states how many prompts across my markets are deleted with it, kept suggestions included"
+          },
+          {
+            "id": "AC4",
+            "title": "No limit",
+            "given": "I add or remove categories",
+            "when": "I do it",
+            "then": "no limit applies"
+          }
+        ],
+        "acCount": 4,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08)",
+          "Design"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1233",
+        "type": "Story",
+        "title": "Review the suggested prompts",
+        "storyNumber": "STORY-45.4",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:19:18.073-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1233",
+        "file": "STORY_GEO-1233_Review_the_suggested_prompts.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-4-review-the-suggested-prompts.md",
+        "userStory": {
+          "as": "a user on the Prompts step",
+          "want": "a full set of suggested prompts already ticked",
+          "so": "I start from a complete analysis and trim it to fit my pool"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "10 per type per category per market, all ticked",
+            "given": "Prompts loads",
+            "when": "suggestions are generated",
+            "then": "each category in each market gets 10 prompts per question type, all ticked, each carrying the category and type that produced it"
+          },
+          {
+            "id": "AC2",
+            "title": "Competitors resolved in the background",
+            "given": "no competitor is configured",
+            "when": "the analysis runs",
+            "then": "a background call resolves the top competitors, invisible to the user, since the wizard has no competitor step",
+            "note": "→ **delivered by STORY-45.13 (GEO-1251)** — resolved when the analysis runs, not during setup (PM comment, 2026-10-09). Kept here verbatim until the epic is reworded; nothing to build or test for it in this story."
+          },
+          {
+            "id": "AC3",
+            "title": "10 Brand Image prompts per market",
+            "given": "suggestions are generated",
+            "when": "Prompts loads",
+            "then": "each market also gets 10 Brand Image prompts, so 2 markets with 3 categories give 2 x (10 + 3 x 30) = 200 prompts"
+          },
+          {
+            "id": "AC4",
+            "title": "Over-pool state on arrival",
+            "given": "the suggestions exceed the free pool",
+            "when": "Prompts opens",
+            "then": "it is in the over-pool state and I untick prompts until the count fits"
+          },
+          {
+            "id": "AC5",
+            "title": "Re-ticking a muted row",
+            "given": "a muted row",
+            "when": "I tick it again and the pool has room",
+            "then": "it is kept again without being regenerated"
+          },
+          {
+            "id": "AC6",
+            "title": "Trash deletes, untick mutes",
+            "given": "a kept or muted prompt",
+            "when": "I click the trash icon",
+            "then": "it is deleted, which is not the same as unticking"
+          },
+          {
+            "id": "AC7",
+            "title": "Coming back from Categories keeps my work",
+            "given": "I go back to Categories and add a category",
+            "when": "I return to Prompts",
+            "then": "my ticked and unticked states, my edits and my custom prompts are kept, and only the new category gets its suggestions, 10 per type per market, all ticked"
+          }
+        ],
+        "acCount": 7,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08)",
+          "Design"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1234",
+        "type": "Story",
+        "title": "Add a prompt inline",
+        "storyNumber": "STORY-45.5",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:19:22.486-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1234",
+        "file": "STORY_GEO-1234_Add_a_prompt_inline.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-5-add-a-prompt-inline.md",
+        "userStory": {
+          "as": "a user",
+          "want": "to add my own prompt directly in the table",
+          "so": "I can cover a question the generator did not produce without leaving the step"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Editable row at the top",
+            "given": "Prompts",
+            "when": "I click Add prompt",
+            "then": "an editable row opens at the top with a text input, category, type and market selects, and confirm and cancel"
+          },
+          {
+            "id": "AC2",
+            "title": "Selects limited to the analysis",
+            "given": "the selects",
+            "when": "I open them",
+            "then": "the category select lists only the analysis categories, with no Add category action (a category is added on Categories through Back), and the market select lists only the analysis markets, prefilled from context"
+          },
+          {
+            "id": "AC3",
+            "title": "No inference, confirm gated",
+            "given": "I type a prompt",
+            "when": "I confirm",
+            "then": "nothing suggests or infers its category or type, and confirm stays disabled until both are picked"
+          },
+          {
+            "id": "AC4",
+            "title": "Added row: kept, highlighted, CUSTOM",
+            "given": "I confirm",
+            "when": "the row is added",
+            "then": "it is kept, highlighted, and marked with a CUSTOM badge"
+          }
+        ],
+        "acCount": 4,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08, updated 2026-10-09)",
+          "Design"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1235",
+        "type": "Story",
+        "title": "Sort, filter and edit the prompt table",
+        "storyNumber": "STORY-45.6",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-19",
+        "updatedAt": "2026-10-19T05:14:55.100-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1235",
+        "file": "STORY_GEO-1235_Sort_filter_and_edit_the_prompt_table.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-6-sort-filter-and-edit-the-prompt-table.md",
+        "userStory": {
+          "as": "a user with many prompts",
+          "want": "to sort and filter the table by column",
+          "so": "I can find and fix prompts quickly"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Columns",
+            "given": "Prompts",
+            "when": "the table renders",
+            "then": "it shows the columns Prompt, Category, Type, Market and Actions"
+          },
+          {
+            "id": "AC2",
+            "title": "Category and type on every row",
+            "given": "the table renders",
+            "when": "I look at the type badges",
+            "then": "each prompt shows its category and one of Visibility, Competitive, Reputation or Brand Image"
+          },
+          {
+            "id": "AC3",
+            "title": "Header menus",
+            "given": "the Category, Type or Market header",
+            "when": "I click its sort trigger",
+            "then": "a menu offers Sort ascending, Sort descending, a checkbox list of values with live counts and Clear filter, and the header then counts the controls applied"
+          },
+          {
+            "id": "AC4",
+            "title": "No results",
+            "given": "combined filters match nothing",
+            "when": "the table renders",
+            "then": "a no-results card names the filters in conflict with Clear all filters, and launch stays enabled"
+          },
+          {
+            "id": "AC5",
+            "title": "Empty table",
+            "given": "the table is empty",
+            "when": "it renders",
+            "then": "the filters and the pool tracker stay, and an empty-state card carries its own Add prompt"
+          },
+          {
+            "id": "AC6",
+            "title": "Pinned tracker and header",
+            "given": "I scroll",
+            "when": "the pool tracker line reaches the top",
+            "then": "it and the table header stay pinned and only the body scrolls"
+          },
+          {
+            "id": "AC7",
+            "title": "Edit wording only",
+            "given": "I edit a prompt",
+            "when": "I save",
+            "then": "only the wording changes; category and type change only through the row selects"
+          },
+          {
+            "id": "AC8",
+            "title": "Show prompts",
+            "given": "the Prompt header",
+            "when": "I open its Show prompts menu",
+            "then": "I can show All, Selected only or Unselected only, and the selected count stays in view"
+          }
+        ],
+        "acCount": 8,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08)",
+          "Design"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1236",
+        "type": "Story",
+        "title": "Track the pool while selecting prompts",
+        "storyNumber": "STORY-45.7",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:19:35.032-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1236",
+        "file": "STORY_GEO-1236_Track_the_pool_while_selecting_prompts.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-7-track-the-pool-while-selecting-prompts.md",
+        "userStory": {
+          "as": "a user assembling prompts",
+          "want": "to see the pool balance at all times",
+          "so": "I never commit an analysis that overspends my quota"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Ring and popover",
+            "given": "Prompts",
+            "when": "my selection changes",
+            "then": "the toolbar ring reads the slots used after creation over the pool, such as 138 / 150, and its popover splits other analyses, this analysis and free slots"
+          },
+          {
+            "id": "AC2",
+            "title": "Exactly at the limit",
+            "given": "the selection is exactly at the limit",
+            "when": "the tracker updates",
+            "then": "the ring turns amber with a short message and launch stays enabled"
+          },
+          {
+            "id": "AC3",
+            "title": "Over the limit (Updated 2026-10-09)",
+            "given": "the selection is over the limit",
+            "when": "the tracker updates",
+            "then": "the ring turns red, the message states how many prompts are over, and Review & Launch is blocked until the count fits, while adding and ticking prompts stay possible so I can assemble every prompt, then untick down to the pool; in Manage Scope, ticking or adding still needs room in the pool"
+          },
+          {
+            "id": "AC4",
+            "title": "The system never removes a prompt",
+            "given": "I am over the limit",
+            "when": "I look for a way back",
+            "then": "the system never removes a prompt: I untick prompts or contact my account manager for a larger pool"
+          }
+        ],
+        "acCount": 4,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08, updated 2026-10-09)",
+          "Design"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1237",
+        "type": "Story",
+        "title": "Review and create the analysis",
+        "storyNumber": "STORY-45.8",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-19",
+        "updatedAt": "2026-10-19T05:14:57.624-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1237",
+        "file": "STORY_GEO-1237_Review_and_create_the_analysis.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-8-review-and-create-the-analysis.md",
+        "userStory": {
+          "as": "a user on the Review step",
+          "want": "to see the scope and the engines on one screen",
+          "so": "I can confirm the analysis before it is created"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Scope and engines",
+            "given": "I reach Review",
+            "when": "it loads",
+            "then": "I see the scope with its markets and categories, and the AI engines"
+          },
+          {
+            "id": "AC2",
+            "title": "Dropped scope and missing metrics",
+            "given": "a market, a category or a question type has no kept prompt",
+            "when": "Review loads",
+            "then": "a warning names it as dropped, or names the metrics the analysis will not produce"
+          },
+          {
+            "id": "AC3",
+            "title": "Engines allowed for the organisation",
+            "given": "the engines",
+            "when": "Review loads",
+            "then": "the engines allowed for the organisation in the back office are toggles, on by default with at least one on, and the other engines are not shown, as today"
+          },
+          {
+            "id": "AC4",
+            "title": "Engines are free",
+            "given": "I change the engines",
+            "when": "the toggles change",
+            "then": "engines never consume slots"
+          },
+          {
+            "id": "AC5",
+            "title": "Over the pool",
+            "given": "the pool is over the limit",
+            "when": "Review loads",
+            "then": "Create Analysis is disabled"
+          },
+          {
+            "id": "AC6",
+            "title": "Confirmation",
+            "given": "I create the analysis",
+            "when": "it is scheduled",
+            "then": "a confirmation states its prompts, markets, categories and engines, the unticked suggestions kept on the analysis, that prompt changes apply at the next run, and View analysis"
+          }
+        ],
+        "acCount": 6,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08, updated 2026-10-09)",
+          "Design",
+          "Technical Acceptance Criteria (dev context — not for QA)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1238",
+        "type": "Story",
+        "title": "Leave the wizard",
+        "storyNumber": "STORY-45.9",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:19:47.361-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1238",
+        "file": "STORY_GEO-1238_Leave_the_wizard.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-9-leave-the-wizard.md",
+        "userStory": {
+          "as": "a user who started a setup",
+          "want": "a confirmation before I leave the wizard",
+          "so": "I do not lose my choices by mistake"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Confirmation on Back to Dashboard",
+            "given": "any step",
+            "when": "I click Back to Dashboard",
+            "then": "a confirmation states that exiting discards every choice, since there is no save as draft"
+          },
+          {
+            "id": "AC2",
+            "title": "Cancel keeps everything",
+            "given": "the confirmation",
+            "when": "I cancel",
+            "then": "I stay on the same step with my choices intact"
+          }
+        ],
+        "acCount": 2,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08; amended 2026-10-13)",
+          "Design",
+          "Change log"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1239",
+        "type": "Story",
+        "title": "Manage prompts after launch",
+        "storyNumber": "STORY-45.10",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-20",
+        "updatedAt": "2026-10-20T05:26:08.704-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1239",
+        "file": "STORY_GEO-1239_Manage_prompts_after_launch.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-10-manage-prompts-after-launch.md",
+        "userStory": {
+          "as": "a user of a running analysis",
+          "want": "to manage its prompts in Manage Scope with the same rules as the wizard",
+          "so": "I can change coverage without creating a new analysis"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Same table, filters and tracker",
+            "given": "Manage Scope",
+            "when": "I open Prompts",
+            "then": "I see the wizard's table, filters and pool tracker"
+          },
+          {
+            "id": "AC2",
+            "title": "Suggested Prompts",
+            "given": "retained unticked suggestions",
+            "when": "I open Prompts",
+            "then": "they show under Suggested Prompts, and ticking one keeps it from the next run if the pool has room"
+          },
+          {
+            "id": "AC3",
+            "title": "Edit wording from the next run",
+            "given": "I edit a prompt",
+            "when": "I save",
+            "then": "only the wording changes, from the next run"
+          },
+          {
+            "id": "AC4",
+            "title": "Delete frees the slot, keeps the history",
+            "given": "I delete a prompt",
+            "when": "I confirm",
+            "then": "its slot returns to the pool and its past data points stay in the history"
+          },
+          {
+            "id": "AC5",
+            "title": "Last prompt of a group can be deleted",
+            "given": "the last prompt of a question type, category or market",
+            "when": "I delete it",
+            "then": "it is allowed (the minimum of 1 prompt per group from GEO-581 goes away), and a warning names the metrics the analysis will stop producing"
+          },
+          {
+            "id": "AC6",
+            "title": "Version history",
+            "given": "prompts changed",
+            "when": "I open the version history",
+            "then": "changes are grouped by date with their count and the original and edited wording"
+          },
+          {
+            "id": "AC7",
+            "title": "Category or type change",
+            "given": "I change a prompt's category or type",
+            "when": "it is saved",
+            "then": "a category change keeps its history where it was collected, and a type change ends the old series and starts a new one"
+          },
+          {
+            "id": "AC8",
+            "title": "Add a category or a market",
+            "given": "I add a category or a market",
+            "when": "it is added",
+            "then": "fresh suggestions for it join the retained set, with the pool in view"
+          },
+          {
+            "id": "AC9",
+            "title": "No free slot in the pool",
+            "given": "the pool has no free slot, exactly full or over",
+            "when": "I open Prompts in Manage Scope",
+            "then": "Add prompt, Add country and Add category are disabled and suggestions cannot be ticked, until deleting or unticking prompts frees a slot",
+            "updated": "2026-10-20"
+          }
+        ],
+        "acCount": 9,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08)",
+          "Design"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1240",
+        "type": "Story",
+        "title": "See the prompt pool on the GEO dashboard",
+        "storyNumber": "STORY-45.11",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:19:56.889-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1240",
+        "file": "STORY_GEO-1240_See_the_prompt_pool_on_the_GEO_dashboard.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-11-see-the-prompt-pool-on-the-geo-dashboard.md",
+        "userStory": {
+          "as": "a user on the GEO dashboard",
+          "want": "to see how much of my organisation's prompt pool is used",
+          "so": "I know before I start a new analysis how much room I have"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Pool block",
+            "given": "the GEO dashboard",
+            "when": "it loads",
+            "then": "a pool block shows the kept prompts of all analyses over the pool, such as 138 / 150, with the wizard's ring, and hovering it splits used and free"
+          },
+          {
+            "id": "AC2",
+            "title": "Exactly at the limit",
+            "given": "the pool is exactly at the limit",
+            "when": "the dashboard loads",
+            "then": "the ring is amber with a short message and New Analysis stays available"
+          },
+          {
+            "id": "AC3",
+            "title": "Over the limit",
+            "given": "the pool is over the limit, for example after a downgrade",
+            "when": "the dashboard loads",
+            "then": "the ring is red with how many prompts are over, and a new analysis can be started but not launched until the count fits"
+          },
+          {
+            "id": "AC4",
+            "title": "Prompts column",
+            "given": "the analyses table",
+            "when": "it loads",
+            "then": "a sortable \"Prompts\" column after Categories shows the pool slots each analysis uses (kept prompts × markets), so the column adds up to the pool block"
+          },
+          {
+            "id": "AC5",
+            "title": "Counts follow changes",
+            "given": "an analysis is deleted or edited",
+            "when": "I come back to the dashboard",
+            "then": "the counts reflect it"
+          }
+        ],
+        "acCount": 5,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08)",
+          "Design"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1230",
+        "type": "Story",
+        "title": "Set the prompt pool of an organisation in the back office",
+        "storyNumber": "STORY-45.12",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-08",
+        "updated": "2026-10-19",
+        "updatedAt": "2026-10-19T05:17:58.785-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1230",
+        "file": "STORY_GEO-1230_Set_the_prompt_pool_of_an_organisation_i.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-12-set-the-prompt-pool-of-an-organisation-in-the-back-office.md",
+        "userStory": {
+          "as": "an Onclusive admin",
+          "want": "to set one prompt pool per organisation and see each organisation's usage in the list",
+          "so": "the quota we sell is the quota the product enforces"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "One field replaces the old quotas",
+            "given": "I create or edit an organisation",
+            "when": "the quotas render",
+            "then": "one \"Prompt pool\" field replaces the four per-type fields and the \"Countries\" and \"Categories max\" fields, while the user quota, collection frequency (Daily or One time) and allowed AI engines stay as today"
+          },
+          {
+            "id": "AC2",
+            "title": "Whole number ≥ 1, with usage hint",
+            "given": "the Prompt pool field",
+            "when": "I enter a value",
+            "then": "it accepts a whole number of at least 1, with a hint such as \"138 of 150 prompts in use.\""
+          },
+          {
+            "id": "AC3",
+            "title": "Lowering below usage warns, never blocks",
+            "given": "I lower the pool below usage",
+            "when": "I save",
+            "then": "a warning states that existing prompts and running analyses are untouched and adding prompts stays blocked until the count fits"
+          },
+          {
+            "id": "AC4",
+            "title": "Prompts column in the organisations list",
+            "given": "the organisations list",
+            "when": "it loads",
+            "then": "a sortable \"Prompts\" column next to User quota shows prompts in use over the pool, such as 138 / 150, in red when over, and the Frequency column and filter stay"
+          }
+        ],
+        "acCount": 4,
+        "technicalNotes": [
+          "Rules (settled — OS-Team, 2026-10-08)",
+          "Design"
+        ],
+        "blockedBy": [
+          "GEO-1229"
+        ],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1251",
+        "type": "Story",
+        "title": "Resolve competitors when no Visibility prompt is kept",
+        "storyNumber": "STORY-45.13",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-10-09",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:20:00.663-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1251",
+        "file": "STORY_GEO-1251_Resolve_competitors_when_no_Visibility_p.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-13-resolve-competitors-when-no-visibility-prompt-is-kept.md",
+        "userStory": {
+          "as": "a user who kept Competitive prompts but no Visibility prompt for a category",
+          "want": "the analysis to find the brand's top competitors on its own",
+          "so": "my Competitive prompts compare my brand with real competitors instead of running empty"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Competitors resolved in the background",
+            "given": "no visibility questions are configured",
+            "when": "the analysis runs",
+            "then": "a background call resolves the top competitors to use in competitive questions, invisible to the user, since they cannot be determined by visibility questions",
+            "note": "(AC2 of User Story 1.4, as reworded in the epic on 2026-10-09)"
+          },
+          {
+            "id": "AC2",
+            "title": "Competitive prompts run even without Visibility",
+            "given": "an analysis where a market and category keep Competitive prompts but no Visibility prompt (or none of its Visibility prompts got an answer)",
+            "when": "the analysis runs",
+            "then": "the Competitive prompts of that market and category are sent to the AI engines with up to 5 competitors named in place of the placeholders, and their results appear on the dashboard like any other Competitive result"
+          },
+          {
+            "id": "AC3",
+            "title": "Visibility still wins when it exists",
+            "given": "a market and category whose Visibility answers name competitors",
+            "when": "the analysis runs",
+            "then": "the competitors come from the Visibility answers exactly as today, and no background call is made for that market and category"
+          },
+          {
+            "id": "AC4",
+            "title": "A failed resolution never fails the analysis",
+            "given": "the background call fails or returns nothing usable",
+            "when": "the analysis runs",
+            "then": "the Competitive prompts still run, with the competitor names left out as today, and the analysis completes"
+          },
+          {
+            "id": "AC5",
+            "title": "An analysis with only Competitive prompts completes",
+            "given": "an analysis whose only kept prompts are Competitive (no Visibility, Sentiment or Brand Image prompt anywhere)",
+            "when": "the analysis runs",
+            "then": "it completes with its Competitive results, instead of staying in progress"
+          }
+        ],
+        "acCount": 5,
+        "technicalNotes": [
+          "Rules (OS-Team, 2026-10-09)"
+        ],
+        "blockedBy": [
+          "GEO-1249",
+          "GEO-1229",
+          "GEO-1233"
+        ],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1515",
+        "type": "Story",
+        "title": "Set the prompt pool of existing organisations from their old quota",
+        "storyNumber": "STORY-45.14",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "priority": "High",
+        "fixVersions": [
+          "1.3"
+        ],
+        "created": "2026-10-21",
+        "updated": "2026-10-22",
+        "updatedAt": "2026-10-22T05:59:02.044-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1515",
+        "file": "STORY_GEO-1515_Set_the_prompt_pool_of_existing_organisa.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-45/45-14-set-the-prompt-pool-of-existing-organisations-from-their-old-quota.md",
+        "userStory": {
+          "as": "an Onclusive admin",
+          "want": "every existing organisation to get its prompt pool from the quota it has today",
+          "so": "no client is blocked on release day and nobody has to set each organisation by hand"
+        },
+        "formula": "pool = countries x (categories x (Visibility + Competitive + Perception per category) + Brand Image per country)",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Pool from the old quota",
+            "given": "an existing organisation with no prompt pool",
+            "when": "release 1.3 is deployed",
+            "then": "its pool is set with the formula above, from the quota values it has in the back office"
+          },
+          {
+            "id": "AC2",
+            "title": "Current usage is not taken into account",
+            "given": "an organisation that uses fewer prompts than its old quota, or none",
+            "when": "the pool is set",
+            "then": "the pool is still the full old quota, not the number of prompts in use"
+          },
+          {
+            "id": "AC3",
+            "title": "Pools already set are not touched",
+            "given": "an organisation whose pool was already set by an admin",
+            "when": "release 1.3 is deployed",
+            "then": "its pool stays as it is"
+          },
+          {
+            "id": "AC4",
+            "title": "Deleted organisations are skipped",
+            "given": "a deleted organisation",
+            "when": "release 1.3 is deployed",
+            "then": "no pool is set for it"
+          },
+          {
+            "id": "AC5",
+            "title": "Review list before production",
+            "given": "the conversion is ready",
+            "when": "before it runs in production",
+            "then": "the PM gets the list of production organisations with their name, their old quota values, the computed pool and the prompts they use today, and the organisations still on the default quota (25 countries, 5 categories, 20 prompts per type, so 8,000 prompts) are flagged"
+          },
+          {
+            "id": "AC6",
+            "title": "Done in 1.3",
+            "given": "the old quota values are removed in the release after 1.3",
+            "when": "we plan the release",
+            "then": "this conversion ships in 1.3, before the old quota values are removed"
+          }
+        ],
+        "acCount": 6,
+        "outOfScope": [
+          "New organisations: their pool is required at creation (STORY-45.12)"
+        ],
+        "technicalNotes": [
+          "Technical Acceptance Criteria TAC1-TAC7 (dev, ignored by QA)",
+          "PR #825, Flyway migration V2.10.7, runs automatically on the 1.3 deploy",
+          "Review list attachment geo-1515-1-organisations.csv (84 live production organisations, prod 1.2, 2026-10-21)"
+        ],
+        "comments": [
+          {
+            "id": "865802",
+            "author": "Quentin.Reant",
+            "created": "2026-10-21",
+            "summary": "FYI to Youssef Ait Laydi, Abdenasser Aroukhsiss, Assiya Benramdane"
+          },
+          {
+            "id": "866014",
+            "author": "Youssef.AitLaydi",
+            "created": "2026-10-21",
+            "summary": "AC5 review list attached; no organisation on the default quota; none starts above its pool; none is left not configured; open PO points: Nabep 105/105 and Roche Italia 70/70 full on day one, categories per country or per organisation (formula as written gives very large pools to 28 organisations), 3 organisations with no prompts"
+          }
+        ],
+        "blockedBy": [],
+        "blocks": [],
+        "relatedTo": [
+          "GEO-1230"
+        ]
+      }
+    ]
+  }
+}

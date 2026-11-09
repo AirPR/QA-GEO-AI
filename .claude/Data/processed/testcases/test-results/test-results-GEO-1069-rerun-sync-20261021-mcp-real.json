@@ -1,0 +1,117 @@
+{
+  "spec": "GEO-1069-rerun-sync-20261021-mcp",
+  "runDate": "2026-10-21",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1262",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "runFolder": ".claude/Data/output/reports/runs/21102026-1510/",
+  "rerunOf": {
+    "context": "Rerun after the GEO-1069 TC sync of 2026-10-21 (CSV texts used exactly as updated).",
+    "previousRun": "runs/20102026-1518/ (test-results-GEO-1069-GEO1262-mcp-real.json)",
+    "TC-GEO-1262-004": "Was FAIL in run 20102026-1518 (generic globe shown instead of the lettermark). The PO accepted the globe (GEO-1262 comment 865598, Quentin Reant) and AC-2 was rewritten (\"the general favicon is used as fallback\"); TC-004 now expects the generic globe.",
+    "TC-GEO-1262-008": "New TC added 2026-10-21 (lettermark when the favicon fails to load)."
+  },
+  "summary": {
+    "total": 2,
+    "pass": 2,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "successRate": 100,
+    "verdict": "GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me)",
+    "organisation": "QA-GEO",
+    "featureFlag": "unbranded_analysis = true (Analysis Type step first, \"Brand analysis\" chosen)",
+    "testData": "C = \"Lictorix Geo\" (via the \"Custom Brand\" row); W4 = \"example.com\"",
+    "analysesCreated": [],
+    "stateChanges": "No analysis created. Wizard left via Back to Dashboard > Exit and Discard. All Playwright routes removed at the end (page and context unrouteAll); favicons verified loading again."
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1262-004",
+      "title": "TC-GEO-1262-004 - Generic favicon (globe) is shown when the site has neither a logo nor a favicon",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PASS",
+      "previousStatus": "FAIL (run 20102026-1518)",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-rerun-sync-20261021-mcp/TC-GEO-1262-004_step1_given.png",
+        "screenshots-GEO-1069-rerun-sync-20261021-mcp/TC-GEO-1262-004_step2_when.png",
+        "screenshots-GEO-1069-rerun-sync-20261021-mcp/TC-GEO-1262-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "C = \"Lictorix Geo\"",
+          "expected": "The avatar shows the letter \"L\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a domain with neither a brand logo nor a favicon and the field loses focus",
+          "data": "W4 = \"example.com\"",
+          "expected": "The grey pulsing placeholder is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the general favicon is shown as the brand visual",
+          "expected": "The 32px avatar shows the generic grey globe of the favicon service (image from www.google.com/s2/favicons), not the letter \"L\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "expected": "The W4 domain",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Given: card shows span[aria-hidden] \"L\" (h-8 w-8, bg-green-500), website field empty. When: \"example.com\" entered, committed on blur (click on \"Which countries do you want to analyse?\"); [data-testid=wizard-brand-logo-placeholder] (h-8 w-8 animate-pulse rounded-full bg-slate-200) visible in step2_when - the /geo/api/v1/brands/logo response was delayed 2.5 s with a Playwright route (test aid only, response unchanged) to capture the ~200 ms placeholder. Then: <img src=\"https://www.google.com/s2/favicons?domain=example.com&sz=64\"> rendered 32x32 (natural 16x16, complete) = generic grey globe; no letter \"L\" in the card. \"example.com\" shown under \"Lictorix Geo\". Previously FAIL (20102026-1518) against the old AC-2 lettermark expectation; the app behaviour is unchanged, the expectation was aligned to the PO decision (GEO-1262 comment 865598)."
+    },
+    {
+      "tc_id": "TC-GEO-1262-008",
+      "title": "TC-GEO-1262-008 - Lettermark is shown when the favicon fails to load",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PASS",
+      "previousStatus": "NEW (added 2026-10-21)",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-rerun-sync-20261021-mcp/TC-GEO-1262-008_step1_given.png",
+        "screenshots-GEO-1069-rerun-sync-20261021-mcp/TC-GEO-1262-008_step2_when.png",
+        "screenshots-GEO-1069-rerun-sync-20261021-mcp/TC-GEO-1262-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "C = \"Lictorix Geo\"",
+          "expected": "The avatar shows the letter \"L\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When request blocking is on for \"s2/favicons\" and the user enters a domain with no brand logo and the field loses focus",
+          "data": "W4 = \"example.com\"; DevTools request blocking pattern \"s2/favicons\"",
+          "expected": "The grey pulsing placeholder is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the neutral lettermark is shown as the brand visual",
+          "expected": "The 32px avatar shows the letter \"L\", same letter avatar as the dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "expected": "\"example.com\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Request blocking was done via a Playwright route - page.context().route('**/s2/favicons**', r => r.abort()) - registered BEFORE entering the website (equivalent of DevTools request blocking for \"s2/favicons\"). One request aborted: https://www.google.com/s2/favicons?domain=example.com&sz=64. Given: website field cleared and committed on blur, card back to span \"L\" with no img. When: placeholder [data-testid=wizard-brand-logo-placeholder] (animate-pulse, bg-slate-200) visible in step2_when (brands/logo response delayed 2.5 s with a Playwright route, test aid only, response unchanged). Then: no img in the card; span[aria-hidden] \"L\" 32x32, classes \"inline-flex shrink-0 items-center justify-center font-medium text-white h-8 w-8 rounded-full text-sm bg-green-500\" - identical component/classes to the dashboard letter avatars (e.g. \"B\", \"E\", \"K\", \"L\" rows, 32px; background colour varies per brand name). \"example.com\" shown under \"Lictorix Geo\". Cleanup: page.context().unrouteAll() + page.unrouteAll(); re-entering example.com then rendered the s2/favicons img again (complete, natural 16px) and a direct s2/favicons load for google.com succeeded (64px) - no leftover route."
+    }
+  ]
+}

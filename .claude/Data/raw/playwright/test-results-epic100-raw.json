@@ -1,0 +1,1084 @@
+{
+  "stats": {
+    "startTime": "2026-05-30T16:51:18.939Z",
+    "duration": 2451734.8830000004,
+    "expected": 253,
+    "skipped": 153,
+    "unexpected": 120,
+    "flaky": 0
+  },
+  "suites": [
+    {
+      "title": "test-suite-epic100.spec.js",
+      "file": "test-suite-epic100.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "GEO-61-TC001 - Current scope is displayed",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 35094,
+                  "error": {
+                    "message": "Error: Markets section must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'Markets', exact: true }) }).first()\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Markets section must be visible with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'Markets', exact: true }) }).first()\u001b[22m\n",
+                    "stack": "Error: Markets section must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'Markets', exact: true }) }).first()\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Markets section must be visible with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'Markets', exact: true }) }).first()\u001b[22m\n\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:215:67",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                      "column": 67,
+                      "line": 215
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 213 |\u001b[39m   \u001b[36mconst\u001b[39m categoriesSection \u001b[33m=\u001b[39m getSection(page\u001b[33m,\u001b[39m \u001b[32m'Categories'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 214 |\u001b[39m   \u001b[36mconst\u001b[39m llmSection \u001b[33m=\u001b[39m getSection(page\u001b[33m,\u001b[39m \u001b[32m'LLM Engines'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 215 |\u001b[39m   \u001b[36mawait\u001b[39m expect(marketsSection\u001b[33m,\u001b[39m \u001b[32m'Markets section must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 216 |\u001b[39m   \u001b[36mawait\u001b[39m expect(categoriesSection\u001b[33m,\u001b[39m \u001b[32m'Categories section must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 217 |\u001b[39m   \u001b[36mawait\u001b[39m expect(llmSection\u001b[33m,\u001b[39m \u001b[32m'LLM Engines section must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 218 |\u001b[39m   \u001b[36mawait\u001b[39m screenshot(page\u001b[33m,\u001b[39m \u001b[32m'GEO-61-TC001_step2_when'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "column": 67,
+                        "line": 215
+                      },
+                      "message": "Error: Markets section must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'Markets', exact: true }) }).first()\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Markets section must be visible with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'Markets', exact: true }) }).first()\u001b[22m\n\n\n  213 |   const categoriesSection = getSection(page, 'Categories');\n  214 |   const llmSection = getSection(page, 'LLM Engines');\n> 215 |   await expect(marketsSection, 'Markets section must be visible').toBeVisible({ timeout: 15000 });\n      |                                                                   ^\n  216 |   await expect(categoriesSection, 'Categories section must be visible').toBeVisible({ timeout: 15000 });\n  217 |   await expect(llmSection, 'LLM Engines section must be visible').toBeVisible({ timeout: 15000 });\n  218 |   await screenshot(page, 'GEO-61-TC001_step2_when');\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:215:67"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:44.609Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic100-GEO-61-TC001---Current-scope-is-displayed-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "column": 67,
+                    "line": 215
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-17845bc906908fa0b536",
+          "file": "test-suite-epic100.spec.js",
+          "line": 205,
+          "column": 1
+        },
+        {
+          "title": "GEO-61-TC002 - Adding a market updates quota and shows next-run notice",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-61-TC002: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "line": 243,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 592,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:44.582Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-61-TC002: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "line": 243,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-e389062f805094d98fff",
+          "file": "test-suite-epic100.spec.js",
+          "line": 241,
+          "column": 1
+        },
+        {
+          "title": "GEO-61-TC003 - Adding a category does not consume market quota",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-61-TC003: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "line": 289,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 629,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:44.578Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-61-TC003: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "line": 289,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-254f28aa5a54604acf22",
+          "file": "test-suite-epic100.spec.js",
+          "line": 288,
+          "column": 1
+        },
+        {
+          "title": "GEO-61-TC004 - Removing a market is applied on the next execution",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-61-TC004: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "line": 331,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "skipped",
+                  "duration": 609,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:44.609Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-61-TC004: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "line": 331,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-016f6a44e2d57c31a55f",
+          "file": "test-suite-epic100.spec.js",
+          "line": 330,
+          "column": 1
+        },
+        {
+          "title": "GEO-61-TC005 - Removing a category is applied on the next execution",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-61-TC005: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "line": 363,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 658,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:45.688Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-61-TC005: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "line": 363,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-5e76cc5326c7952a4192",
+          "file": "test-suite-epic100.spec.js",
+          "line": 362,
+          "column": 1
+        },
+        {
+          "title": "GEO-61-TC006 - Question and competitor updates are persisted",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-61-TC006: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "line": 391,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "skipped",
+                  "duration": 700,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:45.778Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-61-TC006: requires CRUD_ENABLED=true — skipped to protect fixture state",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "line": 391,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-8c2cf638f9689b05a444",
+          "file": "test-suite-epic100.spec.js",
+          "line": 390,
+          "column": 1
+        },
+        {
+          "title": "GEO-61-TC007 - Markets quota: Add Country button disabled with warning banner",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-61-TC007: requires QUOTA_ACCOUNT=true (org at max markets quota)",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "line": 425,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 678,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:45.798Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-61-TC007: requires QUOTA_ACCOUNT=true (org at max markets quota)",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "line": 425,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-d9305e162bc6b3d97a3e",
+          "file": "test-suite-epic100.spec.js",
+          "line": 423,
+          "column": 1
+        },
+        {
+          "title": "GEO-61-TC008 - Categories quota: Add Topic button disabled with warning banner",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-61-TC008: requires QUOTA_ACCOUNT=true (org at max categories quota)",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "line": 452,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 248,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:46.379Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-61-TC008: requires QUOTA_ACCOUNT=true (org at max categories quota)",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "line": 452,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-33994336424fd579002c",
+          "file": "test-suite-epic100.spec.js",
+          "line": 450,
+          "column": 1
+        },
+        {
+          "title": "GEO-61-TC009 - Reader sees Manage Scope in read-only mode",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-61-TC009: requires ROLE=Reader, current ROLE=Editor",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "line": 478,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "skipped",
+                  "duration": 262,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:46.507Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-61-TC009: requires ROLE=Reader, current ROLE=Editor",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "line": 478,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-2686b6e1aa42ea9541b9",
+          "file": "test-suite-epic100.spec.js",
+          "line": 476,
+          "column": 1
+        },
+        {
+          "title": "GEO-60-TC001 - LLM toggle saves change and applies on next execution",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 22903,
+                  "error": {
+                    "message": "Error: LLM toggle must flip to aria-checked=\"true\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - LLM toggle must flip to aria-checked=\"true\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\u001b[22m\n\u001b[2m    3 × locator resolved to <button disabled type=\"button\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle Grok\" class=\"relative inline-flex h-[20px] w-[32px] shrink-0 items-center rounded-full transition-colors duration-200 bg-slate-300 cursor-not-allowed\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"false\"\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle Grok\" class=\"relative inline-flex h-[20px] w-[32px] shrink-0 items-center rounded-full transition-colors duration-200 bg-slate-300 cursor-pointer\">…</button>\u001b[22m\n\u001b[2m    5 × unexpected value \"false\"\u001b[22m\n\u001b[2m      - locator resolved to <button type=\"button\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle Perplexity\" class=\"relative inline-flex h-[20px] w-[32px] shrink-0 items-center rounded-full transition-colors duration-200 bg-slate-300 cursor-pointer\">…</button>\u001b[22m\n\u001b[2m    - unexpected value \"false\"\u001b[22m\n",
+                    "stack": "Error: LLM toggle must flip to aria-checked=\"true\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - LLM toggle must flip to aria-checked=\"true\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\u001b[22m\n\u001b[2m    3 × locator resolved to <button disabled type=\"button\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle Grok\" class=\"relative inline-flex h-[20px] w-[32px] shrink-0 items-center rounded-full transition-colors duration-200 bg-slate-300 cursor-not-allowed\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"false\"\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle Grok\" class=\"relative inline-flex h-[20px] w-[32px] shrink-0 items-center rounded-full transition-colors duration-200 bg-slate-300 cursor-pointer\">…</button>\u001b[22m\n\u001b[2m    5 × unexpected value \"false\"\u001b[22m\n\u001b[2m      - locator resolved to <button type=\"button\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle Perplexity\" class=\"relative inline-flex h-[20px] w-[32px] shrink-0 items-center rounded-full transition-colors duration-200 bg-slate-300 cursor-pointer\">…</button>\u001b[22m\n\u001b[2m    - unexpected value \"false\"\u001b[22m\n\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:551:84",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                      "column": 84,
+                      "line": 551
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 549 |\u001b[39m   \u001b[90m// Then the change is saved (toggle state flipped)\u001b[39m\n \u001b[90m 550 |\u001b[39m   \u001b[36mconst\u001b[39m newState \u001b[33m=\u001b[39m initialState \u001b[33m===\u001b[39m \u001b[32m'true'\u001b[39m \u001b[33m?\u001b[39m \u001b[32m'false'\u001b[39m \u001b[33m:\u001b[39m \u001b[32m'true'\u001b[39m\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 551 |\u001b[39m   \u001b[36mawait\u001b[39m expect(targetToggle\u001b[33m,\u001b[39m \u001b[32m`LLM toggle must flip to aria-checked=\"${newState}\"`\u001b[39m)\u001b[33m.\u001b[39mtoHaveAttribute(\u001b[32m'aria-checked'\u001b[39m\u001b[33m,\u001b[39m newState\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 552 |\u001b[39m\n \u001b[90m 553 |\u001b[39m   \u001b[90m// And the change is scheduled for the next execution (next-run notice visible)\u001b[39m\n \u001b[90m 554 |\u001b[39m   \u001b[36mconst\u001b[39m nextRunNotice \u001b[33m=\u001b[39m getMain(page)\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39mnextRunNotice)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "column": 84,
+                        "line": 551
+                      },
+                      "message": "Error: LLM toggle must flip to aria-checked=\"true\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\nExpected: \u001b[32m\"\u001b[7mtru\u001b[27me\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mfals\u001b[27me\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - LLM toggle must flip to aria-checked=\"true\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\u001b[22m\n\u001b[2m    3 × locator resolved to <button disabled type=\"button\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle Grok\" class=\"relative inline-flex h-[20px] w-[32px] shrink-0 items-center rounded-full transition-colors duration-200 bg-slate-300 cursor-not-allowed\">…</button>\u001b[22m\n\u001b[2m      - unexpected value \"false\"\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle Grok\" class=\"relative inline-flex h-[20px] w-[32px] shrink-0 items-center rounded-full transition-colors duration-200 bg-slate-300 cursor-pointer\">…</button>\u001b[22m\n\u001b[2m    5 × unexpected value \"false\"\u001b[22m\n\u001b[2m      - locator resolved to <button type=\"button\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle Perplexity\" class=\"relative inline-flex h-[20px] w-[32px] shrink-0 items-center rounded-full transition-colors duration-200 bg-slate-300 cursor-pointer\">…</button>\u001b[22m\n\u001b[2m    - unexpected value \"false\"\u001b[22m\n\n\n  549 |   // Then the change is saved (toggle state flipped)\n  550 |   const newState = initialState === 'true' ? 'false' : 'true';\n> 551 |   await expect(targetToggle, `LLM toggle must flip to aria-checked=\"${newState}\"`).toHaveAttribute('aria-checked', newState, { timeout: 5000 });\n      |                                                                                    ^\n  552 |\n  553 |   // And the change is scheduled for the next execution (next-run notice visible)\n  554 |   const nextRunNotice = getMain(page).locator(SEL.nextRunNotice).first();\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:551:84"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:46.511Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic100-GEO-60--87476-d-applies-on-next-execution-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "column": 84,
+                    "line": 551
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-4ac0d850046543dbde0d",
+          "file": "test-suite-epic100.spec.js",
+          "line": 516,
+          "column": 1
+        },
+        {
+          "title": "GEO-60-TC002 - Last enabled LLM cannot be disabled",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 22068,
+                  "error": {
+                    "message": "Error: Precondition failed: expected exactly 1 enabled LLM toggle, found 3. Ensure the test fixture leaves only a single LLM active.",
+                    "stack": "Error: Precondition failed: expected exactly 1 enabled LLM toggle, found 3. Ensure the test fixture leaves only a single LLM active.\n    at getOnlyEnabledLLMToggle (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:123:11)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:563:22",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                      "column": 11,
+                      "line": 123
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 121 |\u001b[39m   \u001b[36mconst\u001b[39m count \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m checked\u001b[33m.\u001b[39mcount()\u001b[33m;\u001b[39m\n \u001b[90m 122 |\u001b[39m   \u001b[36mif\u001b[39m (count \u001b[33m!==\u001b[39m \u001b[35m1\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 123 |\u001b[39m     \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\n \u001b[90m     |\u001b[39m           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 124 |\u001b[39m       \u001b[32m`Precondition failed: expected exactly 1 enabled LLM toggle, found ${count}. `\u001b[39m \u001b[33m+\u001b[39m\n \u001b[90m 125 |\u001b[39m       \u001b[32m'Ensure the test fixture leaves only a single LLM active.'\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 126 |\u001b[39m     )\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "column": 11,
+                        "line": 123
+                      },
+                      "message": "Error: Precondition failed: expected exactly 1 enabled LLM toggle, found 3. Ensure the test fixture leaves only a single LLM active.\n\n  121 |   const count = await checked.count();\n  122 |   if (count !== 1) {\n> 123 |     throw new Error(\n      |           ^\n  124 |       `Precondition failed: expected exactly 1 enabled LLM toggle, found ${count}. ` +\n  125 |       'Ensure the test fixture leaves only a single LLM active.',\n  126 |     );\n    at getOnlyEnabledLLMToggle (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:123:11)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:563:22"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:46.649Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic100-GEO-60--57457-bled-LLM-cannot-be-disabled-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "column": 11,
+                    "line": 123
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-f06a91f5f5a4c7111d77",
+          "file": "test-suite-epic100.spec.js",
+          "line": 560,
+          "column": 1
+        },
+        {
+          "title": "GEO-60-TC003 - Saved LLM configuration persists until modified again",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 31537,
+                  "error": {
+                    "message": "Error: LLM toggle states must match the saved snapshot after return\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"ChatGPT\": \"true\",\u001b[22m\n\u001b[2m    \"Claude\": \"true\",\u001b[22m\n\u001b[2m    \"Gemini\": \"true\",\u001b[22m\n\u001b[32m-   \"Grok\": \"false\",\u001b[39m\n\u001b[31m+   \"Grok\": \"true\",\u001b[39m\n\u001b[2m    \"Perplexity\": \"false\",\u001b[22m\n\u001b[2m  }\u001b[22m",
+                    "stack": "Error: LLM toggle states must match the saved snapshot after return\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"ChatGPT\": \"true\",\u001b[22m\n\u001b[2m    \"Claude\": \"true\",\u001b[22m\n\u001b[2m    \"Gemini\": \"true\",\u001b[22m\n\u001b[32m-   \"Grok\": \"false\",\u001b[39m\n\u001b[31m+   \"Grok\": \"true\",\u001b[39m\n\u001b[2m    \"Perplexity\": \"false\",\u001b[22m\n\u001b[2m  }\u001b[22m\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:626:86",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                      "column": 86,
+                      "line": 626
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 624 |\u001b[39m     \u001b[36mreturn\u001b[39m out\u001b[33m;\u001b[39m\n \u001b[90m 625 |\u001b[39m   })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 626 |\u001b[39m   expect(stateAfter\u001b[33m,\u001b[39m \u001b[32m'LLM toggle states must match the saved snapshot after return'\u001b[39m)\u001b[33m.\u001b[39mtoEqual(savedState)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 627 |\u001b[39m\n \u001b[90m 628 |\u001b[39m   \u001b[36mawait\u001b[39m screenshot(page\u001b[33m,\u001b[39m \u001b[32m'GEO-60-TC003_step3_then'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 629 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "column": 86,
+                        "line": 626
+                      },
+                      "message": "Error: LLM toggle states must match the saved snapshot after return\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[2m    \"ChatGPT\": \"true\",\u001b[22m\n\u001b[2m    \"Claude\": \"true\",\u001b[22m\n\u001b[2m    \"Gemini\": \"true\",\u001b[22m\n\u001b[32m-   \"Grok\": \"false\",\u001b[39m\n\u001b[31m+   \"Grok\": \"true\",\u001b[39m\n\u001b[2m    \"Perplexity\": \"false\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  624 |     return out;\n  625 |   });\n> 626 |   expect(stateAfter, 'LLM toggle states must match the saved snapshot after return').toEqual(savedState);\n      |                                                                                      ^\n  627 |\n  628 |   await screenshot(page, 'GEO-60-TC003_step3_then');\n  629 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:626:86"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:51:46.791Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic100-GEO-60--38638-rsists-until-modified-again-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "column": 86,
+                    "line": 626
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-1c2aaf9958847f875e05",
+          "file": "test-suite-epic100.spec.js",
+          "line": 588,
+          "column": 1
+        },
+        {
+          "title": "GEO-60-TC004 - Disabling last LLM is prevented with inline message",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 13048,
+                  "error": {
+                    "message": "Error: Precondition failed: expected exactly 1 enabled LLM toggle, found 4. Ensure the test fixture leaves only a single LLM active.",
+                    "stack": "Error: Precondition failed: expected exactly 1 enabled LLM toggle, found 4. Ensure the test fixture leaves only a single LLM active.\n    at getOnlyEnabledLLMToggle (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:123:11)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:634:22",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                      "column": 11,
+                      "line": 123
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 121 |\u001b[39m   \u001b[36mconst\u001b[39m count \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m checked\u001b[33m.\u001b[39mcount()\u001b[33m;\u001b[39m\n \u001b[90m 122 |\u001b[39m   \u001b[36mif\u001b[39m (count \u001b[33m!==\u001b[39m \u001b[35m1\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 123 |\u001b[39m     \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\n \u001b[90m     |\u001b[39m           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 124 |\u001b[39m       \u001b[32m`Precondition failed: expected exactly 1 enabled LLM toggle, found ${count}. `\u001b[39m \u001b[33m+\u001b[39m\n \u001b[90m 125 |\u001b[39m       \u001b[32m'Ensure the test fixture leaves only a single LLM active.'\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 126 |\u001b[39m     )\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "column": 11,
+                        "line": 123
+                      },
+                      "message": "Error: Precondition failed: expected exactly 1 enabled LLM toggle, found 4. Ensure the test fixture leaves only a single LLM active.\n\n  121 |   const count = await checked.count();\n  122 |   if (count !== 1) {\n> 123 |     throw new Error(\n      |           ^\n  124 |       `Precondition failed: expected exactly 1 enabled LLM toggle, found ${count}. ` +\n  125 |       'Ensure the test fixture leaves only a single LLM active.',\n  126 |     );\n    at getOnlyEnabledLLMToggle (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:123:11)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:634:22"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:52:11.181Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic100-GEO-60--02ec1-evented-with-inline-message-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "column": 11,
+                    "line": 123
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-d06f9bcaa8ba17e9c16b",
+          "file": "test-suite-epic100.spec.js",
+          "line": 631,
+          "column": 1
+        },
+        {
+          "title": "GEO-60-TC005 - When only 1 LLM is enabled its toggle is disabled",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 15463,
+                  "error": {
+                    "message": "Error: Precondition failed: expected exactly 1 enabled LLM toggle, found 4. Ensure the test fixture leaves only a single LLM active.",
+                    "stack": "Error: Precondition failed: expected exactly 1 enabled LLM toggle, found 4. Ensure the test fixture leaves only a single LLM active.\n    at getOnlyEnabledLLMToggle (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:123:11)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:660:22",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                      "column": 11,
+                      "line": 123
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 121 |\u001b[39m   \u001b[36mconst\u001b[39m count \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m checked\u001b[33m.\u001b[39mcount()\u001b[33m;\u001b[39m\n \u001b[90m 122 |\u001b[39m   \u001b[36mif\u001b[39m (count \u001b[33m!==\u001b[39m \u001b[35m1\u001b[39m) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 123 |\u001b[39m     \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\n \u001b[90m     |\u001b[39m           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 124 |\u001b[39m       \u001b[32m`Precondition failed: expected exactly 1 enabled LLM toggle, found ${count}. `\u001b[39m \u001b[33m+\u001b[39m\n \u001b[90m 125 |\u001b[39m       \u001b[32m'Ensure the test fixture leaves only a single LLM active.'\u001b[39m\u001b[33m,\u001b[39m\n \u001b[90m 126 |\u001b[39m     )\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "column": 11,
+                        "line": 123
+                      },
+                      "message": "Error: Precondition failed: expected exactly 1 enabled LLM toggle, found 4. Ensure the test fixture leaves only a single LLM active.\n\n  121 |   const count = await checked.count();\n  122 |   if (count !== 1) {\n> 123 |     throw new Error(\n      |           ^\n  124 |       `Precondition failed: expected exactly 1 enabled LLM toggle, found ${count}. ` +\n  125 |       'Ensure the test fixture leaves only a single LLM active.',\n  126 |     );\n    at getOnlyEnabledLLMToggle (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:123:11)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:660:22"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:52:11.197Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic100-GEO-60--76185-bled-its-toggle-is-disabled-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "column": 11,
+                    "line": 123
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-637ed815fff2b8f4181c",
+          "file": "test-suite-epic100.spec.js",
+          "line": 657,
+          "column": 1
+        },
+        {
+          "title": "GEO-60-TC006 - Web search toggle is saved and persists after page refresh",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 24401,
+                  "error": {
+                    "message": "Error: Web search checkbox must be visible on the enabled LLM card\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Web search checkbox must be visible on the enabled LLM card with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\u001b[22m\n",
+                    "stack": "Error: Web search checkbox must be visible on the enabled LLM card\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Web search checkbox must be visible on the enabled LLM card with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\u001b[22m\n\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:689:98",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                      "column": 98,
+                      "line": 689
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 687 |\u001b[39m     \u001b[33m.\u001b[39mgetByRole(\u001b[32m'checkbox'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/Web search/i\u001b[39m })\n \u001b[90m 688 |\u001b[39m     \u001b[33m.\u001b[39mor(card\u001b[33m.\u001b[39mlocator(\u001b[32m'input[type=\"checkbox\"][aria-label*=\"Web search\" i]'\u001b[39m))\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 689 |\u001b[39m   \u001b[36mawait\u001b[39m expect(webSearchCheckbox\u001b[33m,\u001b[39m \u001b[32m'Web search checkbox must be visible on the enabled LLM card'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 690 |\u001b[39m   \u001b[36mawait\u001b[39m expect(webSearchCheckbox\u001b[33m,\u001b[39m \u001b[32m'Web search checkbox must be enabled when the LLM is on'\u001b[39m)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 691 |\u001b[39m   \u001b[36mconst\u001b[39m initialChecked \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m webSearchCheckbox\u001b[33m.\u001b[39misChecked()\u001b[33m;\u001b[39m\n \u001b[90m 692 |\u001b[39m   \u001b[36mawait\u001b[39m screenshot(page\u001b[33m,\u001b[39m \u001b[32m'GEO-60-TC006_step1_given'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "column": 98,
+                        "line": 689
+                      },
+                      "message": "Error: Web search checkbox must be visible on the enabled LLM card\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Web search checkbox must be visible on the enabled LLM card with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\u001b[22m\n\n\n  687 |     .getByRole('checkbox', { name: /Web search/i })\n  688 |     .or(card.locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'));\n> 689 |   await expect(webSearchCheckbox, 'Web search checkbox must be visible on the enabled LLM card').toBeVisible({ timeout: 5000 });\n      |                                                                                                  ^\n  690 |   await expect(webSearchCheckbox, 'Web search checkbox must be enabled when the LLM is on').toBeEnabled();\n  691 |   const initialChecked = await webSearchCheckbox.isChecked();\n  692 |   await screenshot(page, 'GEO-60-TC006_step1_given');\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:689:98"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:52:20.258Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic100-GEO-60--b7160-persists-after-page-refresh-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "column": 98,
+                    "line": 689
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-b56f6da624543bb7aeb3",
+          "file": "test-suite-epic100.spec.js",
+          "line": 676,
+          "column": 1
+        },
+        {
+          "title": "GEO-60-TC007 - Disabled LLM web search checkbox is grayed out and non-interactive",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 19623,
+                  "error": {
+                    "message": "Error: Web search checkbox on the disabled LLM card must be visible (grayed out)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Web search checkbox on the disabled LLM card must be visible (grayed out) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\u001b[22m\n",
+                    "stack": "Error: Web search checkbox on the disabled LLM card must be visible (grayed out)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Web search checkbox on the disabled LLM card must be visible (grayed out) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\u001b[22m\n\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:735:5",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                      "column": 5,
+                      "line": 735
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 733 |\u001b[39m     webSearchDisabled\u001b[33m,\u001b[39m\n \u001b[90m 734 |\u001b[39m     \u001b[32m'Web search checkbox on the disabled LLM card must be visible (grayed out)'\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 735 |\u001b[39m   )\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 736 |\u001b[39m   \u001b[36mawait\u001b[39m expect(\n \u001b[90m 737 |\u001b[39m     webSearchDisabled\u001b[33m,\u001b[39m\n \u001b[90m 738 |\u001b[39m     \u001b[32m'Web search checkbox must be non-interactive (disabled) when its LLM is turned off'\u001b[39m\u001b[33m,\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "column": 5,
+                        "line": 735
+                      },
+                      "message": "Error: Web search checkbox on the disabled LLM card must be visible (grayed out)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Web search checkbox on the disabled LLM card must be visible (grayed out) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\u001b[22m\n\n\n  733 |     webSearchDisabled,\n  734 |     'Web search checkbox on the disabled LLM card must be visible (grayed out)',\n> 735 |   ).toBeVisible({ timeout: 5000 });\n      |     ^\n  736 |   await expect(\n  737 |     webSearchDisabled,\n  738 |     'Web search checkbox must be non-interactive (disabled) when its LLM is turned off',\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:735:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:52:22.040Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic100-GEO-60--e4d5f-yed-out-and-non-interactive-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "column": 5,
+                    "line": 735
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-de71a6ca0968db864fbd",
+          "file": "test-suite-epic100.spec.js",
+          "line": 714,
+          "column": 1
+        },
+        {
+          "title": "GEO-60-TC008 - Reader: AI Engines section is read-only",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-60-TC008: requires ROLE=Reader, current ROLE=Editor",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "line": 746,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 439,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:52:26.110Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-60-TC008: requires ROLE=Reader, current ROLE=Editor",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "line": 746,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-0fc4ecf1a77e4a0d9f6e",
+          "file": "test-suite-epic100.spec.js",
+          "line": 744,
+          "column": 1
+        },
+        {
+          "title": "GEO-60-TC009 - Saved LLM state is preserved after navigation and included in next scheduled run",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 78744,
+                  "error": {
+                    "message": "TimeoutError: locator.getAttribute: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\u001b[22m\n",
+                    "stack": "TimeoutError: locator.getAttribute: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\u001b[22m\n\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:807:40",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                      "column": 40,
+                      "line": 807
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 805 |\u001b[39m   \u001b[36mawait\u001b[39m expect(llmSectionAfter)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 806 |\u001b[39m   \u001b[90m// Re-locate the same toggle by aria-label (it was flipped, so find it by its new state)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 807 |\u001b[39m   \u001b[36mconst\u001b[39m ariaLabel \u001b[33m=\u001b[39m \u001b[36mawait\u001b[39m targetToggle\u001b[33m.\u001b[39mgetAttribute(\u001b[32m'aria-label'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 808 |\u001b[39m   \u001b[36mconst\u001b[39m toggleAfter \u001b[33m=\u001b[39m llmSectionAfter\u001b[33m.\u001b[39mlocator(\u001b[32m`[role=\"switch\"][aria-label=\"${ariaLabel}\"]`\u001b[39m)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n \u001b[90m 809 |\u001b[39m   \u001b[36mawait\u001b[39m expect(\n \u001b[90m 810 |\u001b[39m     toggleAfter\u001b[33m,\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                        "column": 40,
+                        "line": 807
+                      },
+                      "message": "TimeoutError: locator.getAttribute: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\u001b[22m\n\n\n  805 |   await expect(llmSectionAfter).toBeVisible({ timeout: 15000 });\n  806 |   // Re-locate the same toggle by aria-label (it was flipped, so find it by its new state)\n> 807 |   const ariaLabel = await targetToggle.getAttribute('aria-label');\n      |                                        ^\n  808 |   const toggleAfter = llmSectionAfter.locator(`[role=\"switch\"][aria-label=\"${ariaLabel}\"]`).first();\n  809 |   await expect(\n  810 |     toggleAfter,\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:807:40"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T16:52:26.837Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic100-GEO-60--7eb91-luded-in-next-scheduled-run-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js",
+                    "column": 40,
+                    "line": 807
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "aac1f6a46ce8cfd6a861-4e612133cc866dc9ce60",
+          "file": "test-suite-epic100.spec.js",
+          "line": 774,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "metadata": {}
+}

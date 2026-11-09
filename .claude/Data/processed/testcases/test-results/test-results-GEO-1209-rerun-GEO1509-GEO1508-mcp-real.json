@@ -1,0 +1,220 @@
+{
+  "spec": "GEO-1209-rerun-GEO1509-GEO1508-mcp",
+  "runDate": "2026-10-21",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "rerun_of": [
+    "test-results-GEO-1209-GEO1241-mcp-real.json (TC-GEO-1241-014)",
+    "test-results-GEO-1209-GEO1246-mcp-real.json (TC-GEO-1246-003)"
+  ],
+  "bugs_retested": [
+    "GEO-1509",
+    "GEO-1508"
+  ],
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "tc_filter": "TC-GEO-1241-014,TC-GEO-1246-003",
+  "environment": "staging, organisation QA-GEO, en-GB (GET /geo/api/v1/auth/me language en-GB), features.unbranded_analysis=true, prompt pool 996/1000 at start",
+  "write_guard": "context.route on **/geo/api/** blocking non-GET; allow-listed draft-building POSTs: discover-categories, translate-category, questions/adapt-batch. No analysis created, nothing saved. Guard removed with context.unrouteAll() at the end. Final check: Electric bikes Manage Scope \"996 / 1000 prompts · 5 selected\", 31 rows; Toyota \"· 174 selected\". Organisation QA-GEO throughout.",
+  "summary": {
+    "total": 4,
+    "pass": 4,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "success_rate": 100,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1241-014",
+      "title": "Type badges and type selects of an unbranded analysis show Visibility, Competitive, Category Topics or Other",
+      "story_id": "GEO-1241",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1241-014_step1_given.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1241-014_step2_when.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1241-014_step3_row_select.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1241-014_step3b_row_select_visibility.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1241-014_step4_add_select.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1241-014_step5_before_add.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1241-014_step3_then.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1241-014_step3c_row_select_custom.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1241-014_step3d_custom_other_row_bug.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The table is displayed"
+        },
+        {
+          "title": "When the user looks at the type badges",
+          "status": "PASS",
+          "data": "",
+          "expected": "Each badge reads Visibility, Competitive or Category Topics"
+        },
+        {
+          "title": "And the user opens the type select of a row",
+          "status": "PASS",
+          "data": "",
+          "expected": "The select lists Visibility, Competitive, Category Topics and Other only"
+        },
+        {
+          "title": "And the user clicks Add prompt and opens the type select of the new row",
+          "status": "PASS",
+          "data": "",
+          "expected": "The select lists Visibility, Competitive, Category Topics and Other only; no Reputation, no Brand Image"
+        },
+        {
+          "title": "When the user confirms the new row with the type empty",
+          "status": "PASS",
+          "data": "Prompt: \"Which parcel lockers are easiest to use?\" - Category C1 - Market GB (EN) - Type empty",
+          "expected": "The new row badge reads \"Other\""
+        }
+      ],
+      "notes": "Wizard draft rebuilt as on 20/10: Unbranded analysis, topic 'Postal services', markets United Kingdom - English (GB (EN)) and France - French (FR (FR)); discovered categories C1 'Package Delivery' (FR 'Livraison de colis') and C2 'Mail Services' (FR 'Services de courrier') kept; Prompts step: 120 rows (40 Category Topics, 40 Visibility, 40 Competitive), pool block '1116 / 1000 prompts · 120 selected' (116 over - pool already at 996/1000, not blocking the table). Create Analysis never clicked. Badges: Visibility / Competitive / Category Topics only (PASS). Row type select (Edit prompt, then Escape leaves the row in edit mode with Category + Type comboboxes): generated Category Topics row 'What should I look for in Package Delivery?' -> 'Visibility, Category Topics, Competitive, Other'; generated Visibility row 'Best Package Delivery service?' -> same 4 options (PASS - GEO-1509 fixed for generated rows, 20/10 showed no Other). Closed with Escape, value unchanged. Add prompt draft row Type select: 'Visibility, Category Topics, Competitive, Other' (PASS). New row 'Which parcel lockers are easiest to use?' - Package Delivery - GB (EN), type left at default: badge 'Other', CUSTOM tag, banner '1 prompt is in Other.' (PASS). Side observation (not a CSV step, relevant to GEO-1509 'user-added prompts'): on that user-added row currently in Other, the edit-mode Type select lists only 'Visibility, Category Topics, Competitive' - 'Other' is shown as the trigger placeholder (data-placeholder) but is not an option (red frame in step3d_custom_other_row_bug.png). Selecting Other there would be a no-op, so the CSV step stays PASS; reported to the PO/dev as a residual inconsistency of GEO-1509."
+    },
+    {
+      "tc_id": "TC-GEO-1246-003",
+      "title": "The type select of an unbranded analysis in Manage Scope lists Visibility, Competitive, Category Topics and Other only",
+      "story_id": "GEO-1246",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1246-003_step1_given.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1246-003_step2_when.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1246-003_step2b_when_custom_row.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1246-003_step2c_when_visibility_row.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1246-003_step2d_when_category_topics_row.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/TC-GEO-1246-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user clicks Add prompt and opens the type select",
+          "status": "PASS",
+          "data": "",
+          "expected": "The select lists Visibility, Competitive, Category Topics and Other only"
+        },
+        {
+          "title": "And the user cancels and opens the type select of an existing row",
+          "status": "PASS",
+          "data": "",
+          "expected": "The select lists Visibility, Competitive, Category Topics and Other only"
+        },
+        {
+          "title": "Then no Reputation or Brand Image type is offered",
+          "status": "PASS",
+          "data": "",
+          "expected": "Neither \"Reputation\" nor \"Brand Image\" in either select"
+        }
+      ],
+      "notes": "Data adaptation as on 20/10: analysis UA = QA-GEO unbranded \"Electric bikes\" 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (1 market GB (EN), category \"Commuter Electric Bikes\" + automatic \"Other\", 31 prompt rows). Pool block before and after: \"996 / 1000 prompts · 5 selected\". Add prompt -> inline draft row (Category Other, Type Other, Market GB (EN)); Type select: \"Visibility, Category Topics, Competitive, Other\" (PASS); draft cancelled with Cancel (31 rows). Existing rows (Edit prompt, then Escape -> Category + Type comboboxes in the row): generated Visibility row \"Best Commuter Electric Bikes?\" -> \"Visibility, Category Topics, Competitive, Other\"; generated Category Topics row \"What should I look for in Commuter Electric Bikes?\" -> same 4 options (20/10: 3 options, no Other -> GEO-1509 fixed for generated rows). User-added row \"Which electric bike brands are best for commuting in London?\" (CUSTOM, Other / Other, Type combobox always shown with data-placeholder): options \"Visibility, Category Topics, Competitive\" - no Other option (red frame in step3_then). Every select closed with Escape, no value selected, nothing saved (network: GET only on /geo/api/). No Reputation or Brand Image in any select (PASS). PARTIAL rather than FAIL: on that row Other is the current (empty) type shown as placeholder, so picking Other would be a no-op; PO/dev to confirm whether Other must also be listed as an option there (GEO-1509 says generated AND user-added prompts).",
+      "observed_gap_before_decision": "Step \"And the user cancels and opens the type select of an existing row\" - Expected: \"The select lists Visibility, Competitive, Category Topics and Other only\". Observed: generated rows now list \"Visibility, Category Topics, Competitive, Other\" (fixed since 20/10), but the user-added row \"Which electric bike brands are best for commuting in London?\" (CUSTOM, currently Other) still lists \"Visibility, Category Topics, Competitive\" only - \"Other\" appears only as the trigger placeholder, not as an option.",
+      "qa_decision": "QA decision 2026-10-21 (user): dev answer on GEO-1509 (Abdenasser, comment 866019) accepted - on a prompt whose type is already Other, the select shows Other as its current value (46.7 AC5), so it lists only the types the prompt can move to; listing Other again would change nothing. Status set from PARTIAL to PASS; GEO-1509 moved to Passed QA."
+    },
+    {
+      "tc_id": "BUGCHECK-GEO-1509-brand",
+      "title": "[Bug check - not a CSV TC] Type select of an existing prompt of a brand analysis lists Other (GEO-1509)",
+      "story_id": "BUGCHECK",
+      "priority": "-",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1509-brand_step1_given.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1509-brand_step2_row0_select.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1509-brand_step2_row4_select.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1509-brand_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of brand analysis Toyota 439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "status": "PASS",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user opens the Type select of an existing prompt (Escape only, nothing selected)",
+          "status": "PASS",
+          "expected": "The select opens"
+        },
+        {
+          "title": "Then the select lists Other in addition to the brand types",
+          "status": "PASS",
+          "expected": "Visibility, Reputation, Competitive, Brand Image, Other"
+        }
+      ],
+      "notes": "VERDICT GEO-1509 (brand): FIXED. Toyota Manage Scope (QA-GEO): 174 rows, pool block \"996 / 1000 prompts · 174 selected\" before and after. Existing generated row \"What do you think of Toyota?\" (Overview, Brand Image, US (EN)) -> Type select \"Visibility, Reputation, Competitive, Brand Image, Other\"; existing row \"What do you think of Toyota for hybrid cars?\" (Voitures hybrides, Reputation) -> same 5 options. Opened via Edit prompt then Escape (row edit mode), closed with Escape, value unchanged, nothing selected or saved (network: GET only). The analysis has no user-added / Other-typed row, so the residual case seen on unbranded analyses (Other missing on a row already typed Other) could not be checked on a brand analysis."
+    },
+    {
+      "tc_id": "BUGCHECK-GEO-1508",
+      "title": "[Bug check - not a CSV TC] \"Category Topics\" type badge stays inside its column and never overlaps the prompt text (GEO-1508)",
+      "story_id": "BUGCHECK",
+      "priority": "-",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1508_dashboard_panel_open_1440.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1508_dashboard_panel_open_1280.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1508_dashboard_panel_closed_1440.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1508_dashboard_panel_closed_1280.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1508_manage_scope_1440.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1508_manage_scope_1280.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1508_wizard_1440.png",
+        "screenshots-GEO-1209-rerun-GEO1509-GEO1508/BUGCHECK-GEO-1508_wizard_1280.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the unbranded analysis \"Electric bikes\" 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 and the unbranded wizard draft (Postal services)",
+          "status": "PASS",
+          "expected": "Prompt tables with Category Topics badges are displayed"
+        },
+        {
+          "title": "When the badges are measured with getBoundingClientRect at 1440x900 and 1280x800 (dashboard Prompts Analysis table with side panel open and closed, Manage Scope > Prompts, wizard Prompts step)",
+          "status": "PASS",
+          "expected": "Badge right edge vs prompt-text left edge, badge/cell scrollWidth vs clientWidth"
+        },
+        {
+          "title": "Then no Category Topics badge leaves its column or overlaps the prompt text",
+          "status": "PASS",
+          "expected": "No overlap anywhere"
+        }
+      ],
+      "notes": "VERDICT GEO-1508: FIXED (not reproduced on Electric bikes / Postal services draft; the Game Developers analysis of the bug report was not used). 1) Dashboard, category \"Commuter Electric Bikes\" > Prompts Analysis table (Type is the first column, rows tr[data-testid^=dashboard-questions-row-]): 4 rows, 2 Category Topics. Side panel open (row \"What makes Commuter Electric Bikes good quality?\" expanded) and closed, at 1440x900 and 1280x800: badge 380->506 px (126 px, scrollWidth 126 = clientWidth 126) inside the type cell 368->544 (cell scrollWidth 176 = clientWidth 176); prompt cell starts at 544, prompt text at 556 -> gap 50 px, no overlap. With the side panel open the prompt column becomes narrow and the prompt wraps over several lines, but it never touches the badge. 2) Manage Scope > Prompts (Type column after Category): 10 Category Topics badges, all inside their cell (e.g. badge 1082->1192 in cell 1070->1200 at 1440; 922->1032 in cell 910->1040 at 1280), no overflow, min horizontal gap to visible prompt text 172 px at both widths. 3) Wizard Prompts step (Postal services draft, 120 rows, 40 Category Topics badges): all inside the type cell (e.g. 1095->1205 in 1083->1213 at 1440; 935->1045 in 923->1053 at 1280), no overflow; long French prompts are cut with an ellipsis (overflow hidden, nowrap) inside their own cell, visible text clipped before the badge - no overlap. No red frame needed (0 overlap). Measurement: badge pill rect vs the visible text rects of the prompt cell (clipped to overflow-hidden ancestors)."
+    }
+  ],
+  "analyses": {
+    "unbranded": "42c3ab89-7dfd-4ba5-b5ec-117cec2514e4",
+    "brand": "439acd96-0b1b-4da4-9e07-612d38e9783e"
+  },
+  "summary_csv_tcs": {
+    "total": 2,
+    "pass": 2,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "success_rate": 100,
+    "verdict": "GO"
+  },
+  "bug_verdicts": {
+    "GEO-1509": "FIXED (wizard + Manage Scope, brand and unbranded). A prompt already in Other lists only the types it can move to - expected per dev answer 2026-10-21 (46.7 AC5), accepted by QA; Passed QA.",
+    "GEO-1508": "FIXED - no overlap at 1440x900 or 1280x800 (dashboard table with/without side panel, Manage Scope, wizard)."
+  }
+}

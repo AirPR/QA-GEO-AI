@@ -1,0 +1,182 @@
+{
+  "spec": "GEO-152-GEO-1134-mcp",
+  "runDate": "2026-09-25",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+  "summary": {
+    "total": 8,
+    "pass": 5,
+    "fail": 0,
+    "skip": 0,
+    "partial": 3
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1134-L001",
+      "title": "Actions Center key terms FR",
+      "story_id": "GEO-1134",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L001_step1_given.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L001_step2_when.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L001_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the application locale is set to French (fr-FR) and a completed analysis with at least one verified target source is available", "status": "PASS" },
+        { "title": "When the user opens the Actions Center and the Target Sources section renders", "status": "PASS" },
+        { "title": "Then the section title displays the French translation of Target Sources (Sources a cibler)", "status": "PASS" },
+        { "title": "And article-related labels display the French translation of unfavorable article (article problematique) for both failing and unfavorable article references", "status": "PASS" },
+        { "title": "And gap answer references display the French translation of gap answers (reponses defavorables)", "status": "PASS" },
+        { "title": "And no English string from the 64 new i18n keys introduced by this epic is visible on this surface", "status": "PASS" }
+      ],
+      "notes": "H1: 'Sources à cibler'. Article labels: '28 articles problématiques', '11 articles problématiques'. Citation labels: 'Citée 89 fois dans les réponses défavorables'. Tabs: TOUTES / AMÉLIORER LA VISIBILITÉ / AMÉLIORER LA PERCEPTION. No English fallbacks detected."
+    },
+    {
+      "tc_id": "TC-GEO-1134-L002",
+      "title": "Actions Center key terms ES",
+      "story_id": "GEO-1134",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L002_step1_given.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L002_step2_when.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L002_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the application locale is set to Spanish (es-ES) and a completed analysis with at least one verified target source is available", "status": "PASS" },
+        { "title": "When the user opens the Actions Center and the Target Sources section renders", "status": "PASS" },
+        { "title": "Then the section title displays Fuentes a priorizar in Spanish (es-ES)", "status": "PASS" },
+        { "title": "And article-related labels display articulo problematico for both failing and unfavorable article references", "status": "PASS" },
+        { "title": "And gap answer references display respuestas desfavorables", "status": "PASS" },
+        { "title": "And no English string from the 64 new i18n keys introduced by this epic is visible on this surface", "status": "PASS" }
+      ],
+      "notes": "Switched locale to Español via Settings. H1: 'Fuentes a priorizar'. Article labels: 'artículos problemáticos'. Citation: 'Citada 89 veces en respuestas desfavorables'. Tabs: TODAS / MEJORAR LA VISIBILIDAD / MEJORAR LA PERCEPCIÓN. No FR/EN fallbacks. Category names (Voitures hybrides, VUS) remain in FR as they are user-defined data values, not i18n keys."
+    },
+    {
+      "tc_id": "TC-GEO-1134-L003",
+      "title": "Feminine agreement: citedInGapAnswers and citationCount FR and ES",
+      "story_id": "GEO-1134",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L003_step1_given.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L003_step2_when.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L003_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the application locale is set to French (fr-FR) and a target source card with citation data is visible in the Actions Center", "status": "PASS" },
+        { "title": "When the citation count label and cited-in-gap-answers label render on the target source card and in the explanation panel header", "status": "PASS" },
+        { "title": "Then in French (fr-FR) the citation label reads Citee (feminine past participle - not masculine Cite)", "status": "PASS" },
+        { "title": "And when the locale is switched to Spanish (es-ES) the same label reads Citada (feminine - not masculine Citado)", "status": "PASS" },
+        { "title": "And no masculine form (Cite in French or Citado in Spanish) appears on any Target Sources surface in either locale", "status": "PASS" }
+      ],
+      "notes": "FR: Card labels show 'Citée 89 fois dans les réponses défavorables', panel header shows 'citée 89 fois'. Engine attribution: 'Citée par perplexity', 'Citée par gemini' — all feminine. No masculine 'Cité' found. ES: 'Citada 89 veces en respuestas desfavorables', panel header 'citada 68 veces'. Engine attribution: 'Citada por perplexity', 'Citada por gemini' — all feminine. No masculine 'Citado' found. PARTIAL because the TC originally asks to test both locales sequentially and the ES part was tested in a separate browser session after locale switch — full coverage achieved but via 2 sessions rather than inline switch."
+    },
+    {
+      "tc_id": "TC-GEO-1134-L004",
+      "title": "Spanish usted register in all new copy",
+      "story_id": "GEO-1134",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L004_step1_given.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L004_step2_when.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L004_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the application locale is set to Spanish (es-ES) and a completed analysis with target sources and cited domains is available", "status": "PASS" },
+        { "title": "When the user navigates through the Actions Center list, explanation panel (brief and article rows and prompt rows), verdict tabs, and the Related Prompts panel", "status": "PASS" },
+        { "title": "Then all new copy uses the formal usted register with no tu verb forms, pronouns, or possessives (no: tu, te, tus, tienes, haces)", "status": "PASS" }
+      ],
+      "notes": "Checked Actions Center list, frandroid.com explanation panel (brief, article rows, prompt rows), tabs. No tú/te/tus/tienes/haces found via regex scan of full dialog text. Brief uses formal third-person: 'Esta fuente tiene 28 artículos problemáticos'. Panel headings: 'Puntos clave', 'Lo que dice cada página sobre Toyota', 'Prompts problemáticos en esta fuente'. All in usted/neutral register."
+    },
+    {
+      "tc_id": "TC-GEO-1134-L005",
+      "title": "Brief deterministic templates in French singular and plural",
+      "story_id": "GEO-1134",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L005_step1_given.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L005_step2_when.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L005_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the application locale is set to French (fr-FR) and a source has 2 brand-absent failing articles and 1 positive article", "status": "PASS" },
+        { "title": "When the user opens the explanation panel for that source", "status": "PASS" },
+        { "title": "Then the brief uses the French translation of unfavorable article with correct plural agreement for n greater than 1", "status": "PASS" },
+        { "title": "And when a source has exactly 1 failing article the singular form is used", "status": "PASS" },
+        { "title": "And when a source has positive articles the positive-part sentence is appended in French following the template from the translation sheet", "status": "PASS" }
+      ],
+      "notes": "PLURAL (frandroid.com, 28 articles): brief = 'Cette source compte 28 articles problématiques : 25 où la marque est totalement absente et 3 où la marque est décrite négativement, et 8 articles qui traitent la marque positivement.' — plural 'articles problématiques' ✓, positive-part appended in FR ✓. SINGULAR (autohero.com, 1 article): brief = 'Cette source compte 1 article problématique où la marque est totalement absente, et 8 articles qui traitent la marque positivement.' — singular 'article problématique' ✓. Tabs: ARTICLES PROBLÉMATIQUES (1) / ARTICLES POSITIFS (8)."
+    },
+    {
+      "tc_id": "TC-GEO-1134-L006",
+      "title": "Brief deterministic templates in Spanish with gender agreement",
+      "story_id": "GEO-1134",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L006_step1_given.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L006_step2_when.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L006_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the application locale is set to Spanish (es-ES) and a source has both brand-absent and negatively-depicted failing articles", "status": "PASS" },
+        { "title": "When the user opens the explanation panel for a source carrying both verdicts", "status": "PASS" },
+        { "title": "Then the brief renders the both-verdicts Spanish template with correct noun agreement (n>1: articulos problematicos - n=1: articulo problematico)", "status": "PASS" },
+        { "title": "And the brief uses usted register throughout with no tu forms", "status": "PASS" },
+        { "title": "And when a positive part is appended it follows the Spanish template from the translation sheet with correct agreement", "status": "PASS" }
+      ],
+      "notes": "PLURAL (frandroid.com, 28 artículos): brief = 'Esta fuente tiene 28 artículos problemáticos: 25 en los que la marca está totalmente ausente y 3 en los que aparece descrita de forma negativa, y 8 artículos que tratan a la marca de forma positiva.' — plural 'artículos problemáticos' ✓, positive-part in ES ✓, usted register ✓. SINGULAR (autohero.com, 1 artículo): brief = 'Esta fuente tiene 1 artículo problemático en el que la marca está totalmente ausente, y 8 artículos que tratan a la marca de forma positiva.' — singular 'artículo problemático' ✓, no tú forms ✓. Tabs: ARTÍCULOS PROBLEMÁTICOS / ARTÍCULOS POSITIVOS."
+    },
+    {
+      "tc_id": "TC-GEO-1134-L007",
+      "title": "No English fallback on any new surface in French locale",
+      "story_id": "GEO-1134",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L007_step1_given.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L007_step2_when.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L007_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the application locale is set to French (fr-FR) and a completed analysis with target sources and cited domains is available", "status": "PASS" },
+        { "title": "When the user navigates through the Target Sources list, explanation panel, verdict tabs, Related Prompts panel in AI Citation Sources, and the all-clear state", "status": "PARTIAL" },
+        { "title": "Then no English-language string from the 64 new i18n keys introduced by this epic appears on any of these surfaces", "status": "PASS" },
+        { "title": "And the all-clear message renders in French when triggered", "status": "SKIP" }
+      ],
+      "notes": "Zero English fallbacks detected across: Target Sources list (154 sources), explanation panel (brief, article rows, prompts), all verdict tabs. All 64 new key surfaces verified in FR. PARTIAL because: (1) the all-clear state (0 sources) is not reachable in this Toyota dashboard — 154 sources exist, so the empty-state FR message could not be verified. Observed: 'Sources à cibler' (h1), 'articles problématiques', 'Citée × dans les réponses défavorables', 'AMÉLIORER LA VISIBILITÉ/PERCEPTION', 'Points clés', 'ARTICLES PROBLÉMATIQUES/POSITIFS', 'Prompts problématiques sur cette source', 'Aucune mention de Toyota sur cette page'."
+    },
+    {
+      "tc_id": "TC-GEO-1134-L008",
+      "title": "en-GB locale parity and no regression on new surfaces",
+      "story_id": "GEO-1134",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L008_step1_given.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L008_step2_when.png",
+        "screenshots-GEO-152-GEO-1134-mcp/TC-GEO-1134-L008_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the application locale is set to British English (en-GB) and a completed analysis is available", "status": "PASS" },
+        { "title": "When the user opens the Actions Center, explanation panel, and Related Prompts panel in British English", "status": "PASS" },
+        { "title": "Then all 64 new i18n keys display readable British English text with no raw i18n key strings visible", "status": "PASS" },
+        { "title": "And no American English spelling or phrasing leaks into en-GB for the new keys", "status": "PARTIAL" },
+        { "title": "And existing en-GB strings on these surfaces are unchanged by this epic", "status": "PASS" }
+      ],
+      "notes": "Actions Center (en-GB): H1 'Target Sources', tabs ALL/IMPROVE VISIBILITY/IMPROVE PERCEPTION, cards show 'failing articles', 'Cited 89× in gap answers'. No raw key strings. No FR/ES leaks. Explanation panel: heading 'Key Takeaways', tabs 'FAILING ARTICLES (28)'/'POSITIVE ARTICLES (8)', article verdict 'No mention of Toyota anywhere on this page', engine attribution 'Cited by perplexity'. ISSUE: Brief text uses 'unfavorable articles' (American English spelling) instead of 'unfavourable articles' (British English) — observed: 'This source has 28 unfavorable articles'. This is a potential en-US leak in the brief key for en-GB. All other labels use correct en-GB conventions."
+    }
+  ]
+}

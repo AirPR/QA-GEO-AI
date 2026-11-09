@@ -1,0 +1,288 @@
+{
+  "spec": "GEO-1209-r2-GEO1245-mcp",
+  "runDate": "2026-10-22",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "story_filter": "GEO-1245",
+  "story_title": "Exports, emails and Actions Center for a topic",
+  "campaign": "Second full campaign of epic GEO-1209 (first run 2026-10-20, test-results-GEO-1209-GEO1245-mcp-real.json)",
+  "environment": "staging, organisation QA-GEO, en-GB, features.unbranded_analysis=true, role SUPER_ADMIN, viewport 1280x720",
+  "analysis_under_test": "UA = Electric bikes 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (UNBRANDED, GB only, 1 category Commuter Electric Bikes + Other, ChatGPT + Gemini, 2 collections 20 and 21 Oct 2026); UA2 = bike d3fd1b30-7d39-4132-83a0-70e2121df2ff (UNBRANDED, US, Mountain Bikes + Road Bikes); BA = Decathlon 27bec573-a748-4848-a673-849754cd18e5 (brand, GB + FR, read only)",
+  "write_guard": "context.route on **/geo/api/** aborting every non-GET request except POST /reports/{id}/export/(pptx|xlsx|pdf). Existing analyses only, no analysis created (user decision 2026-10-22). Guard removed with context.unrouteAll() at the end.",
+  "summary": {
+    "total": 5,
+    "pass": 3,
+    "fail": 0,
+    "skip": 1,
+    "partial": 1,
+    "success_rate": 87.5,
+    "verdict": "GO"
+  },
+  "run_folder": ".claude/Data/output/reports/runs/22102026-1237/",
+  "end_checks": {
+    "auth_me_start": "QA-GEO, en-GB, unbranded_analysis=true, SUPER_ADMIN",
+    "auth_me_end": "QA-GEO, en-GB, unbranded_analysis=true, SUPER_ADMIN",
+    "interface_language_final": "British English (en-GB) - never switched in this run (all exports checked in en-GB)",
+    "electric_bikes_manage_scope": "· 5 selected (read only, screenshot zz_end_check_electric_bikes_manage_scope.png)",
+    "guard": "context.unrouteAll() done",
+    "non_get_calls": "POST export/pptx and export/xlsx of UA (allow-listed, 200); auth/hubspot/login-event aborted by the guard; nothing else"
+  },
+  "findings": {
+    "possible_product_bug": [
+      "Exports use US date format 'Oct 21, 2026' with lang=en-GB (PPTX cover, XLSX title, Raw Data) - first-run finding, still present",
+      "PPTX 'Mixed · 1 topics' plural used for a count of 1 - still present",
+      "PPTX matrix slide: 'At Risk · 4 brands' + MiRider in a separate cluster vs legend 'At Risk 5'; API quadrant MONITOR - still present"
+    ],
+    "po_questions": [
+      "TC-004: XLSX Raw Data 'Favorability' column (N/A on every row) for a topic - drop it like the dashboard (GEO-1243 AC-10) or keep it?",
+      "PPTX has no category landscape slide while the unbranded category page shows it (fewer widgets, rule says 'nothing more') - acceptable?"
+    ],
+    "csv_gaps": [
+      "TC-001/002: UI label is 'Action Center' (en-gb), CSV says 'Actions Center'"
+    ],
+    "missing_data": [
+      "TC-005: no 'Frozen food' analysis and no access to the QA mailbox (email pipeline)",
+      "TC-001..004: UA is Electric bikes (GB only, 1 category) instead of Postal services (GB + FR, C1/C2 + custom Other prompts); BA Decathlon has 1 category"
+    ]
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1245-001",
+      "title": "The Actions Center entry is hidden in the sidebar of an unbranded analysis",
+      "story_id": "GEO-1245",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-001_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-001_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-001_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-001_step4_when.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-001_step5_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the sidebar renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Actions Center entry is hidden",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens brand analysis BA",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the brand analysis keeps its Actions Center entry",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Analysis used: UA = Electric bikes (42c3ab89, topic Electric bikes instead of Postal services, GB only, C1 = Commuter Electric Bikes + automatic Other). BA = Decathlon 27bec573 (brand, GB + FR, 1 category Articles De Sport) instead of a Decathlon analysis with 2 categories. UA sidebar text: 'Electric bikes | Overview | Categories | Commuter Electric Bikes | Other | Manage Scope' - no 'Action Center' entry, 0 link to /actions on the page. Identity, Performance and Sources are shown as the section tabs of the page header (not inside the sidebar), same as the first run. BA sidebar: 'Decathlon | Overview | Categories | Articles De Sport | Action Center | Manage Scope' with link /geo/dashboard/27bec573-.../actions. Label is 'Action Center' (en-gb.json), the CSV says 'Actions Center' - first-run observation, still present (wording only).",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1245-002",
+      "title": "Opening the Actions Center URL of an unbranded analysis shows the dashboard",
+      "story_id": "GEO-1245",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-002_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-002_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has the Actions Center URL of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the URL directly",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the dashboard of UA is shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "BA (Decathlon 27bec573) Action Center path = /geo/dashboard/{uuid}/actions, page heading 'Target Sources' (step1). UUID replaced with UA (Electric bikes 42c3ab89): /geo/dashboard/42c3ab89-7dfd-4ba5-b5ec-117cec2514e4/actions opened directly. Within 1 s the URL was /geo/dashboard/42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (redirect), still the same after 5 s; sidebar active entry Overview; headings Top Topics in the Category, Share of Voice, Electric bikes landscape, AI Engines Citation Sources; no 'Target Sources' text, no empty Action Center. Same result as the first run.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1245-003",
+      "title": "The PowerPoint export of an unbranded analysis uses the topic and skips dropped slides",
+      "story_id": "GEO-1245",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-003_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-003_step2_when_menu.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-003_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-003_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-003_step4_then.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-003_step5_then.png"
+      ],
+      "exports": [
+        "screenshots-GEO-1209-r2-GEO1245/exports/Electric_bikes_AI_Visibility_Report.pptx"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user runs the PowerPoint export and opens the file",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the cover and the titles use the topic",
+          "status": "PASS"
+        },
+        {
+          "title": "And the dropped slides are skipped",
+          "status": "PASS"
+        },
+        {
+          "title": "And no text says \"your brand\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And no brand carries a target marker",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Analysis used: UA = Electric bikes (42c3ab89, topic Electric bikes instead of Postal services, GB only, ChatGPT + Gemini, latest collection 21 Oct 2026). Export analysis > Presentation .pptx -> POST /geo/api/v1/reports/42c3ab89-.../export/pptx?marketCodes=master&llms=openai,gemini&lang=en-GB (200) -> Electric_bikes_AI_Visibility_Report.pptx (96 744 bytes, 10 slides). No PPTX renderer available: content read from ppt/slides/*.xml; step3/4/5 screenshots show a rendered extract. Cover: 'Onclusive | GEO ANALYTICS | E | Electric bikes | AI Visibility Report | Oct 21, 2026', 3 InBrief bullets, Markets United Kingdom, AI engines ChatGPT · Gemini, Categories Commuter Electric Bikes. Slides: 2 IDENTITY · OVERVIEW 'The topics the answers raise'; 3 PERFORMANCE · OVERVIEW 'How the answers split across brands' (SOV); 4 PERFORMANCE · OVERVIEW 'How the brands rank in the answers' (landscape top 10); 5 SOURCES · OVERVIEW; 6-9 COMMUTER ELECTRIC BIKES · CATEGORY (SOV, 'Brand prioritization in Commuter Electric Bikes', topics, sources); 10 OTHER · CATEGORY topics. Footer 'Electric bikes AI Visibility Report — N'. Section labels use the category names. No KPI cards, Time Evolution, Category Prioritization, Corporate Reputation, Brand Territory or Action Center slide (brand reference Toyota deck of 21/10: 24 slides with KPI, 5 evolution slides, category matrix, competitor positioning and an Actions · Target Sources slide). 'your brand': 0 match in 10 slides + layouts + masters (non-breaking spaces normalised). 'target': 0 match in text nodes. Ranking slide 4 uses only neutral colours (0F172A text, E2E8F0 separators, no accent fill, no bold row); SOV slides use the per-brand palette with the same style for every slice; matrix colours = quadrant colours only. First-run side observations, all still present (outside this TC's assertions): date 'Oct 21, 2026' is US format with lang=en-GB (UI shows '21 Oct 2026'); 'Mixed · 1 topics' (slides 8 and 10) plural; the category landscape table of the dashboard is not exported (fewer widgets, not more); matrix slide shows 'At Risk · 4 brands' + MiRider in a separate cluster vs legend 'At Risk 5' (and the brand-matrix API returns MONITOR for these brands, see r2 GEO-1244). Topic export copy (strings sheet 'Proposed' tab) still not available locally: the local Translation workbook has only the 'All strings' sheet, no export strings - wording not compared.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1245-004",
+      "title": "The XLSX export of an unbranded analysis uses the topic and skips dropped sheets",
+      "story_id": "GEO-1245",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Expected: \"No match; no target column or marker\". Observed: 0 \"your brand\" and 0 \"target\" match, no highlighted row, but the Raw Data sheet still has the \"Favorability\" column with N/A on every row (10 rows). Favorability is a target-brand metric and the unbranded AI Citation Sources widget has no Favorability column (GEO-1243 AC-10), while the export must contain the same widgets as the unbranded dashboard, nothing more. PO decision needed: drop the column for a topic or keep it as N/A.",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-004_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-004_step2_when_menu.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-004_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-004_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-004_step4_then.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-004_step5_then.png"
+      ],
+      "exports": [
+        "screenshots-GEO-1209-r2-GEO1245/exports/Electric_bikes_AI_Visibility_Report.xlsx"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user runs the XLSX export and opens the file",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the titles use the topic",
+          "status": "PASS"
+        },
+        {
+          "title": "And the dropped sheets are skipped",
+          "status": "PASS"
+        },
+        {
+          "title": "And no cell says \"your brand\" and no brand is marked as target",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Analysis used: UA = Electric bikes (42c3ab89, topic Electric bikes instead of Postal services, GB only, ChatGPT + Gemini, latest collection 21 Oct 2026). Export analysis > Spreadsheet .xls -> POST /geo/api/v1/reports/42c3ab89-.../export/xlsx?...&lang=en-GB (200) -> Electric_bikes_AI_Visibility_Report.xlsx (13 496 bytes), read with the xlsx package; step3/4/5 screenshots show a rendered extract. Sheets: Overview · Commuter Electric Bikes · Other · Raw Data. Titles: 'Electric bikes — Overview (United Kingdom · ChatGPT, Gemini · snapshot Oct 21, 2026)', 'Category — Commuter Electric Bikes', 'Category — Other'; sections IDENTITY (InBrief, Top Topics), PERFORMANCE ('Electric bikes landscape — top 10' / 'Commuter Electric Bikes landscape — top 10': Rank, Brand, Share of Voice, Visibility %, Avg Position, AI Choice % empty), SOURCES (Media Type Split, Domains 19 of 19). No KPI, Corporate Reputation, Brand Territory, Evolution or Action Center sheet / section. 'your brand': 0 cell; 'target': 0 cell. Fills: headers (1E293B), section bands (E0E7FF), topic rows by sentiment (green Positive / yellow Mixed); landscape rows have no fill and no bold (no target row). Raw Data header: 'Snapshot | Country | Category | Type | Question | Engine | Favorability | Sentiment | Themes | Response | Source URLs | Source Domains', Favorability = N/A on all 10 rows (red frame on step5). First-run findings: Favorability column N/A still present; US date format 'Oct 21, 2026' with lang=en-GB (title and Raw Data Snapshot) still present. Classification: PO question (possible product bug if the PO confirms the column must go, by analogy with GEO-1243 AC-10).",
+      "skip_reason": null,
+      "first_run_status": "PARTIAL",
+      "gap_type": "PO question"
+    },
+    {
+      "tc_id": "TC-GEO-1245-005",
+      "title": "The analysis ready email uses the topic as the analysis name",
+      "story_id": "GEO-1245",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-005_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-005_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1245/TC-GEO-1245-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the first collection of the unbranded analysis \"Frozen food\" completed",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the analysis ready email in the QA mailbox",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the subject uses the topic as the analysis name",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the body uses the topic as the analysis name",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - email pipeline + missing data. No 'Frozen food' analysis exists in QA-GEO (GET /reports: 12 analyses, unbranded = bike, Electric bikes, kids toys) and analysis creation is excluded for this campaign (user decision 2026-10-22; pool also at 996 / 1000 prompts). The analysis ready email is not visible anywhere in the UI (Settings only offers Interface Language) and the QA mailbox is not reachable via MCP Playwright. Screenshots show context only: analyses list without 'Frozen food' (step1), Settings page (step2), UA dashboard (step3). Proposal: check manually in the QA mailbox the analysis ready email of 'bike' (created 21/10/2026 11:14 UTC) or 'Electric bikes' (20/10/2026 22:13 UTC) - subject and body must name the topic, no brand and no 'your brand'.",
+      "skip_reason": "Email pipeline (QA mailbox not reachable via the UI) and missing data (no 'Frozen food' analysis; no analysis created in this campaign)",
+      "first_run_status": "SKIP",
+      "gap_type": "missing data"
+    }
+  ],
+  "first_run_findings": [
+    {
+      "finding": "US date format 'Oct 21, 2026' in exports with lang=en-GB (UI shows '21 Oct 2026')",
+      "status": "still present (PPTX cover, XLSX title and Raw Data Snapshot)"
+    },
+    {
+      "finding": "XLSX Raw Data keeps a 'Favorability' column with N/A on every row",
+      "status": "still present"
+    },
+    {
+      "finding": "Category landscape table of the dashboard not exported in the PPTX",
+      "status": "still present (XLSX does include it)"
+    },
+    {
+      "finding": "Action Center hidden for unbranded / URL redirects to the dashboard",
+      "status": "still OK (PASS); label 'Action Center' vs CSV 'Actions Center' unchanged"
+    },
+    {
+      "finding": "'Mixed · 1 topics' plural in the PPTX",
+      "status": "still present"
+    },
+    {
+      "finding": "PPTX matrix 'At Risk · 4 brands' + MiRider separate cluster vs legend 'At Risk 5'",
+      "status": "still present (API quadrant MONITOR, see r2 GEO-1244)"
+    },
+    {
+      "finding": "Topic export copy ('Proposed' strings tab) not available locally",
+      "status": "still not available - wording not compared"
+    }
+  ]
+}

@@ -1,0 +1,1116 @@
+{
+  "spec": "GEO-152-GEO1123-mcp",
+  "runDate": "2026-10-05",
+  "runTimestamp": "05102026-1539",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "environment": "staging",
+  "bundle": "assets/index-D1pTUG_F.js (css index-BPbeaLzg.css)",
+  "cache": "fresh browser context (MCP --isolated), fresh Auth0 login",
+  "filters": "Last 7 days (28/09/2026 - 04/10/2026), AI Engines 3 (ChatGPT, Gemini, Perplexity), All Countries (marketCodes=master)",
+  "accounts": {
+    "main": {
+      "email": "assiya.benramdane@onclusive.com",
+      "interfaceLanguage": "British English (en-GB) - expected en-US, NOT changed",
+      "apiLang": "en-GB"
+    }
+  },
+  "csv": ".claude/Data/output/csv/GEO-R1.2/testcases-coverage-epicGEO-152.csv",
+  "storyFilter": "GEO-1123",
+  "tcFilter": [
+    "TC-GEO-1123-001",
+    "TC-GEO-1123-002",
+    "TC-GEO-1123-007",
+    "TC-GEO-1123-008",
+    "TC-GEO-1123-009",
+    "TC-GEO-1123-015",
+    "TC-GEO-1123-017"
+  ],
+  "summary": {
+    "total": 7,
+    "pass": 6,
+    "fail": 1,
+    "skip": 0,
+    "partial": 0,
+    "blocked": 0,
+    "obsoleteNotRun": 10,
+    "successRate": 85.7,
+    "successRateBasis": "(pass + 0.5*partial) / (total - skip - blocked)",
+    "verdict": "GO"
+  },
+  "knownBugs": [
+    {
+      "key": "GEO-1183",
+      "status": "Ready for QA",
+      "tc": "TC-GEO-1123-008",
+      "label": "Passage must always include the brand - 2 passages without Toyota (competitor Tesla matched)"
+    },
+    {
+      "key": "GEO-1182",
+      "status": "Action Needed",
+      "tc": "TC-GEO-1123-008",
+      "label": "Brand not highlighted when matched entity differs - NOT reproduced (82/82 negative rows have a highlight)"
+    }
+  ],
+  "newObservations": [
+    "Judge matched a competitor as the brand: elpais.com \"Coches Tesla\" and automobile-propre.com \"Voiture électrique : le déclin de l'empire américain\" are counted as \"Toyota depicted negatively\" with matchedEntity \"Tesla\"; the passage does not mention Toyota and \"Tesla\" is highlighted (TC-008 step3_then).",
+    "Raw markdown in 14 negative passages on 12 sources ([text](url) links, **bold**, ![image](url), trailing \\\\) - e.g. caranddriver.com 4Runner 2023 (TC-008 step3b).",
+    "Article title with a literal backslash: automobile-propre.com \"Marché auto : encore un record pour l\\'électrique, ...\" (TC-008 step3c).",
+    "Passages are cut at 140 characters mid-word without an ellipsis (e.g. \"... cette marque. A é\").",
+    "The panel is a modal dialog: a click on another card while a panel is open only closes the panel (does not switch source).",
+    "Account interface language is \"British English\" (en-GB), not en-US as in the TC precondition; English UI strings tested are identical. Setting not changed.",
+    "Live data drift during the run (frandroid.com 26/3 -> 27/4 -> 33/5; sources 95 -> 118; zonebourse.com #11 -> #12). Every assertion was evaluated within a single panel load.",
+    "API /target-sources/{domain} still returns brief and positive[] (14 positive articles for frandroid.com) while the panel shows neither (behaviour superseded by GEO-1168/GEO-1178)."
+  ],
+  "previous_runs": [
+    {
+      "run": "25092026-1400",
+      "spec": "GEO-152-GEO1123-mcp",
+      "runDate": "2026-09-25",
+      "runMode": "mcp-playwright",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "summary": {
+        "total": 15,
+        "pass": 9,
+        "fail": 0,
+        "skip": 3,
+        "partial": 3
+      },
+      "results": [
+        {
+          "tc_id": "TC-GEO-1123-001",
+          "title": "Panel opens on click and closes on second click",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-001_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-001_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-001_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given the Actions Center is open and the Target Sources list is visible",
+              "status": "PASS"
+            },
+            {
+              "title": "When the user clicks on a source card (kbb.com)",
+              "status": "PASS"
+            },
+            {
+              "title": "Then the panel slides in with brief, articles and prompts; clicking same card again closes it",
+              "status": "PASS"
+            }
+          ],
+          "notes": "Panel as dialog aria-label Détails de kbb.com. Sections: In-Brief (H3+gradient), ARTICLES PROBLÉMATIQUES (10), ARTICLES POSITIFS (5), Prompts. Re-click via JS closed panel."
+        },
+        {
+          "tc_id": "TC-GEO-1123-002",
+          "title": "Panel shows all failing articles regardless of active tab filter",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-002_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-002_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-002_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given the VISIBILITÉ tab shows 5 articles for kbb.com",
+              "status": "PASS"
+            },
+            {
+              "title": "When the explanation panel is opened for kbb.com",
+              "status": "PASS"
+            },
+            {
+              "title": "Then the panel shows all 10 failing articles confirming no tab filter applied",
+              "status": "PASS"
+            }
+          ],
+          "notes": "VISIBILITÉ tab card: 5 articles for kbb.com. Panel ARTICLES PROBLÉMATIQUES (10). All 10 displayed unfiltered."
+        },
+        {
+          "tc_id": "TC-GEO-1123-003",
+          "title": "Brief contains all three sub-sections when source qualifies on all three legs",
+          "story_id": "GEO-1123",
+          "status": "SKIP",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-003_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-003_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-003_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given a source qualifies on all three legs (visibility, competitive loss, negative concept)",
+              "status": "SKIP"
+            },
+            {
+              "title": "When the explanation panel is opened for that source",
+              "status": "SKIP"
+            },
+            {
+              "title": "Then the brief has three sub-sections without an AI disclaimer",
+              "status": "SKIP"
+            }
+          ],
+          "notes": "SKIP — No source in current dataset qualifies on all three legs. All observed briefs include AI disclaimer contradicting AC-3."
+        },
+        {
+          "tc_id": "TC-GEO-1123-004",
+          "title": "Brief omits positive sub-section when source has zero positive articles",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-004_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-004_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-004_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given trustpilot.com has zero positive articles",
+              "status": "PASS"
+            },
+            {
+              "title": "When the explanation panel is opened for trustpilot.com",
+              "status": "PASS"
+            },
+            {
+              "title": "Then the brief does not include a positive sub-section",
+              "status": "PASS"
+            }
+          ],
+          "notes": "trustpilot.com (AMÉLIORER LA PERCEPTION tab): 0 positive articles. Panel brief: no positive sub-section. Conditional rendering confirmed."
+        },
+        {
+          "tc_id": "TC-GEO-1123-005",
+          "title": "Brief contains exactly two sub-sections when source qualifies on two legs only",
+          "story_id": "GEO-1123",
+          "status": "SKIP",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-005_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-005_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-005_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given a source qualifies on exactly two legs",
+              "status": "SKIP"
+            },
+            {
+              "title": "When the explanation panel is opened",
+              "status": "SKIP"
+            },
+            {
+              "title": "Then the brief contains exactly two sub-sections",
+              "status": "SKIP"
+            }
+          ],
+          "notes": "SKIP — No source confirmed to qualify on exactly two legs in current dataset (167 sources checked)."
+        },
+        {
+          "tc_id": "TC-GEO-1123-006",
+          "title": "Brief uses In-Brief visual treatment without AI disclaimer",
+          "story_id": "GEO-1123",
+          "status": "PARTIAL",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-006_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-006_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-006_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given the explanation panel is open for trustpilot.com",
+              "status": "PASS"
+            },
+            {
+              "title": "When the brief section is inspected",
+              "status": "PASS"
+            },
+            {
+              "title": "Then brief uses In-Brief visual treatment and does NOT show AI disclaimer",
+              "status": "PARTIAL"
+            }
+          ],
+          "notes": "PARTIAL — In-Brief treatment: H3 + gradient background confirmed. AI disclaimer IS shown inside brief, contradicting AC-6. Visual treatment PASS, disclaimer condition FAIL."
+        },
+        {
+          "tc_id": "TC-GEO-1123-007",
+          "title": "Failing article row without brand mention shows absence message instead of passage",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-007_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-007_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-007_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given a failing article cited for brand absence is visible in the panel",
+              "status": "PASS"
+            },
+            {
+              "title": "When the article row is inspected",
+              "status": "PASS"
+            },
+            {
+              "title": "Then the row shows absence message and no passage text",
+              "status": "PASS"
+            }
+          ],
+          "notes": "Confirmed: brand-absent articles display absence message without passage blockquote. Observed on kbb.com ARTICLES PROBLÉMATIQUES tab."
+        },
+        {
+          "tc_id": "TC-GEO-1123-008",
+          "title": "Failing article row with brand mention shows truncated passage with brand highlighted",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-008_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-008_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-008_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given a failing article row that mentions the brand negatively (trustpilot.com)",
+              "status": "PASS"
+            },
+            {
+              "title": "When the passage text is inspected",
+              "status": "PASS"
+            },
+            {
+              "title": "Then passage is italic with smart-quotes, brand highlighted via mark element, truncated to 140 chars",
+              "status": "PASS"
+            }
+          ],
+          "notes": "Confirmed: italic SPAN with smart-quotes. Brand in mark.rounded-sm.bg-E0F2FE. Passage at or under 140 chars. All three conditions met."
+        },
+        {
+          "tc_id": "TC-GEO-1123-009",
+          "title": "Each failing article row shows LLM engine icons that cited it",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-009_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-009_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-009_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given the panel is open for trustpilot.com",
+              "status": "PASS"
+            },
+            {
+              "title": "When multiple article rows are inspected",
+              "status": "PASS"
+            },
+            {
+              "title": "Then each row displays the engine icon(s) that cited that specific article",
+              "status": "PASS"
+            }
+          ],
+          "notes": "img alt=perplexity, img alt=openai, img alt=gemini confirmed per article row. Different rows show different engine sets — per-citation attribution working."
+        },
+        {
+          "tc_id": "TC-GEO-1123-010",
+          "title": "Panel shows two tabs when source has both failing and positive articles",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-010_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-010_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-010_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given kbb.com has both failing and positive articles",
+              "status": "PASS"
+            },
+            {
+              "title": "When the explanation panel is opened",
+              "status": "PASS"
+            },
+            {
+              "title": "Then two tabs shown with ARTICLES PROBLÉMATIQUES as default active tab",
+              "status": "PASS"
+            }
+          ],
+          "notes": "kbb.com: ARTICLES PROBLÉMATIQUES (10) aria-selected=true + ARTICLES POSITIFS (5). Correct default tab confirmed."
+        },
+        {
+          "tc_id": "TC-GEO-1123-011",
+          "title": "Positive article row shows title, URL, passage, engine icons and verdict",
+          "story_id": "GEO-1123",
+          "status": "PARTIAL",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-011_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-011_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-011_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given the ARTICLES POSITIFS tab is active on kbb.com panel",
+              "status": "PASS"
+            },
+            {
+              "title": "When a positive article row is inspected",
+              "status": "PASS"
+            },
+            {
+              "title": "Then row shows title, URL, passage, engine icons and verdict label",
+              "status": "PARTIAL"
+            }
+          ],
+          "notes": "PARTIAL — Positive rows: engine-icon + title + url + blockquote passage (4/5 fields). Verdict label NOT observed. AC-11 partially unmet."
+        },
+        {
+          "tc_id": "TC-GEO-1123-012",
+          "title": "Panel shows only failing articles tab when source has zero positive articles",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-012_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-012_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-012_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given trustpilot.com has zero positive articles",
+              "status": "PASS"
+            },
+            {
+              "title": "When the explanation panel is opened for trustpilot.com",
+              "status": "PASS"
+            },
+            {
+              "title": "Then only ARTICLES PROBLÉMATIQUES tab shown, no ARTICLES POSITIFS tab",
+              "status": "PASS"
+            }
+          ],
+          "notes": "trustpilot.com: single tab ARTICLES PROBLÉMATIQUES only. No ARTICLES POSITIFS in DOM. Conditional tab rendering confirmed."
+        },
+        {
+          "tc_id": "TC-GEO-1123-013",
+          "title": "Panel header shows correct counts for failing, positive articles and total citations",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-013_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-013_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-013_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given the panel is open for kbb.com with multiple article types",
+              "status": "PASS"
+            },
+            {
+              "title": "When the panel header is read",
+              "status": "PASS"
+            },
+            {
+              "title": "Then header displays failing article count, positive article count and total citations",
+              "status": "PASS"
+            }
+          ],
+          "notes": "kbb.com: 26 failing articles, 5 positive articles, 43 citations displayed in header. Consistent with card count of 26."
+        },
+        {
+          "tc_id": "TC-GEO-1123-014",
+          "title": "Source card count shows only failing articles (positives excluded from ranking)",
+          "story_id": "GEO-1123",
+          "status": "PASS",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-014_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-014_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-014_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given kbb.com has 26 failing and 5 positive articles (31 total)",
+              "status": "PASS"
+            },
+            {
+              "title": "When the source card is inspected",
+              "status": "PASS"
+            },
+            {
+              "title": "Then card displays 26 not 31, confirming positives excluded from ranking count",
+              "status": "PASS"
+            }
+          ],
+          "notes": "kbb.com card count = 26. Panel confirmed 26 failing + 5 positive. Card shows failing count only — positives excluded from ranking. AC-14 met."
+        },
+        {
+          "tc_id": "TC-GEO-1123-015",
+          "title": "Prompts section shows question, engine icon, country flag and outcome per prompt",
+          "story_id": "GEO-1123",
+          "status": "PARTIAL",
+          "duration": 0,
+          "error": null,
+          "screenshots": [
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-015_step1_given.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-015_step2_when.png",
+            "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-015_step3_then.png"
+          ],
+          "steps": [
+            {
+              "title": "Given the panel is open and the Prompts section is visible",
+              "status": "PASS"
+            },
+            {
+              "title": "When each prompt row is inspected",
+              "status": "PASS"
+            },
+            {
+              "title": "Then each row shows question text, engine icon, country flag and outcome label",
+              "status": "PARTIAL"
+            }
+          ],
+          "notes": "PARTIAL — Prompt rows: engine-icon + question-text + country-flag (3/4 fields). Outcome label (Brand absent, Ranked 2nd) NOT observed in any prompt row. AC-15 partially unmet."
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1123-001",
+      "title": "Panel opens on card select closes on re-select",
+      "story_id": "GEO-1123",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-001_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-001_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Target Sources list is visible with at least one source card",
+          "status": "PASS",
+          "observed": "Card view, tab \"ALL\", 12 cards + \"Show 83 more sources\". Card #1 \"frandroid.com\" (Journalism) \"Not visible in 26 articles\" / \"Negative perception in 3 articles\"."
+        },
+        {
+          "title": "When the user selects a source card",
+          "status": "PASS",
+          "observed": "Clicked card frandroid.com -> card aria-pressed=\"true\"."
+        },
+        {
+          "title": "Then a panel opens beside the list showing the header (#rank · domain), the article tab(s) and the \"Prompts associated with this source\" section",
+          "status": "PASS",
+          "observed": "dialog \"Details of frandroid.com\" opens on the right (x=1130, width 470px, over the list with a dimmed backdrop, as DAC1 \"right-side overlay ~470px\"). Header H2 \"#1 · frandroid.com\", tabs \"Lack of visibility (26)\" / \"Negative perception (3)\", H4 \"Prompts associated with this source\"."
+        },
+        {
+          "title": "When the user selects the same card again",
+          "status": "PASS",
+          "observed": "Mouse click at the frandroid.com card position (546,339). Note: the panel is a modal <dialog> (:modal=true); the click lands on the dialog backdrop."
+        },
+        {
+          "title": "Then the panel closes",
+          "status": "PASS",
+          "observed": "No dialog[open] remains; card aria-pressed=\"false\"."
+        }
+      ],
+      "notes": "Panel is a modal <dialog> with backdrop rgba(30,41,59,0.3): the second click is received by the backdrop (light dismiss), not by the card itself. Side observation: clicking ANOTHER card (autobild.es) while the frandroid.com panel is open also just closes the panel instead of switching to autobild.es - check against design intent (not an AC of this TC).",
+      "previous": {
+        "run": "25092026-1400",
+        "status": "PASS",
+        "title": "Panel opens on click and closes on second click"
+      }
+    },
+    {
+      "tc_id": "TC-GEO-1123-002",
+      "title": "Panel shows all failing articles regardless of active tab",
+      "story_id": "GEO-1123",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-002_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-002_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the IMPROVE VISIBILITY page tab is active and frandroid.com has missing and negative articles",
+          "status": "PASS",
+          "observed": "Tab \"IMPROVE VISIBILITY\" aria-selected=true; card frandroid.com: \"Not visible in 26 articles\" / \"Negative perception in 3 articles\"."
+        },
+        {
+          "title": "When the source card is selected from the IMPROVE VISIBILITY tab",
+          "status": "PASS",
+          "observed": "dialog \"Details of frandroid.com\" opened."
+        },
+        {
+          "title": "Then the panel shows both article tabs \"Lack of visibility (a)\" and \"Negative perception (b)\" regardless of the active page tab",
+          "status": "PASS",
+          "observed": "Tabs \"Lack of visibility (26)\" and \"Negative perception (3)\" - same counts as the card lines."
+        },
+        {
+          "title": "And after expanding every \"Show N more articles\", each tab lists exactly its count of rows",
+          "status": "PASS",
+          "observed": "Lack of visibility: 26 rows / 26 unique URLs; Negative perception: 3 rows / 3 unique URLs; no \"Show N more articles\" left."
+        }
+      ],
+      "notes": "Live data at 15:26. Counts moved during the session (frandroid.com later 27/4, then 33/5 at 15:37) - data is being refreshed on staging; each check was done within one panel load.",
+      "previous": {
+        "run": "25092026-1400",
+        "status": "PASS",
+        "title": "Panel shows all failing articles regardless of active tab filter"
+      }
+    },
+    {
+      "tc_id": "TC-GEO-1123-003",
+      "title": "Brief contains all three sub-sections when source qualifies on all three legs",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-003_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-003_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a source qualifies on all three legs (visibility, competitive loss, negative concept)",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the explanation panel is opened for that source",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the brief has three sub-sections without an AI disclaimer",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — No source in current dataset qualifies on all three legs. All observed briefs include AI disclaimer contradicting AC-3.",
+      "previousStatus": "SKIP",
+      "obsolete": true,
+      "executedThisRun": false,
+      "lastExecuted": "2026-09-25 (run 25092026-1400)",
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-004",
+      "title": "Brief omits positive sub-section when source has zero positive articles",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-004_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-004_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given trustpilot.com has zero positive articles",
+          "status": "PASS"
+        },
+        {
+          "title": "When the explanation panel is opened for trustpilot.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the brief does not include a positive sub-section",
+          "status": "PASS"
+        }
+      ],
+      "notes": "trustpilot.com (AMÉLIORER LA PERCEPTION tab): 0 positive articles. Panel brief: no positive sub-section. Conditional rendering confirmed.",
+      "previousStatus": "PASS",
+      "obsolete": true,
+      "executedThisRun": false,
+      "lastExecuted": "2026-09-25 (run 25092026-1400)",
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-005",
+      "title": "Brief contains exactly two sub-sections when source qualifies on two legs only",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-005_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-005_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a source qualifies on exactly two legs",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the explanation panel is opened",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the brief contains exactly two sub-sections",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — No source confirmed to qualify on exactly two legs in current dataset (167 sources checked).",
+      "previousStatus": "SKIP",
+      "obsolete": true,
+      "executedThisRun": false,
+      "lastExecuted": "2026-09-25 (run 25092026-1400)",
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-006",
+      "title": "Brief uses In-Brief visual treatment without AI disclaimer",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-006_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-006_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the explanation panel is open for trustpilot.com",
+          "status": "PASS"
+        },
+        {
+          "title": "When the brief section is inspected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then brief uses In-Brief visual treatment and does NOT show AI disclaimer",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "PARTIAL — In-Brief treatment: H3 + gradient background confirmed. AI disclaimer IS shown inside brief, contradicting AC-6. Visual treatment PASS, disclaimer condition FAIL.",
+      "previousStatus": "PARTIAL",
+      "obsolete": true,
+      "executedThisRun": false,
+      "lastExecuted": "2026-09-25 (run 25092026-1400)",
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-007",
+      "title": "Brand-absent article shows no passage",
+      "story_id": "GEO-1123",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-007_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-007_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a source has at least one failing article where the brand is entirely absent from the page",
+          "status": "PASS",
+          "observed": "zonebourse.com card #12 (rank moved from #11): \"Not visible in 8 articles\", IMPROVE VISIBILITY only."
+        },
+        {
+          "title": "When the failing article row for a brand-absent article is displayed",
+          "status": "PASS",
+          "observed": "Panel \"#12 · zonebourse.com\", single tab \"Lack of visibility (8)\" selected, 8 rows."
+        },
+        {
+          "title": "Then the Lack of visibility tab shows the line \"None of these articles mentions {brand} anywhere on the page.\" once, and not on each row",
+          "status": "PASS",
+          "observed": "\"None of these articles mentions Toyota anywhere on the page.\" displayed once under the tab (1 occurrence in the whole dialog); no row carries a per-article verdict line."
+        },
+        {
+          "title": "And no extracted passage from the page is shown in that row",
+          "status": "PASS",
+          "observed": "0 of 8 rows contain a blockquote / quoted passage (rows = title + URL + engine icon only)."
+        }
+      ],
+      "notes": "Same result on frandroid.com Lack of visibility tab (26 rows, no blockquote).",
+      "previous": {
+        "run": "25092026-1400",
+        "status": "PASS",
+        "title": "Failing article row without brand mention shows absence message instead of passage"
+      }
+    },
+    {
+      "tc_id": "TC-GEO-1123-008",
+      "title": "Negative-mention passage shown verbatim max 140 chars",
+      "story_id": "GEO-1123",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: the extracted passage is shown verbatim with the brand name (Toyota) highlighted. Observed: (1) trustpilot.com (TC data) 5/5 OK, but on the same Target Sources view 2 negative rows show a passage about a competitor with \"Tesla\" highlighted and no \"Toyota\" in the passage: #5 elpais.com \"Coches Tesla\" -> “El sistema Full Self Driving (FSD) de Tesla falló en repetidas ocasiones ante una prueba con un autobús escolar.” and #6 automobile-propre.com \"Voiture électrique : le déclin de l'empire américain\" -> “Tesla, jadis locomotive du marché, peine désormais à maintenir son rythme. ...” (API matchedEntity = \"Tesla\"). (2) 14 of 82 negative passages (12 sources) are not verbatim page text: they contain raw markdown, e.g. caranddriver.com “2023 Toyota 4Runner Review, Pricing, and Specs [Skip to Content](https://www.caranddriver.com/toyota/4runner-2023#main-content) - [SHOP NEW”. Length rule OK (max 140).",
+      "bugs": [
+        "GEO-1183",
+        "NEW: competitor matched as brand (matchedEntity \"Tesla\")",
+        "NEW: raw markdown in passages"
+      ],
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-008_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-008_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-008_step3_then.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-008_step3a_then_trustpilot.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-008_step3b_then_markdown.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-008_step3c_then_escape.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a source has a failing article where the brand is named negatively",
+          "status": "PASS",
+          "observed": "trustpilot.com card #26 (Review Sites) \"Negative perception in 5 articles\"."
+        },
+        {
+          "title": "When the failing article row for a negative-mention article is displayed",
+          "status": "PASS",
+          "observed": "Panel \"#26 · trustpilot.com\", tab \"Negative perception (5)\", intro \"Each of these articles mentions Toyota negatively.\""
+        },
+        {
+          "title": "Then the extracted passage is shown verbatim in an indented/quoted block with the brand name highlighted",
+          "status": "FAIL",
+          "observed": "trustpilot.com: 5/5 passages in <blockquote> (italic, curly quotes, left border) with brand in <mark> (bg #E0F2FE, 600): \"Toyota\" x4, \"TOYOTA\" x1. Sweep of all 118 sources / 36 with negative tab / 82 negative rows: elpais.com and automobile-propre.com rows highlight \"Tesla\" and the passage does not contain Toyota (matchedEntity \"Tesla\"); 14 passages contain raw markdown ([text](url), **bold**, ![img](url), \"\\\\\")."
+        },
+        {
+          "title": "And the passage does not exceed 140 characters including spaces",
+          "status": "PASS",
+          "observed": "trustpilot.com lengths 139 / 139 / 139 / 140 / 65 (text between the curly quotes). All 82 negative passages <= 140 (max 140)."
+        }
+      ],
+      "notes": "Verdict FAILED on the AC8 rule across the view; the TC data source trustpilot.com alone passes (5/5 verbatim, highlighted, <=140). GEO-1182 (no highlight when matched entity differs) NOT reproduced: every one of the 82 negative rows has a <mark>. GEO-1183 (passage omits the brand) reproduced in a different form: 2 passages do not contain Toyota at all because the judge matched the competitor \"Tesla\" (new root cause, not in Jira). Raw markdown found in: kbb.com (Grand Highlander 2026), guideautoweb.com (bZ4X 2023, bZ4X 2024), caranddriver.com (4Runner 2023), fiches-auto.fr (Fiabilité toyota), consumerreports.org (Camry Hybrid 2023, Most Reliable SUVs), electrek.co, greencars.com, jdpower.com, xataka.com, aramisauto.com, autohebdo.net, telegraph.co.uk. Other: article title \"Marché auto : encore un record pour l\\'électrique, ...\" on automobile-propre.com is shown with a literal backslash (step3c). Passages are cut at 140 chars mid-word with no ellipsis (e.g. \"... d’avoir choisi cette marque. A é\").",
+      "previous": {
+        "run": "25092026-1400",
+        "status": "PASS",
+        "title": "Failing article row with brand mention shows truncated passage with brand highlighted"
+      }
+    },
+    {
+      "tc_id": "TC-GEO-1123-009",
+      "title": "Citing engines shown per failing article",
+      "story_id": "GEO-1123",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-009_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-009_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a failing article was cited by multiple AI engines",
+          "status": "PASS",
+          "observed": "frandroid.com: \"De 20 000 à 127 000 euros : nous avons classé les meilleures voitures électriques de 2026\" - API citingEngines [\"openai\",\"perplexity\"] (only multi-engine failing article of the source)."
+        },
+        {
+          "title": "When the failing article row is displayed",
+          "status": "PASS",
+          "observed": "Row visible in \"Lack of visibility (33)\" tab."
+        },
+        {
+          "title": "Then the icons of all AI engines that cited the article are shown alongside the article row",
+          "status": "PASS",
+          "observed": "Row shows group \"Cited by openai, perplexity\" with 2 icons (ChatGPT svg + perplexity png), right-aligned. All 38 failing rows (33+5) match the API citingEngines exactly (0 mismatch in engines or icon count)."
+        }
+      ],
+      "notes": "Ground truth = GET /geo/api/v1/reports/{id}/target-sources/frandroid.com (failing[].citingEngines). Engines in scope seen: perplexity, openai, gemini.",
+      "previous": {
+        "run": "25092026-1400",
+        "status": "PASS",
+        "title": "Each failing article row shows LLM engine icons that cited it"
+      }
+    },
+    {
+      "tc_id": "TC-GEO-1123-010",
+      "title": "Panel shows two tabs when source has both failing and positive articles",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-010_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-010_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given kbb.com has both failing and positive articles",
+          "status": "PASS"
+        },
+        {
+          "title": "When the explanation panel is opened",
+          "status": "PASS"
+        },
+        {
+          "title": "Then two tabs shown with ARTICLES PROBLÉMATIQUES as default active tab",
+          "status": "PASS"
+        }
+      ],
+      "notes": "kbb.com: ARTICLES PROBLÉMATIQUES (10) aria-selected=true + ARTICLES POSITIFS (5). Correct default tab confirmed.",
+      "previousStatus": "PASS",
+      "obsolete": true,
+      "executedThisRun": false,
+      "lastExecuted": "2026-09-25 (run 25092026-1400)",
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-011",
+      "title": "Positive article row shows title, URL, passage, engine icons and verdict",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-011_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-011_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the ARTICLES POSITIFS tab is active on kbb.com panel",
+          "status": "PASS"
+        },
+        {
+          "title": "When a positive article row is inspected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then row shows title, URL, passage, engine icons and verdict label",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "PARTIAL — Positive rows: engine-icon + title + url + blockquote passage (4/5 fields). Verdict label NOT observed. AC-11 partially unmet.",
+      "previousStatus": "PARTIAL",
+      "obsolete": true,
+      "executedThisRun": false,
+      "lastExecuted": "2026-09-25 (run 25092026-1400)",
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-012",
+      "title": "Panel shows only failing articles tab when source has zero positive articles",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-012_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-012_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given trustpilot.com has zero positive articles",
+          "status": "PASS"
+        },
+        {
+          "title": "When the explanation panel is opened for trustpilot.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only ARTICLES PROBLÉMATIQUES tab shown, no ARTICLES POSITIFS tab",
+          "status": "PASS"
+        }
+      ],
+      "notes": "trustpilot.com: single tab ARTICLES PROBLÉMATIQUES only. No ARTICLES POSITIFS in DOM. Conditional tab rendering confirmed.",
+      "previousStatus": "PASS",
+      "obsolete": true,
+      "executedThisRun": false,
+      "lastExecuted": "2026-09-25 (run 25092026-1400)",
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-013",
+      "title": "Panel header shows correct counts for failing, positive articles and total citations",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-013_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-013_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the panel is open for kbb.com with multiple article types",
+          "status": "PASS"
+        },
+        {
+          "title": "When the panel header is read",
+          "status": "PASS"
+        },
+        {
+          "title": "Then header displays failing article count, positive article count and total citations",
+          "status": "PASS"
+        }
+      ],
+      "notes": "kbb.com: 26 failing articles, 5 positive articles, 43 citations displayed in header. Consistent with card count of 26.",
+      "previousStatus": "PASS",
+      "obsolete": true,
+      "executedThisRun": false,
+      "lastExecuted": "2026-09-25 (run 25092026-1400)",
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-014",
+      "title": "Source card count shows only failing articles (positives excluded from ranking)",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-014_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-014_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given kbb.com has 26 failing and 5 positive articles (31 total)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the source card is inspected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then card displays 26 not 31, confirming positives excluded from ranking count",
+          "status": "PASS"
+        }
+      ],
+      "notes": "kbb.com card count = 26. Panel confirmed 26 failing + 5 positive. Card shows failing count only — positives excluded from ranking. AC-14 met.",
+      "previousStatus": "PASS",
+      "obsolete": true,
+      "executedThisRun": false,
+      "lastExecuted": "2026-09-25 (run 25092026-1400)",
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-015",
+      "title": "Prompts show question engines country and no outcome",
+      "story_id": "GEO-1123",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-015_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-015_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of frandroid.com is open and the \"Prompts associated with this source\" section is visible",
+          "status": "PASS",
+          "observed": "Section H4 \"Prompts associated with this source\", engine filter tabs \"All\" / ChatGPT 28 / Gemini 8 / Perplexity 76, 6 rows + \"Show 78 more prompts\"."
+        },
+        {
+          "title": "When the failing prompts section is displayed in the panel",
+          "status": "PASS",
+          "observed": "Expanded until no \"Show N more prompts\" button remains: 84 rows."
+        },
+        {
+          "title": "Then each failing prompt row shows the question text",
+          "status": "PASS",
+          "observed": "84/84 rows show a quoted question, e.g. “Best Electric Cars?”."
+        },
+        {
+          "title": "And each row shows one icon per engine whose answer cites the source, and each question appears only once",
+          "status": "PASS",
+          "observed": "0 duplicate questions in 84 rows (API: 84 unique questions over 274 question×engine×market entries). Icons = engines for every row; engine sets match the API (Perplexity 55, ChatGPT+Perplexity 13, ChatGPT 8, ChatGPT+Gemini+Perplexity 7, Gemini+Perplexity 1)."
+        },
+        {
+          "title": "And the country is shown on each row",
+          "status": "PASS",
+          "observed": "84/84 rows show a visible flag with label: FR 59, US 19, ES 6; no UUID, no blank (GEO-1128 fix holds)."
+        },
+        {
+          "title": "And no outcome is shown on any row",
+          "status": "PASS",
+          "observed": "No \"Brand absent\", \"Competitor chosen\", \"Unfavorable\" or \"#N\" winner text on any row."
+        }
+      ],
+      "notes": "Per-engine tab counts (28/8/76) sum to 112 > 84 rows because a question can be cited by several engines - consistent with the combos above.",
+      "previous": {
+        "run": "25092026-1400",
+        "status": "PARTIAL",
+        "title": "Prompts section shows question, engine icon, country flag and outcome per prompt"
+      }
+    },
+    {
+      "tc_id": "TC-GEO-1123-016",
+      "title": "(obsolete, never executed)",
+      "story_id": "GEO-1123",
+      "status": "OBSOLETE",
+      "obsolete": true,
+      "executedThisRun": false,
+      "screenshots": [],
+      "steps": [],
+      "obsoleteReason": "[OBSOLETE – superseded by GEO-1168/GEO-1178] in CSV since 2026-10-05 - not executed"
+    },
+    {
+      "tc_id": "TC-GEO-1123-017",
+      "title": "Passage keeps original capitalisation (regression GEO-1159)",
+      "story_id": "GEO-1123",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-017_step1_given.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-017_step2_when.png",
+        "screenshots-GEO-152-GEO1123-mcp/TC-GEO-1123-017_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of trustpilot.com is open on the Negative perception tab",
+          "status": "PASS",
+          "observed": "Panel \"#26 · trustpilot.com\", \"Negative perception (5)\"."
+        },
+        {
+          "title": "When a negative article row with a passage is displayed",
+          "status": "PASS",
+          "observed": "5 rows with a passage block."
+        },
+        {
+          "title": "Then the passage matches the live page text character for character, including capitals",
+          "status": "PASS",
+          "observed": "Each article URL opened live; case-sensitive match 5/5: fr.trustpilot.com/review/toyota.fr (+ ?page=2, ?page=4) “Nous avons acheté un Toyota Hilux neuf en mars 2022 ...”; ?page=9 “« Toys motors Lille » indigne de TOYOTA Cette concession ...” (page has \"TOYOTA\" in capitals); trustpilot.com/review/toyota.es “Toyota charge a monthly fee for sat mav after warranty fee ended.” Brand shown as \"Toyota\" (not \"toyota\")."
+        }
+      ],
+      "notes": "step3_then = live trustpilot page 9 with the matching sentence outlined in green."
+    }
+  ]
+}

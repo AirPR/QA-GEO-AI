@@ -1,0 +1,356 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\playwright.config.js",
+    "rootDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\global-setup.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "all-epics",
+        "name": "all-epics",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/test-suite-epic99.spec.js",
+          "**/test-suite-epic100.spec.js",
+          "**/test-suite-epic101.spec.js",
+          "**/test-suite-epic102.spec.js",
+          "**/test-suite-epic103.spec.js",
+          "**/test-suite-epic104.spec.js",
+          "**/test-suite-epic105.spec.js",
+          "**/test-suite-epic174.spec.js",
+          "**/test-suite-epic200.spec.js",
+          "**/test-suite-epic257.spec.js",
+          "**/test-suite-epic263.spec.js",
+          "**/test-suite-epicGEO-397.spec.js"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "e2e-suite",
+        "name": "e2e-suite",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/e2e-geo-analytics-dashboard.spec.js",
+          "**/e2e-dashboard-overview.spec.js",
+          "**/e2e-verify-analysis.spec.js",
+          "**/e2e-category-questions-table.spec.js",
+          "**/e2e-category-question-analysis.spec.js",
+          "**/e2e-category-kpi-cards.spec.js",
+          "**/e2e-category-brand-prioritization.spec.js",
+          "**/e2e-category-brand-rankings.spec.js",
+          "**/e2e-category-top-concept.spec.js",
+          "**/e2e-category-perception-citation.spec.js",
+          "**/e2e-manage-scope.spec.js",
+          "**/e2e-hubspot-upsell-pql.spec.js",
+          "**/e2e-brand-SOV.spec.js",
+          "**/e2e-category-SOV.spec.js",
+          "**/e2e-category-question-visibility.spec.js",
+          "**/e2e-category-question-competitive.spec.js",
+          "**/e2e-category-question-perception.spec.js"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": ".claude/Data/raw/playwright/test-results-e2e-category-question-perception-raw.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "e2e-category-question-perception.spec.js",
+      "file": "e2e-category-question-perception.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "E2E-PERC-TH-01 - Perception: Themes = Aucun thème → panel shows empty themes section",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "No Perception rows with blank Themes found in current dataset — skipping. Will auto-run when data is available.",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\e2e-category-question-perception.spec.js",
+                    "line": 178,
+                    "column": 12
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 66125,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given I am on the Perception tab where no themes are detected in LLM results",
+                      "duration": 24860
+                    },
+                    {
+                      "title": "When I find a row where the Themes column shows \"Aucun thème\" (no themes detected in any LLM)",
+                      "duration": 40482,
+                      "error": {
+                        "message": "Error: Test is skipped: No Perception rows with blank Themes found in current dataset — skipping. Will auto-run when data is available.",
+                        "stack": "Error: Test is skipped: No Perception rows with blank Themes found in current dataset — skipping. Will auto-run when data is available.\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\e2e-category-question-perception.spec.js:178:12\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\e2e-category-question-perception.spec.js:145:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\e2e-category-question-perception.spec.js",
+                          "column": 12,
+                          "line": 178
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 176 |\u001b[39m     \u001b[90m// Next run: if the data appears, the test will execute automatically.\u001b[39m\n \u001b[90m 177 |\u001b[39m     \u001b[36mif\u001b[39m (\u001b[33m!\u001b[39mpickedRow) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 178 |\u001b[39m       test\u001b[33m.\u001b[39mskip(\u001b[36mtrue\u001b[39m\u001b[33m,\u001b[39m \u001b[32m'No Perception rows with blank Themes found in current dataset — skipping. Will auto-run when data is available.'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 179 |\u001b[39m       \u001b[36mreturn\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 180 |\u001b[39m     }\n \u001b[90m 181 |\u001b[39m     \u001b[36mawait\u001b[39m shotAt(page\u001b[33m,\u001b[39m pickedCell\u001b[33m,\u001b[39m \u001b[32m'E2E-PERC-TH-01_step2_when'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-07-29T10:57:56.497Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "No Perception rows with blank Themes found in current dataset — skipping. Will auto-run when data is available.",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\e2e-category-question-perception.spec.js",
+                        "line": 178,
+                        "column": 12
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "b99afd6a57de40a63859-368d8896ad5e1789827c",
+          "file": "e2e-category-question-perception.spec.js",
+          "line": 136,
+          "column": 1
+        },
+        {
+          "title": "E2E-PERC-SENT-01 - Perception: panel shows SENTIMENT + RESPONSE sections, no rank badges",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24269,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given I am on the Perception tab and I open a question in the detail panel",
+                      "duration": 22494
+                    },
+                    {
+                      "title": "When the detail panel opens for a Perception question",
+                      "duration": 797
+                    },
+                    {
+                      "title": "Then SENTIMENT section and RESPONSE section are visible and no rank badges appear",
+                      "duration": 583
+                    }
+                  ],
+                  "startTime": "2026-07-29T10:59:03.631Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b99afd6a57de40a63859-871285600712f23f69e4",
+          "file": "e2e-category-question-perception.spec.js",
+          "line": 206,
+          "column": 1
+        },
+        {
+          "title": "E2E-PERC-SENT-02 - Perception: switching LLM engine keeps SENTIMENT section with per-engine value",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18103,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a Perception question detail panel is open with multiple LLM engines available",
+                      "duration": 13814
+                    },
+                    {
+                      "title": "When I switch to a second LLM engine in the panel",
+                      "duration": 798
+                    },
+                    {
+                      "title": "Then SENTIMENT section remains visible and a sentiment card is shown for the selected engine",
+                      "duration": 3056
+                    }
+                  ],
+                  "startTime": "2026-07-29T10:59:27.928Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b99afd6a57de40a63859-56b58891fe4ce0a7125f",
+          "file": "e2e-category-question-perception.spec.js",
+          "line": 252,
+          "column": 1
+        },
+        {
+          "title": "E2E-PERC-TH-02 - Perception: Themes = theme badges → panel shows themes list",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25074,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given I am on the Perception tab where one or more themes are detected in LLM results",
+                      "duration": 13052
+                    },
+                    {
+                      "title": "When I find a row where the Themes column shows one or more theme badges",
+                      "duration": 11368
+                    },
+                    {
+                      "title": "Then the detail panel THEMES section shows the list of detected themes",
+                      "duration": 217
+                    }
+                  ],
+                  "startTime": "2026-07-29T10:59:46.054Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b99afd6a57de40a63859-b836a0e27d68ed2ead5d",
+          "file": "e2e-category-question-perception.spec.js",
+          "line": 291,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-29T10:57:54.894Z",
+    "duration": 136938.547,
+    "expected": 3,
+    "skipped": 1,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

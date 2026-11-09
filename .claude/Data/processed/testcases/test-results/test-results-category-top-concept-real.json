@@ -1,0 +1,200 @@
+{
+  "spec_name": "category-top-concept",
+  "profile_meta": {
+    "profile": "termomix",
+    "category_name": "machines de cuisine"
+  },
+  "generated": "2026-07-03T15:04:17.709Z",
+  "total": 5,
+  "passed": 4,
+  "failed": 1,
+  "skipped": 0,
+  "duration_ms": 53900,
+  "testcases": [
+    {
+      "tc_id": "E2E-TOP-CONCEPT-001",
+      "title": "E2E-TOP-CONCEPT-001 - Top Concepts — Sort modes apply correctly",
+      "status": "passed",
+      "duration_ms": 10177,
+      "steps": [
+        {
+          "title": "Given an authenticated user opens the category page with concepts",
+          "status": "passed"
+        },
+        {
+          "title": "When the user opens the Sort dropdown and applies Sort by Frequency",
+          "status": "passed"
+        },
+        {
+          "title": "Then the concept list is monotonically ordered by frequency percentage",
+          "status": "passed"
+        },
+        {
+          "title": "When the user applies Sort by Sentiment",
+          "status": "passed"
+        },
+        {
+          "title": "Then the concept list is grouped by sentiment bucket (Positive/Mixed/Negative)",
+          "status": "passed"
+        },
+        {
+          "title": "When the user applies Sort A-Z",
+          "status": "passed"
+        },
+        {
+          "title": "Then the concept list is sorted alphabetically by concept name",
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Top Concepts widget heading must be visible (prefix: \"Top Concepts Associated with\")\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h3:has-text(\"Top Concepts Associated with\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Top Concepts widget heading must be visible (prefix: \"Top Concepts Associated with\") with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('h3:has-text(\"Top Concepts Associated with\")').first()\u001b[22m\n\n\n  310 |     heading,\n  311 |     `Top Concepts widget heading must be visible (prefix: \"${HEADING_PREFIX}\")`,\n> 312 |   ).toBeVisible({ timeout: 20000 });\n      |     ^\n  313 | }\n  314 |\n  315 | async function applySortMode(page, modeLabel) {\n    at openCategoryPage (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:312:5)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:477:5"
+    },
+    {
+      "tc_id": "E2E-TOP-CONCEPT-002",
+      "title": "E2E-TOP-CONCEPT-002 - Top Concepts — Sentiment filter colors",
+      "status": "passed",
+      "duration_ms": 13057,
+      "steps": [
+        {
+          "title": "Given an authenticated user opens the category page with concepts",
+          "status": "passed"
+        },
+        {
+          "title": "When the user clicks the Positive sentiment filter",
+          "status": "passed"
+        },
+        {
+          "title": "Then every visible concept carries a green sentiment indicator (or none if filter is empty)",
+          "status": "passed"
+        },
+        {
+          "title": "When the user clicks the Negative sentiment filter",
+          "status": "passed"
+        },
+        {
+          "title": "Then every visible concept carries a red sentiment indicator (or none if filter is empty)",
+          "status": "passed"
+        },
+        {
+          "title": "When the user clicks the Mixed sentiment filter",
+          "status": "passed"
+        },
+        {
+          "title": "Then every visible concept carries a yellow sentiment indicator (or none if filter is empty)",
+          "status": "passed"
+        },
+        {
+          "title": "When the user clicks the All filter to restore the full list",
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Top Concepts widget heading must be visible (prefix: \"Top Concepts Associated with\")\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h3:has-text(\"Top Concepts Associated with\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Top Concepts widget heading must be visible (prefix: \"Top Concepts Associated with\") with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('h3:has-text(\"Top Concepts Associated with\")').first()\u001b[22m\n\n\n  310 |     heading,\n  311 |     `Top Concepts widget heading must be visible (prefix: \"${HEADING_PREFIX}\")`,\n> 312 |   ).toBeVisible({ timeout: 20000 });\n      |     ^\n  313 | }\n  314 |\n  315 | async function applySortMode(page, modeLabel) {\n    at openCategoryPage (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:312:5)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:477:5"
+    },
+    {
+      "tc_id": "E2E-TOP-CONCEPT-003",
+      "title": "E2E-TOP-CONCEPT-003 - Top Concepts — Detail panel coherence (title color sections)",
+      "status": "passed",
+      "duration_ms": 7447,
+      "steps": [
+        {
+          "title": "Given an authenticated user opens the category page with concepts",
+          "status": "passed"
+        },
+        {
+          "title": "When the user captures the first concept name and sentiment color from the list",
+          "status": "passed"
+        },
+        {
+          "title": "And the user clicks the first concept",
+          "status": "passed"
+        },
+        {
+          "title": "Then the panel heading text matches the selected concept name",
+          "status": "passed"
+        },
+        {
+          "title": "And the panel header banner color matches the concept list-row sentiment color",
+          "status": "passed"
+        },
+        {
+          "title": "And the Sources section heading is visible in the panel",
+          "status": "passed"
+        },
+        {
+          "title": "And Positive/Negative sentiment indicators are visible in the panel",
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Top Concepts widget heading must be visible (prefix: \"Top Concepts Associated with\")\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h3:has-text(\"Top Concepts Associated with\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Top Concepts widget heading must be visible (prefix: \"Top Concepts Associated with\") with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('h3:has-text(\"Top Concepts Associated with\")').first()\u001b[22m\n\n\n  310 |     heading,\n  311 |     `Top Concepts widget heading must be visible (prefix: \"${HEADING_PREFIX}\")`,\n> 312 |   ).toBeVisible({ timeout: 20000 });\n      |     ^\n  313 | }\n  314 |\n  315 | async function applySortMode(page, modeLabel) {\n    at openCategoryPage (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:312:5)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:477:5"
+    },
+    {
+      "tc_id": "E2E-TOP-CONCEPT-004",
+      "title": "E2E-TOP-CONCEPT-004 - Top Concepts — Sources structure (title subtitle publisher logo LLM logo nav)",
+      "status": "failed",
+      "duration_ms": 7930,
+      "steps": [
+        {
+          "title": "Given an authenticated user opens the category page with concepts",
+          "status": "passed"
+        },
+        {
+          "title": "When the user opens the detail panel of the first concept",
+          "status": "passed"
+        },
+        {
+          "title": "And the user switches to the Sources section inside the panel",
+          "status": "passed"
+        },
+        {
+          "title": "Then every source row in the detail panel carries a title, subtitle, publisher logo, at least one LLM logo image, and a navigation link",
+          "status": "failed"
+        },
+        {
+          "title": "When the user opens the All sources modal",
+          "status": "passed"
+        },
+        {
+          "title": "Then every source row in the All sources modal carries a title, subtitle, publisher logo, at least one LLM logo image, and a navigation link",
+          "status": "passed"
+        },
+        {
+          "title": "And the All sources modal contains at least as many source rows as the panel (full set vs subset)",
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Panel source rows must each have title + subtitle + publisher logo + ≥1 LLM logo image (img with alt matching chatgpt/claude/gemini/grok/openai/perplexity) + visible nav link. Malformed: [{\"title\":\"Questions Analysis\",\"subtitle\":\"All questions across visibility, competitive, and perception\",\"url\":\"https://we-drive.fr/avis-toyota-yaris-hybride/\",\"linkText\":\"Avis Toyota Yaris Hybride : fiabilité, points forts en 2026we-drive.fr/...\",\"publisherLogoAlt\":\"\",\"publisherLogoVisible\":true,\"llmNames\":[\"chatgpt\"],\"llmLogos\":[],\"linkVisible\":true}]\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 15\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"linkText\": \"Avis Toyota Yaris Hybride : fiabilité, points forts en 2026we-drive.fr/...\",\u001b[39m\n\u001b[31m+     \"linkVisible\": true,\u001b[39m\n\u001b[31m+     \"llmLogos\": Array [],\u001b[39m\n\u001b[31m+     \"llmNames\": Array [\u001b[39m\n\u001b[31m+       \"chatgpt\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"publisherLogoAlt\": \"\",\u001b[39m\n\u001b[31m+     \"publisherLogoVisible\": true,\u001b[39m\n\u001b[31m+     \"subtitle\": \"All questions across visibility, competitive, and perception\",\u001b[39m\n\u001b[31m+     \"title\": \"Questions Analysis\",\u001b[39m\n\u001b[31m+     \"url\": \"https://we-drive.fr/avis-toyota-yaris-hybride/\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  761 |         malformed,\n  762 |         `Panel source rows must each have title + subtitle + publisher logo + ≥1 LLM logo image (img with alt matching ${LLM_ENGINES.join('/')}) + visible nav link. Malformed: ${JSON.stringify(malformed)}`,\n> 763 |       ).toEqual([]);\n      |         ^\n  764 |       await shot(page, 'E2E-TOP-CONCEPT-004_04_then-panel-sources-valid');\n  765 |     });\n  766 |\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:763:9\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:753:5"
+    },
+    {
+      "tc_id": "E2E-TOP-CONCEPT-005",
+      "title": "E2E-TOP-CONCEPT-005 - Top Concepts — Sources search empty state and close",
+      "status": "passed",
+      "duration_ms": 10064,
+      "steps": [
+        {
+          "title": "Given an authenticated user opens the category page with concepts",
+          "status": "passed"
+        },
+        {
+          "title": "When the user opens the detail panel of the first concept and the All sources modal",
+          "status": "passed"
+        },
+        {
+          "title": "When the user types \"1555555\" in the search input",
+          "status": "passed"
+        },
+        {
+          "title": "Then the message \"No sources match your search.\" is visible inside the modal",
+          "status": "passed"
+        },
+        {
+          "title": "When the user presses Escape to close the All sources modal",
+          "status": "passed"
+        },
+        {
+          "title": "And the user clicks the Close detail panel button",
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Top Concepts widget heading must be visible (prefix: \"Top Concepts Associated with\")\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h3:has-text(\"Top Concepts Associated with\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Top Concepts widget heading must be visible (prefix: \"Top Concepts Associated with\") with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('h3:has-text(\"Top Concepts Associated with\")').first()\u001b[22m\n\n\n  310 |     heading,\n  311 |     `Top Concepts widget heading must be visible (prefix: \"${HEADING_PREFIX}\")`,\n> 312 |   ).toBeVisible({ timeout: 20000 });\n      |     ^\n  313 | }\n  314 |\n  315 | async function applySortMode(page, modeLabel) {\n    at openCategoryPage (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:312:5)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-top-concept.spec.js:477:5"
+    }
+  ]
+}

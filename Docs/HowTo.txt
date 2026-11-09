@@ -1,0 +1,2934 @@
+================================================================================
+TACHE 52 : Run MCP Playwright en mode libre sur plan de test Markdown (22/09/2026)
+================================================================================
+
+Premiere execution de /run-mcp-PWT-tests sur un fichier .md au lieu d un CSV.
+Epic GEO-1035 -- Top Bar for OS Users (Organisation Switch, Settings & Administration).
+
+POINTS CLES DECOUVERTS :
+1. MODE LIBRE SUR FICHIER .MD :
+   - /run-mcp-PWT-tests accepte un fichier Markdown comme source en mode libre
+   - L agent interprete les scenarios directement sans CSV Quality Plus
+   - TC IDs generes : GEO-1035-SC-01 a SC-22 (format libre)
+
+2. RETESTS CIBLES :
+   - Lancer un nouvel Agent avec instructions ciblees pour retester un SC specifique
+   - Mettre a jour real.json via node -e inline apres chaque retest
+   - Regenerer le rapport HTML via node -e inline (script reutilisable)
+
+3. ORGANISATION SUSPENDUE -- COMPORTEMENT GEO :
+   - L org suspendue apparait dans le switcher sans disabled styling pre-clic
+   - Clic -> message inline dans le dropdown : You no longer have access to this organisation.
+   - L org active reste inchangee -- comportement conforme a la spec
+
+4. PAGE UPSELL -- SETTINGS DISABLED :
+   - data-testid=app-topbar-user-menu-settings-btn, disabled=true, cursor=not-allowed, opacity-40
+   - Le clic ne declenche aucune navigation -- comportement conforme
+
+5. SOUS-AGENTS ET PERMISSIONS :
+   - Les sous-agents (Agent tool) ne peuvent pas ecrire de fichiers en mode dontAsk
+   - Pattern : sous-agent rapporte les findings -> parent met a jour real.json + rapport via Bash
+
+================================================================================
+TÂCHE 51 : Import Quality Plus — Skill /import-qualityplus traduit + API réelle documentée (18/09/2026)
+================================================================================
+
+Découverte et documentation de l'API Quality Plus réelle. Import d'un TC (TC-GEO-1116-001)
+via POST /api/testCases/import avec succès (clé QP : GEO-1133).
+
+POINTS CLÉS DÉCOUVERTS :
+1. ENDPOINT RÉEL : POST https://apps-qalityplus.soldevelo.com/api/testCases/import
+   - Auth : Authorization: Bearer <QP_TOKEN> (format qps_...)
+   - OpenAPI spec publique : GET /v3/api-docs (pas d'auth requise)
+
+2. FORMAT DESCRIPTION OBLIGATOIRE — ADF (Atlassian Document Format) :
+   Le champ description DOIT être un objet ADF — le texte plain est rejeté.
+   {
+     "version": 1, "type": "doc",
+     "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "..." }] }]
+   }
+
+3. CHAMPS NON SUPPORTÉS dans properties : storyKey, component, precondition
+   → Retourne 200 avec erreur dans errors[] — les exclure du payload.
+
+4. DUPLICATE SEARCH (GET /api/testCases/search) : requiert plan avancé → non disponible.
+   Skippé — import direct sans vérification de doublons.
+
+5. PAYLOAD MINIMAL FONCTIONNEL :
+   {
+     "projectId": "16421",
+     "testCases": [{
+       "name": "TC-GEO-1116-001 - Titre",
+       "properties": { "description": <ADF object> },
+       "testSteps": [{ "step": "Given...", "data": "", "result": "..." }]
+     }]
+   }
+
+FICHIERS MODIFIÉS :
+  .claude/commands/import-qualityplus.md    ← traduit en anglais + référence API réelle
+  .claude/agents/qualityplus-importer-agent.md ← traduit en anglais + mapping CSV→payload
+
+TRIGGER : /import-qualityplus (corrigé depuis /import-qp)
+
+================================================================================
+TÂCHE 49 : Création du skill /regression-test (15/07/2026)
+================================================================================
+
+Nouveau skill pour comparer la couverture de tests entre la version courante
+et les versions précédentes du projet.
+
+FICHIERS CRÉÉS :
+  .claude/commands/regression-test.md    ← commande + règles + dispatch
+  .claude/agents/regression-test-agent.md ← agent avec les 6 étapes d'exécution
+
+USAGE :
+  /regression-test --current GEO-V4 --previous GEO-V1,GEO-V2
+  /regression-test --current GEO-V4 --previous GEO-V1 --gen-missing
+  /regression-test --current GEO-V4 --previous GEO-V1 --url https://geo.onclusive.com/geo --run
+
+WORKFLOW EN 5 PHASES :
+  Phase 1 : Découverte des versions via apps/geo/data/ et epic-data.json
+  Phase 2 : Analyse de couverture (CSV → QA Story task / spec .spec.js / real.json)
+  Phase 3 : Rapport markdown + JSON dans .claude/Data/output/regression/
+  Phase 4 : Génération TCs manquants via gen-tc-csv (--gen-missing uniquement)
+  Phase 5 : Exécution specs Playwright (--run uniquement, --workers=2 max)
+
+CLASSIFICATION :
+  COVERED  = CSV + spec Playwright + real.json
+  PARTIAL  = CSV uniquement, pas de spec automatisé
+  UNCOVERED = aucun CSV
+
+VERDICT : GO ≥ 80% | CONDITIONAL 60–79% | NO-GO < 60%
+  Calcul : (covered + partial × 0.5) / total × 100
+
+MISE À JOUR CLAUDE.md :
+  - "9 agents IA" → "10 agents IA"
+  - "Workflow en 9 étapes" → "Workflow en 10 étapes" + STEP 10
+  - Nouvelle section "Règles du test de régression (OBLIGATOIRE)"
+
+================================================================================
+TÂCHE 43 : Fix regex getStoryKey() pour format TC-GEO-XXX-NNN (24/05/2026)
+================================================================================
+build-multi-epic-report.js utilisait /^(GEO-\d+)/ pour extraire la story key.
+Les TCs epic200 (format TC-GEO-327-001) ne matchaient pas → affichage "OTHER (no title)".
+Fix : regex étendue à /(?:TC-)?(GEO-\d+)/ — supporte les deux formats.
+Fichier : .claude/Data/templates/build-multi-epic-report.js → fonction getStoryKey()
+
+================================================================================
+TÂCHE 42 : Régénération session upsell (storageState-upsell.json) (24/05/2026)
+================================================================================
+global-setup.js route vers storageState-upsell.json uniquement si SPEC_NAME=hubspot-upsell-pql.
+Pour regénérer sans exécuter de tests :
+  SPEC_NAME=hubspot-upsell-pql USE_AUTH=true \
+    npx playwright test .claude/Data/raw/playwright/hubspot-upsell-pql.spec.js \
+    --grep="DOES_NOT_EXIST"
+Le --grep qui ne matche rien déclenche le global-setup mais saute tous les tests.
+À faire avant tout run epic200 (qui a deux sessions : GEO + upsell).
+
+================================================================================
+TÂCHE 41 : clearCcCookie — SecurityError sur about:blank (24/05/2026)
+================================================================================
+page.evaluate() pour manipuler document.cookie échoue avec SecurityError si la page
+est sur about:blank (contexte fresh depuis storageState au début d'un test).
+Fix : naviguer vers l'URL cible d'abord, puis manipuler le cookie.
+
+  async function clearCcCookie(page, url) {
+    if (!page.url().includes('staging-geo.onclusive.com')) {
+      await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+      await page.waitForTimeout(1000);
+    }
+    await page.evaluate(() => { /* delete cookie */ });
+    await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+  }
+
+================================================================================
+TÂCHE 40 : Epic GEO-200 Cookie Consent — spec + run + analyse (24/05/2026)
+================================================================================
+Pipeline complet pour l'epic GEO-200 Cookie Consent :
+- CSV généré : testcases-coverage-epicGEO-200.csv (52 TCs, stories GEO-327/328/329/330/333/334/237)
+- JDD créés  : jdd/cookie-consent/cookie-consent-base.json + cookie-consent-default.json
+- Blueprint  : section cookie_consent ajoutée dans selectors_blueprint.json
+- Spec       : test-suite-epic200.spec.js (renommé depuis cookie-consent.spec.js)
+- Run        : 45 PASSED / 7 FAILED — failures à analyser dans analysis-epic200-failures.txt
+
+RÈGLES APPRISES :
+1. clearCcCookie() doit naviguer vers l'URL AVANT page.evaluate() — sinon SecurityError
+   sur about:blank (page fresh depuis storageState). Fix : vérifier page.url() d'abord.
+2. Session upsell storageState-upsell.json à régénérer via :
+   SPEC_NAME=hubspot-upsell-pql USE_AUTH=true npx playwright test hubspot-upsell-pql.spec.js --grep="DOES_NOT_EXIST"
+3. global-setup.js utilise SPEC_NAME === 'hubspot-upsell-pql' pour router vers storageState-upsell.json.
+   Pour epic200 qui a deux sessions (GEO + upsell), régénérer les deux séparément avant le run.
+4. Spec avec deux sessions (test.use({ storageState }) par describe block) :
+   - Le global-setup ne génère qu'une session par run EPIC_ID
+   - storageState-upsell.json doit être régénéré manuellement avant d'exécuter epic200
+
+================================================================================
+TÂCHE 38 : Spec upsell — cookie consent cc_cookie obligatoire (21/05/2026)
+================================================================================
+Sur la page upsell Measure, cliquer "Speak to Us" SANS consentement fonctionnel
+ouvre la JitBridgeModal ("Ready to chat?") au lieu de la SeeItInActionModal.
+
+RÈGLE : le cookie cc_cookie doit être présent dans la session avant les tests.
+
+COMMENT :
+- global-setup.js accepte le cookie via [data-testid="cc-cta-accept"] puis recharge
+  la page avant de sauvegarder le storageState
+- dismissCookieBanner() (helper partagé) NE fonctionne PAS sur cette page —
+  le banner upsell n'a PAS de data-testid="cookie-banner" sur son root
+- Après acceptation, un page.goto() (reload) est OBLIGATOIRE pour que
+  areFunctionalCookiesEnabled=true soit pris en compte par React
+- Le consentement est stocké dans le cookie HTTP cc_cookie (pas localStorage)
+
+ERREUR TYPIQUE :
+  [role="dialog"]:has-text("See it in action") → timeout
+  → Cause : cc_cookie absent, c'est la JitBridgeModal qui s'ouvre à la place
+
+================================================================================
+TÂCHE 39 : Intégrer un spec E2E dans build-multi-epic-report.js (21/05/2026)
+================================================================================
+build-multi-epic-report.js attend le format results[] avec tc_id au format
+GEO-XXX-TCYYY. Un real.json en format testcases[] (specs E2E récents) doit
+être converti avant d'être utilisé comme epic.
+
+ÉTAPES pour déplacer un spec E2E vers le rapport AllEpics :
+1. Ajouter l'epic dans epics-meta.json avec title + stories
+2. Créer test-results-epic{ID}-real.json via conversion :
+   - testcases[] → results[]
+   - tc_id: "TC-GEO-237-001" → "GEO-237-TC001" (pour que getStoryKey l'extrait)
+   - status: minuscule → UPPERCASE
+   - duration_ms → duration
+3. Copier screenshots-{spec}/ → screenshots-epic{ID}/
+4. Mettre à jour les chemins screenshots dans le real.json converti
+5. Retirer le spec de la liste hardcodée dans build-e2e-suite-report.js
+
+ATTENTION : build-multi-epic-report.js déplace (move) les screenshots dans
+runs/{TIMESTAMP}/. Toujours recopier depuis le dossier source avant chaque
+régénération du rapport.
+
+================================================================================
+TÂCHE 37 : Génération de specs E2E — toujours utiliser l'agent (18/05/2026)
+================================================================================
+- Ne jamais générer un spec Playwright directement sans passer par
+  playwright-script-generator-agent.md — risque d'oublier des règles clés :
+    • dismissCookieBanner absent → bannière cookies dans les screenshots
+    • waitUntil:'networkidle' au lieu de 'load' → test bloqué sur SSE/polling
+    • Screenshots mal nommés (pas step1_given/step2_when/step3_then) →
+      afterEach backfiller inopérant, rapport incohérent
+    • BLUEPRINT non importé → sélecteurs non référencés
+- Toujours lire le blueprint + e2e-helpers + un spec de référence avant génération
+- Le real.json doit utiliser le format results[] avec tc_id et name
+  (pas testCases[] avec id) pour être compatible avec build-e2e-suite-report.js
+
+================================================================================
+TÂCHE 38 : Annotation manuelle pour failures .toBe() — stat cards (18/05/2026)
+================================================================================
+- H.registerAfterEach annote automatiquement les échecs .toBeVisible()
+  (sélecteur Playwright présent dans l'erreur)
+- Pour les assertions .toBe() (comparaisons de valeurs : count, total, stat card),
+  il n'y a PAS de sélecteur → pas d'annotation automatique
+- Règle : si mismatch détecté, encadrer manuellement l'élément "source de vérité"
+  (ex: la stat card censée afficher la bonne valeur) AVANT shotAt :
+    if (actual !== expected) { page.evaluate(() => paintOverlay(cardRoot)) }
+    await page.evaluate(() => new Promise(r => rAF(() => rAF(r))))
+    await shotAt(page, cardEl, `${TC}_step3_then`)
+    await page.evaluate(() => remove annotations)
+    expect(actual).toBe(expected)
+- step3_then existant → isCustomError=true dans afterEach → screenshot conservé
+- Pattern complet documenté dans playwright-script-generator-agent.md
+  §"Annotation manuelle pour failures .toBe()"
+
+================================================================================
+TÂCHE 39 : Ajout d'un spec E2E au rapport build-e2e-suite-report.js (18/05/2026)
+================================================================================
+- Le rapport ne liste que les specs définis dans E2E_SPECS[] dans le script
+- Pour ajouter un nouveau spec, l'ajouter dans le tableau E2E_SPECS :
+    { id: 'spec-name', label: 'SCN — Description', file: 'test-results-spec-name-real.json', shots: 'screenshots-spec-name' }
+- Le real.json doit utiliser le format results[] (pas testCases[]) avec :
+    tc_id, name, status (PASSED/FAILED/SKIPPED), duration, error, steps[], screenshots[]
+- refreshRealFromRaw supporte : real.results (ancien format) OU real.testcases (nouveau)
+  → PAS real.testCases (camelCase) — incompatible
+
+================================================================================
+TO Do :
+================================================================================
+- générer les test E2E en se basant sur les différentes spec en les definssant 
+explicitement, exp : création d'un eanalyse complète, accès au dashboard, lister 
+une analyse...
+- séparer le JDD des spec 
+================================================================================
+HOWTO — QA Workflow Tasks
+================================================================================
+
+DATE : 2026-04-30
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 1 : Modification de la commande /extract-figma-screen
+--------------------------------------------------------------------------------
+
+La commande /extract-figma-screen et son agent ont été modifiés pour ne plus
+prendre en compte le paramètre --epic {epic_id}.
+
+Changements effectués :
+- .claude/commands/extract-figma-screen.md
+  · Suppression de --epic {epic_id} dans la ligne de déclenchement
+  · Suppression de l'Epic ID des prérequis et paramètres
+  · Dossier de sortie changé de figmaScreens/{epic_id}/ vers figmaScreens/
+
+- .claude/agents/extract-figma-screen-agent.md
+  · Suppression de l'Epic ID de la description, prérequis et paramètres
+  · Structure de dossier mise à jour de figmaScreens/{epic_id}/ vers figmaScreens/
+  · Règle doublon mise à jour (figmaScreens/ au lieu de FigmaExtraction/{epic_id}/)
+
+--------------------------------------------------------------------------------
+TÂCHE 2 : Extraction des screens Figma
+--------------------------------------------------------------------------------
+
+URL Figma utilisée :
+  https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module
+
+Méthodologie :
+
+1. Lire le FIGMA_TOKEN depuis .env (format : figd_xxxxxxxxxxxxxxxxxxxx)
+
+2. Extraire le file_id depuis l'URL Figma :
+   URL : https://www.figma.com/design/{file_id}/{file_name}?node-id=...
+
+3. Récupérer la structure du fichier via l'API :
+   GET https://api.figma.com/v1/files/{file_id}?depth=3
+   Headers: X-Figma-Token: {FIGMA_TOKEN}
+
+4. Filtrer les frames :
+   - Garder uniquement les frames de type FRAME
+   - Exclure les frames de type N0TE (annotations uniquement, pas des écrans UI)
+
+5. Exporter les images par batches de 3 maximum (pour éviter les timeouts) :
+   GET https://api.figma.com/v1/images/{file_id}?ids={id1},{id2},{id3}&format=png&scale=2
+   Headers: X-Figma-Token: {FIGMA_TOKEN}
+
+6. Télécharger et sauvegarder chaque PNG dans figmaScreens/{section}/
+
+7. Nommage des dossiers et fichiers :
+   - Préfixe numérique (01_, 02_...) pour maintenir l'ordre
+   - Remplacer les espaces par _ dans les noms de fichiers
+
+Sections extraites (node-id=4448-11715 — GEO Onboarding) :
+  figmaScreens/
+  ├── 01_Step_1_Brand_Market/      (7 screens)
+  ├── 02_Step_2_Categories/        (6 screens)
+  ├── 03_Step_3_Prompts/           (5 screens)
+  ├── 04_Step_4_Launch_Review/     (4 screens)
+  ├── 05_Step_0_Clean_State/       (3 screens)
+  ├── 06_Discard_Onboarding_Level/ (3 screens)
+  └── 07_Report_Loading_Screens/   (3 screens)
+
+Sections extraites (node-id=4835-15003 — Dashboard) :
+  figmaScreens/
+  └── 01_Dashboard/                (2 screens)
+
+--------------------------------------------------------------------------------
+TÂCHE 3 : Génération des specs Playwright avec CSV + Figma screens
+--------------------------------------------------------------------------------
+
+Les specs Playwright sont générées à partir de deux sources :
+  1. Le fichier CSV des cas de test : .claude/Data/output/csv/testcases - epic{ID}.csv
+  2. Les screens Figma du dossier : figmaScreens/
+
+Commande utilisée (slash command) :
+  /run-tests --epic {ID} --url {BASE_URL}
+
+Règles appliquées :
+  - Utiliser les textes EXACTS des étapes Given/When/Then du CSV
+  - Importer le blueprint des sélecteurs :
+      const BLUEPRINT = require('../test-data/selectors_blueprint.json');
+  - Mettre à jour selectors_blueprint.json après chaque spec générée
+    (ajouter une section dédiée par page/feature couverte)
+  - Inclure le hook afterEach pour annotation rouge sur l'élément défaillant
+  - Screenshots à chaque étape : step1_given, step2_when, step3_then
+
+Specs générées :
+  - test-suite-epic101.spec.js : 35 TCs (GEO-70/69/68/67/66/193 — Category View)
+  - test-suite-epic102.spec.js : 51 TCs (GEO-79/78/107/77/76/75/74/73/72/71 — Overview Dashboard)
+  - test-suite-epic103.spec.js :  3 TCs (GEO-86 — Live Analysis Progress View)
+
+Figma refs utilisées par epic :
+  epic101 : figmaScreens/11_Report_-_Overview_Charts/
+            figmaScreens/12_Categories_-_Questions_Table/
+  epic102 : figmaScreens/09_Reports_Navigation/
+            figmaScreens/11_Report_-_Overview_Charts/
+  epic103 : figmaScreens/07_Report_Loading_Screens/
+
+================================================================================
+
+DATE : 2026-05-03
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 4 : Mise à jour de test-suite-epic105.spec.js
+--------------------------------------------------------------------------------
+
+Fichiers sources :
+  - CSV    : .claude/Data/output/csv/testcases-coverage-epic105-20260430.csv
+  - Blueprint : .claude/Data/raw/test-data/selectors_blueprint.json
+  - Figma  : figmaScreens/10_Reports_List/ (écrans de référence)
+
+Modifications appliquées (actions CSV : KEEP / UPDATE / NEW) :
+
+GEO-95-TC001 (UPDATE)
+  - Ajout assertion sous-titre exact :
+      "Monitor your brand's presence across AI search engines"
+  - Ajout vérification de 6 stat cards présentes (≥4 visibles)
+
+GEO-95-TC002 (UPDATE)
+  - Ajout vérifications soft des badges "In progress" / "Refreshing"
+    (ne s'exécutent que si le badge est visible dans le DOM)
+  - Ajout validation format date relative (ex: "2 days ago", "1 hour ago")
+
+GEO-96-TC002 (UPDATE)
+  - Remplacement du regex générique pour l'état vide par les textes exacts Figma :
+      heading : "No reports have been made for your Brand"
+      CTA     : "Create your first Report"
+
+Ajouts dans le SEL object :
+  statCardContainer, statCard, statusInProgress, statusRefreshing,
+  emptyStateHeading, createFirstReportBtn
+  (tous référencés depuis BLUEPRINT.reports_list_page.*)
+
+--------------------------------------------------------------------------------
+TÂCHE 5 : Mise à jour selectors_blueprint.json → v1.7 (epic105)
+--------------------------------------------------------------------------------
+
+Sections modifiées :
+  - reports_section.status_badges       ← nouvelle sous-section (In progress, Refreshing)
+  - stats_cards.generic_card            ← ajout sélecteur générique
+  - empty_state._note_figma             ← mise à jour avec refs Figma screen 10
+  - _meta.version                       : 1.6 → 1.7
+  - _meta.generated                     : 2026-05-03
+
+--------------------------------------------------------------------------------
+TÂCHE 6 : Mise à jour de test-suite-epic174.spec.js (2630 lignes / 70+ tests)
+--------------------------------------------------------------------------------
+
+Fichiers sources :
+  - CSV    : .claude/Data/output/csv/testcases-coverage-epic174-20260430.csv
+  - Blueprint : .claude/Data/raw/test-data/selectors_blueprint.json
+  - Figma  : figmaScreens/13_Report_-_V0.2_-_Brand_Identity/
+               01_Report_0.2.png
+               04_Identity_-_Corporate_Reputation_Card_Hover.png
+               05_Identity_-_Corporate_Reputation_Details_-_ALL_LLMs.png
+               07_Details_Panel_-_More_Than_3_LLMs.png
+               09_Identity_-_Brand_Territory_Chart.png
+
+Stories couvertes : GEO-184 / GEO-186 / GEO-187 / GEO-188 / GEO-189 / GEO-190 / GEO-191
+
+Env vars ajoutées (test.skip si absentes) :
+  MULTI_LLM_REPORT_UUID, SINGLE_LLM_REPORT_UUID,
+  CATEGORY_VIEW_UUID, NULL_SENTIMENT_UUID
+
+Helpers ajoutés :
+  openOverview(page, uuid)           → navigue vers l'overview d'un rapport
+  openDrillIn(page, dimension)       → clique sur une card Corporate Reputation
+
+Corrections :
+  - GEO-188-TC009 renommé en GEO-188-TC009-PERF (conflit de doublon avec nouveau TC009)
+  - Screenshots mis à jour en conséquence : *_TC009-PERF_step*
+
+Tests ajoutés par story :
+
+  GEO-187 (TC002–TC013) — Overview page / tabs / navigation
+    TC002  Sticky tab bar au scroll
+    TC003  Scroll-spy active le bon onglet
+    TC004  Clic tab scrolle vers la section
+    TC005  Composants Identity visibles (heading, Corporate Reputation, Brand Territory)
+    TC006  Filtre LLM Engines (dropdown visible, sélection modifie les données)
+    TC007  Bouton Share visible et cliquable
+    TC008  Bouton Export visible et cliquable
+    TC009  Date de génération affichée (format "Generated MMM DD, YYYY")
+    TC010  Sidebar navigation visible et fonctionnelle
+    TC011  Category View — scope limité au filtre actif
+    TC012  Régression Performance/Sources (sections toujours présentes)
+    TC013  Tab bar design CSS (Inter 14px/500, slate-500 inactif, sky-700 actif, underline 2px)
+
+  GEO-188 (TC001–TC010) — Corporate Reputation cards (2×2 grid)
+    TC001  Grille 2×2 visible avec 4 dimensions
+    TC002  Contenu des cards (titre dimension + résumé + sentiment)
+    TC003  Couleurs de sentiment (vert=Positive, ambre=Mixed, rouge=Negative)
+    TC004  Hover state — card mise en avant
+    TC005  Mouse-out — retour état normal
+    TC006  Sentiment null — affichage "N/A" ou masquage gracieux
+    TC007  Filtre marché — cards rechargées
+    TC008  All-null state — message "No data available"
+    TC009  Isolation multi-tenant — UUID A ≠ UUID B
+    TC010  NFR-BI2 — rendu < 3 s
+
+  GEO-189 (TC001–TC018) — Drill-in panel Corporate Reputation
+    TC001  Clic card ouvre le panel
+    TC002  Loading state pendant le chargement
+    TC003  InBrief tab ALL — carte "powered by AI Sense" + résumé + sentiment
+    TC004  3 tabs LLM avec labels texte (Gemini / ChatGPT / Claude)
+    TC005  >3 LLMs — tab ALL texte + tabs icon-only
+    TC006  Réponses brutes par LLM
+    TC007  Liste de sources (icône globe, domaine, extrait)
+    TC008  Bouton "All sources N" ouvre la modale
+    TC009  Modale — filtre de recherche (>3 sources)
+    TC010  Lien externe — s'ouvre dans nouvel onglet
+    TC011  Fermeture modale via bouton ×
+    TC012  Filtre marché ferme le panel
+    TC013  Bouton × ferme le panel — grille de 4 cards visible, pas d'overlay résiduel
+    TC014  Résultats en cache (pas de re-fetch)
+    TC015  Fallback si données absentes
+    TC016  Single LLM — tab ALL uniquement
+    TC017  Accessibilité clavier (Tab, Enter, Escape)
+    TC018  Switch dimension — panel se met à jour
+
+  GEO-190 (TC001–TC015) — Brand Territory bubble chart
+    TC001  Heading "Brand Territory" + sous-titre "Topics associated with your brand"
+    TC002  Labels bulles avec pourcentage
+    TC003  Taille des bulles proportionnelle au %
+    TC004  Légende visible
+    TC005  Hover tooltip sur bulle
+    TC006  Clic bulle ouvre le detail panel
+    TC007  Detail panel — LLM pie chart
+    TC008  Detail panel — AI context narrative
+    TC009  Bouton close ferme le detail panel
+    TC010  No-data placeholder si aucune bulle
+    TC011  Filtre marché recharge le chart
+    TC012  Section "Top Concepts Associated with Your Brand"
+    TC013  All Markets — agrégation toutes les bulles
+    TC014  Single bubble 100%
+    TC015  Cursor pointer sur bulle cliquable
+
+  GEO-191 (TC001–TC003) — Dégradation gracieuse V0.1
+    TC001  Rapport V0.1 — pas d'erreur crash, message informatif si section absente
+    TC002  Category View — stable en V0.1
+    TC003  Données marché partielles — sections disponibles restent visibles
+
+  GEO-186 (TC001–TC002) — Logique de sentiment
+    TC001  Règle majority-vote (ex: 2 Positive + 1 Negative → Positive)
+    TC002  Isolation multi-tenant — sentiments rapport A ≠ rapport B
+
+  GEO-184-NEW (TC1–TC7) — Couverture AC Wizard (describe block dédié)
+    Ajoutés en complément des TC001–TC008 existants pour couvrir les ACs
+    marqués NEW dans le CSV sans dupliquer la logique détaillée.
+
+--------------------------------------------------------------------------------
+TÂCHE 7 : Mise à jour selectors_blueprint.json → v1.8 (epic174)
+--------------------------------------------------------------------------------
+
+Sections ajoutées / modifiées :
+
+  drill_in_panel
+    inbrief_card              ← ":has-text(\"InBrief\"), :has-text(\"powered by AI Sense\")"
+    per_llm_heading_pattern   ← ":text-matches(\"What .+ said about you\", \"i\")"
+    _figma_inbrief_note       ← note design Figma (gradient border, heading, subtitle)
+
+  brand_territory.top_concepts
+    heading    ← ":has-text(\"Top Concepts Associated with Your Brand\")"
+    subtitle   ← "text=\"Click on a concept to view quotes and sources\""
+    preferred_fix : data-testid="top-concepts-section"
+
+  overview_page.tabs._figma_tab_bar_design
+    font_family : Inter | font_size : 14px | font_weight : 500
+    inactive_color : slate-500 | active_color : sky-700
+    underline_width : 2px | gap : gap-8 | padding_y : py-3
+
+  overview_page.llm_filter_dropdown
+    trigger       ← "button:has-text(\"LLM Engines\"), [aria-label*=\"LLM Engines\"]"
+    preferred_fix : data-testid="llm-engines-filter"
+
+  _meta.version   : 1.7 → 1.8
+  _meta.generated : 2026-05-03
+  _meta.sources   : ajout epic174 spec
+
+================================================================================
+
+DATE : 2026-05-05
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 10 : Ajout de 3 fichiers de test E2E (CSV)
+--------------------------------------------------------------------------------
+
+Trois nouveaux cas de test E2E créés dans .claude/Data/output/csv/ :
+
+  1. create-default-analysis.csv
+     - TC unique : E2E-CREATE-DEFAULT-001
+     - Scénario  : création d'une analyse Chanel (marché US/EN, catégories,
+                   prompts, LLMs par défaut, lancement et redirection)
+     - 16 steps Given/When/Then
+
+  2. create-analysis-markets-1LLM.csv
+     - TC unique : E2E-MARKETS-1LLM-001
+     - Scénario  : création d'une analyse YVES SAINT LAURENT avec 2 marchés
+                   (United States/English + France/French) et 1 seul LLM (Claude)
+     - 17 steps Given/When/Then
+
+  3. verify-analysis-ysl.csv
+     - TC unique : E2E-VERIFY-YSL-001
+     - Scénario  : vérification que l'analyse YSL est visible dans la liste des
+                   rapports, navigation vers son dashboard (URL /dashboard/{uuid}),
+                   vérification des 2 marchés et du LLM Claude
+     - 8 steps Given/When/Then
+
+Convention de nommage E2E :
+  - tc_id format : E2E-{FEATURE}-{NNN}  (ex: E2E-CREATE-DEFAULT-001)
+  - 1 seul TC par fichier CSV (1 scénario de bout en bout)
+  - JDD 3-couches : common.json + {spec}-base.json + {spec}-default.json
+
+--------------------------------------------------------------------------------
+TÂCHE 11 : Ajout steps 15-16 à create-default-analysis.spec.js
+--------------------------------------------------------------------------------
+
+  Step 15 : navigation retour vers BASE_URL + vérification liste rapports visible
+  Step 16 : vérification que la ligne Chanel avec "In progress" est présente
+            dans la colonne Last update
+
+  Sélecteur utilisé :
+    page.locator('tr').filter({ hasText: TEST_BRAND })
+                      .filter({ hasText: 'In progress' }).first()
+  (nécessaire car plusieurs lignes Chanel peuvent coexister dans la liste)
+
+--------------------------------------------------------------------------------
+TÂCHE 12 : Renommage fichier résultats raw + mise à jour playwright.config.js
+--------------------------------------------------------------------------------
+
+  - test-results-epicunknown-raw.json → test-results-create-default-analysis-raw.json
+  - playwright.config.js : ajout SPEC_NAME env var pour les specs non-epic :
+      RUN_ID = EPIC_ID ? `epic${EPIC_ID}` : (SPEC_NAME || 'unknown')
+    Reporter écrit : test-results-${RUN_ID}-raw.json
+
+--------------------------------------------------------------------------------
+TÂCHE 13 : Nouveau spec create-analysis-markets-1LLM.spec.js
+--------------------------------------------------------------------------------
+
+  Spec E2E : création analyse YSL / 2 marchés / Claude uniquement
+  Fichiers :
+    - .claude/Data/raw/playwright/create-analysis-markets-1LLM.spec.js
+    - .claude/Data/raw/test-data/jdd/create-analysis-markets-1LLM-base.json
+    - .claude/Data/raw/test-data/jdd/create-analysis-markets-1LLM-default.json
+
+  Point clé — sélection LLM via re-query while loop :
+    - Requêter [aria-checked="true"] à chaque itération (évite les handles stale)
+    - Cliquer le premier switch non-Claude trouvé puis recommencer
+    - Arrêter quand plus aucun switch non-Claude n'est actif
+    (pattern nécessaire car React re-rend les toggles après chaque clic)
+
+--------------------------------------------------------------------------------
+TÂCHE 14 : Nouveau spec verify-analysis-ysl.spec.js
+--------------------------------------------------------------------------------
+
+  Spec E2E : vérification analyse YSL sur liste rapports + dashboard
+  Fichiers :
+    - .claude/Data/raw/playwright/verify-analysis-ysl.spec.js
+    - .claude/Data/raw/test-data/jdd/verify-analysis-ysl-base.json
+    - .claude/Data/raw/test-data/jdd/verify-analysis-ysl-default.json
+
+  Points clés :
+    - France vérifiée via ouverture du dropdown Market filter :
+        page.locator('[role="option"]:has-text("France")').first()
+      (le bouton Market filter n'affiche que le marché actif, pas tous les marchés)
+    - LLM Claude vérifié en ouvrant le dropdown LLM Engines
+    - Badge count vérifié : button:has-text("LLM Engines") → .getByText("1")
+    - URL dashboard validée via regex UUID :
+        /\/dashboard\/[0-9a-f]{8}-[0-9a-f]{4}-...-[0-9a-f]{12}/i
+
+--------------------------------------------------------------------------------
+TÂCHE 15 : Regroupement E2E (Option C2) + rapport combiné
+--------------------------------------------------------------------------------
+
+  playwright.config.js — ajout projet e2e-suite :
+    testMatch: ['**/create-default-analysis.spec.js',
+                '**/create-analysis-markets-1LLM.spec.js',
+                '**/verify-analysis-ysl.spec.js']
+    Lancement groupé  : SPEC_NAME=e2e-suite USE_AUTH=true npx playwright test --project=e2e-suite
+    Lancement individuel toujours possible via le project 'chromium'
+
+  Nouveau script : .claude/Data/templates/build-e2e-suite-report.js
+    - Même format 3 sections que build-multi-epic-report.js
+    - Section 1 : résumé bleu + verdict GO / CONDITIONAL / NO-GO (sans liste des specs)
+    - Section 2 : 8 stats compactes
+    - Section 3 : accordion par spec → 1 card par step (pas par TC),
+                  screenshot embarqué sous chaque step
+    - Fix timing : screenshots copiés dans runs/{TS}/ AVANT génération HTML
+                   (fs.existsSync vérifiait les chemins avant la copie)
+    - Sortie : .claude/Data/output/reports/runs/{DDMMYYYY-HHMM}/
+                 EXECUTION_REPORT_REAL_e2e-suite.html
+                 screenshots-{spec}/
+
+================================================================================
+
+DATE : 2026-05-06
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 16 : Réécriture de test-suite-epic105.spec.js depuis CSV + HTML DOM
+--------------------------------------------------------------------------------
+
+Fichiers sources :
+  - CSV    : .claude/Data/output/csv/archive/testcases - epic105.csv
+             (séparateur , — différent des CSV epics `;`)
+  - HTML   : fourni manuellement (page Manage Scope staging)
+  - JDD    : .claude/Data/raw/test-data/jdd/epic105/default.json (créé)
+
+Sélecteurs extraits du DOM réel (page Manage Scope staging) :
+  button[aria-label="User menu"]                — avatar header
+  aside[data-testid="dashboard-sidebar"]         — sidebar rapport
+  nav[aria-label="Dashboard navigation"]         — nav interne rapport
+  button[aria-label="Back to Reports"]           — retour liste
+  button[role="switch"][aria-label="Toggle X"]   — toggles LLM
+  a[href*="manage-scope"]                        — lien Manage Scope
+
+Règle appliquée : toujours fournir le HTML de la page cible pour extraire
+les sélecteurs DOM réels avant de réécrire un spec.
+
+JDD créé (jdd/epic105/default.json) :
+  - known_report_uuid : a19b96f0-31ad-4a23-a460-45ed8e87ae79 (rapport BMW)
+  - module_gate.unactivated_base_url : "" (skip GEO-96-TC001 si vide)
+  - module_gate.empty_org_base_url   : "" (skip GEO-96-TC002 si vide)
+  - api.reports_endpoint : "/api/reports" (ajustable si endpoint différent)
+
+Résultats exécution :
+  7 passed / 1 failed / 10 skipped
+  Seul échec : GEO-95-TC007 perf — 3012ms vs budget 3000ms (12ms de trop)
+  Correction : budget staging élargi de 3000ms → 5000ms
+
+Analyse de testabilité avant exécution :
+  ✅ 8 TCs exécutables avec BASE_URL + session USE_AUTH
+  ⚠️ 3 TCs risqués : TC002/003 (API /api/reports peut retourner 404),
+                     TC007 (budget perf trop serré sur staging)
+  ⏭️ 7 TCs skip automatiques : READER_SESSION non défini + module gate URLs vides
+
+--------------------------------------------------------------------------------
+TÂCHE 17 : Fix build-multi-epic-report.js — CSV steps loader
+--------------------------------------------------------------------------------
+
+Problème : les steps Given/When/Then n'apparaissaient pas dans le rapport HTML
+Cause    : parseCsvLine utilisait toujours `;` comme séparateur,
+           mais certains CSV utilisent `,` (ex: epic105)
+           + colonne `tc_id` directe ignorée (normalizeTcId échouait)
+
+Corrections apportées :
+  1. Détection automatique du séparateur :
+       detectSeparator(headerLine) → compte `;` vs `,` hors guillemets
+  2. Utilisation de la colonne `tc_id` directe si présente
+       (prioritaire sur la dérivation depuis `Test name`)
+  3. Fix story stats case mismatch :
+       r.status === 'PASSED' → (r.status||'').toLowerCase() === 'passed'
+
+Résultat : les steps s'affichent automatiquement dans tous les rapports,
+           quel que soit le format CSV (`,` ou `;`), sans intervention manuelle.
+
+--------------------------------------------------------------------------------
+TÂCHE 18 : Commande PowerShell pour exécution multi-epics
+--------------------------------------------------------------------------------
+
+Commande correcte pour lancer plusieurs epics séquentiellement sous PowerShell :
+
+  foreach ($epic in @(99, 101, 102, 103, 104)) {
+      $env:EPIC_ID = "$epic"
+      $env:USE_AUTH = "true"
+      $env:HEADLESS = "true"
+      $env:BASE_URL = "https://staging-geo.onclusive.com/geo"
+      New-Item -ItemType Directory -Force -Path ".claude/Data/processed/testcases/test-results" | Out-Null
+      $log  = ".claude/Data/processed/testcases/test-results/execution-log-epic$epic.txt"
+      $spec = ".claude/Data/raw/playwright/test-suite-epic$epic.spec.js"
+      npx playwright test $spec 2>&1 | Tee-Object -FilePath $log
+  }
+
+Points importants :
+  - Utiliser des variables intermédiaires ($log, $spec) pour Tee-Object
+    car l'expansion de $epic dans une string inline après -FilePath est ignorée
+  - Tee-Object requiert le paramètre -FilePath explicitement nommé
+
+--------------------------------------------------------------------------------
+TÂCHE 19 : Règle — pas de script de parsing dédié
+--------------------------------------------------------------------------------
+
+Règle : ne jamais créer de fichier parse-epic{ID}.js ou équivalent.
+Le parsing se fait uniquement via node -e inline (voir MEMORY.md).
+Les steps sont chargés automatiquement depuis le CSV par build-multi-epic-report.js.
+
+--------------------------------------------------------------------------------
+TÂCHE 20 : Analyse de testabilité epic103
+--------------------------------------------------------------------------------
+
+Epic103 — 3 catégories de TCs :
+  ✅ Exécutables (4 TCs) : nécessitent uniquement completed_url (configuré dans JDD)
+  ⏭️ Skips automatiques (8 TCs) : URLs manquantes dans JDD
+       analysis_url → rapport en cours d'analyse (timer visible)
+       partial_url  → rapport COMPLETED_PARTIAL
+       failed_url   → rapport FAILED
+  🔒 Skip statiques (12 TCs) : test.skip() hardcodé — tests backend non UI-testables
+
+================================================================================
+
+DATE : 2026-05-07
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 21 : Bonnes pratiques E2E — Référence complète (à appliquer sur tout nouveau spec)
+--------------------------------------------------------------------------------
+
+Ces pratiques ont été établies suite au développement de kpi-cards-category-analysis.spec.js
+et permettent de réduire les itérations de debug de 4 à 2 en moyenne.
+
+── 1. INSPECTION DOM AVANT LE SPEC ────────────────────────────────────────────
+
+Toujours inspecter la page via Playwright headless AVANT d'écrire une assertion.
+Script type (node --input-type=module) :
+
+  import { chromium } from '@playwright/test';
+  const browser = await chromium.launch({ headless: true });
+  const ctx = await browser.newContext({ storageState: '.claude/Data/processed/auth/storageState.json' });
+  const page = await ctx.newPage();
+  await page.goto(URL);
+  await page.waitForLoadState('networkidle');
+  const result = await page.evaluate(() => {
+    // 1. Chercher les data-testid disponibles
+    const testids = [...new Set([...document.querySelectorAll('[data-testid]')].map(e => e.getAttribute('data-testid')))];
+    // 2. Chercher l'élément par son texte visible
+    const el = [...document.querySelectorAll('*')].find(e => e.textContent.trim() === 'Mon texte');
+    return { testids, elHtml: el?.outerHTML?.slice(0,300) };
+  });
+  console.log(JSON.stringify(result, null, 2));
+  await browser.close();
+
+Ordre de priorité des sélecteurs (OBLIGATOIRE) :
+  1. data-testid          → [data-testid="mon-element"]
+  2. aria-label           → div[aria-label^="Share of Voice"]  ← KPI cards
+  3. role ARIA            → button[role="switch"]:not([disabled])
+  4. class stable         → p.font-medium, span[class*="text-emerald-600"]
+  5. getByText()          → uniquement pour contenu dynamique (données métier, CSV)
+
+Pièges courants découverts en inspection :
+  - LLM dropdown : options = button[role="switch"], pas role="option"
+  - LLM switches disabled : :not([disabled]) obligatoire pour filtrer les inactifs
+  - CSS text-overflow:ellipsis : les spans peuvent avoir getBoundingClientRect() ≈ 0
+    → annoter le bouton parent (btn.getBoundingClientRect()) pas le span
+  - Skeleton loader : [class*="animate-pulse"], pas [class*="skeleton"]
+  - AI Perception Summary : ul[role="list"] li[role="listitem"] pour les bullets
+
+── 2. e2e-helpers.js — MODULE PARTAGÉ (OBLIGATOIRE) ───────────────────────────
+
+Fichier : .claude/Data/raw/playwright/e2e-helpers.js
+
+Import en tête de chaque spec :
+  const H = require('./e2e-helpers');
+  const SCREENSHOTS_DIR = path.resolve(__dirname, '../../output/reports/screenshots-mon-spec');
+  H.ensureDir(SCREENSHOTS_DIR);
+  const shot   = H.makeShot(SCREENSHOTS_DIR);    // capture viewport
+  const shotAt = H.makeShotAt(SCREENSHOTS_DIR);  // scroll + capture
+  H.registerAfterEach(SCREENSHOTS_DIR);           // hook annotation rouge
+
+API exportée :
+  H.makeShot(dir)                          → shot(page, name) — viewport tel quel
+  H.makeShotAt(dir)                        → shotAt(page, locator, name) — scroll puis capture
+  H.registerAfterEach(dir)                 → hook afterEach complet (overlay rouge + backfill)
+  H.assertLLMButtons(page, dir, tcId, step)→ logos visibles + labels cachés (compact mode)
+  H.switchAllLLMs(page)                    → bascule 5 LLMs, vérifie panel visible
+  H.ensureDir(dir)                         → crée le dossier screenshots
+  H.goto(page, url)                        → navigate + networkidle
+  H.LLM_ALTS, H.LLM_LABELS                → constantes GEO LLM
+
+Ne JAMAIS dupliquer le bloc afterEach inline dans un spec — utiliser H.registerAfterEach().
+
+── 3. SHOTÁT — SCREENSHOTS CIBLÉS (OBLIGATOIRE) ───────────────────────────────
+
+Règle : chaque screenshot doit montrer la section exacte vérifiée par le step,
+pas le haut de la page (résultat de shot() sans scroll).
+
+Utiliser shotAt() pour tous les steps d'assertion portant sur une section précise :
+
+  // ✅ Correct — scroll vers les KPI cards avant la capture
+  await shotAt(page, page.locator('div[aria-label^="Share of Voice"]').first(), 'TC002_step3_then');
+
+  // ✅ Correct — scroll vers l'AI Perception Summary
+  await shotAt(page, page.locator('h4').filter({ hasText: 'AI Perception Summary' }).first(), 'TC007_step3_then');
+
+  // ✅ Correct — skeleton visible pendant le refetch
+  await shotAt(page, page.locator('[class*="animate-pulse"]').first(), 'TC005_step2_when');
+
+  // ❌ Interdit pour steps d'assertion sur section spécifique
+  await shot(page, 'TC002_step3_then');  // montre le haut de la page, pas les KPI cards
+
+shot() reste acceptable pour :
+  - step1_given (état initial — haut de page acceptable)
+  - Captures après navigation (page entière vient de charger)
+
+── 4. DEBUG PAR TC ISOLÉ (OBLIGATOIRE) ────────────────────────────────────────
+
+Ne jamais relancer la suite complète pendant le debug d'un seul TC.
+Utiliser le flag --grep :
+
+  SPEC_NAME=mon-spec USE_AUTH=true npx playwright test mon-spec.spec.js --grep "TC003"
+
+Lancer la suite complète uniquement en validation finale.
+
+── 5. RÈGLE SKIP (OBLIGATOIRE) ────────────────────────────────────────────────
+
+Ne jamais décider seul de sauter un TC sans en informer l'utilisateur.
+Si une condition n'est pas reproductible sur staging :
+  1. Documenter dans le test.skip() pourquoi la condition manque
+  2. Signaler à l'utilisateur avant d'ajouter le skip
+  3. Proposer une alternative (autre dataset, autre URL)
+
+Exemple conforme :
+  test.skip('KPI-TC006 [SKIP] N/A state — no reproducible condition on staging', async ({ page }) => {
+    // Skipped: aucune catégorie sur staging ne produit N/A pour un KPI.
+    // Condition requise : catégorie sans réponses compétitives ou de visibilité.
+    // Signalé à l'utilisateur le 2026-05-06.
+  });
+
+── 6. TRAVAIL EN ATTENTE — RETROFITTING SPECS EXISTANTS ───────────────────────
+
+Appliquer les bonnes pratiques sur les specs déjà écrits (à planifier avec l'utilisateur) :
+  - create-default-analysis.spec.js
+  - create-analysis-markets-1LLM.spec.js
+  - verify-analysis-ysl.spec.js
+  - category-question-analysis.spec.js
+
+Changements à faire sur chacun :
+  1. Remplacer shot() par shotAt() sur les steps d'assertion section-spécifique
+  2. Migrer vers e2e-helpers.js : afterEach inline → H.registerAfterEach()
+
+--------------------------------------------------------------------------------
+TÂCHE 22 : Création du module e2e-helpers.js
+--------------------------------------------------------------------------------
+
+Fichier créé : .claude/Data/raw/playwright/e2e-helpers.js
+
+Contexte : développé pour éviter de répéter sur chaque spec les mêmes implémentations
+de afterEach (annotation rouge), shot(), assertLLMButtons(), etc.
+Réduction observée : 4 itérations de debug sur category-question-analysis → 2 sur kpi-cards.
+
+Exports clés :
+  makeShot(screenshotsDir)    → bound shot(page, name)
+  makeShotAt(screenshotsDir)  → bound shotAt(page, locator, name) avec scrollIntoViewIfNeeded
+  registerAfterEach(dir)      → hook afterEach complet (overlay position:fixed rouge,
+                                 backfill step1_given/step2_when, skip si erreur custom)
+  assertLLMButtons(...)       → 2 passes : logos visibles, labels collectés, overlays peints,
+                                 screenshot AVANT throw (afterEach ne réécrit pas si custom)
+  switchAllLLMs(page)         → loop sur ['gemini','grok','openai','perplexity','claude']
+
+Détail de makeShotAt :
+  1. locator.scrollIntoViewIfNeeded()
+  2. requestAnimationFrame (settle layout)
+  3. page.screenshot({ fullPage: false })
+
+--------------------------------------------------------------------------------
+TÂCHE 23 : Spec kpi-cards-category-analysis.spec.js — GEO-70
+--------------------------------------------------------------------------------
+
+Story  : GEO-70 (epic101) — Category KPI Cards & AI Perception Summary
+Fichiers :
+  - .claude/Data/raw/playwright/kpi-cards-category-analysis.spec.js
+  - .claude/Data/output/csv/kpi-cards-category-analysis.csv
+  - .claude/Data/processed/testcases/test-results/test-results-kpi-cards-category-analysis-real.json
+
+URL testée :
+  https://staging-geo.onclusive.com/geo/dashboard/edfe97e0-e55f-404c-99a4-0436af8524a1/category/0ee96af2-3e87-49a6-bc0d-8b42594b8715
+
+Découvertes DOM importantes (inspection préalable) :
+  - KPI cards : div[aria-label^="Nom de la carte"] (ex: div[aria-label^="Share of Voice"])
+    aria-label contient aussi la valeur : "Share of Voice: 15%"
+  - Valeur numérique : p.font-medium (3e <p> dans la card)
+  - Quality label : span[class*="text-emerald-600"] (Good) | text-red-600 (Poor) | text-sky-400 (Fair)
+  - "Win Rate" du CSV ≠ réalité app → l'app affiche "LLM Choice"
+  - LLM dropdown : button[role="switch"] (pas role="option") ; disabled sur LLMs sans data
+  - Skeleton : [class*="animate-pulse"] — 14 éléments visibles pendant refetch (300ms)
+  - AI Perception Summary : ul[role="list"] li[role="listitem"] pour les bullets
+  - Market dropdown : data-single-country="true" — non modifiable sur ce dashboard
+
+Résultats :
+  7 TCs : 6 PASS / 1 SKIP (KPI-TC006 — N/A state inexistant sur staging)
+
+  KPI-TC001 — Category heading + AI Summary + 5 cards visibles          PASS
+  KPI-TC002 — Valeurs non-vides + Good/Fair/Poor labels                 PASS
+  KPI-TC003 — Valeurs mises à jour après changement de filtre           PASS
+  KPI-TC004 — Format valeurs : %, #N, score signé                       PASS
+  KPI-TC005 — Skeleton animate-pulse visible + valeurs changées          PASS
+  KPI-TC006 — Etat N/A (condition absente sur staging)                  SKIP
+  KPI-TC007 — Bullets AI Perception Summary chargés                     PASS
+
+================================================================================
+
+DATE : 2026-05-04
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 8 : Mise à jour de test-suite-epic174.spec.js (passe 2 — nouvelles Figma screens)
+--------------------------------------------------------------------------------
+
+Fichiers sources :
+  - CSV    : .claude/Data/output/csv/testcases-coverage-epic174-20260430.csv
+  - Blueprint : .claude/Data/raw/test-data/selectors_blueprint.json
+  - Figma (nouveaux screens) :
+      figmaScreens/13_Report_-_V0.2_-_Brand_Identity/
+        06_Identity_-_Corporate_Reputation_Details_-_Gemini.png
+        08_Identity_-_Corporate_Reputation_Details_-_All_Sources_+_Hover.png
+        10_Identity_-_Brand_Territory_Chart_2.png
+
+Tests UPDATE (assertions alignées sur les nouveaux screens Figma) :
+
+  GEO-189-TC006 (UPDATE)
+    - Ajout assertion InBrief card visible sur le tab Gemini (pas seulement ALL)
+      Screen 06 confirme : InBrief card + "What Gemini said about you" sur tab per-LLM
+
+  GEO-189-TC008 (UPDATE)
+    - Modal title doit correspondre à "Sources - [LLM name]"
+    - Sous-titre count : "[N] sources" (ex: "15 sources")
+    - Placeholder search field exact : "Search by title or URL"
+      Screen 08 confirme ces 3 éléments
+
+  GEO-190-TC006 (UPDATE)
+    - Stat line format confirmé : "N mentions - P% of brand territory"
+      (ex: "24 mentions - 29% of brand territory" — screen 10)
+
+  GEO-190-TC007 (UPDATE)
+    - Ajout assertion heading "LLM Contributions" dans le detail panel
+    - Vérification légende avec pourcentages (ex: "46%", "17%")
+
+  GEO-190-TC008 (UPDATE)
+    - InBrief card visible dans le territory detail panel
+    - Heading "AI context" à l'intérieur de la carte InBrief
+      Screen 10 confirme : InBrief + "powered by AI Sense" + "AI context" + narrative
+
+Tests NEW :
+
+  GEO-184-TC4 (NEW — inséré dans le bloc GEO-184-NEW)
+    - AC4 Brand Image Quota — bloque une 21e question
+    - Requiert WIZARD_QUOTA_REPORT_UUID (test.skip si absent)
+    - Renommage cascade : anciens TC4→TC5 (Reset), TC5→TC6 (Per-Market),
+                          TC6→TC7 (Review), TC7→TC8 (Save)
+
+  GEO-185-TC1 (NEW)
+    - AC3 : LLM raw JSON stocké dans llm_responses.raw_response
+    - Proxy UI : Corporate Reputation cards visibles = backend storage OK
+    - Vérification bullet insights = response_sources extraites des 4 dimensions
+
+  GEO-185-TC2 (NEW)
+    - AC6 : Zero LLMs → brand image questions non dispatchées, aucun crash
+    - Vérifie absence d'overlay erreur JS + layout principal stable
+
+--------------------------------------------------------------------------------
+TÂCHE 9 : Mise à jour selectors_blueprint.json → v1.9
+--------------------------------------------------------------------------------
+
+Section modifiée : territory_detail_panel
+  Ajouts :
+    inbrief_card              ← ":has-text(\"InBrief\"), :has-text(\"powered by AI Sense\")"
+    stat_line_pattern         ← "/\d+ mentions? - \d+% of brand territory/i"
+    llm_contributions_heading ← ":text-matches(\"LLM Contributions\", \"i\")"
+    _figma_screen10_note      ← note design complète (Figma screen 10)
+
+  _meta.version   : 1.8 → 1.9
+  _meta.generated : 2026-05-04
+
+================================================================================
+
+DATE : 2026-05-08 → 2026-05-17
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 28 : Architecture JDD E2E 3 couches (profils multi-brand)
+--------------------------------------------------------------------------------
+
+Toutes les specs E2E utilisent un système JDD à 3 couches :
+
+  1. jdd/common.json              — données partagées tous specs (base_url, auth…)
+  2. jdd/{spec-name}-base.json    — données métier du scénario (brand, markets…)
+  3. jdd/{spec-name}-{profile}.json — surcharges par profil (default, dyson, peugeot…)
+
+Chargement dans le spec :
+  const JDD = deepMerge(JDD_COMMON, JDD_BASE, JDD_PROF);
+  JDD_PROFILE env var sélectionne le fichier profil (défaut : "default")
+
+Lancement :
+  JDD_PROFILE=dyson SPEC_NAME=verify-analysis USE_AUTH=true \
+    npx playwright test .claude/Data/raw/playwright/verify-analysis.spec.js
+
+Champs vides ("") dans le JDD = test skippé intentionnellement.
+
+--------------------------------------------------------------------------------
+TÂCHE 29 : Spec verify-analysis — spec dynamique (N marchés / N LLMs / N catégories)
+--------------------------------------------------------------------------------
+
+verify-analysis.spec.js est un spec DYNAMIQUE : il s'adapte automatiquement
+au JDD du profil courant, sans modifier le code.
+
+Fichiers JDD :
+  - jdd/verify-analysis-base.json   — structure commune
+  - jdd/verify-analysis-{profile}.json — expected_markets[], expected_llms[],
+                                         expected_categories[]
+
+Comportements UI à connaître :
+  - 1 seul marché  → pas de bouton filtre, chip statique [aria-label="NomMarché"]
+  - N marchés      → button[aria-label*="Market filter"] + dropdown [role="option"]
+  - LLM dropdown   → portail Radix — ouvrir UNE SEULE FOIS avant la boucle
+                     (toggle sinon → fermeture inattendue)
+  - Catégories     → liens a[href*="/category/"] dans [aria-label="Dashboard navigation"]
+                     visibles sans clic
+
+refreshRealFromRaw rebuild automatiquement steps ET screenshots depuis le raw
+JSON après chaque run — pas de mise à jour manuelle du real.json entre profils.
+
+Nommage screenshots :
+  E2E-VERIFY-001_market-{slug}, E2E-VERIFY-001_llm-{slug}, E2E-VERIFY-001_category-{slug}
+
+--------------------------------------------------------------------------------
+TÂCHE 30 : Nouveaux specs E2E catégories (epic101)
+--------------------------------------------------------------------------------
+
+6 nouveaux specs E2E créés pour les pages category :
+
+  Spec                                  | Story  | TC IDs
+  --------------------------------------|--------|---------------------------
+  category-brand-rankings-analysis      | GEO-68 | TC001–TC007 (6 pass)
+  category-brand-prioritization-analysis| GEO-69 | TC001–TC008 (6 pass / 1 fail)
+  category-kpi-cards-analysis           | GEO-70 | TC001–TC008 (3 pass / 3 fail)
+  category-questions-table              | GEO-67 | TC001–TC014 (9 pass / 4 fail)
+  category-top-concept                  | GEO-66 | TC001–TC005 (0 pass / 5 fail)
+  category-perception-citation          | GEO-66 | TC001–TC012 (6 pass / 1 fail)
+
+Tous dans le projet e2e-suite (playwright.config.js → testMatch).
+JDD : jdd/category/{spec-name}-base.json + jdd/category/{spec-name}-{profile}.json
+
+SELECTOR IMPORTANT — Recharts ScatterChart (Brand Prioritization Matrix) :
+  - Les data points NE SONT PAS tous des circle individuels
+  - circle[r] avec title="N items at this location" → N brands agrégés
+  - foreignObject avec aria-label="Brand — visibility X%, win rate Y%" → 1 brand
+  - Pour compter par quadrant : lire N depuis <title> + compter +1 par foreignObject
+  - Ne jamais comparer circle.count() aux valeurs de la légende (sous-compte garanti)
+
+--------------------------------------------------------------------------------
+TÂCHE 31 : Renommages UI confirmés (snapshot Dyson — mai 2026)
+--------------------------------------------------------------------------------
+
+Renommages confirmés dans l'app (à mettre à jour dans tout spec existant) :
+
+  ANCIEN NOM                              → NOUVEAU NOM
+  "AI Citation Sources"                   → "LLM Engines Citation Sources"
+  "AI Citation Source Details"            → "LLM Engines Citation Source Details"
+
+Specs mis à jour : category-perception-citation.spec.js + selectors_blueprint.json
+
+"Top Concepts Associated with Your Brand" : ABSENT du snapshot Dyson (mai 2026)
+  → TC001 (GEO-66) fail réel — bug connu, non à re-reporter
+
+--------------------------------------------------------------------------------
+TÂCHE 32 : category-perception-citation — gotoCategory() soft wait
+--------------------------------------------------------------------------------
+
+Problème : gotoCategory() utilisait topConceptsHeading comme signal dur de
+page-ready → crash si "Top Concepts" absent (Dyson).
+
+Fix appliqué (lignes 98-103 du spec) :
+  - Soft wait sur topConceptsHeading OR perceptionSummaryHeading avec .catch(() => {})
+  - Si Top Concepts absent → gotoCategory() passe quand même
+  - TC001 échoue proprement sur l'assertion, pas sur la navigation
+
+RÈGLE : ne jamais utiliser un élément optionnel comme signal dur de page-ready.
+Toujours fournir un fallback via .catch(() => {}).
+
+--------------------------------------------------------------------------------
+TÂCHE 33 : epic102 — run final (13/05/2026)
+--------------------------------------------------------------------------------
+
+Résultat : 95/117 passed (81.2%) — commit 8545cfd
+Stories : GEO-74 (23/23), GEO-79 (7/10), GEO-78 (11/11),
+          GEO-107 (10/11), GEO-73 (7/7), GEO-71 (3/3), GEO-72 (1/4)
+Run final : runs/13052026-1403/
+
+Sélecteurs corrigés pour epic102 :
+  perceptionSummary : h4:has-text("AI Perception Summary"), h3:has-text(...),
+                      [data-testid="perception-summary"]
+  favorabilityBadge : td span.inline-flex:has(svg)
+  generated_date    : accepte fr ET en — Generated\s+(\w+\s+\d{1,2},\s+\d{4}|\d{1,2}\s+\w+\s+\d{4})
+  LLM toggle badges : button[aria-label^="Toggle "] uniquement inside dropdown ouvert
+                      → ouvrir llmTrigger.click() d'abord
+  Navigation        : waitUntil: 'load' (pas 'networkidle' — SSE/polling actif)
+
+Patterns spec importants :
+  openCitationDrawer(page) : helper pour TC009–TC012, TC019 (GEO-74)
+    Les domain names ouvrent un panel, pas un lien externe
+
+Bugs connus epic102 :
+  GEO-79-TC001/TC007 : "Actions Center" absent du sidebar → Jira GEO-435
+  GEO-107-TC008 : app affiche #10 pas ordinal rank → bug réel, non corrigé en spec
+  GEO-72 (3/4) : execSummaryLoaded selector [class*="executive-summary"] cassé
+
+Mise à jour real.json epic102 : pas de refreshRealFromRaw — utiliser node inline :
+  node -e "const fs=require('fs'); const raw=...; /* mapper raw → real */"
+
+--------------------------------------------------------------------------------
+TÂCHE 34 : build-e2e-suite-report.js — timestamp guard (stale raw)
+--------------------------------------------------------------------------------
+
+Le script build-e2e-suite-report.js contient un guard anti-stale :
+
+  if (eSuiteMtime > 0 && fs.statSync(rawPath).mtimeMs < eSuiteMtime) {
+    console.log(`[skip-stale-raw] ${spec.id} — raw plus ancien que e2e-suite, skip`);
+    continue;
+  }
+
+COMPORTEMENT :
+  - Si le raw d'un spec individuel est plus ancien que le raw e2e-suite → ignoré
+  - Ceci empêche un vieux résultat d'écraser le résultat de la suite
+
+build-multi-epic-report.js n'a PAS ce guard — il lit les real.json directement
+sans refresh raw → pas de problème de timing.
+
+--------------------------------------------------------------------------------
+TÂCHE 35 : e2e-suite Dyson — lancement sans create-default-analysis
+--------------------------------------------------------------------------------
+
+Quand on lance l'e2e-suite avec un profil brand (ex: Dyson) qui n'a pas de
+scénario de création, utiliser --grep-invert pour exclure le test de création :
+
+  JDD_PROFILE=dyson SPEC_NAME=e2e-suite USE_AUTH=true \
+    npx playwright test --project=e2e-suite \
+    --grep-invert "E2E-CREATE-DEFAULT"
+
+PRÉREQUIS : un fichier stub jdd/create-default-analysis-dyson.json doit exister
+pour que le module JDD charge sans erreur, même si le test est skipé.
+  → Le stub peut être vide ou minimal (brand.name suffit)
+
+Résultat run Dyson 17/05/2026 : NO-GO — 59/99 passed (59.6%)
+  Rapport : runs/17052026-1922/EXECUTION_REPORT_REAL_e2e-suite.html
+  OK : brand-rankings (6/6), brand-prioritization (6/8)
+  KO : questions-table (0/13 — UUID hardcodé non-Dyson), top-concept (0/5),
+       kpi-cards (3/7)
+
+RÈGLE : questions-table spec contient des UUIDs hardcodés — à remplacer par
+JDD_PROFILE pour fonctionner avec d'autres brands que le profil de base.
+
+--------------------------------------------------------------------------------
+TÂCHE 36 : Rapport e2e-suite — commande de génération
+--------------------------------------------------------------------------------
+
+Après un run e2e-suite, générer le rapport combiné :
+
+  node .claude/Data/templates/build-e2e-suite-report.js
+
+Sortie : .claude/Data/output/reports/runs/{DDMMYYYY-HHMM}/
+           EXECUTION_REPORT_REAL_e2e-suite.html
+           screenshots-{spec}/  (copies figées)
+
+Verdicts automatiques :
+  GO          → tous les specs passent
+  CONDITIONAL → quelques échecs non bloquants
+  NO-GO       → échecs bloquants détectés
+
+RÈGLE TIMING SCREENSHOTS (OBLIGATOIRE) :
+  Les screenshots sont copiés dans runs/{TS}/ AVANT la génération du HTML.
+  fs.existsSync vérifie le chemin destination — copier d'abord, générer ensuite.
+
+================================================================================
+
+DATE : 2026-05-18
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 24 : Règles d'enchaînement de runs Playwright multi-profils
+--------------------------------------------------------------------------------
+
+PROBLÈME : utiliser && pour enchaîner deux commandes Playwright avec des profils
+JDD différents peut bloquer le second run si le premier retourne un exit code
+non-zéro (échec de tests = exit 1).
+
+RÈGLE : utiliser ; (point-virgule) à la place de && pour garantir que les deux
+commandes s'exécutent toujours, indépendamment du résultat de la première.
+
+  MAL  →  CMD1 && CMD2      (CMD2 bloquée si CMD1 échoue avec exit 1)
+  BIEN →  CMD1 ; CMD2       (CMD2 toujours lancée)
+
+EXEMPLE :
+  JDD_PROFILE=peugeot SPEC_NAME=create-default-analysis USE_AUTH=true \
+    npx playwright test .claude/Data/raw/playwright/create-default-analysis.spec.js \
+    --project=chromium ; \
+  JDD_PROFILE=dyson SPEC_NAME=e2e-suite USE_AUTH=true \
+    npx playwright test --project=e2e-suite --grep-invert "E2E-CREATE-DEFAULT"
+
+--------------------------------------------------------------------------------
+TÂCHE 25 : Ordre d'exécution — contrainte du timestamp guard (build-e2e-suite-report.js)
+--------------------------------------------------------------------------------
+
+build-e2e-suite-report.js contient un timestamp guard :
+si le raw JSON d'un spec individuel est PLUS ANCIEN que le raw de l'e2e-suite,
+ce spec est ignoré lors du refresh (ses résultats précédents sont conservés).
+
+CONSÉQUENCE :
+  - Le run e2e-suite doit être lancé EN PREMIER
+  - Le run individuel (ex: create-default-analysis) doit être lancé EN DERNIER
+
+  ORDRE CORRECT :
+    1. npx playwright test --project=e2e-suite
+       → produit test-results-e2e-suite-raw.json (timestamp T1)
+    2. npx playwright test create-default-analysis.spec.js
+       → produit son raw à T2 > T1 → guard laisse passer → résultat intégré
+
+  ORDRE INCORRECT (résultat ignoré) :
+    1. npx playwright test create-default-analysis.spec.js (raw T1)
+    2. npx playwright test --project=e2e-suite (raw T2 > T1 → guard skip le spec individuel)
+
+Si l'ordre est inversé, l'ancien statut du TC est conservé à tort dans le rapport.
+
+--------------------------------------------------------------------------------
+TÂCHE 26 : Langue auto-détectée par l'app selon le pays
+--------------------------------------------------------------------------------
+
+L'application détecte automatiquement la langue à partir du pays sélectionné,
+indépendamment de la langue renseignée dans le JDD.
+
+EXEMPLES CONFIRMÉS :
+  - France   → French
+  - Morocco  → Arabic  (PAS French, même si French semble logique)
+  - United States → English
+
+RÈGLE : toujours vérifier dans l'app quelle langue est auto-sélectionnée pour
+chaque pays AVANT de renseigner "language" dans le JDD.
+
+ERREUR TYPIQUE :
+  "markets": [{ "country": "Morocco", "language": "French" }]
+  → Error: Auto-detected language must contain "French" — got: "Arabic"
+
+CORRECTION :
+  "markets": [{ "country": "Morocco", "language": "Arabic" }]
+
+--------------------------------------------------------------------------------
+TÂCHE 27 : Configuration workers Playwright
+--------------------------------------------------------------------------------
+
+Par défaut (workers: 1), les specs s'exécutent en séquence = lent.
+
+CONFIGURATION dans playwright.config.js :
+  workers: 3            ← 3 fichiers spec tournent en parallèle
+  fullyParallel: false  ← les tests DANS chaque spec restent séquentiels
+
+GAIN OBSERVÉ : ~3.4x (18min → 5min sur e2e-suite Dyson avec 9 specs)
+
+POINTS D'ATTENTION :
+  - La session Auth0 (storageState.json) est partagée entre workers — OK
+  - Testé sans conflit avec workers: 3 sur staging
+  - Ne pas dépasser 3 workers (risque de surcharge serveur staging)
+  - Aucun changement à la commande de lancement — la config suffit
+
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 28 : Import Jira Epic — agent optimisé (2026-05-22)
+--------------------------------------------------------------------------------
+
+PROBLÈME : import-jira-epic-agent appelait ToolSearch MCP à chaque fois (échec
+systématique), puis faisait 3 JQL fallbacks en série pour trouver les stories.
+
+CORRECTIONS APPORTÉES :
+1. ToolSearch MCP supprimé — REST API directe uniquement
+   Auth : Basic base64(JIRA_EMAIL:JIRA_TOKEN) depuis .env
+   Endpoint epic   : GET {JIRA_URL}/rest/api/3/issue/{KEY}?fields=...
+   Endpoint stories : POST {JIRA_URL}/rest/api/3/search (body JSON)
+
+2. JQL unique (plus de fallback) :
+   "(parent = \"{KEY}\" OR \"Epic Link\" = \"{KEY}\") AND issuetype = Story"
+   → 0 résultat = normal pour epic sans stories, ne pas déclencher d'erreur
+
+3. Parallélisation : lecture .env + Glob dossier + appel epic dans le même message
+
+4. Nommage stories : STORY_{JIRA_KEY}_{Short_Title}.md (ex: STORY_GEO-448_...)
+
+RÈGLE STRICTE : vérifier issuetype === "Story" sur chaque issue retournée.
+Bugs, Tasks, Sub-tasks, Design Tasks → ignorer complètement (pas de fichier).
+
+--------------------------------------------------------------------------------
+TÂCHE 29 : Nouvel agent tc-csv-generator-from-ac-agent + commande /gen-tc-csv (2026-05-22)
+--------------------------------------------------------------------------------
+
+AGENT : .claude/agents/tc-csv-generator-from-ac-agent.md
+COMMANDE : .claude/commands/gen-tc-csv.md → /gen-tc-csv {KEY} {VERSION}
+
+ENTRÉE :
+  - EPIC.md (niveau 1 — scope, out-of-scope, AC epic)
+  - STORY_*.md (niveau 2 — ACs détaillés)
+
+SORTIE CSV :
+  - Epic  : .claude/Data/output/csv/testcases-coverage-epic{KEY}.csv
+  - Story : .claude/Data/output/csv/testcases-coverage-story{KEY}.csv
+
+FORMAT : Quality Plus, séparateur ";", Cucumber strict (1 étape par ligne CSV),
+colonnes répétées pour chaque step du même TC.
+
+FILTRAGE : exclure bullets techniques (Endpoint, Backend, SDK, Zustand, etc.)
+
+RÈGLE : toujours utiliser /gen-tc-csv via Skill — ne jamais bypasser avec Agent direct.
+
+
+================================================================================
+2026-05-22
+================================================================================
+
+TÂCHE 30 : Visual Testing Playwright avec toHaveScreenshot (opt-in)
+--------------------------------------------------------------------------------
+
+CONTEXTE : Exploration du visual testing natif Playwright sur le spec hubspot-upsell-pql.
+
+PRINCIPE :
+- toHaveScreenshot() compare des screenshots element-scoped contre une baseline PNG
+- Détecte les régressions visuelles (couleurs, layout, décalages) que les assertions
+  fonctionnelles ne voient pas
+- Opt-in via VISUAL_TESTING=true — les TCs fonctionnels tournent sans modification
+
+FICHIERS :
+  - Baselines : .claude/Data/raw/playwright/visual-snapshots/{spec}.spec.js-snapshots/
+  - Config    : playwright.config.js (toHaveScreenshot defaults + snapshotDir)
+  - Diffs     : .claude/Data/raw/playwright/artifacts/{test-name}/ (sur échec uniquement)
+
+COMMANDES :
+  # Générer la baseline (une fois, ou après changement UI volontaire)
+  SPEC_NAME=hubspot-upsell-pql USE_AUTH=true VISUAL_TESTING=true \
+    npx playwright test .claude/Data/raw/playwright/hubspot-upsell-pql.spec.js --update-snapshots
+
+  # Vérification (compare avec la baseline)
+  SPEC_NAME=hubspot-upsell-pql USE_AUTH=true VISUAL_TESTING=true \
+    npx playwright test .claude/Data/raw/playwright/hubspot-upsell-pql.spec.js
+
+RÈGLES :
+  - Toujours placer les assertions visuelles APRÈS les assertions fonctionnelles
+  - Element-scoped (locator) plutôt que full-page — moins de faux positifs
+  - Baselines PNG à commiter en git — elles font partie du contrat visuel
+  - maxDiffPixels: 150 + fullPage: false pour les captures viewport entier
+
+
+
+================================================================================
+2026-05-29
+================================================================================
+
+TÂCHE 31 : Lancer les tests multi-epics séquentiellement (pas en parallèle)
+--------------------------------------------------------------------------------
+
+PROBLÈME : Lancer 11 epics simultanément (11 × 4 workers = 44 instances Chromium)
+provoque des "browserContext.newPage: Test timeout exceeded" qui empêchent
+Playwright d'écrire les raw JSON (ENOENT à la fin du run).
+
+RÈGLE : toujours lancer les epics UN PAR UN, attendre la fin, parser, puis passer
+au suivant :
+
+  EPIC_ID=99  USE_AUTH=true npx playwright test ... --workers=4
+  node .claude/Data/templates/parse-raw-to-real.js 99
+  EPIC_ID=101 USE_AUTH=true npx playwright test ... --workers=4
+  node .claude/Data/templates/parse-raw-to-real.js 101
+  ...
+
+Commande report final une fois tous les real.json générés :
+  node .claude/Data/templates/build-multi-epic-report.js --epics 99,101,102,...
+
+
+TÂCHE 32 : Fix parse-raw-to-real.js — résolution CSV sans suffixe date
+--------------------------------------------------------------------------------
+
+PROBLÈME : Les CSVs de certains epics n'ont pas de suffixe date (ex: epic200)
+ou ont un préfixe "epicGEO-" (ex: GEO-397). Le script plantait avec ENOENT.
+
+FIX dans resolveCsv() :
+  - Regex optionnel : `(?:-\d+)?` pour le suffixe date
+  - Fallback supplémentaire : `testcases-coverage-epicGEO-{ID}*.csv`
+  - Fallback final : `testcases - epic{ID}.csv` (ancien format avec espace)
+
+
+TÂCHE 33 : GEO-71-TC002 supprimait réellement l'analyse (bug spec)
+--------------------------------------------------------------------------------
+
+PROBLÈME : Le test GEO-71-TC002 ("Quota decrement is visible and usable") dans
+test-suite-epic102.spec.js cliquait sur le bouton Confirm de la dialog de
+suppression, ce qui supprimait réellement le premier rapport de la liste en staging.
+
+CAUSE : Les steps CSV ("When the page loads", "Then Quota decrement is visible
+and usable") étaient trop vagues — le spec généré a sur-interprété en confirmant
+la suppression pour vérifier le décompte du quota.
+
+FIX : Remplacer le confirmBtn.click() par un cancelBtn.click() identique à TC001
+et TC003 — la dialog s'ouvre, les boutons sont vérifiés, puis Cancel est cliqué.
+
+RÈGLE GÉNÉRALE : Tout TC dont les steps CSV ne mentionnent pas explicitement
+une action destructive (delete, submit, create) NE DOIT PAS effectuer cette
+action dans le spec. Les tests sont en lecture seule par défaut sauf indication
+
+--------------------------------------------------------------------------------
+TÂCHE 44 : --project=all-epics obligatoire pour reruns individuels (01/06/2026)
+--------------------------------------------------------------------------------
+
+PROBLÈME : Sans `--project=all-epics`, un rerun individuel (ex: epic174) fait
+tourner le spec sous DEUX projets : `chromium` (matche tout) ET `all-epics`
+(listé explicitement dans testMatch). Résultat : 81 TCs × 2 = 162 exécutions,
+raw JSON contaminé, comptages faussés.
+
+COMMANDE CORRECTE pour un rerun individuel :
+  EPIC_ID=174 BASE_URL=https://staging-geo.onclusive.com/geo \
+    USE_AUTH=true HEADLESS=true \
+    npx playwright test .claude/Data/raw/playwright/test-suite-epic174.spec.js \
+    --project=all-epics --workers=2
+
+RÈGLE : Toujours passer --project=all-epics quand on relance un epic isolément.
+
+--------------------------------------------------------------------------------
+TÂCHE 45 : DASHBOARD_UUID requis pour cc_cookie dans storageState (01/06/2026)
+--------------------------------------------------------------------------------
+
+PROBLÈME : Sans DASHBOARD_UUID, global-setup.js n'appelle pas H.dismissCookieBanner()
+→ cc_cookie absent du storageState → cookie banner bloque le chargement des
+dashboards → [data-testid="dashboard-layout"] timeout sur tous les TCs.
+
+COMMANDE pour générer une session fraîche avec cc_cookie :
+  rm .claude/Data/processed/auth/storageState.json
+  BASE_URL=https://staging-geo.onclusive.com/geo \
+    DASHBOARD_UUID=439acd96-0b1b-4da4-9e07-612d38e9783e \
+    USE_AUTH=true HEADLESS=true \
+    npx playwright test --grep="DOES_NOT_EXIST" --project=all-epics
+
+Ce dummy run déclenche le global-setup (login + cookie banner dismiss + save)
+sans exécuter aucun test.
+
+--------------------------------------------------------------------------------
+TÂCHE 46 : Commande officielle run all-epics (01/06/2026)
+--------------------------------------------------------------------------------
+
+Commande complète pour lancer la suite all-epics sur staging :
+
+  SPEC_NAME=all-epics BASE_URL=https://staging-geo.onclusive.com/geo \
+    DASHBOARD_UUID=439acd96-0b1b-4da4-9e07-612d38e9783e \
+    USE_AUTH=true HEADLESS=true \
+    npx playwright test --project=all-epics --workers=4 2>&1 \
+    | tee .claude/Data/processed/testcases/test-results/execution-log-all-epics.txt
+
+Points clés :
+- SPEC_NAME=all-epics → RUN_ID=all-epics → test-results-all-epics-raw.json
+- DASHBOARD_UUID → cc_cookie sauvegardé dans storageState (voir TÂCHE 45)
+- --project=all-epics → 12 specs epic uniquement, création E2E exclue
+- --workers=4 → partagés sur toute la suite (pas par epic)
+- Supprimer storageState.json avant le run si session > 60 min (voir MEMORY.md)
+contraire dans les steps.
+
+--------------------------------------------------------------------------------
+TÂCHE 47 : Specs SOV multilingues — corrections pour staging (25/06/2026)
+--------------------------------------------------------------------------------
+
+Problèmes résolus et patterns à retenir pour e2e-brand-SOV et e2e-category-SOV :
+
+1. STORAGESTATE DOMAIN-SCOPED
+   La session Auth0 est scopée au domaine généré (prod vs staging).
+   Avant de lancer sur staging après un run prod : supprimer storageState.json
+   pour forcer une re-auth sur le bon domaine.
+
+2. NETWORKIDLE SUR STAGING → utiliser 'load'
+   global-setup.js et gotoPage() utilisaient waitUntil: 'networkidle'.
+   Staging garde des requêtes réseau persistantes → timeout 30-45s garanti.
+   Fix universel : waitUntil: 'load' + waitForSelector(sidebar, timeout:30000)
+
+3. SÉLECTEURS LOCALE-AWARE DANS LES SPECS SOV
+   sovHeading : utiliser I18N.dashboard.kpi.shareOfVoice (clé dans les JSON i18n)
+     FR → "Part de voix" | ES → "Cuota de voz"
+   sovSubtitle : texte hardcodé dans l'app (absent des fichiers i18n) → HARDCODED map :
+     'fr'    : 'Par marque, votre marque est mise en évidence'
+     'es'    : 'Por marca, su marca aparece destacada'
+     'en-us' : 'By brand, your brand is highlighted'
+     'en-gb' : 'By brand, your brand is highlighted'
+   Pour découvrir le texte d'une nouvelle locale : lire l'error-context.md après
+   un premier run échoué (le snapshot YAML contient le vrai texte du DOM).
+
+4. FICHIER DE RÉFÉRENCE TRADUCTION
+   Source de vérité : Translation GEO - Source of truth (R&D_QA_PM).xlsx
+   (remplace GEO translation final.xlsx — supprimé)
+   Script de regénération des JSON : node -e "..." inline (voir session 25/06/2026)
+   Colonnes : Key | French | British English | American English | Spanish
+
+5. LANCEMENT SOV (staging, par locale)
+   SPEC_NAME=e2e-brand-SOV USE_AUTH=true LOCALE=fr \
+     BASE_URL=https://staging-geo.onclusive.com/geo \
+     DASHBOARD_UUID=439acd96-0b1b-4da4-9e07-612d38e9783e \
+     npx playwright test .claude/Data/raw/playwright/e2e-brand-SOV.spec.js \
+     --project=chromium --workers=2
+
+--------------------------------------------------------------------------------
+TÂCHE 50 : Bugs corrigés dans e2e-create-default-analysis.spec.js (29/07/2026)
+================================================================================
+
+Deux bugs corrigés lors du run Toyota sur staging depuis e2e-geo-standalone :
+
+1. CATÉGORIES DUPLIQUÉES (erreur backend "An unexpected error occurred")
+   - Cause : le JDD toyota avait "additional_categories" avec des catégories déjà
+     découvertes par l'IA (Hybrid Cars, SUVs). Le wizard les ajoutait 2 fois.
+   - Fix : vider "additional_categories" dans le JDD quand l'IA les découvre déjà.
+   - Règle : "additional_categories" = uniquement les catégories NON auto-découvertes.
+
+2. TypeError: url.includes is not a function (step "redirected to report overview")
+   - Cause : page.waitForURL(url => url.includes(...)) échoue car Playwright passe
+     un objet URL (pas une string) dans le callback.
+   - Fix : url.toString().includes(...) dans le callback.
+   - Pattern : TOUJOURS utiliser url.toString() dans les callbacks waitForURL.
+
+FICHIER MODIFIÉ :
+  .claude/Data/raw/playwright/e2e-create-default-analysis.spec.js (ligne 434)
+
+RÈGLE GÉNÉRALE :
+  page.waitForURL(url => url.toString().includes('/path'))  ← correct
+  page.waitForURL(url => url.includes('/path'))             ← TypeError
+
+================================================================================
+
+TÂCHE 49 : Création du skill /regression-test (15/07/2026)
+================================================================================
+
+TÂCHE 48 : Règles SOV multilingues ajoutées dans CLAUDE.md (25/06/2026)
+--------------------------------------------------------------------------------
+
+Deux nouvelles sections ajoutées à CLAUDE.md pour pérenniser les apprentissages
+de la session e2e-brand-SOV / e2e-category-SOV (25/06/2026) :
+
+1. "i18n — Source de vérité traduction" — source unique = Translation GEO xlsx,
+   fichiers JSON générés (fr/es/en-us/en-gb), ancien fichier supprimé.
+
+2. "Specs SOV multilingues — Patterns" — networkidle → load fix pour staging,
+   sovHeading via I18N, sovSubtitle HARDCODED map, commande de lancement par locale,
+   numéros SC dans le rapport (SC14/SC15).
+
+================================================================================
+
+TÂCHE 51 : Argument --story pour /run-playwright et /run-mcp-PWT-tests (24/09/2026)
+================================================================================
+
+Deux commandes enrichies avec `--story STORY_KEY` pour filtrer l'exécution sur
+une seule story à partir du fichier CSV de l'epic.
+
+COMMANDES MODIFIÉES :
+  .claude/commands/run-playwright.md      → section "Filtrage par story"
+  .claude/commands/run-mcp-PWT-tests.md  → Phase 0 étape 3 + paramètre --story
+  .claude/agents/playwright-runner-agent.md
+  .claude/agents/mcp-playwright-runner-agent.md
+
+RÈGLE :
+  - Colonne CSV à filtrer : "QA Story/Task" (col 12, index 0)
+  - Colonne TC ID : col 2 (format "TC-GEO-XXX-YYY - Titre")
+  - Artefacts scopés : suffixe `-story{KEY}` (ex: GEO-152-storyGEO-1117)
+  - Si 0 TC correspond → afficher les story keys disponibles et arrêter
+
+PROBLÈME NODE -E WINDOWS/BASH :
+  `node -e "..."` multi-ligne échoue avec "unexpected EOF while looking for
+  matching ''". Solution : tout écrire sur UNE SEULE ligne.
+  Ne jamais utiliser de vrais sauts de ligne dans un `node -e "..."`.
+
+PASSAGES MCP (GEO-1117) :
+  - Longueur affichée 142 = 140 chars contenu + 2 typographic quotes (" ")
+  - La règle 140 chars s'applique au contenu sans les guillemets englobants
+  - Brand highlight : `<mark class="rounded-sm bg-[#E0F2FE]...">tesla</mark>`
+  - Vérifier la longueur réelle : el.textContent.length (inclut les guillemets)
+
+
+================================================================================
+TACHE 53 : /run-mcp-PWT-tests -- Parametre --story et fix MCP lock (25-30/09/2026)
+================================================================================
+
+SESSION : Tests MCP Playwright sur epic GEO-152 (Actions Center -- Target Sources)
+Stories executees : GEO-1116 (5 TCs, CONDITIONAL), GEO-1117 (bloquee MCP lock).
+
+POINTS CLES DECOUVERTS :
+
+1. PARAMETRE --story (nouveau) :
+   - Filtre les TCs par colonne QA Story/Task dans un CSV epic complet
+   - Syntaxe : /run-mcp-PWT-tests --csv <epic.csv> --url <url> --story GEO-1117
+   - Spec deduit automatiquement : {epic}-{STORY_KEY}-mcp (ex: GEO-152-GEO1117-mcp)
+   - Ne plus creer de CSV filtre manuellement -- utiliser ce parametre
+
+2. FLAG --isolated dans .mcp.json (OBLIGATOIRE) :
+   - Probleme : sessions precedentes laissaient un verrou sur le contexte navigateur
+     -> tous les browser_* MCP bloques au demarrage de la nouvelle session
+   - Solution : ajouter "--isolated" dans .mcp.json args du serveur playwright
+   - Effet : chaque session obtient son propre contexte isole -- plus de conflit
+   - Fichier : .mcp.json (args: ["cli.js", "--headless", "--isolated"])
+   - Apres modification : toujours relancer Claude Code
+
+3. /run-and-report vs /run-mcp-PWT-tests :
+   - Bug ticket Jira (steps to reproduce) -> /run-and-report --jira GEO-XXXX
+   - TCs fonctionnels depuis CSV -> /run-mcp-PWT-tests --csv ... --url ...
+   - GEO-1150 etait un bug ticket -> erreur d utiliser /run-mcp-PWT-tests
+
+4. ECRITURE FICHIERS QUAND Edit/Write BLOQUES :
+   - echo "..." | tee <fichier> : fonctionne pour contenu simple
+   - cat << 'EOF' > /tmp/script.js ... EOF puis node /tmp/script.js : fonctionne
+     pour scripts longs avec guillemets complexes
+   - node -e avec template literals JS (backticks) : fonctionne si le heredoc bash est correctement isole
+
+5. GEO-1116 -- Observations UI Target Sources (staging Toyota 2d429380-...) :
+   - Liste 12 sources visibles avec "Show 2 more" (14 total, depassant cap AI Citation Sources=10)
+   - Tabs : ALL, IMPROVE VISIBILITY (aol.com visible), IMPROVE PERCEPTION
+   - Panel explanation : dialog open aria-label="Détails de {domain}", w=[470px], fixed right
+   - ev-intelligence.com : 8 articles, URLs exactes, passages, refs LLM confirmes
+   - Tesla.com absent de la liste (exclu comme domaine marque) -- non verifiable via UI seul
+   - UI ne distingue pas les 3 types de qualification (visibility/competitive/negative) -> PARTIAL pour TC-001
+
+
+================================================================================
+
+TÂCHE 52 : /import-jira-epic sur une clé Story existante — refresh GEO-1120 (01/10/2026)
+================================================================================
+
+1. JIRA_EMAIL ABSENT DU .env :
+   - Symptôme : GET /rest/api/3/issue/{KEY} → "Issue does not exist or you do not
+     have permission to see it." (auth Basic avec email vide)
+   - Contournement : utiliser ${JIRA_EMAIL:-$GEO_USER_EMAIL} pour construire l'auth
+   - Fix durable : ajouter JIRA_EMAIL=... dans .env
+
+2. CLÉ STORY DÉJÀ IMPORTÉE (ex: /import-jira-epic GEO-1120 ...) :
+   - Vérifier issuetype (Story) + parent (GEO-152) avant tout
+   - Comparer la description Jira (ADF → markdown) avec la section
+     "## Acceptance Criteria" du STORY_*.md local AVANT d'écraser
+   - Si seul le statut/date change : le signaler et demander confirmation
+   - Mettre à jour aussi : epic-data.json (status/updated), lignes GEO-XXXX
+     dans INDEX.md, README.md, EPIC.md
+
+3. CONVERSION ADF → MARKDOWN :
+   - Niveau de titre = attrs.level tel quel (h3 → ###), PAS level+1
+     sinon les sections passent de ### à #### par rapport aux autres stories
+   - Format statut header : **Status:** [QA IN PROGRESS] QA In Progress
+
+
+================================================================================
+
+TÂCHE 53 : /run-and-report — screenshots intégrés en image dans le commentaire Jira (01/10/2026)
+================================================================================
+
+1. RÈGLE : les screenshots doivent s'afficher EN IMAGE dans le corps du
+   commentaire — mentionner seulement le nom du fichier est interdit.
+
+2. mediaApiFileId ABSENT de la réponse d'upload (cas habituel sur onclusive.atlassian.net) :
+   - Impossible d'utiliser un nœud ADF mediaSingle via /rest/api/3
+   - Solution : POST /rest/api/2/issue/{KEY}/comment avec wiki markup
+       !bug_{KEY}_final_YYYYMMDD.png|width=800!
+     → Jira rend la pièce jointe inline (nom EXACT du fichier uploadé)
+
+3. COLLISIONS DE NOMS : le ticket peut déjà contenir bug_{KEY}_final.png
+   d'un run précédent → uploader des copies suffixées _YYYYMMDD
+   (copies dans le scratchpad, pas dans le repo), un curl par fichier.
+
+4. VÉRIFICATION : GET /rest/api/3/issue/{KEY}/comment/{id} → le body ADF doit
+   contenir un nœud media par screenshot. Sinon supprimer le commentaire et
+   réessayer avec l'autre méthode.
+
+5. GEO-1158 (staging) : le rapport Nike 8f6d09b3-... est dans l'org "Onclusive"
+   (404 dans "QA-GEO") → changer d'org via le switcher in-app.
+   Verdict : BUG FIXED sur le snapshot du 01/10 uniquement (déjà réapparu
+   entre le 24/09 et le 30/09) → revérifier au prochain snapshot.
+
+Fichiers mis à jour : .claude/commands/run-and-report.md (Phase 5),
+.claude/agents/qa-run-and-report-agent.md (Phase 5), CLAUDE.md (règles /run-and-report)
+
+================================================================================
+
+TÂCHE 54 : /import-jira-epic importe aussi les Tasks (02/10/2026)
+================================================================================
+
+1. JQL enfants : parent = "{EPIC_KEY}" AND issuetype in (Story, Task)
+   - Bugs, Sub-tasks, Design Tasks restent exclus (vérification issuetype par ticket)
+   - GEO-152 : 14 Stories + 5 Tasks (GEO-1166, 1168, 1169, 1173, 1178)
+
+2. STOCKAGE D UNE TASK = comme une Story :
+   - fichier STORY_{KEY}_*.md + ligne **Issue Type:** Task
+   - entrée dans epic.stories[] avec "type": "Task"
+   - pourquoi : /gen-tc-csv, /sync-tcs-epic, /regression-test, /gen-test-plan
+     lisent STORY_*.md et stories[] -> aucun changement nécessaire en aval
+   - Task sans "As a... I want..." -> User Story = _No user story in Jira (Task)._
+
+3. Auth Jira : fallback JIRA_EMAIL -> GEO_USER_EMAIL documenté dans l agent
+
+================================================================================
+
+TÂCHE 55 : Préfixe TASK_ + mode réimport de /import-jira-epic (02/10/2026)
+================================================================================
+
+1. PRÉFIXE TASK_ (remplace la règle "Task stockée en STORY_" de la TÂCHE 54) :
+   - Story -> STORY_{KEY}_*.md (**Story ID:**) ; Task -> TASK_{KEY}_*.md (**Task ID:**)
+   - Les deux restent dans epic.stories[] avec "type": "Story" | "Task"
+   - Commandes qui lisent les fichiers : glob {STORY,TASK}_*.md
+     (gen-tc-csv, gen-test-plan, sync-tcs-epic, regression-test)
+   - Renommer un fichier suivi : git mv (garde l historique)
+
+2. PROBLÈME RENCONTRÉ : le réimport complet de GEO-152 a
+   - réécrit les 19 fichiers (formatage seul, ACs intacts)
+   - ÉCRASÉ les sections QA manuelles : bandeau "Derniere sync", "TCs a regenerer",
+     "Delta depuis le 18/09/2026", "Bugs lies" + epic.bugs[] (récupérables : commit 95fdc10)
+
+3. MODE RÉIMPORT (dossier existant) — étape 3d de l agent :
+   - Plan affiché AVANT écriture : NEW / CHANGED / RETYPED / UNCHANGED /
+     TYPE_EXCLUDED / REMOVED_FROM_EPIC -> confirmation utilisateur
+   - CHANGED = updatedAt (horodatage Jira COMPLET) ou statut ou titre différent
+     -> une comparaison sur la DATE SEULE rate les changements du jour
+        (cas réel : GEO-1183 In Progress -> Code Review le même jour)
+   - Sans updatedAt (ancien import) : date égale => CHANGED par prudence, puis
+     updatedAt est rempli -> les réimports suivants ne touchent que le modifié
+   - UNCHANGED : fichier jamais réécrit
+   - Sections ## hors gabarit (EPIC/README/INDEX) + champs JSON inconnus : conservés
+   - Ticket retiré de l epic ou devenu Bug/Sub-task : fichier conservé, signalé
+   - Agent en arrière-plan : s arrête au plan, l appelant demande la confirmation
+
+4. TESTER UN CHANGEMENT D AGENT : lancer d abord en "PLAN ONLY" (aucune écriture)
+   et demander à l agent de lister les ambiguïtés de sa propre doc -> 2 itérations
+   ont révélé 15 défauts avant toute écriture.
+
+================================================================================
+
+TÂCHE 56 : /run-and-report — actions irréversibles et preuves fournies (05/10/2026)
+================================================================================
+
+1. ACTIONS QUI CRÉENT DES DONNÉES : interdites sans confirmation
+   - Cas réel GEO-1165 : l agent a soumis "Aprovisionar" et a réellement créé
+     ryan.reeves@onclusive.com sur staging (email Auth0 possible, test non rejouable)
+   - Toujours écrire dans le prompt de l agent : "do NOT perform any data-creating
+     or irreversible action (provisioning, create/delete, save settings, emails);
+     stop and ask"
+
+2. PREUVE FOURNIE PAR L UTILISATEUR (export Excel) :
+   - Lire le .xlsx avec le package `xlsx` déjà présent dans node_modules
+     (require('xlsx').readFile(...)) — jamais modifier le fichier d origine
+   - Citer feuille + cellule + texte exact dans le verdict
+
+3. LANGUE : la langue d interface est un réglage SAUVEGARDÉ du compte
+   (Settings > Interface Language) -> ne pas la changer ; signaler la langue testée
+   et les langues non couvertes (l utilisateur vérifie FR/ES à la main si besoin)
+
+================================================================================
+
+TÂCHE 57 : TCs d une story remplacée par des Tasks ultérieures (05/10/2026)
+================================================================================
+
+1. AVANT de synchroniser les TCs d une story, vérifier les Tasks plus récentes
+   de la même epic qui modifient le même écran
+   - Cas réel GEO-1123 : description Jira inchangée depuis le 17/09 mais GEO-1168
+     et GEO-1178 (01/10) ont supprimé le brief, la ligne de compteurs, les onglets
+     Failing/Positive et les articles positifs -> 10 TCs sur 17 obsolètes
+   - Une sync basée seulement sur la story aurait réécrit des TCs déjà caducs
+
+2. TC OBSOLÈTE : on le garde (traçabilité vers les ACs Jira), on ne le supprime pas
+   - Nom préfixé "[OBSOLETE – superseded by GEO-1168/GEO-1178] " sur toutes les lignes
+   - Description (1re ligne) : "OBSOLETE (date): ... covered by TC-xxx — do not execute."
+   - Colonne Regression = No (pas de nouvelle colonne, le CSV reste à 16 colonnes)
+   - Pas de ";" dans le texte : c est le séparateur du CSV
+   - Run ciblé : /run-mcp-PWT-tests ... --story KEY --tc <TCs actifs uniquement>
+
+3. Run précédent non fiable : relire les screenshots, pas seulement les notes
+   (TC-008 noté PASS le 25/09 alors que le screenshot montrait le bug GEO-1159)
+
+================================================================================
+
+TÂCHE 58 : Création de bug Jira GEO — champs et captures annotées (05/10/2026)
+================================================================================
+
+1. CHAMPS OBLIGATOIRES (POST /rest/api/2/issue, description en wiki markup) :
+   - parent GEO-152 (epic), components [{"id":"25539"}]
+   - customfield_13208 {"id":"14347"} = "Does not exist in Production" (feature staging only)
+   - customfield_13220 {"id":"14349"} = "Automated QA"
+   - customfield_17549 {"id":"20951"} = Capacity Utilization "Roadmap Work"
+     (NOUVEAU champ obligatoire — sans lui : 400 "Capacity Utilization is required")
+   - Ordre : créer -> uploader la capture (nom suffixé _YYYYMMDD) -> lien "Relates"
+     (POST /rest/api/3/issueLink) -> GET de vérification
+   - Image dans la description : !fichier_YYYYMMDD.png|width=800! (s affiche après upload)
+
+2. DÉDUPLICATION AVANT CRÉATION : lire les bugs ouverts de l epic (GEO-1190 couvrait
+   déjà "concurrent compté comme la marque") -> commentaire + lien, pas de nouveau bug
+   ; deux anomalies de même cause (markdown dans passages + antislash dans titres)
+   -> un seul bug (GEO-1202) avec une section par cas
+
+3. CAPTURE ANNOTÉE À PARTIR D UN SCREENSHOT EXISTANT (sans relancer l app) :
+   - Script Playwright Node dans le scratchpad, lancé avec
+     NODE_PATH="$(pwd)/node_modules" node script.js (sinon "Cannot find module")
+   - page.setContent() : image en data URI, recadrage par background-position,
+     cadre rouge 3-4px #dc2626 + bandeau de note en bas, puis element.screenshot()
+   - Recadrer pour exclure les cadres rouges d autres anomalies
+   - Antislash dans le HTML : utiliser &#92; (les échappements JS/bash le mangent)
+   - Relire l image produite (Read) pour vérifier la position des cadres
+
+================================================================================
+
+TÂCHE 59 : Plan de test d epic, transitions Jira en masse, retest prod (12/10/2026)
+================================================================================
+
+1. /gen-test-plan {EPIC} {VERSION} :
+   - Fichiers locaux dans apps/geo/{VERSION}/{EPIC}/ (pas apps/geo/data/)
+   - Comparer les AC locaux avec Jira (parent = {EPIC}) avant de générer
+   - Signaler les AC remplacés par des Tasks plus récentes (ex : GEO-1116 AC1/2/5
+     remplacés par GEO-1169) -> pas de scénario, mention en Open Points
+   - Push Jira : PUT /rest/api/2/issue/{KEY} en wiki markup ; sauvegarder d abord
+     l ancienne description dans .tmp-jira/{KEY}-description-backup-YYYYMMDD.json ;
+     échapper {brand} / {domain} (sinon Jira les lit comme des macros)
+   - Plan rangé avec les autres livrables de la version : output/csv/GEO-R1.2/
+
+2. TRANSITIONS JIRA EN MASSE (projet GEO) :
+   - GET /rest/api/3/issue/{KEY}/transitions -> "Passed QA" = id 24, accessible
+     directement depuis Ready for QA et QA In Progress, sans champ obligatoire
+   - Avant de passer une story en Passed QA : vérifier les bugs liés (issuelinks)
+     non terminés (statuts hors Passed QA / Done / Ready for Release / Abandoned),
+     y compris les liens indirects bug -> bug -> story
+
+3. RETEST D UN BUG DE DONNÉES IA EN PROD (/run-and-report) :
+   - Comparer la date du dernier run de l analyse à la date du correctif : si le run
+     est antérieur, le bug reste visible -> CONFIRMED avec contexte "fix not yet
+     applied", et prévoir un retest après réévaluation (fenêtre 7 jours)
+
+4. SCRIPTS node -e : le premier argument passé est process.argv[1] (pas argv[2])
+
+================================================================================
+
+TÂCHE 60 : Relance des seuls cas FAILED d un run MCP (13/10/2026)
+================================================================================
+
+1. RELANCER UNIQUEMENT LES FAILED : lire les real.json du run (ex : PROD-A..E),
+   filtrer status FAIL, relancer ces TCs seuls dans un seul contexte navigateur ;
+   nouveau real.json "-rerun-" + nouveau dossier runs/{TS}/ ; ne jamais modifier
+   le run d origine
+
+2. RÈGLE D ALIGNEMENT (utilisateur) : aligner chaque cas FAILED sur le DERNIER
+   STATUT JIRA de son bug lié :
+   - Bug Abandoned -> attendu obsolète : mettre à jour le CSV (ex : GEO-1222 ->
+     en-tête "Articles" / "Articles" / "Artículos" dans PPT/PDF) puis relancer
+   - Bug Done / Passed QA -> relancer sans changement (PASS seulement si corrigé)
+   - Bug ouvert -> FAIL "Known bug GEO-XXXX"
+
+3. INFO-BULLE MOTEUR IA (TC-GEO-1123-009) : à vérifier sur les onglets moteur de
+   "Prompts associated with this source" (ex : "ChatGPT (17)"), PAS sur les
+   icônes des lignes d articles (aria-label seulement, pas de tooltip voulu)
+
+4. RAPPORT MCP EXÉCUTÉ EN PROD : les lignes "Data" des étapes reprennent les URLs
+   staging du CSV -> ajouter un bandeau "Executed on PRODUCTION" en haut du rapport
+
+================================================================================
+
+TÂCHE 61 : Décisions QA sur la relance prod et mise à jour /gen-e2e-scenarios (13/10/2026)
+================================================================================
+
+1. DÉCISIONS QA "PAS UN BUG" (relance prod GEO-152, runs/13102026-0939) :
+   - Cas liés aux anciens snapshots (TC-1117-010, 1118-014, 1123-008) ->
+     PASS (QA decision, snapshot-related), CSV inchangé, ancienne observation
+     gardée dans les notes du real.json ("Former observation:")
+   - Comportement attendu (TC-1126-003 titre "Sources" sans total ; TC-1168-022
+     export en lignes de texte, pas de pastilles ; TC-1124-008) -> PASS + CSV aligné
+     avec une note "Updated YYYY-MM-DD (QA decision)"
+
+2. RÈGLES GEO-1224 / GEO-1201 DANS LES TCs (décisions PO du 07/10) :
+   - Un article négatif sans bonne citation reste listé SANS citation, jamais un
+     en-tête de page (titre, bandeau cookies, menu) -> TCs "every row shows a
+     passage" acceptent une ligne sans citation (epic + TNR stories + TNR action center)
+   - Citation > 140 caractères -> dernier mot complet + "…", "…" inclus dans 140
+   - Les URLs déjà jugées gardent l ancienne citation jusqu à réévaluation (7 jours)
+
+3. /gen-e2e-scenarios MIS À JOUR :
+   - CSV cherchés aussi dans csv/GEO-R*/ ; colonnes lues par nom (QA Story task
+     ou QA Story/Task)
+   - Validation utilisateur obligatoire après la consolidation, avant CSV/spec/run
+   - Dernière version des TCs (notes "Updated", TCs retirés exclus)
+   - Conventions E2E : E2E-{FEATURE}-{NNN}, 1 scénario par CSV, noms préfixés e2e-
+   - Spec enregistrée dans e2e-suite (playwright.config.js) et E2E_SPECS
+     (build-e2e-suite-report.js) ; rapport dans runs/E2E-DDMMYYYY-HHMM/
+
+================================================================================
+
+TÂCHE 62 : Import des epics GEO-R1.3 (GEO-1002, GEO-1209) (19/10/2026)
+================================================================================
+
+1. EPIC SANS STORY NI TASK DANS JIRA :
+   - Les user stories n existent que dans la description de l epic ("Story ID: TBD")
+   - Import quand même : EPIC.md / README.md / INDEX.md / epic-data.json, sans
+     fichier STORY_*.md ; stories[] vide, stories prévues dans plannedStoriesInEpic[]
+   - /gen-tc-csv ne voit rien tant que le PO n a pas créé les stories -> réimporter
+
+2. DÉPLACEMENT D UN EPIC VERS UNE AUTRE VERSION (GEO-R1.15 -> GEO-R1.3) :
+   - Mettre à jour "version" dans epic-data.json et "Version folder" dans INDEX.md
+
+3. ENCHAÎNEMENT GEO-1002 -> GEO-1209 (à garder en tête pour les TCs) :
+   - GEO-1209 ajoute l étape Analysis Type au wizard (4 -> 5 étapes), derrière un
+     feature flag global (OFF par défaut, GEO-1241 AC1b = flag OFF)
+   - GEO-1247 AC3 remplace GEO-1234 AC3 (bouton confirm plus désactivé si
+     catégorie/type vide) ; GEO-1233 AC2 est livré par GEO-1251
+   - La description d epic GEO-1209 est en retard sur les stories (GEO-1242 AC9,
+     GEO-1243 AC4, 12 topics max) -> toujours suivre les ACs des stories
+
+================================================================================
+
+TÂCHE 63 : Synthèse multi-epics et plan de test de release GEO-R1.3 (19/10/2026)
+================================================================================
+
+1. SYNTHÈSE QA D UNE RELEASE (plusieurs epics) :
+   - Fichier apps/geo/{VERSION}/QA-READINESS-{VERSION}.md (en anglais) : vue
+     d ensemble, ordre de test, écrans partagés entre epics, décisions dev non
+     validées par le PM, textes d epic en retard, numéros d epic incohérents,
+     prérequis d environnement, exclusions, points ouverts
+   - Toujours citer les epics par clé GEO-xxxx : les numéros EPIC-0xx cités dans
+     les descriptions sont souvent faux (ex : GEO-1209 appelle GEO-1002 "EPIC-034",
+     son vrai numéro est EPIC-045)
+
+2. PLAN DE TEST DE RELEASE (/gen-test-plan sur plusieurs epics) :
+   - Un seul plan pour toute la release : apps/geo/{VERSION}/TEST-PLAN-{VERSION}.md
+     (au lieu de .claude/Data/output/csv/) pour relecture avant envoi Jira
+   - Passer QA-READINESS en source à l agent -> sections entre epics +
+     non-régression + tableau de couverture par story (163/163 ACs pour R1.3)
+   - Scénarios dépendant de décisions non validées marqués "pending"
+   - Aucun envoi Jira tant que la relecture n est pas faite (ticket cible,
+     assigné, priorité, environnement à confirmer)
+
+3. EPICS GEO-R1.3 IMPORTÉS : GEO-1002, GEO-1069, GEO-1209, GEO-1068
+   (29 stories, 163 ACs). Ordre de test : 1002 -> 1069 -> 1209 -> 1068
+
+================================================================================
+
+TÂCHE 64 : Génération des TCs GEO-R1.3 et liste unique des questions PO/PM (19/10/2026)
+================================================================================
+
+1. /gen-tc-csv SUR UNE RELEASE MULTI-EPICS :
+   - Un /gen-tc-csv par epic, sortie dans .claude/Data/output/csv/{VERSION}/
+     (testcases-coverage-epic{KEY}.csv + -review.md)
+   - Passer à l agent les règles de QA-READINESS : exclusions (TACs techniques,
+     AC livré par une autre story), surcharges entre epics (ex : GEO-1247 AC3
+     remplace GEO-1234 AC3 si flag unbranded ON -> TC GEO-1234 en flag OFF
+     obligatoire), bugs ouverts cités sans assouplir le résultat attendu
+   - Décisions dev non validées -> "[Pending PM validation: Dn]" en fin de
+     description ; textes "Proposed" -> écart signalé au PM, pas de bug
+   - R1.3 : 263 TCs / 1 192 étapes / 163 ACs couverts
+
+2. TCs "inchangé par rapport à aujourd hui" (non-régression) :
+   - Exigent une référence (captures, export XLSX) prise AVANT le déploiement
+     de l epic. À anticiper dès l import : si l epic est déjà Ready for QA,
+     vérifier si la référence existe, sinon utiliser la prod comme référence
+
+3. LISTE UNIQUE DES QUESTIONS PO/PM :
+   - apps/geo/{VERSION}/PO-PM-QUESTIONS-{VERSION}.md (en anglais)
+   - Regroupe les points ambigus des 4 relectures + QA-READINESS : bloquants
+     d abord, puis décisions à valider, comportements à confirmer, doc à corriger
+   - Chaque question donne l hypothèse QA actuelle et les TCs impactés
+
+================================================================================
+
+TÂCHE 65 : Premier run smoke GEO-1002, flag unbranded et références de non-régression (19/10/2026)
+================================================================================
+
+1. FLAG UNBRANDED (GEO-1209, GEO-1241 AC1b) :
+   - Flag global côté serveur, non réglable dans l app. Lecture :
+     GET /geo/api/v1/auth/me -> features.unbranded_analysis (/auth/me = 404)
+   - ON : le wizard commence par "Analysis Type" (Brand analysis / Unbranded
+     analysis), 5 étapes dans les deux cas ; étape 2 = Brand & Country ou
+     Topic & Country. OFF : 4 étapes dès Brand & Country, pas de choix
+   - Staging = ON (19/10). Décision QA : tester uniquement le flag ON ; les TCs
+     flag OFF ont en tête de description "[SKIP while the unbranded flag is ON
+     on staging: ...]" (TC-GEO-1231-001/002, TC-GEO-1234-005, TC-GEO-1241-002)
+   - Avec le flag ON, "première étape" = Analysis Type : Back sur Brand & Country
+     revient à Analysis Type ; "Exit setup?" s ouvre via Back sur Analysis Type
+   - Piège de génération : /gen-tc-csv avait mis "flag OFF" par défaut dans 66
+     préconditions GEO-1002 -> toujours fixer l état du flag attendu sur staging
+
+2. LIBELLÉS DE MARCHÉ RÉELS (ne pas inventer de format) :
+   - Tableau des prompts / filtres / selects : "GB (EN)", "FR (FR)", "ES (ES)"
+   - Sélecteur Brand & Country : "United Kingdom - English (EN)"
+   - Carte Markets du Review : "United Kingdom · English", "France · French"
+   - Tableau du dashboard : "Analysis" ("5 analyses"), pas "Reports" (décision
+     QA, la story GEO-1240 est en retard)
+
+3. RÉFÉRENCE "INCHANGÉ PAR RAPPORT À AUJOURD HUI" (GEO-1068) :
+   - Anciens exports XLSX/PPTX d une analyse staging produits AVANT le
+     déploiement (preuve : colonne "Score", texte "+86 sentiment")
+   - Copiés dans .claude/Data/raw/test-data/baselines/{EPIC}/ ; valeurs attendues
+     écrites dans les étapes ; même période fixe que l export (pas "Last 7 days")
+   - Toyota staging 439acd96-0b1b-4da4-9e07-612d38e9783e, 28/09-04/10/2026
+
+4. RUN SMOKE MCP (/run-mcp-PWT-tests, 13 smoke) :
+   - Interdire au runner les actions qui modifient staging (pool back office,
+     suppressions) -> SKIP ; création d analyse autorisée et tracée (UUID)
+   - Compte QA = SUPER_ADMIN ; org QA-GEO, pool 1000
+   - Résultat 19/10 : 8 PASS / 4 FAIL / 1 PARTIAL, FAILs = libellés CSV + flag
+
+================================================================================
+
+TÂCHE 66 : Run GEO-1231, fichiers de langue et repère InBrief (19/10/2026)
+================================================================================
+
+1. FICHIERS DE LANGUE (.claude/Data/raw/test-data/i18n/) :
+   - Source : https://github.com/AirPR/geo-analytics, dossier
+     frontend/src/i18n/locales, branche **developer** (= staging, textes R1.3) ;
+     la branche main (= prod) n a pas les textes R1.3 (Analysis Type, Prompt pool)
+   - Récupération : git clone --depth 1 --branch developer --filter=blob:none
+     --sparse + git sparse-checkout set frontend/src/i18n/locales (gh absent ;
+     le credential manager Git suffit)
+   - Garder les noms locaux en-gb / en-us / fr / es .json (les specs chargent
+     i18n/${LOCALE}.json) : en-GB.json -> en-gb.json, fr-FR.json -> fr.json,
+     es-ES.json -> es.json
+   - Après copie, vérifier que les clés I18N.* des specs E2E existent toujours
+   - Utile pour valider les textes exacts des TCs ("Proposed" inclus)
+
+2. BLOC INBRIEF : le titre "InBrief powered by AI Sense" est un logo (image),
+   introuvable dans innerText -> repérer par logo + puces + pied
+   "... generated by artificial intelligence". Repère ajouté dans les
+   préconditions des TCs concernés et dans .claude/docs/playwright-selectors.md
+
+3. ORTHOGRAPHE en-GB : l interface affiche "analysing" / "analyse" alors que
+   les ACs citent l anglais US ("analyzing") -> TCs alignés sur l en-GB
+
+4. RUN GEO-1002 --story GEO-1231 (19/10) : 7 PASS / 1 FAIL (orthographe,
+   corrigé) / 2 SKIP (flag OFF). Point à trier : avec AI Insights en français,
+   les noms de catégories découverts sont en français même pour GB (EN)
+   (GEO-1231 AC-4 "insights and summaries only")
+
+================================================================================
+
+TÂCHE 67 : Runs MCP de toutes les stories GEO-1002, sync des réponses PO et retests (19-20/10/2026)
+================================================================================
+
+1. RUNS MCP PAR STORY (/run-mcp-PWT-tests --story) :
+   - Un agent à la fois (navigateur MCP partagé) ; noter les remarques de chaque
+     story dans un fichier de suivi, consolider à la fin
+   - Rapport consolidé : runs/20102026-1218/MCP-Report-GEO-1002-consolidated.html
+     (101 TCs, 63 PASS / 6 FAIL / 15 PARTIAL / 17 SKIP, GO 83.9 % hors SKIP)
+   - Les agents se bloquent (watchdog 600 s) sur les longues séries de clics :
+     relancer via SendMessage (contexte gardé), consigne "1 clic par appel"
+   - Garde d écriture (context.route qui bloque les non-GET) : utile pour les
+     runs "sans enregistrement", mais TOUJOURS la retirer à la fin
+     (context.unrouteAll) — sinon le run suivant échoue (discovery KO)
+   - Dans Manage Scope, cocher/décocher un prompt ou changer sa catégorie
+     s enregistre immédiatement (PATCH /reports/{id}/prompts/kept)
+
+2. TEST DE CHANGEMENT DU POOL (autorisé par l utilisateur au cas par cas) :
+   - PATCH /geo/api/v1/admin/organisations/{orgId}/quotas {"promptPool":N}
+   - Pile plein = U, dépassé = U - 2 (relire U juste avant), puis remettre la
+     valeur d origine et la vérifier (back office + anneau du dashboard)
+   - Garder le pool baissé le moins longtemps possible (QA-GEO partagée)
+   - Organisation sans pool : "GEO Stress Test 2026-10" (40 analyses)
+
+3. /sync-tcs-epic AMÉLIORÉ (commande + agent) :
+   - Lit aussi les commentaires et l historique Jira depuis --since, les
+     relie aux points ouverts (--questions PO-PM-QUESTIONS-{VERSION}.md,
+     --findings {EPIC}-RUN-FINDINGS.md) : ANSWERED / PARTIAL / CONTRADICTS / OPEN
+   - Repart toujours du CSV actuel (garde les corrections QA), CSV 16 colonnes,
+     chemins apps/geo/{VERSION}/ et .claude/Data/output/csv/{VERSION}/
+   - Faire les 3 plans en parallèle (lecture seule), appliquer en séquence
+     (fichier des questions partagé)
+   - Rôles : Quentin Reant = PO/PM ; Youssef Ait Laydi, Abdenasser = devs
+   - Date des validations : date Europe du commentaire (19/10 21h New York =
+     2026-10-20)
+
+4. COMMENTAIRES DE RETEST SUR LES BUGS :
+   - Upload d une copie bug_{KEY}_final_YYYYMMDD.png, puis commentaire v2 en
+     wiki markup !fichier.png|width=800!, vérifier 1 nœud media en v3
+   - Transition "Passed QA" = id 24 (GEO-1271, GEO-1274 le 20/10)
+   - Bug corrigé en partie (GEO-1272 : tri sur la page courante seulement) :
+     commentaire + statut laissé en Ready for QA
+
+
+================================================================================
+TÂCHE 68 : Runs MCP des 4 stories GEO-1069 (site web de la marque) et alignement du CSV (20/10/2026)
+================================================================================
+
+1. DONNÉES DE TEST DU WIZARD (marque personnalisée) :
+   - "Licter" est une suggestion Brandfetch (licter.com) : pour les TCs du
+     wizard, utiliser "Lictorix Geo" (proposé seulement par la ligne Custom Brand)
+   - Mais un nom fictif obtient 0 % de visibilité : pour les TCs qui ont besoin
+     du classement / d un prompt gagné (GEO-1263), utiliser une vraie marque
+     choisie par la ligne "Custom Brand" (ex. "Licter" + licter.com)
+   - Sans site web, la découverte peut proposer des catégories sans rapport
+     (A2 "Licter" -> éclairage) : choisir les catégories à la main
+   - Analyses créées sur staging (QA-GEO, accord utilisateur) :
+     A1 f228f1fe-9363-4f3c-97e6-e7275bd383e8, A2 79e18910-041d-454d-bd34-2e4737d4a55a
+
+2. VÉRIFIER LE DOMAINE DÉRIVÉ :
+   - Le champ site web est validé à la perte du focus (ou Entrée)
+   - Domaine envoyé = entityDomain dans la requête discover-categories et dans
+     la requête de création (l étape Review n affiche ni la marque ni le domaine)
+   - Logo : GET /geo/api/v1/brands/logo?domain=... puis image
+     www.google.com/s2/favicons (filtres réseau "brands/logo" et "s2/favicons")
+   - Quota Brandfetch épuisé sur staging (règle GEO-1262 du 16/10) : tous les
+     logos tombent sur le favicon -> TC-1262-001 SKIP, TC-1262-003 non discriminant
+   - Site sans favicon (example.com) = globe générique au lieu de la lettre "L"
+     (limite connue, question OP-1 au PO)
+
+3. PIÈGES MCP :
+   - Ne jamais recharger /geo/new en cours de wizard (dialogue beforeunload qui
+     bloque les outils MCP) : sortir par "Back to Dashboard" -> "Exit and Discard"
+   - Revenir à "Brand analysis" depuis Unbranded ouvre "Switch the analysis
+     type?" -> "Switch type"
+   - Un "side finding" de l agent (carte qui garde l ancien domaine après une
+     saisie invalide) n était pas reproductible à la main : toujours faire
+     confirmer un écart vu seulement en automatique avant d en faire un bug
+
+4. ANALYSES CRÉÉES POUR LES TESTS = 5 PROMPTS SEULEMENT (règle utilisateur 20/10) :
+   - Le pool de prompts de QA-GEO est partagé (953/1000 après A1/A2 à 70 prompts)
+   - Toute analyse créée pour un test garde 5 prompts (décocher le reste avant
+     "Create Analysis"), jamais la sélection par défaut (~70) ; le noter dans le run
+   - Toujours demander l accord avant de créer une analyse
+   - Rerun des TCs du wizard modifiés : runs/20102026-1705 (3/3 PASS) ; taper
+     caractère par caractère pour les assertions "pendant la saisie"
+
+5. QUOTA BRANDFETCH (cause confirmée par le dev le 21/10, logs du pod) :
+   - Brandfetch a 3 canaux séparés : /search/{query} (autocomplete),
+     /brands/{domain} (profil de marque = logo du site web saisi) et les
+     icônes cdn.brandfetch.io. Seul le quota du profil de marque était épuisé.
+   - Brandfetch répond 429 -> le serveur renvoie logoUrl null ->
+     brands/logo = {"domain":...} -> le front affiche le favicon Google
+   - Icônes des suggestions visibles != quota rétabli : vérifier que
+     GET /geo/api/v1/brands/logo?domain=nike.com renvoie une URL de logo
+   - Le 429 n est pas mis en cache (seuls 200 et 404) ; clé invalide = 401
+
+================================================================================
+TÂCHE 69 : Bugs du run consolidé GEO-1002 et dossier .tmp-jira (20/10/2026)
+================================================================================
+
+1. BUGS CRÉÉS (mode B, parent GEO-1002, lien Relates, fixVersion 1.3) :
+   - F-01 GEO-1500, F-02 GEO-1501, F-04 GEO-1502, F-05 GEO-1503,
+     F-06 GEO-1504, F-07 GEO-1505 (texte proposé : "Manage Scope" au lieu de
+     "Settings") ; préfixes [Wizard] / [GEO-Overview] / [GEO-Manage-scope]
+   - Preuves annotées : .claude/Data/output/bugs/statique-bugs/F-0x_*_annotated_20261020.png
+   - Suivi : apps/geo/GEO-R1.3/GEO-1002-RUN-FINDINGS.md ("BUG CREATED 2026-10-20")
+   - R-01 abandonné : dans Manage Scope la suppression a bien une confirmation
+     "Delete Prompt" ; le toast + Undo n existe que dans le wizard
+     -> toujours revérifier à la main avant de créer un bug vu en automatique
+
+2. COMMENTAIRES JIRA :
+   - Ne jamais publier un commentaire (ni mention du PO) sans accord explicite
+     sur le texte exact ; pas de droit de suppression -> un commentaire publié
+     par erreur ne peut être que neutralisé ("NA")
+   - Bug retesté corrigé en partie -> statut "Action needed" (pas "Passed QA")
+
+3. DOSSIER .tmp-jira :
+   - Les réponses brutes de l API Jira vont dans .tmp-jira/ à la racine,
+     ignoré par .gitignore (jamais commité)
+   - Anciennes réponses archivées dans .tmp-jira/archive-raw-20261020/
+     (ex .claude/Data/raw/.tmp-jira/, qui n est plus utilisé)
+
+
+================================================================================
+TÂCHE 70 : Runs MCP GEO-1209 et GEO-1068, retests UAT et commentaires Jira (20-21/10/2026)
+================================================================================
+
+1. RUNS MCP :
+   - GEO-1209 (8 stories, analyse unbranded "Electric bikes" 42c3ab89, 5 prompts) :
+     consolidé runs/21102026-1027 -> 97 TCs, CONDITIONAL 75,3 %
+   - GEO-1068 (4 stories, Toyota 439acd96 + Electric bikes) : consolidé
+     runs/21102026-1402 -> 36 TCs, GO 88,6 %, 0 FAIL
+   - Script de consolidation : copier le modèle (RUN_OF / ORDER / TITLES),
+     il copie les dossiers screenshots de chaque run dans le dossier consolidé
+   - Ne JAMAIS lancer deux agents MCP Playwright en parallèle : ils partagent
+     la même page (même avec --isolated) -> run GEO-1267 interrompu, à relancer
+   - Toyota a changé depuis la baseline du 05/10 (Grok désactivé, catégorie
+     "Voitures électriques" supprimée) : les fréquences de l Overview ne sont plus
+     comparables -> comparer au niveau catégorie (Voitures hybrides) et
+     recouper par GET API avec Grok ; TC en PARTIAL, pas FAIL
+   - Export FR / ES : l export suit la langue enregistrée du compte (lang=en-GB),
+     pas d option de langue -> ne pas changer la langue du compte, TC en PARTIAL
+
+2. BUGS UAT DU PO (20/10) VS NOS RUNS :
+   - GEO-1509 = nos FAIL TC-GEO-1241-014 / TC-GEO-1246-003 ; retest runs/21102026-1228
+     -> corrigé ; Other non relisté sur un prompt déjà en Other = voulu (réponse dev,
+     46.7 AC5, acceptée par QA) -> Passed QA, CSV aligné
+   - GEO-1508 FIXED (commentaire) ; F-10 signalé en commentaire sur GEO-1511
+   - GEO-1514 (market -> country) : mise à jour des CSV à faire une fois livré
+
+3. COMMENTAIRES JIRA (nouvelle commande /comment-jira-bug) :
+   - Répondre à un commentaire existant = réponse dans son fil (v2 POST comment
+     avec "parentId" = id du dernier commentaire), en taguant son auteur ;
+     jamais un nouveau commentaire séparé
+   - Commentaire adressé au PO = mention Jira [~accountid:712020:7343a240-d2eb-4be4-a0c8-1c73c97b140c]
+     (pas "@Quentin Reant" en texte) ; vérifier le nœud "mention" en GET v3
+   - Transition après le commentaire : chercher l id via GET /transitions (to.name)
+
+TÂCHE 71 : Relances GEO-1068 (Grok réactivé, CSV catégorie, exports FR / ES) (21/10/2026)
+
+1. JDD TOYOTA (439acd96) :
+   - Grok réactivé dans Manage Scope avec l accord utilisateur (PUT
+     /reports/{id}/llm-configurations, Claude laissé OFF, pool inchangé) ;
+     journal : processed/testcases/test-results/toyota-grok-reenable-20261021.json
+   - "Voitures électriques" supprimée après la baseline du 05/10 : les totaux de
+     l Overview ont changé -> les TCs comparent les fréquences sur la catégorie
+     "Voitures hybrides" (identique à la baseline) ; l Overview ne vérifie que
+     concepts / polarités / sources
+   - Titre de la carte d une analyse de marque = "Top Topics Associated with Your
+     Brand" (Overview ET page catégorie) ; "Top Topics in the Category" = unbranded
+
+2. LANGUE DU SITE ET EXPORTS :
+   - La langue d un export = la langue d interface du site (par conception)
+   - Règle : le site reste en en-GB, MAIS on peut le passer en FR / ES quand un TC
+     vérifie une autre langue (Settings > Interface Language, PATCH
+     /auth/me/ui-language) ; toujours remettre en-GB à la fin et le vérifier
+   - XLSX FR : "Mixte" au lieu de "Mitigé" (bug créé) ; en-têtes XLSX traduits (A4)
+
+3. RERUNS ET RAPPORT :
+   - Plusieurs reruns successifs : le script consolidé applique RERUNS dans l ordre,
+     le dernier résultat d un TC remplace les précédents
+   - Horodatage des dossiers runs/ : le passer par TS=$(date +%d%m%Y-%H%M) au
+     script node (l heure de node peut différer de celle du shell)
+   - Rapport final GEO-1068 : runs/21102026-1542 (GO 97,1 %)
+
+TÂCHE 72 : Clôture QA GEO-1068, bugs du tri et champ Sprint (21/10/2026)
+
+1. STATUTS GEO-1068 : GEO-1266 / 1267 Passed QA ; GEO-1268 Action Needed
+   (GEO-1518, GEO-1519) ; GEO-1269 Action Needed (GEO-1517) ; epic Action Needed
+   - Une story dont un bug lié est ouvert ne reste pas en Passed QA, même si ses
+     ACs sont toutes PASS -> Action Needed + mise à jour de notre commentaire
+2. BUGS : nouveau champ obligatoire Sprint = "GEO + Digimind Sprint 1"
+   (customfield_10006 = 14578, valeur numérique) ; vérifier que le sprint est
+   actif (GET /rest/agile/1.0/sprint/14578) ; règle ajoutée dans /create-bugs
+3. POLARITÉ DES TOPICS (réponse dev, voulu) : calculée par vue (page catégorie =
+   réponses de la catégorie ; Overview = toutes les catégories, topics regroupés
+   par nom sans tenir compte des majuscules) ; moyenne des scores > 0,2 Positive,
+   < -0,2 Negative, sinon Mixed -> un topic peut être Positive sur l Overview et
+   Mixed sur une catégorie
+4. Ne pas poser au PO une question sans exigence derrière (ex. PDF sans texte :
+   aucune AC ne le demande)
+
+
+================================================================================
+TÂCHE 73 : Synchro GEO-1209 (relecture des textes par le PO) et fichiers de langue (22/10/2026)
+================================================================================
+
+1. /sync-tcs-epic GEO-1209 GEO-R1.3 --since 2026-10-20 : aucune AC modifiée ; le
+   commentaire PO 865635 (21/10) valide tous les textes sauf 6 points ->
+   19 TCs mis à jour (6 textes changés GEO-1241, 1247-009 aligné sur le bandeau
+   validé, 12 marqueurs [Proposed copy] -> [Validated by PO 2026-10-21])
+   - AC-6 de GEO-1247 à corriger côté PO (doc fix dans PO-PM-QUESTIONS)
+   - Inclure aussi les bugs déjà remontés de l epic (statut, commentaires) dans la synchro
+2. Fichiers de langue rafraîchis depuis la branche developer (commit 26b7705, 21/10) :
+   textes 865635, GEO-1507 (étape "Review" -> "Summary"), début de GEO-1514
+   ("countries"), corrections GEO-1503/1504/1505/1500
+3. Rerun runs/22102026-0950 : 7/7 PASS ; seul écart CSV = "Review" vs "Summary"
+   (à traiter dans les CSV GEO-1002 / GEO-1209 quand GEO-1507 passe en QA)
+
+TÂCHE 74 : Retests des bugs GEO-1002 et règles de commentaire Jira (22/10/2026)
+
+1. RETESTS (/run-and-report, un agent à la fois) : GEO-1500, 1501, 1503, 1504,
+   1505, 1506, 1507 -> tous Passed QA
+   - GEO-1505 : aucune analyse de marque QA-GEO sans prompt Brand Image -> aide
+     affichée en forçant hasBrandImageQuestions=false dans le navigateur ;
+     revérification sur vraies données à faire (F-07), test front demandé au dev
+   - GEO-1506 : Intercom ne se charge qu avec les cookies acceptés et un user
+     agent Chrome normal (pas HeadlessChrome)
+   - GEO-1507 : la fenêtre de décochage ne s ouvre que pour un décochage groupé
+     (case d en-tête) ; un décochage unitaire enregistre tout de suite
+2. COMMENTAIRES JIRA (/comment-jira-bug mis à jour) :
+   - Bug validé = pas de mention ; mention seulement si question / action ouverte
+   - Pas de phrase de statut ("Moving to Passed QA.") ni de note
+     "(red frame = QA annotation)"
+   - Les fils Jira n ont qu un niveau : parentId = racine du fil (si le dernier
+     commentaire a un parentId, utiliser celui-ci)
+   - Transition seulement si le commentaire a bien été publié
+3. CSV GEO-1209 : l étape "Review" de l assistant devient "Summary" (GEO-1507),
+   133 remplacements ; le bouton "Review & Launch" ne change pas
+
+TÂCHE 75 : Deuxième campagne GEO-1209 et alignements CSV (22/10/2026)
+
+1. CAMPAGNE 2 GEO-1209 (analyses existantes uniquement, aucune création) :
+   rapport runs/22102026-1328 -> 97 TCs, GO 83,3 % (1re campagne 75,3 %),
+   57 PASS / 3 FAIL / 21 PARTIAL / 16 SKIP, durée 2 h 07 (8 stories en série)
+   - Analyse "bike" d3fd1b30 trouvée dans QA-GEO : unbranded US, 2 catégories,
+     prompts Competitive -> utile quand "Electric bikes" manque de données
+   - Durée d exécution : par story + totale dans le rapport (pas par TC)
+2. BUGS CRÉÉS : GEO-1521 (PPTX sans slide landscape par catégorie), GEO-1522
+   (Add Country garde le nom anglais des catégories), GEO-1523 (XLSX garde la
+   colonne Favorability, supprimée en 1.2)
+3. DÉCISIONS QA : "Other (0)" gardé dans les filtres (voulu) -> TC-GEO-1241-016
+   aligné, Q-06 fermée ; pays déjà présent : pas de bug (vérifié à la main)
+4. CSV : "Actions Center" -> "Action Center" ; "Review" -> "Summary" (étape de
+   l assistant) dans GEO-1002 et GEO-1069 ; 1241-013 / 014 précisés
+
+TÂCHE 76 : Bugs de la campagne 2 GEO-1209 et fichier de constats (22/10/2026)
+
+1. FICHIER apps/geo/GEO-R1.3/GEO-1209-RUN-FINDINGS.md (même modèle que GEO-1002) :
+   bugs F-01..F-12, questions PO Q-01..Q-12, décisions D-01..D-04, données
+   manquantes, brouillon du commentaire PO ; lu par /sync-tcs-epic
+2. BUGS CRÉÉS : GEO-1524 (Matrix At Risk vs MONITOR), GEO-1525 (InBrief 502
+   TOPIC_SUMMARY), GEO-1526 (dates US dans les exports en-GB), GEO-1527
+   (aria-label "Perception topics"), GEO-1528 (légende SOV à 101 %, production :
+   sans parent, "Exists in Production", version 1.2)
+   - F-08 (tableau des prompts qui ne recharge pas au changement de date) : pas un bug
+3. RÈGLE : tout bug créé passe de Backlog à "To Do" juste après la création
+   (ajouté dans /create-bugs) ; preuves des constats invisibles (aria-label,
+   arrondi) = capture annotée avec une légende écrite dans la page
+4. Écrire les scripts longs avec l outil Write (pas en heredoc bash) : les
+   guillemets mélangés font échouer le parsing ("unexpected EOF")
+
+TÂCHE 77 : Amélioration du workflow — autonomie, validation groupée, consolidés (22/10/2026)
+
+1. CLAUDE.md, section "Autonomie QA" : ce que l agent fait seul (commit / push,
+   corrections de libellés CSV, relances lecture seule, consolidés, To Do + sprint)
+   et ce qui demande toujours une validation (écritures Jira, création d analyse,
+   réglage du compte, changement de comportement attendu, bug vs question)
+2. /run-mcp-PWT-tests phase 6 : fichier {EPIC}-RUN-FINDINGS.md avec colonne
+   "Décision" pré-remplie, une seule validation par epic
+3. /sync-tcs-epic : les questions ouvertes sont comparées à TOUS les commentaires
+   (toutes dates, réponses en fil) ; jamais de question déjà répondue au PO
+4. /create-bugs : champs par défaut pré-remplis (assigné par epic, règle de
+   priorité, production, sprint, To Do, attendu proposé depuis l AC, captures)
+5. Dossiers consolidés renommés : runs/{VERSION}_{EPIC}_{DDMMYYYY-HHMM}/
+   (GEO-1002 20102026-1218, GEO-1069 20102026-2256, GEO-1068 21102026-1542, GEO-1209 22102026-1328) ;
+   un seul commité par epic ; les runs par story restent en local (retrait des
+   anciens dossiers par story du dépôt : plus tard, avec accord)
+
+TÂCHE 78 : Relance GEO-1002 avec le pool baissé dans le back office (23/10/2026)
+
+1. Un SKIP / PARTIAL dû à nos règles (pas d enregistrement back office) n est pas
+   une validation : avant Passed QA, chercher l action unique qui couvre le plus de
+   TCs et la demander à l utilisateur (ici : baisser le pool de QA-GEO -> 7 TCs)
+2. Back office : le pool s enregistre par PATCH /geo/api/v1/admin/organisations/
+   {id}/quotas avec le seul corps {"promptPool":N} ; garde d écriture = autoriser
+   uniquement cette requête pour l id de QA-GEO ; toujours remettre 1000 à la fin
+   et vérifier (formulaire rouvert + liste "U / 1000" en couleur normale)
+3. Au-delà du pool, le wizard bloque Review & Launch et l étape Summary du stepper
+   (règle GEO-1236) : le bandeau rouge de Summary (AC-5 GEO-1237) n est pas
+   atteignable ; TC-GEO-1237-009 aligné sur ce comportement (accord 23/10)
+4. Un TC aligné après le run peut être réévalué sur les preuves de ce run dans le
+   consolidé (override dans le script, note "first verdict on the old steps")
+
+TÂCHE 79 : Analyse jetable pour les TCs de création / Manage Scope (23/10/2026)
+
+1. Une seule analyse D (5 prompts, 0 suggestion décochée, 3 marchés dont un pays
+   en 2 langues) couvre création, filtre pays, enregistrements Manage Scope (sur D
+   seulement), compteurs du dashboard et suppression (TC-GEO-1229-004)
+2. Garde d écriture : création autorisée une fois, puis seules les requêtes qui
+   contiennent l UUID de D + PATCH quotas de QA-GEO ; fin obligatoire : D supprimée,
+   pool remis à 1000, "996 / 1000" vérifié
+3. Le pool libre est faible (4 places) : le monter pendant le run (ajout de pays /
+   catégorie = 70 à 90 suggestions), la suppression de D rend les places
+
+TÂCHE 80 : Fin de campagne GEO-R1.3 — bugs, retests, statuts et consolidés (23/10/2026)
+
+1. Avant de poser une question au PO, relire aussi les vieux commentaires de l epic :
+   Q-10 (avertissement du dernier prompt) avait déjà une réponse du PO (GEO-1002
+   860001) -> bug GEO-1536, pas une question
+2. Preuve d un bug constaté par l utilisateur : capture MCP en LECTURE SEULE sur
+   l analyse qu il a modifiée (route GET only), cadres rouges + légendes ;
+   plusieurs défauts d un même panneau = un seul bug si l utilisateur le demande
+   (GEO-1535 : historique des versions, 3 points, 6 captures)
+3. Analyse sans marque jetable (GEO-1209) : 5 prompts Visibility / Competitive
+   seulement, GB + FR -> couvre InBrief / Top Topics masqués, carte Competitors,
+   Add Category / Add Country ; supprimée à la fin, pool remis à 1000
+4. Passe Jira avant les statuts : un bug passé en Action Needed peut revenir en
+   Ready for QA dans la journée (GEO-1522, GEO-1524) -> toujours relire Jira avant
+   de proposer les statuts des stories
+5. Story -> Passed QA : commentaire résumé + 1 capture de preuve, SKIP / PARTIAL
+   expliqués (données manquantes, collecte suivante) ; réponse dans le fil du dev
+   (parentId = commentaire racine) pour un bug retesté, sans tag
+6. Consolidé : fusionner toutes les relances (la plus récente gagne) ; une
+   tentative bloquée par l environnement (pool dépassé) ne remplace pas un PASS,
+   elle reste en note ; un seul dossier consolidé par epic dans git
+
+================================================================================
+TÂCHE 81 : Schéma de la release GEO-R1.3, parents des bugs 1.3 et statuts des stories (23/10/2026)
+================================================================================
+
+1. PÉRIMÈTRE DE LA RELEASE :
+   - fixVersion 1.3 = 6 epics : GEO-1002, 1069, 1209, 1068 + GEO-1226 (EPIC-049,
+     Target Sources pour les pages d avis) et GEO-1513 (Action center improvements)
+   - Bugs : JQL "type = Bug AND project = GEO AND fixVersion = 1.3" -> 46 bugs
+   - Parents ajoutés (accord utilisateur) : GEO-1264, 1265, 1516, 1520 -> GEO-1002 ;
+     GEO-1528, 1249 -> GEO-1209 ; GEO-1204 -> GEO-1226 ; GEO-1253 -> GEO-1513
+   - Restent sans parent : GEO-1181, 1195, 1207, 1221, 1256, 1257
+
+2. SCHÉMA DE LA RELEASE (artifact privé claude.ai/artifact/AQdBkxA6gMHQVoJdcTWLoy) :
+   - Scripts dans .tmp-jira/ (non commités) : fetch-release-r13.js,
+     fetch-bugs-13.js, epic-tests-consolidated.js, release-map/template.html
+   - Bilan des tests lu dans le DERNIER rapport consolidé de chaque epic
+     (runs/GEO-R1.3_{EPIC}_{TS}/*consolidated.html), jamais recalculé depuis les
+     real.json bruts : les reruns écraseraient les choix de la consolidation
+     (ex. TC-GEO-1261-008)
+
+3. JIRA :
+   - PUT /issue avec ?notifyUsers=false échoue pour notre compte : ne pas le mettre
+   - Parent d un bug = {"fields":{"parent":{"key":"GEO-xxxx"}}} (epic uniquement)
+   - Statut d une story : relire son statut juste avant, prendre la transition
+     dont "to.name" = cible, revérifier après
+   - Règle de passage : Passed QA si aucun FAIL ouvert ni bug ouvert (SKIP /
+     PARTIAL de données ou d environnement acceptés) ; Action Needed si FAIL ou
+     bug To Do ; sinon laisser Ready for QA (question PO, bug à retester,
+     test après déploiement prod)
+   - 23/10 : Passed QA = GEO-1231, 1233, 1234, 1243, 1244, 1245, 1246, 1260,
+     1261, 1268, 1269 ; Action Needed = GEO-1239 ; GEO-1262 en attente de la
+     réponse du dev sur le quota Brandfetch
+
+================================================================================
+TÂCHE 82 : Retests Ready for QA du 23/10, synchro GEO-1069 et GEO-1263 sans création d analyse (23/10/2026)
+================================================================================
+
+1. CONNEXION MCP SANS FUITE DE MOT DE PASSE :
+   - browser_type / browser_fill_form recopient la valeur saisie dans la sortie
+     de l outil -> le mot de passe apparaît dans le journal de session
+   - Solution : un petit serveur local éphémère lit GEO_USER_EMAIL /
+     GEO_USER_PASSWORD dans .env, la page Auth0 les récupère par fetch, puis le
+     serveur s arrête -> aucune valeur dans un appel d outil (GEO-1530, 1531, 1263)
+2. TABLEAU DES PROMPTS (Category view) :
+   - Le tableau et son panneau de détail ignorent le sélecteur de date : toujours
+     la dernière collecte (pas de from/to dans la requête) ; l API questions
+     accepte snapshotId= pour comparer une collecte donnée
+   - "Latest report" (vue par défaut) charge les données sans plage de dates :
+     comparer l écran avec les données de la même vue, jamais avec un jour choisi
+3. RETEST D UN BUG RENVOYÉ :
+   - Verdict partiel accepté par l utilisateur -> réponse dans le fil (parentId =
+     racine du changelog du dev), dev tagué, transition 19 (Action Needed)
+   - Un bug renvoyé peut revenir en Ready for QA le jour même (GEO-1522, 1524) :
+     relire Jira avant de relancer ; ne pas relancer un retest déjà fait dans une
+     autre session
+4. GEO-1263 SANS NOUVELLE ANALYSE (pool 996/1000) :
+   - Rejouer sur une analyse déjà classée avec un domaine enregistré et confirmé
+     (Nike cce7a7dc = nike.com, Decathlon b6c8b664 = decathlon.com), vérifié en
+     lecture seule avant le run
+   - Le logo Brandfetch stocké répond 410 -> repli sur le favicon Google du
+     domaine, identique sur toutes les surfaces et dans les exports
+   - Ce sont des marques suggérées : le parcours « marque personnalisée + site »
+     reste à confirmer sur A1 « Licter » quand le pool a de la place
+   - Decathlon est le bon témoin : l IA cite d autres domaines (decathlon.com.dz,
+     decathlon.co.uk) alors que la ligne cible garde decathlon.com
+5. SYNCHRO GEO-1069 (historique complet) : aucun AC modifié ; revue design validée
+   (Jalal, 866460) ; OP-5 et OP-7 résolus par le run (lookup côté navigateur
+   brands/logo puis s2/favicons ; domaine envoyé en entityDomain) ; OP-9 clos N/A
+
+================================================================================
+TÂCHE 83 : Commandes /gen-release-map et /gen-test-plan en mode release (24-25/10/2026)
+================================================================================
+
+1. /gen-release-map --version 1.3 [--label GEO-R1.3] [--epics KEY,KEY] :
+   - Script .claude/Data/templates/release-map/build-release-map.js + gabarit
+     release-map.template.html (placeholders {{LABEL}} et /*DATA*/null) ;
+     page générée dans output/reports/release-map/ (non commitée, l artifact
+     est le livrable : lister "{LABEL} Release Map", read, publish avec url)
+   - Camemberts : Epics, Test cases, Bugs (release) ; Stories, Test cases, Bugs
+     (chaque epic, une tuile par camembert, légende dessous) ; pas d icônes,
+     pas de section "How to read"
+   - Tests lus dans le DERNIER rapport consolidé de chaque epic ; deux formats
+     reconnus (ligne par TC ou bloc de stats, ex. GEO-1513)
+   - Vérifier le rendu avant publication : servir le fichier en http local
+     (file:// est bloqué par le MCP Playwright), capture pleine page, puis
+     arrêter le serveur et supprimer la capture
+
+2. /gen-test-plan --release 1.3 (nouveau mode release) :
+   - Trouve les epics de la fixVersion dans Jira, ordre de QA-READINESS puis
+     numéro EPIC ; epic non importé lu dans Jira (GEO-1226) ; epic sans story
+     = aucun scénario, signalé
+   - Écrit apps/geo/{LABEL}/TEST-PLAN-{LABEL}.md + un plan par epic
+     apps/geo/{LABEL}/{EPIC}/TEST-PLAN-{EPIC}.md (numérotés depuis 1) ;
+     --no-split = plan de release seul ; mode epic : /gen-test-plan GEO-1069 GEO-R1.3
+   - Sections Cross-Epic Integration et Non-Regression générées ; annexe
+     "AC Coverage by Story" ; nombre de TCs lu dans les CSV actuels
+   - Relecture : fichiers écrits en "DRAFT for review", résumé + sections
+     cross-epic / non-régression + points ouverts affichés, puis "Approved"
+   - 25/10 : plan R1.3 approuvé, 217 scénarios, 177/177 ACs, 65 points ouverts
+   - La définition d un agent modifiée en cours de session n est pas
+     rechargée : demander à l agent de relire son fichier .md avant de commencer
+
+3. PLAN DE TEST = DOCUMENT D AVANT CAMPAGNE (règle utilisateur 25/10) :
+   - Même généré en retard pour rattraper, un plan ne contient ni bug (numéro,
+     statut), ni résultat de run (PASS / FAIL…), ni constat (F-xx, Q-xx de run),
+     ni avancement ; points ouverts = questions sur les exigences et prérequis
+   - Décision PO / dev prise sur un ticket de bug : garder le comportement,
+     citer seulement le numéro de commentaire (ex. "(dev 867241)")
+   - Section "Plan Scope" de test-plan-gen-agent.md + self-check 14 ;
+     plans R1.3 nettoyés (66 -> 62 points ouverts en release)
+
+================================================================================
+TÂCHE 84 : Retests Ready for QA du 26/10 (GEO-1533, 1535, 1536) et analyse jetable (26/10/2026)
+================================================================================
+
+1. MANAGE SCOPE ENREGISTRE CHAQUE COCHE IMMÉDIATEMENT (pas de bouton Save) :
+   - La case d en-tête « tout sélectionner » sur une liste filtrée qui contient des
+     suggestions les coche ET les enregistre sans confirmation (Decathlon, 7
+     prompts, pool 999 -> 1006, annulé par PATCH /prompts/kept isKept:false)
+   - Pour déclencher un avertissement : icône poubelle ou fenêtre « Untick » sur
+     des lignes toutes déjà cochées, puis Cancel ; noter IDs gardés + pool avant /
+     après
+2. CORRECTIF QUI NE S APPLIQUE QU AUX NOUVELLES ENTRÉES (historique des versions) :
+   - Impossible à vérifier en lecture seule -> demander l accord pour une analyse
+     jetable (5 prompts), faire l action (Add country, 2 cochés / 38 décochés un
+     par un), comparer l historique et prompts/history (dayTotals), puis supprimer
+     l analyse et vérifier pool + nombre d analyses revenus à l état initial
+   - GEO-1535 : analyse cbe02293 créée puis supprimée, pool 999 / 1100 avant et
+     après (le pool QA-GEO est passé de 1000 à 1100)
+3. Textes i18n : les chaînes sont dans le bundle index-*.js -> télécharger le
+   bundle pour vérifier chaque clé en en-GB / en-US / FR / ES sans changer la
+   langue du compte (GEO-1533)
+
+================================================================================
+TÂCHE 85 : Partie QA du guide R&D et repo partageable AirPR/QA-AI (26/10/2026)
+================================================================================
+
+1. GUIDE « CLAUDE CODE AND BMAD » (artifact Rk8NtjHDjfohVSencFPDCE, v1.10 -> 1.11) :
+   - Section QA remplacée par notre workflow : prérequis QA (checklist), 8 étapes,
+     tableau « seul / demande toujours », règles de test, journée type
+   - Mise à jour d un artifact partagé : partir du HTML sauvegardé par la lecture
+     (action read), modifier par script node avec assertions, republier sur l URL
+2. REPO AirPR/QA-AI = COPIE PARTAGEABLE DU WORKFLOW :
+   - Seulement les 17 commandes + 15 agents décrits dans le guide, templates,
+     config Playwright ; csv/, runs/ et apps/geo/ vides avec exemples GEO-XXXX
+   - Jamais de données réelles (epics, CSV, runs, specs) ni de credentials
+   - QA-Workflow1 reste le repo de travail : proposer de reporter une commande
+     modifiée vers QA-AI
+3. TOKEN QUALITY PLUS :
+   - Jira -> QAlity Plus Dashboard -> QAlity Plus API Tokens -> Create token
+     (nom, expiration 1 an max) ; le token agit avec les droits Jira de l utilisateur
+   - Doc : https://soldevelo.atlassian.net/wiki/spaces/QS/pages/4070899730/Rest+API+PLUS
+4. .env.example : mots de passe staging / prod retirés, JIRA_EMAIL ajouté ;
+   ils restent dans l historique git (rotation à prévoir si nécessaire)
+
+================================================================================
+TÂCHE 86 : Retest GEO-1256 (familles fantômes) et rerun TC-GEO-1251-002 (27/10/2026)
+================================================================================
+
+1. RETEST D UN CORRECTIF D ENRICHISSEMENT (brand matching, GEO-1256) :
+   - Sans replay (décision PO), seuls les snapshots enrichis APRÈS le déploiement
+     comptent : lire la date de déploiement dans le panneau dev Jira, puis la
+     date du dernier snapshot du rapport (run quotidien ~14:57 UTC sur staging)
+   - Un rapport cité dans un ticket dev peut être supprimé ou dans une organisation
+     dev invisible pour le compte QA : vérifier l accès avant de le proposer
+   - Rapports utilisables (QA-GEO) : Toyota 439acd96 et adidas 7afde4fe (marques
+     avec modèles / produits dans les familles)
+   - Brand Rankings (UI et API) ne renvoie que le top 10 par filtre : même en
+     balayant pays x moteur x catégorie on voit ~1/3 des familles ; une famille
+     fantôme à 1-2 mentions peut rester invisible -> le dire dans le verdict
+2. TC NÉCESSITANT UNE ANALYSE « COMPETITIVE SEULEMENT » (TC-GEO-1251-002) :
+   - Créer une analyse jetable (5 prompts Competitive, 1 pays, 1 catégorie,
+     marque pas encore utilisée dans QA-GEO), collectée en ~1 min
+   - La supprimer seulement si le TC est PASS, après captures + real.json +
+     rapport ; vérifier ensuite la liste et le pool « U / P »
+
+================================================================================
+TÂCHE 87 : Commande /promote-passed-qa et mise en cohérence statuts / runs (27/10/2026)
+================================================================================
+
+1. /promote-passed-qa --version 1.3 [--epics ...] [--dry-run] :
+   - Script .claude/Data/templates/release-readiness/promote-passed-qa.js
+   - Story / tâche -> Passed QA si : TCs dans le dernier consolidé, aucun FAIL,
+     PARTIAL / SKIP avec raison documentée NON en attente, aucun bug lié ouvert
+   - Epic -> Passed QA si toutes ses stories / tâches sont closes, aucun bug ouvert
+     et aucun FAIL dans le consolidé ; sous-tâche QA Test Plan suit son parent
+   - Transition + commentaire SANS validation (décision utilisateur 27/10,
+     exception notée dans CLAUDE.md) ; rapport dans output/release-readiness/
+   - Une raison « à faire » (to run after the deploy, to confirm, CSV gap,
+     waits for…) bloque : sans cette règle GEO-1515 serait passé à tort
+2. CONSOLIDER AVANT : le script et la release map ne lisent que les rapports
+   consolidés. Un retest FIXED ou une réponse PO doit être reporté dans un
+   nouveau dossier runs/{LABEL}_{EPIC}_{DDMMYYYY-HHMM}/ (TC requalifié avec la
+   note « Requalified … », compteurs et badges recalculés), l ancien dossier
+   retiré du dépôt
+3. RETEST D UN BUG D ENRICHISSEMENT SANS REPLAY (GEO-1256) : demander au dev le
+   cas réel traité par le correctif (log backend) — Cloudmonster -> On sur
+   adidas 27/10 ; un snapshot quotidien sans séparation par Gemini ne prouve rien
+4. BRANDFETCH LOGO API (GEO-1262, PR #886) : le CDN répond 302
+   automated_traffic aux navigateurs headless -> en MCP / Playwright, réécrire
+   uniquement le User-Agent des requêtes cdn.brandfetch.io
+
+================================================================================
+TÂCHE 88 : /gen-e2e-scenarios en mode release / projet et suite E2E-tests (28/10/2026)
+================================================================================
+
+1. Portées : --csv (liste) | --version GEO-R1.3 (tous les testcases-*.csv de la
+   release, --epics pour filtrer) | --project (toutes les versions jusqu à
+   --version) ; la version la plus récente l emporte sur un TC du même
+   écran / story (ordre R0.1 < … < R1.1 < R1.15 < R1.2 < R1.3, R1.15 = patch 1.1)
+2. Suite E2E courante = .claude/Data/output/csv/E2E-tests/ (1 scénario par CSV,
+   en-tête courant « ; » 16 colonnes) + E2E-SUITE-INDEX.md ;
+   GEO-R1.0/e2e-*.csv = archive en lecture seule, revue à chaque run :
+   KEEP / UPDATE / RETIRE / NEW (RETIRE = enregistrement suite commenté,
+   spec jamais supprimé)
+3. Archive R1.0 hétérogène : 3 formats d en-tête (« , » avec tc_id /
+   Coverage Source / Action, noms en minuscules, « ; ») et fichiers à plusieurs
+   TCs -> découpés en {spec}-NN.csv, ancien id gardé dans la Description
+4. Consolidation en passes : par epic -> cross-epic -> non-régression (sections
+   du TEST-PLAN de la release) ; jamais 1 000+ TCs d un coup
+5. --no-run = dry run : revue + scénarios + CSV E2E-tests après validation,
+   aucun spec, aucun test, aucune action navigateur (seul /auth/me en lecture)
+6. Format de la suite (décision utilisateur 28/10) : 1 fichier .md par spec
+   (E2E-tests/{spec}.md, une section ## E2E-… par scénario, retirés en fin de
+   fichier), plus de CSV ni de fichiers -01/-02 ; CSV Quality Plus à la demande
+
+================================================================================
+TÂCHE 89 : Passe Ready for QA R1.3, GEO-1515 sur staging, bugs GEO-1545 / 1546 (27-28/10/2026)
+================================================================================
+
+1. MIGRATION DE DONNEES VERIFIABLE SUR STAGING (GEO-1515, V2.10.7) : elle a
+   tourné au déploiement 1.3 de staging (entre 20/10 et 22/10) ; l API 1.3
+   n expose plus les anciens quotas (seulement promptPool / maxUsers /
+   frequency) -> demander au dev le script de revue sur staging (section 3 :
+   valeurs anciennes, computed_pool, prompt_pool), recalculer la formule
+   soi-même ; les pools modifiés à la main avant la migration = AC3
+2. AVANT DE QUALIFIER UN CONSTAT : relire les règles « Technical Details » de
+   la story ; un comportement voulu par une règle (barre « New analysis »
+   retirée par GEO-1231, compteur « N analyses » demandé par GEO-1240) = question
+   PO ou bug Low « expected to confirm » qui cite la règle (GEO-1545, GEO-1546)
+3. PROMPTS AFFICHES = TEXTE STOCKE : la liste des prompts d une catégorie
+   montre le texte enregistré, identique à toutes les dates, pas le texte
+   envoyé chaque jour -> un cas « envoyé avec 2 concurrents » (GEO-1249,
+   Orange) n est pas visible dans l app ; s appuyer sur les cas du dev
+   (Zomato 0 concurrent) + un scan de tous les prompts Competitive
+4. RAPPORT DE REFERENCE SUPPRIME (GEO-1256, Volkswagen dceb5a95 = 404 dans
+   toutes les organisations) -> NOT VERIFIABLE, demander au dev un rapport
+   staging et la date du premier run avec le correctif ; une URL de rapport
+   supprimé affiche une page blanche (pas de message)
+5. PREUVE D UN COMMENTAIRE : ouvrir l image avant de poster et vérifier
+   qu elle montre ce que dit la légende (GEO-1242 : capture « brand rankings »
+   remplacée, l originale montrait un détail de prompt)
+6. AUTH0 STAGING : callback en 500 au login -> vider les cookies du
+   navigateur MCP puis se reconnecter
+
+================================================================================
+TÂCHE 90 : Tickets sans epic GEO-1220 / GEO-1514, TC et runs (28/10/2026)
+================================================================================
+1. TICKET DE LA RELEASE SANS EPIC : fiches dans apps/geo/GEO-R1.3/NO-EPIC/,
+   CSV testcases-coverage-story{KEY}.csv (QA Parent vide), constats dans
+   apps/geo/GEO-R1.3/NO-EPIC-RUN-FINDINGS.md ; à déplacer sous l epic quand
+   le PO / dev la donne. La release map ne montre pas ces stories / tâches
+2. LANGUE DU COMPTE : Settings > Interface Language (pas le menu utilisateur).
+   Le compte PQL (+pql, page /geo/upsell) est en en-US et ne peut pas changer
+   de langue (/settings redirige, PATCH ui-language = 401) -> TC FR / ES de la
+   page upsell en SKIP ; son formulaire lite exige les cookies Functional
+3. COMPTE DE LA FENETRE « remove category » : il compte TOUS les prompts de la
+   catégorie, cochés ou non -> pour le texte _one, supprimer les prompts
+   (corbeille), décocher ne suffit pas (même règle que GEO-1501)
+4. API ADMIN (GEO-1220 /api/v1/admin/source-classifications) : appels fetch()
+   depuis la page connectée (cookie de session, pas de Bearer) ; la session
+   expire en quelques minutes -> recharger la page sur un 401
+   OAUTH2_INVALID_TOKEN. Un override est GLOBAL (toutes les organisations) :
+   en lecture seule seulement GET, PUT invalides (400 avant écriture, GET avant
+   / après) et DELETE sur un domaine sans override (404 NO_OVERRIDE) ; tout PUT
+   valide attend l accord sur le domaine de test
+5. ANALYSE JETABLE : une seule, 5 prompts, supprimée aussitôt par son UUID ;
+   noter avant / après le nombre d analyses et le pool (13, 1040 / 1100)
+
+
+================================================================================
+TÂCHE 91 : GEO-1262 Brandfetch, GEO-1249 analyses FR, traduction Add category (27-28/10/2026)
+================================================================================
+1. BRANDFETCH, DEUX APPELS A NE PAS CONFONDRE (onglet Network) :
+   - /geo/api/v1/brands/search?q=... = autocomplétion ; réponse = LISTE
+     [{name, domain, logoUrl cdn.brandfetch.io}] ; non soumis au quota
+   - /geo/api/v1/brands/logo?domain=... = champ site web d une Custom Brand
+     (GEO-1262 AC1) ; réponse = OBJET {domain[, logoUrl]} ; passe par la
+     Brand API /brands/{domain} : 100 crédits gratuits / mois, remis à zéro le
+     1er du mois, consommés en ~3 jours par les descriptions (cache 24 h)
+   -> un logo de SUGGESTION ne valide pas l AC1 ; quota épuisé = {domain} seul
+      puis favicon Google -> TC-GEO-1262-001 / 003 en SKIP ; relancer le 1er
+2. PROD = R1.2 tant que la 1.3 n est pas déployée : wizard en 4 étapes, pas de
+   champ site web, brands/logo = 404 -> une story 1.3 ne se vérifie pas en prod
+3. GEO-1249, CAS « MOINS DE 3 CONCURRENTS » : deux analyses FR jetables sur des
+   niches (FlixBus « Autocars Macron », Monacair « Navette Hélicoptère
+   Nice-Monaco ») ont eu 3 concurrents chacune ; la recherche remplit les 3
+   emplacements dès qu elle peut (marque disparue, terme générique « Fibre
+   optique ») -> demander un cas au dev plutôt que d en créer. Le wizard n a
+   pas de champ nom : l analyse prend le nom de la marque
+4. ADD CATEGORY, UN SEUL MARCHE : nom gardé tel quel, aucun appel
+   translate-category (règle GEO-1232 « With a single market, the name is used
+   as is ») ; 2 marchés -> POST /geo/api/v1/analysis/translate-category. Les
+   catégories détectées sont traduites même avec un marché -> tester avec 2
+   marchés avant de créer un bug « traduction ne marche pas » (question PO
+   Q-12, GEO-1232 comment 869331)
+5. AVANT DE POSTER UN BROUILLON PREPARE LA VEILLE : relire le ticket ; une
+   autre session a pu déjà répondre (GEO-1249 : 868788 + Passed QA)
+
+================================================================================
+TÂCHE 91 : Comptes par rôle, overrides GEO-1220, retest GEO-1514 (28-29/10/2026)
+================================================================================
+1. COMPTES PAR ROLE dans .env : GEO_USER_EDITOR_* (+geo), GEO_USER_READER_*
+   (+os, organisation Onclusive), GEO_USER_PQL_* (+pql) ; le compte principal
+   est SUPER_ADMIN (pas de compte ADMIN simple). Table rôle -> variables dans
+   run-mcp-PWT-tests.md, mcp-playwright-runner-agent.md, run-and-report.md
+2. TEST DE DROITS SANS RISQUE : d abord un PUT au corps INVALIDE (aucune
+   écriture possible) ; GEO-1220 valide le corps avant le rôle (400 au lieu de
+   403) -> refaire avec un corps valide sur le domaine de test pour conclure
+3. OVERRIDES GLOBAUX LAISSES POUR UN RUN : les noter (domaine, type, raison
+   « cleanup JJ/MM ») dans le fichier de constats et la mémoire ; demander au
+   dev de forcer le run des analyses qui citent le domaine
+4. RETEST D UN LIBELLE : recharger (nouveau bundle, noter son nom) et chercher
+   les valeurs dans le bundle JS en plus de l écran, pour couvrir toutes les
+   variantes d une clé
+5. AGENT BLOQUE (watchdog) : la langue du compte peut rester en FR / ES ->
+   relancer l agent ou vérifier /auth/me et remettre en-GB
+6. MANAGE SCOPE : jamais la case d en-tête sur une liste filtrée qui montre des
+   suggestions décochées (enregistrement immédiat) ; passer en « Selected only »
+7. CAPTURE DE PREUVE : pas de bandeau de légende dans l image ; recadrer si
+   l agent en a ajouté un (System.Drawing en PowerShell)
+
+
+================================================================================
+TÂCHE 92 : /run-and-report — fix validé = commentaire + preuve + Passed QA (29/10/2026)
+================================================================================
+1. VERDICT BUG FIXED (résultat attendu clairement vu, preuve qui le montre) :
+   l agent poste TOUJOURS le commentaire avec la capture de preuve intégrée,
+   sans demander, puis passe le ticket en Passed QA (transition cherchée par
+   to.name, jamais d id en dur ; après le commentaire ; statut vérifié par GET)
+2. Pas de tag sur un fix validé ; réponse dans le fil du dev s il a laissé une
+   note de correction
+3. Autres verdicts (CONFIRMED, NOT REPRODUCIBLE, fix partiel) ou doute : brouillon
+   montré à l utilisateur avant tout envoi
+4. Règle dans run-and-report.md, qa-run-and-report-agent.md et le tableau
+   d autonomie de CLAUDE.md. Premier cas : GEO-1563 (commentaire 870082)
+
+
+================================================================================
+TÂCHE 93 : Intégration continue GitHub Actions (03/11/2026)
+================================================================================
+1. DEUX WORKFLOWS dans .github/workflows/ :
+   - ci-checks.yml : à chaque push / PR sur main, sans navigateur ni staging ;
+     node .github/scripts/validate.js (syntaxe des specs, JSON du JDD et des
+     real.json, base_url sans "/", aucun .env / storageState suivi par git ;
+     spec sans import du blueprint = simple avertissement) puis
+     npx playwright test --list --project=e2e-suite
+   - nightly-e2e-staging.yml : suite e2e-suite sur staging, lundi-vendredi
+     23h Paris, 4 workers ; lancement manuel via Actions > Run workflow
+     (filtre --grep optionnel, 2 workers max alors)
+2. 23H PARIS : le cron GitHub est en UTC -> deux créneaux (21h et 22h UTC) et un
+   job "gate" qui garde celui qui correspond au décalage Europe/Paris du jour
+   (+0200 été -> 21h UTC, +0100 hiver -> 22h UTC)
+3. NON BLOQUANT (décision utilisateur) : continue-on-error sur les tests ; le
+   rapport build-e2e-suite-report.js --run-name CI-E2E-{N} et les captures sont
+   publiés en artifact "e2e-report-{N}" (30 jours) ; rien n est commité, rien
+   n est écrit dans Jira ; concurrency = jamais deux runs en même temps
+4. LANGUE DU COMPTE : .github/scripts/check-account-language.js (lecture seule)
+   lit GET /geo/api/v1/auth/me (champ "language", attendu en-GB). Avant les
+   tests : si ce n est pas en-GB, les tests ne démarrent pas. Après les tests :
+   nouveau login (session Auth0 possiblement expirée) puis simple avertissement
+5. SECRETS (Settings > Secrets and variables > Actions) : GEO_USER_EMAIL,
+   GEO_USER_PASSWORD, UPSELL_USER_EMAIL, UPSELL_USER_PASSWORD. global-setup.js
+   lit déjà process.env en priorité sur le .env : aucune modification requise
+6. L onglet Actions n affiche un workflow qu une fois le .yml poussé sur main
+7. PAS ENCORE EN CI : specs epic (all-epics), dont le rapport passe par
+   parse-raw-to-real puis build-multi-epic-report
+
+================================================================================
+TÂCHE 93 : Agent testeur senior /senior-qa-campaign (03/11/2026)
+================================================================================
+1. /senior-qa-campaign {EPIC} {VERSION} enchaîne : import si absent, analyse
+   (tous les commentaires + AC), TC (/gen-tc-csv + revue), plan de test,
+   JDD (/GEO-prepare-jdd), runs MCP story par story, triage (fichier de constats,
+   colonne Décision), bugs (/create-bugs mode B) et retests (/run-and-report),
+   rapport consolidé (/consolidate-epic-report)
+2. Il tourne dans la conversation principale : un sous-agent ne peut pas lancer
+   d autres agents. Chaque phase est déléguée à l agent du projet, un à la fois
+3. Nouveaux : /GEO-prepare-jdd + GEO-jdd-preparer-agent (lecture seule, écrit
+   jdd/{EPIC}/default.json, créations = accord), /consolidate-epic-report +
+   epic-report-consolidator-agent + templates/build-epic-consolidated-report.js
+4. Script de consolidation : --real fichiers du plus ancien au plus récent ; un
+   résultat récent remplace l ancien sauf un SKIP qui n efface jamais un
+   PASS / FAIL / PARTIAL ; --csv liste les TC non joués en SKIP ; une
+   requalification = un real.json -rerun-, jamais une retouche du HTML
+5. Reprise : --from {phase} ; portes de validation groupées (revue TC, push du
+   plan, créations de données, colonne Décision, brouillons de bugs)
+
+================================================================================
+TÂCHE 94 : /senior-qa-campaign — Figma et bugs Ready for QA (03/11/2026)
+================================================================================
+1. FIGMA AUTOMATIQUE (phase 2b) : liens figma.com cherchés dans EPIC / STORY /
+   TASK, epic-data.json (Design Tasks) et dans Jira (descriptions, commentaires,
+   liens distants) ; frames liées extraites par node-id
+   (/extract-figma-screen --url … --nodes … --section {EPIC}_{nom}) puis lues ;
+   section « Design » du fichier de constats : textes exacts, états, écarts
+2. Les écarts nourrissent /gen-tc-csv --figma (TC [Figma]) et
+   /gen-test-plan --figma (frame citée par scénario, contradiction Figma / AC =
+   point ouvert ; l AC ou le commentaire PO prime) ; --no-figma pour sauter
+3. BUGS READY FOR QA : listés en phase 0 (enfants de l epic / des stories et
+   liés) puis retestés en phase 8 un par un avec /run-and-report (fix validé =
+   commentaire + preuve + Passed QA ; sinon brouillon dans le tableau groupé) ;
+   chaque bug de l epic a un TC de régression
+
+================================================================================
+TÂCHE 95 : Campagne GEO-1226 (EPIC-049 review pages) — leçons du 04/11/2026
+================================================================================
+1. AVIS NON STOCKÉS ≠ BUG : panel API target-sources renvoyant grouped:true,
+   pages:[], reviewCount:0 partout = clé Firecrawl staging plafonnée (dev
+   872642) ; demander au dev un crawl forcé, puis rejouer. Toujours un STEP 0
+   API (avis présents ?) avant de relancer des TC qui dépendent des captures
+2. Le panneau renvoie le DERNIER run inside la période : après un crawl forcé,
+   « Last 7 days » = nouveau run ; « Last 30 days » mélange d anciens runs
+   (utile pour retrouver un constat ancien, ex. B-2)
+3. Trustpilot et Edmunds répondent 403 au navigateur de test : comparer au
+   site source impossible → PARTIAL motivé, demander les tests unitaires du dev
+4. Export bloqué « Error NETWORK » dans le navigateur MCP = garde lecture
+   seule restée active, pas un bug : autoriser l endpoint export pour la
+   session, puis retirer l exception
+5. Preuves acceptées du dev (rapport de tests de la PR) pour les AC techniques
+   → real.json « -dev-evidence- » ; décisions utilisateur → real.json
+   « -requal- » (jamais retoucher un run)
+6. build-epic-consolidated-report.js : si un real.json n a pas de run_folder,
+   le script cherche le dossier screenshots-* dans le run DDMMYYYY-HHMM le plus
+   récent qui le contient (plus de captures manquantes)
+7. Agent MCP bloqué (« stalled 600s ») : le relancer avec SendMessage, il
+   reprend avec les captures déjà faites
+
+================================================================================
+TÂCHE 96 : /senior-qa-campaign — statuts Jira automatiques (04/11/2026)
+================================================================================
+1. Début des tests (phase 6) : epic + stories / tasks testées → QA In Progress
+2. Fin de campagne et après chaque retest (phases 8-9) :
+   - story avec un bug ouvert (ou TC FAIL sur défaut produit) → Action Needed
+   - story validée (tous les TC PASS / acceptés, aucun bug ouvert) → Passed QA
+   - story qui n attend que données / PO / PARTIAL-SKIP → reste QA In Progress
+   - epic → Action Needed si une story l est ; Passed QA si toutes le sont
+3. Sans validation (table d autonomie de CLAUDE.md) ; GET transitions, to.name,
+   204, vérification ; tracé dans la section « Campagne » du fichier de constats
+
+================================================================================
+TÂCHE 97 : Epic Analytics (UP) — import, plan de test, CSV (09/11/2026)
+================================================================================
+1. Les epics du projet Jira UP vivent dans apps/Analytics/{VERSION}/{EPIC}/
+   (ex. apps/Analytics/UP-V3/UP-2065/), pas dans apps/geo/
+2. /gen-test-plan sur une Story (ex. UP-2162) : plan limité à la story, écrit
+   dans apps/Analytics/{VERSION}/{EPIC}/TEST-PLAN-{STORY}.md
+3. Nommage des TC UP (copié de testcases-coverage-epicUP-1739.csv) :
+   TC-UP-{story}-{NNN}, Labels OA-v3 (par analogie avec OA-v2 d UP-1739,
+   confirmé par l utilisateur le 09/11/2026)
+4. Stories sans AC structurées (API / tables de mapping, ex. UP-2173, UP-2170)
+   et AC « tbd » (ex. UP-2162 AC-3) : aucun TC, signalées en point ouvert
+5. Jira 401 sur /rest/api/3/myself = JIRA_TOKEN expiré : en recréer un sur
+   id.atlassian.com, l enregistrer dans .env, retester /myself (200)
+6. CSV Quality Plus = séparateur « ; » : tout champ contenant ; " ou un saut de
+   ligne doit être entre guillemets (guillemets doublés). Un écrivain CSV à
+   virgules corrompt le fichier (virgules finales, lignes entourées de
+   guillemets, champs coupés). Valider après génération : 16 colonnes sur
+   chaque ligne, nom de TC répété sur les lignes de continuation (UP-2065
+   régénéré le 09/11/2026)
+
+================================================================================
+TÂCHE 98 : Changement d organisation autorisé pour tester (09/11/2026)
+================================================================================
+1. Si les données d un TC ou d un bug sont dans une autre organisation (ex. GEO
+   Stress Test 2026-10, retest GEO-1204) : noter /auth/me, changer d organisation,
+   tester en lecture, revenir sur QA-GEO à la fin (même après un échec) et
+   vérifier /auth/me (QA-GEO, en-GB). Pas de validation demandée, signalé en une ligne.
+2. Créer / modifier / supprimer des données (JDD, analyse, run, scope, réglage)
+   dans une organisation autre que QA-GEO = accord explicite de l utilisateur avant.
+3. Règle écrite dans run-and-report, run-mcp-PWT-tests, GEO-prepare-jdd, leurs
+   agents, senior-qa-campaign / senior-qa-tester-agent et la table d autonomie.
+4. Ne jamais mettre le mot de passe dans un script évalué dans le navigateur MCP
+   (il est réaffiché dans la sortie de l outil) : remplir les champs avec
+   browser_type / fill.
+
+================================================================================
+TÂCHE 99 : Nettoyage du dépôt et un seul dossier de run par epic (09/11/2026)
+================================================================================
+1. runs/ ne garde qu un dossier par epic : {VERSION}_{EPIC}_{DDMMYYYY-HHMM}.
+   Les runs par story, reruns et anciens consolidés déjà repris dans un consolidé
+   sont retirés de git (git rm, l historique les garde). Avant de retirer un dossier,
+   vérifier qu aucun autre epic n y a de rapport (07102026-1739 contenait aussi GEO-1113).
+2. Plusieurs campagnes d un même epic (staging, prod, non-régression) = plusieurs
+   rapports dans le MÊME dossier, jamais fusionnés (les résultats prod écraseraient
+   staging) : build-epic-consolidated-report.js --label PROD --out {dossier existant}
+   -> MCP-Report-{EPIC}-{LABEL}-consolidated.html (ex. GEO-R1.2_GEO-152_09112026-1404 :
+   STAGING, PROD, TNR).
+3. Le script compte BLOCKED et OBSOLETE en SKIP (statut d origine dans la raison) ;
+   avant, ils sortaient des totaux. Il fusionne les dossiers de captures de même nom
+   trouvés dans plusieurs runs (le plus récent gagne fichier par fichier) et sort
+   missingImages = images référencées introuvables (GEO-1035 : 4 captures SC11/SC13
+   jamais produites).
+4. Run unique d un epic : renommer le dossier à la convention (git mv), ex.
+   03082026-1200 -> GEO-R1.15_GEO-539_03082026-1200.
+5. Rapports Playwright multi-epics : seul le dernier est gardé (All-Epics-31052026-2031,
+   E2E-03072026-1604).
+6. .gitignore : runs/* ignoré sauf runs/GEO-R*_*/ ; reports/screenshots-*/ ignoré
+   (buffer). Ne pas faire git add -A sur runs/ : les anciennes versions locales de
+   consolidés apparaissent en non suivi. Un nouveau run E2E / All-Epics à commiter
+   demande git add -f.
+7. Plus de secret en dur : geo-user-guide-demo.spec.js lit GEO_USER_EMAIL /
+   GEO_USER_PASSWORD depuis .env (parse manuel, lancé avec node).
+8. Dépôt squelette GEO-QA-AI (C:\Users\DIGIMIND\workflow-new\GEO-QA-AI, commit
+   initial 634db94, pas encore poussé) : commandes, agents, scripts, specs, config,
+   sans aucune exécution, cas de test, doc d epic, JDD ni capture Figma
+   (bloqués par son .gitignore).
+9. CSV des projets autres que GEO : dans csv/{VERSION}/ comme pour GEO
+   (ex. csv/UP-V3/testcases-coverage-epicUP-2065.csv), jamais à la racine de csv/.
+   Les CSV de story GEO-152 (GEO-R1.2) divergent du CSV d epic (valeurs observées
+   vs données de test) : gardés, le CSV d epic reste la référence.

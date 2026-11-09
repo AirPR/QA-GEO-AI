@@ -1,0 +1,351 @@
+{
+  "spec_name": "category-questions-table",
+  "profile_meta": {
+    "profile": "default",
+    "category_name": "luxury handbags"
+  },
+  "generated": "2026-07-03T15:04:17.730Z",
+  "total": 16,
+  "passed": 13,
+  "failed": 0,
+  "skipped": 3,
+  "duration_ms": 121458,
+  "testcases": [
+    {
+      "tc_id": "GEO-67-TC001",
+      "title": "GEO-67-TC001 - Questions table shows grouped questions and key columns",
+      "status": "passed",
+      "duration_ms": 5021,
+      "steps": [
+        {
+          "title": "Given an Editor navigates to the category view",
+          "duration_ms": 7911,
+          "status": "passed"
+        },
+        {
+          "title": "When the questions table loads",
+          "duration_ms": 105,
+          "status": "passed"
+        },
+        {
+          "title": "Then the questions table is visible with question rows and type tabs (Visibility / Competitive / Perception)",
+          "duration_ms": 204,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:133:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:132:3"
+    },
+    {
+      "tc_id": "GEO-67-TC002",
+      "title": "GEO-67-TC002 - Visibility favorability labels are displayed",
+      "status": "passed",
+      "duration_ms": 6185,
+      "steps": [
+        {
+          "title": "Given the questions table contains visibility questions",
+          "duration_ms": 6765,
+          "status": "passed"
+        },
+        {
+          "title": "When the Visibility tab is selected",
+          "duration_ms": 903,
+          "status": "passed"
+        },
+        {
+          "title": "Then at least one favorability badge is visible on a visibility question row (Favorable / Neutral / Unfavorable)",
+          "duration_ms": 121,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:170:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:169:3"
+    },
+    {
+      "tc_id": "GEO-67-TC003",
+      "title": "GEO-67-TC003 - Competitive favorability labels are displayed",
+      "status": "passed",
+      "duration_ms": 6025,
+      "steps": [
+        {
+          "title": "Given the questions table contains competitive questions",
+          "duration_ms": 11806,
+          "status": "passed"
+        },
+        {
+          "title": "When the Competitive tab is selected",
+          "duration_ms": 941,
+          "status": "passed"
+        },
+        {
+          "title": "Then at least one favorability badge is visible on a competitive question row (Favorable / Neutral / Unfavorable)",
+          "duration_ms": 158,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:208:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:207:3"
+    },
+    {
+      "tc_id": "GEO-67-TC004",
+      "title": "GEO-67-TC004 - Perception favorability labels are displayed",
+      "status": "passed",
+      "duration_ms": 5997,
+      "steps": [
+        {
+          "title": "Given the questions table contains perception questions",
+          "duration_ms": 7161,
+          "status": "passed"
+        },
+        {
+          "title": "When the Perception tab is selected",
+          "duration_ms": 900,
+          "status": "passed"
+        },
+        {
+          "title": "Then at least one favorability badge and at least one theme badge are visible on a perception question row",
+          "duration_ms": 178,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:236:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:235:3"
+    },
+    {
+      "tc_id": "GEO-67-TC005",
+      "title": "GEO-67-TC005 - Questions table filters by favorability",
+      "status": "passed",
+      "duration_ms": 6486,
+      "steps": [
+        {
+          "title": "Given the questions table is loaded with questions of different favorability values",
+          "duration_ms": 6251,
+          "status": "passed"
+        },
+        {
+          "title": "When the Editor opens the Filters panel and selects the Favorable filter",
+          "duration_ms": 1618,
+          "status": "passed"
+        },
+        {
+          "title": "Then only Favorable questions remain visible in the table",
+          "duration_ms": 88,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:271:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:270:3"
+    },
+    {
+      "tc_id": "GEO-67-TC006",
+      "title": "GEO-67-TC006 - Expanding a question row shows detailed evidence panel",
+      "status": "passed",
+      "duration_ms": 5799,
+      "steps": [
+        {
+          "title": "Given the questions table is loaded with at least one question row",
+          "duration_ms": 6106,
+          "status": "passed"
+        },
+        {
+          "title": "When the Editor clicks on a question row to expand it",
+          "duration_ms": 2017,
+          "status": "passed"
+        },
+        {
+          "title": "Then the expanded detail panel is visible with LLM context buttons, ranking or sentiment content, and at least one source",
+          "duration_ms": 107,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:313:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:312:3"
+    },
+    {
+      "tc_id": "GEO-67-TC007",
+      "title": "GEO-67-TC007 - Perception rows show sentiment and themes without rank badges",
+      "status": "passed",
+      "duration_ms": 6005,
+      "steps": [
+        {
+          "title": "Given perception questions are displayed in the questions table",
+          "duration_ms": 6561,
+          "status": "passed"
+        },
+        {
+          "title": "When the table renders each perception row",
+          "duration_ms": 903,
+          "status": "passed"
+        },
+        {
+          "title": "Then each perception row shows a favorability badge and at least one theme badge, and no numeric rank badge (#N) is shown",
+          "duration_ms": 152,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:345:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:344:3"
+    },
+    {
+      "tc_id": "GEO-67-TC008",
+      "title": "GEO-67-TC008 - Search input filters question rows by text",
+      "status": "passed",
+      "duration_ms": 5915,
+      "steps": [
+        {
+          "title": "Given the questions table is loaded",
+          "duration_ms": 6478,
+          "status": "passed"
+        },
+        {
+          "title": "When the Editor types a keyword in the \"Search questions...\" input field",
+          "duration_ms": 939,
+          "status": "passed"
+        },
+        {
+          "title": "Then the visible rows are reduced to only those containing the search keyword",
+          "duration_ms": 94,
+          "status": "passed"
+        }
+      ],
+      "error": "TimeoutError: page.waitForLoadState: Timeout 45000ms exceeded.\n\n  64 | async function gotoCategory(page) {\n  65 |   await page.goto(CATEGORY_URL);\n> 66 |   await page.waitForLoadState('networkidle');\n     |              ^\n  67 |   await H.dismissCookieBanner(page);\n  68 |   // Scroll down to trigger lazy render of the Questions Analysis section\n  69 |   await page.evaluate(() => window.scrollTo(0, 600));\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:66:14)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:382:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:381:3"
+    },
+    {
+      "tc_id": "GEO-67-TC009",
+      "title": "GEO-67-TC009 - Filters button opens favorability filter panel",
+      "status": "passed",
+      "duration_ms": 6982,
+      "steps": [
+        {
+          "title": "Given the questions table is loaded",
+          "duration_ms": 7303,
+          "status": "passed"
+        },
+        {
+          "title": "When the Editor clicks the Filters button and selects a favorability option",
+          "duration_ms": 1634,
+          "status": "passed"
+        },
+        {
+          "title": "Then the table filters accordingly and the filter is combinable with the question type tabs and the search bar",
+          "duration_ms": 94,
+          "status": "passed"
+        }
+      ],
+      "error": "TimeoutError: page.waitForLoadState: Timeout 45000ms exceeded.\n\n  64 | async function gotoCategory(page) {\n  65 |   await page.goto(CATEGORY_URL);\n> 66 |   await page.waitForLoadState('networkidle');\n     |              ^\n  67 |   await H.dismissCookieBanner(page);\n  68 |   // Scroll down to trigger lazy render of the Questions Analysis section\n  69 |   await page.evaluate(() => window.scrollTo(0, 600));\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:66:14)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:421:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:420:3"
+    },
+    {
+      "tc_id": "GEO-67-TC010",
+      "title": "GEO-67-TC010 - Visibility row detail panel shows LLM rank badges and sources",
+      "status": "passed",
+      "duration_ms": 6432,
+      "steps": [
+        {
+          "title": "Given the Visibility tab is active and at least one visibility question is visible",
+          "duration_ms": 8467,
+          "status": "passed"
+        },
+        {
+          "title": "When the Editor clicks to expand a visibility question row",
+          "duration_ms": 1001,
+          "status": "passed"
+        },
+        {
+          "title": "Then the detail panel shows per-LLM rank buttons at the top, a position/rank value, and at least one source entry",
+          "duration_ms": 100,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:461:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:460:3"
+    },
+    {
+      "tc_id": "GEO-67-TC011",
+      "title": "GEO-67-TC011 - Competitive row detail panel shows win/loss and ranking",
+      "status": "passed",
+      "duration_ms": 6365,
+      "steps": [
+        {
+          "title": "Given the Competitive tab is active and at least one competitive question is visible",
+          "duration_ms": 6634,
+          "status": "passed"
+        },
+        {
+          "title": "When the Editor clicks to expand a competitive question row",
+          "duration_ms": 3345,
+          "status": "passed"
+        },
+        {
+          "title": "Then the detail panel shows per-LLM buttons, a win/loss result badge, and a ranked list of entities",
+          "duration_ms": 102,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:509:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:508:3"
+    },
+    {
+      "tc_id": "GEO-67-TC012",
+      "title": "GEO-67-TC012 - Perception row detail panel shows sentiment and theme badges",
+      "status": "passed",
+      "duration_ms": 6255,
+      "steps": [
+        {
+          "title": "Given the Perception tab is active and at least one perception question is visible",
+          "duration_ms": 6861,
+          "status": "passed"
+        },
+        {
+          "title": "When the Editor clicks to expand a perception question row",
+          "duration_ms": 1009,
+          "status": "passed"
+        },
+        {
+          "title": "Then the detail panel shows a sentiment badge (Positive / Mixed / Negative), at least one theme badge, and at least one source",
+          "duration_ms": 122,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:557:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:556:3"
+    },
+    {
+      "tc_id": "GEO-67-TC013",
+      "title": "GEO-67-TC013 - [SKIP] Table filters by selected market",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "error": "SKIPPED — The category view on current staging does not expose a market filter dropdown. Only the LLM engine filter is available. Re-enable on a dashboard that exposes a market filter on the category page."
+    },
+    {
+      "tc_id": "GEO-67-TC014",
+      "title": "GEO-67-TC014 - Table recalculates when LLM filter changes",
+      "status": "passed",
+      "duration_ms": 6539,
+      "steps": [
+        {
+          "title": "Given the questions table is loaded with all LLM engines active",
+          "duration_ms": 6850,
+          "status": "passed"
+        },
+        {
+          "title": "When the user deselects one LLM engine from the LLM engine filter",
+          "duration_ms": 1551,
+          "status": "passed"
+        },
+        {
+          "title": "Then the questions table remains visible and reflects the updated status/favorability based on the filtered LLM pool only",
+          "duration_ms": 219,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: Questions Analysis heading must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator(':text(\"Questions Analysis\")').first()\nExpected: visible\nTimeout: 25000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Questions Analysis heading must be visible with timeout 25000ms\u001b[22m\n\u001b[2m  - waiting for locator(':text(\"Questions Analysis\")').first()\u001b[22m\n\n\n  70 |   await page.waitForTimeout(500);\n  71 |   const heading = page.locator(SEL.qaHeading).first();\n> 72 |   await expect(heading, 'Questions Analysis heading must be visible').toBeVisible({ timeout: 25000 });\n     |                                                                       ^\n  73 |   await heading.scrollIntoViewIfNeeded();\n  74 |   // Wait for the All tab to attach (confirms questions are loaded)\n  75 |   const allTab = page.getByRole('button', { name: /^All\\s+\\d/ });\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:72:71)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:613:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-questions-table.spec.js:612:3"
+    },
+    {
+      "tc_id": "GEO-67-TC015",
+      "title": "GEO-67-TC015 - [SKIP] Empty state message when no question data available",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "error": "SKIPPED — No reproducible empty-state condition on current staging dataset. The category always returns question data. Re-enable with a seeded empty-state dataset."
+    },
+    {
+      "tc_id": "GEO-67-TC016",
+      "title": "GEO-67-TC016 - [SKIP] Error state shown with retry option on API failure",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "error": "SKIPPED — Cannot simulate an API error on current staging environment. Requires network interception or a forced backend failure to trigger the error state with retry option."
+    }
+  ]
+}

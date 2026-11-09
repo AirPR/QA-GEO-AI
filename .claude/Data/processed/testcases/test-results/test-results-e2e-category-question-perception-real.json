@@ -1,0 +1,77 @@
+{
+  "testCases": [
+    {
+      "tc_id": "E2E-PERC-TH-01",
+      "title": "Perception: Themes = Aucun thème → panel shows empty themes section",
+      "status": "passed",
+      "duration_ms": 21073,
+      "error": "",
+      "steps": [
+        "Given I am on the Perception tab where no themes are detected in LLM results",
+        "When I find a row where the Themes column shows \"Aucun thème\" (no themes detected in any LLM)",
+        "Then the detail panel THEMES section shows \"Aucun thème détecté dans les résultats des LLM\" (empty)"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-perception/E2E-PERC-TH-01_step1_given.png",
+        "screenshots-e2e-category-question-perception/E2E-PERC-TH-01_step2_when.png",
+        "screenshots-e2e-category-question-perception/E2E-PERC-TH-01_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "E2E-PERC-SENT-01",
+      "title": "Perception: panel shows SENTIMENT + RESPONSE sections, no rank badges",
+      "status": "passed",
+      "duration_ms": 6458,
+      "error": "",
+      "steps": [
+        "Given I am on the Perception tab and I open a question in the detail panel",
+        "When the detail panel opens for a Perception question",
+        "Then SENTIMENT section and RESPONSE section are visible and no rank badges appear"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-perception/E2E-PERC-SENT-01_step1_given.png",
+        "screenshots-e2e-category-question-perception/E2E-PERC-SENT-01_step2_when.png",
+        "screenshots-e2e-category-question-perception/E2E-PERC-SENT-01_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "E2E-PERC-SENT-02",
+      "title": "Perception: switching LLM engine keeps SENTIMENT section with per-engine value",
+      "status": "passed",
+      "duration_ms": 5802,
+      "error": "",
+      "steps": [
+        "Given a Perception question detail panel is open with multiple LLM engines available",
+        "When I switch to a second LLM engine in the panel",
+        "Then SENTIMENT section remains visible and a sentiment card is shown for the selected engine"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-perception/E2E-PERC-SENT-02_step1_given.png",
+        "screenshots-e2e-category-question-perception/E2E-PERC-SENT-02_step2_when.png",
+        "screenshots-e2e-category-question-perception/E2E-PERC-SENT-02_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "E2E-PERC-TH-02",
+      "title": "Perception: Themes = theme badges → panel shows themes list",
+      "status": "skipped",
+      "duration_ms": 240,
+      "error": "Toyota staging dataset has no Perception rows with themes extracted — all rows show \"No theme extracted\". Re-enable when a dashboard with Perception themes is available.",
+      "steps": [
+        "Given I am on the Perception tab where one or more themes are detected in LLM results",
+        "When I find a row where the Themes column shows one or more theme badges",
+        "Then the detail panel THEMES section shows the list of detected themes"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-perception/E2E-PERC-TH-02_step1_given.png",
+        "screenshots-e2e-category-question-perception/E2E-PERC-TH-02_step2_when.png",
+        "screenshots-e2e-category-question-perception/E2E-PERC-TH-02_step3_then.png"
+      ]
+    }
+  ],
+  "passed": 3,
+  "failed": 0,
+  "skipped": 1,
+  "total": 4,
+  "generated": "2026-07-03T15:04:17.802Z"
+}

@@ -1,0 +1,400 @@
+{
+  "spec": "GEO-1002-rerun-fixes",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 7,
+    "pass": 4,
+    "fail": 2,
+    "skip": 0,
+    "partial": 1,
+    "successRate": 64.3,
+    "verdict": "CONDITIONAL"
+  },
+  "environment": {
+    "url": "https://staging-geo.onclusive.com/geo",
+    "account": "assiya.benramdane@onclusive.com, SUPER_ADMIN, existing session (no login needed)",
+    "language": "en-GB (GET /geo/api/v1/auth/me at start, on GEO Stress Test 2026-10, and at end, on QA-GEO)",
+    "featureFlag": "unbranded_analysis = true (5-step wizard, Brand analysis card + Continue)",
+    "startOrganisation": "GEO Stress Test 2026-10 (left by an earlier session) - used for TC-GEO-1239-013, then switched to QA-GEO",
+    "qaGeoPool": {
+      "start": "713 / 1000 (dashboard + GET /quota, 13:41 UTC)",
+      "end": "713 / 1000 (dashboard + GET /quota, 13:51 UTC), 8 analyses"
+    },
+    "writeGuard": {
+      "installed": "context.route(/^https:\\/\\/staging-geo\\.onclusive\\.com\\/.*/) aborting every method other than GET/HEAD/OPTIONS, 13:37:56 UTC (re-installed 13:38:24 UTC with a log kept on the context + self-test)",
+      "log": [
+        "13:38:24 POST /geo/api/v1/__qa_guard_selftest - ABORTED (self-test)",
+        "13:41:18 POST /geo/api/v1/auth/switch-organisation - ABORTED (first switch attempt)",
+        "13:41:46 POST /geo/api/v1/auth/switch-organisation - ALLOWED once (requested switch back to QA-GEO; allow-list emptied right after)",
+        "13:49:19 POST /geo/api/v1/analysis/discover-categories - ABORTED (wizard)",
+        "13:49:32 allow-list added for stateless wizard calls (no analysis id): analysis/discover-categories, questions/adapt-batch, analysis/translate-category",
+        "13:49:33 POST /geo/api/v1/analysis/discover-categories - ALLOWED",
+        "13:49:54 POST /geo/api/v1/questions/adapt-batch - ALLOWED (x2)"
+      ],
+      "blockedSaves": "None. No POST/PATCH/PUT/DELETE on organisations, reports, prompts or scope was attempted by the app during the TCs (Create/Save stayed disabled on every validation).",
+      "removed": "context.unrouteAll() at 13:51:33 UTC; confirmed with POST /geo/api/v1/__qa_guard_selftest_after that reached the server (HTTP 404) and was not logged."
+    },
+    "stateChanges": "None saved. Organisation switch GEO Stress Test 2026-10 -> QA-GEO (requested). No organisation created/edited, no analysis created, no prompt edited/unticked/deleted. Every form left with Cancel; wizard left with Exit and Discard."
+  },
+  "bugVerdicts": [
+    {
+      "bug": "GEO-1274",
+      "tcs": "TC-GEO-1230-001 / 003 / 005",
+      "verdict": "FIXED",
+      "observed": "Label \"Prompt pool *\"; empty field: \"Prompt pool is required.\"; 0 / -5 / 12.5: \"Enter a whole number of at least 1.\"; \"abc\" cannot be typed",
+      "proof": "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-003_step3_then.png"
+    },
+    {
+      "bug": "GEO-1272",
+      "tcs": "TC-GEO-1230-009",
+      "verdict": "PARTIALLY FIXED",
+      "observed": "One page (active view): \"—\" grouped at the end both ways. Two pages (all statuses): desc page 1 = 713 / 1000, 246 / 250, 18 x \"—\"; page 2 = 471 / 1000, 5 x \"—\" (sort per page only)",
+      "proof": "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-009_step3_then.png"
+    },
+    {
+      "bug": "GEO-1271",
+      "tcs": "TC-GEO-1237-004",
+      "verdict": "FIXED",
+      "observed": "\"Some metrics will not be produced.\" / \"No Brand Image prompts are kept, so the Corporate Reputation cards and Brand Territory stay empty, with a prompt to add questions.\"",
+      "proof": "screenshots-GEO-1002-rerun-fixes/TC-GEO-1237-004_step3_then.png"
+    },
+    {
+      "bug": "GEO-1249",
+      "tcs": "TC-GEO-1251-002",
+      "verdict": "NOT CONCLUSIVE (cannot confirm FIXED)",
+      "observed": "10/10 prompts with 3 competitors, e.g. \"Best for Running Shoes: Nike, Adidas, Brooks Running or Hoka?\"; no dangling \"or ?\". Fewer-than-3-competitors case not exercised",
+      "proof": "screenshots-GEO-1002-rerun-fixes/TC-GEO-1251-002_step2_when.png"
+    }
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1230-001",
+      "story_id": "GEO-1230",
+      "bug": "GEO-1274",
+      "title": "Create organisation shows one required Prompt pool field in place of the old quotas",
+      "status": "PASS",
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-001_step1_given.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-001_step2_when.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on Administration > Organizations",
+          "expected": "The organisations list is displayed",
+          "status": "PASS",
+          "observed": "Back office Organisations list, 8 active organisations."
+        },
+        {
+          "title": "When the super admin opens the Create organisation form",
+          "expected": "The form opens with its quotas section",
+          "status": "PASS",
+          "observed": "Dialog \"Create organisation\" with section QUOTAS."
+        },
+        {
+          "title": "Then the quotas show one \"Prompt pool\" field marked as required",
+          "expected": "The label reads \"Prompt pool *\", with the required marker used by the other required fields (such as \"Name *\")",
+          "status": "PASS",
+          "observed": "Label \"Prompt pool *\" (same \"*\" marker as \"Name *\")."
+        },
+        {
+          "title": "And the four per-type fields and the \"Countries\" and \"Categories max\" fields are not shown",
+          "expected": "No per-type prompt field, no \"Countries\" field and no \"Categories max\" field",
+          "status": "PASS",
+          "observed": "Labels: Name *, Master Customer Number, US organisation, Prompt pool *, User quota, Collection frequency. No per-type, Countries or Categories max field."
+        },
+        {
+          "title": "And the user quota, collection frequency and allowed AI engines stay as today",
+          "expected": "User quota, collection frequency with \"Daily\" and \"One time\", and the allowed AI engines are displayed",
+          "status": "PASS",
+          "observed": "User quota (100), Collection frequency options Daily / One time, Authorised AI Engine providers ChatGPT, Gemini, Grok, Claude, Perplexity."
+        }
+      ],
+      "notes": "GEO-1274 retest (asterisk): FIXED. Form opened read-only and closed with Cancel.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1230-003",
+      "story_id": "GEO-1230",
+      "bug": "GEO-1274",
+      "title": "An organisation cannot be created without a Prompt pool",
+      "status": "PASS",
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-003_step1_given.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-003_step2_when.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the Create organisation form",
+          "expected": "The form is displayed with an empty \"Prompt pool\" field",
+          "status": "PASS",
+          "observed": "Prompt pool empty."
+        },
+        {
+          "title": "When the super admin fills every other required field and leaves Prompt pool empty",
+          "data": "Name: \"QA pool required 1019\"; User quota: 5; Frequency: Daily; one AI engine",
+          "expected": "The form is filled except Prompt pool",
+          "status": "PASS",
+          "observed": "Name \"QA pool required 1019\", User quota 5, Daily, ChatGPT on."
+        },
+        {
+          "title": "And the super admin saves",
+          "expected": "Create stays disabled and the organisation is not created",
+          "status": "PASS",
+          "observed": "Create disabled; a forced click did nothing; 0 write request caught by the guard; the dialog stays open."
+        },
+        {
+          "title": "Then the Prompt pool field is flagged as required",
+          "expected": "The \"Prompt pool\" field shows \"Prompt pool is required.\" and its label reads \"Prompt pool *\"",
+          "status": "PASS",
+          "observed": "\"Prompt pool is required.\" (red, under the field) and label \"Prompt pool *\"."
+        }
+      ],
+      "notes": "GEO-1274 retest (required message): FIXED. The message appears once the field has been focused and left (blur), not on the click of the disabled Create button. Closed with Cancel, nothing created.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1230-005",
+      "story_id": "GEO-1230",
+      "bug": "GEO-1274",
+      "title": "Prompt pool refuses zero, negative, decimal and non-numeric values",
+      "status": "PASS",
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-005_step1_given.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-005_step2_when.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-005_step3_then.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-005_step2_zero.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-005_step2_negative.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-005_step2_decimal.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-005_step2_abc.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the edit form of organisation T",
+          "expected": "\"Prompt pool\" = P",
+          "status": "PASS",
+          "observed": "Edit Organisation - QA-GEO, Prompt pool 1000, hint \"713 of 1000 prompts in use.\""
+        },
+        {
+          "title": "When the super admin enters 0 and saves",
+          "data": "Prompt pool: 0",
+          "expected": "The value is refused with \"Enter a whole number of at least 1.\" and the pool stays P",
+          "status": "PASS",
+          "observed": "\"Enter a whole number of at least 1.\", Save disabled."
+        },
+        {
+          "title": "And the super admin enters a negative value and saves",
+          "data": "Prompt pool: -5",
+          "expected": "The value is refused with \"Enter a whole number of at least 1.\" and the pool stays P",
+          "status": "PASS",
+          "observed": "\"Enter a whole number of at least 1.\", Save disabled."
+        },
+        {
+          "title": "And the super admin enters a decimal value and saves",
+          "data": "Prompt pool: 12.5",
+          "expected": "The value is refused with \"Enter a whole number of at least 1.\" and the pool stays P",
+          "status": "PASS",
+          "observed": "\"Enter a whole number of at least 1.\", Save disabled."
+        },
+        {
+          "title": "And the super admin enters a non-numeric value",
+          "data": "Prompt pool: \"abc\"",
+          "expected": "\"abc\" cannot be entered in the field (or is refused with \"Enter a whole number of at least 1.\")",
+          "status": "PASS",
+          "observed": "Typing \"abc\" leaves the number field empty (shows \"Prompt pool is required.\")."
+        }
+      ],
+      "notes": "GEO-1274 retest (invalid-value message): FIXED. 0 write request caught (Save stayed disabled). After Cancel the list still shows QA-GEO 713 / 1000.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1230-009",
+      "story_id": "GEO-1230",
+      "bug": "GEO-1272",
+      "title": "The Prompts column of the organisations list is sortable",
+      "status": "FAIL",
+      "error": "Step \"Then the organisations without a pool are not mixed between the others\": expected \"Every \"—\" row is grouped together, never between two organisations with a value\". Observed: default view (Status = active, 8 organisations, 1 page) correct in both directions (asc 246 / 250, 471 / 1000, 713 / 1000 then 5 x \"—\"; desc 713, 471, 246 then 5 x \"—\"). With Status = all statuses (26 organisations, 2 pages of 20) the sort is applied to the current page only: desc page 1 = 713 / 1000, 246 / 250, then 18 x \"—\"; page 2 = 471 / 1000 (Onclusive), then 5 x \"—\". So 471 comes after 246 and 18 \"—\" rows sit between organisations with a value. No sort parameter is sent to GET /admin/organisations?page=N&size=20.",
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-009_step1_given.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-009_step2_when.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-009_step3_then.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-009_step3b_active_view_desc_pass.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-009_step3c_allstatuses_desc_page1.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1230-009_step3c_allstatuses_desc_page2.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on Administration > Organizations",
+          "expected": "The list shows the \"Prompts\" column",
+          "status": "PASS",
+          "observed": "Prompts column present; 3 organisations with a pool, 5 with \"—\" (active view)."
+        },
+        {
+          "title": "When the super admin sorts the Prompts column ascending",
+          "expected": "The organisations are ordered by prompts in use, lowest first",
+          "status": "PASS",
+          "observed": "Active view: 246 / 250, 471 / 1000, 713 / 1000, then \"—\" rows."
+        },
+        {
+          "title": "And the super admin sorts the Prompts column descending",
+          "expected": "The organisations are ordered by prompts in use, highest first",
+          "status": "FAIL",
+          "observed": "Active view correct (713, 471, 246). All statuses view (2 pages): page 1 713, 246; page 2 471 - not ordered across pages."
+        },
+        {
+          "title": "Then the organisations without a pool are not mixed between the others",
+          "expected": "Every \"—\" row is grouped together, never between two organisations with a value",
+          "status": "FAIL",
+          "observed": "Active view: grouped at the end. All statuses view: 18 \"—\" rows on page 1 between 246 / 250 (page 1) and 471 / 1000 (top of page 2)."
+        }
+      ],
+      "notes": "GEO-1272 retest: PARTIALLY FIXED - the reported scenario (one page) is fixed, \"—\" rows grouped at the end in both directions; the sort is client-side per page, so a multi-page list is not sorted globally. Status filter reset by reload, nothing edited.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1237-004",
+      "story_id": "GEO-1237",
+      "bug": "GEO-1271",
+      "title": "A question type with no kept prompt is named with the metrics it will not produce",
+      "status": "PASS",
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1237-004_step1_given.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1237-004_step2_when.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1237-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user unticks every Brand Image prompt",
+          "data": "Filter Type = Brand Image, untick all 20 rows",
+          "expected": "No Brand Image prompt is ticked",
+          "status": "PASS",
+          "observed": "Decathlon (decathlon.com), United Kingdom - English (EN) + France - French (FR), Sporting Goods + Outdoor Gear (discovery) = 140 prompts, ring 853 / 1000. Type filter Brand Image: 20 rows unticked, ring \"833 / 1000 prompts · 120 selected\"."
+        },
+        {
+          "title": "When the user clicks Review & Launch",
+          "expected": "Review loads",
+          "status": "PASS",
+          "observed": "Review step loaded."
+        },
+        {
+          "title": "Then the warning names the missing question type",
+          "expected": "The warning names Brand Image",
+          "status": "PASS",
+          "observed": "Banner \"Some metrics will not be produced.\" naming Brand Image."
+        },
+        {
+          "title": "And the warning names the metrics the analysis will not produce",
+          "expected": "The warning reads \"No Brand Image prompts are kept, so the Corporate Reputation cards and Brand Territory stay empty, with a prompt to add questions.\"",
+          "status": "PASS",
+          "observed": "Exact text: \"No Brand Image prompts are kept, so the Corporate Reputation cards and Brand Territory stay empty, with a prompt to add questions.\" (= en-gb.json wizard.review.missing.brandImage)."
+        }
+      ],
+      "notes": "GEO-1271 retest: FIXED. Wizard opened with the Brand analysis card + Continue (unbranded flag ON). Not created: left with Back to Dashboard > \"Exit setup?\" > Exit and Discard. Stateless wizard calls allowed through the guard (discover-categories, questions/adapt-batch); POST /reports never sent.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1251-002",
+      "story_id": "GEO-1251",
+      "bug": "GEO-1249",
+      "title": "Competitive prompts run with up to 5 competitors when there is no Visibility",
+      "status": "FAIL",
+      "error": "Step \"And the results appear like any other Competitive result\": expected \"Competitive charts and rankings of C1 are filled\"; observed Brand Prioritization \"No data available for the brand prioritization matrix.\" and Brand Rankings \"No brand ranking data available.\" (AI Choice 95% and Share of Voice Nike 95% / Brooks 5% are filled). Same result as the 2026-10-20 run: rankings and matrix are Visibility-based, CSV wording decision still open.",
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1251-002_step1_given.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1251-002_step2_when.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1251-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis W has been collected once",
+          "data": "Analysis W",
+          "expected": "The dashboard of W is available",
+          "status": "PASS",
+          "observed": "W = Nike cce7a7dc (QA-GEO, created 2026-10-20 10:58 UTC, COMPLETED), GB (EN) x Running Shoes, ChatGPT + Gemini."
+        },
+        {
+          "title": "When the user opens the Competitive results of GB (EN) x C1",
+          "expected": "The Competitive prompts and answers are listed",
+          "status": "PASS",
+          "observed": "Running Shoes: Prompts Analysis \"Visibility 0, Competitive 10, Perception 0\", 10 Competitive prompts listed."
+        },
+        {
+          "title": "Then each prompt names up to 5 competitors in place of the placeholders",
+          "expected": "No \"[Competitor N]\" placeholder left; between 1 and 5 competitor names; the prompt reads naturally",
+          "status": "PASS",
+          "observed": "All 10 prompts name Adidas, Brooks Running, Hoka, e.g. \"Best for Running Shoes: Nike, Adidas, Brooks Running or Hoka?\", \"Compare Nike, Adidas, Brooks Running and Hoka for Running Shoes?\", \"Nike vs Adidas vs Brooks Running vs Hoka for Running Shoes?\". No placeholder, no dangling \"or ?\" / \"and  for\"."
+        },
+        {
+          "title": "And the results appear like any other Competitive result",
+          "expected": "Competitive charts and rankings of C1 are filled",
+          "status": "FAIL",
+          "observed": "Brand Prioritization \"No data available for the brand prioritization matrix.\"; Brand Rankings \"No brand ranking data available.\""
+        }
+      ],
+      "notes": "GEO-1249 retest: NOT CONCLUSIVE - no dangling connector in any of the 10 prompts, but 3 competitors were found for Nike x Running Shoes, so the defect trigger (fewer than 3 competitors) is not exercised. Read-only scan of the 213 Competitive prompts of the 8 QA-GEO analyses: 0 with \"[Competitor\", \" or ?\", \" and  for\" or a double space. Analysis opened read-only.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1239-013",
+      "story_id": "GEO-1239",
+      "bug": null,
+      "title": "With no pool configured, the add actions are disabled while editing, deleting and unticking stay possible",
+      "status": "PARTIAL",
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1239-013_step1_given.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1239-013_step2_when.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1239-013_step3_then.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1239-013_step2b_fullpage.png",
+        "screenshots-GEO-1002-rerun-fixes/TC-GEO-1239-013_extra_schwab_no_suggestions.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis N of an organisation with no pool",
+          "data": "Organisation \"GEO Stress Test\", analysis N",
+          "expected": "The prompts of N are listed",
+          "status": "PASS",
+          "observed": "Organisation \"GEO Stress Test 2026-10\" (back office Prompts \"—\", /auth/me quota_status NOT_CONFIGURED, 40 analyses). N = Cruz Roja Argentina a3eb5a05: 39 prompts listed, ring \"— / — prompts · 39 selected\" + \"No prompt pool is set for your organisation. Contact your account manager.\""
+        },
+        {
+          "title": "When the user looks at the add actions of the Prompts section",
+          "expected": "Add prompt, Add country and Add category are disabled",
+          "status": "PASS",
+          "observed": "Add prompt, Add Country, Add Category: disabled attribute, cursor not-allowed (same on Charles Schwab 17708ae0)."
+        },
+        {
+          "title": "And the user tries to tick a suggested prompt",
+          "data": "A row under Suggested Prompts (if N has one)",
+          "expected": "The suggestion cannot be ticked",
+          "status": "SKIP",
+          "observed": "Not verifiable: none of the 40 analyses of GEO Stress Test 2026-10 has a suggested (unticked) prompt (read-only scan of GET /reports/{id}/scope: isKept=false count = 0 everywhere)."
+        },
+        {
+          "title": "And the user edits the wording of a kept prompt and saves",
+          "data": "New wording: existing wording + \" in 2026\"",
+          "expected": "The edit is saved",
+          "status": "PARTIAL",
+          "observed": "Not executed (read-only rule). Edit prompt buttons enabled on 39/39 rows."
+        },
+        {
+          "title": "Then unticking and deleting prompts stay possible",
+          "data": "Untick 1 kept prompt, then delete 1 other kept prompt",
+          "expected": "Both changes are applied; Add prompt, Add country and Add category stay disabled",
+          "status": "PARTIAL",
+          "observed": "Not executed (read-only rule). Row checkboxes enabled 39/39 and Delete prompt buttons enabled 39/39; the add actions stay disabled."
+        }
+      ],
+      "notes": "Add actions disabled verified; edit / untick / delete only checked as enabled controls, never used (no save). Suggested prompt step not verifiable (no suggestion in this organisation). Switched back to QA-GEO at the end of the TC (POST /auth/switch-organisation allowed once through the guard).",
+      "duration": 0
+    }
+  ]
+}

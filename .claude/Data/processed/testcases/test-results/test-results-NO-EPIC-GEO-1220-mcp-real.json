@@ -1,0 +1,1062 @@
+{
+  "spec": "NO-EPIC-GEO-1220-mcp",
+  "runDate": "2026-10-28",
+  "runMode": "mcp-playwright",
+  "mode": "structured (API calls with fetch from the logged-in page)",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "apiBase": "https://staging-geo.onclusive.com/geo/api/v1/admin/source-classifications",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-storyGEO-1220.csv",
+  "story": "GEO-1220",
+  "environment": "staging",
+  "accounts": {
+    "main": "assiya.benramdane@onclusive.com (QA-GEO, SUPER_ADMIN, language en-GB, unchanged)"
+  },
+  "scope": "Read-only / rejected-before-write checks only: no valid PUT, no DELETE on an overridden domain, no data change. Every invalid call was framed by a GET before and after.",
+  "auth": "HttpOnly session cookie (credentials: include); the app sends no Bearer header. The access cookie expires after a few minutes and is renewed silently on page reload; 3 calls hit an expired session (401 OAUTH2_INVALID_TOKEN) and were replayed after reload.",
+  "dataState": {
+    "overridesBefore": 0,
+    "overridesAfter": 0,
+    "cacheTotalBefore": 60065,
+    "cacheTotalAfter": 60065,
+    "testDomains": [
+      {
+        "domain": "cyclingelectric.com",
+        "sourceType": "JOURNALISM",
+        "origin": "GEMINI",
+        "updatedAt": "2026-10-20T22:14:20.380063Z",
+        "unchanged": true
+      },
+      {
+        "domain": "ebikegeek.co.uk",
+        "sourceType": "JOURNALISM",
+        "origin": "GEMINI",
+        "updatedAt": "2026-10-27T22:21:13.311719Z",
+        "unchanged": true
+      }
+    ]
+  },
+  "existingOverrides": {
+    "staging": [],
+    "note": "GET ?overridden=true returns 0 rows. opinion-assurances.fr on staging = GEMINI / JOURNALISM (the AC10 ops script was a production fix)."
+  },
+  "candidateTestDomains": [
+    {
+      "domain": "cyclingelectric.com",
+      "sourceType": "JOURNALISM",
+      "origin": "GEMINI",
+      "updatedAt": "2026-10-20T22:14:20.380063Z",
+      "citedBy": "Electric bikes (42c3ab89-7dfd-4ba5-b5ec-117cec2514e4, UNBRANDED, GB, daily run) only, frequency 3 (21/10-28/10)",
+      "note": "Also fits {G} of TC-008 (T0 = JOURNALISM)"
+    },
+    {
+      "domain": "monjouet.ma",
+      "sourceType": "CORPORATE",
+      "origin": "GEMINI",
+      "updatedAt": "2026-10-19T17:26:42.808873Z",
+      "citedBy": "kids toys (796a92e9-9033-44c4-9e07-aee1f90e7b8c, UNBRANDED, MA) only, frequency 2",
+      "note": "Independent analysis from candidate 1; ebikegeek.co.uk (JOURNALISM, Electric bikes) is a fallback"
+    }
+  ],
+  "regexReplacementForTrustpilot": {
+    "candidates": [
+      {
+        "domain": "capterra.com",
+        "shownAs": "REVIEW_SITES",
+        "inCache": false,
+        "citedBy": "Lictorix Geo (f228f1fe, US) only, frequency 5",
+        "regionalSubdomainForAC2b": "not seen in QA-GEO citations (uk./fr.capterra.com to be confirmed)"
+      },
+      {
+        "domain": "pcmag.com",
+        "shownAs": "REVIEW_SITES",
+        "inCache": false,
+        "citedBy": "Licter (79e18910, US) only, frequency 1"
+      },
+      {
+        "domain": "g2.com",
+        "shownAs": "REVIEW_SITES",
+        "inCache": false,
+        "citedBy": "Lictorix Geo (f228f1fe) only, frequency 9"
+      }
+    ],
+    "note": "REVIEW_SITES domains cited by QA-GEO analyses that have no row in the cache = regex-list matches (regex results never stored): trustpilot.com (7 analyses, frequency 29), consumerreports.org (3), tomsguide.com (2), edmunds.com (1), g2.com (1), capterra.com (1), pcmag.com (1). The regex list itself is not exposed by the API: confirm with dev."
+  },
+  "sideFindings": [
+    "The cache holds non-canonical legacy rows such as \"https://fr.trustpilot.com/review/www.therm omix.fr\" (GEMINI, REVIEW_SITES, May 2026) — found with domain=trustpilot.",
+    "GEMINI rows omit overriddenBy / overriddenAt / reason from the JSON (not returned as null)."
+  ],
+  "summary": {
+    "total": 20,
+    "pass": 4,
+    "fail": 1,
+    "skip": 13,
+    "partial": 2,
+    "success_rate_executed": 71.4,
+    "success_rate_total": 25,
+    "verdict": "CONDITIONAL"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1220-001",
+      "title": "The QA account has the SUPER_ADMIN role and the AC7 accounts have their roles",
+      "story_id": "GEO-1220",
+      "acs": "Prerequisite of every write TC, AC7 accounts",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-001_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-001_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in on staging with the QA account",
+          "expected": "The GEO dashboard is displayed",
+          "observed": "Dashboard of QA-GEO displayed (session already open, en-GB)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user calls the current user endpoint",
+          "expected": "200 with the email assiya.benramdane@onclusive.com",
+          "observed": "200, email assiya.benramdane@onclusive.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the response shows the SUPER_ADMIN role",
+          "expected": "The role reads SUPER_ADMIN; if not, every write TC of GEO-1220 is BLOCKED until the role is granted",
+          "observed": "role SUPER_ADMIN (org QA-GEO, language en-GB)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the AC7 accounts show their roles",
+          "expected": "The three accounts show ADMIN, EDITOR and READER (used by TC-GEO-1220-012 and 013)",
+          "observed": "Not run: no ADMIN / EDITOR / READER account available on staging (OP-2, OP-3)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "QA account confirmed SUPER_ADMIN (GET /geo/api/v1/auth/me 200, org_name QA-GEO, language en-GB). AC7 accounts not available, step 4 pending. Auth = HttpOnly session cookie (no Bearer header in the app requests); the access cookie expires after a few minutes and is renewed silently on page load."
+    },
+    {
+      "tc_id": "TC-GEO-1220-002",
+      "title": "An override applies to the next run of any organisation without a Gemini call",
+      "story_id": "GEO-1220",
+      "acs": "AC1",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Pending test domain agreement (OP-1): needs a valid PUT on {D}; step 6 also needs dev evidence (logs/DB).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user reads the classification of the test domain",
+          "expected": "200; the row of {D} shows origin GEMINI and sourceType T0 (recorded); if T0 is REVIEW_SITES use SOCIAL_UGC as the new type",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user creates an override without history",
+          "expected": "200; historyRowsUpdated = 0; previousSourceType = T0",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the GET shows the domain as an override",
+          "expected": "The row of {D} shows sourceType REVIEW_SITES, origin OVERRIDE, overriddenBy = the QA account, overriddenAt = the time of the call, reason \"QA GEO-1220 AC1\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the next run of analysis A completes",
+          "expected": "The run is completed (date recorded)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the source of the new run is stored as REVIEW_SITES",
+          "expected": "{D} shows the type \"Review Sites\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no Gemini call is made for the domain during the run",
+          "expected": "The dev confirms that no Gemini classification call was made for {D} (override read from the cache)",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "expected": "200; historyRowsUpdated >= 1; previousSourceType = the override type",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user removes the override",
+          "expected": "204",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Pending test domain agreement (OP-1): needs a valid PUT on {D}; step 6 also needs dev evidence (logs/DB)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-003",
+      "title": "An override beats the hard-coded regex list",
+      "story_id": "GEO-1220",
+      "acs": "AC2",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Pending test domain agreement (OP-4): global change on trustpilot.com (or a regex-list replacement).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given trustpilot.com is classified by the regex list",
+          "expected": "trustpilot.com shows the type \"Review Sites\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the GET holds no override for trustpilot.com",
+          "expected": "200; no row with origin OVERRIDE (regex results are never stored)",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user overrides trustpilot.com to SOCIAL_UGC",
+          "expected": "200; historyRowsUpdated = 0",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the next run of analysis B completes",
+          "expected": "The run is completed (date recorded)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the next run stores SOCIAL_UGC for trustpilot.com",
+          "expected": "trustpilot.com shows the type \"Social / UGC\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user restores REVIEW_SITES on the history",
+          "expected": "200; historyRowsUpdated >= 1",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user removes the override",
+          "expected": "204; trustpilot.com goes back to the regex list (Review Sites) at the next run",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Pending test domain agreement (OP-4): global change on trustpilot.com (or a regex-list replacement)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-004",
+      "title": "The override of a root domain applies to its regional subdomain in a lite analysis",
+      "story_id": "GEO-1220",
+      "acs": "AC2b",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Pending test domain agreement (OP-4): global change on trustpilot.com; also needs the PQL lite session.",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the SUPER_ADMIN has overridden trustpilot.com to SOCIAL_UGC",
+          "expected": "200; historyRowsUpdated = 0",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the PQL user runs a lite analysis that cites fr.trustpilot.com",
+          "expected": "The lite analysis result is displayed and its sources list fr.trustpilot.com",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then fr.trustpilot.com shows the type of the override",
+          "expected": "fr.trustpilot.com shows the type \"Social / UGC\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the displayed domain stays the regional subdomain",
+          "expected": "The domain reads \"fr.trustpilot.com\", not \"trustpilot.com\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the SUPER_ADMIN removes the override",
+          "expected": "204",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Pending test domain agreement (OP-4): global change on trustpilot.com; also needs the PQL lite session."
+    },
+    {
+      "tc_id": "TC-GEO-1220-005",
+      "title": "applyToHistory true updates the history and the charts and exports show the new type",
+      "story_id": "GEO-1220",
+      "acs": "AC3",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Pending test domain agreement (OP-1): valid PUT with applyToHistory true; step 6 needs dev evidence (logs/DB).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Citation Sources of analysis A show the test domain with its original type",
+          "expected": "{D} shows the type label of T0 (recorded)",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user creates an override with history",
+          "expected": "200; historyRowsUpdated = N with N >= 1 (recorded); previousSourceType = T0",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the source charts show the new type at once",
+          "expected": "{D} shows the type \"Review Sites\" in AI Engines Citation Sources and is counted under Review Sites in the source type chart, without waiting for the cache to expire",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the XLSX export shows the new type",
+          "expected": "The row of {D} in the sources sheet shows \"Review Sites\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the PPTX export shows the new type",
+          "expected": "The sources slide shows {D} as \"Review Sites\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And every non-deleted row of the domain is updated in every organisation",
+          "expected": "The dev confirms N equals the number of non-deleted response_sources rows of {D} in all organisations and none keeps T0",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "expected": "200; historyRowsUpdated >= 1; previousSourceType = the override type",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user removes the override",
+          "expected": "204",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Pending test domain agreement (OP-1): valid PUT with applyToHistory true; step 6 needs dev evidence (logs/DB)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-006",
+      "title": "Replaying the same PUT with history changes nothing",
+      "story_id": "GEO-1220",
+      "acs": "AC3b",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Pending test domain agreement (OP-1): valid PUT replayed.",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an override with history is applied on the test domain",
+          "expected": "200; historyRowsUpdated = N with N >= 1; previousSourceType = T0",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user replays the same PUT identically",
+          "expected": "200",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then no history row is updated",
+          "expected": "historyRowsUpdated = 0",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the override is unchanged",
+          "expected": "sourceType REVIEW_SITES, origin OVERRIDE, reason \"QA GEO-1220 AC3b\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "expected": "200; historyRowsUpdated >= 1; previousSourceType = the override type",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user removes the override",
+          "expected": "204",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Pending test domain agreement (OP-1): valid PUT replayed."
+    },
+    {
+      "tc_id": "TC-GEO-1220-007",
+      "title": "applyToHistory false leaves the history untouched and only future runs use the new type",
+      "story_id": "GEO-1220",
+      "acs": "AC4",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Pending test domain agreement (OP-1): valid PUT with applyToHistory false and next run.",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Citation Sources of analysis A show the test domain with its original type",
+          "expected": "{D} shows the type label of T0 (recorded)",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user creates an override without history",
+          "expected": "200; historyRowsUpdated = 0; previousSourceType = T0",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then no past row is changed",
+          "expected": "{D} still shows the type label of T0",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the XLSX export of the past period keeps the original type",
+          "expected": "The row of {D} shows the type label of T0",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the next run of analysis A completes",
+          "expected": "The run is completed (date recorded)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then only the new run uses the new type",
+          "expected": "{D} shows \"Review Sites\" for the day of the run and the type label of T0 for the days before",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "expected": "200; historyRowsUpdated >= 1; previousSourceType = the override type",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user removes the override",
+          "expected": "204",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Pending test domain agreement (OP-1): valid PUT with applyToHistory false and next run."
+    },
+    {
+      "tc_id": "TC-GEO-1220-008",
+      "title": "Confirming the Gemini type still turns the row into an override",
+      "story_id": "GEO-1220",
+      "acs": "AC4b",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Pending test domain agreement (OP-1): valid PUT confirming the Gemini type; step 4 needs dev evidence (logs/DB).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a domain is classified JOURNALISM by Gemini",
+          "expected": "200; the row of {G} shows origin GEMINI, sourceType JOURNALISM and no overriddenBy, overriddenAt or reason",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user PUTs the same type",
+          "expected": "200; historyRowsUpdated = 0; previousSourceType = JOURNALISM",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the row becomes an override",
+          "expected": "origin OVERRIDE; sourceType JOURNALISM; overriddenBy = the QA account; overriddenAt set; reason \"QA GEO-1220 AC4b\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And Gemini can no longer change it",
+          "expected": "The dev confirms a Gemini reclassification of {G} leaves the row unchanged",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user removes the override",
+          "expected": "204",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Pending test domain agreement (OP-1): valid PUT confirming the Gemini type; step 4 needs dev evidence (logs/DB)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-009",
+      "title": "An override row survives Gemini reclassification and cache purges",
+      "story_id": "GEO-1220",
+      "acs": "AC5",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Needs dev evidence (logs/DB): Gemini reclassification and cache purge; also needs a valid PUT (OP-1).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the test domain has an override",
+          "expected": "200",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user records the override row",
+          "expected": "sourceType REVIEW_SITES, origin OVERRIDE, overriddenBy, overriddenAt, reason and updatedAt recorded",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the Gemini classifier produces another type for the domain",
+          "expected": "The dev shares the log of the Gemini answer for {D}",
+          "status": "SKIP"
+        },
+        {
+          "title": "And a purge respecting origin <> 'OVERRIDE' runs on the cache",
+          "expected": "The dev shares the purge log or SQL output",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the override row is unchanged",
+          "expected": "Every recorded field is identical, updatedAt included",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user removes the override",
+          "expected": "204",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Needs dev evidence (logs/DB): Gemini reclassification and cache purge; also needs a valid PUT (OP-1)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-010",
+      "title": "DELETE removes the override, past rows keep their type and Gemini classifies the domain again",
+      "story_id": "GEO-1220",
+      "acs": "AC6",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Pending test domain agreement (OP-1): needs an override to DELETE.",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the test domain has an override applied to the history",
+          "expected": "200; historyRowsUpdated = N with N >= 1; the dashboard of A shows {D} as \"Review Sites\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user removes the override",
+          "expected": "204 with an empty body",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the domain no longer appears in the GET",
+          "expected": "200; {D} is not in content",
+          "status": "SKIP"
+        },
+        {
+          "title": "And past rows keep the override type",
+          "expected": "{D} still shows \"Review Sites\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the next run of analysis A completes",
+          "expected": "The run is completed (date recorded)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then Gemini writes the row back",
+          "expected": "The row of {D} shows origin GEMINI with the type given by Gemini and no overriddenBy, overriddenAt or reason",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "expected": "200; historyRowsUpdated >= 1; previousSourceType = the override type",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user removes the override",
+          "expected": "204",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Pending test domain agreement (OP-1): needs an override to DELETE."
+    },
+    {
+      "tc_id": "TC-GEO-1220-011",
+      "title": "DELETE on a domain without override returns 404 NO_OVERRIDE",
+      "story_id": "GEO-1220",
+      "acs": "AC6b",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-011_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-011_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the test domain has a Gemini row and no override",
+          "expected": "The row of {D} shows origin GEMINI (sourceType and updatedAt recorded)",
+          "observed": "ebikegeek.co.uk: origin GEMINI, sourceType JOURNALISM, updatedAt 2026-10-27T22:21:13.311719Z; overridden=true count 0",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user calls DELETE on it",
+          "expected": "404 with {\"error\":\"NO_OVERRIDE\", ...}",
+          "observed": "404 {\"error\":\"NO_OVERRIDE\",\"message\":\"No override for domain: ebikegeek.co.uk\"}",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Gemini row is intact",
+          "expected": "origin, sourceType and updatedAt are identical to step 1",
+          "observed": "Row identical (GEMINI / JOURNALISM / same updatedAt)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user calls DELETE on a root domain absent from the cache",
+          "expected": "404 with {\"error\":\"NO_OVERRIDE\", ...}",
+          "observed": "404 {\"error\":\"NO_OVERRIDE\",\"message\":\"No override for domain: qa-geo-1220-absent-domain.com\"}; domain still absent (totalElements 0)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "{D} replaced by ebikegeek.co.uk (GEMINI row with no override, cited by QA-GEO analysis Electric bikes 42c3ab89) since no test domain is agreed yet."
+    },
+    {
+      "tc_id": "TC-GEO-1220-012",
+      "title": "An ADMIN can search but gets 403 ACCESS_DENIED on PUT and DELETE",
+      "story_id": "GEO-1220",
+      "acs": "AC7",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Needs an ADMIN account that is not SUPER_ADMIN on staging (OP-2).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in with an ADMIN account",
+          "expected": "The role reads ADMIN",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user calls the search",
+          "expected": "200 with {content, page, size, totalElements, totalPages}",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user calls PUT on the test domain",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user calls DELETE on the test domain",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the test domain is unchanged",
+          "expected": "The row of {D} still shows origin GEMINI and sourceType T0",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Needs an ADMIN account that is not SUPER_ADMIN on staging (OP-2)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-013",
+      "title": "EDITOR and READER get 403 ACCESS_DENIED on GET, PUT and DELETE",
+      "story_id": "GEO-1220",
+      "acs": "AC7",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Needs EDITOR and READER accounts / sessions on staging (OP-3).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in with an EDITOR account",
+          "expected": "The role reads EDITOR",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user calls the search",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user calls PUT on the test domain",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the DELETE is refused too",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        },
+        {
+          "title": "Given the user is logged in with a READER account",
+          "expected": "The role reads READER",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user calls the search",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user calls PUT on the test domain",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the DELETE is refused too",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Needs EDITOR and READER accounts / sessions on staging (OP-3)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-014",
+      "title": "An unknown sourceType returns 400 VALIDATION_ERROR with the 9 allowed types",
+      "story_id": "GEO-1220",
+      "acs": "AC8",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-014_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-014_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the test domain has no override",
+          "expected": "The row of {D} shows origin GEMINI and sourceType T0",
+          "observed": "cyclingelectric.com: origin GEMINI, T0 = JOURNALISM, updatedAt 2026-10-20T22:14:20.380063Z",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user sends a PUT with an unknown type",
+          "expected": "400 VALIDATION_ERROR",
+          "observed": "400 {\"error\":\"VALIDATION_ERROR\",\"message\":\"sourceType: invalid value, accepted values are [...]\"}",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the message lists the 9 allowed types",
+          "expected": "The message lists 9 types, among them REVIEW_SITES, SOCIAL_UGC and JOURNALISM (full list recorded)",
+          "observed": "9 types: JOURNALISM, CORPORATE, GOVERNMENT_NGO, AGGREGATOR, ACADEMIC, PRESS_RELEASE, SOCIAL_UGC, REVIEW_SITES, OTHER",
+          "status": "PASS"
+        },
+        {
+          "title": "And the test domain is unchanged",
+          "expected": "origin GEMINI, sourceType T0",
+          "observed": "origin GEMINI, sourceType JOURNALISM, updatedAt unchanged",
+          "status": "PASS"
+        }
+      ],
+      "notes": "{D} = candidate cyclingelectric.com (not yet agreed; only invalid payloads sent to it)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-015",
+      "title": "A domain that is not a canonical root domain returns 400 VALIDATION_ERROR",
+      "story_id": "GEO-1220",
+      "acs": "AC8b",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 7 \"And the user sends a PUT on a YouTube channel\" (PUT .../youtube.com%2F%40X): expected 400 VALIDATION_ERROR: YouTube channels are not supported; observed 400 text/html page \"HTTP Status 400 – Bad Request\" from the servlet container (the encoded slash is refused before the API), no JSON body and no VALIDATION_ERROR code. Extra probes: youtube.com%40X -> 400 VALIDATION_ERROR generic canonical-form message (no YouTube-specific text); youtube.com/@X unencoded -> 404 Not Found.",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-015_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-015_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-015_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-015_step3_then_youtube.png"
+      ],
+      "steps": [
+        {
+          "title": "Given no override exists for trustpilot",
+          "expected": "200; content is empty",
+          "observed": "200, content [] (and 0 override rows on the whole staging cache)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user sends a PUT on a regional subdomain",
+          "expected": "400 VALIDATION_ERROR; the message gives the expected form (canonical root domain)",
+          "observed": "400 VALIDATION_ERROR \"domain must be a root domain in canonical form, e.g. \\\"trustpilot.com\\\" (got \\\"fr.trustpilot.com\\\")\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sends a PUT with upper case",
+          "expected": "400 VALIDATION_ERROR with the expected form",
+          "observed": "400 VALIDATION_ERROR, same message (got \"Trustpilot.com\")",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sends a PUT with a trailing dot",
+          "expected": "400 VALIDATION_ERROR with the expected form",
+          "observed": "400 VALIDATION_ERROR, same message (got \"trustpilot.com.\")",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sends a PUT on a text that is not a domain",
+          "expected": "400 VALIDATION_ERROR with the expected form",
+          "observed": "400 VALIDATION_ERROR, same message (got \"not a domain\")",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sends a PUT on localhost",
+          "expected": "400 VALIDATION_ERROR with the expected form",
+          "observed": "400 VALIDATION_ERROR, same message (got \"localhost\")",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sends a PUT on a YouTube channel",
+          "expected": "400 VALIDATION_ERROR: YouTube channels are not supported",
+          "observed": "400 with an HTML page from the servlet container (\"HTTP Status 400 – Bad Request\"), no JSON, no VALIDATION_ERROR, no YouTube message",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the user sends a DELETE on a regional subdomain",
+          "expected": "400 VALIDATION_ERROR with the expected form",
+          "observed": "400 VALIDATION_ERROR, same message (got \"fr.trustpilot.com\")",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no override was created",
+          "expected": "200; content is empty",
+          "observed": "200, content [] (global overridden=true count stayed 0 after every call)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "The 6 other non-canonical inputs return 400 VALIDATION_ERROR with the expected form. Nothing was created. The AC says YouTube channels are \"not supported\": the call is rejected, but not with the documented JSON error. Recommendation: CSV alignment (expect any 400, or use youtube.com%40X with the generic message) unless the PO wants a dedicated message — decision needed."
+    },
+    {
+      "tc_id": "TC-GEO-1220-016",
+      "title": "A PUT without reason or without applyToHistory returns 400 VALIDATION_ERROR",
+      "story_id": "GEO-1220",
+      "acs": "AC8c",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-016_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-016_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the test domain has no override",
+          "expected": "The row of {D} shows origin GEMINI and sourceType T0",
+          "observed": "cyclingelectric.com: origin GEMINI, T0 = JOURNALISM",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user sends a PUT without reason",
+          "expected": "400 VALIDATION_ERROR",
+          "observed": "400 {\"error\":\"VALIDATION_ERROR\",\"message\":\"reason: reason is required\"}",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sends a PUT without applyToHistory",
+          "expected": "400 VALIDATION_ERROR",
+          "observed": "400 {\"error\":\"VALIDATION_ERROR\",\"message\":\"applyToHistory: applyToHistory is required\"}",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the test domain is unchanged",
+          "expected": "origin GEMINI, sourceType T0",
+          "observed": "origin GEMINI, sourceType JOURNALISM, updatedAt unchanged (checked between and after the two PUTs)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "{D} = candidate cyclingelectric.com (not yet agreed; only invalid payloads sent)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-017",
+      "title": "Every valid PUT and DELETE writes a SOURCE_CLASSIFICATION_OVERRIDE audit log line",
+      "story_id": "GEO-1220",
+      "acs": "AC8d",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Needs dev evidence (logs): SOURCE_CLASSIFICATION_OVERRIDE audit line; also needs a valid PUT / DELETE (OP-1).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user sends a valid PUT",
+          "expected": "200; historyRowsUpdated = 0",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user sends a valid DELETE",
+          "expected": "204",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then a log line holds the PUT",
+          "expected": "A [SOURCE_CLASSIFICATION_OVERRIDE] line holds the action, domain {D}, old type T0, new type REVIEW_SITES, reason \"QA GEO-1220 AC8d\", apply_to_history false, history_rows_updated 0, email assiya.benramdane@onclusive.com and the user sub",
+          "status": "SKIP"
+        },
+        {
+          "title": "And a log line holds the DELETE",
+          "expected": "A [SOURCE_CLASSIFICATION_OVERRIDE] line holds the DELETE action, domain {D}, old type REVIEW_SITES, the email and the user sub (new type and reason values for a DELETE: OP-7)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Needs dev evidence (logs): SOURCE_CLASSIFICATION_OVERRIDE audit line; also needs a valid PUT / DELETE (OP-1)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-018",
+      "title": "The search filters by domain, type and override and returns a paginated list",
+      "story_id": "GEO-1220",
+      "acs": "AC9",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-018_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-018_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-018_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the cache holds an override row and Gemini rows",
+          "expected": "200",
+          "observed": "Not run: valid PUT forbidden (pending test domain agreement OP-1). overridden=true returns 0 rows on staging",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user searches with every filter",
+          "expected": "200 with {content, page, size, totalElements, totalPages}; page = 0; size = 20; {D} is in content",
+          "observed": "Not run as written ({D} has no override). Equivalent search domain=decathlon&sourceType=CORPORATE&overridden=false&page=1&size=5 -> 200 {content,page:1,size:5,totalElements:25,totalPages:5}",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then only matching rows are returned",
+          "expected": "Every row has a domain containing {P}, sourceType REVIEW_SITES and origin OVERRIDE",
+          "observed": "Every row matched the filters (domain contains \"decathlon\", sourceType filter 2463 REVIEW_SITES rows all REVIEW_SITES) — but only on GEMINI rows, origin OVERRIDE not testable",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And each row gives the documented fields",
+          "expected": "Each row has domain, sourceType, origin, overriddenBy, overriddenAt, reason and updatedAt",
+          "observed": "Not verifiable: no override row. GEMINI rows return only domain, sourceType, origin, updatedAt (overriddenBy / overriddenAt / reason omitted from the JSON, not null)",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the search of the AC returns only matching rows",
+          "expected": "200; every row has a domain containing \"assurances\", sourceType REVIEW_SITES and origin OVERRIDE (content may be empty on staging)",
+          "observed": "200, content [] (page 0, size 20, totalElements 0, totalPages 0) — allowed by the CSV",
+          "status": "PASS"
+        },
+        {
+          "title": "And the search without filter lists Gemini and override rows only",
+          "expected": "200; origin is GEMINI or OVERRIDE on every row, never REGEX",
+          "observed": "200, 500 rows sampled over 5 pages: all origin GEMINI, never REGEX; totalElements 60065",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user removes the override",
+          "expected": "204",
+          "observed": "Not run (no override to remove)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Pagination shape {content,page,size,totalElements,totalPages} confirmed. Extra: overridden=yes -> 400 VALIDATION_ERROR \"accepted values are [true, false]\"; page=-1 or size=0 -> 400 \"page must be >= 0 and size >= 1\". Point to confirm with dev: Gemini rows omit the override fields instead of returning null (AC9 lists the fields for each row)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-019",
+      "title": "The search refuses a page size over 100 and an unknown sourceType",
+      "story_id": "GEO-1220",
+      "acs": "AC9",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-019_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-019_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user can call the search",
+          "expected": "200; size = 100",
+          "observed": "200; size = 100; 100 rows",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user asks for a page size over 100",
+          "expected": "400",
+          "observed": "400 {\"error\":\"VALIDATION_ERROR\",\"message\":\"size must be <= 100\"}",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user filters on an unknown type",
+          "expected": "400",
+          "observed": "400 {\"error\":\"VALIDATION_ERROR\",\"message\":\"sourceType: invalid value, accepted values are [9 types]\"}",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a valid search still works",
+          "expected": "200 with {content, page, size, totalElements, totalPages}",
+          "observed": "200 with {content, page, size, totalElements, totalPages}",
+          "status": "PASS"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "tc_id": "TC-GEO-1220-020",
+      "title": "In production opinion-assurances.fr shows as Review Sites and as an ops-script override",
+      "story_id": "GEO-1220",
+      "acs": "AC10",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Needs dev evidence (logs/DB) and a production check after the ops script. Staging GET for information: opinion-assurances.fr = GEMINI / JOURNALISM (updatedAt 2026-09-28T17:45:06Z), no OVERRIDE row on staging.",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-mcp/TC-GEO-1220-020_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1220-mcp/SKIP_write_tcs_overview.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the ops script was run in production before the deployment",
+          "expected": "The dev / ops confirm the run date and the script output",
+          "status": "SKIP"
+        },
+        {
+          "title": "When CNP looks at their reports",
+          "expected": "opinion-assurances.fr shows as \"Review Sites\" in the history, at most 1 h after the script",
+          "status": "SKIP"
+        },
+        {
+          "title": "And V2.10.6 is deployed in production",
+          "expected": "Release 1.3 is deployed",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the GET shows the row as an ops-script override",
+          "expected": "200; the row shows sourceType REVIEW_SITES, origin OVERRIDE, overriddenBy ops-script",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Needs dev evidence (logs/DB) and a production check after the ops script. Staging GET for information: opinion-assurances.fr = GEMINI / JOURNALISM (updatedAt 2026-09-28T17:45:06Z), no OVERRIDE row on staging."
+    }
+  ]
+}

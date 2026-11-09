@@ -1,0 +1,116 @@
+================================================================================
+Feature: Visibility Tab — Winner Column Consistency with LLM Detail Panel
+================================================================================
+Spec file : e2e-category-question-visibility.spec.js
+Validated : Staging and Production — Toyota dashboard
+--------------------------------------------------------------------------------
+
+  Background:
+    Given the user is authenticated
+    And the user navigates to a category page
+    When the user clicks the "Visibility" filter in the question-type filter bar
+    Then the detail panel opens automatically on the first question in the list
+
+
+  # ----------------------------------------------------------------------------
+  # Winner column display rules (Visibility tab)
+  # ----------------------------------------------------------------------------
+  #
+  #   Displayed Value     | Condition
+  #   --------------------|------------------------------------------------------
+  #   Brand Name (bold)   | All LLMs Favorable AND brand is ranked #1 on all LLMs
+  #   "Favorable"         | All LLMs Favorable, but brand is not always #1
+  #                       |   (ranked #1 on some, #2 or #3 on others)
+  #   Competitor Name     | Case A — All LLMs Favorable, but another brand is
+  #                       |          ranked #1 across all LLMs
+  #                       | Case B — All LLMs Unfavorable, same competitor is #1
+  #                       |          across all LLMs
+  #   "Unfavorable"       | All LLMs Unfavorable, but the #1 ranked brand differs
+  #                       |   across LLMs (no consensus on competitor)
+  #   "Unranked" badge    | All LLMs return Unranked (brand not in top positions)
+  #   "Split" badge       | Statuses are mixed (some Favorable, others Unfavorable,
+  #                       |   or Unranked is present)
+  # ----------------------------------------------------------------------------
+  #
+  #   Badge styles in Winner column:
+  #     Brand name          : span.font-medium.text-slate-900  (bold dark)
+  #     Competitor name     : span.text-slate-700              (lighter, no bold)
+  #     "Unranked" badge    : span[class*="border-red-200"]    (red border)
+  #     "Split" badge       : span[class*="border-orange-200"] (orange border)
+  # ----------------------------------------------------------------------------
+
+
+================================================================================
+Scenario: WN-01 — Winner = Brand Name: all LLM engines show Favorable
+================================================================================
+
+  Given the user is on the Visibility tab of the "Hybrid Cars" category
+    And at least one question row exists where the Winner column displays
+        the tracked brand name in bold dark text
+
+  When the user opens the detail panel for that row
+    And clicks each active LLM engine pill (ChatGPT, Gemini, Grok...)
+
+  Then every LLM engine with data displays the "Favorable" (green) badge
+    And the brand is ranked #1 in the ranking list for each engine
+
+  # Note: "Brand Name" as Winner = brand is #1 AND Favorable on ALL LLMs.
+
+
+================================================================================
+Scenario: WN-02 — Winner = Competitor Name: per-engine Favorable or Unfavorable
+================================================================================
+
+  Given the user is on the Visibility tab across available categories
+    And at least one question row exists where the Winner column displays
+        a competitor brand name (lighter grey text, different from the tracked brand)
+
+  When the user opens the detail panel for that row
+    And clicks each active LLM engine pill
+
+  Then every LLM engine with data displays either "Favorable" or "Unfavorable"
+    And no engine displays "Unranked" or "Split"
+    And the competitor name from the Winner column matches the #1 entry
+        in the ranking list of the detail panel
+
+  # Note: two valid sub-cases —
+  #   Case A: all LLMs are Favorable but the competitor is ranked #1 on every LLM
+  #           (tracked brand is ranked #2 or #3 = still Favorable)
+  #   Case B: all LLMs are Unfavorable, same competitor is consistently ranked #1
+
+
+================================================================================
+Scenario: WN-03 — Winner = "Unranked" badge: all LLM engines show Unranked
+================================================================================
+
+  Given the user is on the Visibility tab of the "Electric Cars" category
+    And at least one question row exists where the Winner column displays
+        the red "Unranked" badge (no brand consensus)
+
+  When the user opens the detail panel for that row
+    And clicks each active LLM engine pill
+
+  Then every LLM engine with data displays the "Unranked" (red) badge
+    And no engine displays "Favorable" or "Unfavorable"
+
+  # Note: Unranked = no LLM places the tracked brand in the top positions,
+  #       and there is no consensus on which competitor is #1.
+
+
+================================================================================
+Scenario: WN-04 — Winner = "Split" badge: per-engine mix of statuses
+================================================================================
+
+  Given the user is on the Visibility tab across available categories
+    And at least one question row exists where the Winner column displays
+        the orange "Split" badge
+
+  When the user opens the detail panel for that row
+    And clicks each active LLM engine pill
+
+  Then no individual LLM engine displays a "Split" badge
+    And each engine displays "Favorable", "Unfavorable", or "Unranked" only
+    And the mix of statuses across engines confirms the Split aggregate
+        (e.g. at least one engine differs from the others)
+
+================================================================================

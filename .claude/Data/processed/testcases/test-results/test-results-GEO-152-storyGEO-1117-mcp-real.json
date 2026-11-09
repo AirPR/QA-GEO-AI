@@ -1,0 +1,208 @@
+{
+  "spec": "GEO-152-storyGEO-1117",
+  "runDate": "2026-09-24",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/2d429380-42ad-4448-82ac-e9916d633eaa/actions",
+  "results": [
+    {
+      "tc_id": "TC-GEO-1117-001",
+      "title": "TC-GEO-1117-001 - All suspect articles verified no cap",
+      "story_id": "GEO-1117",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-001_step1_given.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-001_step2_when.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with a large number of suspect articles across multiple sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Actions Center is opened and the Target Sources list renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then ev-intelligence.com card shows 8 failing articles - all 8 verified, no cap applied",
+          "status": "PASS"
+        }
+      ],
+      "notes": "ev-intelligence.com panel shows 8 failing articles, all with verdict Describes Tesla negatively on this page. All 8 passages visible with brand highlighted via mark tag. No cap or truncation observed."
+    },
+    {
+      "tc_id": "TC-GEO-1117-002",
+      "title": "TC-GEO-1117-002 - Check determines brand family presence and depiction",
+      "story_id": "GEO-1117",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "SKIPPED - Precondition not available: all 12 sources show only FAILING ARTICLES tab. A source with both Failing and Positive articles tabs is required. Re-enable on a dashboard where at least one source has mixed positive/negative article verdicts.",
+      "screenshots": [
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-002_step1_given.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-002_step2_when.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with a source that has both a failing article (brand absent) and a positive article",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the source panel is opened",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then both tabs (Failing articles + Positive articles) are visible and switchable",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Checked all 12 sources. Every source shows only FAILING ARTICLES tab. Brand-absent text confirmed via aol.com (IMPROVE VISIBILITY: No mention of Tesla anywhere on this page)."
+    },
+    {
+      "tc_id": "TC-GEO-1117-003",
+      "title": "TC-GEO-1117-003 - Product named on page counts as brand family",
+      "story_id": "GEO-1117",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-003_step1_given.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-003_step2_when.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where a suspect article page names only a brand product (not the parent brand name)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the explanation panel is opened for that source",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article is not classified as brand-absent - it has a depiction verdict",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "PARTIAL - All 8 passages in ev-intelligence.com explicitly mention tesla by brand name. No product-only article found. Cannot verify product-name to brand-family inference from UI alone."
+    },
+    {
+      "tc_id": "TC-GEO-1117-004",
+      "title": "TC-GEO-1117-004 - False positives not counted as failing",
+      "story_id": "GEO-1117",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "SKIPPED - Precondition not available: no source has false-positive articles. All 12 sources show only FAILING ARTICLES tab. Re-enable on a dashboard with mixed classification sources.",
+      "screenshots": [
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-004_step1_given.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-004_step2_when.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where a source has both failing articles and false-positive articles",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the explanation panel is opened and the Failing articles tab is reviewed",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the false-positive articles are absent from the Failing articles tab count",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Dataset does not contain sources with false-positive articles. All sources show only failing articles."
+    },
+    {
+      "tc_id": "TC-GEO-1117-005",
+      "title": "TC-GEO-1117-005 - Failing article passage max 140 chars",
+      "story_id": "GEO-1117",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-005_step1_given.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-005_step2_when.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with at least one source having a failing article where the brand is named negatively",
+          "status": "PASS"
+        },
+        {
+          "title": "When the explanation panel is opened and the failing article with a negative mention is visible",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the extracted passage is shown verbatim with the brand name highlighted",
+          "status": "PASS"
+        },
+        {
+          "title": "And the passage does not exceed 140 characters including spaces",
+          "status": "PASS"
+        }
+      ],
+      "notes": "8 passages in ev-intelligence.com: 7 x 140 chars content (142 with typographic quotes), 1 x 88 chars. All at or below 140. Brand tesla highlighted via mark element bg-[#E0F2FE] in all 8 passages."
+    },
+    {
+      "tc_id": "TC-GEO-1117-006",
+      "title": "TC-GEO-1117-006 - Unfetchable article contributes nothing",
+      "story_id": "GEO-1117",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-006_step1_given.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-006_step2_when.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where at least one suspect article URL returned a fetch error",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the explanation panel is opened for the source whose article was unfetchable",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then the unfetchable article does not appear in the failing article count or in the panel",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "PARTIAL - No source panel shows an unfetchable or fetch error marker. Cannot verify unfetchable exclusion behavior from UI alone. Dataset does not expose this edge case."
+    },
+    {
+      "tc_id": "TC-GEO-1117-007",
+      "title": "TC-GEO-1117-007 - Source with zero failing articles absent from list",
+      "story_id": "GEO-1117",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-007_step1_given.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-007_step2_when.png",
+        "screenshots-GEO-152-storyGEO-1117/TC-GEO-1117-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where a suspect source had all its articles verify as false positives",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the Target Sources list renders on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the source with zero failing articles is not present in any tab of the Target Sources",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "PARTIAL - All 12 visible sources have at least 1 failing article (8, 2, 1x10). No source shows 0 failing articles in ANY tab. Cannot confirm a zero-failing source was evaluated and excluded - requires backend data."
+    }
+  ]
+}

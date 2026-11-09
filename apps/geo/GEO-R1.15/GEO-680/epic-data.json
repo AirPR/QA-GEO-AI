@@ -1,0 +1,229 @@
+{
+  "epic": {
+    "id": "GEO-680",
+    "key": "GEO-680",
+    "title": "Organization Quotas and User Management",
+    "status": "QA In Progress",
+    "assignee": "Abdenasser Aroukhsiss",
+    "reporter": "Quentin.Reant",
+    "created": "2026-06-17",
+    "updated": "2026-08-04",
+    "fixVersion": "1.2",
+    "fixVersionDate": "2026-09-24",
+    "labels": ["August26"],
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-680",
+    "version": "GEO-R1.2",
+    "functionalNeed": "Organization management is too rigid to scale. Organizations have no enforced usage quota, and only internal operators can add users, so every new team member has to go through the operations team even when the organization has room to grow. This EPIC adds an enforced per-organization user quota set in the back office, and lets editor users add users to their own organization as long as they stay within that quota, without waiting on the operations team.",
+    "scope": [
+      "Per-organization user quota set and managed in the back office",
+      "Editor users can add users to their own organization within quota",
+      "Reader users can view organization members in read-only",
+      "Super admin users excluded from quota count and hidden from front office",
+      "Rollout default quota of 100 for existing organizations",
+      "Invited-but-not-yet-active users count against the quota",
+      "Suspended users keep their seat; only soft-delete frees a seat"
+    ],
+    "outOfScope": [
+      "Internal operations monitoring and cost dashboards (covered by EPIC-028)",
+      "Multi-organization membership and organization selection at sign-in (covered by EPIC-030 / GEO-681)",
+      "Role definitions beyond what is needed for editors to add users and readers to be excluded",
+      "Resend invitation (out of scope V1 — backoffice-only)"
+    ],
+    "stillOpen": [
+      "Confirm whether the user quota counts invited-but-not-yet-active users against the limit (resolved: yes, they count)",
+      "Confirm whether editors can also resend invitations or remove users they added (resolved: resend = out of scope V1)"
+    ],
+    "stories": [
+      {
+        "id": "GEO-1051",
+        "key": "GEO-1051",
+        "title": "Per-organization user quota in the back office",
+        "storyId": "US1.1",
+        "type": "UserStory",
+        "status": "Ready for QA",
+        "jiraStoryId": "GEO-1051",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1051",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/feature/GEO-680-org-quotas-user-management/docs/implementation-artifacts/epics/epic-34/34-1-per-organization-user-quota-in-the-back-office.md",
+        "userStory": {
+          "as": "an internal operator",
+          "want": "to set a user quota on each organization",
+          "so": "that the number of users an organization can have is controlled centrally"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Set or change the quota",
+            "given": "an operator opens an organization in the back office",
+            "when": "they set or change its user quota",
+            "then": "the quota is saved and shown on the organization"
+          },
+          {
+            "id": "AC2",
+            "title": "Current count shown against the quota",
+            "given": "an organization with a set quota",
+            "when": "its user list is viewed",
+            "then": "the current user count is shown against the quota"
+          },
+          {
+            "id": "AC3",
+            "title": "Lowering below current count warns but does not remove",
+            "given": "an operator lowers a quota below the current user count",
+            "when": "they save",
+            "then": "the change is not blocked, they are warned, and existing users are not removed automatically"
+          },
+          {
+            "id": "AC4",
+            "title": "Over-quota organizations block all adds",
+            "given": "an organization whose user count is above its quota",
+            "when": "anyone tries to add a user to it",
+            "then": "adding users is blocked for as long as the organization remains above quota"
+          },
+          {
+            "id": "AC5",
+            "title": "Super admins are not counted",
+            "given": "an organization with super admin users",
+            "when": "the user count is compared against the quota",
+            "then": "super admin users are not counted toward the quota"
+          },
+          {
+            "id": "AC6",
+            "title": "Rollout default of 100",
+            "given": "the organizations existing at rollout",
+            "when": "the quota feature is released",
+            "then": "every organization receives a default quota of 100, and an internal operator then manually adjusts each organization's quota to its real entitlement"
+          }
+        ],
+        "technicalNotes": [
+          "Invited-but-not-yet-active users count against the quota",
+          "Suspended users keep counting; only soft-delete frees a seat"
+        ]
+      },
+      {
+        "id": "GEO-1052",
+        "key": "GEO-1052",
+        "title": "Editors add users within their organization quota",
+        "storyId": "US1.2",
+        "type": "UserStory",
+        "status": "Ready for QA",
+        "jiraStoryId": "GEO-1052",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1052",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/feature/GEO-680-org-quotas-user-management/docs/implementation-artifacts/epics/epic-34/34-2-editors-add-users-within-their-organization-quota.md",
+        "userStory": {
+          "as": "an editor user",
+          "want": "to add users to my own organization",
+          "so": "my team can be onboarded without waiting on the operations team, as long as we stay within our quota"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Add under quota",
+            "given": "an editor in an organization that is below its user quota",
+            "when": "they add a user",
+            "then": "the user is created in that organization and receives the standard welcome invitation"
+          },
+          {
+            "id": "AC2",
+            "title": "Blocked when quota full",
+            "given": "an editor in an organization that has reached or exceeded its user quota",
+            "when": "they try to add a user",
+            "then": "the action is blocked and a clear message explains the quota is full"
+          },
+          {
+            "id": "AC3",
+            "title": "Own organization only",
+            "given": "an editor",
+            "when": "they manage users",
+            "then": "they can only add users to the organization they are currently in and where they hold the editor role, never to another organization"
+          },
+          {
+            "id": "AC4",
+            "title": "Readers cannot add",
+            "given": "a reader user",
+            "when": "they view the product",
+            "then": "they cannot add users"
+          },
+          {
+            "id": "AC5",
+            "title": "Super admins hidden from front office",
+            "given": "a front office user (editor or reader)",
+            "when": "they view the user settings",
+            "then": "super admin users do not appear in the user list"
+          },
+          {
+            "id": "AC6",
+            "title": "Editor changes a user's role",
+            "given": "an editor viewing the user list",
+            "when": "they open a user's row actions and change the role (Reader ↔ Editor)",
+            "then": "the new role is saved and reflected in the list immediately"
+          },
+          {
+            "id": "AC7",
+            "title": "Editor suspends and reactivates a user",
+            "given": "an editor viewing an active user",
+            "when": "they suspend the user",
+            "then": "the user can no longer sign in, appears with status suspended, and still occupies a seat; and when reactivated, regains access with the same role as before"
+          },
+          {
+            "id": "AC8",
+            "title": "Editor soft-deletes a user",
+            "given": "an editor viewing a user of their organization",
+            "when": "they soft-delete the user",
+            "then": "the user loses access, no longer appears as active, and their seat is freed in the quota count"
+          }
+        ],
+        "technicalNotes": [
+          "Resend invitation: out of scope V1 (stays backoffice-only)",
+          "Guard rails: editor cannot act on themselves or on ADMIN/SUPER_ADMIN users; assignable roles limited to Reader/Editor",
+          "Duplicate email: editor may learn the account already exists in another organization",
+          "'All statuses' filter includes soft-deleted users; deleted rows expose no row actions",
+          "ACs 6-8 confirmed in scope by PM (comment 826032, 2026-08-03)"
+        ]
+      },
+      {
+        "id": "GEO-1053",
+        "key": "GEO-1053",
+        "title": "Readers view organization users in read-only",
+        "storyId": "US1.3",
+        "type": "UserStory",
+        "status": "Ready for QA",
+        "jiraStoryId": "GEO-1053",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1053",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/feature/GEO-680-org-quotas-user-management/docs/implementation-artifacts/epics/epic-34/34-3-readers-view-organization-users-in-read-only.md",
+        "userStory": {
+          "as": "a reader user",
+          "want": "to see the user settings of my organization",
+          "so": "I know who is part of my organization and who holds the editor role"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Reader sees the list with roles",
+            "given": "a reader user",
+            "when": "they open the user settings",
+            "then": "they see the list of users in their organization with each user's role (editor or reader)"
+          },
+          {
+            "id": "AC2",
+            "title": "No management actions",
+            "given": "a reader user viewing the user settings",
+            "when": "they look at the page",
+            "then": "no actions to create users, delete users, or change a user's role are available to them"
+          },
+          {
+            "id": "AC3",
+            "title": "Own organization only",
+            "given": "a reader user",
+            "when": "they view the user settings",
+            "then": "they only see users belonging to their own organization"
+          }
+        ],
+        "technicalNotes": [
+          "Blue info banner: 'You have view-only access. Contact an editor in your organisation to manage users.'",
+          "Seats bar kept with caption 'Managed by your organisation's editors'",
+          "No Provision button, no ACTIONS column; same search/filters/pagination as editor view",
+          "Design reference: frame 3.1, node 11832:1744"
+        ]
+      }
+    ]
+  }
+}

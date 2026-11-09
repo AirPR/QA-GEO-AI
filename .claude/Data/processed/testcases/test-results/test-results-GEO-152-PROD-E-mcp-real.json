@@ -1,0 +1,1435 @@
+{
+ "url": "https://geo.onclusive.com/geo/dashboard/bfbb34ce-e1a3-435e-aec0-1b7a66d98c3c",
+ "analysis": {
+  "brand": "Toyota",
+  "org": "Onclusive",
+  "categories": [
+   "Electric cars",
+   "SUVs"
+  ],
+  "period": "Last 7 days (2026-10-01..2026-10-07)",
+  "aiEngines": "ChatGPT, Gemini, Grok, Perplexity (4)",
+  "targetSources": 97
+ },
+ "bundle": "index-BoaWyZbU.js",
+ "r12Deployed": true,
+ "browser": "Private browser context created by runner E (only runner on the account)",
+ "accountLanguage": {
+  "start": "en-GB (/auth/me 16:03Z)",
+  "end": "en-GB (/auth/me 16:38:18Z, final check before closing the browser context)"
+ },
+ "languageEvents": [
+  {
+   "utc": "2026-10-07T16:03:00Z",
+   "event": "check",
+   "language": "en-GB",
+   "by": "runner E",
+   "note": "GET /geo/api/v1/auth/me at start"
+  },
+  {
+   "utc": "2026-10-07T16:20:14Z",
+   "event": "switch",
+   "from": "en-GB",
+   "to": "fr-FR",
+   "by": "runner E",
+   "note": "Settings > Preferences > Interface Language = French > Save changes; /auth/me fr-FR, toast \"Langue de l'interface mise à jour\""
+  },
+  {
+   "utc": "2026-10-07T16:24:51Z",
+   "event": "switch",
+   "from": "fr-FR",
+   "to": "es-ES",
+   "by": "runner E",
+   "note": "Interface Language = Espagnol > Enregistrer les modifications; /auth/me es-ES"
+  },
+  {
+   "utc": "2026-10-07T16:29:24Z",
+   "event": "switch",
+   "from": "es-ES",
+   "to": "en-US",
+   "by": "runner E",
+   "note": "Idioma de la interfaz = Inglés americano > Guardar cambios; /auth/me en-US"
+  },
+  {
+   "utc": "2026-10-07T16:33:02Z",
+   "event": "restore",
+   "from": "en-US",
+   "to": "en-GB",
+   "by": "runner E",
+   "note": "Interface Language = British English > Save changes; /auth/me en-GB"
+  },
+  {
+   "utc": "2026-10-07T16:33:47Z",
+   "event": "check",
+   "language": "en-GB",
+   "by": "runner E",
+   "note": "final GET /geo/api/v1/auth/me = en-GB; left menu \"Action Center\"; view filters AI Engines 4, Last 7 days, All Countries; org Onclusive"
+  },
+  {
+   "utc": "2026-10-07T16:38:18Z",
+   "event": "check",
+   "language": "en-GB",
+   "by": "runner E",
+   "note": "final GET /geo/api/v1/auth/me before closing the private browser context (org Onclusive)"
+  }
+ ],
+ "scope": "Part 1 (en-GB re-runs of TCs interrupted in group D): TC-GEO-1168-020, 1168-028, 1178-014, 1178-023, 1178-029. Part 2 (language-switch TCs, user-authorised exception): TC-GEO-1124-009, 1124-010, 1125-004, 1168-023..027, 1168-029, 1178-019..022, 1178-024..028.",
+ "runNotes": [
+  "Only runner on the account; private browser context created by runner E. No unexpected language change observed: every /auth/me read matched the last switch made by runner E.",
+  "Saved changes limited to the user-authorised interface language switches (fr-FR, es-ES, en-US, back to en-GB). View filters (AI Engines) changed locally and restored to 4 engines each time.",
+  "Exports downloaded into runs/07102026-1603/downloads-GEO-152-PROD-E/ (prefix enGB, frFR, esES, enUS, enGB2 = en-GB after restore). Prod deck = 32 slides/pages with Action Center · Target Sources last (staging had 41).",
+  "Part 2 language blocks: en-GB (strings + exports) -> fr-FR -> es-ES -> en-US -> en-GB (PPTX/PDF re-export). For TCs whose CSV order differs (e.g. 1124-010 en-GB first, 1125-004 ES first), evidence comes from the matching language block.",
+  "Side observations (not TC failures, coordinator to decide): fr-FR PDF/PPTX show source type \"Corporate\" untranslated (app fr-FR \"Entreprise\", es-ES export \"Corporativo\"); FR/ES XLSX title row keeps English country names and \"snapshot Oct 1, 2026 – Oct 7, 2026\"; sidebar entries \"Settings\", \"Help\", \"Log out\" stay English in fr-FR/es-ES; panel article icon aria-labels use engine ids (\"Citée par openai\")."
+ ],
+ "spec": "GEO-152-PROD-E",
+ "runDate": "2026-10-07",
+ "runMode": "mcp-playwright",
+ "env": "prod",
+ "summary": {
+  "total": 23,
+  "pass": 17,
+  "fail": 1,
+  "skip": 0,
+  "partial": 5,
+  "blocked": 0,
+  "successRate": 84.8,
+  "verdict": "GO"
+ },
+ "results": [
+  {
+   "tc_id": "TC-GEO-1168-020",
+   "title": "All clear state shows the new title and body copy",
+   "story_id": "GEO-1168",
+   "part": 1,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-020_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-020_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-020_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given an analysis where no source has a missing or negative article",
+     "data": "",
+     "expected": "The analysis is completed",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens Action Center > Target Sources",
+     "data": "",
+     "expected": "The all clear state is displayed instead of a list",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the all clear title is displayed",
+     "data": "",
+     "expected": "All clear",
+     "status": "PASS"
+    },
+    {
+     "title": "And the all clear body is displayed",
+     "data": "",
+     "expected": "Every article used by AI engines describes your brand positively.",
+     "status": "PASS"
+    },
+    {
+     "title": "And no source list is displayed",
+     "data": "",
+     "expected": "No card or table row is shown",
+     "status": "PASS"
+    }
+   ],
+   "notes": "All-clear scope found read-only on the main analysis: AI Engines = Grok only (ChatGPT, Gemini, Perplexity toggled off in the page filter, badge 'AI Engines 1'), Last 7 days, All Countries. UI shows 'All clear' and 'Every article used by AI engines describes your brand positively.' in a single bordered block; 0 cards, 0 table rows, no 'Show X more sources', the ALL / IMPROVE tabs and view switch are hidden. API GET /target-sources?llms=grok&tab=ALL: state ALL_CLEAR, totalSources 0, citedSourceCount 0, nothingCouldBeChecked false, verificationNeverRan false (snapshot 040c4f65...). Observation for the coordinator: on prod this all-clear state is reached because Grok cites 0 sources in the window, so the copy 'Every article used by AI engines describes your brand positively' is shown although no article was used at all (vacuous all-clear, no 'nothing checked' state). Filter restored to 4 engines afterwards (badge 'AI Engines 4')."
+  },
+  {
+   "tc_id": "TC-GEO-1168-028",
+   "title": "Unused translation keys are removed from the four locale files",
+   "story_id": "GEO-1168",
+   "part": 1,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-028_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-028_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-028_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the four locale files of the GEO-1168 build are open",
+     "data": "en-GB, en-US, fr-FR, es-ES",
+     "expected": "The four files are readable",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user searches the views.targetSources namespace for the removed keys",
+     "data": "citedInGapAnswers, colCited, colAction, colFailing, failingArticles, verifyingBody, panel.keyTakeaways, panel.citedCount, panel.positiveCount, panel.failingTab, panel.positiveTab, panel.failingPromptsTitle",
+     "expected": "The search runs on each of the 4 files",
+     "status": "PASS"
+    },
+    {
+     "title": "Then none of the removed keys is found in any locale file",
+     "data": "",
+     "expected": "0 occurrence of each of the 12 keys in each of the 4 files",
+     "status": "PASS"
+    },
+    {
+     "title": "And no raw translation key is displayed on the Target Sources page",
+     "data": "",
+     "expected": "No text such as \"views.targetSources.colCited\" is visible on cards, table, filters or panel",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Static review done on the compiled i18next resources of the public prod bundle index-BoaWyZbU.js (downloaded 16:07Z), not on the source locale files: 4 resource sets (two identical English sets = en-US/en-GB, es-ES, fr-FR), each views.targetSources with 46 keys and panel with 22 keys. The 12 removed keys (citedInGapAnswers, colCited, colAction, colFailing, failingArticles, verifyingBody, panel.keyTakeaways, panel.citedCount, panel.positiveCount, panel.failingTab, panel.positiveTab, panel.failingPromptsTitle): 0 occurrence in views.targetSources / views.targetSources.panel of any of the 4 locales. Outside the namespace, 'colAction' exists only as views.upsell.result.prompts.colAction and 'positiveCount' only as a code property of the concept distribution (not translation keys of Target Sources). UI scan (text + aria-label/title/placeholder/alt) on card view, category and type dropdowns open, list view, details panel of frandroid.com (both tabs), tabs IMPROVE VISIBILITY / IMPROVE PERCEPTION / ALL: 0 raw key matching views.* / panel.* / targetSources.* / layout.* / common.*."
+  },
+  {
+   "tc_id": "TC-GEO-1178-014",
+   "title": "Engine tabs only list the engines in the AI Engines filter of the page",
+   "story_id": "GEO-1178",
+   "part": 1,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-014_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-014_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-014_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Target Sources page with the default AI Engines filter (3 engines)",
+     "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+     "expected": "The user notes source B and its engine tabs",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the details panel of source B",
+     "data": "",
+     "expected": "The engine filter shows \"All\" and the ChatGPT, Gemini and Perplexity tabs with their counts",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user closes the panel and turns Gemini off in the AI Engines filter of the page",
+     "data": "AI Engines: ChatGPT, Perplexity",
+     "expected": "The filter badge reads \"AI Engines 2\" and the list is recalculated",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user opens the details panel of source B again",
+     "data": "",
+     "expected": "The panel opens with the footer \"Source k of M\" of the recalculated list",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the engine filter only lists the engines in the current scope",
+     "data": "",
+     "expected": "Only \"All\", the ChatGPT tab and the Perplexity tab are shown, with icon, name and count (2 engines); no Gemini tab is present",
+     "status": "PASS"
+    },
+    {
+     "title": "And the prompts list only contains prompts cited by the engines in scope",
+     "data": "",
+     "expected": "No row shows the Gemini icon",
+     "status": "PASS"
+    },
+    {
+     "title": "And the article counts follow the scope (observed)",
+     "data": "",
+     "expected": "The tab counts equal the card lines of source B in the 2-engine scope, lower than or equal to the 3-engine counts",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user turns Gemini back on in the AI Engines filter",
+     "data": "",
+     "expected": "The default AI Engines selection is restored",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Prod default AI Engines filter = 4 engines (ChatGPT, Gemini, Grok, Perplexity; Claude off), so turning Gemini off gives badge 'AI Engines 3' (staging text 'AI Engines 2' assumes a 3-engine default; rule applied: badge decremented by one, Gemini not in scope). B = frandroid.com (#1): card 'Not visible in 20 articles' / 'Negative perception in 9 articles'; panel engine filter All / ChatGPT (4) / Gemini (10) / Perplexity (28) (Grok cites no prompt of B). Gemini off: list recalculated ('Show 84 more sources', 96 sources), card B 'Not visible in 17 articles' / 'Negative perception in 9 articles'; panel reopened with footer 'Source 1 of 96'; engine filter shows only 'All', '[icon] ChatGPT (4)', '[icon] Perplexity (28)' (icon + name + count), no Gemini tab. All 28 prompts listed after 'Show 22 more prompts': engines on rows = Perplexity or ChatGPT+Perplexity, 0 row with the Gemini icon. Article tabs 'Lack of visibility (17)' / 'Negative perception (9)' = card lines in the 3-engine scope, <= 20 / 9 of the 4-engine scope; article rows cite only ChatGPT/Perplexity. Gemini turned back on: badge 'AI Engines 4', card B back to 20 / 9, 'Show 85 more sources'."
+  },
+  {
+   "tc_id": "TC-GEO-1178-023",
+   "title": "Page name reads \"Action Center\" in en-GB everywhere it is used",
+   "story_id": "GEO-1178",
+   "part": 1,
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": "Step 'Then the page title reads \"Action Center\"' not verifiable: the page heading is H1 'Target Sources'; views.actions.title ('Action Center') exists in the bundle but no component renders it (same as on staging).",
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-023_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-023_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-023_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is en-GB and the user is on the Toyota dashboard",
+     "data": "",
+     "expected": "The dashboard is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page name in the layout (left menu entry) reads \"Action Center\"",
+     "data": "key layout.actionsCenter",
+     "expected": "\"Action Center\" is shown (same as en-US), not \"Action Centre\" nor \"Actions Centre\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the page",
+     "data": "/actions",
+     "expected": "The Target Sources page is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page title reads \"Action Center\"",
+     "data": "key views.actions.title",
+     "expected": "\"Action Center\" is shown (same as en-US), not \"Action Centre\" nor \"Actions Centre\"",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "And no other place on the page shows \"Action Centre\" or \"Actions Centre\"",
+     "data": "",
+     "expected": "No breadcrumb, header or tab label shows \"Action Centre\" or \"Actions Centre\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Account language en-GB. Overview: left menu link 'Action Center' (href /actions). /actions (opened from the menu): left menu 'Action Center', H1 'Target Sources', document.title 'Toyota — GEO Analytics'. Scan of the whole body text + aria-label/title/alt on both pages: 0 'Action Centre', 0 'Actions Centre', 0 'Actions Center'. Bundle: en-GB/en-US layout.actionsCenter = views.actions.title = 'Action Center' (GEO-1188 accepted)."
+  },
+  {
+   "tc_id": "TC-GEO-1178-029",
+   "title": "New keys exist in the four locales and the old panel keys are no longer used",
+   "story_id": "GEO-1178",
+   "part": 1,
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": "ExportI18n section.actions cannot be reviewed statically: it is not in the front bundle (exports are rendered server-side); checked only through the downloaded exports.",
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-029_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-029_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-029_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the four locale files of the GEO-1178 build are open",
+     "data": "en-GB, en-US, fr-FR, es-ES",
+     "expected": "The files are readable",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the new keys exist in each locale with the strings of the ticket",
+     "data": "panel.lackOfVisibilityTab, panel.negativePerceptionTab, panel.lackOfVisibilityIntro, panel.negativePerceptionIntro, panel.allEngines",
+     "expected": "Each key is present in the 4 files with the EN/FR/ES string of the Translations table (en-US = en-GB)",
+     "status": "PASS"
+    },
+    {
+     "title": "And views.actions.title and layout.actionsCenter have the new English values",
+     "data": "GEO-1188",
+     "expected": "en-US \"Action Center\", en-GB \"Action Center\", fr-FR \"Centre d'actions\", es-ES \"Centro de acciones\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And section.actions in ExportI18n has the new English value",
+     "data": "",
+     "expected": "EN \"ACTION CENTER\" (one string for en-GB and en-US, as per ticket), FR \"ACTIONS\", ES \"ACCIONES\"",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "And the keys no longer used are not referenced by the panel",
+     "data": "panel.missingTab, panel.negativeTab, panel.noMention, panel.describesNegatively",
+     "expected": "No UI code references these keys (whether they must also be deleted from the locale files is an open point)",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Review on the compiled i18next resources of index-BoaWyZbU.js (prod). panel.lackOfVisibilityTab / negativePerceptionTab / lackOfVisibilityIntro / negativePerceptionIntro / allEngines present in the 4 locales: EN 'Lack of visibility ({{count}})', 'Negative perception ({{count}})', 'None of these articles mentions {{brand}} anywhere on the page.', 'Each of these articles mentions {{brand}} negatively.', 'All'; FR 'Manque de visibilité', 'Perception négative', 'Aucun de ces articles ne mentionne {{brand}} sur la page.', 'Chacun de ces articles mentionne {{brand}} de façon négative.', 'Tous'; ES 'Falta de visibilidad', 'Percepción negativa', 'Ninguno de estos artículos menciona a {{brand}} en la página.', 'Cada uno de estos artículos menciona a {{brand}} de forma negativa.', 'Todos'. Both English sets identical. views.actions.title and layout.actionsCenter: 'Action Center' x2, 'Centre d'actions', 'Centro de acciones'. Old keys missingTab / negativeTab / noMention / describesNegatively: 0 occurrence in the bundle. Indirect check of ExportI18n section.actions through the exports (Part 2): PPTX/PDF last header en-GB and en-US \"ACTION CENTER  ·  TARGET SOURCES\", fr-FR \"ACTIONS  ·  SOURCES À CIBLER\", es-ES \"ACCIONES  ·  FUENTES A PRIORIZAR\" = expected EN \"ACTION CENTER\", FR \"ACTIONS\", ES \"ACCIONES\"."
+  },
+  {
+   "tc_id": "TC-GEO-1124-009",
+   "title": "Excel Brief column is written in the export language",
+   "story_id": "GEO-1124",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1124-009_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1124-009_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1124-009_step3_then.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1124-009_extra_restored_enGB.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user switches the interface language to French and clicks \"Save changes\"",
+     "data": "Settings > Preferences > Interface Language = French",
+     "expected": "The interface is displayed in French",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user exports the Toyota analysis as a spreadsheet",
+     "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+     "expected": "A French .xlsx file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then every cell of the summary column of the target sources sheet is in French",
+     "data": "Sheet \"Sources à cibler\", column \"Résumé\"",
+     "expected": "Every cell reads like \"Cette source compte N articles problématiques ...\"; no cell starts with \"This source has\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches the interface language to Spanish, saves and exports the analysis as a spreadsheet again",
+     "data": "Interface Language = Spanish",
+     "expected": "A Spanish .xlsx file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then every cell of the summary column is in Spanish",
+     "data": "Sheet \"Fuentes a priorizar\", column \"Resumen\"",
+     "expected": "Every cell reads like \"Esta fuente tiene N artículos problemáticos ...\"; no cell starts with \"This source has\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the interface language back to British English and clicks \"Save changes\"",
+     "data": "Interface Language = British English",
+     "expected": "The interface is displayed in British English and the left menu shows \"Action Center\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "fr-FR (saved 16:20Z): XLSX frFR_Toyota_AI_Visibility_Report.xlsx, sheet \"Sources à cibler\", column I header \"Résumé\": 97 cells, all start with \"Cette source compte\" (e.g. \"Cette source compte 29 articles problématiques : 20 où la marque est totalement absente et 9 où la marque est décrite négativement, et 15 articles qui traitent la marque positivement.\"), 0 cell starting with \"This source has\". es-ES (16:24Z): esES_...xlsx, sheet \"Fuentes a priorizar\", column I \"Resumen\": 97 cells, all start with \"Esta fuente tiene\" (e.g. \"Esta fuente tiene 29 artículos problemáticos: 20 en los que la marca está totalmente ausente y 9 ...\"), 0 English. Restored British English 16:33Z: left menu \"Action Center\". Reference en-GB export: column \"Brief\", 97 cells \"This source has ...\"."
+  },
+  {
+   "tc_id": "TC-GEO-1124-010",
+   "title": "PDF Target Sources table has 4 separate columns ending with the failing articles header",
+   "story_id": "GEO-1124",
+   "part": 2,
+   "status": "FAIL",
+   "duration": 0,
+   "error": "Known bug GEO-1222. Last column header of the PDF Target Sources table (page 32/32): en-GB \"Articles\" (expected \"Failing articles\"), fr-FR \"Articles\" (expected \"Articles problématiques\"), es-ES \"Artículos\" (expected \"Artículos problemáticos\").",
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1124-010_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1124-010_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1124-010_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user exports the Toyota analysis as \"PDF\" in British English",
+     "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+     "expected": "A PDF file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the last page shows the ranked sources table with 4 columns",
+     "data": "Last page (41 of 41 on 2026-10-06)",
+     "expected": "The headers are \"#\", \"Source\", \"Type\", \"Failing articles\"; no \"Cited\" header",
+     "status": "FAIL"
+    },
+    {
+     "title": "When the user switches the interface language to French, saves and exports the analysis as \"PDF\"",
+     "data": "Interface Language = French",
+     "expected": "A French PDF file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the last page table headers are separate and in French",
+     "data": "Title \"Où l'effort RP paie d'abord\"",
+     "expected": "The last header reads \"Articles problématiques\", separate from \"Type\", with no \"Citée\" column and no concatenation",
+     "status": "FAIL"
+    },
+    {
+     "title": "When the user switches the interface language to Spanish, saves and exports the analysis as \"PDF\"",
+     "data": "Interface Language = Spanish",
+     "expected": "A Spanish PDF file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the last page table headers are separate and in Spanish",
+     "data": "Title \"Dónde rinde primero el esfuerzo de RR. PP.\"",
+     "expected": "The last header reads \"Artículos problemáticos\", with no \"Citada\" column and no concatenation",
+     "status": "FAIL"
+    },
+    {
+     "title": "And the user switches the interface language back to British English and clicks \"Save changes\"",
+     "data": "Interface Language = British English",
+     "expected": "The interface is displayed in British English",
+     "status": "PASS"
+    }
+   ],
+   "notes": "PDF exports en-GB (16:17Z), fr-FR, es-ES: 32 pages, last page = Action Center · Target Sources, rendered with pdf.js (no text layer). Table has 4 separate columns \"# | Source | Type | Articles\" (ES \"# | Fuente | Tipo | Artículos\"), no Cited/Citée/Citada column, no concatenated header. FR title \"Où l'effort RP paie d'abord\", ES title \"Dónde rinde primero el esfuerzo de RR. PP.\" as expected. Only the last header wording fails (red frame on each page). Same wording in the PPTX slide 32 XML. British English restored at 16:33Z."
+  },
+  {
+   "tc_id": "TC-GEO-1125-004",
+   "title": "Citation Sources table has three columns in fr-FR and es-ES",
+   "story_id": "GEO-1125",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1125-004_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1125-004_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1125-004_step3_then.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1125-004_extra_fr_citation.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user switches the app language to es-ES",
+     "data": "Locale: es-ES",
+     "expected": "The section heading reads \"Fuentes de citación de los motores de IA\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the Citation Sources section renders",
+     "data": "",
+     "expected": "The domain table is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the table shows exactly three column headers",
+     "data": "",
+     "expected": "Three headers are displayed (Spanish labels of Domain, Type and Frequency) and no header reads \"Favorabilidad\" or any other translation of Favorability",
+     "status": "PASS"
+    },
+    {
+     "title": "And the All domains modal shows exactly three column headers",
+     "data": "",
+     "expected": "The modal opened from the \"All domains\" button shows the same three headers and no Favorability header",
+     "status": "PASS"
+    },
+    {
+     "title": "And the All domains modal subtitle is translated in Spanish",
+     "data": "",
+     "expected": "The subtitle under the modal title is in Spanish, with no English \"Showing N of M domains\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches the app language to fr-FR",
+     "data": "Locale: fr-FR",
+     "expected": "The section heading is displayed in French",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the section table and the All domains modal show exactly three column headers",
+     "data": "",
+     "expected": "Three headers are displayed in both tables and no header reads \"Favorabilité\" or any other translation of Favorability",
+     "status": "PASS"
+    },
+    {
+     "title": "And the All domains modal subtitle is translated in French",
+     "data": "",
+     "expected": "The subtitle under the modal title is in French, with no English \"Showing N of M domains\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Locale: en-GB",
+     "expected": "The section heading reads \"AI Engines Citation Sources\" again",
+     "status": "PASS"
+    }
+   ],
+   "notes": "es-ES: Overview section heading \"Fuentes de citación de los motores de IA\"; table headers \"Dominio | Tipo | Frecuencia\" (3); button \"Todos los dominios 55\"; modal \"Fuentes - Todos los dominios\" with the same 3 headers, subtitle \"Mostrando 55 de 1293 dominios\" (Spanish), search \"Buscar dominios…\". fr-FR: heading \"Sources de citation des moteurs IA\"; headers \"Domaine | Type | Fréquence\"; modal \"Sources - Tous les domaines\", 3 headers, subtitle \"Affichage de 55 sur 1293 domaines\" (French). No Favorabilité/Favorabilidad/Favorability text in either language. English heading \"AI Engines Citation Sources\" with 3 headers read in en-US (16:30Z); en-GB restored at 16:33Z (same English string in both English resource sets of the bundle). Order adapted: FR block ran before ES (grouping by language)."
+  },
+  {
+   "tc_id": "TC-GEO-1168-023",
+   "title": "New and changed strings in en-GB and en-US",
+   "story_id": "GEO-1168",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-023_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-023_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-023_step3_then.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-023_extra_enGB_panel.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-023_extra_enUS_list.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-023_extra_enUS_panel.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is en-GB and the user is on the Target Sources page",
+     "data": "Language: en-GB",
+     "expected": "The Target Sources view is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page subtitle is displayed",
+     "data": "",
+     "expected": "Sources to target to improve how AI engines represent your brand, sorted by the number of articles where your brand is missing or negatively represented",
+     "status": "PASS"
+    },
+    {
+     "title": "And the card lines use singular and plural forms",
+     "data": "Source S (count 1); Source B",
+     "expected": "Card S: \"Not visible in 1 article\" or \"Negative perception in 1 article\"; card B: \"Not visible in a articles\" / \"Negative perception in b articles\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the filter defaults are displayed",
+     "data": "",
+     "expected": "\"All categories\" and \"All types\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches to list view",
+     "data": "",
+     "expected": "The Target Sources table is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Articles column header is displayed",
+     "data": "",
+     "expected": "Articles",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the details panel of source B",
+     "data": "",
+     "expected": "The details panel opens",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the prompts section title is displayed",
+     "data": "",
+     "expected": "Prompts associated with this source",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches the app language to en-US and reloads Target Sources",
+     "data": "Language: en-US",
+     "expected": "The Target Sources view is displayed in en-US",
+     "status": "PASS"
+    },
+    {
+     "title": "Then all the strings above are identical to en-GB",
+     "data": "",
+     "expected": "Same subtitle, card lines, filter defaults, Articles header and prompts section title as in en-GB",
+     "status": "PASS"
+    }
+   ],
+   "notes": "en-GB (16:13Z) and en-US (16:29Z) identical: subtitle \"Sources to target to improve how AI engines represent your brand, sorted by the number of articles where your brand is missing or negatively represented\"; card S = elpais.com (#4) \"Negative perception in 1 article\" (singular); card B = frandroid.com \"Not visible in 20 articles\" / \"Negative perception in 9 articles\"; filters \"All categories\" / \"All types\"; list header \"Articles\" (# | Source | Type | Articles); panel of B: \"Prompts associated with this source\"."
+  },
+  {
+   "tc_id": "TC-GEO-1168-024",
+   "title": "New and changed strings in fr-FR",
+   "story_id": "GEO-1168",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-024_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-024_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-024_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is fr-FR and the user is on the Target Sources page",
+     "data": "Language: fr-FR",
+     "expected": "The Target Sources view is displayed in French",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page subtitle is displayed",
+     "data": "",
+     "expected": "Sources à cibler pour améliorer la façon dont les moteurs IA représentent votre marque, triées selon le nombre d'articles où votre marque est absente ou représentée négativement",
+     "status": "PASS"
+    },
+    {
+     "title": "And the card lines use singular and plural forms",
+     "data": "Source S (count 1); Source B",
+     "expected": "Card S: \"Non visible dans 1 article\" or \"Perception négative dans 1 article\"; card B: \"Non visible dans a articles\" / \"Perception négative dans b articles\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the filter defaults are displayed",
+     "data": "",
+     "expected": "\"Toutes les catégories\" and \"Tous les types\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches to list view",
+     "data": "",
+     "expected": "The Target Sources table is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Articles column header is displayed",
+     "data": "",
+     "expected": "Articles",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the details panel of source B",
+     "data": "",
+     "expected": "The details panel opens",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the prompts section title is displayed",
+     "data": "",
+     "expected": "Prompts associés à cette source",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The Target Sources view is displayed in British English",
+     "status": "PASS"
+    }
+   ],
+   "notes": "fr-FR: subtitle exactly \"Sources à cibler pour améliorer la façon dont les moteurs IA représentent votre marque, triées selon le nombre d'articles où votre marque est absente ou représentée négativement\" (matches the expected string on prod; staging differed on 2026-10-01). Card S = elpais.com \"Perception négative dans 1 article\"; card B = frandroid.com \"Non visible dans 20 articles\" / \"Perception négative dans 9 articles\"; filters \"Toutes les catégories\" / \"Tous les types\"; list header \"Articles\"; panel \"Prompts associés à cette source\". en-GB restored 16:33Z."
+  },
+  {
+   "tc_id": "TC-GEO-1168-025",
+   "title": "New and changed strings in es-ES",
+   "story_id": "GEO-1168",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-025_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-025_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-025_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is es-ES and the user is on the Target Sources page",
+     "data": "Language: es-ES",
+     "expected": "The Target Sources view is displayed in Spanish",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page subtitle is displayed",
+     "data": "",
+     "expected": "Fuentes en las que actuar para mejorar cómo los motores de IA representan su marca, ordenadas según el número de artículos en los que su marca está ausente o aparece de forma negativa",
+     "status": "PASS"
+    },
+    {
+     "title": "And the card lines use singular and plural forms",
+     "data": "Source S (count 1); Source B",
+     "expected": "Card S: \"No visible en 1 artículo\" or \"Percepción negativa en 1 artículo\"; card B: \"No visible en a artículos\" / \"Percepción negativa en b artículos\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the filter defaults are displayed",
+     "data": "",
+     "expected": "\"Todas las categorías\" and \"Todos los tipos\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches to list view",
+     "data": "",
+     "expected": "The Target Sources table is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Articles column header is displayed",
+     "data": "",
+     "expected": "Artículos",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the details panel of source B",
+     "data": "",
+     "expected": "The details panel opens",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the prompts section title is displayed",
+     "data": "",
+     "expected": "Prompts asociados a esta fuente",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The Target Sources view is displayed in British English",
+     "status": "PASS"
+    }
+   ],
+   "notes": "es-ES: subtitle exactly \"Fuentes en las que actuar para mejorar cómo los motores de IA representan su marca, ordenadas según el número de artículos en los que su marca está ausente o aparece de forma negativa\" (matches; staging differed on 2026-10-01). Card S = elpais.com \"Percepción negativa en 1 artículo\"; card B \"No visible en 20 artículos\" / \"Percepción negativa en 9 artículos\"; filters \"Todas las categorías\" / \"Todos los tipos\"; list header \"Artículos\"; panel \"Prompts asociados a esta fuente\". en-GB restored 16:33Z."
+  },
+  {
+   "tc_id": "TC-GEO-1168-026",
+   "title": "All clear state strings in en-US, fr-FR and es-ES",
+   "story_id": "GEO-1168",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-026_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-026_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-026_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is en-US and the user opens Target Sources of the all clear analysis",
+     "data": "Language: en-US",
+     "expected": "The all clear state is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the all clear title and body are displayed in en-US",
+     "data": "",
+     "expected": "\"All clear\" / \"Every article used by AI engines describes your brand positively.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches the app language to fr-FR",
+     "data": "Language: fr-FR",
+     "expected": "The all clear state is displayed in French",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the all clear title and body are displayed in fr-FR",
+     "data": "",
+     "expected": "\"Tout est en ordre\" / \"Tous les articles utilisés par les moteurs IA décrivent votre marque de façon positive.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches the app language to es-ES",
+     "data": "Language: es-ES",
+     "expected": "The all clear state is displayed in Spanish",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the all clear title and body are displayed in es-ES",
+     "data": "",
+     "expected": "\"Todo en orden\" / \"Todos los artículos utilizados por los motores de IA describen su marca de forma positiva.\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "All-clear scope = main Toyota analysis with AI Engines = Grok only (prod API: ALL_CLEAR, 0 cited sources - see TC-GEO-1168-020 note), filter restored to 4 engines after each read. en-US: \"All clear\" / \"Every article used by AI engines describes your brand positively.\"; fr-FR: \"Tout est en ordre\" / \"Tous les articles utilisés par les moteurs IA décrivent votre marque de façon positive.\" (matches the expected string; staging differed on 2026-10-01); es-ES: \"Todo en orden\" / \"Todos los artículos utilizados por los motores de IA describen su marca de forma positiva.\". 0 card / 0 row in each language."
+  },
+  {
+   "tc_id": "TC-GEO-1168-027",
+   "title": "Spanish strings address the user with usted",
+   "story_id": "GEO-1168",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-027_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-027_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-027_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is es-ES and the user is on the Target Sources page",
+     "data": "Language: es-ES",
+     "expected": "The Target Sources view is displayed in Spanish",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page subtitle uses the usted form",
+     "data": "",
+     "expected": "The subtitle contains \"su marca\" twice and never \"tu marca\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens Target Sources of the all clear analysis",
+     "data": "",
+     "expected": "The all clear state is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the all clear body uses the usted form",
+     "data": "",
+     "expected": "Todos los artículos utilizados por los motores de IA describen su marca de forma positiva.",
+     "status": "PASS"
+    },
+    {
+     "title": "And no new or changed string uses the tú form",
+     "data": "",
+     "expected": "No \"tu marca\", \"tus\" or tú-form verb appears in the subtitle, card lines, filters, Articles header, prompts section title or all clear state",
+     "status": "PASS"
+    }
+   ],
+   "notes": "es-ES: subtitle contains \"su marca\" twice and no \"tu marca\"; all-clear body \"Todos los artículos utilizados por los motores de IA describen su marca de forma positiva.\"; scan of the Target Sources page text (subtitle, cards, filters, tabs), list header, details panel (both tabs, prompts title, buttons) and all-clear state: 0 \"tu marca\", 0 \"tus\", 0 \"tú\"."
+  },
+  {
+   "tc_id": "TC-GEO-1168-029",
+   "title": "Switching the app language updates card lines, chips, tabs, filters and export",
+   "story_id": "GEO-1168",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-029_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-029_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-029_step3_then.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-029_extra_fr_list.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1168-029_extra_fr_panel.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Target Sources page in en-GB in card view",
+     "data": "Language: en-GB",
+     "expected": "Card B shows \"Not visible in a articles\" and \"Negative perception in b articles\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches the app language to fr-FR",
+     "data": "Language: fr-FR",
+     "expected": "The page is re-rendered in French",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the card lines follow the new language",
+     "data": "",
+     "expected": "Card B shows \"Non visible dans a articles\" and \"Perception négative dans b articles\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the filters follow the new language",
+     "data": "",
+     "expected": "The filters read \"Toutes les catégories\" and \"Tous les types\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the table chips follow the new language",
+     "data": "",
+     "expected": "In list view, the chips of source B show a and b with no English text (tooltip or label, if any, in French)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the panel tabs follow the new language",
+     "data": "",
+     "expected": "In the details panel of source B the tabs read \"Manque de visibilité (a)\" and \"Perception négative (b)\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user exports the analysis as \"Presentation .pptx\"",
+     "data": "",
+     "expected": "The .pptx file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the export follows the new language",
+     "data": "",
+     "expected": "The last slide reads \"ACTIONS · SOURCES À CIBLER\" and card B reads \"Non visible dans a articles · Perception négative dans b articles\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The page is displayed in British English",
+     "status": "PASS"
+    }
+   ],
+   "notes": "en-GB card B = frandroid.com \"Not visible in 20 articles\" / \"Negative perception in 9 articles\". After saving fr-FR and reloading: card \"Non visible dans 20 articles\" / \"Perception négative dans 9 articles\"; filters \"Toutes les catégories\" / \"Tous les types\"; list chips of B show 20 / 9 with aria-labels \"Non visible dans 20 articles\" / \"Perception négative dans 9 articles\" (no visible tooltip, no English); panel tabs \"Manque de visibilité (20)\" / \"Perception négative (9)\". FR PPTX (32 slides): last slide header \"ACTIONS  ·  SOURCES À CIBLER\", card B \"Non visible dans 20 articles · Perception négative dans 9 articles\". en-GB restored 16:33Z."
+  },
+  {
+   "tc_id": "TC-GEO-1178-019",
+   "title": "New panel strings in en-US are the same as en-GB",
+   "story_id": "GEO-1178",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-019_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-019_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-019_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is en-US and the details panel of source B is open",
+     "data": "Source B",
+     "expected": "The panel is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the article tabs read in the language",
+     "data": "",
+     "expected": "\"Lack of visibility (a)\" and \"Negative perception (b)\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the explanation line of the missing tab reads in the language",
+     "data": "",
+     "expected": "\"None of these articles mentions Toyota anywhere on the page.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user selects the negative perception tab",
+     "data": "",
+     "expected": "\"Each of these articles mentions Toyota negatively.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the default engine tab reads \"All\"",
+     "data": "",
+     "expected": "\"All\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the show more button uses the plural form",
+     "data": "X remaining prompts (X > 1)",
+     "expected": "\"Show X more prompts\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user selects an engine tab with exactly 7 prompts (if available)",
+     "data": "1 remaining",
+     "expected": "\"Show 1 more prompt\" (singular)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The interface is displayed in British English and the left menu shows \"Action Center\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "en-US, panel of B = frandroid.com: tabs \"Lack of visibility (20)\" / \"Negative perception (9)\"; missing intro \"None of these articles mentions Toyota anywhere on the page.\"; negative intro \"Each of these articles mentions Toyota negatively.\"; default engine tab \"All\"; \"Show 25 more prompts\"; G7 = Gemini tab of autohero.com (#9, 7 prompts): \"Show 1 more prompt\". Identical to en-GB (collected 16:13Z). en-GB restored 16:33Z, left menu \"Action Center\"."
+  },
+  {
+   "tc_id": "TC-GEO-1178-020",
+   "title": "New panel strings in fr-FR",
+   "story_id": "GEO-1178",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-020_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-020_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-020_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is fr-FR and the details panel of source B is open",
+     "data": "Source B",
+     "expected": "The panel is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the article tabs read in the language",
+     "data": "",
+     "expected": "\"Manque de visibilité (a)\" and \"Perception négative (b)\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the explanation line of the missing tab reads in the language",
+     "data": "",
+     "expected": "\"Aucun de ces articles ne mentionne Toyota sur la page.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user selects the negative perception tab",
+     "data": "",
+     "expected": "\"Chacun de ces articles mentionne Toyota de façon négative.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the default engine tab reads \"Tous\"",
+     "data": "",
+     "expected": "\"Tous\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the show more button uses the plural form",
+     "data": "X remaining prompts (X > 1)",
+     "expected": "\"Afficher X prompts de plus\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user selects an engine tab with exactly 7 prompts (if available)",
+     "data": "1 remaining",
+     "expected": "\"Afficher 1 prompt de plus\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the engine names are not translated",
+     "data": "",
+     "expected": "The engine names (ChatGPT, Gemini, Perplexity) are shown unchanged in the tooltips",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The interface is displayed in British English and the left menu shows \"Action Center\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "fr-FR, panel of B: \"Manque de visibilité (20)\" / \"Perception négative (9)\"; \"Aucun de ces articles ne mentionne Toyota sur la page.\"; \"Chacun de ces articles mentionne Toyota de façon négative.\"; default tab \"Tous\"; \"Afficher 25 prompts de plus\"; G7 autohero.com Gemini (7): \"Afficher 1 prompt de plus\". Engine tabs carry native title/aria \"ChatGPT (4)\", \"Gemini (10)\", \"Perplexity (28)\" (names untranslated; no custom tooltip element on hover). en-GB restored 16:33Z."
+  },
+  {
+   "tc_id": "TC-GEO-1178-021",
+   "title": "New panel strings in es-ES",
+   "story_id": "GEO-1178",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-021_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-021_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-021_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is es-ES and the details panel of source B is open",
+     "data": "Source B",
+     "expected": "The panel is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the article tabs read in the language",
+     "data": "",
+     "expected": "\"Falta de visibilidad (a)\" and \"Percepción negativa (b)\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the explanation line of the missing tab reads in the language",
+     "data": "",
+     "expected": "\"Ninguno de estos artículos menciona a Toyota en la página.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user selects the negative perception tab",
+     "data": "",
+     "expected": "\"Cada uno de estos artículos menciona a Toyota de forma negativa.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the default engine tab reads \"Todos\"",
+     "data": "",
+     "expected": "\"Todos\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the show more button uses the plural form",
+     "data": "X remaining prompts (X > 1)",
+     "expected": "\"Mostrar X prompts más\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user selects an engine tab with exactly 7 prompts (if available)",
+     "data": "1 remaining",
+     "expected": "\"Mostrar 1 prompt más\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the engine names are not translated",
+     "data": "",
+     "expected": "The engine names (ChatGPT, Gemini, Perplexity) are shown unchanged in the tooltips",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The interface is displayed in British English and the left menu shows \"Action Center\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "es-ES, panel of B: \"Falta de visibilidad (20)\" / \"Percepción negativa (9)\"; \"Ninguno de estos artículos menciona a Toyota en la página.\"; \"Cada uno de estos artículos menciona a Toyota de forma negativa.\"; default tab \"Todos\"; \"Mostrar 25 prompts más\"; G7 autohero.com Gemini (7): \"Mostrar 1 prompt más\". Engine names unchanged in title/aria (\"ChatGPT (4)\", \"Gemini (10)\", \"Perplexity (28)\"). en-GB restored 16:33Z."
+  },
+  {
+   "tc_id": "TC-GEO-1178-022",
+   "title": "Page name reads \"Action Center\" in en-US everywhere it is used",
+   "story_id": "GEO-1178",
+   "part": 2,
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": "Step \"Then the page title reads Action Center\" not verifiable: /actions shows H1 \"Target Sources\"; views.actions.title (\"Action Center\") is in the bundle but rendered by no component (same as staging).",
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-022_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-022_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-022_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is en-US and the user is on the Toyota dashboard",
+     "data": "",
+     "expected": "The dashboard is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page name in the layout (left menu entry) reads \"Action Center\"",
+     "data": "key layout.actionsCenter",
+     "expected": "\"Action Center\" is shown, not \"Actions Center\"",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the page",
+     "data": "/actions",
+     "expected": "The Target Sources page is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page title reads \"Action Center\"",
+     "data": "key views.actions.title",
+     "expected": "\"Action Center\" is shown, not \"Actions Center\"",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "And no other place on the page shows \"Actions Center\"",
+     "data": "",
+     "expected": "No breadcrumb, header or tab label shows \"Actions Center\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The interface is displayed in British English and the left menu shows \"Action Center\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "en-US: Overview left menu \"Action Center\"; /actions via the menu: left menu \"Action Center\", H1 \"Target Sources\", breadcrumb \"GEO Analytics\", document.title \"Toyota — GEO Analytics\"; text + aria-label/title/alt scan: 0 \"Actions Center\", 0 \"Action Centre\". en-GB restored 16:33Z, menu \"Action Center\"."
+  },
+  {
+   "tc_id": "TC-GEO-1178-024",
+   "title": "French and Spanish page names are unchanged",
+   "story_id": "GEO-1178",
+   "part": 2,
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": "\"Shown in both places\" only verifiable for the left menu: the page title key views.actions.title is not rendered (H1 \"Sources à cibler\" / \"Fuentes a priorizar\").",
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-024_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-024_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-024_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is fr-FR and the user is on the Toyota dashboard",
+     "data": "",
+     "expected": "The dashboard is displayed in French",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page name in the layout and the page title read \"Centre d'actions\"",
+     "data": "",
+     "expected": "\"Centre d'actions\" is shown in both places",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "When the user switches the app language to es-ES",
+     "data": "",
+     "expected": "The dashboard is displayed in Spanish",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the page name in the layout and the page title read \"Centro de acciones\"",
+     "data": "",
+     "expected": "\"Centro de acciones\" is shown in both places",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The interface is displayed in British English and the left menu shows \"Action Center\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "fr-FR: left menu \"Centre d'actions\" on Overview and /actions. es-ES: \"Centro de acciones\" on Overview and /actions. Bundle values views.actions.title = layout.actionsCenter = \"Centre d'actions\" / \"Centro de acciones\". en-GB restored 16:33Z, left menu \"Action Center\"."
+  },
+  {
+   "tc_id": "TC-GEO-1178-025",
+   "title": "English PPT export slide header reads \"ACTION CENTER · TARGET SOURCES\" in en-US and en-GB",
+   "story_id": "GEO-1178",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-025_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-025_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-025_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is en-US and the user is on the Target Sources page",
+     "data": "",
+     "expected": "The page is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user exports the analysis in PPT format",
+     "data": "Export format: PPT",
+     "expected": "The PPT file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Target Sources slide header reads \"ACTION CENTER · TARGET SOURCES\"",
+     "data": "",
+     "expected": "\"ACTION CENTER · TARGET SOURCES\" is shown and \"ACTIONS · TARGET SOURCES\" is not",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches the app language to en-GB and exports in PPT again",
+     "data": "Export format: PPT",
+     "expected": "The PPT file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Target Sources slide header reads \"ACTION CENTER · TARGET SOURCES\"",
+     "data": "One English string for en-GB and en-US (ticket)",
+     "expected": "Same English string as in en-US: \"ACTION CENTER · TARGET SOURCES\" (not \"ACTION CENTRE\", not \"ACTIONS\")",
+     "status": "PASS"
+    }
+   ],
+   "notes": "en-US PPTX (16:31Z, 32 slides): slide 32 header text run \"ACTION CENTER  ·  TARGET SOURCES\" (template puts two spaces around the dot on every header, compared whitespace-normalised); en-GB PPTX after restore (enGB2, 16:33Z): same string. 0 \"ACTIONS · TARGET SOURCES\", 0 \"ACTION CENTRE\", 0 \"Actions Center/Centre\" in all XML parts of both files."
+  },
+  {
+   "tc_id": "TC-GEO-1178-026",
+   "title": "English PDF export slide header reads \"ACTION CENTER · TARGET SOURCES\" in en-US and en-GB",
+   "story_id": "GEO-1178",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-026_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-026_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-026_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is en-US and the user is on the Target Sources page",
+     "data": "",
+     "expected": "The page is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user exports the analysis in PDF format",
+     "data": "Export format: PDF",
+     "expected": "The PDF file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Target Sources page header reads \"ACTION CENTER · TARGET SOURCES\"",
+     "data": "",
+     "expected": "\"ACTION CENTER · TARGET SOURCES\" is shown and \"ACTIONS · TARGET SOURCES\" is not",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches the app language to en-GB and exports in PDF again",
+     "data": "Export format: PDF",
+     "expected": "The PDF file is downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Target Sources page header reads \"ACTION CENTER · TARGET SOURCES\"",
+     "data": "One English string for en-GB and en-US (ticket)",
+     "expected": "Same English string as in en-US: \"ACTION CENTER · TARGET SOURCES\" (not \"ACTION CENTRE\", not \"ACTIONS\")",
+     "status": "PASS"
+    }
+   ],
+   "notes": "en-US PDF (32 pages, no text layer) page 32 rendered with pdf.js: header \"ACTION CENTER · TARGET SOURCES\"; en-GB PDF after restore (enGB2): same header; not \"ACTIONS\", not \"ACTION CENTRE\"."
+  },
+  {
+   "tc_id": "TC-GEO-1178-027",
+   "title": "No export shows \"Actions Center\" or \"Actions Centre\"",
+   "story_id": "GEO-1178",
+   "part": 2,
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": "PDF has no text layer (pdf-parse 0 characters), so a full-text search is impossible; only the page headers of all 32 pages were rendered and read (0 match).",
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-027_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-027_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-027_step3_then.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-027_extra_enUS_pdf_headers.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is en-GB and the user is on the Target Sources page",
+     "data": "",
+     "expected": "The page is displayed",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user exports the analysis in PPT, PDF and Excel formats",
+     "data": "Formats: PPT, PDF, Excel",
+     "expected": "The 3 files are downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then a text search in each file finds neither \"Actions Center\" nor \"Actions Centre\"",
+     "data": "Search terms: \"Actions Center\", \"Actions Centre\" (case-insensitive)",
+     "expected": "0 matches in the PPT, PDF and Excel files",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "When the user switches the app language to en-US and exports again in the 3 formats",
+     "data": "",
+     "expected": "The 3 files are downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then a text search in each file finds neither \"Actions Center\" nor \"Actions Centre\"",
+     "data": "",
+     "expected": "0 matches in the PPT, PDF and Excel files",
+     "status": "PARTIAL"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The interface is displayed in British English and the left menu shows \"Action Center\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "en-GB (16:17Z) and en-US (16:31Z) exports. PPTX: 0 match of \"Actions Center\"/\"Actions Centre\"/\"Action Centre\" in all XML parts. XLSX: 0 match in 54,693 cells, sheet names and raw XML. PDF: header strip of the 32 pages of each file rendered - headers IDENTITY / PERFORMANCE / SOURCES · OVERVIEW, ELECTRIC CARS / SUVS · CATEGORY, ACTION CENTER · TARGET SOURCES; none shows \"Actions Center/Centre\". en-GB restored 16:33Z."
+  },
+  {
+   "tc_id": "TC-GEO-1178-028",
+   "title": "French and Spanish PPT/PDF headers keep \"ACTIONS\" and \"ACCIONES\"",
+   "story_id": "GEO-1178",
+   "part": 2,
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-028_step1_given.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-028_step2_when.png",
+    "screenshots-GEO-152-PROD-E/TC-GEO-1178-028_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the app language is fr-FR and the user is on the Target Sources page",
+     "data": "",
+     "expected": "The page is displayed in French",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user exports the analysis in PPT and PDF formats",
+     "data": "",
+     "expected": "Both files are downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Target Sources slide header starts with \"ACTIONS\"",
+     "data": "section.actions FR",
+     "expected": "The header reads \"ACTIONS · SOURCES À CIBLER\" (unchanged) in both files",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user switches the app language to es-ES and exports in PPT and PDF",
+     "data": "",
+     "expected": "Both files are downloaded",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Target Sources slide header starts with \"ACCIONES\"",
+     "data": "section.actions ES",
+     "expected": "The header reads \"ACCIONES · FUENTES A PRIORIZAR\" (unchanged) in both files",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user switches the app language back to en-GB",
+     "data": "Language: en-GB",
+     "expected": "The interface is displayed in British English",
+     "status": "PASS"
+    }
+   ],
+   "notes": "fr-FR: PPTX slide 32 \"ACTIONS  ·  SOURCES À CIBLER\", PDF page 32 \"ACTIONS · SOURCES À CIBLER\". es-ES: PPTX \"ACCIONES  ·  FUENTES A PRIORIZAR\", PDF \"ACCIONES · FUENTES A PRIORIZAR\". en-GB restored 16:33Z."
+  }
+ ]
+}

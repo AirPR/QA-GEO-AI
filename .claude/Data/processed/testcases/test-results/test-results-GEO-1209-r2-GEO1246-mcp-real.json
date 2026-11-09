@@ -1,0 +1,261 @@
+{
+  "spec": "GEO-1209-r2-GEO1246-mcp",
+  "runDate": "2026-10-22",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "story_filter": "GEO-1246",
+  "story_title": "Manage the prompts of an unbranded analysis",
+  "campaign": "Second full campaign of epic GEO-1209 (first run 2026-10-20, test-results-GEO-1209-GEO1246-mcp-real.json + rerun test-results-GEO-1209-rerun-GEO1509-GEO1508-mcp-real.json)",
+  "environment": "staging, organisation QA-GEO, en-GB, features.unbranded_analysis=true, role SUPER_ADMIN, viewport 1280x720",
+  "analysis_under_test": "UA = Electric bikes 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (UNBRANDED, GB only, 1 category Commuter Electric Bikes + Other, 5 kept prompts incl. 1 custom in Other); UA2 = bike d3fd1b30-7d39-4132-83a0-70e2121df2ff (UNBRANDED, US, 2 categories, Competitive prompts); BA = Toyota 439acd96-0b1b-4da4-9e07-612d38e9783e (brand, read only)",
+  "write_guard": "context.route on **/geo/api/** aborting every non-GET request except POST questions/adapt-batch, discover-categories, translate-category (suggestion builders, never save). Existing analyses only, no analysis created (user decision 2026-10-22). Nothing confirmed in Manage Scope. Guard removed with context.unrouteAll() at the end.",
+  "summary": {
+    "total": 4,
+    "pass": 2,
+    "fail": 0,
+    "skip": 0,
+    "partial": 2,
+    "success_rate": 75,
+    "verdict": "CONDITIONAL"
+  },
+  "run_folder": ".claude/Data/output/reports/runs/22102026-1256/",
+  "end_checks": {
+    "auth_me_start": "QA-GEO, en-GB, unbranded_analysis=true, SUPER_ADMIN",
+    "auth_me_end": "QA-GEO, en-GB, unbranded_analysis=true, SUPER_ADMIN",
+    "electric_bikes_manage_scope": "before and after: \"996 / 1000 prompts · 5 selected\", 31 rows, 1 market, 1 category (zz_end_check_electric_bikes_manage_scope.png)",
+    "bike_manage_scope": "before and after: \"996 / 1000 prompts · 38 selected\", 60 rows, US only, 2 categories (zz_end_check_bike_manage_scope.png)",
+    "toyota_manage_scope": "before and after: \"· 174 selected\", 174 rows, 3 markets",
+    "non_get_calls": "only POST /questions/adapt-batch (allow-listed, 200, suggestion building) and POST /auth/hubspot/login-event (aborted by the guard); no save request was ever sent - no final Add Category / Add Country clicked",
+    "guard": "context.unrouteAll() done"
+  },
+  "findings": {
+    "possible_product_bug": [
+      "TC-002: ES suggestions of UA2 bike - the 20 Visibility rows keep the English category name in the Spanish sentence ('¿Cuáles son las mejores Mountain Bikes?', '¿Qué Road Bikes me recomiendas?') while Category Topics / Competitive say 'bicicletas de montaña / de carretera' (AI adaptation; the Add Country flow has no category-translation step)",
+      "TC-002 (wording, minor): ES Competitive rows of UA say 'bicicletas eléctricas de commuting' (English loanword) and one reads '...para bicicletas eléctricas decommuting?' (missing space)"
+    ],
+    "po_questions": [
+      "Should Add Country also translate the category names for the new market (as at creation), so the Visibility prompts do not keep 'Mountain Bikes' inside a Spanish sentence?",
+      "Country picker of Add Country still lists a country already in the analysis (Spain on Toyota) - intended (other language) or should it be greyed out? (observed only, not selected)"
+    ],
+    "csv_gaps": [
+      "TC-001: CSV category 'Courier services' does not fit the existing topic - 'Folding Electric Bikes' used",
+      "TC-004: CSV market 'Spain - Spanish (ES)' already exists on the brand analysis used (Toyota) - Germany - German (DE) used; CSV BA precondition 'Decathlon, GB + FR, 2 categories, custom Other prompts' not available as such"
+    ],
+    "missing_data": [
+      "TC-001: no existing unbranded analysis with a FR (FR) market - step 'And FR (FR) gets the same split' not runnable",
+      "TC-002: no existing unbranded analysis with GB (EN) + FR (FR); C1/C2 part run on UA2 bike (US, 2 categories)",
+      "All TCs: 'Postal services' UA of the CSV precondition not available; existing analyses only (user decision 2026-10-22)"
+    ]
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1246-001",
+      "title": "Adding a category in Manage Scope suggests 10 Visibility, 10 Competitive and 10 Category Topics per market",
+      "story_id": "GEO-1246",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Not fully verifiable (missing data): step \"And FR (FR) gets the same split\" (10 / 10 / 10, in French) cannot run - no existing unbranded analysis has a FR (FR) market (UA Electric bikes = GB (EN) only, UA2 bike = US only), and no analysis may be created (user decision 2026-10-22). All other steps PASS.",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-001_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-001_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-001_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-001_step4_cancelled.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "Manage Scope is displayed"
+        },
+        {
+          "title": "When the user adds a category",
+          "status": "PASS",
+          "data": "Category: \"Courier services\"",
+          "expected": "Fresh suggestions for the new category are shown, all ticked, with the pool in view"
+        },
+        {
+          "title": "Then each market gets 30 suggestions for the new category",
+          "status": "PASS",
+          "data": "Filter: new category, market GB (EN)",
+          "expected": "10 Visibility, 10 Competitive and 10 Category Topics rows"
+        },
+        {
+          "title": "And FR (FR) gets the same split",
+          "status": "PARTIAL",
+          "data": "Filter: new category, market FR (FR)",
+          "expected": "10 / 10 / 10, in French"
+        },
+        {
+          "title": "And there is no Reputation or Brand Image suggestion",
+          "status": "PASS",
+          "data": "",
+          "expected": "No \"Reputation\" or \"Brand Image\" row or filter value"
+        }
+      ],
+      "notes": "UA = Electric bikes 42c3ab89 (GB (EN) only, 1 category Commuter Electric Bikes + automatic Other, 31 rows, 5 kept). Pool block before: \"996 / 1000 prompts · 5 selected\". Category used: \"Folding Electric Bikes\" instead of \"Courier services\" (fits the topic, same as first run). Add Category dialog step 1 \"Translations per Country: GB - English Folding Electric Bikes\" > Next. Step 2 Prompts: 30 rows, 30/30 ticked, all category \"Folding Electric Bikes\", market GB (EN); pool block in view \"1026 / 1000 prompts · 30 selected\" with \"26 prompts over. Untick prompts or contact your account manager.\" (pool already at 996/1000, not blocking the check). Type filter of the dialog: \"Visibility 10 · Category Topics 10 · Competitive 10\" - no Reputation or Brand Image row or filter value. Visibility wordings 'Best Folding Electric Bikes?', 'Top Folding Electric Bikes?'...; Competitive wordings with [Competitor 1] to [Competitor 4] and no brand (expected unbranded templates, see GEO-1241-012 / GEO-1242-005). POST /questions/adapt-batch allowed this time and returned 200 (first run: blocked, English templates + adaptation error banner); payload analysisMode UNBRANDED, entityName \"Electric bikes\", 10 PERCEPTION + 10 VISIBILITY + 10 COMPETITIVE; no adaptation error banner. Final \"Add Category\" never clicked; Cancel opened \"Discard Category - Your category creation is incomplete...\" > \"Exit and Discard\" (local only). After: 1 category, \"996 / 1000 prompts · 5 selected\". Guard: no non-GET request other than adapt-batch (hubspot login-event aborted).",
+      "skip_reason": null,
+      "first_run_status": "PARTIAL",
+      "gap_type": "missing data"
+    },
+    {
+      "tc_id": "TC-GEO-1246-002",
+      "title": "Adding a market in Manage Scope suggests the unbranded mix and no Brand Image",
+      "story_id": "GEO-1246",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "(1) Missing data: Given expects analysis UA with markets GB (EN) and FR (FR) - no existing unbranded analysis has GB + FR (Electric bikes = GB only, bike = US only); the 2-category Then was run on UA2 \"bike\" (US, Mountain Bikes + Road Bikes). (2) Then \"... = 60 suggestions, in Spanish\": split OK (60 rows, 10/10/10 per category, all ticked) and the Category Topics / Competitive wordings are Spanish, but the 20 ES Visibility suggestions of UA2 keep the English category name inside the Spanish sentence (\"¿Cuáles son las mejores Mountain Bikes?\", \"¿Qué Road Bikes me recomiendas?\") while the other types of the same category say \"bicicletas de montaña\" / \"bicicletas de carretera\" (amber frame in side_es_visibility_english_category.png). Not fully Spanish -> PARTIAL, possible product bug (AI adaptation quality).",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-002_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-002_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-002_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-002_side_es_competitive_wording.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-002_step2b_when_ua2_bike.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-002_step3b_then_ua2_categories.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-002_side_es_visibility_english_category.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope of analysis UA",
+          "status": "PARTIAL",
+          "data": "",
+          "expected": "Manage Scope shows the markets GB (EN) and FR (FR)"
+        },
+        {
+          "title": "When the user adds a market",
+          "status": "PASS",
+          "data": "Market: Spain - Spanish (ES)",
+          "expected": "Fresh suggestions for ES (ES) are shown, all ticked"
+        },
+        {
+          "title": "Then each category gets 30 suggestions in the new market",
+          "status": "PARTIAL",
+          "data": "Filter: market ES (ES), category C1 then C2",
+          "expected": "10 Visibility, 10 Competitive and 10 Category Topics per category = 60 suggestions, in Spanish"
+        },
+        {
+          "title": "And no Brand Image or Reputation suggestion is created",
+          "status": "PASS",
+          "data": "",
+          "expected": "No \"Brand Image\" or \"Reputation\" row"
+        }
+      ],
+      "notes": "UA Electric bikes 42c3ab89 (Manage Scope shows Countries: United Kingdom - English only; \"996 / 1000 prompts · 5 selected\"). Add Country > Spain, language auto-detected \"Spanish (ES)\" > Next: 30 rows, 30/30 ticked, market ES (ES), category Commuter Electric Bikes; pool \"1026 / 1000 prompts · 30 selected\" (26 over); Type filter \"Visibility 10 · Category Topics 10 · Competitive 10\"; no Reputation / Brand Image row or value; all 30 wordings in Spanish (e.g. \"¿Qué debo tener en cuenta al comprar bicicletas eléctricas urbanas?\", \"¿Cuáles son las mejores bicicletas eléctricas para desplazarse?\"). adapt-batch allowed and 200 (first run: blocked -> English templates), no adaptation error banner. Wording side finding (amber frame, side_es_competitive_wording.png): the 10 ES Competitive rows say \"bicicletas eléctricas de commuting\" (English loanword) and one reads \"...para bicicletas eléctricas decommuting?\" (missing space). UA2 bike d3fd1b30 (US, Mountain Bikes + Road Bikes, \"996 / 1000 prompts · 38 selected\", 60 rows): Add Country > Spain - Spanish (ES) > Next: 60 rows, 60/60 ticked, Category filter \"Mountain Bikes 30 · Road Bikes 30\", per category 10 Category Topics + 10 Visibility + 10 Competitive in ES (ES); pool \"1056 / 1000 prompts · 60 selected\"; no Reputation / Brand Image; no row in English-only wording but 20 Visibility rows keep \"Mountain Bikes\" / \"Road Bikes\" untranslated (adapt-batch payload: analysisMode UNBRANDED, entityName \"bike\", markets es-ES, 20 PERCEPTION + 20 VISIBILITY + 20 COMPETITIVE, source 'Best Mountain Bikes?'). The Add Country flow has no category-translation step, so the ES category label is the English one. Both dialogs closed with Cancel > \"Discard Country\" > \"Exit and Discard\" (local only, the modal title now says Discard Country). After: Electric bikes 1 market / 5 selected; bike 1 market / 38 selected / 60 rows. Final Add Country never clicked.",
+      "skip_reason": null,
+      "first_run_status": "PARTIAL",
+      "gap_type": "missing data + possible product bug"
+    },
+    {
+      "tc_id": "TC-GEO-1246-003",
+      "title": "The type select of an unbranded analysis in Manage Scope lists Visibility, Competitive, Category Topics and Other only",
+      "story_id": "GEO-1246",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-003_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-003_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-003_step2b_when_custom_other_row.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user clicks Add prompt and opens the type select",
+          "status": "PASS",
+          "data": "",
+          "expected": "The select lists Visibility, Competitive, Category Topics and Other only"
+        },
+        {
+          "title": "And the user cancels and opens the type select of an existing row",
+          "status": "PASS",
+          "data": "",
+          "expected": "The select lists Visibility, Competitive, Category Topics and Other only; on a row already in Other, Other is the current value of the select and the list shows Visibility, Competitive and Category Topics"
+        },
+        {
+          "title": "Then no Reputation or Brand Image type is offered",
+          "status": "PASS",
+          "data": "",
+          "expected": "Neither \"Reputation\" nor \"Brand Image\" in either select"
+        }
+      ],
+      "notes": "UA Electric bikes 42c3ab89: prompt table 31 rows, \"996 / 1000 prompts · 5 selected\", banner \"1 prompt is in Other.\". Add prompt -> inline draft row (Category Other, Type Other, Market GB (EN), \"Add this prompt\" disabled); draft Type select options: \"Visibility, Category Topics, Competitive, Other\" (PASS); Escape then Cancel -> draft removed, 31 rows. Existing custom row \"Which electric bike brands are best for commuting in London?\" (CUSTOM, Other / Other, Type combobox always shown): trigger value \"Other\", options \"Visibility, Category Topics, Competitive\" - matches the CSV aligned 2026-10-21 on the GEO-1509 answer (Other is the current value, not listed again). Generated Visibility row \"Best Commuter Electric Bikes?\" (Edit prompt then Escape -> Category + Type comboboxes): options \"Visibility (selected), Category Topics, Competitive, Other\" (PASS). No Reputation or Brand Image in any select (PASS). Every select closed with Escape, no value picked, nothing saved; after: 31 rows, \"· 5 selected\", row unchanged. First run 20/10 FAIL (no Other on existing rows), rerun 21/10 PASS after GEO-1509 fix + QA decision - still PASS.",
+      "skip_reason": null,
+      "first_run_status": "FAIL (20/10), PASS in rerun 21/10 (GEO-1509)",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1246-004",
+      "title": "A brand analysis keeps Reputation and Brand Image in Manage Scope with the flag ON",
+      "story_id": "GEO-1246",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-004_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-004_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-004_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1246/TC-GEO-1246-004_step4_cancelled.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of brand analysis BA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user opens the type select of Add prompt",
+          "status": "PASS",
+          "data": "",
+          "expected": "The select lists Visibility, Competitive, Reputation, Brand Image and Other"
+        },
+        {
+          "title": "And the user adds a market",
+          "status": "PASS",
+          "data": "Market: Spain - Spanish (ES)",
+          "expected": "Fresh suggestions are shown"
+        },
+        {
+          "title": "Then the brand mix is suggested",
+          "status": "PASS",
+          "data": "",
+          "expected": "Per category 10 Visibility, 10 Competitive, 10 Reputation, plus 10 Brand Image for the market; no Category Topics"
+        }
+      ],
+      "notes": "Data adaptation: BA = QA-GEO brand analysis Toyota 439acd96-0b1b-4da4-9e07-612d38e9783e (user choice for this campaign, read only) instead of \"Decathlon\" (first run used Decathlon 27bec573, 1 category). Toyota: markets United States - English, France - French, Spain - Spanish; 2 categories \"Voitures hybrides\" and \"VUS\"; 174 rows, \"996 / 1000 prompts · 174 selected\"; no custom Other prompt (unlike the CSV precondition, not needed by the steps). Flag ON (auth/me features.unbranded_analysis=true). Add prompt draft row Type select: \"Visibility, Reputation, Competitive, Brand Image, Other\" (PASS); draft cancelled (174 rows). Market: Toyota already has Spain - Spanish, so Germany - German (DE) was used instead of Spain (Spain is still listed in the country picker; not selected). Add Country > Germany, language auto-detected \"German (DE)\" > Next: 70 fresh suggestions, 70/70 ticked, market DE (DE), pool \"1066 / 1000 prompts · 70 selected\" (66 over): Voitures hybrides 10 Visibility + 10 Competitive + 10 Reputation, VUS 10 + 10 + 10, category \"Overview\" 10 Brand Image (\"Was denkst du über Toyota?\", \"Wofür ist Toyota bekannt?\", \"Erzähl mir etwas über Toyota.\"); Type filter \"Visibility 20 · Reputation 20 · Competitive 20 · Brand Image 10\"; no Category Topics (PASS). adapt-batch allowed (200), German wordings. Dialog closed with Escape > \"Discard Country\" > \"Exit and Discard\" (local only; first run showed the wrong title \"Discard Category\" in the Add Country flow of the brand analysis - now \"Discard Country\", fixed). After: 3 markets, 174 rows, \"· 174 selected\". Final Add Country never clicked.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    }
+  ],
+  "first_run_findings": [
+    {
+      "finding": "20/10: adapt-batch blocked by the guard -> English templates + 'Prompt adaptation failed' banner",
+      "status": "not applicable any more: adapt-batch allow-listed, 200, suggestions adapted (Spanish, German), no banner"
+    },
+    {
+      "finding": "20/10 TC-003 FAIL: no Other in the Type select of an existing row (GEO-1509)",
+      "status": "fixed and aligned (rerun 21/10 PASS); still PASS: generated row lists Visibility, Category Topics, Competitive, Other; Other row shows Other as current value"
+    },
+    {
+      "finding": "20/10: 'Discard Category' title in the Add Country flow of a brand analysis",
+      "status": "fixed: Add Country now opens 'Discard Country' (UA, bike, Toyota)"
+    },
+    {
+      "finding": "20/10 TC-001/002 PARTIAL: FR market and GB + FR analysis missing",
+      "status": "still missing (existing analyses only)"
+    }
+  ]
+}

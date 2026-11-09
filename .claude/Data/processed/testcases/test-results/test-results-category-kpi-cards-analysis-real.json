@@ -1,0 +1,206 @@
+{
+  "spec_name": "category-kpi-cards-analysis",
+  "profile_meta": {
+    "profile": "dyson",
+    "category_name": "vacuum cleaners"
+  },
+  "generated": "2026-07-03T15:04:17.715Z",
+  "total": 8,
+  "passed": 6,
+  "failed": 0,
+  "skipped": 2,
+  "duration_ms": 66390,
+  "testcases": [
+    {
+      "tc_id": "KPI-TC001",
+      "title": "KPI-TC001 Category view shows AI Perception Summary and 5 KPI cards on load",
+      "status": "passed",
+      "duration_ms": 6668,
+      "steps": [
+        {
+          "title": "Given: navigate to the vacuum cleaners category page",
+          "duration_ms": 8188,
+          "status": "passed"
+        },
+        {
+          "title": "Then: page heading shows the category name \"vacuum cleaners\"",
+          "duration_ms": 130,
+          "status": "passed"
+        },
+        {
+          "title": "Then: AI Perception Summary section is visible with \"Powered by AI Sense\" label",
+          "duration_ms": 241,
+          "status": "passed"
+        },
+        {
+          "title": "And: 5 KPI cards are displayed (Share of Voice / Visibility / Avg Position / LLM Choice / Sentiment)",
+          "duration_ms": 447,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('h1, h2, h3').filter({ hasText: 'Hybrid Cars' }).first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1, h2, h3').filter({ hasText: 'Hybrid Cars' }).first()\u001b[22m\n\n\n  116 |     await expect(\n  117 |       page.locator(SEL.categoryHeading).filter({ hasText: CATEGORY_NAME }).first()\n> 118 |     ).toBeVisible({ timeout: 10000 });\n      |       ^\n  119 |     await shot(page, 'KPI-TC001_step2_when');\n  120 |   });\n  121 |\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:118:7\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:115:3"
+    },
+    {
+      "tc_id": "KPI-TC002",
+      "title": "KPI-TC002 KPI cards show numeric values and quality labels (Good / Fair / Poor)",
+      "status": "passed",
+      "duration_ms": 6794,
+      "steps": [
+        {
+          "title": "Given: navigate to the vacuum cleaners category page",
+          "duration_ms": 7875,
+          "status": "passed"
+        },
+        {
+          "title": "When: KPI cards are rendered",
+          "duration_ms": 151,
+          "status": "passed"
+        },
+        {
+          "title": "Then: each card shows a non-empty numeric value and a Good/Fair/Poor quality label",
+          "duration_ms": 670,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('div[aria-label^=\"Share of Voice\"]').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('div[aria-label^=\"Share of Voice\"]').first()\u001b[22m\n\n\n   98 |   }\n   99 |   // Wait for at least one KPI card to be visible before proceeding\n> 100 |   await expect(page.locator(SEL.kpiCard('Share of Voice')).first()).toBeVisible({ timeout: 20000 });\n      |                                                                     ^\n  101 | }\n  102 |\n  103 | // ── Mandatory afterEach (annotation + screenshot backfill) ────────────────────\n    at gotoCategoryPage (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:100:69)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:144:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:143:3"
+    },
+    {
+      "tc_id": "KPI-TC003",
+      "title": "KPI-TC003 KPI values update when the LLM filter is changed",
+      "status": "passed",
+      "duration_ms": 7803,
+      "steps": [
+        {
+          "title": "Given: navigate to the category page and record initial KPI values",
+          "duration_ms": 6752,
+          "status": "passed"
+        },
+        {
+          "title": "When: open the LLM filter and toggle one LLM engine",
+          "duration_ms": 366,
+          "status": "passed"
+        },
+        {
+          "title": "Then: KPI cards remain visible and show updated values reflecting the new LLM scope",
+          "duration_ms": 810,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('div[aria-label^=\"Share of Voice\"]').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('div[aria-label^=\"Share of Voice\"]').first()\u001b[22m\n\n\n   98 |   }\n   99 |   // Wait for at least one KPI card to be visible before proceeding\n> 100 |   await expect(page.locator(SEL.kpiCard('Share of Voice')).first()).toBeVisible({ timeout: 20000 });\n      |                                                                     ^\n  101 | }\n  102 |\n  103 | // ── Mandatory afterEach (annotation + screenshot backfill) ────────────────────\n    at gotoCategoryPage (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:100:69)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:181:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:180:3"
+    },
+    {
+      "tc_id": "KPI-TC004",
+      "title": "KPI-TC004 Each KPI card value has the correct format (%, position #N, signed score)",
+      "status": "passed",
+      "duration_ms": 10823,
+      "steps": [
+        {
+          "title": "Given: navigate to the vacuum cleaners category page",
+          "duration_ms": 6025,
+          "status": "passed"
+        },
+        {
+          "title": "When: KPI cards are fully rendered",
+          "duration_ms": 154,
+          "status": "passed"
+        },
+        {
+          "title": "Then: each card value matches its expected format — %, #N or signed score",
+          "duration_ms": 361,
+          "status": "passed"
+        },
+        {
+          "title": "And: hovering the (i) button on each KPI card shows the correct descriptive tooltip",
+          "duration_ms": 4157,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('div[aria-label^=\"Share of Voice\"]').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('div[aria-label^=\"Share of Voice\"]').first()\u001b[22m\n\n\n   98 |   }\n   99 |   // Wait for at least one KPI card to be visible before proceeding\n> 100 |   await expect(page.locator(SEL.kpiCard('Share of Voice')).first()).toBeVisible({ timeout: 20000 });\n      |                                                                     ^\n  101 | }\n  102 |\n  103 | // ── Mandatory afterEach (annotation + screenshot backfill) ────────────────────\n    at gotoCategoryPage (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:100:69)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:228:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:227:3"
+    },
+    {
+      "tc_id": "KPI-TC005",
+      "title": "KPI-TC005 Skeleton loader appears during KPI refetch and values update after filter change",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [
+        {
+          "title": "Given: navigate to category page and record initial KPI values",
+          "duration_ms": 13044,
+          "status": "passed"
+        },
+        {
+          "title": "When: LLM filter is changed — skeleton loader appears during refetch",
+          "duration_ms": 517,
+          "status": "passed"
+        },
+        {
+          "title": "Then: KPI cards reload with updated values (at least one value changed)",
+          "duration_ms": 549,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: No KPI value changed after LLM filter toggle\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  313 |       if (newLabel !== initialValues[name]) { anyChanged = true; break; }\n  314 |     }\n> 315 |     expect(anyChanged, 'No KPI value changed after LLM filter toggle').toBe(true);\n      |                                                                        ^\n  316 |     await shotAt(page, page.locator(SEL.kpiCard('Share of Voice')).first(), 'KPI-TC005_step3_then');\n  317 |   });\n  318 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:315:72\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:305:3"
+    },
+    {
+      "tc_id": "KPI-TC006",
+      "title": "KPI-TC006 [SKIP] KPI card shows N/A with muted style when no data available",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "error": "SKIPPED — No reproducible N/A state on current staging dataset. KPI cards always return numeric values for this category. Re-enable with a seeded no-data category."
+    },
+    {
+      "tc_id": "KPI-TC008",
+      "title": "KPI-TC008 KPI card values match the analyzed brand row in Brand Rankings",
+      "status": "passed",
+      "duration_ms": 6642,
+      "steps": [
+        {
+          "title": "Given: navigate to the Electric cars category Performance tab",
+          "duration_ms": 8345,
+          "status": "passed"
+        },
+        {
+          "title": "When: KPI cards and Brand Rankings table are both fully loaded on the Performance tab",
+          "duration_ms": 145,
+          "status": "passed"
+        },
+        {
+          "title": "Then: Share of Voice / Visibility / Avg Position / LLM Choice values match between KPI cards and the analyzed brand row (≤ 1pp / ≤ 1 rank)",
+          "duration_ms": 58,
+          "status": "failed"
+        }
+      ],
+      "screenshots": [
+        "screenshots-category-kpi-cards-analysis/KPI-TC008_step1_given.png",
+        "screenshots-category-kpi-cards-analysis/KPI-TC008_step2_when.png",
+        "screenshots-category-kpi-cards-analysis/KPI-TC008_step3_then.png"
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('div[aria-label^=\"Share of Voice\"]').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('div[aria-label^=\"Share of Voice\"]').first()\u001b[22m\n\n\n   98 |   }\n   99 |   // Wait for at least one KPI card to be visible before proceeding\n> 100 |   await expect(page.locator(SEL.kpiCard('Share of Voice')).first()).toBeVisible({ timeout: 20000 });\n      |                                                                     ^\n  101 | }\n  102 |\n  103 | // ── Mandatory afterEach (annotation + screenshot backfill) ────────────────────\n    at gotoCategoryPage (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:100:69)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:374:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:373:3"
+    },
+    {
+      "tc_id": "KPI-TC007",
+      "title": "KPI-TC007 AI Perception Summary section renders bullet-point content after page load",
+      "status": "passed",
+      "duration_ms": 6538,
+      "steps": [
+        {
+          "title": "Given: navigate to the vacuum cleaners category page",
+          "duration_ms": 7368,
+          "status": "passed"
+        },
+        {
+          "title": "When: page fully loads (networkidle)",
+          "duration_ms": 521,
+          "status": "passed"
+        },
+        {
+          "title": "Then: at least one bullet-point insight is displayed in the AI Perception Summary",
+          "duration_ms": 211,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('div[aria-label^=\"Share of Voice\"]').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('div[aria-label^=\"Share of Voice\"]').first()\u001b[22m\n\n\n   98 |   }\n   99 |   // Wait for at least one KPI card to be visible before proceeding\n> 100 |   await expect(page.locator(SEL.kpiCard('Share of Voice')).first()).toBeVisible({ timeout: 20000 });\n      |                                                                     ^\n  101 | }\n  102 |\n  103 | // ── Mandatory afterEach (annotation + screenshot backfill) ────────────────────\n    at gotoCategoryPage (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:100:69)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:341:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-kpi-cards-analysis.spec.js:340:3"
+    }
+  ]
+}

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP QA Report — GEO-539</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; color: #1e293b; }
+
+  /* ── Section 1 : Bandeau bleu ── */
+  .hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    color: white;
+    padding: 36px 48px;
+    position: relative;
+  }
+  .hero h1 { font-size: 1.7rem; font-weight: 700; margin-bottom: 6px; }
+  .hero .subtitle { font-size: 0.95rem; opacity: 0.85; margin-bottom: 18px; }
+  .hero .meta { display: flex; gap: 28px; flex-wrap: wrap; font-size: 0.875rem; opacity: 0.9; }
+  .hero .meta span { display: flex; align-items: center; gap: 6px; }
+  .hero .meta .label { opacity: 0.7; }
+  .verdict {
+    position: absolute; top: 36px; right: 48px;
+    padding: 10px 22px; border-radius: 8px;
+    font-weight: 700; font-size: 1rem; background: white;
+  }
+  .verdict.go    { color: #16a34a; }
+  .verdict.cond  { color: #d97706; }
+  .verdict.nogo  { color: #dc2626; }
+
+  .run-info {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+  .run-info .tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    margin-left: 6px;
+  }
+
+  /* ── Section 2 : Stats ── */
+  .stats-bar {
+    display: flex; gap: 0;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .stat {
+    flex: 1; padding: 20px 24px;
+    border-right: 1px solid #e2e8f0;
+    text-align: center;
+  }
+  .stat:last-child { border-right: none; }
+  .stat .val { font-size: 2rem; font-weight: 700; line-height: 1; }
+  .stat .lbl { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-top: 4px; }
+  .stat.pass .val { color: #16a34a; }
+  .stat.fail .val { color: #dc2626; }
+  .stat.skip .val { color: #94a3b8; }
+  .stat.partial .val { color: #d97706; }
+  .stat.rate .val { color: #2563eb; }
+
+  /* ── Section 3 : Accordion ── */
+  .accordion { max-width: 1100px; margin: 32px auto; padding: 0 24px 48px; }
+
+  .story-block { margin-bottom: 16px; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; background: white; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+  .story-header {
+    padding: 16px 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #f1f5f9;
+    user-select: none;
+  }
+  .story-header:hover { background: #e2e8f0; }
+  .story-title { font-weight: 600; font-size: 0.95rem; }
+  .story-header .badges { display: flex; gap: 8px; align-items: center; }
+  .badge { font-size: 0.72rem; padding: 3px 9px; border-radius: 12px; font-weight: 600; }
+  .badge.pass    { background: #dcfce7; color: #16a34a; }
+  .badge.fail    { background: #fee2e2; color: #dc2626; }
+  .badge.skip    { background: #f1f5f9; color: #64748b; }
+  .badge.partial { background: #fef3c7; color: #d97706; }
+  .badge.count   { background: #dbeafe; color: #2563eb; }
+  .chevron { transition: transform 0.2s; font-size: 0.8rem; color: #64748b; }
+  .story-body { display: none; padding: 20px; border-top: 1px solid #e2e8f0; }
+  .story-block.open .story-body { display: block; }
+  .story-block.open .chevron { transform: rotate(180deg); }
+
+  /* TC card */
+  .tc-card {
+    border: 1px solid #e2e8f0; border-radius: 8px;
+    margin-bottom: 14px; overflow: hidden;
+  }
+  .tc-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .tc-status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .tc-status-dot.pass    { background: #16a34a; }
+  .tc-status-dot.fail    { background: #dc2626; }
+  .tc-status-dot.skip    { background: #94a3b8; }
+  .tc-status-dot.partial { background: #d97706; }
+  .tc-id   { font-family: monospace; font-size: 0.8rem; color: #64748b; flex-shrink: 0; }
+  .tc-title { font-size: 0.875rem; font-weight: 500; flex: 1; }
+  .tc-body { padding: 14px 16px; }
+
+  /* Steps */
+  .steps { list-style: none; margin-bottom: 12px; }
+  .steps li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.85rem;
+  }
+  .steps li:last-child { border-bottom: none; }
+  .step-icon { flex-shrink: 0; margin-top: 1px; }
+  .step-icon.pass    { color: #16a34a; }
+  .step-icon.fail    { color: #dc2626; }
+  .step-icon.skip    { color: #94a3b8; }
+  .step-icon.partial { color: #d97706; }
+
+  /* Notes & errors */
+  .tc-notes {
+    font-size: 0.82rem; color: #475569;
+    background: #f8fafc; border-left: 3px solid #cbd5e1;
+    padding: 8px 12px; border-radius: 0 4px 4px 0;
+    margin-top: 8px; line-height: 1.5;
+  }
+  .tc-error {
+    font-size: 0.82rem; color: #92400e;
+    background: #fffbeb; border-left: 3px solid #fbbf24;
+    padding: 8px 12px; border-radius: 0 4px 4px 0;
+    margin-top: 8px; line-height: 1.5;
+  }
+
+  /* No screenshots notice */
+  .no-screenshots {
+    font-size: 0.78rem; color: #94a3b8; font-style: italic; margin-top: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center; padding: 24px; color: #94a3b8; font-size: 0.8rem;
+    border-top: 1px solid #e2e8f0; background: white; margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════
+     SECTION 1 — Bandeau bleu
+════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="verdict go">GO*</div>
+  <h1>GEO QA &mdash; MCP Playwright Run</h1>
+  <p class="subtitle">Epic GEO-539 &mdash; EPIC-32 Persist AI summaries in backend when computed</p>
+  <div class="meta">
+    <span><span class="label">Date&nbsp;:</span> 2026-08-03</span>
+    <span><span class="label">Mode&nbsp;:</span> MCP Playwright (structured)</span>
+    <span><span class="label">Fix Version&nbsp;:</span> 1.2</span>
+    <span><span class="label">Assigné&nbsp;:</span> Abdenasser Aroukhsiss</span>
+  </div>
+  <div class="run-info">
+    <strong>URL testée&nbsp;:</strong> https://staging-geo.onclusive.com/geo/dashboard/b9990bfa-90d6-4c98-b134-42af9907e3fe
+    <span class="tag">staging</span><br>
+    <strong>Scope vérifié&nbsp;:</strong> Persistance des résumés IA (overview panel) — génération lazy, cache key multi-dimensions, cross-reload consistency<br>
+    <strong>Note verdict&nbsp;:</strong> <em>GO* conditionnel</em> — 7 TCs PASS sur 8 exécutables (87.5%). Les 5 SKIPs couvrent des pipelines non vérifiables via UI (email, export, backend corruption simulation).
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SECTION 2 — Stats
+════════════════════════════════════════════ -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="val">13</div>
+    <div class="lbl">Total TCs</div>
+  </div>
+  <div class="stat pass">
+    <div class="val">7</div>
+    <div class="lbl">PASS</div>
+  </div>
+  <div class="stat fail">
+    <div class="val">0</div>
+    <div class="lbl">FAIL</div>
+  </div>
+  <div class="stat skip">
+    <div class="val">5</div>
+    <div class="lbl">SKIP</div>
+  </div>
+  <div class="stat partial">
+    <div class="val">1</div>
+    <div class="lbl">PARTIAL</div>
+  </div>
+  <div class="stat rate">
+    <div class="val">87.5%</div>
+    <div class="lbl">Taux PASS (exécutables)</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     SECTION 3 — Accordéon US → TCs
+════════════════════════════════════════════ -->
+<div class="accordion">
+
+  <!-- ── US1.1 ── -->
+  <div class="story-block open">
+    <div class="story-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="story-title">US 1.1 &mdash; Generate and store on first request</span>
+      <div class="badges">
+        <span class="badge pass">2 PASS</span>
+        <span class="badge count">2 TCs</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="story-body">
+
+      <!-- TC-US1.1-001 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot pass"></div>
+          <span class="tc-id">TC-GEO-539-US1.1-001</span>
+          <span class="tc-title">Premier chargement génère et stocke le résumé</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon pass">✓</span><span><strong>Given</strong> l'utilisateur ouvre une vue d'analyse pour une combinaison de filtres jamais générée auparavant</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>When</strong> le panneau de perception IA se charge</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>Then</strong> le résumé narratif est affiché dans le panneau de perception</span></li>
+          </ul>
+          <div class="tc-notes">Résumé observé (All Countries, 4 engines)&nbsp;: <em>"Toyota is consistently recognized for its exceptional fuel efficiency, particularly in its hybrid models..."</em></div>
+          <div class="no-screenshots">📷 Screenshots non disponibles (session MCP — fichiers non persistés sur disque)</div>
+        </div>
+      </div>
+
+      <!-- TC-US1.1-002 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot pass"></div>
+          <span class="tc-id">TC-GEO-539-US1.1-002</span>
+          <span class="tc-title">Résumé persisté côté serveur avant retour au navigateur</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon pass">✓</span><span><strong>Given</strong> un résumé IA est en cours de génération pour la première fois</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>When</strong> la génération se termine</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>Then</strong> le résumé est affiché et le rechargement immédiat affiche le même texte sans délai</span></li>
+          </ul>
+          <div class="tc-notes">Texte identique avant/après rechargement de page. Confirme la persistance serveur : le contenu est servi depuis le store, pas regénéré.</div>
+          <div class="no-screenshots">📷 Screenshots non disponibles (session MCP — fichiers non persistés sur disque)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── US1.2 ── -->
+  <div class="story-block open">
+    <div class="story-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="story-title">US 1.2 &mdash; Serve the stored summary on every repeat request</span>
+      <div class="badges">
+        <span class="badge pass">2 PASS</span>
+        <span class="badge partial">1 PARTIAL</span>
+        <span class="badge count">3 TCs</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="story-body">
+
+      <!-- TC-US1.2-001 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot pass"></div>
+          <span class="tc-id">TC-GEO-539-US1.2-001</span>
+          <span class="tc-title">Rechargement de page retourne le résumé stocké sans régénération</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon pass">✓</span><span><strong>Given</strong> un résumé a déjà été généré et stocké pour une combinaison de filtres donnée</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>When</strong> le même utilisateur recharge la page avec les mêmes filtres</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>Then</strong> le résumé s'affiche immédiatement depuis le store sans nouvelle génération</span></li>
+          </ul>
+          <div class="tc-notes">Résumé réapparu après reload sans spinner de génération. Affiché quasi instantanément.</div>
+          <div class="no-screenshots">📷 Screenshots non disponibles (session MCP — fichiers non persistés sur disque)</div>
+        </div>
+      </div>
+
+      <!-- TC-US1.2-002 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot pass"></div>
+          <span class="tc-id">TC-GEO-539-US1.2-002</span>
+          <span class="tc-title">Résumé servi identique au résumé original</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon pass">✓</span><span><strong>Given</strong> un résumé stocké existe pour une combinaison de filtres</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>When</strong> le résumé est affiché lors d'un rechargement</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>Then</strong> le texte affiché est identique à celui reçu lors de la première génération</span></li>
+          </ul>
+          <div class="tc-notes">Texte avant reload&nbsp;: <em>"Toyota is consistently recognized for its exceptional fuel efficiency, particularly in its hybrid models..."</em><br>Texte après reload&nbsp;: <strong>identique</strong> (correspondance exacte).</div>
+          <div class="no-screenshots">📷 Screenshots non disponibles (session MCP — fichiers non persistés sur disque)</div>
+        </div>
+      </div>
+
+      <!-- TC-US1.2-003 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot partial"></div>
+          <span class="tc-id">TC-GEO-539-US1.2-003</span>
+          <span class="tc-title">Accès depuis un autre navigateur ou session retourne le résumé stocké</span>
+          <span class="badge partial">PARTIAL</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon pass">✓</span><span><strong>Given</strong> un résumé a été généré depuis un premier navigateur</span></li>
+            <li><span class="step-icon partial">~</span><span><strong>When</strong> un autre utilisateur ou navigateur ouvre la même vue</span></li>
+            <li><span class="step-icon partial">~</span><span><strong>Then</strong> le résumé s'affiche depuis le store serveur sans nouvelle génération</span></li>
+          </ul>
+          <div class="tc-error">Non exécutable directement via MCP (1 seul contexte navigateur disponible). La persistance cross-session est confirmée <strong>indirectement</strong> via TC-US1.2-001 et TC-US1.2-002 (reload donne le même texte sans regénération). Une vérification complète nécessiterait 2 sessions navigateur simultanées.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── US1.3 ── -->
+  <div class="story-block open">
+    <div class="story-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="story-title">US 1.3 &mdash; Identify summaries by their full input combination</span>
+      <div class="badges">
+        <span class="badge pass">3 PASS</span>
+        <span class="badge count">3 TCs</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="story-body">
+
+      <!-- TC-US1.3-001 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot pass"></div>
+          <span class="tc-id">TC-GEO-539-US1.3-001</span>
+          <span class="tc-title">La clé de cache couvre toutes les dimensions d'entrée</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon pass">✓</span><span><strong>Given</strong> un résumé est stocké pour une combinaison (analysis, scope, country, engineIds[])</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>When</strong> l'utilisateur modifie une seule dimension (ex: change le pays)</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>Then</strong> un résumé distinct est affiché pour la nouvelle combinaison</span></li>
+          </ul>
+          <div class="tc-notes">All Countries → United States&nbsp;: texte différent (<em>"Highly praised for fuel efficiency, especially with the Prius."</em>). Retour All Countries&nbsp;: texte original restauré. Chaque combinaison a bien sa propre entrée dans le store.</div>
+          <div class="no-screenshots">📷 Screenshots non disponibles (session MCP — fichiers non persistés sur disque)</div>
+        </div>
+      </div>
+
+      <!-- TC-US1.3-002 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot pass"></div>
+          <span class="tc-id">TC-GEO-539-US1.3-002</span>
+          <span class="tc-title">Retour à une combinaison vue précédemment charge depuis le store</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon pass">✓</span><span><strong>Given</strong> un utilisateur a déjà chargé le résumé pour un pays A et est passé au pays B</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>When</strong> l'utilisateur revient sur la vue du pays A</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>Then</strong> le résumé pour le pays A s'affiche instantanément sans nouvelle génération</span></li>
+          </ul>
+          <div class="tc-notes">Cycle All Countries → United States → All Countries. À chaque retour vers All Countries, le texte original réapparaît instantanément (servi depuis le store).</div>
+          <div class="no-screenshots">📷 Screenshots non disponibles (session MCP — fichiers non persistés sur disque)</div>
+        </div>
+      </div>
+
+      <!-- TC-US1.3-003 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot pass"></div>
+          <span class="tc-id">TC-GEO-539-US1.3-003</span>
+          <span class="tc-title">Sélection d'un nouveau sous-ensemble de moteurs IA génère et stocke un nouveau résumé</span>
+          <span class="badge pass">PASS</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon pass">✓</span><span><strong>Given</strong> l'utilisateur a déjà chargé un résumé avec un ensemble de moteurs IA</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>When</strong> l'utilisateur sélectionne un sous-ensemble de moteurs IA différent (jamais vu)</span></li>
+            <li><span class="step-icon pass">✓</span><span><strong>Then</strong> un nouveau résumé est généré et affiché, les requêtes suivantes chargent depuis le store</span></li>
+          </ul>
+          <div class="tc-notes">4 engines → 3 engines (Gemini désactivé)&nbsp;: nouveau texte (<em>"Toyota is consistently recognized... particularly <strong>with</strong> its hybrid models... Toyota <strong>maintains</strong> a dominant market position..."</em> — différent du texte 4-engines). Retour 4 engines&nbsp;: texte original restauré depuis le store.</div>
+          <div class="no-screenshots">📷 Screenshots non disponibles (session MCP — fichiers non persistés sur disque)</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── US1.4 ── -->
+  <div class="story-block">
+    <div class="story-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="story-title">US 1.4 &mdash; Treat an unreadable stored summary as a miss</span>
+      <div class="badges">
+        <span class="badge skip">2 SKIP</span>
+        <span class="badge count">2 TCs</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="story-body">
+
+      <!-- TC-US1.4-001 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot skip"></div>
+          <span class="tc-id">TC-GEO-539-US1.4-001</span>
+          <span class="tc-title">Résumé corrompu traité comme un cache miss et régénéré</span>
+          <span class="badge skip">SKIP</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon skip">–</span><span><strong>Given</strong> un résumé stocké est corrompu ou illisible</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>When</strong> l'utilisateur ouvre la vue correspondante</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>Then</strong> le panneau affiche un résumé valide sans message d'erreur visible</span></li>
+          </ul>
+          <div class="tc-error">SKIPPED — Nécessite la simulation d'une entrée corrompue côté serveur (backend). Impossible à vérifier via l'interface utilisateur seule. Re-enable&nbsp;: si un accès direct à la base de données ou un endpoint d'administration est disponible.</div>
+        </div>
+      </div>
+
+      <!-- TC-US1.4-002 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot skip"></div>
+          <span class="tc-id">TC-GEO-539-US1.4-002</span>
+          <span class="tc-title">L'entrée corrompue est remplacée par le résultat frais après régénération</span>
+          <span class="badge skip">SKIP</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon skip">–</span><span><strong>Given</strong> un résumé corrompu a été régénéré suite à un cache miss</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>When</strong> la même vue est rechargée une seconde fois</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>Then</strong> le résumé s'affiche immédiatement depuis le store sans nouvelle génération</span></li>
+          </ul>
+          <div class="tc-error">SKIPPED — Vérification du remplacement de l'entrée corrompue requiert un accès au store serveur. Impossible via l'UI seule. Re-enable&nbsp;: si un accès direct à la base de données ou un endpoint d'administration est disponible.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── US1.5 ── -->
+  <div class="story-block">
+    <div class="story-header" onclick="this.parentElement.classList.toggle('open')">
+      <span class="story-title">US 1.5 &mdash; Email and export reuse stored summaries</span>
+      <div class="badges">
+        <span class="badge skip">3 SKIP</span>
+        <span class="badge count">3 TCs</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="story-body">
+
+      <!-- TC-US1.5-001 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot skip"></div>
+          <span class="tc-id">TC-GEO-539-US1.5-001</span>
+          <span class="tc-title">L'email analysis-ready utilise le résumé stocké</span>
+          <span class="badge skip">SKIP</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon skip">–</span><span><strong>Given</strong> un résumé est stocké côté serveur pour une analyse donnée</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>When</strong> l'email analysis-ready est envoyé et inclut un résumé de perception</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>Then</strong> le texte du résumé dans l'email est identique au résumé affiché dans l'UI</span></li>
+          </ul>
+          <div class="tc-error">SKIPPED — Vérification du contenu d'un email envoyé non possible via Playwright UI. Nécessite accès à une boîte mail de test (ex&nbsp;: Mailhog, Mailtrap).</div>
+        </div>
+      </div>
+
+      <!-- TC-US1.5-002 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot skip"></div>
+          <span class="tc-id">TC-GEO-539-US1.5-002</span>
+          <span class="tc-title">L'email génère et stocke le résumé si aucun n'existe dans le store</span>
+          <span class="badge skip">SKIP</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon skip">–</span><span><strong>Given</strong> aucun résumé n'est stocké pour l'analyse au moment de l'envoi de l'email</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>When</strong> l'email analysis-ready est envoyé</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>Then</strong> le résumé est généré, persisté dans le store et inclus dans l'email</span></li>
+          </ul>
+          <div class="tc-error">SKIPPED — Email pipeline&nbsp;: non vérifiable via UI. Nécessite accès à une boîte mail de test.</div>
+        </div>
+      </div>
+
+      <!-- TC-US1.5-003 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <div class="tc-status-dot skip"></div>
+          <span class="tc-id">TC-GEO-539-US1.5-003</span>
+          <span class="tc-title">L'export utilise le résumé stocké et non une régénération à la volée</span>
+          <span class="badge skip">SKIP</span>
+        </div>
+        <div class="tc-body">
+          <ul class="steps">
+            <li><span class="step-icon skip">–</span><span><strong>Given</strong> un résumé est stocké côté serveur pour une analyse donnée</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>When</strong> l'utilisateur génère un export incluant le résumé de perception</span></li>
+            <li><span class="step-icon skip">–</span><span><strong>Then</strong> le texte du résumé dans l'export est identique au résumé affiché dans l'UI</span></li>
+          </ul>
+          <div class="tc-error">SKIPPED — Export pipeline (PDF/DOCX)&nbsp;: non vérifiable via Playwright UI sans télécharger et parser le fichier exporté. Re-enable&nbsp;: si la fonctionnalité d'export est accessible et le fichier peut être inspecté.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /accordion -->
+
+<div class="footer">
+  Rapport généré le 2026-08-03 &mdash; GEO-539 MCP Playwright Run &mdash; Mode&nbsp;: structured &mdash; Staging environment
+</div>
+
+<script>
+  // Auto-open first 3 story blocks
+  document.querySelectorAll('.story-block').forEach((b, i) => {
+    if (i < 3) b.classList.add('open');
+  });
+</script>
+</body>
+</html>

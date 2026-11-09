@@ -1,0 +1,236 @@
+{
+  "spec": "GEO-1002-GEO1236",
+  "runDate": "2026-10-19",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1236",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "summary": {
+    "total": 5,
+    "pass": 4,
+    "fail": 0,
+    "skip": 1,
+    "partial": 0,
+    "successRate": 80,
+    "successRateExecuted": 100,
+    "verdict": "GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me, before and after the run)",
+    "organisation": "QA-GEO (org_name from /auth/me and the header switcher; existing session, no login or switch needed)",
+    "featureFlag": "unbranded_analysis = true: 5-step wizard (Analysis Type, Brand & Country, Categories, Prompts, Review); Brand analysis card + Continue used",
+    "role": "SUPER_ADMIN",
+    "pool": "P = 1000; U = 570 at start and at end (dashboard \"570 / 1000 prompts\", 6 analyses); 430 free slots",
+    "analysesCreated": [],
+    "overPoolScope": "Over-pool states (TC-002, TC-003, TC-005) reached inside the unsaved wizard with 440 ticked prompts against 430 free slots (GB (EN) + FR (FR), Sporting Goods + 6 custom categories); no back-office pool change.",
+    "stateChanges": "None. One wizard: phase A (GB (EN), 1 category, 40 prompts: TC-001), then the same wizard enlarged to GB (EN) + FR (FR) and 7 categories (440 prompts: TC-005, TC-002, TC-003, in that order). One custom prompt added and unticked inside the unsaved wizard. Exited with Back to Dashboard > Exit and Discard; dashboard pool still 570 / 1000. No back-office change, no saved analysis touched, Manage Scope not opened.",
+    "consoleErrors": "Only brandfetch.io logo errors (410, unrelated)"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1236-001",
+      "title": "The toolbar ring reads the slots used after creation and its popover splits them",
+      "story_id": "GEO-1236",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-001_step3_then.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-001_step4_keyboard.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with 40 ticked prompts",
+          "expected": "The toolbar ring reads \"U + 40 / P\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user hovers the ring",
+          "expected": "The popover opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the popover splits other analyses, this analysis and free slots",
+          "expected": "Other analyses = U, Kept in this analysis = 40, Free = P - U - 40",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user unticks 2 prompts",
+          "expected": "The ring reads \"U + 38 / P\" and the popover shows 38 for this analysis and \"38 selected\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user reaches the ring with the keyboard",
+          "expected": "The popover also opens on keyboard focus",
+          "data": "Tab key",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session A (CSV minimal scope): Decathlon, 1 market United Kingdom - English (EN); discovery returned Sporting Goods (C1) + Outdoor Gear, Outdoor Gear removed (dialog Remove). Generate Prompts: 40 rows (10 Brand Image Overview + 10 Visibility + 10 Competitive + 10 Reputation for Sporting Goods, GB (EN)). Ring (data-testid wizard-pool-ring, data-status \"healthy\", blue stroke #0369A1): \"610 / 1000 prompts · 40 selected\" = U + 40 / P. Hover: popover (role tooltip, data-testid wizard-pool-popover) \"Prompt pool / 610 of 1000 after creation / In use by other analyses 570 / Kept in this analysis 40 / Free in the pool 390\" (wizard.pool.summaryAfterCreation, inUseByOthers, keptHere, free) = U, 40, P - U - 40. Untick 2 prompts: ring \"608 / 1000 prompts · 38 selected\", popover \"608 of 1000 after creation\", Kept 38, Free 392. Keyboard: popover closed, focus on \"Back to Dashboard\", Tab moves focus to the ring and the popover opens with the same content (step4_keyboard)."
+    },
+    {
+      "tc_id": "TC-GEO-1236-002",
+      "title": "A selection exactly at the limit turns the ring amber and keeps launch enabled",
+      "story_id": "GEO-1236",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-002_step3_then.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-002_step4_launch_enabled.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step over the limit",
+          "expected": "The ring reads \"U + 40 / U + 30\" in red",
+          "data": "Pool = U + 30, 40 ticked",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user unticks 10 prompts",
+          "expected": "The ring reads \"U + 30 / U + 30\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the ring turns amber with a short message",
+          "expected": "Amber ring with its at-limit message; the popover shows \"Need more room? Contact your account manager.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And launch stays enabled",
+          "expected": "Review & Launch is enabled",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session B scope (unsaved wizard, pool unchanged): Decathlon (decathlon.com), markets United Kingdom - English (EN) + France - French (FR), AI Insights English (EN); categories Sporting Goods (discovered, C1) + 6 custom (Running Shoes, Cycling Equipment, Camping Gear, Swimwear, Fitness Equipment, Ski Equipment) = 2 x (10 Brand Image + 7 x 30) = 440 suggested prompts. Free slots = P - U = 1000 - 570 = 430, so 440 ticked = 10 over: the same over-pool state as the CSV \"40 ticked, pool U + 30\" without any back-office change. Ring values therefore read U + 440 / P (1010 / 1000) instead of U + 40 / U + 30. Given: 440 ticked, ring \"1010 / 1000 prompts · 440 selected\", data-status \"over\", red stroke #DC2626, red label, message \"10 prompts over. Untick prompts or contact your account manager.\" (wizard.pool.overWizard_other), Review & Launch disabled. Untick 10 prompts one by one (GB (EN) Brand Image rows): after 9 unticks \"1001 / 1000 · 431 selected\", \"1 prompt over. ...\" (overWizard_one, singular correct). After the 10th: ring \"1000 / 1000 prompts · 430 selected\" (= U + 430 / P, the limit), data-status \"atLimit\", amber stroke #F59E0B, amber label and message \"Pool full. Any prompt you add must be balanced by an untick before launch.\" (wizard.pool.atLimitWizard). Popover: \"1000 of 1000 · at the limit\" (summaryAtLimit), In use by other analyses 570, Kept in this analysis 430, Free in the pool 0, \"Need more room? Contact your account manager.\" (wizard.pool.needMoreRoom). Review & Launch enabled, Add prompt enabled."
+    },
+    {
+      "tc_id": "TC-GEO-1236-003",
+      "title": "Over the limit the ring is red and only Review & Launch is blocked",
+      "story_id": "GEO-1236",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-003_step3_then.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-003_step4_back_at_limit.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the selection is exactly at the limit",
+          "expected": "The ring is amber",
+          "data": "30 ticked, 10 unticked",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user ticks 2 unticked prompts",
+          "expected": "The ticks are accepted",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the ring turns red and the message states how many prompts are over",
+          "expected": "Red ring \"U + 32 / U + 30\" with a message stating 2 prompts over",
+          "status": "PASS"
+        },
+        {
+          "title": "And Review & Launch is blocked",
+          "expected": "Review & Launch is disabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a custom prompt",
+          "expected": "Add prompt is enabled and the prompt is added; the message states 3 prompts over",
+          "data": "Prompt: \"Which brand has the best ski jackets?\" - C1 - Visibility - GB (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user unticks 3 prompts",
+          "expected": "The ring reads \"U + 30 / U + 30\" and Review & Launch is enabled again",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session B scope (unsaved wizard, pool unchanged): Decathlon (decathlon.com), markets United Kingdom - English (EN) + France - French (FR), AI Insights English (EN); categories Sporting Goods (discovered, C1) + 6 custom (Running Shoes, Cycling Equipment, Camping Gear, Swimwear, Fitness Equipment, Ski Equipment) = 2 x (10 Brand Image + 7 x 30) = 440 suggested prompts. Free slots = P - U = 1000 - 570 = 430, so 440 ticked = 10 over: the same over-pool state as the CSV \"40 ticked, pool U + 30\" without any back-office change. Ring values therefore read U + 440 / P (1010 / 1000) instead of U + 40 / U + 30. Given (continuing TC-002): 430 ticked, 10 unticked, ring \"1000 / 1000\" amber. Tick 2 unticked prompts: both ticks accepted (checkboxes checked), ring \"1002 / 1000 prompts · 432 selected\", data-status \"over\", red stroke, message \"2 prompts over. Untick prompts or contact your account manager.\"; Review & Launch disabled. Add prompt (toolbar button enabled): draft row \"Which brand has the best ski jackets?\" - Sporting Goods (C1) - Visibility - GB (EN), \"Add this prompt\" enabled; prompt added at the top of the table with a CUSTOM badge, ticked; toast \"Prompt added. It uses one pool slot.\" (wizard.promptTable.promptAdded); ring \"1003 / 1000 · 433 selected\", \"3 prompts over. ...\"; 441 rows. Untick 3 prompts (the new custom prompt + 2 Brand Image GB (EN) rows): ring \"1000 / 1000 prompts · 430 selected\", amber, \"Pool full. Any prompt you add must be balanced by an untick before launch.\", Review & Launch enabled again."
+    },
+    {
+      "tc_id": "TC-GEO-1236-004",
+      "title": "In Manage Scope ticking or adding a prompt still needs room in the pool",
+      "story_id": "GEO-1236",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "state-changing action not allowed (user decision): the Given needs the pool of QA-GEO set to U in the back office (no free slot; today 430 free), and the Then step asks to untick a kept prompt and Save in Manage Scope of an existing analysis. The no-room state cannot be reached in Manage Scope without the back office (an unsaved Manage Scope edit would need more than 430 ticked suggestions on one analysis).",
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A with no free slot",
+          "expected": "The ring reads \"U / U\" (amber)",
+          "data": "Pool = U",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user ticks a suggested prompt",
+          "expected": "The tick is refused (or Save is disabled) because the pool has no room",
+          "data": "A row under Suggested Prompts",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user tries to add a prompt",
+          "expected": "The add is refused (or cannot be saved) because the pool has no room",
+          "data": "Prompt: \"Which brand sells the best climbing ropes?\" - category of A - Visibility - GB (EN)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then unticking a kept prompt frees a slot",
+          "expected": "The ring reads \"U - 1 / U\" and ticking one suggested prompt is now accepted",
+          "data": "Untick 1 kept prompt and save",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Not executed."
+    },
+    {
+      "tc_id": "TC-GEO-1236-005",
+      "title": "Over the limit the system never removes a prompt",
+      "story_id": "GEO-1236",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1236/TC-GEO-1236-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step over the limit",
+          "expected": "Red ring, 10 over",
+          "data": "40 ticked, pool U + 30",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user hovers the ring",
+          "expected": "The popover shows \"Need more room? Contact your account manager.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user goes Back to Categories and returns to Prompts",
+          "expected": "The Prompts step is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no prompt was removed or unticked by the system",
+          "expected": "\"40 selected\", 40 rows, the ring still reads \"U + 40 / U + 30\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session B scope (unsaved wizard, pool unchanged): Decathlon (decathlon.com), markets United Kingdom - English (EN) + France - French (FR), AI Insights English (EN); categories Sporting Goods (discovered, C1) + 6 custom (Running Shoes, Cycling Equipment, Camping Gear, Swimwear, Fitness Equipment, Ski Equipment) = 2 x (10 Brand Image + 7 x 30) = 440 suggested prompts. Free slots = P - U = 1000 - 570 = 430, so 440 ticked = 10 over: the same over-pool state as the CSV \"40 ticked, pool U + 30\" without any back-office change. Ring values therefore read U + 440 / P (1010 / 1000) instead of U + 40 / U + 30. Given: ring \"1010 / 1000 prompts · 440 selected\", data-status \"over\", red, \"10 prompts over. Untick prompts or contact your account manager.\", Review & Launch disabled, Add prompt enabled (440 rows, 440 ticked). Hover: popover \"1010 of 1000 · 10 over\" (wizard.pool.summaryOver), In use by other analyses 570, Kept in this analysis 440, Over the pool 10 (wizard.pool.overPool), \"Need more room? Contact your account manager.\". Back to Categories (no dialog), then Generate Prompts: Prompts step displayed in about 4 s with 440 rows, 440 ticked, \"440 selected\", ring still \"1010 / 1000\", \"10 prompts over\": no prompt removed or unticked by the system. Extra evidence of AC-4: the 2 prompts unticked in session A stayed unticked after going Back to Brand & Country, adding France and 6 categories and regenerating (438 of 440 ticked on arrival); they were re-ticked by hand to reach 440."
+    }
+  ]
+}

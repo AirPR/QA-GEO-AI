@@ -1,0 +1,146 @@
+{
+  "epic": {
+    "id": "GEO-577",
+    "key": "GEO-577",
+    "title": "EPIC-28: Time Evolution Comparison (Trendlines and Period-over-Period Deltas)",
+    "status": "Ready for QA",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-05-28",
+    "updated": "2026-07-20",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-577",
+    "functionalNeed": "| Field | Value|\n| Fix Version | 1.1|\n| Status | Draft|\nA user can see how an analysis has changed over time, directly inside the graphs they already use, through trendlines and period-over-period deltas, so they can answer \"what changed since last time\" at a glance. Today the dashboard shows a single point in time, so a user cannot tell whether their visibility, ranking, competitive position, or perception is improving or worsening. Surfacing evolution inside the existing graphs turns the dashboard from a snapshot into a view of progress.\nEvery in-scope metric is compared the same way: the latest value against the average of the previous period. A date range picker, consistent with Onclusive Analytics, lets the user select the current period and clearly indicates the previous period it is compared against. This is one uniform model applied to all metrics in scope, with no per-metric variation.\nThe KPI cards carry the delta for Visibility, Average Position, AI choice, and Sentiment. Share of Voice no longer sits in the per-brand KPI card set, so its delta is shown on the dedicated Share of Voice chart instead. The trend graph adds the evolution lines: on the Overview it shows one line per category plus a distinct all-categories line; in Category view it shows the brand and its top competitors. Hovering any data point reveals the per-country breakdown for that line, ordered from highest to lowest. A metric switcher lets the user move between Share of Voice, Visibility, Average Position, AI choice, and Sentiment without leaving the view. Evolution appears only once an analysis has at least one full week of history, and by default the view is set to the last 7 days once that history exists.",
+    "scope": [
+      "Out of scope",
+      "- New and lost competitor detection",
+      "- A dedicated evolution or \"what changed\" view",
+      "- An email digest of changes",
+      "- Any per-metric variation of the averaging model (the MVP uses one uniform model)",
+      "Still open (non-blocking)",
+      "- Whether the all-categories Overview line and per-country hover ordering use the same scope filters (country, engines) as the rest of the view, or always show the full set"
+    ],
+    "outOfScope": [],
+    "stories": [
+      {
+        "id": "GEO-976",
+        "title": "[GEO-Export] Add Time Evolution data to the XLSX export (Overview and per-category)",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-07-15",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-976",
+        "userStory": "As a user, I want the Time Evolution data included in the XLSX export, so that I can analyze metric trends over time outside the platform.\n\n### Context",
+        "acceptanceCriteria": "- Given an analysis that meets the same Time Evolution availability rules as the app (enough historical data for trendlines), When I export to XLSX, Then the workbook contains a Time Evolution sheet with one table per metric (SOV, Visibility, Avg Position, AI Choice, Sentiment), snapshot dates as columns, and the aggregate plus each category as rows\n- Given an analysis that does not meet the Time Evolution availability rules (the trend graph shows its no-data state in the app), When I export to XLSX, Then the Time Evolution sheets are omitted\n- Given an analysis with categories, When I export to XLSX, Then each category has its own Time Evolution sheet with the same five tables where rows are the target brand and its competitors, target brand listed first\n- Given a selected time range, When I export to XLSX, Then the Time Evolution tables cover only that range, with the same date buckets the app displays for it\n- Given active market, AI engine or period filters, When I export to XLSX, Then all Time Evolution values reflect the filtered scope\n- Given the dashboard hover shows a per-market breakdown, When I export to XLSX, Then per-market values are not included - each table contains Global values only\n- Given the Time Evolution sheets, When I inspect them, Then they contain value tables only, with no embedded charts\n- Given number formatting, When I read the tables, Then percentages show one decimal, Avg Position shows whole ranks, and Sentiment shows signed points",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-962",
+        "title": "[GEO-Export] Add the \"Time Evolution\" chart and the selected time range to PPTX/PDF exports",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-07-13",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-962",
+        "userStory": "## Context\n\nOn the dashboard, the **Time Evolution** section shows how a metric evolves over time, and the user can select a **time range** (e.g. \"Last 7 days\"). Neither of these currently appears in the **PPTX** and **PDF** exports — this story adds them.",
+        "acceptanceCriteria": "- **AC1** — _Given_ a \"Last 7 days\" range is selected, _When_ I export to PPTX/PDF, _Then_ the cover shows \"Last 7 days\".\n- **AC2** — _Given_ a range is selected and the \"Visibility\" metric is active on the evolution chart, _When_ I export, _Then_ the export contains a Time Evolution chart for Visibility (aggregate + per-market) consistent with the dashboard.\n- **AC3** — _Given_ a report without enough history (chart unavailable on the dashboard), _When_ I export, _Then_ the Time Evolution chart does not appear (no empty section).",
+        "technicalNotes": "- **Frontend** — make the chart's selected metric readable by the export (lift it into a store); send as params: the metric + the time-range label.\n- **Backend** — the export reuses the existing time-series service (`KpiTimeSeriesService`) to fetch the same data as the dashboard; granularity derived from the range duration.\n- `PptxChartBuilder` — new multi-line chart rendering (Apache POI) + the time-range label on the cover. PDF is covered automatically (it re-renders the PPTX deck)."
+      },
+      {
+        "id": "GEO-864",
+        "title": "Increase resolution of Time Evolution line charts (taller plot + finer Y-axis steps)",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-30",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-864",
+        "userStory": "Update the line charts in the Time Evolution module to improve readability when many brand lines overlap in the lower value range.\n\n**Changes:**",
+        "acceptanceCriteria": "_Voir Jira._",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-811",
+        "title": "28-7 — History gating and sensible defaults",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-23",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-811",
+        "userStory": "## Story\n\nAs a user, I want evolution to appear only once there is enough history, so that I am never shown misleading trends on a new analysis.",
+        "acceptanceCriteria": "**AC1** (view gate) — Given an analysis with 7 or fewer crawls, When I view the app, Then no evolution trendline or delta is shown.\n\n**AC2** (view gate / default) — Given an analysis with more than 7 crawls, When I open the app, Then the view defaults to « Last 7 days ».\n\n**AC3** (picker) — Given insufficient history for a time-based preset, When I open the date range picker, Then that preset is disabled; I cannot select a period longer than the available data.\n\n**AC4** (delta gate) — Given a selected period without a comparable previous-period baseline, When the KPI cards / SOV chart render, Then the delta row is hidden (value-only) — independent of the view gate.\n\n**AC5** (delta gate) — Given a selected period with a comparable previous-period baseline, When the cards/chart render, Then the delta is shown.\n\n\n**AC6** — Given insufficient history (≤ 7 crawls), When the dashboard renders, Then it shows in its current snapshot state without evolution controls — no error, no empty trendline.\n\n📋 Spec complète : [28-7-history-gating-and-defaults.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-28/28-7-history-gating-and-defaults.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-810",
+        "title": "28-5 — Trendlines in Category view",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-23",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-810",
+        "userStory": "## Story\n\nAs a user, I want the Category trend graph to show the brand and its top competitors, so that I can see how my competitive position evolved.",
+        "acceptanceCriteria": "**AC1** — Given I am in Category view, When the trend graph renders, Then I see one line per brand (the Top 10 brands) for the selected metric over the selected period — **no aggregate « all-brands » line**.\n\n**AC2** — Given I hover a data point, When the tooltip opens, Then it shows a « Global » aggregate row plus one row per country (countries accepted by the user's filter, ordered from highest to lowest value).\n\n**AC3** — Given the per-country breakdown, When the « Global » value is shown, Then it is computed the **same way the dashboard already computes a multi-market value** — by re-computing the metric over the **pooled responses of the filtered countries** (`KpiAggregatorService`, Epic 16) — **not a sum, not a naive average of per-country percentages**. (Per metric: Visibility/Win Rate = flat ratio over the union; SOV = mention-density re-computed over the union; Avg Position = flat mean of ranks, penalty 11, ceil; Sentiment = mean of per-(category×market) group sentiments.)\n\n**AC4** — Given I change the selected period, When the trend graph redraws, Then the lines span the new period, bucketed per granularity (daily 7/30 days, weekly 3 months, monthly 12 months / All).\n\n**AC5** — Given I change the metric (28-6), When the graph updates, Then the brand lines and the per-country hover reflect the selected metric.\n\n\n**AC6** — Layout per Figma: title « Time Evolution », subtitle « Top 10 brands… », switcher, time X-axis, brand legend (target brand highlighted). **No all-brands line** — the Figma « all brands » line/subtitle is dropped (design to be updated).\n\n**AC7** — The hover tooltip shows the date, the brand name, a « Global » row, then the countries (flag + value) ordered descending.\n\n📋 Spec complète : [28-5-trendlines-category-view.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-28/28-5-trendlines-category-view.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-809",
+        "title": "28-4 — Trendlines on the Overview",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-23",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-809",
+        "userStory": "## Story\n\nAs a user, I want the Overview trend graph to show one line per category plus a distinct all-categories line, so that I can compare how each category evolved over the period.",
+        "acceptanceCriteria": "**AC1** — Given I am on the Overview, When the trend graph renders, Then I see one line per category plus a distinct all-categories line for the selected metric over the selected period.\n\n**AC2** — Given I hover a data point, When the tooltip opens, Then it shows a « Global » aggregate row plus one row per country, where the countries are those accepted by the user's current filter and are ordered from highest to lowest value.\n\n**AC3** — Given the per-country breakdown, When the « Global » value is shown, Then it is computed the **same way the dashboard already computes a multi-market value** — by re-computing the metric over the **pooled responses of the filtered countries** (`KpiAggregatorService`, Epic 16) — **not a sum, not a naive average of per-country percentages**.\n\n**AC4** — Given I change the selected period, When the trend graph redraws, Then the lines span the new period, bucketed per granularity (daily 7/30 days, weekly 3 months, monthly 12 months / All).\n\n**AC5** — Given I change the metric (switcher, 28-6), When the graph updates, Then the lines and the per-country hover reflect the selected metric.\n\n\n**AC6** — Layout per Figma: title « Time Evolution », metric switcher tabs, time X-axis, category legend (incl. « All categories »), all-categories line visually distinct.\n\n**AC7** — The hover tooltip shows the date, the line name (category), a « Global » row, then the countries (flag + value) ordered descending.\n\n📋 Spec complète : [28-4-trendlines-overview.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-28/28-4-trendlines-overview.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-808",
+        "title": "28-3 — Delta on the Share of Voice chart",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-23",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-808",
+        "userStory": "## Story\n\nAs a user, I want the dedicated Share of Voice chart to show its period-over-period change, so that I can read the evolution of my share even though it is no longer a KPI card.",
+        "acceptanceCriteria": "**AC1** — Given the dedicated Share of Voice chart, When it renders for a period with a comparable previous-period baseline, Then it shows a delta of the latest share against the previous-period average.\n\n**AC2** — Given the SOV delta is shown, When the latest share is above/below the previous-period average, Then both direction and size are clearly indicated, coloured by impact (green = improvement, red = decline).\n\n**AC3** — Given no comparable prior data, When the SOV chart renders, Then the delta is hidden (the doughnut shows without a delta).\n\n**AC4** — Given I change the selected period, When the SOV chart refreshes, Then its delta recomputes against the new previous period (same length, immediately preceding).\n\n\n**AC5** — The delta appears below the central share value (e.g. « 46% Share of Voice » then a « ↑20% » pill), same pill style as the KPI cards (arrow + magnitude, coloured by impact).\n\n📋 Spec complète : [28-3-delta-on-share-of-voice-chart.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-28/28-3-delta-on-share-of-voice-chart.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-807",
+        "title": "28-2 — Period-over-period delta on KPI cards",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-23",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-807",
+        "userStory": "## Story\n\nAs a user, I want each KPI card to show the change of its latest value against the previous-period average, so that I can tell at a glance whether the metric improved or worsened.",
+        "acceptanceCriteria": "**AC1** — Given an analysis with a comparable previous-period baseline, When I view the KPI cards, Then each card (Visibility, Average Position, AI choice, Sentiment) shows a delta of the latest value against the previous-period average.\n\n**AC2** — Given a delta is shown, When the latest value is above/below the previous-period average, Then both direction and size are clearly indicated, the size being the relative percentage change vs the previous-period average.\n\n**AC3** — Given a delta is shown, When it is coloured, Then the colour follows impact, not raw direction — green = improvement, red = decline — and for Average Position a movement toward rank #1 is shown as an improvement (green) even though the numeric rank decreases.\n\n**AC4** — Given the Sentiment metric and a previous-period average near zero, When the relative formula would diverge, Then the delta is not shown as a misleading large percentage (it is hidden, treated as no comparable baseline).\n\n**AC5** — Given no comparable prior data, When the cards render, Then the delta row is hidden entirely (value-only).\n\n**AC6** — Given I change the selected period, When the cards refresh, Then each delta recomputes against the new previous period.\n\n\n**AC7** — The delta row appears below the value as: arrow + percentage pill + « vs previous period ». Mixed-direction reference: ↓5% Visibility (red) · ↑20% Avg Position (green) · ↓19% AI Choice (red) · ↑30% Sentiment (green).\n\n📋 Spec complète : [28-2-period-over-period-delta-kpi-cards.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-28/28-2-period-over-period-delta-kpi-cards.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-806",
+        "title": "28-1 — Select the period under view (report-based date range picker)",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-23",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-806",
+        "userStory": "## Story\n\nAs a user, I want a date range picker consistent with Onclusive Analytics, so that I can choose the current period and clearly see which previous period it is compared against.",
+        "acceptanceCriteria": "**AC1** — Given I open the date range picker, When I view the preset list, Then it is anchored by « Latest report » at the top and « All reports » at the bottom, time-based presets (Last 7 days / 30 days / 3 / 12 months) are disabled when no report run falls in their window, and the applied default is « Last 7 days » (once crawls > 7).\n\n**AC2** — Given the calendar, When I view it, Then only report-run dates are selectable (days without a run are disabled).\n\n**AC3** — Given a selection, When I look at the footer before committing, Then it restates the effective selection in report terms (Selected / Range / report count), and Apply is the single commit action (Cancel discards).\n\n**AC4** — Given I select a period and press Apply, When the view updates, Then the trendlines redraw over that period and every delta recomputes against the previous period (same length, immediately preceding).\n\n**AC5** — Given a committed selection, When I view graphs and KPI cards, Then they all reflect the same selected period and the same comparison previous period.\n\n\n**AC6** — Layout = preset column (left) + 2-month calendar (prev/next chevrons); selected range highlighted (start/end darker); footer summary + Cancel (ghost) / Apply (primary). Days without a report run shown disabled.\n\n📋 Spec complète : [28-1-report-based-date-range-picker.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-28/28-1-report-based-date-range-picker.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-805",
+        "title": "28-0 — Time-series metric aggregation endpoint (backend prerequisite)",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-23",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-805",
+        "userStory": "## Story\n\nAs the dashboard frontend (28.1–28.5), I want a backend endpoint that returns historical metric values across immutable snapshots — bucketed by granularity, with per-country breakdown preserved and a previous-period aggregate — so that deltas, trendlines and the per-country hover all derive consistently from the user's selected period and country filter.",
+        "acceptanceCriteria": "**AC1** — Given a report with N daily snapshots and a selected period, When the time-series is requested for a metric, Then it returns one series per line (per category for the Overview ; per brand — Top 10 — for the Category view) spanning the period.\n\n**AC2** — Given a metric series, When it is returned, Then each point carries the per-country value for the countries in the user's current filter, plus a « Global » value computed the **same way the dashboard already computes a multi-market value** — re-computing the metric over the **pooled responses of the filtered countries** (`KpiAggregatorService`, Epic 16), **not a sum nor a naive average of per-country percentages**.\n\n**AC3** — Given the requested granularity, When the series is built, Then points are bucketed and averaged server-side: daily (7/30 days), weekly (3 months), monthly (12 months / All).\n\n**AC4** — Given a selected period, When the endpoint responds, Then it exposes the previous-period average per line/metric (previous period = same length, immediately preceding) for delta computation.\n\n**AC5** — Given the picker, When report run dates are requested, Then the endpoint exposes the list of report-run (snapshot) dates available in scope.\n\n**AC6** — Given a report with 7 or fewer crawls, When the time-series is requested, Then the response indicates evolution is not yet available (gating), without error.\n\n> Note — **two distinct aggregation axes**: (country / Global) = pooled re-computation over the union (Epic 16, AC2); (time / week-month bucket) = average of per-snapshot metric values (AC3). Composition order is an implementation detail (default: Global pooled per snapshot, then time-bucket average).\n\n📋 Spec complète : [28-0-timeseries-metric-aggregation-backend.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-28/28-0-timeseries-metric-aggregation-backend.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-804",
+        "title": "28-6 — Switch the metric in the trend graph",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-23",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-804",
+        "userStory": "## Story\n\nAs a user viewing the trend graph, I want a metric switcher that lets me move between Share of Voice, Visibility, Average Position, AI choice and Sentiment, so that I can compare how each metric evolved over the selected period without leaving the view.",
+        "acceptanceCriteria": "**AC1** — Given I open the trend graph, When I switch between Share of Voice, Visibility, Average Position, AI choice and Sentiment, Then the graph updates to that metric without leaving the view (same chart, same lines, re-scaled).\n\n**AC2** — Given I have switched the metric, When I hover a data point, Then the per-country breakdown reflects the selected metric.\n\n**AC3** — Given I switch the metric, When the graph updates, Then it stays on the same view (Overview or Category), keeps the same selected period, and keeps the same set of lines (categories on Overview / Top-10 brands in Category view) — only the metric and its y-axis change.\n\n\n**AC4** — The metric switcher is a horizontal tab bar of 5 tabs (icon + label) in order: Share of voice, Visibility, Avg. Position, AI choice, Sentiment; the active tab is visually distinct (underline + active colour).\n\n**AC5** — The y-axis adapts per metric: Visibility / Share of Voice / AI choice → fixed 0–100% (25-pt steps); Sentiment → symmetric −100% → +100% with a zero midline; Average Position → inverted ordinal scale, rank 1 at top, 11 at bottom.\n\n📋 Spec complète : [28-6-trend-graph-metric-switcher.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-28/28-6-trend-graph-metric-switcher.md)",
+        "technicalNotes": ""
+      }
+    ]
+  }
+}

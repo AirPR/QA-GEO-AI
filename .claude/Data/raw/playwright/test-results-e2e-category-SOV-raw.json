@@ -1,0 +1,303 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\playwright.config.js",
+    "rootDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\global-setup.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "all-epics",
+        "name": "all-epics",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/test-suite-epic99.spec.js",
+          "**/test-suite-epic100.spec.js",
+          "**/test-suite-epic101.spec.js",
+          "**/test-suite-epic102.spec.js",
+          "**/test-suite-epic103.spec.js",
+          "**/test-suite-epic104.spec.js",
+          "**/test-suite-epic105.spec.js",
+          "**/test-suite-epic174.spec.js",
+          "**/test-suite-epic200.spec.js",
+          "**/test-suite-epic257.spec.js",
+          "**/test-suite-epic263.spec.js",
+          "**/test-suite-epicGEO-397.spec.js"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "e2e-suite",
+        "name": "e2e-suite",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/e2e-geo-analytics-dashboard.spec.js",
+          "**/e2e-dashboard-overview.spec.js",
+          "**/e2e-verify-analysis.spec.js",
+          "**/e2e-category-questions-table.spec.js",
+          "**/e2e-category-question-analysis.spec.js",
+          "**/e2e-category-kpi-cards.spec.js",
+          "**/e2e-category-brand-prioritization.spec.js",
+          "**/e2e-category-brand-rankings.spec.js",
+          "**/e2e-category-top-concept.spec.js",
+          "**/e2e-category-perception-citation.spec.js",
+          "**/e2e-manage-scope.spec.js",
+          "**/e2e-hubspot-upsell-pql.spec.js",
+          "**/e2e-brand-SOV.spec.js",
+          "**/e2e-category-SOV.spec.js",
+          "**/e2e-category-question-visibility.spec.js",
+          "**/e2e-category-question-competitive.spec.js",
+          "**/e2e-category-question-perception.spec.js"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": ".claude/Data/raw/playwright/test-results-e2e-category-SOV-raw.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "e2e-category-SOV.spec.js",
+      "file": "e2e-category-SOV.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "GEO-640 — SOV : Category view",
+          "file": "e2e-category-SOV.spec.js",
+          "line": 92,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-GEO-663-002 - Category: KPI row shows exactly 4 cards without SOV and layout reflows cleanly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 240000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 23772,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Given a user is authenticated and navigates to a Category view",
+                          "duration": 22390
+                        },
+                        {
+                          "title": "When the Performance KPI row renders",
+                          "duration": 348
+                        },
+                        {
+                          "title": "Then it shows the same 4 KPI cards: Visibility, Avg Position, AI Choice, Sentiment — and no Share of Voice card",
+                          "duration": 128
+                        },
+                        {
+                          "title": "And the KPI row layout reflows cleanly for 4 cards with no broken grid or empty cell",
+                          "duration": 10
+                        }
+                      ],
+                      "startTime": "2026-07-29T13:38:34.021Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7c58e90f4dfb039f8f43-b5290b3986e76db176e3",
+              "file": "e2e-category-SOV.spec.js",
+              "line": 96,
+              "column": 3
+            },
+            {
+              "title": "TC-GEO-663-004 - Category: Brand Rankings table has no SoV% column",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 240000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 42630,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Given a user is authenticated and navigates to a Category view",
+                          "duration": 41751
+                        },
+                        {
+                          "title": "When the Brand Rankings table renders",
+                          "duration": 101
+                        },
+                        {
+                          "title": "Then the table columns are exactly: Rank, Brand, Visibility%, Avg Position, LLM Choice%",
+                          "duration": 225
+                        },
+                        {
+                          "title": "And there is no SoV% column header and no SoV% cell in any parent or variant row",
+                          "duration": 10
+                        }
+                      ],
+                      "startTime": "2026-07-29T13:38:58.582Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7c58e90f4dfb039f8f43-cb141fb942c63b5ed97f",
+              "file": "e2e-category-SOV.spec.js",
+              "line": 138,
+              "column": 3
+            },
+            {
+              "title": "TC-GEO-664-002 - SOV dedicated card renders below KPI row on Category view",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 240000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 17948,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Given a user is authenticated and navigates to a Category view with data available",
+                          "duration": 16727
+                        },
+                        {
+                          "title": "When the page finishes loading",
+                          "duration": 86
+                        },
+                        {
+                          "title": "Then a full-width \"Share of Voice\" card is visible directly below the KPI card row",
+                          "duration": 739
+                        },
+                        {
+                          "title": "And the card displays the title \"Share of Voice\" and the subtitle \"By brand, your brand is highlighted\"",
+                          "duration": 0
+                        }
+                      ],
+                      "startTime": "2026-07-29T13:39:41.240Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7c58e90f4dfb039f8f43-1ed416e4299ff819e309",
+              "file": "e2e-category-SOV.spec.js",
+              "line": 169,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-07-29T13:38:32.579Z",
+    "duration": 87190.216,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "spec": "NO-EPIC-GEO-1220-nextrun-20261103",
+  "runDate": "2026-11-03",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-storyGEO-1220.csv",
+  "filter": "--story GEO-1220 --tc TC-GEO-1220-009,TC-GEO-1220-010,TC-GEO-1220-011",
+  "rerunOf": ["runs/29102026-1535"],
+  "account": "assiya.benramdane@onclusive.com, SUPER_ADMIN, organisation QA-GEO, language en-GB (GET /geo/api/v1/auth/me at start 10:36:40 GMT and end 10:40:19 GMT)",
+  "approval": "Only DELETE calls sent (cyclingelectric.com/override and qa-geo-1220-absent-domain.com/override, both expected 404 no-op, CSV TC-011). No PUT sent. Nothing written to Jira.",
+  "devEvidence": "GEO-1220 comment 870110: the cache rows were soft-deleted; at the next run Gemini classifies cyclingelectric.com again and writes the row back with origin GEMINI, is_deleted false; capterra.com stays with the regex and is never cached. Comment 869634: run of 28/10 21:38Z, cyclingelectric.com Level 0 (override), not sent to Gemini; override rows unchanged after the runs.",
+  "scheduleNote": "The daily runs of both analyses start at about 21:38-21:43 UTC (not 22:15 / 15:50 as expected). Lictorix Geo has no 15:50 snapshot on 29/10: its first snapshot after the DELETE is bce6f1e2 at 21:38:45Z. The runs of 31/10 and 01/11 failed for every prompt on both analyses (Electric bikes 0/10, Lictorix Geo 0/140); not linked to GEO-1220, side finding on staging.",
+  "snapshots": {
+    "Electric bikes 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4": {
+      "underOverride": "08141e91-e4ab-4e8a-a7dc-153a759903c2 (2026-10-28T21:38:45.864378Z, 10/0)",
+      "firstAfterDelete": "e6aa1990-96cb-4f95-bbd4-0653cd5df52d (2026-10-29T21:38:45.870939Z, 10 success / 0 failed)",
+      "later": [
+        "56b03b3a-ba49-404a-99bc-0124f02b72ce (2026-10-30T21:43:42.763563Z, 10/0)",
+        "47602f84-42b0-4592-b709-e46d06684b98 (2026-10-31T21:43:42.756563Z, 0/10)",
+        "8b2d8593-313a-434f-9185-a867a4450e92 (2026-11-01T21:43:42.756837Z, 0/10)",
+        "550f3271-ee24-44dd-876b-0f24ffe1cd88 (2026-11-02T21:40:09.483744Z, 9/1)"
+      ]
+    },
+    "Lictorix Geo f228f1fe-9363-4f3c-97e6-e7275bd383e8": {
+      "underOverride": "c4b2a494-1e6d-4166-b3f3-e33668d3a5be (2026-10-28T21:38:45.872420Z, 139/1)",
+      "firstAfterDelete": "bce6f1e2-a974-4db3-be71-6f3589c61579 (2026-10-29T21:38:45.886996Z, 140 success / 0 failed)",
+      "later": [
+        "08fd1a88-75c3-41d9-994c-c483e0350e00 (2026-10-30T21:43:42.783578Z, 140/0)",
+        "980a2201-722a-4eed-8032-78bc8cdbbba3 (2026-10-31T21:43:42.765823Z, 0/140)",
+        "8f7e1d8d-99f5-49db-9ff8-7003082a8480 (2026-11-01T21:43:42.766432Z, 0/140)",
+        "960358f9-3c92-4f77-9140-ee9cc30bd247 (2026-11-02T21:40:09.494469Z, 139/1)"
+      ]
+    }
+  },
+  "getValues": {
+    "cyclingelectric.com": {
+      "before_29oct_after_delete": "GET 29/10 15:33:49 and 15:35:35 GMT -> 200, totalElements 0",
+      "today_10:36:45": "200, 1 row: JOURNALISM / GEMINI / updatedAt 2026-10-29T21:39:59.938754Z (no overriddenBy, overriddenAt, reason)",
+      "tc011_before_delete_10:38:43": "JOURNALISM / GEMINI / 2026-10-29T21:39:59.938754Z",
+      "tc011_after_delete_10:38:43": "JOURNALISM / GEMINI / 2026-10-29T21:39:59.938754Z (identical)"
+    },
+    "capterra.com": {
+      "before_29oct_after_delete": "GET 29/10 15:33:49 GMT -> only capterra.com.au REVIEW_SITES / GEMINI / 2026-09-25T05:37:48.243660Z",
+      "today_10:36:46": "200, only capterra.com.au REVIEW_SITES / GEMINI / 2026-09-25T05:37:48.243660Z; no capterra.com row (never cached, regex domain)"
+    },
+    "overridden=true": "29/10 15:35:35 GMT 0 row; 03/11 10:36:46 and 10:38:43 GMT 0 row"
+  },
+  "citationSourcesSingleDay": {
+    "endpoint": "GET /geo/api/v1/reports/{id}/overview/citation-sources?from={day}T00:00:00Z&to={day}T23:59:59Z",
+    "cyclingelectric.com (Electric bikes)": "28 Oct REVIEW_SITES freq 3 (under the override, kept); 29 Oct JOURNALISM freq 4, 4 URLs all JOURNALISM; 30 Oct JOURNALISM freq 3; 02 Nov JOURNALISM freq 3",
+    "capterra.com (Lictorix Geo)": "28 Oct SOCIAL_UGC freq 5 (under the override, kept); 29 Oct REVIEW_SITES freq 5, 5 URLs all REVIEW_SITES; 30 Oct REVIEW_SITES freq 6; 02 Nov REVIEW_SITES freq 5",
+    "ui": "Electric bikes, period 29 Oct 2026, AI Engines Citation Sources: 'cyclingelectric.com | Journalism | 4'. Lictorix Geo, period 29 Oct 2026: 'capterra.com | Review Sites | 5'.",
+    "xlsx": "Not exported (UI + API already agree on a single-day period)."
+  },
+  "summary": {
+    "total": 3,
+    "pass": 1,
+    "fail": 0,
+    "skip": 0,
+    "partial": 2,
+    "success_rate": 66.7,
+    "verdict": "CONDITIONAL",
+    "verdictNote": "(PASS + 0.5 x PARTIAL) / total = (1 + 1) / 3 = 66.7%. No FAIL. TC-010: every verification step PASS, only the history restore step (needs a PUT) not run. TC-009: the Gemini and purge steps need dev evidence."
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1220-009",
+      "title": "An override row survives Gemini reclassification and cache purges",
+      "story_id": "GEO-1220",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-009_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-009_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-009_step3_then.png"
+      ],
+      "steps": [
+        {"title": "Given the test domain has an override", "status": "PASS", "observed": "Override on cyclingelectric.com set by PUT on 28/10 16:14:14Z (run 28102026-1614): REVIEW_SITES / OVERRIDE. Not set up again today (no PUT allowed)."},
+        {"title": "And the user records the override row", "status": "PASS", "observed": "Recorded by GET 29/10 09:46:17 GMT (run check-20261029): REVIEW_SITES, origin OVERRIDE, overriddenBy assiya.benramdane@onclusive.com, overriddenAt = updatedAt = 2026-10-28T16:14:14.520683Z, reason recorded."},
+        {"title": "When the Gemini classifier produces another type for the domain", "status": "PARTIAL", "observed": "Observable part: after the DELETE, run e6aa1990 (29/10 21:38:45Z) rewrote the cache row as JOURNALISM / GEMINI / updatedAt 2026-10-29T21:39:59.938754Z, and the 29 Oct rows are stored JOURNALISM (4 URLs). So the Gemini type (JOURNALISM) differs from the override type (REVIEW_SITES). The backend log line 'Level 3 (Gemini)' is dev-only and not seen. During the override window the dev log (869634) shows the domain was not sent to Gemini at all (Level 0 override)."},
+        {"title": "And a purge respecting origin <> 'OVERRIDE' runs on the cache", "status": "SKIP", "observed": "Backend-only: no purge log or SQL output shared by the dev. Not verifiable via UI or API."},
+        {"title": "Then the override row is unchanged", "status": "PASS", "observed": "Across the run of 28/10 21:38Z (08141e91) the override row kept every recorded field, updatedAt 2026-10-28T16:14:14.520683Z included (GET 29/10 09:46:17 GMT; dev comment 869634 confirms domain_classifications unchanged). Covers the run, not the purge."},
+        {"title": "And the user removes the override", "status": "PASS", "observed": "DELETE /cyclingelectric.com/override -> 204 on 29/10 15:33:48 GMT (run 29102026-1535). Today ?overridden=true -> 0 row."}
+      ],
+      "notes": "PARTIAL: the override row survives a daily run (unchanged fields) and Gemini's own type for the domain is JOURNALISM (observed after the DELETE), different from the override. Not covered: proof that Gemini reclassified the domain while the override existed (dev log only; the dev says the domain is not sent to Gemini under an override) and the purge (no evidence). To close: dev log or SQL output of a purge with origin <> 'OVERRIDE' while an override is in place."
+    },
+    {
+      "tc_id": "TC-GEO-1220-010",
+      "title": "DELETE removes the override, past rows keep their type and Gemini classifies the domain again",
+      "story_id": "GEO-1220",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-010_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-010_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-010_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-010_step3_then_ui_29oct.png",
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/LICTORIX_capterra_29oct_review_sites.png"
+      ],
+      "steps": [
+        {"title": "Given the test domain has an override applied to the history", "status": "PASS", "observed": "Carried over from run 29102026-1535: cyclingelectric.com REVIEW_SITES / OVERRIDE (overriddenAt 2026-10-29T09:50:04.414985Z); history set by TC-005 on 28/10 (historyRowsUpdated 27)."},
+        {"title": "When the user removes the override", "status": "PASS", "observed": "DELETE /cyclingelectric.com/override -> 204, empty body, Date Thu, 29 Oct 2026 15:33:48 GMT (also capterra.com -> 204)."},
+        {"title": "Then the domain no longer appears in the GET", "status": "PASS", "observed": "GET ?domain=cyclingelectric.com 29/10 15:33:49 GMT -> 200, totalElements 0."},
+        {"title": "And past rows keep the override type", "status": "PASS", "observed": "Rechecked 03/11, citation-sources API 28 Oct only: cyclingelectric.com REVIEW_SITES (freq 3, every URL REVIEW_SITES); capterra.com SOCIAL_UGC (freq 5). 29/10: UI Last 30 days showed 'cyclingelectric.com | Review Sites | 3'."},
+        {"title": "When the next run of analysis A completes", "status": "PASS", "observed": "Electric bikes first snapshot after the DELETE: e6aa1990-96cb-4f95-bbd4-0653cd5df52d, 2026-10-29T21:38:45.870939Z, 10 success / 0 failed. Lictorix Geo: bce6f1e2-a974-4db3-be71-6f3589c61579, 2026-10-29T21:38:45.886996Z, 140 / 0."},
+        {"title": "Then Gemini writes the row back", "status": "PASS", "observed": "GET 03/11 10:36:45 GMT -> cyclingelectric.com JOURNALISM / GEMINI / updatedAt 2026-10-29T21:39:59.938754Z (after the DELETE, 74 s after e6aa1990 started); no overriddenBy, overriddenAt or reason. Type matches the earlier GEMINI type (JOURNALISM, 20/10). Rows stored by the run: 29 Oct JOURNALISM freq 4 (API) and UI period 29 Oct 'cyclingelectric.com | Journalism | 4'; 30 Oct and 02 Nov JOURNALISM. capterra.com (regex): no cache row, 29 Oct 'capterra.com | Review Sites | 5' (UI + API), 30 Oct and 02 Nov REVIEW_SITES."},
+        {"title": "And the user restores the history of the domain to its original type", "status": "NOT RUN", "observed": "Needs a PUT applyToHistory=true, which creates a new override: not allowed in this run. The 28 Oct rows still hold REVIEW_SITES (cyclingelectric.com) and SOCIAL_UGC (capterra.com). Decision still open (see run 29102026-1535 openPoint)."},
+        {"title": "And the user removes the override", "status": "PASS", "observed": "Done on 29/10 (204). Today ?overridden=true -> 0 row; DELETE again -> 404 NO_OVERRIDE (TC-011)."}
+      ],
+      "notes": "Every verification step PASS: DELETE 204, domain gone from the GET, past rows keep the override type, the next run (29/10 21:38:45Z) wrote the row back as GEMINI JOURNALISM, and the stored rows use that type (UI + API, single day). PARTIAL only because the cleanup step 'restore the history to T0' was not run (needs a PUT). If the user decides to leave the 28 Oct rows as they are, this TC can be PASS. XLSX not exported."
+    },
+    {
+      "tc_id": "TC-GEO-1220-011",
+      "title": "DELETE on a domain without override returns 404 NO_OVERRIDE",
+      "story_id": "GEO-1220",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-011_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-011_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1220-nextrun-20261103/TC-GEO-1220-011_step3_then.png"
+      ],
+      "steps": [
+        {"title": "Given the test domain has a Gemini row and no override", "status": "PASS", "observed": "GET ?domain=cyclingelectric.com 10:38:43 GMT -> 200, JOURNALISM / GEMINI / updatedAt 2026-10-29T21:39:59.938754Z; ?overridden=true -> 0 row."},
+        {"title": "When the user calls DELETE on it", "status": "PASS", "observed": "DELETE /cyclingelectric.com/override -> 404 {\"error\":\"NO_OVERRIDE\",\"message\":\"No override for domain: cyclingelectric.com\"} (Date Tue, 03 Nov 2026 10:38:43 GMT)."},
+        {"title": "Then the Gemini row is intact", "status": "PASS", "observed": "GET again 10:38:43 GMT -> JOURNALISM / GEMINI / 2026-10-29T21:39:59.938754Z: origin, sourceType and updatedAt identical to step 1."},
+        {"title": "When the user calls DELETE on a root domain absent from the cache", "status": "PASS", "observed": "DELETE /qa-geo-1220-absent-domain.com/override -> 404 {\"error\":\"NO_OVERRIDE\",\"message\":\"No override for domain: qa-geo-1220-absent-domain.com\"} (10:38:43 GMT); GET -> 0 row."}
+      ],
+      "notes": "All four CSV steps PASS. The Given missing on 29/10 (no Gemini row) is now met: the Gemini row came back at the run of 29/10 21:38Z, and a DELETE on it is a no-op (404 NO_OVERRIDE, row unchanged)."
+    }
+  ]
+}

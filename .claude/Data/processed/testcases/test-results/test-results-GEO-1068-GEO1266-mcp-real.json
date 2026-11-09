@@ -1,0 +1,354 @@
+{
+  "spec": "GEO-1068-GEO1266",
+  "runDate": "2026-10-21",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1068.csv",
+  "story": "GEO-1266",
+  "environment": "staging",
+  "notes": [
+    "Pre-run 2026-10-21 11:55: session already authenticated; GET /geo/api/v1/auth/me -> language en-GB, org_name QA-GEO (org_id dcea498b-...), features.unbranded_analysis=true. The account was already on organisation QA-GEO at start, so NO organisation switch was performed. Write guard installed on the context right after (GET only + /reports/{id}/export/(pptx|xlsx|pdf)).",
+    "Electric bikes (42c3ab89) Manage Scope, read only: pool block shows \"996 / 1000 prompts · 5 selected\" - still 5 selected. Nothing saved.",
+    "Analysis O (Toyota 439acd96) scope differs from the 2026-10-05 baseline: Grok disabled (toggle not selectable, scope grok isEnabled=false), categories now Voitures hybrides + VUS only (baseline XLSX also had Voitures électriques). Impacts TC-GEO-1266-007 only.",
+    "End of run 2026-10-21 ~12:05: GET /auth/me -> org QA-GEO, en-GB (no organisation change observed during the run). context.unrouteAll() done. No POST/PUT/DELETE sent; no export used."
+  ],
+  "summary": {
+    "total": 8,
+    "pass": 7,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1,
+    "successRate": 93.75,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1266-001",
+      "title": "TC-GEO-1266-001 - Brand Top Concepts rows show frequency and polarity with no numeric sentiment score",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS",
+          "expected": "The Overview is displayed with the Top Concepts list",
+          "observed": "Toyota (439acd96) Overview, default filters (Last 7 days, AI Engines 3, All Countries). The list card is titled \"Top Topics Associated with Your Brand\" (31 rows: 28 Positive, 1 Mixed, 2 Negative)."
+        },
+        {
+          "title": "When the user looks at the rows of the Top Concepts list",
+          "status": "PASS",
+          "expected": "Each row shows the concept name, its frequency % and the meta line \"{n} sources • {Positive | Mixed | Negative}\"",
+          "observed": "31/31 rows show name + frequency % + meta line \"{n} sources • {label}\" (e.g. \"fiabilité | 88 sources • Positive | 45%\", \"service après-vente | 1 source • Negative | 2%\"). No quote count on brand rows."
+        },
+        {
+          "title": "Then no row shows a numeric sentiment score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown on any row",
+          "observed": "0/31 rows contain a signed number or the word \"sentiment\"."
+        },
+        {
+          "title": "And a row of each polarity shows the same simplified layout",
+          "status": "PASS",
+          "expected": "P, M and N each show their frequency % and their polarity label, and no score",
+          "observed": "P = fiabilité (88 sources • Positive, 45%), M = prix élevé (12 sources • Mixed, 6%), N = bruit à l'accélération (14 sources • Negative, 7%) - same layout, no score."
+        }
+      ],
+      "notes": "Card title on staging is \"Top Topics Associated with Your Brand\" / \"All Topics\" (not \"Top Concepts\") - CSV wording adjustment only. Polarity pill has data-testid=\"dashboard-concept-polarity-label\".",
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-001_step1_given.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-001_step2_when.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-001_step3_then.png"
+      ],
+      "story_id": "GEO-1266",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1266-005",
+      "title": "TC-GEO-1266-005 - Polarity is stated as an explicit Positive, Mixed or Negative label, not by colour alone",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS",
+          "expected": "The Top Concepts list is displayed with the Positive, Mixed and Negative filter pills above it",
+          "observed": "Toyota Overview, list card \"Top Topics Associated with Your Brand\" with filter pills All (31), Positive (28), Mixed (1), Negative (2)."
+        },
+        {
+          "title": "When the user looks at the row of a Positive concept",
+          "status": "PASS",
+          "expected": "The meta line ends with a \"Positive\" pill styled like the \"Positive\" filter pill, without a count (e.g. \"12 sources • Positive\")",
+          "observed": "fiabilité: \"88 sources • Positive\"; pill classes bg-emerald-50 text-emerald-600 = same colour classes as the \"Positive (28)\" filter pill; no count."
+        },
+        {
+          "title": "And the user looks at the row of a Mixed concept",
+          "status": "PASS",
+          "expected": "The meta line ends with a \"Mixed\" pill styled like the \"Mixed\" filter pill, without a count",
+          "observed": "prix élevé: \"12 sources • Mixed\"; pill bg-amber-50 text-amber-600 = \"Mixed (1)\" filter pill; no count."
+        },
+        {
+          "title": "And the user looks at the row of a Negative concept",
+          "status": "PASS",
+          "expected": "The meta line ends with a \"Negative\" pill styled like the \"Negative\" filter pill, without a count",
+          "observed": "bruit à l'accélération: \"14 sources • Negative\"; pill bg-red-50 text-red-600 = \"Negative (2)\" filter pill; no count."
+        },
+        {
+          "title": "Then the polarity can be read without relying on colour",
+          "status": "PASS",
+          "expected": "Each row states its polarity in text; the coloured accent bar and the colour of the frequency % are still shown and match the label (green Positive, amber Mixed, red Negative)",
+          "observed": "31/31 rows carry a text label. Positive x28: bar bg-emerald-600 + % rgb(5,150,105); Mixed x1: bar bg-amber-500 + % rgb(245,158,11); Negative x2: bar bg-red-600 + % rgb(220,38,38)."
+        }
+      ],
+      "notes": "Row pill is smaller than the filter pill (px-2 py-0.5 / 12px vs px-3 py-1 / text-xs) but uses the same colour classes. Mixed % and bar use amber-500, the Mixed pill text uses amber-600 (same amber family).",
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-005_step1_given.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-005_step2_when.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-005_step3_then.png"
+      ],
+      "story_id": "GEO-1266",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1266-002",
+      "title": "TC-GEO-1266-002 - Brand category page Top Concepts rows show frequency and polarity with no score",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the category page C1 of brand analysis B",
+          "status": "PASS",
+          "expected": "The category page is displayed with its Top Concepts list",
+          "observed": "Toyota > category Voitures hybrides (21a79173-...), card \"Top Topics Associated with Your Brand\" with 18 rows (16 Positive, 1 Mixed, 1 Negative)."
+        },
+        {
+          "title": "When the user looks at the rows of the Top Concepts list",
+          "status": "PASS",
+          "expected": "Each row shows the concept name, its frequency % and the meta line \"{n} sources • {Positive | Mixed | Negative}\"",
+          "observed": "18/18 rows match \"{n} sources • {label}\" + frequency % (e.g. \"efficacité énergétique | 52 sources • Positive | 47%\", \"Prix élevé | 6 sources • Mixed | 7%\", \"bruit à l'accélération | 14 sources • Negative | 13%\")."
+        },
+        {
+          "title": "Then no row shows a numeric sentiment score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown on any row",
+          "observed": "0/18 rows contain a signed number or the word \"sentiment\"."
+        },
+        {
+          "title": "When the user opens another category page of B",
+          "status": "PASS",
+          "expected": "Its Top Concepts rows show frequency % and polarity label only, with no score",
+          "observed": "Category VUS (2b64f5f7-...): 17/17 rows \"{n} sources • {label}\" + %, 0 score (15 Positive, 2 Negative, Mixed (0))."
+        }
+      ],
+      "notes": "Default filters (Last 7 days, AI Engines 3, All Countries). Side observation (data, out of scope): \"prix élevé\" is Mixed on the Overview but Negative on VUS (polarity is computed per scope).",
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-002_step1_given.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-002_step2_when.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-002_step3_then.png"
+      ],
+      "story_id": "GEO-1266",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1266-008",
+      "title": "TC-GEO-1266-008 - An analysis created before the release shows the simplified concept rows",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O created before the release",
+          "status": "PASS",
+          "expected": "The Top Concepts list is displayed",
+          "observed": "Toyota (created 2026-05-26) Overview, filters 28 Sept 2026 – 4 Oct 2026 / All Countries (US, FR, ES) / AI Engines 3 (ChatGPT, Gemini, Perplexity). Grok cannot be selected: the toggle is disabled because Grok is now disabled in the analysis scope (GET /reports/{id}/scope: grok isEnabled=false). Top Topics list displayed with 7 rows."
+        },
+        {
+          "title": "When the user looks at the rows of the Top Concepts list",
+          "status": "PASS",
+          "expected": "Each row shows its frequency % and the meta line \"{n} sources • {Positive | Mixed | Negative}\"",
+          "observed": "7/7 rows: Fiabilité 23 sources • Positive 13%, Efficacité énergétique 29 • Positive 13%, Usage urbain 19 • Positive 6%, Leadership hybride 17 • Positive 6%, Coûts d'entretien 10 • Positive 4%, Bruit à l'accélération 7 • Negative 4%, Coût d'achat 8 • Mixed 3%."
+        },
+        {
+          "title": "Then no row shows a numeric sentiment score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"+86 sentiment\", \"-43 sentiment\") is shown on any row",
+          "observed": "0/7 rows show a signed number or \"sentiment\" (baseline showed +86 / -15 / -43)."
+        },
+        {
+          "title": "When the user opens the category page \"Voitures hybrides\" of O",
+          "status": "PASS",
+          "expected": "Its Top Concepts rows show frequency % and polarity label only, with no score",
+          "observed": "Category Voitures hybrides (same filters): 7/7 rows \"{n} sources • {label}\" + % (Fiabilité 27%, Efficacité énergétique 26%, Leadership hybride 12%, Usage urbain 11%, Coûts d'entretien 9%, Bruit à l'accélération 8%, Coût d'achat 6%), no score."
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-008_step1_given.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-008_step2_when.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-008_step3_then.png"
+      ],
+      "notes": "step1/step2 = Overview of O, step3 = category Voitures hybrides. The run used 3 engines because Grok is disabled in O's scope since the baseline (display check unaffected).",
+      "story_id": "GEO-1266",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1266-007",
+      "title": "TC-GEO-1266-007 - An older analysis lists the same concepts with the same frequency as before the release",
+      "status": "PARTIAL",
+      "error": "Frequency mismatch vs 2026-10-05 baseline on the Overview (13/13/6/6/4/4/3% observed vs 9/9/5/3/2/2/2% expected), but the baseline filters cannot be reproduced: analysis O scope changed after the baseline (Grok disabled -> toggle not selectable; category \"Voitures électriques\" no longer in the analysis). Root cause attributed to test data, not to GEO-1068.",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "FAIL",
+          "expected": "The Top Concepts list is displayed",
+          "observed": "List displayed, but the baseline filters cannot be fully applied: period 28 Sept – 4 Oct 2026 and countries US/FR/ES set; AI engines limited to ChatGPT, Gemini, Perplexity because the Grok toggle is disabled (scope: grok isEnabled=false). The analysis now has 2 categories (Voitures hybrides, VUS) while the baseline XLSX had 3 (+ Voitures électriques)."
+        },
+        {
+          "title": "When the user compares the listed concepts with the baseline",
+          "status": "PASS",
+          "expected": "The same 7 concepts are listed: Fiabilité, Efficacité énergétique, Leadership hybride, Usage urbain, Coûts d'entretien, Coût d'achat, Bruit à l'accélération; none added, none missing",
+          "observed": "Exactly the same 7 concepts, none added, none missing (All (7))."
+        },
+        {
+          "title": "And the user compares the frequency % of each concept with the baseline",
+          "status": "FAIL",
+          "expected": "Fiabilité 9%, Efficacité énergétique 9%, Leadership hybride 5%, Usage urbain 3%, Coûts d'entretien 2%, Coût d'achat 2%, Bruit à l'accélération 2%",
+          "observed": "UI (3 engines): Fiabilité 13%, Efficacité énergétique 13%, Usage urbain 6%, Leadership hybride 6%, Coûts d'entretien 4%, Bruit à l'accélération 4%, Coût d'achat 3%. Read-only GET overview/top-concepts with llms incl. grok: 14/14/8/4/3/3/3%. Control: GET categories/Voitures hybrides/top-concepts incl. grok = 28/28/16/8/7/5/6% = exactly the baseline \"Voitures hybrides\" sheet -> per-category frequencies unchanged; the Overview drift matches the removal of a category from the scope (smaller denominator)."
+        },
+        {
+          "title": "And the user compares the polarity and the source count of each concept with the baseline",
+          "status": "PASS",
+          "expected": "Coût d'achat is Mixed (8 sources), Bruit à l'accélération is Negative (7 sources), the 5 others are Positive (Fiabilité 23, Efficacité énergétique 29, Leadership hybride 17, Usage urbain 19, Coûts d'entretien 10 sources); each polarity is now stated by its label",
+          "observed": "All match: Coût d'achat 8 sources • Mixed, Bruit à l'accélération 7 sources • Negative, Fiabilité 23, Efficacité énergétique 29, Leadership hybride 17, Usage urbain 19, Coûts d'entretien 10 sources • Positive. Distribution 71% / 14% / 14% = baseline."
+        },
+        {
+          "title": "Then only the display changed",
+          "status": "PARTIAL",
+          "expected": "Same concepts, frequency, polarity and source counts as the baseline; only the \"{score} sentiment\" text (e.g. \"+86 sentiment\") is gone",
+          "observed": "Concepts, polarity, source counts identical and score text gone; frequency identical at category level (API control) but not on the Overview because O's scope changed since the baseline. Overview frequency cannot be validated against this baseline."
+        }
+      ],
+      "notes": "Red frames on step3_then = Overview frequency values differing from the baseline. Recommended: CSV/test-data adjustment - either compare on the category \"Voitures hybrides\" sheet (frequencies match) or take a new baseline of O / use an analysis whose scope has not changed. Ask who disabled Grok and removed \"Voitures électriques\" on O (QA-GEO).",
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-007_step1_given.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-007_step2_when.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-007_step3_then.png"
+      ],
+      "story_id": "GEO-1266",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1266-003",
+      "title": "TC-GEO-1266-003 - Unbranded Top Topics rows show quotes, sources, frequency and polarity with no score",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of unbranded analysis U",
+          "status": "PASS",
+          "expected": "The unbranded Overview is displayed with \"Top Topics in the Category\"",
+          "observed": "Electric bikes (42c3ab89) Overview, filters 20 Oct 2026 / AI Engines 2; card \"Top Topics in the Category\" with 12 topics (9 Positive, 1 Mixed, 2 Negative)."
+        },
+        {
+          "title": "When the user looks at the rows of Top Topics",
+          "status": "PASS",
+          "expected": "Each row shows the topic, its frequency % and the meta line \"{q} quotes • {n} sources • {Positive | Mixed | Negative}\"",
+          "observed": "12/12 rows match, e.g. \"integrated accessories | 3 quotes • 16 sources • Positive | 67%\", \"legal requirements | 1 quote • 5 sources • Mixed | 17%\", \"battery degradation | 3 quotes • 10 sources • Negative | 33%\" (singular \"1 quote\" correct)."
+        },
+        {
+          "title": "Then no row shows a numeric sentiment score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown on any row",
+          "observed": "0/12 rows contain a signed number or \"sentiment\"."
+        },
+        {
+          "title": "When the user opens a category page of U",
+          "status": "PASS",
+          "expected": "The Top Topics rows of the category page show the same meta line, frequency % and polarity label, with no score",
+          "observed": "Category Commuter Electric Bikes (d8330c1b-...): 8/8 rows \"{q} quotes • {n} sources • {label}\" + % (6 Positive, 1 Mixed, 1 Negative), no score."
+        }
+      ],
+      "notes": "step3_then = category page Commuter Electric Bikes.",
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-003_step1_given.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-003_step2_when.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-003_step3_then.png"
+      ],
+      "story_id": "GEO-1266",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1266-004",
+      "title": "TC-GEO-1266-004 - Unbranded Other page concept rows show frequency and polarity with no score",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Other category page of unbranded analysis U",
+          "status": "PASS",
+          "expected": "The Other page is displayed with its key concepts and the prompts table",
+          "observed": "Electric bikes > Other (003f836d-...): card \"Top Topics in the Category\" (4 concepts) and \"Prompts Analysis\" table (1 prompt: \"Which electric bike brands are best for commuting in London?\", type Other, United Kingdom)."
+        },
+        {
+          "title": "When the user looks at the key concept rows",
+          "status": "PASS",
+          "expected": "Each row shows the concept, its frequency % and the meta line \"{q} quotes • {n} sources • {Positive | Mixed | Negative}\"",
+          "observed": "4/4 rows: folding capabilities 3 quotes • 10 sources • Positive 100%; commuting suitability 3 quotes • 10 sources • Positive 100%; value for money 3 quotes • 5 sources • Positive 50%; servicing networks 1 quote • 5 sources • Negative 50%."
+        },
+        {
+          "title": "Then no row shows a numeric sentiment score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown on any row",
+          "observed": "0/4 rows contain a signed number or \"sentiment\"."
+        }
+      ],
+      "notes": "step1_given is a full-page capture of the Other page (concepts + prompts table). Other page has no Mixed concept (Mixed (0)).",
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-004_step1_given.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-004_step2_when.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-004_step3_then.png"
+      ],
+      "story_id": "GEO-1266",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1266-006",
+      "title": "TC-GEO-1266-006 - Unbranded Top Topics and Other page state polarity as an explicit label",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of unbranded analysis U",
+          "status": "PASS",
+          "expected": "\"Top Topics in the Category\" is displayed with the Positive, Mixed and Negative filter pills",
+          "observed": "Electric bikes Overview: \"Top Topics in the Category\" with pills All (12), Positive (9), Mixed (1), Negative (2)."
+        },
+        {
+          "title": "When the user looks at a topic row of each polarity",
+          "status": "PASS",
+          "expected": "Each meta line ends with its \"Positive\", \"Mixed\" or \"Negative\" pill without a count (e.g. \"3 quotes • 12 sources • Negative\"); the accent bar and the % colour are kept",
+          "observed": "P = commuting suitability \"3 quotes • 10 sources • Positive\" (bar emerald-600, % rgb(5,150,105)); M = legal requirements \"1 quote • 5 sources • Mixed\" (bar amber-500, % rgb(245,158,11)); N = battery degradation \"3 quotes • 10 sources • Negative\" (bar red-600, % rgb(220,38,38)). Pills carry no count; pill colour classes = filter pill classes."
+        },
+        {
+          "title": "When the user opens the Other category page of U",
+          "status": "PASS",
+          "expected": "The key concept rows are displayed",
+          "observed": "Other page: 4 key concept rows displayed."
+        },
+        {
+          "title": "Then every concept row states its polarity as a label",
+          "status": "PASS",
+          "expected": "Each row ends with its \"Positive\", \"Mixed\" or \"Negative\" pill without a count, matching the colour of its accent bar",
+          "observed": "4/4 rows end with a label pill without count: 3 Positive (emerald pill + emerald bar), 1 Negative (red pill + red bar). No Mixed concept exists on Other (Mixed (0)) - Mixed covered on the Overview step."
+        }
+      ],
+      "notes": "step1_given = Overview, step2_when = Overview rows incl. Mixed and Negative, step3_then = Other page.",
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-006_step1_given.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-006_step2_when.png",
+        "screenshots-GEO-1068-GEO1266/TC-GEO-1266-006_step3_then.png"
+      ],
+      "story_id": "GEO-1266",
+      "duration": 0,
+      "error": null
+    }
+  ],
+  "runFolder": ".claude/Data/output/reports/runs/21102026-1155/"
+}

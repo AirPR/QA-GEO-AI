@@ -1,0 +1,61 @@
+{
+  "specName": "geo-640-e2e",
+  "epicId": "GEO-640",
+  "epicTitle": "Share of Voice — Refactoring (GEO-640)",
+  "storyTitle": "GEO-663 / GEO-664 — SOV KPI removal + dedicated SOV card",
+  "testCases": [
+    {
+      "tc_id": "E2E-GEO640-001",
+      "title": "KPI row sans SOV + Brand Rankings sans colonne SoV% (Overview)",
+      "status": "passed",
+      "duration": 14501,
+      "error": null,
+      "steps": [
+        "Given a user is authenticated and navigates to the Overview dashboard",
+        "When the KPI row renders in the Performance section",
+        "Then exactly 4 KPI cards are visible (Visibility, Avg Position, LLM Choice, Sentiment) — no SOV KPI card",
+        "And the Brand Rankings table has no SoV% column header"
+      ],
+      "screenshots": [
+        "screenshots-geo-640-e2e/E2E-GEO640-001_step1_given.png",
+        "screenshots-geo-640-e2e/E2E-GEO640-001_step2_when.png",
+        "screenshots-geo-640-e2e/E2E-GEO640-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "E2E-GEO640-002",
+      "title": "Carte SOV dédiée : heading, subtitle et état chart (Overview)",
+      "status": "passed",
+      "duration": 12738,
+      "error": null,
+      "steps": [
+        "Given a user is authenticated and navigates to the Overview dashboard",
+        "When the page finishes loading and the Performance section is visible",
+        "Then a dedicated \"Share of Voice\" card is visible below the KPI row with title and subtitle"
+      ],
+      "screenshots": [
+        "screenshots-geo-640-e2e/E2E-GEO640-002_step1_given.png",
+        "screenshots-geo-640-e2e/E2E-GEO640-002_step2_when.png",
+        "screenshots-geo-640-e2e/E2E-GEO640-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "E2E-GEO640-003",
+      "title": "Carte SOV sur Category view + réactivité au filtre LLM",
+      "status": "passed",
+      "duration": 16379,
+      "error": null,
+      "steps": [
+        "Given a user is authenticated and navigates to a Category page (Hybrid Cars)",
+        "When the Category page finishes loading and the Performance section is visible",
+        "Then the Category page shows 4 KPI cards (no SOV) and a dedicated SOV card below",
+        "And when the LLM filter is changed, the page updates (SOV card reacts)"
+      ],
+      "screenshots": [
+        "screenshots-geo-640-e2e/E2E-GEO640-003_step1_given.png",
+        "screenshots-geo-640-e2e/E2E-GEO640-003_step2_when.png",
+        "screenshots-geo-640-e2e/E2E-GEO640-003_step3_then.png"
+      ]
+    }
+  ]
+}

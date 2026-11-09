@@ -1,0 +1,2269 @@
+{
+  "spec": "GEO-152-PROD-B",
+  "runDate": "2026-10-07",
+  "runMode": "mcp-playwright",
+  "env": "prod",
+  "url": "https://geo.onclusive.com/geo/dashboard/bfbb34ce-e1a3-435e-aec0-1b7a66d98c3c",
+  "bundle": "index-BoaWyZbU.js",
+  "accountLanguageStart": "en-GB (GET /geo/api/v1/auth/me, 14:55 UTC)",
+  "accountLanguageEnd": "en-GB (GET /geo/api/v1/auth/me, 15:51 UTC)",
+  "languageEvents": [
+    "~15:28-15:34 UTC: the account language was changed by another session (UI rendered in French, then /auth/me = es-ES at 15:32), back to en-GB at 15:34. Group B did not change it; no group-B evidence was captured during that window (runs paused and resumed after en-GB was back)."
+  ],
+  "scope": "QA Story/Task in GEO-1123, GEO-1126, GEO-1166, GEO-1183, GEO-1184 (53 TCs)",
+  "csv": ".claude/Data/output/csv/GEO-R1.2/testcases-coverage-epicGEO-152.csv",
+  "summary": {
+    "total": 53,
+    "pass": 41,
+    "fail": 5,
+    "skip": 0,
+    "partial": 1,
+    "blocked": 6,
+    "successRate": 88.3,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1123-001",
+      "title": "Details panel opens beside the list and closes on a second click",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-001_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-001_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The Target Sources list is displayed with ranked source cards on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the card ranked #1",
+          "data": "",
+          "expected": "The details panel opens on the right, the list stays visible behind it and card #1 shows the selected state",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the panel content",
+          "data": "",
+          "expected": "It shows \"#1 · {domain}\", the article tab(s) \"Lack of visibility (N)\" / \"Negative perception (N)\" with their articles, then \"Prompts associated with this source\", and the footer \"Previous\" / \"Source 1 of N\" / \"Next source\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks card #1 again",
+          "data": "Click on the card area outside the panel",
+          "expected": "The panel closes and the list is displayed with no selected card",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the panel of card #1 again and clicks the close (×) button",
+          "data": "",
+          "expected": "The panel closes",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota prod bfbb34ce, Action Center, Last 7 days (1-7 Oct 2026), 4 engines, All Countries, card view, ALL tab, 97 sources. Click card #1 frandroid.com: panel opens on the right, list stays visible, card #1 aria-pressed=true. Panel: \"#1 · frandroid.com\", tabs \"Lack of visibility (20)\" / \"Negative perception (9)\" with articles, \"Prompts associated with this source\", footer \"Previous | Source 1 of 97 | Next source\". Second click on card #1 area: panel closed, no card pressed. Re-open + close (×): panel closed. Info: on one earlier page load the panel was already open on #1 (not reproduced on later loads)."
+    },
+    {
+      "tc_id": "TC-GEO-1123-002",
+      "title": "The panel shows every failing article whatever the active verdict tab",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-002_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-002_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the two reason lines of a source with both badges on the ALL tab",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\" - e.g. frandroid.com",
+          "expected": "The card shows \"Not visible in a articles\" and \"Negative perception in b articles\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"IMPROVE PERCEPTION\" tab and opens the details panel of the noted source",
+          "data": "",
+          "expected": "The details panel of the source opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then both article tabs are shown with the counts of the ALL tab",
+          "data": "",
+          "expected": "\"Lack of visibility (a)\" and \"Negative perception (b)\" are shown, a and b as noted in step 1",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Lack of visibility (a)\"",
+          "data": "",
+          "expected": "The articles where the brand is not named are listed under \"None of these articles mentions Toyota anywhere on the page.\", although the page tab is IMPROVE PERCEPTION",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com on ALL: \"Not visible in 20 articles\" / \"Negative perception in 9 articles\". On IMPROVE PERCEPTION tab the panel (header \"#3 · frandroid.com\", filtered position) shows \"Lack of visibility (20)\" and \"Negative perception (9)\". Clicking \"Lack of visibility (20)\": 10 BRAND_NOT_NAMED rows (+ Show 10 more) under \"None of these articles mentions Toyota anywhere on the page.\" while the page tab stays IMPROVE PERCEPTION."
+    },
+    {
+      "tc_id": "TC-GEO-1123-003",
+      "title": "Excel Brief follows the deterministic template for a source with both verdicts",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-003_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-003_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes a source with both badges and its two reason lines",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\" - e.g. frandroid.com",
+          "expected": "The card shows \"Not visible in a articles\" and \"Negative perception in b articles\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Spreadsheet .xls\"",
+          "data": "",
+          "expected": "An .xlsx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user reads the Brief cell of that source in the ranked sources table",
+          "data": "Target Sources sheet, column Brief",
+          "expected": "The cell holds one sentence",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the sentence follows the both-verdicts template",
+          "data": "Template: \"This source has {n} unfavorable articles: {a} where the brand is entirely absent and {b} where the brand is depicted negatively.\"",
+          "expected": "The sentence reads \"This source has n unfavorable articles: a where the brand is entirely absent and b where the brand is depicted negatively\" with n = a + b, ending with a full stop or with the positive part \", and {p} articles that cover the brand positively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And no AI-generated or recommendation sentence is added",
+          "data": "",
+          "expected": "No other sentence (e.g. \"Fixing these three articles would flip this source healthy\") is in the cell",
+          "status": "PASS"
+        }
+      ],
+      "notes": "XLSX Toyota_AI_Visibility_Report.xlsx (prod) sheet \"Target Sources\", column I \"Brief\". frandroid.com (20/9, 15 positive): \"This source has 29 unfavorable articles: 20 where the brand is entirely absent and 9 where the brand is depicted negatively, and 15 articles that cover the brand positively.\" n = a + b. 54/54 both-verdict sources follow the template, single sentence, no recommendation sentence."
+    },
+    {
+      "tc_id": "TC-GEO-1123-004",
+      "title": "Excel Brief never states a zero count",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-004_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-004_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user exports the analysis as \"Spreadsheet .xls\"",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "An .xlsx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads every Brief cell of the ranked sources table",
+          "data": "Target Sources sheet, column Brief",
+          "expected": "All brief sentences are read",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no brief states a zero count",
+          "data": "Search: \" 0 \", \", and 0 articles\"",
+          "expected": "No sentence contains \"0 unfavorable\", \"0 where\" or \", and 0 articles that cover the brand positively\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And a single-verdict source uses the single-verdict template",
+          "data": "Visibility-only source",
+          "expected": "The sentence reads \"This source has n unfavorable articles where the brand is entirely absent.\" (with or without the positive part), with no \"0 where the brand is depicted negatively\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "97/97 Brief cells read: no \"0 unfavorable\", \"0 where\" or \", and 0 articles\". 40 visibility-only sources use \"This source has n unfavorable articles where the brand is entirely absent.\" (+ optional positive part), e.g. hyundai.com \"This source has 14 unfavorable articles where the brand is entirely absent.\""
+    },
+    {
+      "tc_id": "TC-GEO-1123-005",
+      "title": "Excel Brief uses the singular form when a count equals one",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-005_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-005_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes a source whose card shows exactly one failing article",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The card reads \"Not visible in 1 article\" (or \"Negative perception in 1 article\") and no other line",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Spreadsheet .xls\" and reads the Brief cell of that source",
+          "data": "Target Sources sheet, column Brief",
+          "expected": "The cell holds one sentence",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the sentence uses the singular form",
+          "data": "",
+          "expected": "The sentence reads \"This source has 1 unfavorable article where the brand ...\" and never \"1 unfavorable articles\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And a positive part with one article uses the singular form",
+          "data": "Only if a positive part is present",
+          "expected": "\"and 1 article that covers the brand positively\" (never \"1 articles\")",
+          "status": "PASS"
+        }
+      ],
+      "notes": "truecar.com card: \"Not visible in 1 article\" only. Brief: \"This source has 1 unfavorable article where the brand is entirely absent, and 13 articles that cover the brand positively.\" Positive part singular checked on stellantis.com: \"..., and 1 article that covers the brand positively.\" 0 \"1 unfavorable articles\" / \"1 articles\" in the 97 cells."
+    },
+    {
+      "tc_id": "TC-GEO-1123-006",
+      "title": "No In-Brief block is shown in the details panel",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-006_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-006_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of the source ranked #1",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The details panel opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no In-Brief block is displayed",
+          "data": "",
+          "expected": "No \"Key Takeaways\" block, no summary sentence and no \"Summary generated by artificial intelligence\" disclaimer is shown in the panel",
+          "status": "PASS"
+        },
+        {
+          "title": "And the panel starts with the header and the article tabs",
+          "data": "",
+          "expected": "Under the header come the article tab(s), their explanation line and the articles",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Panel #1 frandroid.com: no \"Key Takeaways\", no summary sentence (\"This source has...\"), no \"Summary generated by artificial intelligence\". First lines: header \"#1 · frandroid.com\", Journalism, badges, then the tabs \"Lack of visibility (20)\" / \"Negative perception (9)\", the explanation line and the articles."
+    },
+    {
+      "tc_id": "TC-GEO-1123-007",
+      "title": "Brand-absent articles show the no-mention line and no passage",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-007_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-007_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of a source with the \"IMPROVE VISIBILITY\" badge",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The panel opens on \"Lack of visibility (N)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the no-mention indication is shown once under the tab",
+          "data": "Brand: Toyota",
+          "expected": "\"None of these articles mentions Toyota anywhere on the page.\" is shown once between the tabs and the first article",
+          "status": "PASS"
+        },
+        {
+          "title": "And no article row shows a passage from the page",
+          "data": "",
+          "expected": "No row of the tab shows a quoted passage; each row shows only its title, URL and engine icons",
+          "status": "PASS"
+        }
+      ],
+      "notes": "gazzetta.it (#5, IMPROVE VISIBILITY only): panel opens on \"Lack of visibility (23)\" (selected, no negative tab). \"None of these articles mentions Toyota anywhere on the page.\" shown once. 23/23 rows (after Show more) show title, URL and engine icon only, 0 passages."
+    },
+    {
+      "tc_id": "TC-GEO-1123-008",
+      "title": "Negative passages are verbatim, highlight the brand and stay within 140 characters",
+      "story_id": "GEO-1123",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 5 (verbatim): first passage of frandroid.com \"Negative perception (9)\" = \"Essai Toyota bZ4X : notre avis complet - Voitures - Frandroid Essai Toyota bZ4X : la voiture électrique la moins chère à dépasser les 500\". Its first 5 words \"Essai Toyota bZ4X : notre\" are NOT found in the visible text of the article page (https://www.frandroid.com/marques/toyota/1390173_essai-toyota-bz4x-...; Ctrl+F finds nothing): they only exist in the HTML <title> tag. The passage is the page <title> glued to the H1, not a sentence of the page. Expected: words found on the page as shown in the passage. New (not in the known-bug list; close to GEO-1204 family: passage not supporting a negative verdict). Also cut mid-word \"500\" without \"…\" (GEO-1201, known).",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-008_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-008_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-008_step3_then.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-008_article.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of the first source with the \"IMPROVE PERCEPTION\" badge",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The details panel opens",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Negative perception (N)\"",
+          "data": "",
+          "expected": "\"Each of these articles mentions Toyota negatively.\" is shown and every row shows a quoted passage in italics with a vertical bar on its left",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every passage shows a highlighted brand or product name",
+          "data": "",
+          "expected": "Each passage contains Toyota or a Toyota product name shown in bold on a highlight chip",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user counts the characters of each passage",
+          "data": "Text inside the curly quotes, spaces included",
+          "expected": "No passage is longer than 140 characters",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the article of the first passage and searches its words",
+          "data": "Ctrl+F on the first 5 words of the passage",
+          "expected": "The words are found on the page as shown in the passage (verbatim)",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Swept all 57 IMPROVE PERCEPTION sources (165 negative passages): line \"Each of these articles mentions Toyota negatively.\" on every panel; 165/165 italic with a 2px purple left bar; 165/165 contain a <mark> highlight (font-weight 600, background #E0F2FE) on Toyota or a Toyota product; max length inside the curly quotes = 140 (0 over 140). 125/165 passages end without punctuation or \"…\" (mid-word cuts, GEO-1201 known)."
+    },
+    {
+      "tc_id": "TC-GEO-1123-009",
+      "title": "Each failing article shows the AI engines that cited it",
+      "story_id": "GEO-1123",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 3: hovering the engine icon of an article row (frandroid.com, span aria-label=\"Cited by perplexity\" wrapping the Perplexity img) shows no tooltip: no [role=tooltip] element appears and neither the span nor the img has a title attribute (engine name only in aria-label, lowercase \"perplexity\"). Expected: a tooltip shows the engine name. New (not in the known-bug list).",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-009_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-009_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of the source ranked #1",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The details panel opens with its articles listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each article row shows the icon(s) of the AI engine(s) that cited it",
+          "data": "",
+          "expected": "At least one engine icon (ChatGPT, Gemini and/or Perplexity) is right-aligned on each row",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user hovers an engine icon",
+          "data": "",
+          "expected": "A tooltip shows the engine name",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the user checks the \"Negative perception (N)\" tab",
+          "data": "",
+          "expected": "Each negative article row also shows its engine icons",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Panel #1 frandroid.com: 10/10 \"Lack of visibility\" rows and 9/9 \"Negative perception\" rows carry right-aligned engine icon(s) (Perplexity / ChatGPT / Gemini). Icon right edge 1567px vs row right edge 1580px."
+    },
+    {
+      "tc_id": "TC-GEO-1123-010",
+      "title": "Evidence tabs are the reason tabs with the first one selected",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-010_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-010_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of a source with both badges",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\" - e.g. frandroid.com",
+          "expected": "The details panel opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then two evidence tabs are shown, each with its count",
+          "data": "",
+          "expected": "\"Lack of visibility (N)\" with the eye-off icon and \"Negative perception (N)\" with the thumb-down icon",
+          "status": "PASS"
+        },
+        {
+          "title": "And \"Lack of visibility (N)\" is first and selected by default",
+          "data": "",
+          "expected": "\"Lack of visibility (N)\" is the left, active segment",
+          "status": "PASS"
+        },
+        {
+          "title": "And no \"Failing articles\" or \"Positive articles\" tab is shown",
+          "data": "",
+          "expected": "Neither label appears in the panel",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com: \"Lack of visibility (20)\" (icon visibility_off, x=1155, aria-selected=true) then \"Negative perception (9)\" (icon thumb_down, x=1368). No \"Failing articles\" nor \"Positive articles\" label in the panel."
+    },
+    {
+      "tc_id": "TC-GEO-1123-011",
+      "title": "Positive articles are kept in the data but shown on no surface of the panel",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-011_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-011_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of the source with a positive article with the Network tab open",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\" - source from reference data",
+          "expected": "The panel opens and the source-detail response is captured",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the response carries the positive article with its title, address, passage and citing engines",
+          "data": "",
+          "expected": "The four fields are filled for the positive article",
+          "status": "PASS"
+        },
+        {
+          "title": "And the panel shows no positive article",
+          "data": "",
+          "expected": "The positive article URL appears in no tab, and no label such as \"Covers Toyota accurately and positively\" or \"Toyota ranked #1 on this page\" is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Source with positives: frandroid.com. GET /geo/api/v1/reports/bfbb34ce.../target-sources/frandroid.com: positiveArticles 15, positive[] 15/15 with title, url, passage and citingEngines (e.g. \"Comment la Dacia Spring a réussi...\" passage \"49 TOYOTA – BZ4X 52\", perplexity). Panel (both tabs expanded, 29 URLs): 0 of the 15 positive URLs shown; no \"Covers Toyota accurately and positively\", \"ranked #1 on this page\" or \"Positive articles\" label."
+    },
+    {
+      "tc_id": "TC-GEO-1123-012",
+      "title": "No positive tab is shown, whether or not the source has positive articles",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-012_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-012_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of a source without positive articles",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "Only the reason tab(s) are shown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no \"Positive articles\" tab is shown",
+          "data": "",
+          "expected": "No positive tab or positive count is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of a source with positive articles",
+          "data": "Source from reference data",
+          "expected": "Only the reason tab(s) are shown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no \"Positive articles\" tab is shown either",
+          "data": "",
+          "expected": "No positive tab or positive count is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Without positives (API positiveArticles 0): hyundai.com -> only \"Lack of visibility (14)\", no positive tab/count. With positives: frandroid.com (15 positive) -> only \"Lack of visibility (20)\" / \"Negative perception (9)\", no positive tab/count. Other sources without positives on prod: kia.com, gbnews.com, ilgiornale.it, recharged.com."
+    },
+    {
+      "tc_id": "TC-GEO-1123-013",
+      "title": "Panel header shows rank, domain, type and badges with no count line",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-013_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-013_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of the source ranked #1",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The details panel opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the header shows the logo, \"#1 · {domain}\", the source type chip and the reason badge(s)",
+          "data": "",
+          "expected": "The header elements are displayed with a close (×) button",
+          "status": "PASS"
+        },
+        {
+          "title": "And no count line is shown under the header",
+          "data": "",
+          "expected": "No \"N failing articles · N positive · cited N× in gap answers\" line or any cited count is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Header #1: favicon logo, h2 \"#1 · frandroid.com\", chips \"Journalism\", \"Improve visibility\", \"Improve perception\", close button aria-label \"Close detail panel\". No count line (no \"failing articles\", \"positive\", \"cited N×\")."
+    },
+    {
+      "tc_id": "TC-GEO-1123-014",
+      "title": "Positive articles change no count outside the panel",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-014_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-014_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user captures the source-detail API response of the source with positive articles",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\" - source from reference data",
+          "expected": "The response lists p positive articles, a missing and b negative articles",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card of the source shows only its failing counts",
+          "data": "",
+          "expected": "The card shows \"Not visible in a articles\" and/or \"Negative perception in b articles\"; p is added to neither line",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to the list view",
+          "data": "",
+          "expected": "The Articles chips of the source show a and b only",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the rank of the source",
+          "data": "",
+          "expected": "The source is ranked by a + b against the other sources",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the verdict tabs",
+          "data": "",
+          "expected": "The source is listed on IMPROVE VISIBILITY only if a > 0 and on IMPROVE PERCEPTION only if b > 0",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com API: BRAND_NOT_NAMED 20, NAMED_NEGATIVELY 9, positive 15. Card: \"Not visible in 20 articles\" / \"Negative perception in 9 articles\" (15 not added). List view row: \"1 | frandroid.com | Journalism | 20 | 9\" (columns # / Source / Type / Articles). Rank #1 by 29 = 20 + 9 (next caranddriver 28). Listed on IMPROVE VISIBILITY (a=20>0) and IMPROVE PERCEPTION (b=9>0); gazzetta.it (b=0) absent from IMPROVE PERCEPTION."
+    },
+    {
+      "tc_id": "TC-GEO-1123-015",
+      "title": "Prompt rows show question, engines and country, once per prompt and with no outcome",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-015_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-015_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of the source ranked #1",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The details panel opens",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user scrolls to \"Prompts associated with this source\" and clicks \"Show X more prompts\"",
+          "data": "",
+          "expected": "The full prompts list is displayed under the \"All\" engine tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each prompt row shows the prompt text, its engine icon(s) and the market flag",
+          "data": "",
+          "expected": "The country is shown as a flag (no UUID, no blank)",
+          "status": "PASS"
+        },
+        {
+          "title": "And no prompt text appears on two rows",
+          "data": "Compare the texts ignoring case, spacing and quotes",
+          "expected": "Each prompt appears once with the icons of all the engines citing it",
+          "status": "PASS"
+        },
+        {
+          "title": "And no outcome is shown on any row",
+          "data": "",
+          "expected": "No \"Brand absent\", \"Competitor chosen\", \"Unfavorable\" or winner (e.g. \"Tesla #1\") is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Panel #1 frandroid.com: 6 prompts + \"Show 25 more prompts\" -> 31 rows on engine tab \"All\" (tabs All / ChatGPT (4) / Gemini (10) / Perplexity (28)). 31/31 rows: prompt text, engine icon(s) (aria-label \"Cited by ...\"), flag img (ES / FR), no UUID/blank. 0 duplicate texts ignoring case/spacing/quotes. No \"Brand absent\", \"Competitor chosen\", \"Unfavorable\" or \"#1\" winner on any row."
+    },
+    {
+      "tc_id": "TC-GEO-1123-016",
+      "title": "Excel Brief follows the negative-depiction template for a perception-only source",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-016_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-016_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes a source with only the \"IMPROVE PERCEPTION\" badge",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The card shows only \"Negative perception in b articles\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Spreadsheet .xls\" and reads the Brief cell of that source",
+          "data": "Target Sources sheet, column Brief",
+          "expected": "The cell holds one sentence",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the sentence follows the negative-depiction template",
+          "data": "Template: \"This source has {n} unfavorable articles where the brand is depicted negatively.\"",
+          "expected": "The sentence reads \"This source has b unfavorable articles where the brand is depicted negatively\" (singular when b = 1), with no \"entirely absent\" part",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Perception-only sources (3): fiches-auto.fr \"This source has 6 unfavorable articles where the brand is depicted negatively, and 11 articles that cover the brand positively.\"; hdmotori.it and univision.com \"This source has 1 unfavorable article where the brand is depicted negatively, and 7 articles that cover the brand positively.\" (singular). No \"entirely absent\" part."
+    },
+    {
+      "tc_id": "TC-GEO-1123-017",
+      "title": "Passages keep the capitalisation of the page",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-017_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-017_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-017_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the \"Negative perception (N)\" tab of a source with the \"IMPROVE PERCEPTION\" badge",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\" - e.g. caranddriver.com",
+          "expected": "The negative articles are listed with their passage",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every passage keeps the capital letters of the page",
+          "data": "",
+          "expected": "Sentence starts and proper nouns are capitalised and \"Toyota\" is written with a capital T; no passage is entirely in lower case",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the article of the first passage and searches its first words",
+          "data": "Ctrl+F on the first 5 words of the passage",
+          "expected": "The words are found on the page with exactly the same capitalisation",
+          "status": "PASS"
+        }
+      ],
+      "notes": "caranddriver.com \"Negative perception (5)\": 5 passages keep capitals (Toyota with capital T, sentence starts capitalised). First passage \"The Toyota bZ4X comes up short in the all-important driving-range metric, ...\" found with identical case on https://www.caranddriver.com/toyota/bz4x (VERDICT block). Info (other source): alvolante.it \"queste toyota sono auto ...\" is all lower case but it is verbatim from a reader review on alvolante.it/opinioni/toyota-corolla-3975 (page text in lower case)."
+    },
+    {
+      "tc_id": "TC-GEO-1123-018",
+      "title": "Article lists show 10 articles then \"Show N more articles\"",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-018_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-018_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-018_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of a source with more than 10 articles in one tab",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\" - e.g. frandroid.com (any source whose tab count is above 10)",
+          "expected": "The tab count is above 10",
+          "status": "PASS"
+        },
+        {
+          "title": "Then exactly 10 articles are displayed, followed by the button",
+          "data": "",
+          "expected": "\"Show N more articles\" is displayed with N = tab count - 10",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show N more articles\"",
+          "data": "",
+          "expected": "All the articles of the tab are displayed (their number equals the tab count) and the button is no longer displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens a source whose tabs hold 10 articles or fewer",
+          "data": "",
+          "expected": "No \"Show N more articles\" button is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com \"Lack of visibility (20)\": 10 rows + \"Show 10 more articles\" (N = 20 - 10); after click 20 rows, button gone. autojournal.fr (9 / 7): no \"Show N more articles\" button on either tab."
+    },
+    {
+      "tc_id": "TC-GEO-1123-019",
+      "title": "Passages and article titles show page text without markdown or escape characters",
+      "story_id": "GEO-1123",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-019_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-019_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1123-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the \"Negative perception (N)\" tab of the first 10 sources with the \"IMPROVE PERCEPTION\" badge",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The passages are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no passage contains markdown or a link target",
+          "data": "Look for [text](url), (https://, **, ![, table pipes, backslash",
+          "expected": "No passage contains link syntax, a link target, bold markers, image syntax, table pipes or a backslash",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the article titles of the details panels of the first 5 sources",
+          "data": "e.g. a title with an apostrophe such as \"l'électrique\"",
+          "expected": "Titles with an apostrophe are displayed as on the page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no article title contains a backslash",
+          "data": "Ctrl+F \"\\\"",
+          "expected": "No title shows an escape character (e.g. \"l\\'électrique\")",
+          "status": "PASS"
+        }
+      ],
+      "notes": "First 10 IMPROVE PERCEPTION sources (edmunds, alvolante, frandroid, caradisiac, electrek, autojournal, carbuzz, fiches-auto, xataka, youtube): no [text](url), no \"(https://\", no \"**\", no \"![\", no backslash. Info: edmunds.com passage \"2023 Toyota RAV4 Prices, Reviews, and Pictures | Edmunds Your Privacy By accessing ...\" contains the page-title separator \" | \" (title + cookie banner text, not a markdown table). Titles of the first 5 sources and of all 57 sources: 0 backslash; apostrophes shown as on page. Outside the 10-source scope: automoto.it (#52) passage contains a raw \"**\" bold marker (le **\"top five\") - see TC-GEO-1183-008."
+    },
+    {
+      "tc_id": "TC-GEO-1126-001",
+      "title": "Details panel shows Related Prompts then Sources, without the citation-count block",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-001_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-001_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of the Toyota analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "expected": "The section \"AI Engines Citation Sources\" is displayed with its domain table",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the first domain of the table",
+          "data": "e.g. toyota.fr",
+          "expected": "The panel \"AI Engines Citation Source Details\" opens with a close (×) button",
+          "status": "PASS"
+        },
+        {
+          "title": "Then \"Related Prompts\" is the first section",
+          "data": "",
+          "expected": "The \"Related Prompts\" heading is at the top of the panel content",
+          "status": "PASS"
+        },
+        {
+          "title": "And the cited URLs section comes second",
+          "data": "",
+          "expected": "The \"Sources\" section is below \"Related Prompts\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And no per-engine citation-count block is shown",
+          "data": "",
+          "expected": "No block of citation counts per AI engine is displayed in the panel",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Overview Toyota prod, \"AI Engines Citation Sources\" first domain caranddriver.com (Frequency 98). Panel \"AI Engines Citation Source Details\" with close (×) button. \"Related Prompts\" at y=77, \"Sources\" at y=526 (below). No per-engine citation-count block in the panel."
+    },
+    {
+      "tc_id": "TC-GEO-1126-002",
+      "title": "Related Prompts preview lists the first prompts with engine icons and the total control",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-002_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-002_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of the first domain of \"AI Engines Citation Sources\" is open",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e - e.g. toyota.fr",
+          "expected": "The \"Related Prompts\" section is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the first prompts are listed with their text",
+          "data": "",
+          "expected": "Each preview row shows the prompt text",
+          "status": "PASS"
+        },
+        {
+          "title": "And each prompt shows the icons of the AI engines that produced it",
+          "data": "",
+          "expected": "One or more engine icons are shown on each row",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"All related Prompts\" control shows the total count",
+          "data": "",
+          "expected": "\"All related Prompts\" is displayed under the preview with the total count n",
+          "status": "PASS"
+        }
+      ],
+      "notes": "caranddriver.com preview: 5 prompt rows with text (\"Most innovative SUVs?\", \"Leading Electric cars providers?\", \"¿Los coches eléctricos mejor valorados?\", \"Recommended SUVs?\", \"Best Electric cars?\") and 1-3 engine icons each (Gemini/Grok/Perplexity/ChatGPT, img alt/title). Control \"All related Prompts 60\" under the preview."
+    },
+    {
+      "tc_id": "TC-GEO-1126-003",
+      "title": "Sources preview shows the count heading, URL rows and the \"All sources\" control",
+      "story_id": "GEO-1126",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 2: the cited-URLs section heading reads \"Sources\" with no count (expected e.g. \"Sources (n)\"); step 4 cannot compare the heading total with \"All sources (98)\". Observed on prod en-GB, panel of caranddriver.com (Overview > AI Engines Citation Sources > first domain). Staging FR run (2026-10-05) showed \"URL citées (27)\" with the count. New (not in the known-bug list).",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-003_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-003_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of the first domain of \"AI Engines Citation Sources\" is open",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "expected": "The panel is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user scrolls to the \"Sources\" section",
+          "data": "",
+          "expected": "The section heading carries the total count (e.g. \"Sources (n)\")",
+          "status": "FAIL"
+        },
+        {
+          "title": "Then the first URLs are listed with their title, address and citing engine icons",
+          "data": "",
+          "expected": "Each row shows a favicon, the page title, the address and the engine icons",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"All sources\" control carries the same total",
+          "data": "",
+          "expected": "\"All sources (n)\" is displayed with the same n as the heading",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Rows: 4 preview rows each with favicon (source-item-favicon), title line (domain shown as title when the page has no title, e.g. first row \"caranddriver.com\"), address and engine icons. Control \"All sources 98\"."
+    },
+    {
+      "tc_id": "TC-GEO-1126-004",
+      "title": "All related Prompts modal opens with header, count, search field and full list",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-004_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-004_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of the first domain of \"AI Engines Citation Sources\" is open",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e - e.g. toyota.fr",
+          "expected": "The panel shows \"All related Prompts\" with its count n (record n)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"All related Prompts\"",
+          "data": "",
+          "expected": "A modal opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the modal is headed with the domain and the prompt count",
+          "data": "",
+          "expected": "The title reads \"All related Prompts - {domain}\" and the prompt count n is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And a search field over prompt text is available",
+          "data": "",
+          "expected": "A search field is displayed above the list",
+          "status": "PASS"
+        },
+        {
+          "title": "And the full list is displayed",
+          "data": "",
+          "expected": "All n prompts can be listed by scrolling the modal",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Click \"All related Prompts\" (60): modal \"All related Prompts - caranddriver.com\", \"60 prompts\", search field \"Search prompts\" above the list, 60/60 rows reachable by scrolling, every row with engine icons."
+    },
+    {
+      "tc_id": "TC-GEO-1126-005",
+      "title": "Prompts modal has four question-type tabs with counts and All selected",
+      "story_id": "GEO-1126",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-005_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-005_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the \"All related Prompts\" modal of the first domain is open",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e - e.g. toyota.fr",
+          "expected": "The modal is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then four tabs are shown",
+          "data": "",
+          "expected": "\"All\", \"Visibility\", \"Competitive\" and \"Perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And each tab carries its own count",
+          "data": "",
+          "expected": "Each tab label shows a count, e.g. \"Visibility (n)\"",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And \"All\" is selected by default",
+          "data": "",
+          "expected": "\"All\" is the active tab when the modal opens",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Tabs shown: \"ALL\", \"Visibility 26\", \"Competitive 24\", \"Perception 10\"; ALL selected (aria-selected=true) on open. Step 3 ambiguous: the \"ALL\" tab carries no count of its own (the total is shown as \"60 prompts\" under the modal title) - same UI as the staging run where it was accepted. Marked PARTIAL, not PASS, because the expected text says each tab label shows a count."
+    },
+    {
+      "tc_id": "TC-GEO-1126-006",
+      "title": "A prompt produced by several engines appears once in the panel and in the modal",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-006_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-006_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of the first domain of \"AI Engines Citation Sources\" is open",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e - e.g. toyota.fr",
+          "expected": "The Related Prompts preview is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each prompt text of the preview appears on one row only",
+          "data": "",
+          "expected": "A prompt cited by several engines shows all its engine icons on its single row",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens \"All related Prompts\" and scrolls the \"All\" tab",
+          "data": "",
+          "expected": "The full list is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no prompt text appears on two rows",
+          "data": "Compare the texts ignoring case",
+          "expected": "Each prompt appears once with the icons of all the engines that produced it",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Preview: 5 rows, 0 duplicate text. Modal ALL tab after full scroll: 60 rows, 0 duplicate text ignoring case/quotes/spacing; multi-engine prompts show all their icons on one row (e.g. \"Most innovative SUVs?\" Gemini + Grok + Perplexity)."
+    },
+    {
+      "tc_id": "TC-GEO-1126-007",
+      "title": "[Figma] All sources modal lists the cited URLs of the domain",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-007_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-007_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of the first domain of \"AI Engines Citation Sources\" is open",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e - e.g. toyota.fr",
+          "expected": "The \"Sources\" section shows \"All sources (n)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"All sources (n)\"",
+          "data": "",
+          "expected": "A modal opens with the domain name and the count n (record the title)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a search field over title and address is available",
+          "data": "Search term: a word of the first title",
+          "expected": "Only the URLs whose title or address contains the term are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "And each row shows the favicon, the title, the address and the engine icons",
+          "data": "",
+          "expected": "The four elements are displayed on each row",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Click \"All sources\" (98): modal \"Sources - caranddriver.com\", \"98 sources\", search field \"Search by title or URL\". Search \"Tested\" -> 10 rows, all containing the term in title or address (e.g. \"Tested: 2026 Toyota bZ Is Quicker, Nicer Inside, and Better ...\"). 98/98 rows show favicon, title line, address and engine icons (10 rows have no page title and show the domain as title line)."
+    },
+    {
+      "tc_id": "TC-GEO-1126-008",
+      "title": "Search applies inside the selected tab",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-008_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-008_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the \"All related Prompts\" modal of the first domain is open",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e - e.g. toyota.fr",
+          "expected": "The modal is displayed with \"All\" selected",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects \"Visibility\" and types a word of its first prompt in the search field",
+          "data": "A word of the first Visibility prompt",
+          "expected": "Only Visibility prompts containing the word are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects \"Perception\" with the same search term",
+          "data": "",
+          "expected": "Only Perception prompts containing the term are listed (or the tab says there is none)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects \"All\" with the same search term",
+          "data": "",
+          "expected": "Prompts of every type containing the term are listed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Visibility tab (26), term \"innovative\" (from \"Most innovative SUVs?\") -> 2 Visibility rows, all containing the term. Perception tab with the same term -> 0 rows, empty state \"No data available\". ALL with the same term -> 2 rows (= number of ALL prompts containing the term before search)."
+    },
+    {
+      "tc_id": "TC-GEO-1126-009",
+      "title": "An empty tab says so and the other tabs stay reachable",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-009_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-009_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the \"All related Prompts\" modal of a domain with an empty tab is open",
+          "data": "Domain from reference data",
+          "expected": "One tab shows a count of 0",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the empty tab",
+          "data": "",
+          "expected": "No prompt row is listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the tab says that it holds no prompt",
+          "data": "",
+          "expected": "An empty-state message is displayed (record the copy)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the other tabs stay reachable",
+          "data": "",
+          "expected": "Clicking \"All\" lists the prompts again",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Conditional data found on prod: elpais.com (4th domain) prompts modal tabs Visibility 16 / Competitive 11 / Perception 0. Perception tab: 0 rows and empty-state copy \"No prompt of this type for this source.\" Clicking ALL lists 27 prompts again."
+    },
+    {
+      "tc_id": "TC-GEO-1126-010",
+      "title": "Panel control, modal header and tab sum state the same total",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-010_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-010_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of the first domain shows \"All related Prompts\" with its count n",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e - e.g. toyota.fr",
+          "expected": "n is recorded",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens \"All related Prompts\"",
+          "data": "",
+          "expected": "The modal shows the prompt count",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the modal count equals n",
+          "data": "",
+          "expected": "The modal header states n",
+          "status": "PASS"
+        },
+        {
+          "title": "And the sum of the question-type tab counts equals n",
+          "data": "",
+          "expected": "Visibility + Competitive + Perception = n",
+          "status": "PASS"
+        }
+      ],
+      "notes": "caranddriver.com: panel \"All related Prompts 60\" = modal \"60 prompts\" = Visibility 26 + Competitive 24 + Perception 10 = 60."
+    },
+    {
+      "tc_id": "TC-GEO-1126-011",
+      "title": "Perception tab lists questions, not negative concepts",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-011_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-011_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the \"All related Prompts\" modal of the reference domain is open",
+          "data": "Domain from reference data",
+          "expected": "The modal is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Perception\" tab",
+          "data": "",
+          "expected": "The perception prompts are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the perception question appears on one row only",
+          "data": "",
+          "expected": "The question is listed once, not once per negative concept",
+          "status": "PASS"
+        },
+        {
+          "title": "And no negative concept name is displayed",
+          "data": "",
+          "expected": "No concept label or concept name is shown on the rows, in the panel or in the modal",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Reference domain on prod: caranddriver.com (perception answers). Perception tab: 10 rows, each a full question (e.g. \"Would you recommend Toyota for Electric cars?\", \"Est-ce que Toyota est un bon choix pour les SUV ?\"), 0 duplicates, no concept label/name on rows, panel or modal."
+    },
+    {
+      "tc_id": "TC-GEO-1126-012",
+      "title": "Panel prompts and URLs follow the dashboard scope",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-012_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-012_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of the first domain shows \"All related Prompts (n)\" with default filters",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "expected": "n and the engine icons of the preview are recorded",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user keeps a single AI engine in the AI Engines filter and reopens the panel of the same domain",
+          "data": "AI Engines: ChatGPT only",
+          "expected": "The panel opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the prompts and URLs listed are only those cited by that engine",
+          "data": "",
+          "expected": "Every prompt and URL row shows the ChatGPT icon only and the \"All related Prompts\" count is lower than or equal to n",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user keeps a single country in the countries filter and reopens the panel",
+          "data": "One country of the analysis",
+          "expected": "Every prompt row carries the selected market only",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Default: \"All related Prompts 60\", preview icons Gemini/Grok/Perplexity/ChatGPT. AI Engines = ChatGPT only (Gemini, Grok, Perplexity toggled off): panel 17 prompts (<= 60), 5/5 preview rows and 4/4 URL rows ChatGPT only, \"All sources 23\" modal 23/23 rows ChatGPT only. Country = France - French only (+ ChatGPT): first domain becomes toyota.fr (caranddriver not cited for FR), 6 prompts all French; panel request marketCodes=fr-FR&llms=openai returns only fr-FR / openai prompt entries. Rows do not display a market flag in this panel, so the market check relies on the prompt language and the panel API response. Filters restored to All Countries + 4 engines (view filters only, nothing saved)."
+    },
+    {
+      "tc_id": "TC-GEO-1126-013",
+      "title": "The panel follows the selected period with no 7-day floor",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-013_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-013_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1126-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the details panel of the first domain with \"Last 7 days\"",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "expected": "\"All related Prompts (n7)\" is recorded",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the period \"Last analysis\", clicks \"Apply\" and reopens the panel of the same domain",
+          "data": "Date preset: Last analysis",
+          "expected": "\"All related Prompts (n1)\" is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel follows the selected period",
+          "data": "",
+          "expected": "n1 is lower than or equal to n7 and the panel lists only prompts of the last analysis",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Action Center keeps its 7-day window for the same period",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last analysis\"",
+          "expected": "The Target Sources total is the same as with \"Last 7 days\" (expected difference between the two views, not a bug)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Date presets on prod: Latest report / Last 7 days / Last 30 days / Last 3 months / Last 12 months / All reports (\"Last analysis\" is labelled \"Latest report\"). caranddriver.com: Last 7 days n7 = 60; Latest report + Apply -> n1 = 60 (n1 <= n7). Overview citation API returns identical data for 1 day / 7 days / 30 days / latest (5515 URLs) and different data for 20-26 Sep (5177 URLs, 66 prompts): the panel follows the selected period and shows the latest snapshot of the window, no 7-day floor observed. Action Center with \"Latest report\": 12 cards + \"Show 85 more sources\" = 97 = same total as Last 7 days (target-sources window stays 7 snapshots). Period restored to Last 7 days."
+    },
+    {
+      "tc_id": "TC-GEO-1183-001",
+      "title": "Car and Driver EV of the Year passage contains Tesla or Cybertruck and the name is highlighted",
+      "story_id": "GEO-1183",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-001_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-001_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Tesla analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\"",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "And the caranddriver.com card is displayed in the list",
+          "data": "caranddriver.com (rank depends on the period)",
+          "expected": "The card shows the IMPROVE PERCEPTION badge and \"Negative perception in N articles\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of caranddriver.com",
+          "data": "",
+          "expected": "The details panel opens on the right with the header \"#N · caranddriver.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user locates the article \"Presenting Car and Driver's 2024 EV of the Year\"",
+          "data": "URL caranddriver.com/news/a61836993/hyundai-ioniq-5-n-ev-of-the-year-2024/",
+          "expected": "The article row shows its title, its URL and a quoted passage in italics",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the passage contains \"Tesla\" or \"Cybertruck\"",
+          "data": "Page sentence: \"And before any Tesla loyalists complain that we aren't giving the Cybertruck its due, know that the one we rented broke on the second day, effectively parking itself with just a few hundred miles on its odometer.\"",
+          "expected": "The quoted passage contains the word \"Tesla\" or \"Cybertruck\" and is no longer \"know that the one we rented broke on the second day, effectively parking itself with just a few hundred miles on its odometer.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the brand or product name is highlighted in the passage",
+          "data": "",
+          "expected": "\"Tesla\" (or \"Cybertruck\") is shown in bold on a highlight chip inside the passage",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Tesla analysis does not exist on prod (org Onclusive holds only Toyota bfbb34ce and LEGO 578ad917; other org QA-GEO not opened to avoid switching the shared account). Rule applied on Toyota: caranddriver.com card (#2) \"IMPROVE PERCEPTION\" + \"Negative perception in 5 articles\"; panel \"#2 · caranddriver.com\", \"Negative perception (5)\", \"Each of these articles mentions Toyota negatively.\"; equivalent article \"2025 Toyota bZ4X Review, Pricing, and Specs\" passage \"The Toyota bZ4X comes up short in the all-important driving-range metric, which sorely compromises an otherwise pleasant electric SUV.\" italic, contains \"Toyota bZ4X\" in bold on a highlight chip."
+    },
+    {
+      "tc_id": "TC-GEO-1183-002",
+      "title": "Tesla analysis - no negative passage is missing the brand or product name",
+      "story_id": "GEO-1183",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-002_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-002_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Tesla analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\"",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the \"Improve perception\" tab",
+          "data": "",
+          "expected": "Only the sources with the IMPROVE PERCEPTION badge are listed and each card shows \"Negative perception in N articles\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of the first source",
+          "data": "Source #1 of the Improve perception tab",
+          "expected": "The details panel opens on the right with the header \"#1 · source domain\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every passage of the \"Negative perception (N)\" tab contains the brand or a product name of the brand",
+          "data": "Brand family of Tesla. Check the readable passage text inside the curly quotes. Watch-list: consumerreports.org \"2021 Tesla Model S Road Test Report\" (in the capture \"tesla\" appears only inside a link URL). electrek.co \"Tesla Cybercab\" (name present but not highlighted - GEO-1182).",
+          "expected": "Each quoted passage contains the brand or product name as written on the page and no passage without the name is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user repeats the check on every source with \"Next source\" until the last one",
+          "data": "Footer \"Source k of M\"",
+          "expected": "All negative passages of the analysis are checked and none of them is missing the brand or product name",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Tesla equivalent = Toyota prod (All Countries, 4 engines, Last 7 days). Improve perception tab: 57 sources, swept Source 1 of 57 ... 57 of 57. 165/165 negative passages contain Toyota or a Toyota product name (Toyota, Toyota bZ4X, RAV4, Highlander, Land Cruiser, Yaris Cross, C-HR, Prius, Innova Crysta ...), 165/165 highlighted."
+    },
+    {
+      "tc_id": "TC-GEO-1183-003",
+      "title": "Nike analysis - no negative passage is missing the brand or product name",
+      "story_id": "GEO-1183",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-003_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-003_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Nike analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/51f6eb92-0d7a-4c77-8fa8-e46d5d610309/actions - period \"6 Oct 2026\"",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the \"Improve perception\" tab",
+          "data": "",
+          "expected": "Only the sources with the IMPROVE PERCEPTION badge are listed and each card shows \"Negative perception in N articles\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of the first source",
+          "data": "Source #1 of the Improve perception tab",
+          "expected": "The details panel opens on the right with the header \"#1 · source domain\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Nike negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every passage of the \"Negative perception (N)\" tab contains the brand or a product name of the brand",
+          "data": "Brand family of Nike. Check the readable passage text inside the curly quotes. Watch-list: bloomberg.com \"Athletic Shoe Brands Hoka, On Running Beating Industry Giants Like Nike, Adidas\" (no \"Nike\" in its passage on 2026-10-05 in the former Nike report - check whether it is listed in the current report).",
+          "expected": "Each quoted passage contains the brand or product name as written on the page and no passage without the name is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user repeats the check on every source with \"Next source\" until the last one",
+          "data": "Footer \"Source k of M\"",
+          "expected": "All negative passages of the analysis are checked and none of them is missing the brand or product name",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Nike equivalent = LEGO 578ad917 (prod, org Onclusive, \"7 Oct 2026\", AI Engines 2, US). Improve perception tab: 6 sources (brickfanatics.com, thebrickfan.com, brickset.com, latimes.com, brothers-brick.com, allseasonspreschool.net), panel line \"Each of these articles mentions LEGO® negatively.\", 10/10 passages contain LEGO / Lego / Legos, 10/10 highlighted."
+    },
+    {
+      "tc_id": "TC-GEO-1183-004",
+      "title": "Lidl Nederland analysis - no negative passage is missing the brand or product name",
+      "story_id": "GEO-1183",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-004_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-004_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Lidl analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/1444d4ef-9555-4c35-bfd6-52af5128e180/actions - period \"Last 7 days\"",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the \"Improve perception\" tab",
+          "data": "",
+          "expected": "Only the sources with the IMPROVE PERCEPTION badge are listed and each card shows \"Negative perception in N articles\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of the first source",
+          "data": "Source #1 of the Improve perception tab",
+          "expected": "The details panel opens on the right with the header \"#1 · source domain\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Lidl negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every passage of the \"Negative perception (N)\" tab contains the brand or a product name of the brand",
+          "data": "Brand family of Lidl. Check the readable passage text inside the curly quotes. Watch-list: trustpilot.com \"Lidl Nederland - Lidl.nl reviews\" (matched entity \"Lidl Nederland\").",
+          "expected": "Each quoted passage contains the brand or product name as written on the page and no passage without the name is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user repeats the check on every source with \"Next source\" until the last one",
+          "data": "Footer \"Source k of M\"",
+          "expected": "All negative passages of the analysis are checked and none of them is missing the brand or product name",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Lidl Nederland equivalent = Toyota prod restricted to \"United Kingdom - English\" (single country, Last 7 days, 4 engines). Improve perception tab: 16 sources, Source 1 of 16 ... 16 of 16, panel line \"Each of these articles mentions Toyota negatively.\", 22/22 passages contain Toyota or a product name, 22/22 highlighted. Country filter restored to All Countries."
+    },
+    {
+      "tc_id": "TC-GEO-1183-005",
+      "title": "Negative passages are at most 140 characters in the three analyses",
+      "story_id": "GEO-1183",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-005_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-005_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Tesla analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\"",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of each source with negative articles using \"Next source\"",
+          "data": "\"Negative perception (N)\" tab",
+          "expected": "Each panel lists its negative articles with a quoted passage",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each passage is at most 140 characters long",
+          "data": "Length = text inside the curly quotes, quotes excluded, spaces and each \"…\" counted as 1 character",
+          "expected": "No passage is longer than 140 characters",
+          "status": "PASS"
+        },
+        {
+          "title": "And the same check is done on the Nike analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/51f6eb92-0d7a-4c77-8fa8-e46d5d610309/actions - period \"6 Oct 2026\"",
+          "expected": "No passage is longer than 140 characters",
+          "status": "PASS"
+        },
+        {
+          "title": "And the same check is done on the Lidl Nederland analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/1444d4ef-9555-4c35-bfd6-52af5128e180/actions - period \"Last 7 days\"",
+          "expected": "No passage is longer than 140 characters",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Length inside the curly quotes (quotes excluded, code points, \"…\" = 1): Toyota All Countries 165 passages max 140, 0 > 140; LEGO 10 passages max 140, 0 > 140; Toyota UK 22 passages max 140, 0 > 140."
+    },
+    {
+      "tc_id": "TC-GEO-1183-006",
+      "title": "A sentence longer than 140 characters is shortened with \"…\" joins and not cut mid-word",
+      "story_id": "GEO-1183",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Equivalent long sentence on prod: carbuyer.co.uk (Toyota) \"Toyota RAV4 review\" passage \"For its latest outing, the Toyota RAV4 transformed from a rather dull wallflower into a striking mid-size SUV… its interior and infotainment\". Page sentence continues \"...its interior and infotainment system both feel somewhat dated and it lacks refinement\": the passage ends on a cut without \"…\" and drops the criticism (\"feel somewhat dated\"). Across the panels: Toyota 125/165, LEGO 9/10, Toyota UK 15/22 passages end without punctuation or \"…\", many mid-word (edmunds.com \"...Unfortunatel\", \"...on-r\"; alvolante.it \"...la C-\"; brickfanatics.com \"...on last ye\"). Matches known bug GEO-1201 (passage cut mid-word, no \"…\").",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-006_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-006_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the details panel of caranddriver.com in the Tesla analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\"",
+          "expected": "The details panel opens on the right with the header \"#N · caranddriver.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the passage of the article \"Presenting Car and Driver's 2024 EV of the Year\"",
+          "data": "The page sentence is longer than 140 characters so it cannot be shown whole",
+          "expected": "The article row shows a quoted passage in italics",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the passage is shortened with \"…\" at each cut",
+          "data": "Expected shape (Jira example): \"…before any Tesla loyalists complain that we aren't giving the Cybertruck its due, know that the one we rented broke on the second day…\"",
+          "expected": "The passage starts and/or ends with \"…\" where the page sentence was cut and does not end on a partial word such as \"e\" or \"abus\"",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the passage keeps both the part with the name and the part with the criticism",
+          "data": "Name = \"Tesla\" or \"Cybertruck\", criticism = \"broke on the second day\"",
+          "expected": "The passage contains the name and \"broke on the second day\"",
+          "status": "FAIL"
+        },
+        {
+          "title": "And no passage of the Tesla, Nike and Lidl Nederland panels ends mid-word",
+          "data": "Capture examples: caranddriver.com \"…Maybe the car was abus\" (Tesla), insideevs.com \"…from both model\" (Tesla), birminghammail.co.uk \"…as soon as I o\" (Lidl)",
+          "expected": "Every passage ends on a complete word, on the page punctuation or on \"…\"",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Tesla caranddriver \"EV of the Year\" article not available on prod; rule applied to Toyota / LEGO / Toyota UK panels. 10 Toyota passages contain an inner \"…\" join."
+    },
+    {
+      "tc_id": "TC-GEO-1183-007",
+      "title": "Each part of a passage is verbatim from the article page",
+      "story_id": "GEO-1183",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-007_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-007_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-007_step3_then.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-007_toyota.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the details panel of caranddriver.com in the Tesla analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\"",
+          "expected": "The details panel opens on the right with the header \"#N · caranddriver.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the article \"Presenting Car and Driver's 2024 EV of the Year\" from its URL in a new tab",
+          "data": "caranddriver.com/news/a61836993/hyundai-ioniq-5-n-ev-of-the-year-2024/",
+          "expected": "The article page opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each part of the passage is found on the page with the same words, case and punctuation",
+          "data": "Split the passage on \"…\" and search each part on the page (Ctrl+F)",
+          "expected": "Every part is found as-is on the page and only \"…\" is added between or around the parts",
+          "status": "PASS"
+        },
+        {
+          "title": "And the same check is done on a Nike passage",
+          "data": "sgbonline.com: \"Stifel’s 2025 All-Star Sneaker Survey Sees Nike Mentions Fall to All-Time Low\"",
+          "expected": "The passage is found as-is on the article page",
+          "status": "PASS"
+        },
+        {
+          "title": "And the same check is done on a Lidl Nederland passage",
+          "data": "birminghammail.co.uk: \"I don't like singling Lidl out, but every time I think they've set the bar at a new low, they somehow find a way of dropping it further. Lid\"",
+          "expected": "Each part of the passage between \"…\" joins is found as-is on the article page",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Each part between \"…\" searched on the article page (Ctrl+F equivalent on body text): Toyota UK carbuyer.co.uk/toyota/rav4 - \"For its latest outing, the Toyota RAV4 transformed from a rather dull wallflower into a striking mid-size SUV\" and \"its interior and infotainment\" found as-is; LEGO allseasonspreschool.net/blog/1111 - \"Without fail, when playing with Legos, the floor looks like this: Now, I am a professional educator\" and \"stepping on a rogue Lego in the middle\" found as-is; Toyota caranddriver.com/toyota/bz4x single-part passage found as-is. insideevs.com (Toyota, 2-part passage) answered HTTP 403 to the test browser: not verifiable. See TC-GEO-1123-008 for a frandroid.com passage built from the page <title> (not found in the visible text)."
+    },
+    {
+      "tc_id": "TC-GEO-1183-008",
+      "title": "Passages show the page text without raw markdown syntax",
+      "story_id": "GEO-1183",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 4 (no \"**\" or \"#\" markers), adapted to prod: automoto.it (Toyota, Improve perception, panel \"#69 · automoto.it\" on ALL) passage \"come BMW o dei modelli più adatti alle famiglie come Toyota e Volkswagen. Ci concentriamo proprio su queste, le **\"top five\"\" shows a raw bold marker \"**\" before the quoted words. Expected: page text without markdown markers. Same defect family as the staging FAIL of this TC (Nike \"**shoes**\"); no bug ID in the known list -> new on prod.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-008_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-008_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the details panel of insideevs.com in the Tesla analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\"",
+          "expected": "The details panel opens on the right with the header \"#N · insideevs.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the passage of the article \"The Best EVs To Buy In March 2026: Our Favorites In Every Category\"",
+          "data": "Capture: \"Unfortunately, [Tesla did remove standard Autosteer](https://insideevs.com/news/785225/tesla-removes-autopilot-base-models/) from both model\"",
+          "expected": "The article row shows a quoted passage in italics",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the passage shows the link text only",
+          "data": "",
+          "expected": "The passage reads \"Unfortunately, Tesla did remove standard Autosteer from both model…\" with no \"[\", \"](\" or URL",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Nike passages show no \"**\" or \"#\" markers",
+          "data": "dickssportinggoods.com: \"…replace Nike track **shoes** that did n't last…\" and thestreet.com: \"…TheStreet # Nike making its most famous sneakers harder to buy\"",
+          "expected": "The passages show \"shoes\" and \"Nike making its most famous sneakers harder to buy\" without \"**\" or \"#\"",
+          "status": "FAIL"
+        },
+        {
+          "title": "And no passage of the Tesla, Nike and Lidl Nederland panels contains a raw markdown link",
+          "data": "Search the panels for \"](http\"",
+          "expected": "No passage contains a markdown link or a URL that is not visible as text on the article page",
+          "status": "PASS"
+        }
+      ],
+      "notes": "insideevs.com Tesla article not available on prod. Search for \"](http\" / \"[text](url)\" over all panels: Toyota 0/165, LEGO 0/10, Toyota UK 0/22. \"#\" heading marker: 0. Backslash: 0."
+    },
+    {
+      "tc_id": "TC-GEO-1183-009",
+      "title": "Verdicts of the Target Sources are unchanged after the re-judge",
+      "story_id": "GEO-1183",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "BLOCKED - the reference capture geo1183-passages-20261006.json and the re-judge date belong to the staging Tesla/Nike/Lidl Nederland snapshots; these analyses do not exist on prod and no prod capture/re-judge reference is available. Not comparable on prod (read-only run).",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-009_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-009_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1183-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the reference capture of the negative articles per source is available for the three analyses",
+          "data": "geo1183-passages-20261006.json",
+          "expected": "The capture lists the negative articles (title, URL) and their passages for each source",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And a re-judge has been run after the capture on the same snapshots",
+          "data": "Re-judge date confirmed by the developer, later than 2026-10-06 09:56 UTC",
+          "expected": "The re-judge date is later than the capture date",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user opens the Action Center of the Tesla analysis with the capture filters",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - \"5 Oct 2026\", AI Engines 3, United States - English",
+          "expected": "The number of sources and of Improve perception sources equals the reference capture",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then each source shows the same \"Negative perception in N articles\" count as in the capture",
+          "data": "e.g. caranddriver.com and electrek.co",
+          "expected": "All Improve perception sources and their negative article counts are identical to the capture",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And each source panel lists the same negative articles as in the capture",
+          "data": "Compare the article URLs of the \"Negative perception (N)\" tab",
+          "expected": "No negative article is added or removed and only the passage text may differ",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And the same comparison is done on the Nike and Lidl Nederland analyses",
+          "data": "Nike \"6 Oct 2026\". Lidl Nederland with the capture date range 29 Sep - 5 Oct 2026, AI Engines 2, United Kingdom - English",
+          "expected": "The sources, counts and negative articles are identical to the capture",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": "Screenshots show the prod Action Center state at execution time (Toyota, 97 sources, 57 Improve perception)."
+    },
+    {
+      "tc_id": "TC-GEO-1184-001",
+      "title": "Most prompts sort orders the cards by descending prompt count",
+      "story_id": "GEO-1184",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "BLOCKED - not delivered: GEO-1184 is Backlog. On prod (bundle index-BoaWyZbU.js) the Action Center has no sort control (controls: Card view / List view, ALL / IMPROVE VISIBILITY / IMPROVE PERCEPTION, All categories, All types) and no card shows \"Used in N prompts\".",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-001_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-001_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The cards are sorted by the default sort (failing articles) and each card shows \"Used in N prompts\"",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user selects the sort option \"Most prompts\"",
+          "data": "Sort: Most prompts (provisional wording)",
+          "expected": "The list is re-sorted",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the cards are in descending order of their prompt count",
+          "data": "",
+          "expected": "The \"Used in N prompts\" value never increases from one card to the next",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And the ranks are renumbered from 1",
+          "data": "",
+          "expected": "The first card shows rank 1 and the ranks run with no gap",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "tc_id": "TC-GEO-1184-002",
+      "title": "Card prompt count equals the prompts listed in the panel",
+      "story_id": "GEO-1184",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "BLOCKED - not delivered (GEO-1184 Backlog): cards show no \"Used in N prompts\" count on prod.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-002_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-002_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the prompt count of the card ranked #1",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The card shows \"Used in N prompts\"",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user opens its details panel and clicks \"Show X more prompts\" on the \"All\" engine tab",
+          "data": "",
+          "expected": "The full prompts list is displayed",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the number of prompt rows equals N",
+          "data": "",
+          "expected": "The rows of \"Prompts associated with this source\" equal the card count",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "tc_id": "TC-GEO-1184-003",
+      "title": "Default sort and export are unchanged when \"Most prompts\" is not selected",
+      "story_id": "GEO-1184",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "BLOCKED - not delivered (GEO-1184 Backlog): no \"Most prompts\" sort option on prod; export comparison not run.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-003_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-003_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center with the default sort",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The cards are ordered by failing article total (missing + negative), highest first",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user exports the analysis as \"Presentation .pptx\"",
+          "data": "",
+          "expected": "A .pptx file is downloaded",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the Target Sources slide follows the default order",
+          "data": "",
+          "expected": "The top 3 cards and the table follow the failing article order of the ALL tab",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user selects \"Most prompts\" and exports again",
+          "data": "",
+          "expected": "A .pptx file is downloaded",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the exported order is not affected by the on-screen sort",
+          "data": "",
+          "expected": "The slide order is the same as in step 3 (open point: confirm the export ignores the sort, as stated by AC-3 for the default case only)",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "tc_id": "TC-GEO-1184-004",
+      "title": "Most prompts sort applies inside the current tab and scope",
+      "story_id": "GEO-1184",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "BLOCKED - not delivered (GEO-1184 Backlog): no \"Most prompts\" sort option on prod.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-004_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-004_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given \"Most prompts\" is selected on the ALL tab",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The cards are sorted by prompt count",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user selects the \"IMPROVE PERCEPTION\" tab",
+          "data": "",
+          "expected": "Only perception sources are listed",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the perception sources are in descending order of their prompt count",
+          "data": "",
+          "expected": "The \"Used in N prompts\" value never increases from one card to the next (record whether the sort stayed selected, open design point)",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user keeps a single country in the countries filter",
+          "data": "",
+          "expected": "The list is recomputed for that country",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the prompt counts and the order are recomputed in that scope",
+          "data": "",
+          "expected": "Each card count is lower than or equal to its All Countries count and the order is descending",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "tc_id": "TC-GEO-1184-005",
+      "title": "Ties of the Most prompts sort are broken by failing articles then domain",
+      "story_id": "GEO-1184",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "BLOCKED - not delivered (GEO-1184 Backlog): no \"Most prompts\" sort option on prod.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-005_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-005_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1184-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given \"Most prompts\" is selected",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "expected": "The cards are sorted by prompt count",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user locates two cards with the same \"Used in N prompts\" value",
+          "data": "",
+          "expected": "Two tied cards are found",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the card with more failing articles comes first",
+          "data": "Failing articles = missing + negative",
+          "expected": "The tied card with the higher total is ranked above",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And cards tied on both counts are sorted by domain",
+          "data": "",
+          "expected": "The domains are in alphabetical order",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "tc_id": "TC-GEO-1166-001",
+      "title": "Footer stays sticky at every panel scroll position",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-001_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-001_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center page of the Toyota analysis",
+          "data": "",
+          "expected": "The \"Target Sources\" list is displayed with the tabs \"ALL\", \"IMPROVE VISIBILITY\", \"IMPROVE PERCEPTION\" and the ranked sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of the source ranked #1",
+          "data": "",
+          "expected": "The details panel opens over the list with a footer showing \"Previous\" (left), \"Source 1 of N\" (center) and \"Next source\" (right)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user scrolls the panel content to the middle",
+          "data": "",
+          "expected": "The articles and prompts scroll under the footer; \"Previous\", \"Source 1 of N\" and \"Next source\" stay visible at the bottom of the panel",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user scrolls the panel content to the very bottom",
+          "data": "",
+          "expected": "The end of \"Prompts associated with this source\" is reachable and the footer is still visible and not overlapping hidden content",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user scrolls back to the top of the panel",
+          "data": "",
+          "expected": "The footer remains fixed at the bottom of the panel at every scroll position",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Tabs ALL / IMPROVE VISIBILITY / IMPROVE PERCEPTION. Panel #1: footer \"Previous\" (x=1147) | \"Source 1 of 97\" | \"Next source\" (x=1452). Panel scroller scrollHeight 1329 / clientHeight 860: at scrollTop 0, 235 (middle), 469 (bottom) and back to 0 the footer box stays top 937 / bottom 1000 (viewport 1000). At the bottom the last element (\"Show 25 more prompts\") ends at 905 px, above the footer top 937 (not hidden)."
+    },
+    {
+      "tc_id": "TC-GEO-1166-002",
+      "title": "Next source swaps panel content in place and syncs the selected card",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-002_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-002_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center page of the Toyota analysis in card view",
+          "data": "",
+          "expected": "The \"Target Sources\" cards are displayed in ranked order",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the details panel of the source ranked #1",
+          "data": "",
+          "expected": "The panel header shows \"#1 · {domain of card 1}\", the footer shows \"Source 1 of N\" and card #1 shows the selected state",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Next source\"",
+          "data": "",
+          "expected": "The panel stays open (no close / reopen) and its content is replaced by the source ranked #2",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel header, badges, article tabs and prompts belong to the source of card #2",
+          "data": "",
+          "expected": "The header reads \"#2 · {domain of card 2}\" with its source type and reason badges; the footer reads \"Source 2 of N\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the selected state behind the panel moved to card #2",
+          "data": "",
+          "expected": "Card #2 shows the selected state and card #1 no longer does",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Card #1 frandroid.com -> \"#1 · frandroid.com\", \"Source 1 of 97\", card #1 pressed. Next source -> same <dialog> element (no close event observed), \"#2 · caranddriver.com\" with Journalism + both badges, tabs \"Lack of visibility (23)\" / \"Negative perception (5)\" = card #2 counts, \"Source 2 of 97\", card #2 pressed and card #1 no longer."
+    },
+    {
+      "tc_id": "TC-GEO-1166-003",
+      "title": "Previous swaps panel content back in place and syncs the selected card",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-003_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-003_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center page of the Toyota analysis in card view",
+          "data": "",
+          "expected": "The \"Target Sources\" cards are displayed in ranked order",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the details panel of the source ranked #3",
+          "data": "",
+          "expected": "The panel header shows \"#3 · {domain of card 3}\", the footer shows \"Source 3 of N\" and card #3 shows the selected state",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Previous\"",
+          "data": "",
+          "expected": "The panel stays open (no close / reopen) and its content is replaced by the source ranked #2",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel header, badges, article tabs and prompts belong to the source of card #2",
+          "data": "",
+          "expected": "The header reads \"#2 · {domain of card 2}\"; the footer reads \"Source 2 of N\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the selected state behind the panel moved to card #2",
+          "data": "",
+          "expected": "Card #2 shows the selected state and card #3 no longer does",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Card #3 edmunds.com -> \"#3 · edmunds.com\", \"Source 3 of 97\", card #3 pressed. Previous -> same dialog, no close, \"#2 · caranddriver.com\", \"Source 2 of 97\", card #2 pressed, card #3 no longer."
+    },
+    {
+      "tc_id": "TC-GEO-1166-004",
+      "title": "Counter shows the position within the filtered scope",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-004_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-004_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center page of the Toyota analysis",
+          "data": "",
+          "expected": "The \"Target Sources\" list is displayed with the tabs \"ALL\", \"IMPROVE VISIBILITY\", \"IMPROVE PERCEPTION\" and the ranked sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"IMPROVE PERCEPTION\" tab",
+          "data": "Tab: IMPROVE PERCEPTION",
+          "expected": "Only sources with the \"Improve perception\" badge are listed; the user notes their count Y",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects a source type in the Type filter",
+          "data": "Source type: Journalism (or any type listed with a count)",
+          "expected": "The list keeps only the sources of that type in the \"IMPROVE PERCEPTION\" tab; the user notes the new count Y",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the details panel of the 2nd source of the filtered list",
+          "data": "",
+          "expected": "The details panel opens for that source",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the footer counter reads \"Source 2 of Y\"",
+          "data": "",
+          "expected": "The counter shows 2 (position in the filtered list) and Y (number of sources in the filtered list), not the global rank or the unfiltered total; the panel header also shows the filtered position \"#2 · {domain}\", not the global rank",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks \"Next source\"",
+          "data": "",
+          "expected": "The panel shows the 3rd source of the filtered list (not the next global rank): the header reads \"#3 · {domain}\" and the counter reads \"Source 3 of Y\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "IMPROVE PERCEPTION: 57 sources. Type filter options: Aggregators (4), Corporate (1), Journalism (45), Review Sites (6), Social / UGC (1). Journalism -> 45 cards, all Journalism + IMPROVE PERCEPTION. 2nd card frandroid.com -> header \"#2 · frandroid.com\", counter \"Source 2 of 45\" (global rank #1 / 97 not used). Next source -> \"#3 · caradisiac.com\" = 3rd card of the filtered list, \"Source 3 of 45\". Filter is view-only (nothing saved)."
+    },
+    {
+      "tc_id": "TC-GEO-1166-005",
+      "title": "Previous is disabled on the first source",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-005_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-005_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center page of the Toyota analysis",
+          "data": "",
+          "expected": "The \"Target Sources\" list is displayed with the tabs \"ALL\", \"IMPROVE VISIBILITY\", \"IMPROVE PERCEPTION\" and the ranked sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of the first source of the list",
+          "data": "",
+          "expected": "The footer reads \"Source 1 of N\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the \"Previous\" button is displayed in its disabled state",
+          "data": "",
+          "expected": "\"Previous\" is greyed out, marked aria-disabled=\"true\" and shows a not-allowed cursor, while \"Next source\" stays enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the disabled \"Previous\" button",
+          "data": "",
+          "expected": "Nothing happens: the panel still shows the first source and the counter still reads \"Source 1 of N\" (no jump to the last source)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Source 1 of 97: Previous aria-disabled=\"true\", opacity 0.5, cursor not-allowed; Next source enabled (cursor default, opacity 1). Forced click on Previous: still \"#1 · frandroid.com\" / \"Source 1 of 97\" (no wrap to last)."
+    },
+    {
+      "tc_id": "TC-GEO-1166-006",
+      "title": "Next source is disabled on the last source",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-006_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-006_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center page of the Toyota analysis",
+          "data": "",
+          "expected": "The \"Target Sources\" list is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the \"IMPROVE PERCEPTION\" tab to get a short list",
+          "data": "Tab: IMPROVE PERCEPTION",
+          "expected": "The filtered list is displayed; the user notes its count N",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of the last source of the list",
+          "data": "",
+          "expected": "The footer reads \"Source N of N\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the \"Next source\" button is displayed in its disabled state",
+          "data": "",
+          "expected": "\"Next source\" is greyed out, marked aria-disabled=\"true\" and shows a not-allowed cursor, while \"Previous\" stays enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the disabled \"Next source\" button",
+          "data": "",
+          "expected": "Nothing happens: the panel still shows the last source and the counter still reads \"Source N of N\" (no jump to the first source)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "IMPROVE PERCEPTION N = 57. Last card univision.com -> \"#57 · univision.com\", \"Source 57 of 57\"; Next source aria-disabled=\"true\", opacity 0.5, cursor not-allowed; Previous enabled. Forced click on Next source: still \"#57 · univision.com\" / \"Source 57 of 57\" (no wrap)."
+    },
+    {
+      "tc_id": "TC-GEO-1166-007",
+      "title": "Previous and Next source work in the list view overlay",
+      "story_id": "GEO-1166",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-007_step1_given.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-007_step2_when.png",
+        "screenshots-GEO-152-PROD-B/TC-GEO-1166-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center page of the Toyota analysis",
+          "data": "",
+          "expected": "The \"Target Sources\" list is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user switches to the list (table) view",
+          "data": "",
+          "expected": "The sources are displayed as table rows in the same ranked order as the cards",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of the row ranked #1",
+          "data": "",
+          "expected": "The panel opens over the table with the footer \"Previous\" (disabled), \"Source 1 of N\" and \"Next source\"; row #1 shows the selected state",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks \"Next source\"",
+          "data": "",
+          "expected": "The panel stays open and shows \"#2 · {domain of row 2}\"; the counter reads \"Source 2 of N\"; row #2 shows the selected state and row #1 no longer does",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user clicks \"Previous\"",
+          "data": "",
+          "expected": "The panel shows \"#1 · {domain of row 1}\" again; the counter reads \"Source 1 of N\"; row #1 is selected again",
+          "status": "PASS"
+        }
+      ],
+      "notes": "List view rows in the same order as the cards (frandroid, caranddriver, edmunds, elpais, gazzetta, autobild.es, autojournal, autoexpress, autohero, kbb). Row #1 -> panel over the table, Previous disabled, \"Source 1 of 97\", row 0 selected. Next source -> \"#2 · caranddriver.com\", \"Source 2 of 97\", row 1 selected only. Previous -> \"#1 · frandroid.com\", \"Source 1 of 97\", row 0 selected again."
+    }
+  ]
+}

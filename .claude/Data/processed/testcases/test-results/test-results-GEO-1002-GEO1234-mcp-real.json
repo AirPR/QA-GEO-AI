@@ -1,0 +1,335 @@
+{
+  "spec": "GEO-1002-GEO1234",
+  "runDate": "2026-10-19",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1234",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "summary": {
+    "total": 8,
+    "pass": 5,
+    "fail": 0,
+    "skip": 1,
+    "partial": 2,
+    "successRate": 75,
+    "successRateExecuted": 85.7,
+    "verdict": "CONDITIONAL"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me, before and after the run)",
+    "organisation": "QA-GEO (org_name from /auth/me and the header switcher; existing session, no login or switch needed)",
+    "featureFlag": "unbranded_analysis = true: 5-step wizard (Analysis Type, Brand & Country, Categories, Prompts, Review); Brand analysis card + Continue used",
+    "role": "SUPER_ADMIN",
+    "pool": "P = 1000; U = 570 at start and at end (dashboard \"570 / 1000 prompts\", 6 analyses)",
+    "analysesCreated": [],
+    "stateChanges": "None. One wizard session (TC-001 to TC-004, TC-006 to TC-008) exited with Back to Dashboard > Exit and Discard; one extra wizard opening for the TC-005 flag evidence, exited the same way. No back-office change, no deletion, no saved analysis touched.",
+    "consoleErrors": "Only brandfetch.io logo 410 errors (unrelated)"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1234-001",
+      "title": "Add prompt opens an editable row at the top of the table",
+      "story_id": "GEO-1234",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "expected": "The prompt table and Add prompt are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Add prompt",
+          "expected": "An editable row opens at the top of the table",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the row holds a text input and the category, type and market selects",
+          "expected": "Text input, Category select, Type select and Market select are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the row holds confirm and cancel",
+          "expected": "Confirm and cancel controls are displayed on the row",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session A: Decathlon (decathlon.com), markets United Kingdom - English (EN) + France - French (FR) (GB (EN) / FR (FR) in the table), AI Insights English (EN). Discovery (about 2 s) returned \"Sporting Goods\" (FR \"Articles de sport\") and \"Outdoor Gear\" (FR \"Équipement de plein air\") = C1 and C2, nothing removed. Generate Prompts (about 5 s): 140 rows, ring \"710 / 1000 prompts · 140 selected\". Add prompt opened one row (data-testid wizard-prompt-draft-row) as the first row of the table: text input \"New prompt\" (wizard.promptTable.ariaNewPrompt, maxlength 300, focused), Category select, Type select, Market select (GB (EN)), confirm \"Add this prompt\" (wizard.promptTable.ariaConfirmDraft, check icon, disabled while the text is empty) and Cancel (X). The keep checkbox of the row is ticked and disabled. Observation (flag ON, GEO-1247 AC3): Category and Type show the text \"Other\" in grey; the Radix triggers carry data-placeholder, i.e. no value is selected and \"Other\" is the placeholder (wizard.promptTable.categoryOther / typeOther)."
+    },
+    {
+      "tc_id": "TC-GEO-1234-002",
+      "title": "Only one new row at a time and cancel leaves the table unchanged",
+      "story_id": "GEO-1234",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has opened a new row and typed a prompt",
+          "expected": "The new row is at the top with the typed text",
+          "data": "Prompt: \"Which brand makes the lightest tents?\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Add prompt again",
+          "expected": "No second row opens; the focus goes back to the open row with its text",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks cancel",
+          "expected": "The new row closes",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table is unchanged",
+          "expected": "Same number of rows and same \"N selected\" and ring value as before Add prompt",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session. Before Add prompt: 140 rows, \"710 / 1000 prompts · 140 selected\". Row opened, \"Which brand makes the lightest tents?\" typed: 141 rows (1 draft at the top). Focus moved away, Add prompt clicked again: still exactly 1 draft row (141 rows), focus back on the draft text input (wizard-prompt-draft-row-text-input) with the typed text intact; Add prompt stays enabled. Cancel: draft closed, 140 rows, ring \"710 / 1000 prompts · 140 selected\", no row with \"lightest tents\"."
+    },
+    {
+      "tc_id": "TC-GEO-1234-003",
+      "title": "Category and market selects list only the analysis values, market prefilled",
+      "story_id": "GEO-1234",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-003_step2b_market.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has opened a new row with Add prompt",
+          "expected": "The new row is at the top; Category and Type are empty",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user opens the category select",
+          "expected": "Only C1 and C2 are listed, with no Add category action",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the market select",
+          "expected": "Only GB (EN) and FR (FR) are listed; the select is prefilled with GB (EN), the first market of the analysis",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user picks type Brand Image",
+          "expected": "The category select is cleared and disabled and shows \"Overview\"",
+          "data": "Type: Brand Image",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session, no filter. Given: new row at the top, but Category and Type are not visibly empty: both show \"Other\" (grey placeholder text, wizard.promptTable.categoryOther / typeOther; the triggers carry data-placeholder so no value is selected). This is the GEO-1247 AC3 behaviour with the unbranded flag ON; the CSV expects \"empty\", so the TC is marked PARTIAL and needs a QA decision (see CSV wording proposal). Category select opened: exactly 2 options \"Sporting Goods\" and \"Outdoor Gear\" (C1, C2), no Add category action, no \"Other\" option. Market select: exactly \"GB (EN)\" and \"FR (FR)\", prefilled and selected \"GB (EN)\" (first market). The Type select lists Visibility, Reputation, Competitive, Brand Image and Other. Type Brand Image picked: Category shows \"Overview\" (wizard.promptTable.overview) and is disabled (disabled + data-disabled, no placeholder any more)."
+    },
+    {
+      "tc_id": "TC-GEO-1234-004",
+      "title": "Market select is prefilled with the filtered market",
+      "story_id": "GEO-1234",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the table is filtered on market FR (FR) only",
+          "expected": "Only FR (FR) prompts are listed",
+          "data": "Market filter = FR (FR)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Add prompt",
+          "expected": "A new row opens at the top",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the market select is prefilled with the filtered market",
+          "expected": "Market = FR (FR); Category and Type stay empty",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Same session. Market column menu: GB (EN) 70, FR (FR) 70; FR (FR) ticked: 70 rows, all FR (FR). Add prompt: new row at the top, Market = \"FR (FR)\" (prefilled from the single-market filter), so the market part passes. \"Category and Type stay empty\": both show \"Other\" (grey placeholder, data-placeholder set, no value selected; wizard.promptTable.categoryOther / typeOther), GEO-1247 AC3 with the flag ON, not visibly empty, so PARTIAL. Filter cleared afterwards. Extra check (not in the TC): with a text typed and Category/Type left on \"Other\", confirm \"Add this prompt\" is enabled (consistent with GEO-1247 AC3); draft cancelled, nothing added."
+    },
+    {
+      "tc_id": "TC-GEO-1234-005",
+      "title": "Nothing infers the category or type and confirm stays disabled until both are picked (flag OFF)",
+      "story_id": "GEO-1234",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "User decision: the Description starts with \"[SKIP while the unbranded flag is ON on staging\". The TC needs the unbranded feature flag OFF (GEO-1241 AC1b); GET /geo/api/v1/auth/me returns unbranded_analysis = true. With the flag ON, GEO-1247 AC3 (GEO-1209) overrides GEO-1234 AC3.",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-005_flag_on_evidence.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has opened a new row with Add prompt",
+          "expected": "The new row is at the top",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user types a prompt",
+          "expected": "The text is in the input; Category and Type stay empty (nothing suggested or inferred)",
+          "data": "Prompt: \"Which brand sells the most durable hiking boots?\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then confirm is disabled",
+          "expected": "Confirm cannot be clicked",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user picks only a category",
+          "expected": "Type stays empty and confirm is still disabled",
+          "data": "Category: C1",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user picks a type",
+          "expected": "Confirm becomes enabled",
+          "data": "Type: Visibility",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Not executed. Evidence screenshot: New Analysis opens the 5-step wizard on the Analysis Type step, proof that the flag is ON; exited with Back to Dashboard."
+    },
+    {
+      "tc_id": "TC-GEO-1234-006",
+      "title": "A confirmed prompt is kept, highlighted and marked CUSTOM",
+      "story_id": "GEO-1234",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-006_step1_given.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-006_step2_when.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-006_step3_then.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-006_step3b_after_sort.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has filled a new row",
+          "expected": "Confirm is enabled; ring reads \"X / P\"",
+          "data": "Prompt: \"Which brand sells the best kayaks\" - Category C2 - Type Competitive - Market GB (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user confirms",
+          "expected": "The toast \"Prompt added. It uses one pool slot.\" is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the row is added kept and highlighted",
+          "expected": "The row is ticked, highlighted, at the top of the table; the ring reads \"X + 1 / P\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the row is marked with a CUSTOM badge",
+          "expected": "CUSTOM badge on the row; the wording ends with \"?\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user performs the next action on the table",
+          "expected": "The highlight is removed; the CUSTOM badge stays",
+          "data": "Sort Category ascending",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session, X = 710, P = 1000 (\"710 / 1000 prompts · 140 selected\"). Row filled: \"Which brand sells the best kayaks\" (no \"?\"), Category Outdoor Gear (C2), Type Competitive, Market GB (EN) (prefilled); confirm enabled. Confirm: toast \"Prompt added. It uses one pool slot.\" (wizard.promptTable.promptAdded, role=status, data-testid wizard-prompt-added-toast). New row first in the table, ticked (data-kept=true), highlighted (data-highlighted=true, background #eff6ff), wording \"Which brand sells the best kayaks?\" with \"?\" added, CUSTOM badge (data-testid wizard-prompt-row-custom-badge-<id>), ring \"711 / 1000 prompts · 141 selected\". Next action Sort Category ascending (first rows Outdoor Gear): highlight removed (data-highlighted=false, white background), CUSTOM badge still on the row, still ticked (step3b_after_sort)."
+    },
+    {
+      "tc_id": "TC-GEO-1234-007",
+      "title": "A duplicate prompt is refused in the same market, accepted in another market",
+      "story_id": "GEO-1234",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-007_step1_given.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-007_step2_when.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given prompt E exists for C1, Visibility, GB (EN)",
+          "expected": "E is listed",
+          "data": "Prompt E (read its wording)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds E again in upper case with extra spaces and without \"?\" for the same category, type and market",
+          "expected": "An error is shown and the row is not added",
+          "data": "Wording of E in upper case, double spaces, no \"?\"; C1; Visibility; GB (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user changes the market of the new row to FR (FR) and confirms",
+          "expected": "The prompt is added for FR (FR) with the CUSTOM badge",
+          "data": "Market: FR (FR)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session. E = \"Best Sporting Goods?\" - Sporting Goods (C1) - Visibility - GB (EN), listed once. New row: \"BEST  SPORTING  GOODS\" (upper case, double spaces, no \"?\"), Sporting Goods, Visibility, GB (EN): inline error \"This prompt already exists for this market, category and type.\" (wizard.promptTable.duplicatePrompt, role=alert, data-testid wizard-prompt-draft-row-error), input aria-invalid=true, confirm disabled, row not added (ring still \"711 / 1000 · 141 selected\", E still the only Best Sporting Goods row). Market changed to FR (FR): error gone, confirm enabled; confirm gives the toast \"Prompt added. It uses one pool slot.\", row added at the top for FR (FR), Sporting Goods, Visibility, with the CUSTOM badge, ticked, highlighted, wording \"BEST  SPORTING  GOODS?\" (\"?\" added, case and double spaces kept as typed), ring \"712 / 1000 prompts · 142 selected\"."
+    },
+    {
+      "tc_id": "TC-GEO-1234-008",
+      "title": "A typed prompt is limited to 300 characters with a counter from 250",
+      "story_id": "GEO-1234",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-008_step1_given.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-008_step2_when.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-008_step2b_250.png",
+        "screenshots-GEO-1002-GEO1234/TC-GEO-1234-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has opened a new row with Add prompt",
+          "expected": "The text input is empty and no counter is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types 249 characters",
+          "expected": "No counter is shown",
+          "data": "249-character text",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user types up to 250 characters",
+          "expected": "A character counter is shown",
+          "data": "250-character text",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user tries to type beyond 300 characters",
+          "expected": "The input stops at 300 characters (or confirm is refused)",
+          "data": "301-character text",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session. New row: input empty, no counter. 249 characters: length 249, no counter. One more character typed (250): counter \"250 / 300\" shown (wizard.promptTable.lengthCounter). 300 characters then 2 more typed key by key: value stays at 300, counter \"300 / 300\"; a 301-character fill is also cut to 300 (input maxlength=300); no error message shown. Draft cancelled."
+    }
+  ]
+}

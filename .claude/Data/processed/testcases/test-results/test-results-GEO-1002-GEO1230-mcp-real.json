@@ -1,0 +1,550 @@
+{
+  "spec": "GEO-1002-GEO1230",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1230",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "runFolder": "runs/20102026-1108",
+  "summary": {
+    "total": 10,
+    "pass": 6,
+    "fail": 0,
+    "skip": 0,
+    "partial": 4,
+    "successRate": 80,
+    "verdict": "GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me language = en-GB)",
+    "role": "SUPER_ADMIN (assiya.benramdane@onclusive.com), current organisation QA-GEO",
+    "qaGeoPool": {
+      "start": "713 / 1000 (dashboard, 11:08 UTC)",
+      "end": "713 / 1000 (dashboard, after the run)"
+    },
+    "backOffice": "https://staging-geo.onclusive.com/geo/backoffice/organisations, opened read-only",
+    "writeGuard": {
+      "installed": "page.context().route(/^https:\\/\\/staging-geo\\.onclusive\\.com\\/.*/) aborting every method other than GET/HEAD/OPTIONS, installed 11:08:39 UTC before the first navigation, re-installed 11:09:05 UTC (to keep its log readable) with a self-test",
+      "blocked": [
+        {
+          "method": "POST",
+          "url": "https://staging-geo.onclusive.com/geo/api/v1/__qa_guard_selftest",
+          "time": "2026-10-20T11:09:05.128Z",
+          "note": "guard self-test, intentionally sent"
+        }
+      ],
+      "blockedDuringTCs": 0,
+      "removed": "context.unrouteAll() at the end of the run; confirmed with a probe to a non-existent endpoint (/geo/api/v1/__qa_guard_selftest_after) that reached the server (404) and was not logged"
+    },
+    "nothingSaved": "No organisation created, edited or deleted; every form left with Cancel; list identical before and after (reload)."
+  },
+  "sideFindings": [
+    "Edit form of an organisation with no pool (e.g. \"test 001\"): the label reads \"Prompt pool\" without the \" *\" required marker (shown on Create and on organisations with a saved pool). Possibly the remaining case of GEO-1274.",
+    "Same form: after changing another field (User quota) with Prompt pool still empty, Save becomes enabled and no \"Prompt pool is required.\" message is shown — an organisation without a pool can be saved without setting one (client side; server answer not observed). To confirm with the PO whether this is intended for legacy organisations.",
+    "Below-usage warning is shown inline as soon as the value is lower than usage (not on save) and replaces the usage hint (role=\"alert\", red).",
+    "Invalid or empty Prompt pool: the message is red but the input border stays grey.",
+    "Dialog titles use different case: \"Create organisation\" vs \"Edit Organisation — {name}\" (capital O).",
+    "Frequency filter options are lower case (\"all frequencies\", \"daily\", \"one time\") while the column shows \"Daily\" / \"One time\"; Status filter options also lower case.",
+    "Prompts sort header has no aria-sort attribute; only the button colour changes.",
+    "GEO-1272 (sort mixes \"—\" rows) did not reproduce: \"—\" rows grouped at the end in both directions."
+  ],
+  "csvProposals": [
+    "TC-GEO-1230-007 step 3: move the warning to step 2 — \"When the super admin lowers the pool below usage\" → expected \"The hint turns into a warning: \\\"U of U - 10 prompts in use. Existing prompts and running analyses are untouched; adding prompts is blocked until the count fits.\\\"\", and step 3 \"And the super admin saves\" → \"The Save button is enabled\".",
+    "TC-GEO-1230-003 step 3: \"And the super admin saves\" → expected \"The Create button stays disabled and the organisation is not created\" (Create is disabled while Prompt pool is empty).",
+    "TC-GEO-1230-004/005: quote the exact strings — hint \"U of P prompts in use.\", error \"Enter a whole number of at least 1.\", empty \"Prompt pool is required.\"; step 5 of TC-005: \"The value cannot be entered (the field stays empty)\".",
+    "TC-GEO-1230-006: add the expected label of organisation N (\"Prompt pool *\" or \"Prompt pool\") and whether Save is allowed with an empty pool — PO decision needed (see side finding).",
+    "TC-GEO-1230-010 and TC-007 step 4: add a Precondition on setup data (organisation at its pool, organisation above it) since staging has none and creating them needs back-office saves."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1230-001",
+      "title": "Create organisation shows one required Prompt pool field in place of the old quotas",
+      "story_id": "GEO-1230",
+      "priority": "High",
+      "description": "Verify that the Create organisation form shows one \"Prompt pool\" field, marked as required, replacing the four per-type fields and the \"Countries\" and \"Categories max\" fields, while the user quota, collection frequency (Daily or One time) and allowed AI engines stay as today. Covers AC-1. Known open bug GEO-1274: the required Prompt pool field has no asterisk.",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on Administration > Organizations",
+          "testData": "",
+          "expected": "The organisations list is displayed",
+          "status": "PASS",
+          "observed": "Administration > Users & Organisations > Organisations: 8 active organisations listed"
+        },
+        {
+          "title": "When the super admin opens the Create organisation form",
+          "testData": "",
+          "expected": "The form opens with its quotas section",
+          "status": "PASS",
+          "observed": "\"+ Create organisation\" opens the \"Create organisation\" dialog with a \"Quotas\" section"
+        },
+        {
+          "title": "Then the quotas show one \"Prompt pool\" field marked as required",
+          "testData": "",
+          "expected": "\"Prompt pool\" is displayed with the required marker used by the other required fields",
+          "status": "PASS",
+          "observed": "Label \"Prompt pool *\" (same \" *\" marker as \"Name *\"); input type number, min 1, step 1. Known bug GEO-1274 did NOT reproduce on the Create form"
+        },
+        {
+          "title": "And the four per-type fields and the \"Countries\" and \"Categories max\" fields are not shown",
+          "testData": "",
+          "expected": "No per-type prompt field, no \"Countries\" field and no \"Categories max\" field",
+          "status": "PASS",
+          "observed": "Quotas = Prompt pool, User quota, Collection frequency, Authorised AI Engine providers. No per-type prompt field, no \"Countries\", no \"Categories max\""
+        },
+        {
+          "title": "And the user quota, collection frequency and allowed AI engines stay as today",
+          "testData": "",
+          "expected": "User quota, collection frequency with \"Daily\" and \"One time\", and the allowed AI engines are displayed",
+          "status": "PASS",
+          "observed": "User quota (default 100), Collection frequency select with \"Daily\" and \"One time\", 5 engine switches (ChatGPT, Gemini, Grok, Claude, Perplexity)"
+        }
+      ],
+      "notes": "Form closed with Cancel, nothing saved. GEO-1274 (missing asterisk) not reproduced on the Create form; see side finding about the Edit form of an organisation with no pool."
+    },
+    {
+      "tc_id": "TC-GEO-1230-002",
+      "title": "Edit organisation shows the Prompt pool field with its saved value",
+      "story_id": "GEO-1230",
+      "priority": "Medium",
+      "description": "Verify that editing an existing organisation shows the \"Prompt pool\" field with its saved value instead of the old per-type, \"Countries\" and \"Categories max\" fields. Covers AC-1.",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on Administration > Organizations",
+          "testData": "",
+          "expected": "The organisations list is displayed",
+          "status": "PASS",
+          "observed": "Organisations list displayed"
+        },
+        {
+          "title": "When the super admin opens the edit form of organisation T",
+          "testData": "Organisation T",
+          "expected": "The edit form opens",
+          "status": "PASS",
+          "observed": "Actions > Edit on QA-GEO opens \"Edit Organisation — QA-GEO\""
+        },
+        {
+          "title": "Then the \"Prompt pool\" field shows the saved value",
+          "testData": "",
+          "expected": "\"Prompt pool\" = P",
+          "status": "PASS",
+          "observed": "Prompt pool = 1000 (list shows 713 / 1000), hint \"713 of 1000 prompts in use.\""
+        },
+        {
+          "title": "And the old quota fields are not shown",
+          "testData": "",
+          "expected": "No per-type prompt field, no \"Countries\" and no \"Categories max\" field; User quota, collection frequency and allowed AI engines keep their values",
+          "status": "PASS",
+          "observed": "No per-type, \"Countries\" or \"Categories max\" field; User quota 20 (\"19 of 20 seats in use.\"), Collection frequency Daily, 5 engines ON — consistent with the list"
+        }
+      ],
+      "notes": "Organisation T = QA-GEO (U = 713, P = 1000). Closed with Cancel."
+    },
+    {
+      "tc_id": "TC-GEO-1230-003",
+      "title": "An organisation cannot be created without a Prompt pool",
+      "story_id": "GEO-1230",
+      "priority": "Medium",
+      "description": "Verify that the Prompt pool is required when creating an organisation: saving with an empty Prompt pool is refused. Covers AC-1 (required rule). Known open bug GEO-1274: the required Prompt pool field has no asterisk.",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the Create organisation form",
+          "testData": "",
+          "expected": "The form is displayed with an empty \"Prompt pool\" field",
+          "status": "PASS",
+          "observed": "Create organisation form open, Prompt pool empty"
+        },
+        {
+          "title": "When the super admin fills every other required field and leaves Prompt pool empty",
+          "testData": "Name: \"QA pool required 1019\"; User quota: 5; Frequency: Daily; one AI engine",
+          "expected": "The form is filled except Prompt pool",
+          "status": "PASS",
+          "observed": "Name \"QA pool required 1019\", User quota 5, Frequency Daily, ChatGPT ON; Prompt pool left empty"
+        },
+        {
+          "title": "And the super admin saves",
+          "testData": "",
+          "expected": "The organisation is not created",
+          "status": "PASS",
+          "observed": "\"Create\" stays disabled while Prompt pool is empty; a forced click sends no request (guard log empty) and the dialog stays open → the organisation is not created"
+        },
+        {
+          "title": "Then the Prompt pool field is flagged as required",
+          "testData": "",
+          "expected": "An error is shown on the \"Prompt pool\" field and the field carries the required marker",
+          "status": "PASS",
+          "observed": "Red message \"Prompt pool is required.\" (role=\"alert\", text-red-600) under the field, aria-invalid=\"true\", label \"Prompt pool *\""
+        }
+      ],
+      "notes": "Client-side validation blocks the creation: no write request was sent (0 request caught by the guard). Side note: the field border itself does not turn red (only the message is red). Closed with Cancel."
+    },
+    {
+      "tc_id": "TC-GEO-1230-004",
+      "title": "Prompt pool accepts a whole number of at least 1 with a usage hint",
+      "story_id": "GEO-1230",
+      "priority": "High",
+      "description": "Verify that the Prompt pool field accepts a whole number of at least 1 and shows the usage hint, such as \"138 of 150 prompts in use.\". Covers AC-2.",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Save and reopen (step 4) and saving the value 1 (step 5) not executed: save not allowed, user decision.",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-004_step3_then.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-004_step5_lowest.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the edit form of organisation T",
+          "testData": "Organisation T",
+          "expected": "The \"Prompt pool\" field shows its value with a usage hint",
+          "status": "PASS",
+          "observed": "Edit QA-GEO: Prompt pool 1000 with hint \"713 of 1000 prompts in use.\""
+        },
+        {
+          "title": "When the super admin enters a new whole number",
+          "testData": "Prompt pool: U + 50",
+          "expected": "The value is accepted in the field",
+          "status": "PASS",
+          "observed": "Prompt pool set to 763 (U + 50): value accepted, Save enabled"
+        },
+        {
+          "title": "Then the usage hint states the prompts in use over the entered pool",
+          "testData": "",
+          "expected": "\"U of U + 50 prompts in use.\" (same pattern as \"138 of 150 prompts in use.\")",
+          "status": "PASS",
+          "observed": "Hint reads \"713 of 763 prompts in use.\""
+        },
+        {
+          "title": "When the super admin saves and reopens organisation T",
+          "testData": "",
+          "expected": "The saved pool is U + 50 and the hint is still shown",
+          "status": "NOT RUN",
+          "observed": "Not executed: save not allowed (user decision) — reopen check impossible"
+        },
+        {
+          "title": "And the super admin sets the pool to 1, the lowest accepted value, and saves",
+          "testData": "Prompt pool: 1 (restore the previous value afterwards)",
+          "expected": "The value 1 is accepted (with the below-usage warning when U > 1)",
+          "status": "PASS",
+          "observed": "Prompt pool 1 accepted in the field (Save enabled) with the red below-usage warning \"713 of 1 prompts in use. Existing prompts and running analyses are untouched; adding prompts is blocked until the count fits.\" — not saved"
+        }
+      ],
+      "notes": "Form closed with Cancel; reopening QA-GEO shows Prompt pool 1000 and the list 713 / 1000 (unchanged). Extra screenshot step5_lowest."
+    },
+    {
+      "tc_id": "TC-GEO-1230-005",
+      "title": "Prompt pool refuses zero, negative, decimal and non-numeric values",
+      "story_id": "GEO-1230",
+      "priority": "Medium",
+      "description": "Verify that the Prompt pool field accepts only a whole number of at least 1. Covers AC-2.",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the edit form of organisation T",
+          "testData": "",
+          "expected": "\"Prompt pool\" = P",
+          "status": "PASS",
+          "observed": "Edit QA-GEO: Prompt pool = 1000"
+        },
+        {
+          "title": "When the super admin enters 0 and saves",
+          "testData": "Prompt pool: 0",
+          "expected": "The value is refused and the pool stays P",
+          "status": "PASS",
+          "observed": "0 → red \"Enter a whole number of at least 1.\", aria-invalid, Save disabled; forced Save click: no request, dialog stays open"
+        },
+        {
+          "title": "And the super admin enters a negative value and saves",
+          "testData": "Prompt pool: -5",
+          "expected": "The value is refused and the pool stays P",
+          "status": "PASS",
+          "observed": "-5 → same message, Save disabled, no request"
+        },
+        {
+          "title": "And the super admin enters a decimal value and saves",
+          "testData": "Prompt pool: 12.5",
+          "expected": "The value is refused and the pool stays P",
+          "status": "PASS",
+          "observed": "12.5 → same message, Save disabled, no request"
+        },
+        {
+          "title": "And the super admin enters a non-numeric value",
+          "testData": "Prompt pool: \"abc\"",
+          "expected": "The value cannot be entered or is refused on save",
+          "status": "PASS",
+          "observed": "\"abc\" cannot be entered (number input stays empty → \"Prompt pool is required.\", Save disabled)"
+        }
+      ],
+      "notes": "No write request reached the guard for any value. Pool stays P: after Cancel, reopening QA-GEO shows 1000 and the list 713 / 1000. Also checked: 713 (= usage) shows the normal grey hint \"713 of 713 prompts in use.\" (no warning)."
+    },
+    {
+      "tc_id": "TC-GEO-1230-006",
+      "title": "An organisation without a pool shows an empty field, no hint and \"—\" in the list",
+      "story_id": "GEO-1230",
+      "priority": "Medium",
+      "description": "Verify that an organisation whose pool is not set yet shows an empty Prompt pool field with no usage hint and \"—\" in the Prompts column, and that a saved value cannot be cleared back to empty. Covers AC-2 and AC-4 (no-pool rule). Needs setup: an organisation with no pool set (existing organisation not yet filled by an operator).",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Steps 3 and 4 need a save on organisation N: not allowed (user decision). Clear-back-to-empty refusal observed only client-side on QA-GEO.",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-006_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-006_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on Administration > Organizations",
+          "testData": "Organisation N",
+          "expected": "The row of N shows \"—\" in the Prompts column",
+          "status": "PASS",
+          "observed": "N = \"test 001\" (active, no pool): Prompts column shows \"—\" (grey text-slate-300)"
+        },
+        {
+          "title": "When the super admin opens the edit form of organisation N",
+          "testData": "",
+          "expected": "The \"Prompt pool\" field is empty and no usage hint is shown",
+          "status": "PASS",
+          "observed": "Edit \"test 001\": Prompt pool empty, no usage hint shown"
+        },
+        {
+          "title": "And the super admin enters a pool and saves",
+          "testData": "Prompt pool: 100",
+          "expected": "The pool is saved and the row of N shows \"U / 100\"",
+          "status": "NOT RUN",
+          "observed": "Not executed: save not allowed (user decision). Entering 100 shows \"0 of 100 prompts in use.\" and enables Save — not saved"
+        },
+        {
+          "title": "Then the saved pool cannot be cleared back to empty",
+          "testData": "Clear the field and save",
+          "expected": "The empty value is refused and the pool stays 100",
+          "status": "PARTIAL",
+          "observed": "Cannot be verified on N (no saved pool, save not allowed). Same rule observed on T (QA-GEO, saved pool 1000): clearing the field shows \"Prompt pool is required.\" and disables Save"
+        }
+      ],
+      "notes": "On N the label is \"Prompt pool\" WITHOUT asterisk and, after another field changes, Save is enabled with an empty pool (see side findings). Closed with Cancel; row of N still \"—\" and 2 / 100 after reload."
+    },
+    {
+      "tc_id": "TC-GEO-1230-007",
+      "title": "Lowering the pool below usage warns and still saves",
+      "story_id": "GEO-1230",
+      "priority": "High",
+      "description": "Verify that saving a pool lower than the prompts in use shows a warning that existing prompts and running analyses are untouched and that adding prompts stays blocked until the count fits, without blocking the save. Covers AC-3. Needs setup: organisation T with U > 10 prompts in use; restore the pool afterwards.",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Step 4 (save not blocked, list shows \"713 / 703\" in red) not executed: save not allowed, user decision.",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-007_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-007_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the edit form of organisation T",
+          "testData": "",
+          "expected": "The hint reads \"U of P prompts in use.\"",
+          "status": "PASS",
+          "observed": "Edit QA-GEO: hint \"713 of 1000 prompts in use.\""
+        },
+        {
+          "title": "When the super admin lowers the pool below usage",
+          "testData": "Prompt pool: U - 10",
+          "expected": "The hint reads \"U of U - 10 prompts in use.\"",
+          "status": "PASS",
+          "observed": "Prompt pool 703 (U - 10): hint reads \"713 of 703 prompts in use. ...\" (the hint turns into the red warning, role=\"alert\")"
+        },
+        {
+          "title": "And the super admin saves",
+          "testData": "",
+          "expected": "A warning states that existing prompts and running analyses are untouched and that adding prompts stays blocked until the count fits",
+          "status": "PASS",
+          "observed": "Warning shown before saving: \"713 of 703 prompts in use. Existing prompts and running analyses are untouched; adding prompts is blocked until the count fits.\" Save stays enabled (not blocked client-side)"
+        },
+        {
+          "title": "Then the save is not blocked",
+          "testData": "",
+          "expected": "The pool U - 10 is saved and the list shows \"U / U - 10\" in red for organisation T",
+          "status": "NOT RUN",
+          "observed": "Not executed: save not allowed, user decision"
+        }
+      ],
+      "notes": "The warning is displayed inline as soon as the value is below usage, before clicking Save (the CSV places it on save). Save button enabled with the warning, so the client does not block the save. Closed with Cancel."
+    },
+    {
+      "tc_id": "TC-GEO-1230-008",
+      "title": "Organisations list shows a Prompts column next to User quota and keeps Frequency",
+      "story_id": "GEO-1230",
+      "priority": "High",
+      "description": "Verify that the organisations list shows a \"Prompts\" column next to User quota with prompts in use over the pool (e.g. 138 / 150), and that the Frequency column and filter stay. Covers AC-4.",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-008_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-008_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is logged in to the back office",
+          "testData": "",
+          "expected": "The back office home page is displayed",
+          "status": "PASS",
+          "observed": "Back office opens on Administration > Users & Organisations (Users tab)"
+        },
+        {
+          "title": "When the super admin opens Administration > Organizations",
+          "testData": "",
+          "expected": "The organisations list loads",
+          "status": "PASS",
+          "observed": "Organisations tab: list of 8 active organisations"
+        },
+        {
+          "title": "Then a \"Prompts\" column is shown next to User quota",
+          "testData": "",
+          "expected": "The \"Prompts\" header sits next to \"User quota\"",
+          "status": "PASS",
+          "observed": "Headers: Name | Customer number | User quota | Prompts | Frequency | US | Status | Created at | Actions — \"Prompts\" right after \"User quota\""
+        },
+        {
+          "title": "And the row of organisation T shows prompts in use over the pool",
+          "testData": "",
+          "expected": "\"U / P\" (same pattern as \"138 / 150\"), not red",
+          "status": "PASS",
+          "observed": "QA-GEO row: \"713 / 1000\" in default slate colour (text-slate-600), not red"
+        },
+        {
+          "title": "And the Frequency column and filter stay",
+          "testData": "",
+          "expected": "The Frequency column (\"Daily\" / \"One time\") and its filter are displayed, as well as the US and Created columns",
+          "status": "PASS",
+          "observed": "Frequency column (\"Daily\" / \"One time\") and Frequency filter (all frequencies / daily / one time) present, US and Created at columns present"
+        }
+      ],
+      "notes": "Organisation T = QA-GEO. Other values: Onclusive 471 / 1000, R&D-Test-Master 246 / 250, 5 organisations \"—\"."
+    },
+    {
+      "tc_id": "TC-GEO-1230-009",
+      "title": "The Prompts column of the organisations list is sortable",
+      "story_id": "GEO-1230",
+      "priority": "Medium",
+      "description": "Verify that the \"Prompts\" column of the organisations list can be sorted, organisations being ordered by their prompts in use, with the organisations without a pool (\"—\") not interleaved between the others. Covers AC-4. Known open bug GEO-1272: sorting by Prompts mixes the organisations with no pool between the others.",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-009_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-009_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on Administration > Organizations",
+          "testData": "",
+          "expected": "The list shows the \"Prompts\" column",
+          "status": "PASS",
+          "observed": "\"Prompts\" header is a sort button (data-testid backoffice-organisations-sort-prompts)"
+        },
+        {
+          "title": "When the super admin sorts the Prompts column ascending",
+          "testData": "",
+          "expected": "The organisations are ordered by prompts in use, lowest first",
+          "status": "PASS",
+          "observed": "Ascending: 246 / 250, 471 / 1000, 713 / 1000, then the 5 \"—\" rows"
+        },
+        {
+          "title": "And the super admin sorts the Prompts column descending",
+          "testData": "",
+          "expected": "The organisations are ordered by prompts in use, highest first",
+          "status": "PASS",
+          "observed": "Descending: 713 / 1000, 471 / 1000, 246 / 250, then the 5 \"—\" rows"
+        },
+        {
+          "title": "Then the organisations without a pool are not mixed between the others",
+          "testData": "",
+          "expected": "Every \"—\" row is grouped together, never between two organisations with a value",
+          "status": "PASS",
+          "observed": "The \"—\" rows stay grouped at the end in both directions, never between two valued rows"
+        }
+      ],
+      "notes": "Known bug GEO-1272 did NOT reproduce (8 active organisations, one page). Order follows prompts in use (not the ratio). A 3rd click returns to the unsorted default order (Created at desc), where \"—\" rows are naturally mixed. No aria-sort attribute on the header (only the button colour changes). Server-side sort across pages not checked (1 page in the active view)."
+    },
+    {
+      "tc_id": "TC-GEO-1230-010",
+      "title": "The Prompts value is red only when the prompts in use are above the pool",
+      "story_id": "GEO-1230",
+      "priority": "Medium",
+      "description": "Verify that the Prompts value is red only when over the pool, and that a value exactly at the pool (e.g. 150 / 150) is not red. Covers AC-4. Needs setup: one organisation exactly at its pool and one over it (pool lowered in the back office).",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "No organisation at or above its pool on staging; setting one up needs a back-office save, not allowed (user decision).",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-010_step1_given.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-010_step2_when.png",
+        "screenshots-GEO-1002-GEO1230/TC-GEO-1230-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on Administration > Organizations",
+          "testData": "Organisations E, O and T",
+          "expected": "The three rows are visible",
+          "status": "PARTIAL",
+          "observed": "Only T rows exist: no organisation exactly at its pool (E) or above it (O) in any status (26 organisations checked on 2 pages with \"all statuses\")"
+        },
+        {
+          "title": "Then the Prompts value of organisation T is not red",
+          "testData": "",
+          "expected": "\"U / P\" with U < P in the default colour",
+          "status": "PASS",
+          "observed": "T = QA-GEO \"713 / 1000\" (also Onclusive 471 / 1000, R&D-Test-Master 246 / 250) in default colour text-slate-600, not red"
+        },
+        {
+          "title": "And the Prompts value of organisation E is not red",
+          "testData": "",
+          "expected": "e.g. \"150 / 150\" in the default colour",
+          "status": "NOT RUN",
+          "observed": "Not executed: no organisation E exists, and creating one needs a save (not allowed)"
+        },
+        {
+          "title": "And the Prompts value of organisation O is red",
+          "testData": "",
+          "expected": "e.g. \"160 / 150\" in red",
+          "status": "NOT RUN",
+          "observed": "Not executed: no organisation O exists, and creating one needs a save (not allowed)"
+        }
+      ],
+      "notes": "In the edit form the boundary is consistent with the AC: 713 of 713 shows the grey hint, 713 of 703 the red warning — but the list colour itself could not be observed for E and O."
+    }
+  ]
+}

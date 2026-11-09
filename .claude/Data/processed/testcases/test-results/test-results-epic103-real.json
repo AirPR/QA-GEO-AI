@@ -1,0 +1,384 @@
+{
+  "epic": "103",
+  "execution_date": "2026-05-31T14:31:26.615Z",
+  "total": 26,
+  "passed": 4,
+  "failed": 0,
+  "skipped": 22,
+  "success_rate": "15.4%",
+  "duration_total_ms": 25533,
+  "results": [
+    {
+      "tc_id": "GEO-86-TC001",
+      "name": "GEO-86-TC001 — Progress is visible during analysis",
+      "status": "SKIPPED",
+      "duration": 221,
+      "error": null,
+      "steps": [
+        "Given an Editor opens a report while analysis is running",
+        "When the progress view loads",
+        "Then the current progress and completed or pending model counts are shown"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-86-TC002",
+      "name": "GEO-86-TC002 — Completion is reported as COMPLETED",
+      "status": "PASSED",
+      "duration": 7052,
+      "error": null,
+      "steps": [
+        "Given the analysis has finished successfully",
+        "When the final progress event is received",
+        "Then the status is COMPLETED"
+      ],
+      "screenshots": [
+        "screenshots-epic103/GEO-86-TC002_step1_given.png",
+        "screenshots-epic103/GEO-86-TC002_step2_when.png",
+        "screenshots-epic103/GEO-86-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-86-TC003",
+      "name": "GEO-86-TC003 — Completion is reported as COMPLETED_PARTIAL",
+      "status": "SKIPPED",
+      "duration": 220,
+      "error": null,
+      "steps": [
+        "Given the analysis ends with partial success",
+        "When the final progress event is received",
+        "Then the status is COMPLETED_PARTIAL"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-86-TC004",
+      "name": "GEO-86-TC004 — Completion is reported as FAILED",
+      "status": "SKIPPED",
+      "duration": 215,
+      "error": null,
+      "steps": [
+        "Given the analysis cannot complete",
+        "When the final progress event is received",
+        "Then the status is FAILED"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-86-TC005",
+      "name": "GEO-86-TC005 — Reconnecting returns the current progress state",
+      "status": "SKIPPED",
+      "duration": 241,
+      "error": null,
+      "steps": [
+        "Given the Editor loses the progress connection",
+        "When the Editor reconnects to the progress view",
+        "Then the current progress state is shown immediately"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-86-TC006",
+      "name": "GEO-86-TC006 — AC6 Frontend Progress Display",
+      "status": "SKIPPED",
+      "duration": 229,
+      "error": null,
+      "steps": [
+        "Given SSE events streaming to frontend",
+        "Then SseProgress component renders:",
+        "And Global progress bar (0-100%)",
+        "And Per-LLM list (icon + name + individual bar + status badge)",
+        "And Contextual message with current phase",
+        "And Status badges: PROCESSING (blue animated), COMPLETED (green), PARTIAL (orange), FAILED (red)",
+        "And Heartbeat pulse animation every 30s"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-86-TC007",
+      "name": "GEO-86-TC007 — Progress view exposes accessible progress semantics",
+      "status": "SKIPPED",
+      "duration": 224,
+      "error": null,
+      "steps": [],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-83-TC001",
+      "name": "GEO-83-TC001 — Successful pipeline finalizes the report",
+      "status": "PASSED",
+      "duration": 5559,
+      "error": null,
+      "steps": [
+        "Given all analysis phases have completed successfully",
+        "When finalization runs",
+        "Then the report status is COMPLETED"
+      ],
+      "screenshots": [
+        "screenshots-epic103/GEO-83-TC001_step1_given.png",
+        "screenshots-epic103/GEO-83-TC001_step2_when.png",
+        "screenshots-epic103/GEO-83-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-83-TC002",
+      "name": "GEO-83-TC002 — Partial pipeline finalizes the report as completed partial",
+      "status": "SKIPPED",
+      "duration": 218,
+      "error": null,
+      "steps": [
+        "Given the pipeline finished with some non-blocking failures",
+        "When finalization runs",
+        "Then the report status is COMPLETED_PARTIAL"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-83-TC003",
+      "name": "GEO-83-TC003 — Failed pipeline finalizes the report as failed",
+      "status": "SKIPPED",
+      "duration": 219,
+      "error": null,
+      "steps": [
+        "Given the pipeline cannot complete",
+        "When finalization runs",
+        "Then the report status is FAILED"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-83-TC004",
+      "name": "GEO-83-TC004 — AC3 Competitive Response Enrichment",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Then each competitive response is enriched with same fields as visibility (per 2-enrichissement.md section 2.4):",
+        "And target_rank (Integer, nullable) — brand's position",
+        "And is_mentioned (Boolean) — brand appears",
+        "And is_first (Boolean) — brand is #1",
+        "And total_entities (Integer) — total entities in ranking"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-83-TC005",
+      "name": "GEO-83-TC005 — AC4 Source Extraction from All Responses",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "When source extraction runs",
+        "Then all unique URLs are collected from ALL responses (visibility + perception + competitive) for this reportId + snapshotId",
+        "And no data from another organization is visible",
+        "And domain is normalized: lowercase, strip www., extract root domain (e.g., news.linkedin.com → linkedin.com), handle compound TLDs (co.uk, com.au)"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-83-TC006",
+      "name": "GEO-83-TC006 — AC5 Source Classification — 3 Levels",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given unique domains collected from all response sources",
+        "When classification runs",
+        "Then Level 1 (regex pre-classification, no AI):",
+        "And x.com / twitter.com → Social/UGC",
+        "And youtube.com → Social/UGC",
+        "And Sources from grok_x_search type → Social/UGC",
+        "And Brand's own domain → Owned Media",
+        "And Competitor's domain → Competitor Media",
+        "Then Level 2 (shared cache, cross-tenant):",
+        "And no data from another organization is visible",
+        "And Context provided: brand name, list of competitors, domains to classify",
+        "And Result saved to domain_classifications for future reports (cross-tenant cache)",
+        "And Regex fallback: .edu → Academic/Research, .gov → Government/NGO, otherwise → Other (confidence=low)"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-87-TC001",
+      "name": "GEO-87-TC001 — First analysis starts automatically",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given a report has just been submitted with status PENDING",
+        "When the analysis starts automatically",
+        "Then questions are dispatched to each enabled LLM"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-87-TC002",
+      "name": "GEO-87-TC002 — Failed LLM response does not block execution",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given an LLM request keeps failing for the current analysis",
+        "When the failure threshold is reached",
+        "Then the response is marked FAILED and the analysis continues"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-87-TC003",
+      "name": "GEO-87-TC003 — One LLM pause does not stop the others",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given one LLM has exceeded the error threshold",
+        "When the breaker opens for that LLM",
+        "Then only that LLM is paused and the other LLMs keep running"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-85-TC001",
+      "name": "GEO-85-TC001 — Competitor placeholders are replaced with real names",
+      "status": "PASSED",
+      "duration": 5555,
+      "error": null,
+      "steps": [
+        "Given visibility analysis has identified competitors for a market and category",
+        "When the competitive questions are generated",
+        "Then the competitor placeholders are replaced with the discovered competitor names"
+      ],
+      "screenshots": [
+        "screenshots-epic103/GEO-85-TC001_step1_given.png",
+        "screenshots-epic103/GEO-85-TC001_step2_when.png",
+        "screenshots-epic103/GEO-85-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-85-TC002",
+      "name": "GEO-85-TC002 — Competitive view handles fewer than five competitors",
+      "status": "PASSED",
+      "duration": 5580,
+      "error": null,
+      "steps": [
+        "Given fewer than five competitors are available for the market",
+        "When the competitive questions are displayed",
+        "Then the available competitors are shown without breaking the page"
+      ],
+      "screenshots": [
+        "screenshots-epic103/GEO-85-TC002_step1_given.png",
+        "screenshots-epic103/GEO-85-TC002_step2_when.png",
+        "screenshots-epic103/GEO-85-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-85-TC003",
+      "name": "GEO-85-TC003 — AC1 Enrichment Trigger Consumption",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "When geo-analysis-processor consumes the trigger",
+        "And a progress event is published at 40% with message \"Visibility enrichment starting...\"",
+        "Then Enrichment Trigger Consumption is applied successfully"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-85-TC004",
+      "name": "GEO-85-TC004 — AC3 Brand Matching — AI Normalization",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given enriched visibility responses with mentioned_entities",
+        "When brand matching runs",
+        "Then Step 1: text similarity pre-normalization groups obvious variants (case-insensitive, abbreviation, suffix — e.g., \"BMW\" = \"bmw\" = \"BMW Group\")",
+        "Then Step 2: Gemini AI call groups remaining brand families with domain hints (e.g., \"Audi RS\" → normalized_name: \"Audi\", \"Tesla Model 3\" → normalized_name: \"Tesla\")"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-84-TC001",
+      "name": "GEO-84-TC001 — Perception trigger starts enrichment",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given the pipeline receives a PERCEPTION_COMPLETE trigger",
+        "When the enrichment consumer handles the trigger",
+        "Then perception enrichment runs for the active market-category scopes"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-84-TC002",
+      "name": "GEO-84-TC002 — Concepts are stored with response mapping",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given perception responses are available for a market-category scope",
+        "When Gemini extracts concepts from the responses",
+        "Then the concepts are stored with response_ids and quote details"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-84-TC003",
+      "name": "GEO-84-TC003 — Perception enrichment handles edge cases",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given a perception scope has zero responses or a duplicate trigger arrives",
+        "When the pipeline processes the scope again",
+        "Then zero-response scopes are skipped and duplicate triggers do not create duplicate results"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-84-TC004",
+      "name": "GEO-84-TC004 — AC4 Stored vs Computed Fields",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "And concept.name — short concept name (2-4 words)",
+        "And concept.sentiment_score — derived from quotes (PM formula)",
+        "And concept.quotes[] — each with text, source_url, sentiment_score",
+        "And the following fields are NOT stored (computed at query time by dashboard, Epics 4-5):",
+        "And concept.frequency = response_ids.length / total_filtered_responses (changes with filter)",
+        "And concept.sentiment label = derived from sentiment_score (PM thresholds)",
+        "And response.sentiment = aggregated from concepts' scores (PM formula)",
+        "Then Stored vs Computed Fields is applied successfully"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-82-TC001",
+      "name": "GEO-82-TC001 — 8 improvement types detected across 3 dimensions",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "When the pipeline runs the improvement detection",
+        "Then 8 improvement types are detected across 3 dimensions: Visibility (low_visibility, poor_position, category_market_low, owned_media_gap), Competitive (low_favorability, category_market_losing, low_source_favorability), Reputation (negative_sentiment), each detected per LLM per category with severity (Critical < 25%, Warning < 40%, Info < 50%)"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-82-TC002",
+      "name": "GEO-82-TC002 — Results stored in PostgreSQL (pre-computed)",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given detection complete",
+        "When results are persisted",
+        "Then results are stored in PostgreSQL (pre-computed, not on dashboard load) and Priority Source Targets are computed per improvement area"
+      ],
+      "screenshots": []
+    }
+  ]
+}

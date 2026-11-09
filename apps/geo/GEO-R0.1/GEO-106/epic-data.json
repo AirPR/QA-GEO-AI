@@ -1,0 +1,50 @@
+{
+  "epic": {
+    "id": "GEO-106",
+    "key": "GEO-106",
+    "title": "EPIC-000: Foundation Infrastructure",
+    "status": "Done",
+    "assignee": "Abdenasser Aroukhsiss",
+    "description": "Setup des composants d'infrastructure partagés nécessaires à tous les Epics. Story 0.1: Shared Infrastructure Setup. Story 0.2: Database Forward Migrations + Seed Data.",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-106",
+    "stories": [
+      {
+        "id": "GEO-98",
+        "title": "[Story 0.1] Shared Infrastructure Setup",
+        "storyId": "Story 0.1",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-98",
+        "description": "As a developer I want the shared infrastructure components configured and ready So that all subsequent stories can build on a solid foundation.",
+        "acceptanceCriteria": [
+          "Given the project structure (Sprint 0 complete), When this story is implemented, Then the following are configured and tested: PromptApiClient bean (WebClient, 40s timeout for wizard, 60s for processor) in both services, PromptTemplateRegistrar for registering prompt templates on startup, EmailService interface + SendGrid implementation skeleton, KafkaConfig with all 8 topic definitions, RedisConfig for wizard rate limiting, Resilience4j CircuitBreaker configuration per LLM provider, Flyway baseline configuration, geo-flink-jobs Maven module created with Flink 1.20 dependencies",
+          "This is the ONLY technical-only story. All subsequent stories deliver user value.",
+          "No database tables created here — tables created just-in-time in each story."
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "GEO-108",
+        "title": "[Story 0.2] Database Forward Migrations + Seed Data",
+        "storyId": "Story 0.2",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-108",
+        "description": "As the development team, I want all remaining database tables created and a complete BMW report seeded, So that Epic 3 (Pipeline) can start in parallel with Epic 2 (Wizard) without waiting for the wizard UI to produce data.",
+        "acceptanceCriteria": [
+          "AC1: Config-manager migrations — 4 new Flyway migrations create: category_translations, questions, llm_configurations, report_job_queue",
+          "AC2: Analysis-processor migrations — 4 new Flyway migrations create: snapshots, llm_responses, response_sources, domain_classifications",
+          "AC3: Config-manager JPA entities — CategoryTranslation, Question, LlmConfiguration, ReportJobQueue with correct inheritance and @SQLRestriction",
+          "AC4: Analysis-processor JPA entities — Snapshot, LlmResponse, ResponseSource, DomainClassification with correct inheritance and @SQLRestriction",
+          "AC5: Config-manager repositories for all new entities",
+          "AC6: Analysis-processor repositories for all new entities",
+          "AC7: All missing enums created: JobStatus, ResponseStatus, QuestionType, SourceType, SourceCategory, SummaryScope",
+          "AC8: Seed migration inserts a complete BMW report configuration: 1 report (PENDING), 2 markets, 3 categories, 6 category_translations, ~96 questions, 5 llm_configurations, 1 report_job_queue entry",
+          "AC9: Both services start successfully with all migrations applied",
+          "AC10: Existing tests pass — cd backend && mvn verify passes with zero regressions"
+        ],
+        "dependencies": [
+          "Story 0.1"
+        ]
+      }
+    ]
+  }
+}

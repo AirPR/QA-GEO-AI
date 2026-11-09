@@ -1,0 +1,294 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\playwright.config.js",
+    "rootDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\global-setup.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "all-epics",
+        "name": "all-epics",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/test-suite-epic99.spec.js",
+          "**/test-suite-epic100.spec.js",
+          "**/test-suite-epic101.spec.js",
+          "**/test-suite-epic102.spec.js",
+          "**/test-suite-epic103.spec.js",
+          "**/test-suite-epic104.spec.js",
+          "**/test-suite-epic105.spec.js",
+          "**/test-suite-epic174.spec.js",
+          "**/test-suite-epic200.spec.js",
+          "**/test-suite-epic257.spec.js",
+          "**/test-suite-epic263.spec.js",
+          "**/test-suite-epicGEO-397.spec.js"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "e2e-suite",
+        "name": "e2e-suite",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/geo-analytics-dashboard.spec.js",
+          "**/GEO-dashboard-overview.spec.js",
+          "**/verify-analysis.spec.js",
+          "**/category-questions-table.spec.js",
+          "**/category-question-analysis.spec.js",
+          "**/category-kpi-cards-analysis.spec.js",
+          "**/category-brand-prioritization-analysis.spec.js",
+          "**/category-brand-rankings-analysis.spec.js",
+          "**/category-top-concept.spec.js",
+          "**/category-perception-citation.spec.js",
+          "**/manage-scope.spec.js",
+          "**/hubspot-upsell-pql.spec.js"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": ".claude/Data/raw/playwright/test-results-geo-640-e2e-raw.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "geo-640-e2e.spec.js",
+      "file": "geo-640-e2e.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "GEO-640 — Share of Voice Refactoring",
+          "file": "geo-640-e2e.spec.js",
+          "line": 111,
+          "column": 6,
+          "specs": [
+            {
+              "title": "E2E-GEO640-001 - KPI row sans SOV + Brand Rankings sans colonne SoV% (Overview)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 240000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 14501,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Given a user is authenticated and navigates to the Overview dashboard",
+                          "duration": 10727
+                        },
+                        {
+                          "title": "When the KPI row renders in the Performance section",
+                          "duration": 704
+                        },
+                        {
+                          "title": "Then exactly 4 KPI cards are visible (Visibility, Avg Position, LLM Choice, Sentiment) — no SOV KPI card",
+                          "duration": 618
+                        },
+                        {
+                          "title": "And the Brand Rankings table has no SoV% column header",
+                          "duration": 33
+                        }
+                      ],
+                      "startTime": "2026-06-18T18:01:04.227Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e23df29d43b04688ae0e-bea7b027a497c412bea7",
+              "file": "geo-640-e2e.spec.js",
+              "line": 115,
+              "column": 3
+            },
+            {
+              "title": "E2E-GEO640-002 - Carte SOV dédiée : heading, subtitle et état chart (Overview)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 240000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 12738,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Given a user is authenticated and navigates to the Overview dashboard",
+                          "duration": 8896
+                        },
+                        {
+                          "title": "When the page finishes loading and the Performance section is visible",
+                          "duration": 1178
+                        },
+                        {
+                          "title": "Then a dedicated \"Share of Voice\" card is visible below the KPI row with title and subtitle",
+                          "duration": 393
+                        }
+                      ],
+                      "startTime": "2026-06-18T18:01:04.239Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e23df29d43b04688ae0e-ea6a7a51c57bf7eccd5d",
+              "file": "geo-640-e2e.spec.js",
+              "line": 168,
+              "column": 3
+            },
+            {
+              "title": "E2E-GEO640-003 - Carte SOV sur Category view + réactivité au filtre LLM",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 240000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 16379,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "Given a user is authenticated and navigates to a Category page (Hybrid Cars)",
+                          "duration": 8574
+                        },
+                        {
+                          "title": "When the Category page finishes loading and the Performance section is visible",
+                          "duration": 4079
+                        },
+                        {
+                          "title": "Then the Category page shows 4 KPI cards (no SOV) and a dedicated SOV card below",
+                          "duration": 682
+                        },
+                        {
+                          "title": "And when the LLM filter is changed, the page updates (SOV card reacts)",
+                          "duration": 1619
+                        }
+                      ],
+                      "startTime": "2026-06-18T18:01:17.980Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "e23df29d43b04688ae0e-0e27d74157301b8c885b",
+              "file": "geo-640-e2e.spec.js",
+              "line": 216,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-06-18T18:01:02.742Z",
+    "duration": 32349.586,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -1,0 +1,86 @@
+================================================================================
+Feature: Create Default Analysis — Full Wizard Flow (E2E)
+================================================================================
+Spec file : e2e-create-default-analysis.spec.js
+Validated : Staging and Production — Toyota / Chanel dashboards
+--------------------------------------------------------------------------------
+
+  Background:
+    Given the user is authenticated as an Editor
+    And the user has access to the GEO application
+
+
+================================================================================
+Scenario: E2E-CREATE-DEFAULT-001 — Create a new brand analysis using the wizard
+================================================================================
+
+  # -- Step 1: Open wizard -------------------------------------------------------
+  Given the Editor opens the "Create New Analysis" wizard
+    And the 4-step stepper is visible (Brands | Markets | Categories | Prompts)
+
+  # -- Step 2-3: Brand selection -------------------------------------------------
+  When the Editor types a brand name in the Brand search field
+    And selects the brand suggestion from the autocomplete dropdown
+
+  Then the brand is added to the wizard
+
+  # -- Step 4-5: Markets configuration ------------------------------------------
+  When the Editor adds at least one market (country) for the brand
+  Then the language is auto-detected for that market
+    And the market is saved
+
+  # -- Step 6: Category discovery ------------------------------------------------
+  When the Editor clicks "Discover Categories" (or equivalent next step button)
+  Then the system triggers AI category discovery
+
+  # -- Step 7: Accept AI-discovered categories -----------------------------------
+  Then the heading "We detected these categories for {brand}" is visible
+    And at least one AI Generated category is displayed
+  When the Editor accepts the discovered categories (clicks next)
+
+  # -- Step 8: Review Prompts ----------------------------------------------------
+  When the Editor clicks "Review Prompts"
+  Then the wizard advances to Step 3
+    And the heading "Prompts" is visible
+
+  # -- Step 9: Default question generation ---------------------------------------
+  Then the system generates default questions
+    And the "Adapting prompts" loading indicator disappears
+    And at least one question ending with "?" is visible in the prompts list
+
+  # -- Step 10: Final review step ------------------------------------------------
+  When the Editor clicks "Review"
+  Then the wizard advances to Step 4
+    And the heading "Ready to analyze" is visible
+
+  # -- Step 11: Review summary cards ---------------------------------------------
+  Then the Review summary displays:
+    | Card           | Content                        |
+    | Markets        | Number of selected markets     |
+    | Categories     | Number of selected categories  |
+    | Total Prompts  | Total number of prompts        |
+
+  # -- Step 12: LLM selection ----------------------------------------------------
+  When the Editor selects LLMs to use for the analysis
+    (or default LLMs are pre-selected)
+
+  # -- Step 13: Launch analysis --------------------------------------------------
+  When the Editor clicks "Review & Launch"
+  Then the API responds with HTTP 200, 201, or 202
+    And no error toast is displayed
+
+  # -- Step 14: Redirect to report overview --------------------------------------
+  Then the user is redirected away from the wizard
+    And the URL no longer contains "/wizard" or "/new"
+
+  # Note: On production environments, the app may display a
+  #       "Back to Dashboard" button instead of auto-redirecting.
+  #       In that case, clicking the button triggers the navigation.
+
+  # -- Step 15: Navigate to reports list -----------------------------------------
+  When the Editor navigates back to the reports list
+
+  # -- Step 16: Verify analysis status -------------------------------------------
+  Then the brand analysis row is visible in the reports list
+    And the "Last update" column displays "In progress"
+    (confirming the analysis was launched and is processing)

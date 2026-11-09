@@ -1,0 +1,945 @@
+{
+  "_meta": {
+    "spec": "cookie-consent",
+    "generated": "2026-05-22",
+    "note": "Initial real.json — steps and screenshots extracted from cookie-consent.spec.js. Status/duration/error updated automatically by refreshRealFromRaw after each run."
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-327-001",
+      "title": "Boot cc_cookie valide → banner NON affiché",
+      "story": "GEO-327",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'utilisateur a un cookie cc_cookie valide déjà positionné sur geo.onclusive.com",
+        "When l'application GEO démarre et le CookieConsentProvider se monte",
+        "Then le store expose hasRespondedToConsent === true et shouldShowBanner === false et aucun banner de consentement n'est affiché dans la page"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-327-001_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-327-001_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-327-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-327-002",
+      "title": "Boot sans cc_cookie → banner affiché",
+      "story": "GEO-327",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'utilisateur accède à GEO sans cc_cookie positionné sur geo.onclusive.com",
+        "When l'application GEO démarre et le CookieConsentProvider se monte",
+        "Then le store expose hasRespondedToConsent === false et shouldShowBanner === true et le flag déclenche l'affichage du banner côté UI"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-327-002_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-327-002_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-327-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-327-003",
+      "title": "Accept All → cc_cookie écrit toutes catégories",
+      "story": "GEO-327",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le banner de consentement est visible (pas de cc_cookie présent)",
+        "When l'utilisateur clique sur \"Accept All\"",
+        "Then le cookie cc_cookie est écrit avec domain=geo.onclusive.com, sameSite=lax, secure=true et TTL=180 jours et le payload contient les catégories necessary, analytics, functional_support et le banner disparaît de la page"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-327-003_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-327-003_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-327-003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-327-004",
+      "title": "Essential Only → cc_cookie necessary uniquement",
+      "story": "GEO-327",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le banner de consentement est visible (pas de cc_cookie présent)",
+        "When l'utilisateur clique sur \"Essential Only\"",
+        "Then le cookie cc_cookie est écrit avec uniquement la catégorie necessary et le banner disparaît"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-327-004_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-327-004_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-327-004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-327-005",
+      "title": "Cookie malformé → banner réaffiché",
+      "story": "GEO-327",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given un cookie cc_cookie malformé ou avec une version incompatible est positionné sur geo.onclusive.com",
+        "When l'application GEO démarre et tente de parser le cookie",
+        "Then le store expose hasRespondedToConsent === false et le banner est réaffiché pour recueillir un nouveau consentement et l'application ne plante pas"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-327-005_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-327-005_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-327-005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-328-001",
+      "title": "Banner affiché en bas de page sans cc_cookie",
+      "story": "GEO-328",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given un utilisateur accède pour la première fois à GEO sans cc_cookie sur geo.onclusive.com",
+        "When l'application GEO démarre et le CookieConsentProvider est monté",
+        "Then le banner de consentement est rendu en bas du viewport et contient un titre, une description et les trois CTAs"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-328-001_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-328-001_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-328-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-328-002",
+      "title": "Accept All ferme banner et écrit cc_cookie toutes catégories",
+      "story": "GEO-328",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le banner de consentement est visible",
+        "When l'utilisateur clique sur \"Accept All\"",
+        "Then le cookie cc_cookie est écrit avec les catégories necessary, analytics et functional_support et le banner disparaît"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-328-002_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-328-002_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-328-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-328-003",
+      "title": "Essential Only ferme banner et écrit cc_cookie necessary seulement",
+      "story": "GEO-328",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le banner de consentement est visible",
+        "When l'utilisateur clique sur \"Essential Only\"",
+        "Then le cookie cc_cookie est écrit avec la catégorie necessary uniquement et le banner disparaît"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-328-003_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-328-003_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-328-003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-328-004",
+      "title": "Manage Preferences ouvre la modal de préférences",
+      "story": "GEO-328",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le banner de consentement est visible",
+        "When l'utilisateur clique sur \"Manage Preferences\"",
+        "Then la Preferences Modal s'ouvre au-dessus du banner et aucun consentement n'est enregistré à ce stade"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-328-004_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-328-004_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-328-004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-328-005",
+      "title": "Reload sans action → banner réapparaît",
+      "story": "GEO-328",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le banner de consentement est visible et l'utilisateur n'a cliqué sur aucun des trois CTAs",
+        "When l'utilisateur recharge la page",
+        "Then le banner réapparaît après rechargement et aucun cookie cc_cookie n'a été écrit"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-328-005_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-328-005_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-328-005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-328-006",
+      "title": "Visite retour avec cc_cookie valide → banner NON affiché",
+      "story": "GEO-328",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'utilisateur a déjà répondu au banner lors d'une visite précédente (cc_cookie valide présent)",
+        "When l'utilisateur revient sur GEO et l'application démarre",
+        "Then le banner n'est pas rendu dans la page et le store expose shouldShowBanner=false"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-328-006_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-328-006_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-328-006_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-328-007",
+      "title": "Styles boutons conformes (3 CTAs visibles simultanément)",
+      "story": "GEO-328",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le banner de consentement est rendu",
+        "When les trois boutons sont observés visuellement",
+        "Then les trois CTAs Manage Preferences, Essential Only et Accept All sont tous visibles simultanément"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-328-007_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-328-007_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-328-007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-328-008",
+      "title": "Responsive mobile boutons stackés min-height 44px",
+      "story": "GEO-328",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le viewport est inférieur à 768px de largeur",
+        "When le banner de consentement est rendu sur mobile",
+        "Then les boutons sont visibles et chaque bouton a une min-height d'au moins 44px et aucun débordement horizontal"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-328-008_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-328-008_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-328-008_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-001",
+      "title": "Ouverture modal depuis Manage Preferences",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le cookie banner de la story 17.2 est visible à l'écran",
+        "When l'utilisateur clique sur \"Manage preferences\"",
+        "Then le Cookie Preferences modal s'ouvre avec trois sections : Essential (badge \"Always on\") / Functional & Support (toggle OFF) / Analytics (toggle OFF)"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-001_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-001_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-002",
+      "title": "Toggles hydratés depuis le store (consent déjà donné)",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'utilisateur a déjà consenti avec Functional ON et Analytics OFF dans le store",
+        "When l'utilisateur ouvre le Cookie Preferences modal",
+        "Then le toggle Functional & Support est OFF et le toggle Analytics est OFF en cohérence avec le store"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-002_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-002_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-003",
+      "title": "Save Preferences commit et fermeture modal",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert avec Functional OFF et Analytics OFF par défaut",
+        "When l'utilisateur active le toggle Functional & Support puis clique sur \"Save preferences\"",
+        "Then le store enregistre areFunctionalCookiesEnabled=true et le modal se ferme"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-003_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-003_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-004",
+      "title": "Accept all cookies depuis le modal",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert avec des pending toggles modifiés",
+        "When l'utilisateur clique sur \"Accept all cookies\"",
+        "Then tous les toggles passent à ON et le cc_cookie contient toutes les catégories et le modal se ferme"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-004_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-004_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-005",
+      "title": "Cancel ferme le modal sans sauvegarder",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert et l'utilisateur a modifié des toggles (pending state non sauvegardé)",
+        "When l'utilisateur clique sur \"Cancel\"",
+        "Then le modal se ferme et l'état du store est inchangé et aucune écriture dans cc_cookie"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-005_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-005_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-006",
+      "title": "Bouton X (croix) ferme le modal sans sauvegarder",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert avec des toggles modifiés (pending state)",
+        "When l'utilisateur clique sur l'icône de fermeture (croix) du modal",
+        "Then le modal se ferme et aucune écriture dans cc_cookie"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-006_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-006_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-006_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-007",
+      "title": "Touche Escape ferme le modal sans sauvegarder",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert avec des toggles modifiés",
+        "When l'utilisateur appuie sur la touche Escape",
+        "Then le modal se ferme sans modifier le store ni écrire dans cc_cookie"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-007_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-007_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-008",
+      "title": "Clic sur l'overlay ne ferme pas le modal",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert",
+        "When l'utilisateur clique en dehors du modal (sur l'overlay)",
+        "Then le modal reste ouvert et aucune action de fermeture ni de commit n'est déclenchée (PM decision)"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-008_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-008_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-008_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-009",
+      "title": "Responsive mobile sticky footer",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'utilisateur accède à la page sur un viewport inférieur à 768px",
+        "When le Cookie Preferences modal est rendu",
+        "Then les sections sont accessibles, les CTAs Save/Cancel/Accept all sont visibles et empilés verticalement avec min-height 44px"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-009_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-009_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-009_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-329-010",
+      "title": "Equal visual weight des CTA Save et Accept all",
+      "story": "GEO-329",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert",
+        "When les boutons \"Save preferences\" et \"Accept all cookies\" sont observés visuellement",
+        "Then Save preferences et Accept all cookies ont le même poids visuel et Cancel est en style ghost différencié"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-329-010_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-329-010_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-329-010_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-330-001",
+      "title": "Section Essential affiche exactement 3 rangées réelles",
+      "story": "GEO-330",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert",
+        "When la section Essential est rendue dans le Settings Grid",
+        "Then le Settings Grid contient exactement 3 rangées : APP_TOKEN / GEO_OAUTH_REQ / cc_cookie"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-330-001_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-330-001_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-330-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-330-002",
+      "title": "Section Functional & Support affiche 3 placeholders Inactive",
+      "story": "GEO-330",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert",
+        "When la section Functional & Support est rendue dans le Settings Grid",
+        "Then le Settings Grid contient 3 rangées placeholder : intercom-session-* / intercom-id-* / hubspot-* chacune avec badge \"Inactive\""
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-330-002_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-330-002_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-330-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-330-003",
+      "title": "Section Analytics affiche 1 placeholder FullStory",
+      "story": "GEO-330",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert",
+        "When la section Analytics est rendue dans le Settings Grid",
+        "Then le Settings Grid contient exactement 1 rangée placeholder : fs_uid (FullStory) avec badge \"Inactive\""
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-330-003_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-330-003_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-330-003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-330-004",
+      "title": "Aucune section n'affiche d'empty state",
+      "story": "GEO-330",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given le Cookie Preferences modal est ouvert et la story 17.4 est mergée",
+        "When les trois sections Essential / Functional & Support / Analytics sont rendues",
+        "Then aucune section ne présente un état vide"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-330-004_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-330-004_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-330-004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-330-005",
+      "title": "Lien Cookie Settings visible dans le UserMenuDropdown",
+      "story": "GEO-330",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'utilisateur est authentifié et a déjà consenti (shouldShowBanner === false)",
+        "When l'utilisateur ouvre le UserMenuDropdown",
+        "Then un bouton \"Cookie Settings\" est visible dans le menu"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-330-005_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-330-005_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-330-005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-330-006",
+      "title": "Lien Cookie Settings ouvre le modal Preferences",
+      "story": "GEO-330",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'utilisateur a ouvert le UserMenuDropdown et le bouton \"Cookie Settings\" est visible",
+        "When l'utilisateur clique sur \"Cookie Settings\"",
+        "Then le Cookie Preferences modal s'ouvre et est toujours accessible même si le banner est masqué (GDPR withdraw any time)"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-330-006_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-330-006_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-330-006_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-333-001",
+      "title": "Clic Help sans consentement fonctionnel ouvre JIT Modal",
+      "story": "GEO-333",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given un user ayant répondu au consent banner avec areFunctionalCookiesEnabled=false",
+        "When il clique sur le bouton Help",
+        "Then la JIT Bridge Modal (\"Ready to chat?\" ou gate consentement) s'ouvre et le messenger Intercom ne s'ouvre pas"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-333-001_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-333-001_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-333-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-333-002",
+      "title": "Clic Help avec consentement fonctionnel actif n'ouvre pas JIT Modal",
+      "story": "GEO-333",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given un user ayant areFunctionalCookiesEnabled=true",
+        "When il clique sur le bouton Help",
+        "Then la JIT Bridge Modal ne s'affiche pas et le messenger Intercom s'ouvre directement"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-333-002_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-333-002_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-333-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-333-003",
+      "title": "Contenu et layout de la JIT Bridge Modal",
+      "story": "GEO-333",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la JIT Bridge Modal est ouverte",
+        "When l'utilisateur observe le contenu de la modal",
+        "Then le header affiche \"Ready to chat?\", le body contient un lien \"Cookie Settings\", le footer affiche \"Enable Support & Start Chat\" et \"I'd still like to stay private\""
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-333-003_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-333-003_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-333-003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-333-004",
+      "title": "Enable Support & Start Chat active le consentement fonctionnel",
+      "story": "GEO-333",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la JIT Bridge Modal est ouverte",
+        "When l'utilisateur clique sur \"Enable Support & Start Chat\"",
+        "Then le store passe areFunctionalCookiesEnabled à true et la JIT Bridge Modal se ferme"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-333-004_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-333-004_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-333-004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-333-005",
+      "title": "I'd still like to stay private ouvre Privacy Fallback Modal sans modifier le store",
+      "story": "GEO-333",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la JIT Bridge Modal est ouverte",
+        "When l'utilisateur clique sur \"I'd still like to stay private\"",
+        "Then la JIT Bridge Modal se ferme et la Privacy Fallback Modal s'ouvre et areFunctionalCookiesEnabled reste à false"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-333-005_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-333-005_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-333-005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-333-006",
+      "title": "Lien Cookie Settings inline ferme JIT et ouvre Preferences Modal",
+      "story": "GEO-333",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la JIT Bridge Modal est ouverte et contient le lien inline \"Cookie Settings\"",
+        "When l'utilisateur clique sur le lien \"Cookie Settings\"",
+        "Then la JIT Bridge Modal se ferme et le Cookie Preferences Modal s'ouvre"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-333-006_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-333-006_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-333-006_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-333-007",
+      "title": "Fermeture via croix ne modifie pas le store",
+      "story": "GEO-333",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la JIT Bridge Modal est ouverte",
+        "When l'utilisateur clique sur la croix de fermeture",
+        "Then la JIT Bridge Modal se ferme et aucune modification du store ni du cookie n'est effectuée"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-333-007_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-333-007_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-333-007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-333-008",
+      "title": "Fermeture via touche Escape ne modifie pas le store",
+      "story": "GEO-333",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la JIT Bridge Modal est ouverte",
+        "When l'utilisateur presse la touche Escape",
+        "Then la JIT Bridge Modal se ferme et le store et le cookie restent inchangés"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-333-008_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-333-008_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-333-008_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-333-009",
+      "title": "Affichage responsive mobile viewport moins de 768px",
+      "story": "GEO-333",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given un user sur un viewport inférieur à 768px de large",
+        "When la JIT Bridge Modal s'ouvre",
+        "Then la modal occupe toute la largeur disponible avec 16px de marge et les CTAs restent full-width avec min-height 44px"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-333-009_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-333-009_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-333-009_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-334-001",
+      "title": "I'd still like to stay private déclenche la Privacy Fallback Modal sans modifier le store",
+      "story": "GEO-334",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la JIT Bridge Modal est ouverte (areFunctionalCookiesEnabled=false)",
+        "When l'utilisateur clique sur \"I'd still like to stay private\"",
+        "Then la JIT Bridge Modal se ferme immédiatement et la Privacy Fallback Modal s'ouvre et le store cookie consent reste inchangé"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-334-001_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-334-001_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-334-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-334-002",
+      "title": "Contenu et layout de la Privacy Fallback Modal",
+      "story": "GEO-334",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la Privacy Fallback Modal est ouverte",
+        "When l'utilisateur observe le contenu rendu",
+        "Then le header affiche \"Your privacy is respected\", le body affiche support@onclusive.com et le footer affiche le bouton \"Close\""
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-334-002_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-334-002_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-334-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-334-003",
+      "title": "Clic sur email ouvre le client mail et laisse la modal ouverte",
+      "story": "GEO-334",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la Privacy Fallback Modal est ouverte avec le lien support@onclusive.com",
+        "When l'utilisateur clique sur support@onclusive.com",
+        "Then le navigateur initie un lien mailto:support@onclusive.com et la Privacy Fallback Modal reste ouverte"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-334-003_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-334-003_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-334-003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-334-004",
+      "title": "Fermeture via Close, croix ou Escape sans effet sur le store",
+      "story": "GEO-334",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la Privacy Fallback Modal est ouverte",
+        "When l'utilisateur clique sur le bouton \"Close\"",
+        "Then la Privacy Fallback Modal se ferme et aucune modification du store cookie consent n'est effectuée"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-334-004_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-334-004_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-334-004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-334-005",
+      "title": "Aucune interaction avec la modal ne modifie le store cookie consent",
+      "story": "GEO-334",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la Privacy Fallback Modal est ouverte",
+        "When l'utilisateur lit le contenu, clique sur le lien email et ferme la modal",
+        "Then le store cookie consent est identique à l'état avant l'ouverture de la JIT Bridge Modal (essential_only)"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-334-005_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-334-005_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-334-005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-237-001",
+      "title": "Clic Speak to Us sans cookies fonctionnels affiche JIT Bridge Modal",
+      "story": "GEO-237",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'user est sur la page upsell Measure et les cookies Functional & Support ne sont pas acceptés",
+        "When il clique sur \"Speak to Us\"",
+        "Then la SeeItInActionModal s'ouvre et après confirmation la JitBridgeModal s'affiche"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-237-001_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-237-001_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-237-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-237-002",
+      "title": "Refus dans JitBridgeModal ouvre PrivacyFallbackModal sans POST",
+      "story": "GEO-237",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la JitBridgeModal est ouverte depuis le contexte upsell",
+        "When l'user clique \"I'd still like to stay private\"",
+        "Then la PrivacyFallbackModal s'ouvre et aucun appel POST /api/v1/upsell/hubspot n'est effectué"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-237-002_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-237-002_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-237-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-237-003",
+      "title": "Consentement déjà accordé ouvre SeeItInActionModal directement",
+      "story": "GEO-237",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given areFunctionalCookiesEnabled=true",
+        "When l'user clique sur \"Speak to Us\"",
+        "Then la SeeItInActionModal s'ouvre directement sans passer par la JitBridgeModal"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-237-003_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-237-003_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-237-003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-237-004",
+      "title": "Idempotence un seul clic Speak to Us par session",
+      "story": "GEO-237",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'user a déjà cliqué \"Speak to Us\", confirmé dans la modal et l'événement a été envoyé",
+        "When il clique à nouveau sur un autre \"Speak to Us\" de la page",
+        "Then aucune nouvelle SeeItInActionModal ne s'ouvre et aucun deuxième appel POST /api/v1/upsell/hubspot n'est effectué"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-237-004_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-237-004_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-237-004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-237-005",
+      "title": "SeeItInActionModal s'ouvre avec checkbox décochée et Confirm désactivé",
+      "story": "GEO-237",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given l'user est sur la page upsell Measure",
+        "When il clique sur un bouton \"Speak to Us\"",
+        "Then la modal SeeItInActionModal s'ouvre avec le titre \"See it in action\", la description, la checkbox décochée et le bouton Confirm désactivé"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-237-005_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-237-005_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-237-005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-237-006",
+      "title": "Coche checkbox active le bouton Confirm",
+      "story": "GEO-237",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la modal SeeItInActionModal est ouverte avec le bouton Confirm désactivé",
+        "When l'user coche la checkbox \"I'm happy to be contacted for a demo\"",
+        "Then le bouton \"Confirm\" devient actif et cliquable"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-237-006_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-237-006_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-237-006_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-237-007",
+      "title": "Fermeture SeeItInActionModal sans confirmation n'envoie aucun événement",
+      "story": "GEO-237",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la modal SeeItInActionModal est ouverte",
+        "When l'user clique sur la croix (x), le backdrop ou presse Escape",
+        "Then la modal se ferme et aucun appel POST /api/v1/upsell/hubspot n'est effectué"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-237-007_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-237-007_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-237-007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-237-008",
+      "title": "Confirm avec consentement OK déclenche POST direct sans JitBridgeModal",
+      "story": "GEO-237",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la checkbox \"I'm happy to be contacted for a demo\" est cochée et Confirm actif avec consentement fonctionnel actif",
+        "When clic \"Confirm\" enregistre avec consentement fonctionnel actif",
+        "Then la modal se ferme et la requête POST vers /api/v1/upsell/hubspot est observée sans passer par la JitBridgeModal"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-237-008_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-237-008_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-237-008_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-237-009",
+      "title": "Confirm sans consentement fonctionnel ouvre JitBridgeModal",
+      "story": "GEO-237",
+      "status": "pending",
+      "duration": null,
+      "error": null,
+      "steps": [
+        "Given la modal SeeItInActionModal est ouverte, la checkbox cochée et areFunctionalCookiesEnabled=false",
+        "When l'user clique \"Confirm\"",
+        "Then la JitBridgeModal \"Ready to chat?\" s'ouvre et aucun appel POST /api/v1/upsell/hubspot n'est effectué à ce stade"
+      ],
+      "screenshots": [
+        "screenshots-cookie-consent/TC-GEO-237-009_step1_given.png",
+        "screenshots-cookie-consent/TC-GEO-237-009_step2_when.png",
+        "screenshots-cookie-consent/TC-GEO-237-009_step3_then.png"
+      ]
+    }
+  ]
+}

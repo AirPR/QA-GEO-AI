@@ -1,0 +1,1717 @@
+{
+  "spec": "GEO-152-GEO1178-mcp",
+  "runDate": "2026-10-06",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "environment": "staging",
+  "context": {
+    "bundle": "index-CKjtaSln.js",
+    "bundleExpected": "index-D1pTUG_F.js",
+    "snapshot": {
+      "latestAvailable": "2026-10-05 (17:51 UTC, 1111 ok / 73 failed)",
+      "failed": "2026-10-04 (0 ok / 824 failed)",
+      "dataWindow": "Last 7 days = 29 Sep - 5 Oct 2026, data window 28 Sep 17:51 -> 5 Oct 17:51 UTC (7 snapshots), snapshotId 394ccfff-ae17-4ce8-99ef-d7750b6e1c97"
+    },
+    "filters": "Last 7 days, AI Engines 3 (ChatGPT, Gemini, Perplexity; the fresh context defaulted to 4 with Grok, Grok turned off per precondition), All Countries, card view, ALL tab: 117 sources",
+    "language": {
+      "start": "British English",
+      "switched": [
+        "American English (TC-019, 022, 025-027 en-US)",
+        "Français (TC-020, 024, 028 FR)",
+        "Español (TC-021, 024, 028 ES)"
+      ],
+      "restored": "British English (verified on Settings after save)"
+    },
+    "interruption": "A first pass started on 2026-10-05 17:31 on bundle index-D1pTUG_F.js / snapshot 2026-10-03 (193 sources). A browser tool call hung ~3 h; meanwhile staging redeployed (index-CKjtaSln.js) and the 2026-10-05 snapshot landed. All 35 TCs were re-executed from scratch on 2026-10-06 09:08 in a fresh isolated context (cache cleared + disabled via CDP). First-pass screenshots are not used in this report.",
+    "precheck": "MISMATCH vs CSV reference values (captured 2026-10-02): 117 sources (CSV 261); frandroid.com #1 39/5 (same), prompts 76 = ChatGPT 25 / Gemini 12 / Perplexity 68 (CSV 79 = 28/7/71); zonebourse.com #8 16 missing, Perplexity (49) (CSV #2, 23, 32); trustpilot.com #19 9 negative (CSV #12, 10); prnewswire.com #40 ChatGPT (17) / Gemini (7) (CSV #22, 28/8); youtube.com #89 6 prompts / 2 engines (CSV #10, 3 engines) -> S6 = gouv.fr #41; evupdatemedia.us 3 prompts (no 1-engine/6-prompt source); Gemini off -> 109 sources (CSV 222), frandroid 36 missing (same). Per the CSV precondition the values were re-captured just before execution and used as reference."
+  },
+  "previousRun": {
+    "runDate": "2026-10-02",
+    "reruns": [
+      {
+        "date": "2026-10-04",
+        "tc": "TC-GEO-1178-023",
+        "reason": "GEO-1188 fixed (bundle index-DuR5p_qh.js); the 2026-10-02 run used the cached bundle index-2EQpX52F.js",
+        "startLanguage": "British English",
+        "restoredLanguage": "British English"
+      }
+    ],
+    "summary": {
+      "total": 35,
+      "pass": 27,
+      "fail": 2,
+      "skip": 0,
+      "blocked": 2,
+      "partial": 4,
+      "successRate": 82.9,
+      "verdict": "GO",
+      "formula": "(pass + 0.5*partial) / total; BLOCKED counted in total"
+    },
+    "rateSameFormula": 87.9,
+    "report": ".claude/Data/output/reports/runs/04102026-2109/MCP-Report-GEO-152-GEO1178-mcp.html"
+  },
+  "summary": {
+    "total": 35,
+    "pass": 24,
+    "fail": 2,
+    "skip": 0,
+    "blocked": 1,
+    "partial": 8,
+    "successRate": 82.4,
+    "verdict": "GO",
+    "formula": "(pass + 0.5*partial) / (total - skip - blocked)"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1178-001",
+      "title": "Missing-only source panel shows only the Lack of visibility tab and its explanation line",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-001_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-001_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "And source V shows only the Improve visibility badge",
+          "expected": "The card of zonebourse.com shows the IMPROVE VISIBILITY badge only and the line \"Not visible in 23 articles\"",
+          "data": "V = #2 zonebourse.com",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source V",
+          "expected": "The panel opens with the header \"#2 · zonebourse.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only the \"Lack of visibility (N)\" tab is displayed",
+          "expected": "A single tab \"Lack of visibility (23)\" with the eye-off icon is shown and no \"Negative perception\" tab is present",
+          "data": "N = 23",
+          "status": "PASS"
+        },
+        {
+          "title": "And the explanation line of the tab is displayed",
+          "expected": "\"None of these articles mentions Toyota anywhere on the page.\" is shown under the tab, with the eye-off icon",
+          "data": "Brand: Toyota",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Reference values re-captured per precondition (data window 29 Sep-5 Oct 2026, snapshot 2026-10-05): V = zonebourse.com is now #8 with 16 missing articles (CSV: #2, 23). Card: IMPROVE VISIBILITY badge only + \"Not visible in 16 articles\". Panel header \"#8 · zonebourse.com\", single tab \"Lack of visibility (16)\" (visibility_off icon), no Negative perception tab, line \"None of these articles mentions Toyota anywhere on the page.\" with visibility_off icon.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-002",
+      "title": "Negative-only source panel shows only the Negative perception tab and its explanation line",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-002_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-002_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "And source P shows only the Improve perception badge",
+          "expected": "The card of trustpilot.com shows the IMPROVE PERCEPTION badge only and the line \"Negative perception in 10 articles\"",
+          "data": "P = #12 trustpilot.com",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source P",
+          "expected": "The panel opens with the header \"#12 · trustpilot.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only the \"Negative perception (N)\" tab is displayed",
+          "expected": "A single tab \"Negative perception (10)\" with the thumb-down icon is shown and no \"Lack of visibility\" tab is present",
+          "data": "N = 10",
+          "status": "PASS"
+        },
+        {
+          "title": "And the explanation line of the tab is displayed",
+          "expected": "\"Each of these articles mentions Toyota negatively.\" is shown under the tab, with the thumb-down icon",
+          "data": "Brand: Toyota",
+          "status": "PASS"
+        }
+      ],
+      "notes": "P = trustpilot.com now #19 with 9 negative articles (CSV: #12, 10). Card: IMPROVE PERCEPTION only + \"Negative perception in 9 articles\". Panel \"#19 · trustpilot.com\", single tab \"Negative perception (9)\" (thumb_down icon), no Lack of visibility tab, line \"Each of these articles mentions Toyota negatively.\" with thumb_down icon.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-003",
+      "title": "Two-reason source panel shows both tabs with Lack of visibility first and selected by default",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-003_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-003_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "expected": "The panel opens with the header \"#1 · frandroid.com\"",
+          "data": "B = #1 frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then both article tabs are displayed at the top of the panel, each with its icon",
+          "expected": "A two-segment control shows \"Lack of visibility (39)\" with the eye-off icon and \"Negative perception (5)\" with the thumb-down icon",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"Lack of visibility\" tab is the first tab",
+          "expected": "\"Lack of visibility (39)\" is the left segment, before \"Negative perception (5)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"Lack of visibility\" tab is selected by default",
+          "expected": "\"Lack of visibility (39)\" is the active (white) segment, \"None of these articles mentions Toyota anywhere on the page.\" is shown and its articles are listed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "B = frandroid.com #1: 39 missing / 5 negative (same counts as the CSV). Two segments \"Lack of visibility (39)\" (visibility_off, left, x=1155, white, blue text) and \"Negative perception (5)\" (thumb_down, x=1367, grey). Lack of visibility selected by default with its line and 10 articles + \"Show 29 more articles\".",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-004",
+      "title": "Switching the article tab does not change the prompts section",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-004_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-004_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open on the \"Lack of visibility (39)\" tab",
+          "expected": "The missing articles are listed",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "And the prompts section is displayed below the articles, separated by a divider",
+          "expected": "A short horizontal divider is followed by \"Prompts associated with this source\", the engine filter \"All\" / \"ChatGPT (28)\" / \"Gemini (7)\" / \"Perplexity (71)\" on \"All\", 6 prompt rows and \"Show 73 more prompts\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Negative perception (5)\" tab",
+          "expected": "The 5 negative articles are listed and \"Each of these articles mentions Toyota negatively.\" is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the prompts section is unchanged",
+          "expected": "The heading, the engine tabs and counts, the 6 prompt rows (same text, engine icons and flags) and \"Show 73 more prompts\" are identical to step 2, still below the divider",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Lack of visibility (39)\" tab again",
+          "expected": "The missing articles are listed again",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the prompts section is still unchanged",
+          "expected": "The prompts section is identical to step 2",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Divider 215x1px (rgb 202,213,226) above \"Prompts associated with this source\". Prompts section (heading, engine tabs All / ChatGPT (25) / Gemini (12) / Perplexity (68), 6 rows with text, icons and flags, \"Show 70 more prompts\") strictly identical (JSON compare) after switching to Negative perception (5 articles, negative line) and back to Lack of visibility (39). Counts re-captured (CSV: 28/7/71, 73). Engine tabs render icon + count only (see TC-010/011).",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-005",
+      "title": "Tab counts match the number of articles in each tab and the card line of the source",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-005_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-005_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "expected": "The Target Sources cards are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the card of source B shows its reason lines",
+          "expected": "The card shows \"Not visible in 39 articles\" and \"Negative perception in 5 articles\"",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "expected": "The tabs \"Lack of visibility (39)\" and \"Negative perception (5)\" are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks \"Show 29 more articles\"",
+          "expected": "The remaining missing articles are added to the list",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the \"Lack of visibility\" tab lists as many articles as its count",
+          "expected": "Exactly 39 article rows are listed under \"Lack of visibility (39)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Negative perception (5)\" tab",
+          "expected": "The negative articles are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the \"Negative perception\" tab lists as many articles as its count",
+          "expected": "Exactly 5 article rows are listed under \"Negative perception (5)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And both tab counts match the card line of source B",
+          "expected": "39 = \"Not visible in 39 articles\" and 5 = \"Negative perception in 5 articles\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Card frandroid.com: \"Not visible in 39 articles\" / \"Negative perception in 5 articles\". Panel tabs (39)/(5). \"Show 29 more articles\" -> exactly 39 rows (39 distinct URLs), no button left. Negative tab: exactly 5 rows. Counts match card lines.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-006",
+      "title": "Explanation line uses the analysis brand name and is not repeated on each article",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-006_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-006_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open on the \"Lack of visibility (39)\" tab",
+          "expected": "The missing articles are listed",
+          "data": "Brand of the analysis: Toyota",
+          "status": "PASS"
+        },
+        {
+          "title": "Then one explanation line is shown under the tab with the brand name",
+          "expected": "\"None of these articles mentions Toyota anywhere on the page.\" is shown once, between the tabs and the first article",
+          "status": "PASS"
+        },
+        {
+          "title": "And no article row repeats a per-article verdict line",
+          "expected": "Each article row only shows its title, URL and engine icons, with no verdict text",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Negative perception (5)\" tab",
+          "expected": "The 5 negative articles are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then one explanation line is shown under the tab with the brand name",
+          "expected": "\"Each of these articles mentions Toyota negatively.\" is shown once, between the tabs and the first article",
+          "status": "PASS"
+        },
+        {
+          "title": "And no article row repeats a per-article verdict line",
+          "expected": "Each negative article row only shows its title, URL, engine icons and passage, with no \"describes negatively\" verdict text",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Lack of visibility: one line \"None of these articles mentions Toyota anywhere on the page.\" (1 occurrence, after the tabs, before the first article); 0 rows with a verdict text, 0 passages. Negative perception: one line \"Each of these articles mentions Toyota negatively.\" (1 occurrence, same position); 0 rows with \"describes negatively\" text.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-007",
+      "title": "Each article shows its title, URL and the icons of the engines that cite it",
+      "story_id": "GEO-1178",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-007_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-007_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open on the \"Lack of visibility (39)\" tab",
+          "expected": "The missing articles are listed",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each article row shows the article title",
+          "expected": "Each row shows a globe/favicon icon and the article title in bold",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And each article row shows the article URL",
+          "expected": "Each row shows the URL in grey under the title, without protocol, starting with \"frandroid.com/\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And each article row shows the icons of the engines that cite it",
+          "expected": "Each row shows at least one engine icon (ChatGPT, Gemini and/or Perplexity), right-aligned",
+          "status": "PASS"
+        },
+        {
+          "title": "And missing articles show no negative passage",
+          "expected": "No quoted passage is shown on the \"Lack of visibility\" article rows",
+          "status": "PASS"
+        }
+      ],
+      "notes": "39 missing rows after \"Show 29 more articles\": globe icon on every row, title weight 600, URL grey rgb(100,116,139) without protocol, all starting \"frandroid.com/\", at least one engine icon right-aligned (13px from row edge), no passage. 1 of 39 rows has no article title in the API response (failing[].title missing for frandroid.com/survoltes/voitures-electriques/2857407_une-mode-passagere-...): the UI shows the URL in the bold title slot (framed in amber). Cannot tell whether this is a data gap or an app issue, so the verification is not complete -> PARTIAL.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-008",
+      "title": "Negative articles also show the passage where the brand is mentioned negatively",
+      "story_id": "GEO-1178",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-008_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-008_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "expected": "The \"Lack of visibility (39)\" tab is selected",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Negative perception (5)\" tab",
+          "expected": "The 5 negative articles are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each negative article row shows its title, URL and citing engine icons",
+          "expected": "Each row shows the bold title, the grey URL starting with \"frandroid.com/\" and the right-aligned engine icons",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And each negative article row shows the passage where Toyota is mentioned negatively",
+          "expected": "Under the URL, each row shows a passage of the article mentioning Toyota negatively, in italics, inside curly quotes, with a vertical bar on its left",
+          "data": "Brand: Toyota",
+          "status": "PASS"
+        }
+      ],
+      "notes": "5 negative rows: grey URL \"frandroid.com/...\", engine icon right-aligned, passage in italics (span font-style italic), inside curly quotes, 2px purple bar on the left (rgb 216,180,254), \"Toyota\" highlighted (mark). Row 2 (frandroid.com/marques/toyota/1708539_la-premiere-voiture-electrique-de-toyota-...) has no title in the API data -> URL shown in the bold title slot (framed in amber) -> PARTIAL. Also visible: GEO-1202 raw markdown in row 1 passage \"[bZ4X](https://www.frandroid.com/produits/toyota/voitures/1112141\" and GEO-1201 cut passages without \"…\" (rows 1, 2, 3: \"Si une version sera bi”\", \"un prix d’appel agr”\").",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-009",
+      "title": "A prompt cited by several engines appears once, with its market flag and one icon per engine",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-009_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-009_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "expected": "\"Prompts associated with this source\" is displayed below the articles with the engine filter on \"All\"",
+          "data": "B = frandroid.com, 79 prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show 73 more prompts\"",
+          "expected": "All 79 prompts of frandroid.com are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the prompt \"Best Voitures Électriques?\" appears exactly once in the list",
+          "expected": "One single row shows \"“Best Voitures Électriques?”\" (no duplicate row per engine)",
+          "data": "Cited by ChatGPT, Gemini, Perplexity",
+          "status": "PASS"
+        },
+        {
+          "title": "And the row shows the prompt text and its market flag",
+          "expected": "The row shows \"“Best Voitures Électriques?”\" and the French flag at the bottom right",
+          "data": "Market: France",
+          "status": "PASS"
+        },
+        {
+          "title": "And the row shows one icon per engine that cites the source",
+          "expected": "3 engine icons (ChatGPT, Gemini, Perplexity) are shown before the flag",
+          "status": "PASS"
+        },
+        {
+          "title": "And no prompt text is listed twice in the list",
+          "expected": "All 79 rows have different prompt texts and \"“Good Voitures Électriques?”\" also appears once with 3 icons",
+          "data": "Also check \"“Good Voitures Électriques?”\" (FR, same 3 engines)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "\"Show 70 more prompts\" -> 76 rows (CSV: 79), 0 duplicate prompt texts. \"“Best Voitures Électriques?”\" appears once, \"Cited by ChatGPT, Gemini, Perplexity\" (3 icons) before the FR flag (flag 13px from right edge, 10px from bottom). \"“Good Voitures Électriques?”\" also once with the same 3 icons + FR.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-010",
+      "title": "Engine filter shows \"All\" by default, then one tab per engine with its prompt count, in a fixed engine order",
+      "story_id": "GEO-1178",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected the engine tabs to read \"ChatGPT (28)\", \"Gemini (7)\", \"Perplexity (71)\" (re-captured: ChatGPT (25), Gemini (12), Perplexity (68)), each with its icon. Observed: each engine tab shows only the engine icon and a bare number (\"25\", \"12\", \"68\"); the engine name is only in the title tooltip / aria-label \"ChatGPT (25)\". Front code (index-CKjtaSln.js): compact mode when engines.length >= 3 (constant = 3). Engine tabs framed in red.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-010_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-010_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "expected": "\"Prompts associated with this source\" is displayed",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the engine filter is displayed above the prompts list",
+          "expected": "The filter sits between the heading and the first prompt row",
+          "status": "PASS"
+        },
+        {
+          "title": "And \"All\" is the first tab and is selected by default",
+          "expected": "\"All\" is the first tab, shown as the active (white) tab, with no count",
+          "status": "PASS"
+        },
+        {
+          "title": "And one tab is shown for each engine present in the prompts of source B",
+          "expected": "Exactly 3 engine tabs follow \"All\": ChatGPT, Gemini, Perplexity",
+          "data": "Engines in scope: ChatGPT, Gemini, Perplexity",
+          "status": "PASS"
+        },
+        {
+          "title": "And each engine tab shows the number of prompts of the list cited by that engine",
+          "expected": "The tabs read \"ChatGPT (28)\", \"Gemini (7)\" and \"Perplexity (71)\", each with its icon; \"All\" covers 79 distinct prompts (counts overlap)",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the engine tabs are in the fixed order ChatGPT, Gemini, Perplexity, not sorted by count",
+          "expected": "The order is \"All\", \"ChatGPT (28)\", \"Gemini (7)\", \"Perplexity (71)\", even though Perplexity has the highest count",
+          "data": "QA decision (OP-17)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Filter between heading and first prompt: OK. \"All\" first, selected (white), no count: OK. Exactly 3 engine tabs: OK. Fixed order All, ChatGPT, Gemini, Perplexity (not sorted by count, Perplexity highest): OK. Failing step: the tabs do not read \"<Engine> (<count>)\". Truncation of 2026-10-02 (GEO-1187) is gone: labels are no longer cut, the name is dropped instead. Open point: CSV/Figma rule says icon + count only for MORE than 3 engines; build applies it from 3 engines.",
+      "previous_status": "FAIL"
+    },
+    {
+      "tc_id": "TC-GEO-1178-011",
+      "title": "With 2 or 3 engines the engine tabs show the icon, the name and the count",
+      "story_id": "GEO-1178",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 2 (frandroid.com, 3 engines): expected [icon] \"ChatGPT (28)\", [icon] \"Gemini (7)\", [icon] \"Perplexity (71)\" (icon + name + count). Observed: [icon] \"25\", [icon] \"12\", [icon] \"68\" - engine name not displayed (only in tooltip/aria-label). Engine tabs framed in red in step1_given.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-011_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-011_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "expected": "The engine filter shows \"All\" and 3 engine tabs",
+          "data": "B = frandroid.com, 3 engines",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each engine tab shows the engine icon, the engine name and the count in parentheses",
+          "expected": "[icon] \"ChatGPT (28)\", [icon] \"Gemini (7)\", [icon] \"Perplexity (71)\"",
+          "status": "FAIL"
+        },
+        {
+          "title": "When the user opens the details panel of source E2",
+          "expected": "The engine filter shows \"All\" and 2 engine tabs",
+          "data": "E2 = #22 prnewswire.com, 2 engines",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each engine tab shows the engine icon, the engine name and the count in parentheses",
+          "expected": "[icon] \"ChatGPT (28)\", [icon] \"Gemini (8)\"; \"All\" shows no count",
+          "status": "PASS"
+        },
+        {
+          "title": "And a prompt cited by both engines shows both icons and its flag",
+          "expected": "The row \"“Best hybrid cars?”\" shows the ChatGPT and Gemini icons and the US flag",
+          "data": "\"Best hybrid cars?\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "E2 = prnewswire.com now #40 (CSV: #22), 2 engines: [icon] \"ChatGPT (17)\", [icon] \"Gemini (7)\", \"All\" without count, no truncation -> OK. \"“Best hybrid cars?”\" shows ChatGPT and Gemini icons and the US flag -> OK. 3-engine case fails (same root cause as TC-010).",
+      "previous_status": "FAIL"
+    },
+    {
+      "tc_id": "TC-GEO-1178-012",
+      "title": "With more than 3 engines the engine tabs show only the icon and the count",
+      "story_id": "GEO-1178",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "BLOCKED - precondition not available: no source cited by 4 or more engines.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-012_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-012_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source M is open",
+          "expected": "The engine filter shows \"All\" and one tab per engine",
+          "data": "Source M: 4 or more engines",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then each engine tab shows only the engine icon and the count",
+          "expected": "Each engine tab shows the icon followed by a bare number, with no engine name and no parentheses (design frame 15220:79515)",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And the \"All\" tab is still displayed as \"All\"",
+          "expected": "\"All\" is shown as the first tab, selected, with no count",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": "Grok switch can be turned on (badge \"AI Engines 4\") but the analysis has no Grok data: API scan of all 117 sources with llms=gemini,grok,openai,perplexity -> max 3 engines (frandroid.com), 0 sources with Grok prompts; frandroid tabs stay All/ChatGPT/Gemini/Perplexity. Claude switch disabled. Grok restored to off. Note: the icon + count format expected here for 4+ engines is already applied from 3 engines (see TC-010/011).",
+      "previous_status": "BLOCKED"
+    },
+    {
+      "tc_id": "TC-GEO-1178-013",
+      "title": "Selecting an engine tab keeps only its prompts and recalculates \"Show X more prompts\"",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-013_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-013_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open with the engine filter on \"All\"",
+          "expected": "6 prompt rows and \"Show 73 more prompts\" are shown",
+          "data": "B = frandroid.com, 79 prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"ChatGPT (28)\" engine tab",
+          "expected": "\"ChatGPT (28)\" becomes the active (white) tab and \"All\" becomes inactive",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the list only keeps the prompts cited by ChatGPT",
+          "expected": "6 rows are shown and each one has the ChatGPT icon",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"Show X more prompts\" count is recalculated for the ChatGPT tab",
+          "expected": "\"Show 22 more prompts\" is shown",
+          "data": "X = 28 - 6 = 22",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show 22 more prompts\"",
+          "expected": "28 rows are listed, each with the ChatGPT icon",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Perplexity (71)\" engine tab",
+          "expected": "6 rows with the Perplexity icon and \"Show 65 more prompts\" are shown",
+          "data": "X = 71 - 6 = 65",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Gemini (7)\" engine tab",
+          "expected": "6 rows with the Gemini icon and \"Show 1 more prompt\" are shown",
+          "data": "X = 7 - 6 = 1",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects \"All\" again",
+          "expected": "6 rows and \"Show 73 more prompts\" are shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "All: 6 rows + \"Show 70 more prompts\". ChatGPT (25): active, 6 rows all with ChatGPT icon, \"Show 19 more prompts\" (25-6) -> 25 rows all ChatGPT. Perplexity (68): 6 rows + \"Show 62 more prompts\". Gemini (12): 6 rows all Gemini + \"Show 6 more prompts\" (CSV expected Gemini (7) -> \"Show 1 more prompt\"; with 12 Gemini prompts the recalculated value is 6, singular checked in TC-016). All again: 6 rows + \"Show 70 more prompts\".",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-014",
+      "title": "Engine tabs only list the engines in the AI Engines filter of the page",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-014_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-014_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page with the filter \"AI Engines 3\"",
+          "expected": "frandroid.com is #1",
+          "data": "261 sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of frandroid.com",
+          "expected": "The engine filter shows \"All\", \"ChatGPT (28)\", \"Gemini (7)\" and \"Perplexity (71)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user closes the panel and turns Gemini off in the AI Engines filter of the page",
+          "expected": "The filter badge reads \"AI Engines 2\" and the list is recalculated to 222 sources, with frandroid.com still #1",
+          "data": "AI Engines: ChatGPT, Perplexity",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the details panel of frandroid.com again",
+          "expected": "The panel opens with the footer \"Source 1 of 222\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the engine filter only lists the engines in the current scope",
+          "expected": "Only \"All\", \"ChatGPT (28)\" and \"Perplexity (71)\" are shown. No Gemini tab is present",
+          "status": "PASS"
+        },
+        {
+          "title": "And the prompts list only contains prompts cited by the engines in scope",
+          "expected": "6 rows and \"Show 73 more prompts\" are shown, and no row shows the Gemini icon",
+          "status": "PASS"
+        },
+        {
+          "title": "And the article counts follow the scope (observed, see OP-6)",
+          "expected": "The tab reads \"Lack of visibility (36)\" and the card shows \"Not visible in 36 articles\" / \"Negative perception in 5 articles\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "AI Engines 3: frandroid #1, tabs All/ChatGPT (25)/Gemini (12)/Perplexity (68). Gemini off: badge \"AI Engines 2\", list recalculated to 109 sources (CSV: 222), frandroid still #1, footer \"Source 1 of 109\", tabs All/ChatGPT (25)/Perplexity (68), no Gemini tab, 6 rows + \"Show 70 more prompts\", 0 Gemini icons on all 76 rows, tab \"Lack of visibility (36)\", card \"Not visible in 36 articles\" / \"Negative perception in 5 articles\". AI Engines restored to 3 right after.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-015",
+      "title": "The prompts list shows 6 prompts before the \"Show X more prompts\" button",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-015_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-015_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open with the engine filter on \"All\"",
+          "expected": "The prompts section is displayed",
+          "data": "B = frandroid.com, 79 prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "Then exactly 6 prompt rows are shown",
+          "expected": "6 prompt rows are visible",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"Show X more prompts\" button is shown under the 6th prompt",
+          "expected": "An outlined button \"Show 73 more prompts\" is centred under the 6th row",
+          "data": "X = 79 - 6 = 73",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show 73 more prompts\"",
+          "expected": "The 73 remaining prompts are added to the list",
+          "status": "PASS"
+        },
+        {
+          "title": "Then all 79 prompts are listed",
+          "expected": "79 prompt rows are visible",
+          "status": "PASS"
+        }
+      ],
+      "notes": "6 rows; outlined button (1px solid rgb(226,232,240), white) \"Show 70 more prompts\" under the 6th row, centred (offset 0px); after click 76 rows (79 in CSV), button gone.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-016",
+      "title": "\"Show 1 more prompt\" uses the singular form when one prompt remains",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-016_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-016_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "expected": "The engine filter is on \"All\"",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Gemini (7)\" engine tab",
+          "expected": "The Gemini tab is active and 6 rows are shown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the button uses the singular form",
+          "expected": "\"Show 1 more prompt\" is shown (not \"prompts\")",
+          "data": "X = 7 - 6 = 1",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show 1 more prompt\"",
+          "expected": "7 rows are listed, each with the Gemini icon",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Source B Gemini now has 12 prompts -> \"Show 6 more prompts\" (plural, correct; singular not reachable on B). Singular checked on prnewswire.com (#40, Gemini (7)): Gemini tab active, 6 rows + \"Show 1 more prompt\" (singular) -> click -> 7 rows, all with the Gemini icon. Substitute source documented.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-017",
+      "title": "Previous / Next source rebuilds the article tabs and the engine filter for the new source",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-017_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-017_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-017_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "expected": "\"Lack of visibility (39)\" and \"Negative perception (5)\" are shown, the engine filter shows \"All\", \"ChatGPT (28)\", \"Gemini (7)\", \"Perplexity (71)\", and the footer reads \"Source 1 of 261\"",
+          "data": "B = #1 frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the \"Negative perception (5)\" tab and the \"ChatGPT (28)\" engine tab",
+          "expected": "Both tabs are active",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Next source\"",
+          "expected": "The panel shows \"#2 · zonebourse.com\" and the footer reads \"Source 2 of 261\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article tabs are rebuilt for the new source",
+          "expected": "Only \"Lack of visibility (23)\" is shown, with \"None of these articles mentions Toyota anywhere on the page.\"",
+          "data": "zonebourse.com: missing only",
+          "status": "PASS"
+        },
+        {
+          "title": "And the engine filter is rebuilt for the new source",
+          "expected": "The engine filter shows \"All\" and \"Perplexity (32)\" only, with 6 rows and \"Show 26 more prompts\"",
+          "data": "zonebourse.com: 1 engine, 32 prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Previous\"",
+          "expected": "The panel shows \"#1 · frandroid.com\" and the footer reads \"Source 1 of 261\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article tabs and the engine filter are rebuilt for source B",
+          "expected": "\"Lack of visibility (39)\" is first and selected, \"Negative perception (5)\" is second, and the engine filter shows \"All\", \"ChatGPT (28)\", \"Gemini (7)\", \"Perplexity (71)\" with 6 rows and \"Show 73 more prompts\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Start: tabs (39)/(5), engine tabs All/ChatGPT (25)/Gemini (12)/Perplexity (68), \"Source 1 of 117\". Negative + ChatGPT selected -> Next source: \"#2 · ouest-france.fr\" (missing-only source now #2; CSV: zonebourse.com), \"Source 2 of 117\", only \"Lack of visibility (25)\" + missing line, engine filter rebuilt All/ChatGPT (1)/Gemini (1)/Perplexity (33) on All, 6 rows + \"Show 29 more prompts\". Previous: \"#1 · frandroid.com\", \"Source 1 of 117\", Lack of visibility (39) first and selected, All selected, 6 rows + \"Show 70 more prompts\".",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-018",
+      "title": "New panel strings in en-GB",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-018_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-018_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-018_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is en-GB and the details panel of source B is open",
+          "expected": "The panel is displayed",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article tabs read in English",
+          "expected": "\"Lack of visibility (39)\" and \"Negative perception (5)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the explanation line of the missing tab reads in English",
+          "expected": "\"None of these articles mentions Toyota anywhere on the page.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Negative perception (5)\" tab",
+          "expected": "\"Each of these articles mentions Toyota negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the default engine tab reads \"All\"",
+          "expected": "\"All\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the show more button reads in English (plural)",
+          "expected": "\"Show 73 more prompts\"",
+          "data": "73 remaining",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Gemini (7)\" engine tab",
+          "expected": "\"Show 1 more prompt\" (singular)",
+          "data": "1 remaining",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language tested: British English (saved account setting, unchanged). \"Lack of visibility (39)\", \"Negative perception (5)\", \"None of these articles mentions Toyota anywhere on the page.\", \"Each of these articles mentions Toyota negatively.\", \"All\", \"Show 70 more prompts\"; singular on prnewswire.com Gemini (7): \"Show 1 more prompt\" (B Gemini (12) gives \"Show 6 more prompts\").",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-019",
+      "title": "New panel strings in en-US are the same as en-GB",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-019_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-019_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is en-US and the details panel of source B is open",
+          "expected": "The panel is displayed",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article tabs read in English",
+          "expected": "\"Lack of visibility (39)\" and \"Negative perception (5)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the explanation line of the missing tab reads in English",
+          "expected": "\"None of these articles mentions Toyota anywhere on the page.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Negative perception (5)\" tab",
+          "expected": "\"Each of these articles mentions Toyota negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the default engine tab reads \"All\"",
+          "expected": "\"All\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the show more button reads in English (plural)",
+          "expected": "\"Show 73 more prompts\"",
+          "data": "73 remaining",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Gemini (7)\" engine tab",
+          "expected": "\"Show 1 more prompt\" (singular)",
+          "data": "1 remaining",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language switched to American English (Settings > Interface Language, authorised). Same strings as en-GB: tabs (39)/(5), both lines, \"All\", \"Show 70 more prompts\", \"Show 1 more prompt\" (prnewswire.com Gemini (7)).",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-020",
+      "title": "New panel strings in fr-FR",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-020_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-020_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-020_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is fr-FR and the details panel of source B is open",
+          "expected": "The panel is displayed in French",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article tabs read in French",
+          "expected": "\"Manque de visibilité (39)\" and \"Perception négative (5)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the explanation line of the missing tab reads in French",
+          "expected": "\"Aucun de ces articles ne mentionne Toyota sur la page.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Perception négative (5)\" tab",
+          "expected": "\"Chacun de ces articles mentionne Toyota de façon négative.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the default engine tab reads \"Tous\"",
+          "expected": "\"Tous\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the show more button reads in French (plural)",
+          "expected": "\"Afficher 73 prompts de plus\"",
+          "data": "73 remaining",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Gemini (7)\" engine tab",
+          "expected": "\"Afficher 1 prompt de plus\"",
+          "data": "1 remaining",
+          "status": "PASS"
+        },
+        {
+          "title": "And the engine names are not translated",
+          "expected": "\"ChatGPT (28)\", \"Gemini (7)\", \"Perplexity (71)\" are shown unchanged",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language Français: \"Manque de visibilité (39)\", \"Perception négative (5)\", \"Aucun de ces articles ne mentionne Toyota sur la page.\", \"Chacun de ces articles mentionne Toyota de façon négative.\", \"Tous\", \"Afficher 70 prompts de plus\", \"Afficher 1 prompt de plus\" (prnewswire.com Gemini (7)); engine names not translated (tooltips \"ChatGPT (25)\", \"Gemini (12)\", \"Perplexity (68)\"; visible text is icon + count, see TC-010).",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-021",
+      "title": "New panel strings in es-ES",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-021_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-021_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-021_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is es-ES and the details panel of source B is open",
+          "expected": "The panel is displayed in Spanish",
+          "data": "B = frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article tabs read in Spanish",
+          "expected": "\"Falta de visibilidad (39)\" and \"Percepción negativa (5)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the explanation line of the missing tab reads in Spanish",
+          "expected": "\"Ninguno de estos artículos menciona a Toyota en la página.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Percepción negativa (5)\" tab",
+          "expected": "\"Cada uno de estos artículos menciona a Toyota de forma negativa.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the default engine tab reads \"Todos\"",
+          "expected": "\"Todos\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the show more button reads in Spanish (plural)",
+          "expected": "\"Mostrar 73 prompts más\"",
+          "data": "73 remaining",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Gemini (7)\" engine tab",
+          "expected": "\"Mostrar 1 prompt más\"",
+          "data": "1 remaining",
+          "status": "PASS"
+        },
+        {
+          "title": "And the engine names are not translated",
+          "expected": "\"ChatGPT (28)\", \"Gemini (7)\", \"Perplexity (71)\" are shown unchanged",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language Español: \"Falta de visibilidad (39)\", \"Percepción negativa (5)\", \"Ninguno de estos artículos menciona a Toyota en la página.\", \"Cada uno de estos artículos menciona a Toyota de forma negativa.\", \"Todos\", \"Mostrar 70 prompts más\", \"Mostrar 1 prompt más\"; engine names not translated (\"ChatGPT (17)\", \"Gemini (7)\" on prnewswire.com).",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-022",
+      "title": "Page name reads \"Action Center\" in en-US everywhere it is used",
+      "story_id": "GEO-1178",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-022_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-022_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-022_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is en-US and the user is on the Toyota dashboard",
+          "expected": "The dashboard is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page name in the layout (left menu entry) reads \"Action Center\"",
+          "expected": "\"Action Center\" is shown, not \"Actions Center\"",
+          "data": "key layout.actionsCenter",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the page",
+          "expected": "The Target Sources page is displayed",
+          "data": "/actions",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page title reads \"Action Center\"",
+          "expected": "\"Action Center\" is shown, not \"Actions Center\"",
+          "data": "key views.actions.title",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And no other place on the page shows \"Actions Center\"",
+          "expected": "No breadcrumb, header or tab label shows \"Actions Center\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language American English. Left menu entry \"Action Center\" on Overview and on /actions (menu click and direct load); 0 \"Actions Center\" in text nodes, aria-label/title/alt and document.title. Page-title step not verifiable: views.actions.title (\"Action Center\") is defined in the bundle but referenced by no component; /actions shows H1 \"Target Sources\", document.title \"Toyota — GEO Analytics\".",
+      "previous_status": "PARTIAL"
+    },
+    {
+      "tc_id": "TC-GEO-1178-023",
+      "title": "Page name reads \"Action Center\" in en-GB everywhere it is used",
+      "story_id": "GEO-1178",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-023_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-023_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-023_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is en-GB and the user is on the Toyota dashboard",
+          "expected": "The dashboard is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page name in the layout (left menu entry) reads \"Action Center\"",
+          "expected": "\"Action Center\" is shown (same as en-US), not \"Action Centre\" nor \"Actions Centre\"",
+          "data": "key layout.actionsCenter; QA decision, deviates from AC-12 (GEO-1188)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the page",
+          "expected": "The Target Sources page is displayed",
+          "data": "/actions",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page title reads \"Action Center\"",
+          "expected": "\"Action Center\" is shown (same as en-US), not \"Action Centre\" nor \"Actions Centre\"",
+          "data": "key views.actions.title; QA decision, deviates from AC-12 (GEO-1188)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And no other place on the page shows \"Action Centre\" or \"Actions Centre\"",
+          "expected": "No breadcrumb, header or tab label shows \"Action Centre\" or \"Actions Centre\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language British English. Left menu \"Action Center\" on Overview, /actions (menu and direct load); 0 \"Action Centre\" / \"Actions Centre\" / \"Actions Center\" anywhere (text, attributes, title). Page-title step: views.actions.title not rendered by any component (same as TC-022).",
+      "previous_status": "PARTIAL"
+    },
+    {
+      "tc_id": "TC-GEO-1178-024",
+      "title": "French and Spanish page names are unchanged",
+      "story_id": "GEO-1178",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-024_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-024_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-024_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is fr-FR and the user is on the Toyota dashboard",
+          "expected": "The dashboard is displayed in French",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page name in the layout and the page title read \"Centre d'actions\"",
+          "expected": "\"Centre d'actions\" is shown in both places",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user switches the app language to es-ES",
+          "expected": "The dashboard is displayed in Spanish",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page name in the layout and the page title read \"Centro de acciones\"",
+          "expected": "\"Centro de acciones\" is shown in both places",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Français: left menu \"Centre d'actions\" (Overview and /actions). Switched to Español: \"Centro de acciones\" (Overview and /actions). \"Shown in both places\" can only be checked for the menu entry: the page-title key views.actions.title is not rendered (H1 \"Sources à cibler\" / \"Fuentes a priorizar\").",
+      "previous_status": "PARTIAL"
+    },
+    {
+      "tc_id": "TC-GEO-1178-025",
+      "title": "English PPT export slide header reads \"ACTION CENTER · TARGET SOURCES\" in en-US and en-GB",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-025_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-025_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-025_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is en-US and the user is on the Target Sources page",
+          "expected": "The page is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in PPT format",
+          "expected": "The PPT file is downloaded",
+          "data": "Export format: PPT",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Target Sources slide header reads \"ACTION CENTER · TARGET SOURCES\"",
+          "expected": "\"ACTION CENTER · TARGET SOURCES\" is shown and \"ACTIONS · TARGET SOURCES\" is not",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the app language to en-GB and exports in PPT again",
+          "expected": "The PPT file is downloaded",
+          "data": "Export format: PPT",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Target Sources slide header reads \"ACTION CENTER · TARGET SOURCES\"",
+          "expected": "Same English string as in en-US: \"ACTION CENTER · TARGET SOURCES\" (not \"ACTION CENTRE\", not \"ACTIONS\")",
+          "data": "One English string for en-GB and en-US (ticket)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PPTX en-US and en-GB (41 slides), slide 41 header text run \"ACTION CENTER  ·  TARGET SOURCES\" (template uses two spaces around the dot on all headers, e.g. \"IDENTITY  ·  OVERVIEW\"; compared whitespace-normalised). 0 occurrence of \"ACTIONS · TARGET SOURCES\", \"ACTION CENTRE\" or \"Actions Center/Centre\" in all PPTX XML parts, both languages.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-026",
+      "title": "English PDF export slide header reads \"ACTION CENTER · TARGET SOURCES\" in en-US and en-GB",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-026_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-026_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-026_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is en-US and the user is on the Target Sources page",
+          "expected": "The page is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in PDF format",
+          "expected": "The PDF file is downloaded",
+          "data": "Export format: PDF",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Target Sources page header reads \"ACTION CENTER · TARGET SOURCES\"",
+          "expected": "\"ACTION CENTER · TARGET SOURCES\" is shown and \"ACTIONS · TARGET SOURCES\" is not",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the app language to en-GB and exports in PDF again",
+          "expected": "The PDF file is downloaded",
+          "data": "Export format: PDF",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Target Sources page header reads \"ACTION CENTER · TARGET SOURCES\"",
+          "expected": "Same English string as in en-US: \"ACTION CENTER · TARGET SOURCES\" (not \"ACTION CENTRE\", not \"ACTIONS\")",
+          "data": "One English string for en-GB and en-US (ticket)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PDF en-US and en-GB (41 pages, no text layer). Page 41 rendered with pdf.js and read visually: header \"ACTION CENTER · TARGET SOURCES\" (framed in blue), not ACTIONS, not ACTION CENTRE. step1_given is the same en-US page capture as TC-025.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-027",
+      "title": "No export shows \"Actions Center\" or \"Actions Centre\"",
+      "story_id": "GEO-1178",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-027_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-027_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-027_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is en-GB and the user is on the Target Sources page",
+          "expected": "The page is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in PPT, PDF and Excel formats",
+          "expected": "The 3 files are downloaded",
+          "data": "Formats: PPT, PDF, Excel",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a text search in each file finds neither \"Actions Center\" nor \"Actions Centre\"",
+          "expected": "0 matches in the PPT, PDF and Excel files",
+          "data": "Search terms: \"Actions Center\", \"Actions Centre\" (case-insensitive)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user switches the app language to en-US and exports again in the 3 formats",
+          "expected": "The 3 files are downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a text search in each file finds neither \"Actions Center\" nor \"Actions Centre\"",
+          "expected": "0 matches in the PPT, PDF and Excel files",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "en-GB then en-US exports. PPTX: 0 matches in all XML parts. XLSX (11 sheets, 97,555 cells + sheet names + raw XML, read with the xlsx package): 0 matches. PDF: no text layer (pdf.js text = 0 characters on 41 pages), so a text search is not possible; headers of all 41 pages rendered and read: none shows \"Actions Center/Centre\" (page 41 = \"ACTION CENTER · TARGET SOURCES\"). PDF body not text-searchable -> PARTIAL. Side note: XLSX \"Target Sources\"!A1 date range is \"Sep 29, 2026 – Oct 5, 2026\" (US format) in both en-GB and en-US.",
+      "previous_status": "PARTIAL"
+    },
+    {
+      "tc_id": "TC-GEO-1178-028",
+      "title": "French and Spanish PPT/PDF headers keep \"ACTIONS\" and \"ACCIONES\"",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-028_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-028_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-028_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is fr-FR and the user is on the Target Sources page",
+          "expected": "The page is displayed in French",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in PPT and PDF formats",
+          "expected": "Both files are downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Target Sources slide header starts with \"ACTIONS\"",
+          "expected": "The header still reads \"ACTIONS · …\" (unchanged) in both files",
+          "data": "section.actions FR",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the app language to es-ES and exports in PPT and PDF",
+          "expected": "Both files are downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Target Sources slide header starts with \"ACCIONES\"",
+          "expected": "The header still reads \"ACCIONES · …\" (unchanged) in both files",
+          "data": "section.actions ES",
+          "status": "PASS"
+        }
+      ],
+      "notes": "FR: PPTX slide 41 \"ACTIONS  ·  SOURCES À CIBLER\", PDF page 41 \"ACTIONS · SOURCES À CIBLER\". ES: PPTX \"ACCIONES  ·  FUENTES A PRIORIZAR\", PDF \"ACCIONES · FUENTES A PRIORIZAR\".",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-029",
+      "title": "New keys exist in the four locales and the old panel keys are no longer used",
+      "story_id": "GEO-1178",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-029_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-029_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-029_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the four locale files of the GEO-1178 build are open",
+          "expected": "The files are readable",
+          "data": "en-GB, en-US, fr-FR, es-ES",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the new keys exist in each locale with the strings of the ticket",
+          "expected": "Each key is present in the 4 files with the EN/FR/ES string of the Translations table (en-US = en-GB)",
+          "data": "panel.lackOfVisibilityTab, panel.negativePerceptionTab, panel.lackOfVisibilityIntro, panel.negativePerceptionIntro, panel.allEngines",
+          "status": "PASS"
+        },
+        {
+          "title": "And views.actions.title and layout.actionsCenter have the new English values",
+          "expected": "en-US \"Action Center\", en-GB \"Action Center\", fr-FR \"Centre d'actions\", es-ES \"Centro de acciones\"",
+          "data": "QA decision, deviates from AC-12 (GEO-1188)",
+          "status": "PASS"
+        },
+        {
+          "title": "And section.actions in ExportI18n has the new English value",
+          "expected": "EN \"ACTION CENTER\" (one string for en-GB and en-US, as per ticket), FR \"ACTIONS\", ES \"ACCIONES\"",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the keys no longer used are not referenced by the panel",
+          "expected": "No UI code references these keys (whether they must also be deleted is open, see OP-9)",
+          "data": "panel.missingTab, panel.negativeTab, panel.noMention, panel.describesNegatively",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Locale source files are not in this repository; checked the compiled locale resources in the front bundle index-CKjtaSln.js (i18next resources en-US / en-GB / fr-FR / es-ES). panel.lackOfVisibilityTab, negativePerceptionTab, lackOfVisibilityIntro, negativePerceptionIntro, allEngines exist in the 4 locales with the ticket strings (both English blobs identical). views.actions.title and layout.actionsCenter: \"Action Center\" x2, \"Centre d'actions\", \"Centro de acciones\". Old keys missingTab / negativeTab / noMention / describesNegatively: 0 occurrences. section.actions (ExportI18n) is not in the front bundle (exports are server-side): only checked indirectly through exports (EN \"ACTION CENTER\", FR \"ACTIONS\", ES \"ACCIONES\") -> PARTIAL.",
+      "previous_status": "BLOCKED"
+    },
+    {
+      "tc_id": "TC-GEO-1178-030",
+      "title": "[Figma] No \"Show more prompts\" button when the tab has 6 prompts or fewer",
+      "story_id": "GEO-1178",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-030_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-030_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-030_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source S6 is open with the engine filter on \"All\"",
+          "expected": "The engine filter shows \"All\", \"ChatGPT (2)\", \"Gemini (1)\", \"Perplexity (4)\" and 6 prompt rows are listed",
+          "data": "S6 = #10 youtube.com, exactly 6 prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no show-more button is displayed",
+          "expected": "No \"Show X more prompts\" button is shown under the list",
+          "data": "Boundary: exactly 6",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Gemini (1)\" engine tab",
+          "expected": "1 prompt row is listed, with the Gemini icon",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no show-more button is displayed",
+          "expected": "No \"Show X more prompts\" button is shown under the list",
+          "data": "Fewer than 6",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of #16 evupdatemedia.us",
+          "expected": "\"All\" and \"ChatGPT (6)\" are shown with 6 prompt rows and no \"Show X more prompts\" button",
+          "data": "1 engine, exactly 6 prompts",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "S6 = gouv.fr (#41, exactly 6 prompts; CSV: youtube.com #10): All/ChatGPT (3)/Gemini (1)/Perplexity (2), 6 rows, no show-more button. Gemini (1): 1 row with Gemini icon, no button. Last step not executable: no source with 1 engine and exactly 6 prompts in the current data (evupdatemedia.us has 3 prompts / is no longer in the list); nearest evidence youtube.com (#89, 6 prompts, 2 engines): 6 rows, no button.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-031",
+      "title": "[Figma] Panel footer shows \"Previous\", the \"Source k of M\" counter and \"Next source\", with Previous disabled on the first source",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-031_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-031_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-031_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of frandroid.com is open",
+          "expected": "The panel header reads \"#1 · frandroid.com\"",
+          "data": "Ranked #1",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the footer shows the navigation controls",
+          "expected": "The footer shows \"Previous\", \"Source 1 of 261\" and \"Next source\" with a right chevron",
+          "data": "M = 261",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"Previous\" button is disabled",
+          "expected": "\"Previous\" is greyed out and clicking it does nothing",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Next source\"",
+          "expected": "The panel shows \"#2 · zonebourse.com\" and the footer reads \"Source 2 of 261\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the \"Previous\" button is enabled",
+          "expected": "\"Previous\" is active",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Footer \"Previous | Source 1 of 117 | Next source\" (chevron icon). Previous disabled: aria-disabled=\"true\", opacity 0.5; forced click keeps #1. Next source -> \"#2 · ouest-france.fr\", \"Source 2 of 117\", Previous enabled (aria-disabled false, opacity 1).",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-032",
+      "title": "[Figma] Panel header shows rank · domain, type chip and reason badges",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-032_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-032_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-032_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of frandroid.com is open",
+          "expected": "The panel header is displayed with a close (×) icon",
+          "data": "B = #1 frandroid.com (Journalism)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the header shows the source logo or favicon and \"#1 · frandroid.com\"",
+          "expected": "\"#1 · frandroid.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the header shows the type chip of the source",
+          "expected": "\"Journalism\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the header shows the reason badges of the source",
+          "expected": "The \"Improve visibility\" and \"Improve perception\" badges are shown (see OP-18)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Header: favicon image (loaded), \"#1 · frandroid.com\", chip \"Journalism\", badges \"Improve visibility\" and \"Improve perception\", close (×) \"Close detail panel\".",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-033",
+      "title": "[Figma] Details panel opened from the list view shows the same tabs and prompts",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-033_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-033_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-033_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in list view",
+          "expected": "The Target Sources table is displayed with frandroid.com in row 1",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the row of frandroid.com",
+          "expected": "The details panel of frandroid.com opens over the table and the row is highlighted",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article tabs are the same as from the card view",
+          "expected": "\"Lack of visibility (39)\" (selected) and \"Negative perception (5)\" are shown with \"None of these articles mentions Toyota anywhere on the page.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the prompts section is the same as from the card view",
+          "expected": "\"Prompts associated with this source\", \"All\", \"ChatGPT (28)\", \"Gemini (7)\", \"Perplexity (71)\", 6 rows and \"Show 73 more prompts\" are shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "List view: 117 rows, row 1 \"1 frandroid.com Journalism 39 5\". Row click -> panel over the table, row highlighted (aria-selected=true, bg rgb(224,242,254)). Tabs \"Lack of visibility (39)\" (selected) / \"Negative perception (5)\" + missing line; \"Prompts associated with this source\", All/ChatGPT (25)/Gemini (12)/Perplexity (68), 6 rows, \"Show 70 more prompts\". Back to card view.",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-034",
+      "title": "[Figma] Selected state of the article tabs, engine tabs and coloured explanation lines",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-034_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-034_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-034_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of frandroid.com is open",
+          "expected": "\"Lack of visibility (39)\" is selected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the selected article tab is highlighted",
+          "expected": "\"Lack of visibility (39)\" is a white segment with a blue eye-off icon and text; \"Negative perception (5)\" is grey",
+          "status": "PASS"
+        },
+        {
+          "title": "And the explanation line uses the colour and icon of its tab",
+          "expected": "\"None of these articles mentions Toyota anywhere on the page.\" is blue with the eye-off icon",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Negative perception (5)\" tab",
+          "expected": "\"Negative perception (5)\" becomes the white segment and \"Lack of visibility (39)\" turns grey",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the explanation line uses the colour and icon of its tab",
+          "expected": "\"Each of these articles mentions Toyota negatively.\" is purple with the thumb-down icon",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Gemini (7)\" engine tab",
+          "expected": "\"Gemini (7)\" becomes a white tab with the coloured Gemini icon and \"All\" becomes grey",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Selected article tab: white bg, blue text/icon rgb(3,105,161); other tab grey rgb(100,116,139). Missing line dark blue rgb(30,58,138) + visibility_off; negative line purple rgb(126,34,206) + thumb_down. Gemini engine tab selected: white bg, coloured Gemini icon (gemini png instead of grey mask), \"All\" grey. Engine tab label is icon + count only (see TC-010).",
+      "previous_status": "PASS"
+    },
+    {
+      "tc_id": "TC-GEO-1178-035",
+      "title": "[Observed] With a single engine the filter shows \"All\" and one engine tab with icon, name and count",
+      "story_id": "GEO-1178",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-035_step1_given.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-035_step2_when.png",
+        "screenshots-GEO-152-GEO1178-mcp/TC-GEO-1178-035_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source E1 is open",
+          "expected": "The prompts section is displayed",
+          "data": "E1 = #2 zonebourse.com, 1 engine, 32 prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the engine filter is still displayed",
+          "expected": "The filter shows \"All\" (selected, no count) and one engine tab \"Perplexity (32)\" with its icon",
+          "status": "PASS"
+        },
+        {
+          "title": "And the prompts list shows 6 rows and the show-more button",
+          "expected": "6 rows with the Perplexity icon and \"Show 26 more prompts\"",
+          "data": "X = 32 - 6 = 26",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Perplexity (32)\" tab",
+          "expected": "The same 6 rows and \"Show 26 more prompts\" are shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "E1 = zonebourse.com (#8, 1 engine, 49 prompts; CSV: #2, 32): filter \"All\" (selected, no count) + one tab \"Perplexity (49)\" with icon and name (single engine = not compact). 6 Perplexity rows + \"Show 43 more prompts\". Perplexity tab: same 6 rows and \"Show 43 more prompts\".",
+      "previous_status": "PASS"
+    }
+  ],
+  "observations": {
+    "GEO-1190": "Not reproduced on snapshot 2026-10-05 (window 29 Sep-5 Oct): elpais.com has 1 negative article (\"Por qué Toyota rechaza el coche eléctrico\", passage about the Toyota bZ4x) and automobile-propre.com 3 negative articles, all mentioning Toyota; \"Coches Tesla\" and \"Voiture électrique : le déclin de l'empire américain\" are no longer listed. API scan of all 110 negative passages: 0 passage mentioning Tesla without Toyota. To re-check on later snapshots (the articles may simply be out of the window).",
+    "GEO-1182": "Not reproduced: 39 negative passages have a product as matchedEntity (Toyota RAV4, Toyota bZ4X, Toyota Highlander...); the UI highlights the whole product name (\"Toyota RAV4\", \"Toyota bZ4X\") so \"Toyota\" is highlighted (guideautoweb.com checked in the UI).",
+    "GEO-1201": "Still visible: 46 of 110 negative passages are cut at 139-140 characters without \"…\" (e.g. frandroid.com \"Si une version sera bi”\", \"un prix d’appel agr”\", guideautoweb.com \"a mis bien du temps à lancer sur le mar”\").",
+    "GEO-1202": "Still visible: raw markdown in 14 passages (frandroid.com \"[bZ4X](https://www.frandroid.com/produits/toyota/voitures/1112141\", guideautoweb.com \"[Magasinez votre **Toyota bZ4X 2023** sur Otogo.ca !\\\\\", literal \"\\n\\n\" in \"D’autres Toyota Highlander ... fabriqués\\n\\nRappels\") and backslash in the automobile-propre.com title \"Marché auto : encore un record pour l\\'électrique, les Tesla Model Y et Renault Twingo cartonnent\".",
+    "other": [
+      "2 frandroid.com articles have no title in the API (failing[].title missing): the panel shows the URL in the bold title slot (TC-007, TC-008).",
+      "XLSX en-GB export: \"Target Sources\"!A1 date range in US format \"Sep 29, 2026 – Oct 5, 2026\" (same as en-US).",
+      "First pass (old build, 2026-10-05): one transient \"Failed to load the source details.\" (HTTP 404 on target-sources/frandroid.com), OK after Retry; not seen on the final run."
+    ]
+  },
+  "openPoints": [
+    "TC-010 / TC-011 / TC-012: the build switches the engine tabs to icon + count (name only in tooltip) from 3 engines (constant 3 in index-CKjtaSln.js); CSV and Figma 15220:79515 say icon + name + count for 2-3 engines and icon + count only for more than 3. Confirm the intended threshold with the PO (deliberate fix of GEO-1187 or regression). If the PO confirms \">= 3\", TC-010/011 must be updated (not changed here).",
+    "TC-022 / TC-023 / TC-024: views.actions.title is defined in the 4 locales but referenced by no component; the \"page title\" steps cannot be verified. Confirm where this key should be shown or remove the step.",
+    "TC-029: ExportI18n section.actions is server-side; locale source files are not in this repository (checked via the compiled bundle).",
+    "CSV reference values are data-dependent and no longer match staging (see precheck); reference sources V, P, E2, S6 and the 1-engine/6-prompt source must be re-selected in the CSV (not changed here).",
+    "TC-012: still no source with 4+ engines (Grok has no data, Claude disabled)."
+  ]
+}

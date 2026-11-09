@@ -1,0 +1,190 @@
+{
+  "spec": "GEO-152-GEO1173-mcp",
+  "runDate": "2026-10-02",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+  "requestedUrl": "https://staging-geo.onclusive.com/geo/dashboard/2d429380-42ad-4448-82ac-e9916d633eaa",
+  "csv": ".claude/Data/output/csv/GEO-R1.2/testcases-coverage-storyGEO-1173.csv",
+  "story": "GEO-1173",
+  "summary": {
+    "total": 4,
+    "pass": 2,
+    "fail": 1,
+    "skip": 1,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1173-001",
+      "title": "Actions Center is the last slide of the PowerPoint export",
+      "story_id": "GEO-1173",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-001_step1_given.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-001_step2_when.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of a completed analysis",
+          "status": "PASS",
+          "note": "Left navigation observed: Overview > Categories (Voitures hybrides, VUS, Voitures électriques) > \"Action Center\" (label is \"Action Center\", CSV says \"Actions Center\"; Manage Scope is a footer utility link). Context setup achieved."
+        },
+        {
+          "title": "When the user clicks the export (download) icon button in the analysis toolbar",
+          "status": "PASS",
+          "note": "Menu \"Export analysis as\" (rendered uppercase via CSS) with PDF, Presentation .pptx, Spreadsheet .xls."
+        },
+        {
+          "title": "And the user selects \"Presentation .pptx\"",
+          "status": "PASS",
+          "note": "Toyota_AI_Visibility_Report.pptx downloaded in ~13.5 s."
+        },
+        {
+          "title": "And the user opens the downloaded deck",
+          "status": "PASS",
+          "note": "Deck unzipped and parsed (ppt/presentation.xml sldIdLst + rels): 29 slides, none hidden."
+        },
+        {
+          "title": "Then the last slide of the deck is the Actions Center Target Sources slide",
+          "status": "PASS",
+          "note": "Slide 29/29 is the Target Sources slide. Eyebrow \"ACTION CENTER · TARGET SOURCES\" as expected. Title, subtitle and ranked sources match."
+        },
+        {
+          "title": "And no Actions Center slide appears before the other analysis sections",
+          "status": "PASS",
+          "note": "Only slide29.xml contains \"ACTION\"; no section slide after it; slide 9 is \"PERFORMANCE · OVERVIEW — How your AI choice evolves over time\"."
+        }
+      ],
+      "notes": "Provided URL https://staging-geo.onclusive.com/geo/dashboard/2d429380-42ad-4448-82ac-e9916d633eaa returns \"Report unavailable\" in all 3 orgs (QA-GEO, Onclusive, NEW-ORG-2109); the Toyota analysis of org QA-GEO is now https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e (Actions Center has 261 target sources) and was used instead. PPTX slide order (29 slides): 1 Cover (Toyota AI Visibility Report) | 2-4 IDENTITY · OVERVIEW (How AI perceives your brand; What your brand is known for; The concepts shaping how you are seen) | 5-12 PERFORMANCE · OVERVIEW (How your brand performs across AI engines; SoV / Visibility / Avg Position / AI choice / Sentiment evolution; Category performance matrix; How you rank against competitors) | 13 SOURCES · OVERVIEW (Which sources shape your AI presence) | 14-18 VOITURES ÉLECTRIQUES · CATEGORY | 19-23 VOITURES HYBRIDES · CATEGORY | 24-28 VUS · CATEGORY | 29 ACTION CENTER · TARGET SOURCES (Where PR effort pays first). Evidence for the deck is a text dump of the PPTX XML (step3_then screenshot) — no PowerPoint renderer available locally. AC-1 met: Target Sources is slide 29/29 with eyebrow \"ACTION CENTER · TARGET SOURCES\" (CSV expected wording corrected by the user on 2026-10-02)."
+    },
+    {
+      "tc_id": "TC-GEO-1173-002",
+      "title": "Actions Center is the last page of the PDF export",
+      "story_id": "GEO-1173",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-002_step1_given.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-002_step2_when.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-002_step2b_pdf_opened.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of a completed analysis",
+          "status": "PASS",
+          "note": "Left navigation observed: Overview > Categories (Voitures hybrides, VUS, Voitures électriques) > \"Action Center\" (label is \"Action Center\", CSV says \"Actions Center\"; Manage Scope is a footer utility link). Context setup achieved."
+        },
+        {
+          "title": "When the user clicks the export (download) icon button in the analysis toolbar",
+          "status": "PASS",
+          "note": "Menu with PDF, Presentation .pptx, Spreadsheet .xls."
+        },
+        {
+          "title": "And the user selects \"PDF\"",
+          "status": "PASS",
+          "note": "Toyota_AI_Visibility_Report.pdf downloaded (3.4 MB) in ~7.5 s."
+        },
+        {
+          "title": "And the user opens the downloaded PDF",
+          "status": "PASS",
+          "note": "PDF is image-only (pdftotext returns no text); 29 landscape pages 960x540 rendered with pdf.js and inspected visually."
+        },
+        {
+          "title": "Then the last page of the PDF is the Actions Center Target Sources page",
+          "status": "PASS",
+          "note": "Page 29/29 is the Target Sources page. Eyebrow \"ACTION CENTER · TARGET SOURCES\" as expected."
+        },
+        {
+          "title": "And no Actions Center page appears before the other analysis sections",
+          "status": "PASS",
+          "note": "Pages 1-28 are Cover, Identity, Performance, Sources, then the 3 category blocks; page 9 is \"How your AI choice evolves over time\". Nothing after page 29."
+        }
+      ],
+      "notes": "Provided URL https://staging-geo.onclusive.com/geo/dashboard/2d429380-42ad-4448-82ac-e9916d633eaa returns \"Report unavailable\" in all 3 orgs (QA-GEO, Onclusive, NEW-ORG-2109); the Toyota analysis of org QA-GEO is now https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e (Actions Center has 261 target sources) and was used instead. PDF page order identical to the PPTX (29 pages, same titles). AC-2 met: Target Sources is page 29/29 with eyebrow \"ACTION CENTER · TARGET SOURCES\" (CSV wording corrected by the user on 2026-10-02)."
+    },
+    {
+      "tc_id": "TC-GEO-1173-003",
+      "title": "Export section order follows the GEO tab order",
+      "story_id": "GEO-1173",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Then the order of the sections in the deck matches the recorded GEO navigation order — Expected: each exported section in the same relative order as the GEO navigation and the \"ACTION CENTER · TARGET SOURCES\" slide closes the deck. Observed: top-level order OK (Identity > Performance > Sources > Categories > Action Center last, closing eyebrow OK), BUT category sections are exported as Voitures électriques > Voitures hybrides > VUS while the navigation lists Voitures hybrides > VUS > Voitures électriques. Existing production behaviour (iso prod) — bug GEO-1189.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-003_step1_given.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-003_step2_when.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-003_step3_then.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-003_step4_pdf_pages.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the order of the analysis navigation in GEO",
+          "status": "PASS",
+          "note": "Recorded: Overview (tabs Identity, Performance, Sources) > Categories (Voitures hybrides, VUS, Voitures électriques) > Action Center."
+        },
+        {
+          "title": "When the user exports the analysis with \"Presentation .pptx\" and opens the deck",
+          "status": "PASS",
+          "note": "29 slides parsed."
+        },
+        {
+          "title": "Then the order of the sections in the deck matches the recorded GEO navigation order",
+          "status": "FAIL",
+          "note": "Cover > IDENTITY > PERFORMANCE > SOURCES > VOITURES ÉLECTRIQUES > VOITURES HYBRIDES > VUS > ACTION CENTER. Category sub-order differs from the navigation. Eyebrow \"ACTION CENTER · TARGET SOURCES\" as expected."
+        },
+        {
+          "title": "When the user exports the analysis with \"PDF\" and opens the document",
+          "status": "PASS",
+          "note": "29 pages rendered with pdf.js."
+        },
+        {
+          "title": "Then the order of the sections in the PDF matches the order of the PowerPoint deck",
+          "status": "PASS",
+          "note": "PDF order is identical to the deck and the \"ACTION CENTER · TARGET SOURCES\" page closes the PDF."
+        }
+      ],
+      "notes": "Provided URL https://staging-geo.onclusive.com/geo/dashboard/2d429380-42ad-4448-82ac-e9916d633eaa returns \"Report unavailable\" in all 3 orgs (QA-GEO, Onclusive, NEW-ORG-2109); the Toyota analysis of org QA-GEO is now https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e (Actions Center has 261 target sources) and was used instead. PPTX slide order (29 slides): 1 Cover (Toyota AI Visibility Report) | 2-4 IDENTITY · OVERVIEW (How AI perceives your brand; What your brand is known for; The concepts shaping how you are seen) | 5-12 PERFORMANCE · OVERVIEW (How your brand performs across AI engines; SoV / Visibility / Avg Position / AI choice / Sentiment evolution; Category performance matrix; How you rank against competitors) | 13 SOURCES · OVERVIEW (Which sources shape your AI presence) | 14-18 VOITURES ÉLECTRIQUES · CATEGORY | 19-23 VOITURES HYBRIDES · CATEGORY | 24-28 VUS · CATEGORY | 29 ACTION CENTER · TARGET SOURCES (Where PR effort pays first). Top-level section order follows the GEO tabs and Action Center is last in both exports. Gap: category order in exports (électriques, hybrides, VUS) does not follow the left-nav category order (hybrides, VUS, électriques) — existing production behaviour (iso prod), bug GEO-1189 (Low, Exists in Production)."
+    },
+    {
+      "tc_id": "TC-GEO-1173-004",
+      "title": "All clear Target Sources slide closes the PPT and PDF exports",
+      "story_id": "GEO-1173",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-004_step1_given.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-004_step2_when.png",
+        "screenshots-GEO-152-GEO1173-mcp/TC-GEO-1173-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on a completed analysis whose Actions Center has no target source",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user exports the analysis with \"Presentation .pptx\" and opens the deck",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the last slide of the deck is the all-clear Target Sources slide",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user exports the analysis with \"PDF\" and opens the document",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the last page of the PDF is the all-clear Target Sources page",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — no all-clear analysis available on staging. All 5 analyses of org QA-GEO were checked (Toyota, Volkswagen, adidas, BYD, Orange): each Action Center lists target sources. Screenshots show the Volkswagen, adidas and BYD Action Centers with target sources."
+    }
+  ]
+}

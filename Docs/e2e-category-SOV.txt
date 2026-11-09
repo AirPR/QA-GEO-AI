@@ -1,0 +1,73 @@
+================================================================================
+Feature: Share of Voice — Category view (GEO-663 / GEO-664)
+================================================================================
+Spec file : e2e-category-SOV.spec.js
+Validated : Staging and Production — Toyota dashboard (Category page)
+--------------------------------------------------------------------------------
+
+  Background:
+    Given the user is authenticated
+    And the user navigates to a Category view (e.g. Hybrid Cars)
+
+
+  # ----------------------------------------------------------------------------
+  # Context — Share of Voice feature on Category page (GEO-640)
+  # ----------------------------------------------------------------------------
+  #
+  # GEO-663 : SOV removal from KPI row and Brand Rankings table
+  #   → Same rules as Overview: no SOV KPI card, no SoV% column in the table.
+  #   → Additional check: the KPI row layout reflows cleanly for 4 cards
+  #     (no broken grid or empty 5th cell left by the removed SOV card).
+  #
+  # GEO-664 : SOV dedicated card on Category view
+  #   → The same full-width "Share of Voice" doughnut card appears below
+  #     the KPI row on the Category page, scoped to the current category.
+  # ----------------------------------------------------------------------------
+
+
+================================================================================
+Scenario: TC-GEO-663-002 — Category: KPI row shows exactly 4 cards without SOV
+          and layout reflows cleanly
+================================================================================
+
+  Given the user is on a Category view
+
+  When the Performance KPI row renders
+
+  Then exactly 4 KPI cards are displayed:
+       Visibility | Avg Position | AI Choice | Sentiment
+    And no "Share of Voice" KPI card is rendered
+    And the KPI row layout reflows cleanly for 4 cards
+        (no broken grid, no empty cell where the SOV card used to be)
+
+
+================================================================================
+Scenario: TC-GEO-663-004 — Category: Brand Rankings table has no SoV% column
+================================================================================
+
+  Given the user is on a Category view
+
+  When the Brand Rankings table renders
+
+  Then the table columns are exactly: Rank | Brand | Visibility% | Avg Position | LLM Choice%
+    And no "SoV%" column header is present
+    And no "SoV%" cell exists anywhere in the table (headers or data cells)
+
+
+================================================================================
+Scenario: TC-GEO-664-002 — SOV dedicated card renders below KPI row on Category view
+================================================================================
+
+  Given the user is on a Category view with data available
+
+  When the page finishes loading (skeleton gone)
+
+  Then a full-width "Share of Voice" card is visible directly below the KPI row
+    And the card heading "Share of Voice" is visible
+    And the subtitle "By brand, your brand is highlighted" is visible
+    And the card displays one of:
+        - a doughnut SVG chart (when data is available)
+        - an empty state ("No data to show")
+        - an error state ("Couldn't load this chart")
+
+================================================================================

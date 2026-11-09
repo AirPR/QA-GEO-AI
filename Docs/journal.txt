@@ -1,0 +1,128 @@
+================================================================================
+TO Do :
+================================================================================
+- générer les test E2E en se basant sur les différentes spec en les definssant 
+explicitement, exp : création d'un eanalyse complète, accès au dashboard, lister 
+une analyse...
+- séparer le JDD des spec 
+
+================================================================================
+JOURNAL DE TRAVAIL — QA Workflow
+================================================================================
+
+DATE : 2026-04-30
+================================================================================
+
+--------------------------------------------------------------------------------
+TÂCHE 1 — Modification de la commande /extract-figma-screen
+--------------------------------------------------------------------------------
+
+Suppression du paramètre --epic de la commande et de son agent.
+  Avant : /extract-figma-screen --url {figma_url} --epic {epic_id}
+  Après : /extract-figma-screen --url {figma_url}
+
+Fichiers modifiés :
+  - .claude/commands/extract-figma-screen.md
+  - .claude/agents/extract-figma-screen-agent.md
+
+Changements :
+  - Dossier de sortie : figmaScreens/{epic_id}/ → figmaScreens/ (sans sous-dossier epic)
+  - Paramètre --epic supprimé partout (description, prérequis, étapes, sortie)
+
+Commit : cf16940
+
+
+--------------------------------------------------------------------------------
+TÂCHE 2 — Extraction des screens Figma
+--------------------------------------------------------------------------------
+
+COMMANDE UTILISÉE :
+  /extract-figma-screen --url https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=4448-11715&m=dev
+
+PRÉREQUIS :
+  - FIGMA_TOKEN : Personal Access Token Figma (format : figd_xxxxxxxxxxxxxxxxxxxx)
+    → Fourni manuellement dans le chat au moment du déclenchement
+  - URL Figma avec le node-id pointant sur la section à extraire
+
+MÉTHODOLOGIE :
+  1. Appel API Figma : GET /v1/files/{file_id}?depth=5
+     → Récupération de la structure complète du fichier
+     → file_id extrait de l'URL : xctSRqtM653zRS7QY3KMm0
+     → node ciblé : 4448:11715 (section "GEO - Onboarding", page "Onboarding V.2")
+
+  2. Filtrage des frames :
+     → Exclusion des frames de type N0TE (annotations design)
+     → Conservation uniquement des frames type FRAME (screens UI réels)
+     → 55 frames détectés → 40 screens retenus
+
+  3. Export via API Figma : GET /v1/images/{file_id}?ids={id1},{id2},{id3}&scale=2&format=png
+     → Batches de 3 frames maximum pour éviter les timeouts
+     → 14 batches effectués, 0 erreur
+
+  4. Téléchargement des PNGs :
+     → Chaque URL retournée par l'API est temporaire (~10 min)
+     → Téléchargement immédiat après chaque batch
+
+STRUCTURE DE SORTIE :
+  figmaScreens/
+  ├── 01_Dashboard/                  (2 screens  — page Dashboard, node 4835:15003)
+  ├── 01_Step_1_Brand_Market/        (12 screens)
+  ├── 02_Step_2_Categories/          (15 screens)
+  ├── 03_Step_3_Prompts/             (6 screens)
+  ├── 04_Step_4_Launch_Review/       (2 screens)
+  ├── 05_Step_0_Clean_State/         (1 screen)
+  ├── 06_Discard_Onboarding_Level/   (1 screen)
+  └── 07_Report_Loading_Screens/     (3 screens)
+
+  Total : 42 PNGs | Résolution x2 (scale=2) | Poids total : ~8 Mo
+
+Commits : cf16940 (Dashboard), ac3db3b (Onboarding)
+
+
+--------------------------------------------------------------------------------
+TÂCHE 3 — Génération du spec Playwright depuis CSV + screens Figma
+--------------------------------------------------------------------------------
+
+COMMANDE UTILISÉE :
+  /run-tests --epic 105 --url https://geo-multi-llm-split-frontend-5vexvdokb.vercel.app
+
+MÉTHODOLOGIE :
+  1. Lecture du CSV source :
+     → .claude/Data/output/csv/testcases - epic105.csv
+     → Epic 105 — Stories : GEO-95 (Report List), GEO-96 (Module Access Gate),
+       GEO-97 (Auth0 & RBAC)
+
+  2. Inspection de l'application :
+     → Navigation réelle dans l'app via Playwright (goto + DOM inspection)
+     → Détection des sélecteurs CSS réels (tableau, boutons, sidebar, etc.)
+     → Les sélecteurs sont centralisés dans :
+         .claude/Data/raw/test-data/selectors_blueprint.json
+
+  3. Référence aux screens Figma :
+     → figmaScreens/01_Dashboard/ utilisé comme référence visuelle pour epic 105
+     → Delta design noté dans le spec :
+         - Colonne Figma "Markets"  → app réelle "Countries"
+         - Stat card Figma "PROMPTS" → app réelle "questions"
+
+  4. Génération du fichier spec :
+     → .claude/Data/raw/playwright/test-suite-epic105.spec.js
+     → Structure : Given/When/Then avec les textes EXACTS du CSV
+     → Screenshots automatiques à chaque étape (given / when / then)
+     → Hook afterEach : cadre rouge sur l'élément défaillant si FAILED
+     → Dossier screenshots : .claude/Data/output/reports/screenshots-epic105/
+
+  5. Variables d'environnement requises pour l'exécution :
+     BASE_URL              — URL racine de l'application (ex: https://…/geo)
+     API_BASE_URL          — URL backend API
+     AUTH_TOKEN            — JWT valide pour les tests authentifiés
+     INVALID_TOKEN         — JWT expiré/invalide pour les tests de rejet
+     READER_SESSION        — "true" si session Reader (TC004-TC006, TC008)
+     UNACTIVATED_BASE_URL  — URL compte sans activation Mesure (GEO-96-TC001)
+     EMPTY_ORG_BASE_URL    — URL compte activé sans rapport (GEO-96-TC002)
+     ORG_B_REPORT_NAME     — Nom d'un rapport Org B (test isolation TC009)
+
+FICHIER GÉNÉRÉ :
+  .claude/Data/raw/playwright/test-suite-epic105.spec.js
+
+
+================================================================================

@@ -1,0 +1,127 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\playwright.config.js",
+    "rootDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\global-setup.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "all-epics",
+        "name": "all-epics",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/test-suite-epic99.spec.js",
+          "**/test-suite-epic100.spec.js",
+          "**/test-suite-epic101.spec.js",
+          "**/test-suite-epic102.spec.js",
+          "**/test-suite-epic103.spec.js",
+          "**/test-suite-epic104.spec.js",
+          "**/test-suite-epic105.spec.js",
+          "**/test-suite-epic174.spec.js",
+          "**/test-suite-epic200.spec.js",
+          "**/test-suite-epic257.spec.js",
+          "**/test-suite-epic263.spec.js",
+          "**/test-suite-epicGEO-397.spec.js"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "e2e-suite",
+        "name": "e2e-suite",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/geo-analytics-dashboard.spec.js",
+          "**/GEO-dashboard-overview.spec.js",
+          "**/verify-analysis.spec.js",
+          "**/category-questions-table.spec.js",
+          "**/category-question-analysis.spec.js",
+          "**/category-kpi-cards-analysis.spec.js",
+          "**/category-brand-prioritization-analysis.spec.js",
+          "**/category-brand-rankings-analysis.spec.js",
+          "**/category-top-concept.spec.js",
+          "**/category-perception-citation.spec.js",
+          "**/manage-scope.spec.js",
+          "**/hubspot-upsell-pql.spec.js"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": ".claude/Data/raw/playwright/test-results-epicGEO-640-raw.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 3,
+    "webServer": null
+  },
+  "suites": [],
+  "errors": [
+    {
+      "message": "Error: [auth-setup] Authentication failed.\n  Current URL : https://staging-geo.onclusive.com/geo/\n  Error       : locator.waitFor: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('aside[data-testid=\"main-sidebar\"]') to be visible\u001b[22m\n\n  Check GEO_USER_EMAIL / GEO_USER_PASSWORD in .env and retry.\n",
+      "stack": "Error: [auth-setup] Authentication failed.\n  Current URL : https://staging-geo.onclusive.com/geo/\n  Error       : locator.waitFor: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('aside[data-testid=\"main-sidebar\"]') to be visible\u001b[22m\n\n  Check GEO_USER_EMAIL / GEO_USER_PASSWORD in .env and retry.\n\n    at globalSetup (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\global-setup.js:174:11)",
+      "location": {
+        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\global-setup.js",
+        "column": 11,
+        "line": 174
+      },
+      "snippet": "\u001b[90m   at \u001b[39mglobal-setup.js:174\n\n\u001b[0m \u001b[90m 172 |\u001b[39m     } \u001b[36mcatch\u001b[39m (_) { \u001b[90m/* ignore screenshot errors */\u001b[39m }\n \u001b[90m 173 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 174 |\u001b[39m     \u001b[36mthrow\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mError\u001b[39m(\n \u001b[90m     |\u001b[39m           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 175 |\u001b[39m       \u001b[32m`[auth-setup] Authentication failed.\\n`\u001b[39m \u001b[33m+\u001b[39m\n \u001b[90m 176 |\u001b[39m       \u001b[32m`  Current URL : ${page.url()}\\n`\u001b[39m \u001b[33m+\u001b[39m\n \u001b[90m 177 |\u001b[39m       \u001b[32m`  Error       : ${err.message}\\n`\u001b[39m \u001b[33m+\u001b[39m\u001b[0m"
+    }
+  ],
+  "stats": {
+    "startTime": "2026-06-18T15:40:03.450Z",
+    "duration": 72870.06999999999,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

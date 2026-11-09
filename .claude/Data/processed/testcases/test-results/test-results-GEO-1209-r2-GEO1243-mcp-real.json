@@ -1,0 +1,639 @@
+{
+  "spec": "GEO-1209-r2-GEO1243-mcp",
+  "runDate": "2026-10-22",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "story_filter": "GEO-1243",
+  "campaign": "Second full campaign of epic GEO-1209 (first run 2026-10-20, test-results-GEO-1209-GEO1243-mcp-real.json)",
+  "environment": "staging, organisation QA-GEO, en-GB, features.unbranded_analysis=true, role SUPER_ADMIN, prompt pool 996/1000, viewport 1280x720",
+  "analysis_under_test": "UA = Electric bikes 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (UNBRANDED, GB only, 1 category Commuter Electric Bikes + Other, ChatGPT + Gemini, 5 kept prompts, collection 21 Oct 2026); UA2 = bike d3fd1b30-7d39-4132-83a0-70e2121df2ff (UNBRANDED, US, Mountain Bikes + Road Bikes, collection 22 Oct 2026) where UA lacks data; brand references (read only) Nike cce7a7dc-7519-446f-b6d9-d6dc60598835, Toyota 439acd96-0b1b-4da4-9e07-612d38e9783e",
+  "write_guard": "context.route on **/geo/api/** aborting every non-GET request, no POST allow-listed. Existing analyses only, no analysis created (user decision 2026-10-22). Only non-GET calls observed: auth/hubspot/login-event (aborted by the guard). Guard removed with context.unrouteAll() at the end.",
+  "run_folder": ".claude/Data/output/reports/runs/22102026-1215/",
+  "end_checks": {
+    "auth_me_start": "QA-GEO, en-GB, unbranded_analysis=true, SUPER_ADMIN",
+    "auth_me_end": "QA-GEO, en-GB, unbranded_analysis=true",
+    "stats_end": "12 analyses, 996 prompts, 100 competitors (unchanged during the run)",
+    "electric_bikes_manage_scope": "· 5 selected (read only, screenshot zz_end_check_electric_bikes_manage_scope.png)",
+    "guard": "context.unrouteAll() done"
+  },
+  "summary": {
+    "total": 15,
+    "pass": 10,
+    "fail": 0,
+    "skip": 3,
+    "partial": 2,
+    "success_rate": 91.7,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1243-001",
+      "title": "The sidebar block shows the topic first letter and the topic with no extra header",
+      "story_id": "GEO-1243",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-001_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-001_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the sidebar block shows the topic first letter in the logo slot",
+          "status": "PASS"
+        },
+        {
+          "title": "And the block shows the topic",
+          "status": "PASS"
+        },
+        {
+          "title": "And no extra header, mode label or date is shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adapted (no analysis created): UA = Electric bikes (UNBRANDED, GB only, 1 category Commuter Electric Bikes + Other, collection 21 Oct 2026) instead of Postal services GB+FR; letter 'E' instead of 'P'. Dashboard lists UA (row 'E Electric bikes'). Sidebar block = green letter avatar 'E' (no img element) + 'Electric bikes'; no 'Unbranded analysis' label, no generation date (only the date-range filter '21 Oct 2026' shared with brand analyses), the 'IDENTITY' section label above InBrief is the shared section layout (same as brand analyses and as the first run). Same result as the first run.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1243-002",
+      "title": "The unbranded Overview hides the brand scorecard widgets",
+      "story_id": "GEO-1243",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-002_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-002_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-002_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-002_step3_ref_brand_Nike.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-002_step3_ref_brand_Toyota.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Overview renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the scope bar and the KPI cards with their deltas are not shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And Time Evolution and Category Prioritization are not shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And Corporate Reputation, Brand Territory and the Brand Image hint are not shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "UA = Electric bikes (2 reports now: 20 and 21 Oct 2026). Overview headings: InBrief, Top Topics in the Category, Share of Voice, Electric bikes landscape, AI Engines Citation Sources (sections Identity / Performance / Sources). Checked on 3 date ranges (filter only, not saved): latest report 21 Oct, custom 20-21 Oct and preset Last 7 days: no KPI card (Visibility / Avg Position / AI Choice / Sentiment), 0 'vs previous period' delta, no Time Evolution, no Category Prioritization, no Brand Image / Employer Brand / ESG / Leadership cards, no Brand Territory. References (read only): Toyota with the same 20-21 Oct range shows the KPI cards with 4 'vs previous period' deltas, Brand Territory, Category Prioritization; Toyota with Last 7 days also shows Time Evolution ('Not enough data'); Nike shows the KPI cards, the 4 Corporate Reputation cards and Brand Territory. First run PARTIAL (single collection, Time Evolution / deltas not exercisable) -> now exercised. 'Scope bar' is not shown on UA; no element of that name exists on brand analyses either (CSV gap: define the scope bar in the precondition). Usability note: a period preset only applies after 'Apply'.",
+      "skip_reason": null,
+      "first_run_status": "PARTIAL",
+      "gap_type": "CSV gap (scope bar undefined, non blocking)"
+    },
+    {
+      "tc_id": "TC-GEO-1243-003",
+      "title": "InBrief shows 3 bullets about the topic with \"Category summary generated by artificial intelligence\"",
+      "story_id": "GEO-1243",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-003_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-003_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads InBrief",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the bullets say what the answers say about the topic",
+          "status": "PASS"
+        },
+        {
+          "title": "And any brand named is one the answers attach to a topic",
+          "status": "PASS"
+        },
+        {
+          "title": "And the caption is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "UA = Electric bikes, Overview, latest report 21 Oct 2026 (topic 'Electric bikes' instead of 'Postal services'). InBrief (logo image 'InBrief powered by AI Sense') shows exactly 3 bullets: (1) 'Answers highlight the importance of \"motor type\" from brands like Bosch and Shimano, noting that mid-drive motors offer better weight distribution.' (2) '\"Practical features\" like mudguards and integrated lights are frequently mentioned, as is \"battery capacity\" (Panasonic, Samsung, Sony) for range.' (3) '\"Folding design\" (Brompton, Gocycle) is valued for portability, while \"legal compliance\" is a mixed topic due to varying regulations.' All 5 quoted topics are Top Topics of the Overview (motor type, practical features, battery capacity, folding design, legal compliance - the latter correctly called mixed). Brand check against the answers (GET questions/detail, read only): Bosch / Shimano in the motor type quote and in the Gemini Category Topics answer 'What makes Commuter Electric Bikes good quality?'; Sony / Panasonic / Samsung in the same answer ('cells from established manufacturers such as Sony, Panasonic, or Samsung' = battery topic); Brompton / Gocycle in the Other-type answer 'Which electric bike brands are best for commuting in London?' (themes include folding design). No ranking of brands. Caption 'Category summary generated by artificial intelligence'. Bullet text changed vs the first run (new collection); first-run US spelling 'favored' no longer present.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1243-004",
+      "title": "Unbranded InBrief uses the topic summary of its own scope, saying why each topic comes up",
+      "story_id": "GEO-1243",
+      "priority": "Medium",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-004_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-004_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-004_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-004_step4_category_C1.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-004_step5_UA2_mountain.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-004_step5_UA2_road.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user compares InBrief with Top Topics of the Overview",
+          "status": "PASS"
+        },
+        {
+          "title": "Then InBrief is a topic summary, not a brand Perception summary",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens category C1",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the category InBrief reflects the C1 topics only",
+          "status": "PASS"
+        },
+        {
+          "title": "And the logs show the topic prompt input",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "UA = Electric bikes (collection 21 Oct 2026, after PR #801). Overview InBrief bullets cover 5 Top Topics of the Overview and give the reason drawn from the answers: motor type ('mid-drive motors offer better weight distribution'), battery capacity ('for range'), folding design ('valued for portability'), legal compliance ('mixed topic due to varying regulations'). No bullet about a brand perception or 'your brand'. Category C1 Commuter Electric Bikes InBrief: motor type / practical features / battery capacity, all in the C1 Top Topics; no topic found only in the Other category (folding design, value for money, Volt...). UA has no C2, so the C1/C2 split was also checked on UA2 = bike (d3fd1b30, US, collection 22 Oct 2026): Mountain Bikes InBrief = suspension systems / wheel size / bike geometry / braking systems, all in the Mountain Bikes Top Topics, none of the 12 Road Bikes topics. Road Bikes InBrief is in error (see TC-006), so the reverse direction was not checkable. API evidence of the dedicated prompt: the failed Road Bikes call returns 502 {\"error\":\"EXTERNAL_SERVICE_ERROR\",\"message\":\"Summary generation failed after 3 retries: TOPIC_SUMMARY\"} - the unbranded InBrief goes through TOPIC_SUMMARY (endpoint still named perception-summary). Step 6 SKIP: the TOPIC_SUMMARY input (label, sentiment, frequency, attached brands, one quote per topic, 25-topic cap) is only visible in the logs. Same status as the first run.",
+      "skip_reason": "Step 6 needs the InBrief generation logs (TOPIC_SUMMARY input) - dev support.",
+      "first_run_status": "PARTIAL",
+      "gap_type": "missing data (dev logs)"
+    },
+    {
+      "tc_id": "TC-GEO-1243-005",
+      "title": "InBrief bullets are only format-checked: 3 bullets of 150 characters max, brands allowed",
+      "story_id": "GEO-1243",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-005_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-005_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-005_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-005_step4_other_category.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user counts the bullets and their characters",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each bullet is 150 characters max",
+          "status": "PASS"
+        },
+        {
+          "title": "And bullets naming a brand are not rejected",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Bullets counted and measured on 5 scopes (UA has no C2: UA Overview, UA Commuter Electric Bikes, UA Other, UA2 bike Overview, UA2 Mountain Bikes). Each shows exactly 3 bullets; lengths: UA Overview 147 / 146 / 133, UA C1 119 / 103 / 121, UA Other 137 / 133 / 127, UA2 Overview 138 / 149 / 141, UA2 Mountain Bikes 109 / 104 / 96 - none above 150. Bullets naming brands are displayed as is: Bosch, Shimano, Panasonic, Samsung, Sony (UA Overview and C1), Brompton, Gocycle, Volt London, Volt, Cube (UA Other), Cinelli, Specialized (UA2 Overview) - no brand-name check. Same result as the first run.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1243-006",
+      "title": "InBrief shows its error state after the last failed format attempt",
+      "story_id": "GEO-1243",
+      "priority": "Low",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-006_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-006_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-006_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-006_step4_rest_renders.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the InBrief generation of analysis UA always fails the format check",
+          "status": "SKIP"
+        },
+        {
+          "title": "When InBrief is generated and the user opens the Overview",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then the widget shows its error state",
+          "status": "PASS"
+        },
+        {
+          "title": "And the rest of the Overview still renders",
+          "status": "PASS"
+        }
+      ],
+      "notes": "No forced failure by dev (step 1 not confirmable), but a natural failure was met on UA2 = bike (d3fd1b30, US, collection 22 Oct 2026), category Road Bikes, latest report: GET perception-summary?scope=PER_CATEGORY (2 calls on load) -> 502 {\"error\":\"EXTERNAL_SERVICE_ERROR\",\"message\":\"Summary generation failed after 3 retries: TOPIC_SUMMARY\"}. The InBrief widget shows the error state used today ('Failed to generate perception summary.' + Retry = en-gb dashboard.perception.error), with no partial or over-long bullet. The rest of the page still renders: Top Topics in the Category (12 topics), Share of Voice, Brand Prioritization, Road Bikes landscape, AI Engines Citation Sources. Limits: category scope instead of the Overview (UA2 Overview InBrief generates fine), and the response does not say whether the 3 retries failed on the format check or on the LLM call (step 1 / dev). Retry not clicked (read-only run). First run SKIP. Side finding (possible product bug): the Road Bikes InBrief of UA2 cannot be generated at all on real data (TOPIC_SUMMARY fails 3 times on every load) - to report to dev with the request ids; the error copy says 'perception summary' on an unbranded analysis (wording to confirm by PO, existing string reused).",
+      "skip_reason": "Step 1 needs dev support to confirm/force the format-check failure.",
+      "first_run_status": "SKIP",
+      "gap_type": "missing data (dev support) + possible product bug (Road Bikes TOPIC_SUMMARY always fails)"
+    },
+    {
+      "tc_id": "TC-GEO-1243-007",
+      "title": "InBrief and Top Topics are hidden when no Category Topics or Other prompt exists",
+      "story_id": "GEO-1243",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-007_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-007_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UZ",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the Overview renders",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then InBrief and Top Topics are hidden",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens a category of UZ",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then InBrief and Top Topics are hidden at category scope too",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "QA-GEO holds 3 unbranded analyses (GET /reports, analysisMode=UNBRANDED) and every category of each has Category Topics prompts: Electric bikes (Commuter Electric Bikes P2 V2, Other O1), bike (Mountain Bikes C7 P10 V10, Road Bikes P6 V5), kids toys (Educational Toys P3 only, now COMPLETED - it was FAILED in the first run). Screenshots show kids toys (InBrief and Top Topics shown, as expected with Category Topics prompts). Data needed: an unbranded analysis UZ with Visibility (and/or Competitive) prompts only. No analysis created (user decision 2026-10-22). Same status as the first run.",
+      "skip_reason": "Missing data: no existing unbranded analysis or category without Category Topics and Other prompts in QA-GEO; creating UZ is a write action (not authorised).",
+      "first_run_status": "SKIP",
+      "gap_type": "missing data"
+    },
+    {
+      "tc_id": "TC-GEO-1243-008",
+      "title": "InBrief and Top Topics show an empty state when their prompts returned no topic",
+      "story_id": "GEO-1243",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-008_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-008_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category CE of analysis UE",
+          "status": "SKIP"
+        },
+        {
+          "title": "When InBrief and Top Topics render",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then both show an empty state",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Every scope with Category Topics / Other prompts returned topics on the latest collection (API top-concepts per category and per engine): Electric bikes C1 7 (ChatGPT 7, Gemini 7), Other 10 (5 / 6); bike Mountain Bikes 12, Road Bikes 12; kids toys Educational Toys 6. kids toys returns 0 topics for Grok / Claude / Perplexity, but those engines are disabled in its AI Engines filter (not run), so it is not a 'prompts returned no topic' case. Screenshots show kids toys category / Overview with topics. Data needed: a category whose Category Topics answers gave no topic (dev support). Same status as the first run.",
+      "skip_reason": "Missing data: no scope whose Category Topics / Other prompts returned no topic; needs dev support or a collection with empty answers.",
+      "first_run_status": "SKIP",
+      "gap_type": "missing data"
+    },
+    {
+      "tc_id": "TC-GEO-1243-009",
+      "title": "Top Concepts becomes \"Top Topics in the Category\" with category topics, sentiment and frequency and no brand",
+      "story_id": "GEO-1243",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-009_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-009_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the widget loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each topic describes the category",
+          "status": "PASS"
+        },
+        {
+          "title": "And no topic names a brand and no brand tag is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And each topic shows its sentiment and frequency as in Top Concepts today",
+          "status": "PASS"
+        }
+      ],
+      "notes": "UA = Electric bikes Overview: widget titled 'Top Topics in the Category' (en-gb dashboard.unbranded.conceptsTitle), subtitle 'Click on a topic to view quotes and sources'. 17 topics, all aspects of electric bikes (practical features, motor type, battery capacity, puncture-resistant tyres, comfort and usability, build quality, folding design, value for money, power for hills, belt drive, free insurance, stylish design, robustness, performance and range, versatile and durable, legal compliance, servicing options). Cross-check with the brand names of the rankings API (16 names incl. variants) + brands named in the answers (Bosch, Shimano, Panasonic, Samsung, Sony, Brompton, Gocycle, Volt, Cube...): 0 topic label contains a brand. Also checked on UA2 bike (Overview 24 topics, Road Bikes 12): 0 brand in labels ('Trusted brands' / 'Popular models' are generic). Each row shows only label, quotes / sources count, polarity tag (Positive / Mixed) and frequency %, no brand tag; Positive 88% (15) / Mixed 12% (2) / Negative 0 split, Sort by Frequency, filter chips. Side observations (non blocking, same as first run): the list keeps aria-label 'Perception topics'; UA2 Road Bikes labels are capitalised ('Technological advancements') while other categories are lowercase.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1243-010",
+      "title": "The Share of Voice ring is neutral with the subtitle \"How the answers split across entities\"",
+      "story_id": "GEO-1243",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-010_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-010_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the ring loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no slice is enlarged and there is no centre value",
+          "status": "PASS"
+        },
+        {
+          "title": "And the ring keeps the brand analysis calculation",
+          "status": "PASS"
+        }
+      ],
+      "notes": "UA = Electric bikes Overview (latest report 21 Oct 2026). Subtitle 'How the answers split across entities' (en-gb dashboard.unbranded.sovSubtitle). Ring geometry measured on the 11 SVG slices: every slice has inner radius 76 px and outer radius 116 px (no enlarged slice); no text element in the ring centre (no centre value). Calculation: sov-distribution API returns the top 10 brands (Specialized 22.5, Carrera 10, Ribble 10, Tern 10, MiRider 7.5, Cube 5, Gazelle 5, Scott 5, Tenways 5, Vello 5 = 85) with isTargetBrand=false for all, and the ring adds 'Others' 15% -> 100%. Reference Nike (brand): enlarged target slice and centre value 'Nike 16% Share of Voice' (TC-002 reference screenshot). Observation (same as first run, shared with brand analyses): the legend rounds 22.5 -> 23% and 7.5 -> 8%, so the displayed percentages add up to 101%.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1243-011",
+      "title": "The rankings table is titled \"{topic} landscape\" with no highlighted row and no \"your brand\"",
+      "story_id": "GEO-1243",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-011_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-011_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-011_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-011_step4_tooltip.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the table loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no row is highlighted",
+          "status": "PASS"
+        },
+        {
+          "title": "And no tooltip says \"your brand\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "UA = Electric bikes Overview: table titled 'Electric bikes landscape' (= '{{topic}} landscape' with the topic of UA instead of 'Postal services'), subtitle 'Top brands by share of voice across all topics'. 10 rows: every row background rgb(255,255,255), no left border, brand name span 'font-medium text-slate-900' identical on all rows, no trophy; the '+2' green badge on Specialized is the variants family badge (expandable row, same as non-target family rows of brand analyses such as Toyota 'Hyundai +13'), not a highlight. Reference Toyota: target row with trophy and tinted background. Hovered the 3 header info icons: Visibility % / Avg Position / AI Choice % tooltips = en-gb dashboard.unbranded.tooltip* texts, none contains 'your brand'. AI Choice % shows '-' for every brand: UA has no Competitive prompt (expected). Same result as the first run.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1243-012",
+      "title": "AI Citation Sources refers to the topic, has no Owned / Competitor Media nor Favorability and a \"Category Topics\" modal tab",
+      "story_id": "GEO-1243",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-012_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-012_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-012_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-012_step3_filter.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-012_step4_click_source.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-012_step5_modal.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-012_step6_UA2_sources.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-012_step6_UA2_modal.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-012_step6_UA2_category_topics_tab.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the widget loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the legend has no Owned Media and no Competitor Media",
+          "status": "PASS"
+        },
+        {
+          "title": "And there is no Favorability column",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the related prompts modal of a source",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Category Topics prompts are listed under a \"Category Topics\" tab",
+          "status": "PASS"
+        }
+      ],
+      "notes": "UA = Electric bikes (steps 1-4) and UA2 = bike (steps 5-6). Subtitle 'See which domains AI Engines reference most often for your topic' (en-gb dashboard.unbranded.sourcesDescription) on both. Legend and source-type filter: Journalism, Corporate, Review Sites, Other, Gov / NGO - no Owned Media, no Competitor Media. Table columns Domain / Type / Frequency - no Favorability. Modal 'All related Prompts - {domain}' tabs: ALL / Visibility / Competitive / Category Topics, no Perception tab. On UA (report 21 Oct) every source shows Category Topics 0 (e.g. bikeradar.com: Visibility 2, Competitive 0, Category Topics 0): the citation-sources API only links Category Topics prompts through sentimentIssues and UA has none on this report (first run 20 Oct: bikeradar Category Topics 1). On UA2 bikeradar.com: 19 prompts, Visibility 13, Competitive 0, Category Topics 6, the tab lists the 6 Category Topics prompts (e.g. 'What makes Mountain Bikes good quality?', 'What are the main controversies in Road Bikes?'). PO question (non blocking): the Category Topics tab only lists Category Topics prompts whose concept has a sentiment issue (brand Perception logic) - a source cited by a positive Category Topics answer (UA bikeradar, topic 'practical features') shows Category Topics 0; is that the intended scope? Side observations: the modal tab labels carry the icon ligature text ('visibility', 'emoji_events', 'forum') in their accessible text; 'Competitive 0' tab shown on UA which has no Competitive prompt (same as first run).",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": "PO question (Category Topics tab scope, non blocking)"
+    },
+    {
+      "tc_id": "TC-GEO-1243-013",
+      "title": "Widget captions describe the widget and never mention that no brand is set",
+      "story_id": "GEO-1243",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-013_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-013_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads each widget caption and info tooltip",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no caption reminds the user that no brand is set",
+          "status": "PASS"
+        }
+      ],
+      "notes": "UA = Electric bikes Overview. Captions read: InBrief 'Category summary generated by artificial intelligence'; Top Topics in the Category 'Click on a topic to view quotes and sources'; Share of Voice 'How the answers split across entities'; Electric bikes landscape 'Top brands by share of voice across all topics'; AI Engines Citation Sources 'See which domains AI Engines reference most often for your topic'. Info tooltips / aria-labels: Visibility %, Avg Position, AI Choice % (unbranded texts), sentiment split and source-type bar labels. Regex /no brand|without a brand|your brand|add a brand|set a brand|target brand/ over the whole Overview text and every aria-label / title: 0 match. Each caption describes its widget. Side observation (same as first run, shared component): bar aria-label 'Gov / NGO: 1 URLs (3.9%)' (singular not handled).",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1243-014",
+      "title": "The analyses list shows the \"Brand / Topic\" column with the topic and its first letter and no domain",
+      "story_id": "GEO-1243",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-014_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-014_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard of organisation T",
+          "status": "PASS"
+        },
+        {
+          "title": "When the list shows analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "Then UA shows the topic with its first letter",
+          "status": "PASS"
+        },
+        {
+          "title": "And no domain is shown for UA",
+          "status": "PASS"
+        },
+        {
+          "title": "And brand analyses keep their logo and domain",
+          "status": "PASS"
+        }
+      ],
+      "notes": "GEO dashboard of QA-GEO, 12 analyses (3 UNBRANDED). Column header 'Brand / Topic' (en-gb views.reports.colBrandOrTopic, sort button 'Sort by brand or topic ascending'); page subtitle 'Monitor your presence across AI search engines' (neutral subtitle, the list holds unbranded analyses). UA row: letter avatar 'E' + 'Electric bikes', no img, no domain (topic 'Electric bikes' instead of 'Postal services'); same for 'B bike' and 'K kids toys'. Brand rows keep logo img + domain: adidas.com, byd.com, decathlon.com x2, licter.com (Lictorix Geo), nike.com, orange.fr, toyota.com. Note: brand analysis 'Licter' (79e18910, BRAND, created 20 Oct, no entityDomain / entityLogoUrl in the API) shows the letter avatar 'L' without domain - brand created without a website (GEO-1069 test data), fallback not linked to GEO-1243. Open point kept (A13): header 'Brand / Topic' only when the list holds an unbranded analysis - not checkable without hiding the unbranded analyses. Same result as the first run.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1243-015",
+      "title": "The Competitors card also counts the brands detected in unbranded analyses",
+      "story_id": "GEO-1243",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-015_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-015_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1243/TC-GEO-1243-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Competitors card of organisation T reads C0",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the first collection of unbranded analysis UN2 completes",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user reloads the GEO dashboard",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the card counts the brands detected in the unbranded analysis",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Competitors card now reads 100 (GET reports/stats competitors=100; first run 20 Oct: 86). Between the two runs an unbranded analysis (bike d3fd1b30, created 21 Oct, first collection 22 Oct) and several brand collections happened, so the +14 cannot be attributed to the unbranded brands, and C0 was not noted before the first collection of bike. The public API only exposes the top 10 brands per analysis (union over the 12 analyses: 80 names, 61 from brand analyses only), so N cannot be rebuilt. Observation to ask dev: the value is exactly 100 - check the count is not capped at 100. PO note of 2026-10-14 (story): the count has no mode filter.",
+      "skip_reason": "Missing data: needs the card value C0 noted before the first collection of a new unbranded analysis UN2 and the list of brands only UN2 detects; creating UN2 is a write action (not authorised, user decision 2026-10-22).",
+      "first_run_status": "SKIP",
+      "gap_type": "missing data"
+    }
+  ],
+  "findings": {
+    "possible_product_bug": [
+      "UA2 bike / Road Bikes category InBrief always fails: GET perception-summary?scope=PER_CATEGORY -> 502 EXTERNAL_SERVICE_ERROR 'Summary generation failed after 3 retries: TOPIC_SUMMARY' (3 loads, 12:04-12:15)"
+    ],
+    "po_questions": [
+      "Category Topics tab of the related prompts modal only lists Category Topics prompts with a sentiment issue (UA sources all show 0)",
+      "Error copy 'Failed to generate perception summary.' reused on unbranded InBrief"
+    ],
+    "csv_gaps": [
+      "TC-002: define the 'scope bar'"
+    ],
+    "missing_data": [
+      "TC-004 step 6 / TC-006 step 1 dev logs or forced failure",
+      "TC-007 analysis without Category Topics / Other prompts",
+      "TC-008 scope whose Category Topics returned no topic",
+      "TC-015 C0 before first collection of a new unbranded analysis"
+    ],
+    "to_check_with_dev": [
+      "Competitors card reads exactly 100 - make sure it is not capped"
+    ]
+  }
+}

@@ -1,0 +1,441 @@
+{
+  "spec": "GEO-1002-GEO1231",
+  "runDate": "2026-10-19",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1231",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "summary": {
+    "total": 10,
+    "pass": 7,
+    "fail": 1,
+    "skip": 2,
+    "partial": 0,
+    "successRate": 70,
+    "successRateExecuted": 87.5,
+    "verdict": "CONDITIONAL"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me language = en-GB, before and after the run)",
+    "organisation": "QA-GEO (session already on QA-GEO at start; no switch needed)",
+    "featureFlag": "unbranded_analysis = true (flag ON): 5-step wizard starting with Analysis Type",
+    "role": "SUPER_ADMIN",
+    "pool": "P = 1000; U = 520 at start (dashboard ring \"520 / 1000 prompts\"), 600 after the analysis created for TC-GEO-1231-008",
+    "analysesCreated": [
+      "Decathlon - 27bec573-a748-4848-a673-849754cd18e5 (TC-GEO-1231-008, GB (EN) + FR (FR), AI Insights French, 1 category, 80 prompts, ChatGPT + Gemini)"
+    ],
+    "stateChanges": "No back-office change, no deletion, no bulk prompt delete. Every unfinished wizard session exited with Exit and Discard."
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1231-001",
+      "title": "New Analysis opens the wizard on Brand & Country with the sidebar stepper (flag OFF)",
+      "story_id": "GEO-1231",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "requires unbranded flag OFF; staging flag ON — QA decision 2026-10-19",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/flagON_analysis_type_step.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard",
+          "expected": "The New Analysis button is displayed",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user clicks New Analysis",
+          "expected": "The wizard opens directly on Brand & Country, with no \"New analysis\" top bar",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the sidebar stepper names each step",
+          "expected": "\"Brand & Country\", \"Categories\", \"Prompts\" and \"Review\", with Brand & Country as the current step",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the sidebar carries Back to Dashboard",
+          "expected": "\"Back to Dashboard\" is shown in the sidebar",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the footer keeps Back and the primary action",
+          "expected": "The footer shows \"Back\" and \"Discover Categories\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user adds markets until the content is longer than the screen and scrolls",
+          "expected": "The content above the footer scrolls while the footer and the sidebar stay in place",
+          "data": "6 markets",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Not executed (QA decision). Evidence: New Analysis opens on step 1 \"Analysis Type\" (Brand analysis / Unbranded analysis), 5-step stepper Analysis Type, Brand & Country, Categories, Prompts, Review; GET /geo/api/v1/auth/me features.unbranded_analysis = true."
+    },
+    {
+      "tc_id": "TC-GEO-1231-002",
+      "title": "The wizard shell stays the same on every step",
+      "story_id": "GEO-1231",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "requires unbranded flag OFF; staging flag ON — QA decision 2026-10-19",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/flagON_analysis_type_step.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step",
+          "expected": "The stepper marks Categories as current; Back to Dashboard is in the sidebar; the footer shows Back and the primary action",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user continues to the Prompts step and scrolls the prompt table",
+          "expected": "The stepper marks Prompts as current; the footer with Back and Review & Launch stays fixed while the content scrolls",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user continues to the Review step",
+          "expected": "The stepper marks Review as current; the footer shows Back and Create Analysis",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the shell is identical on every step",
+          "expected": "Same sidebar stepper with the 4 step names and Back to Dashboard, same fixed footer",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Not executed (QA decision). Same evidence as TC-GEO-1231-001: flag ON, 5-step wizard, so the 4-step shell of this TC cannot be met."
+    },
+    {
+      "tc_id": "TC-GEO-1231-003",
+      "title": "Brand & Country asks for the brand and the countries",
+      "story_id": "GEO-1231",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: \"What brand are you analyzing?\" and \"Which countries do you want to analyze?\". Observed (DOM labels, interface en-GB): \"What brand are you analysing?\" and \"Which countries do you want to analyse?\". Both questions are shown on Brand & Country; only the spelling differs (British -ise vs CSV -ize).",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard",
+          "expected": "The New Analysis button is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks New Analysis",
+          "expected": "Brand & Country is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the brand question is displayed",
+          "expected": "\"What brand are you analyzing?\"",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the countries question is displayed",
+          "expected": "\"Which countries do you want to analyze?\"",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Brand analysis card selected on Analysis Type, Continue, Brand & Country is current (aria-current=step). Both labels found as <label> elements, outlined in red on step3_then. The difference is spelling only and matches the en-GB interface: most likely the CSV should be aligned (see CSV proposals); kept FAIL per the strict exact-text rule until QA confirms."
+    },
+    {
+      "tc_id": "TC-GEO-1231-004",
+      "title": "Add country composer: country first, language disabled until then and prefilled",
+      "story_id": "GEO-1231",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-004_step3_then.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-004_step3a_lang_disabled.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-004_step3b_prefilled.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Brand & Country",
+          "expected": "The markets section shows Add country",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Add country",
+          "expected": "The composer opens with a country select and a language select",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the language select is disabled until a country is picked",
+          "expected": "The language select is greyed and cannot be opened",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user picks a country with several languages",
+          "expected": "The language select becomes enabled and is prefilled with the default language of the country",
+          "data": "Country: a multilingual country (e.g. Canada or Switzerland)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the language select",
+          "expected": "The default language is listed first, the other languages of the country follow, labels read like \"English (EN)\" and no \"Primary\" tag is shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Brand Decathlon (decathlon.com). Add country opens the \"Add a country\" composer with \"Select a country...\" and \"Select a language...\" plus Cancel / Save. Language button disabled (cursor not-allowed, greyed); a forced click opened no list. Country Canada picked: language becomes enabled and prefilled \"English (EN)\"; list = \"English (EN)\" (selected, first), \"French (FR)\"; no \"Primary\" text anywhere on the page."
+    },
+    {
+      "tc_id": "TC-GEO-1231-005",
+      "title": "Changing the language of a market row applies",
+      "story_id": "GEO-1231",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a market row with its default language",
+          "expected": "The row shows the country and its language",
+          "data": "Market: Canada - English (EN) (or another multilingual country)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user changes the language of the row",
+          "expected": "The row now shows the new language",
+          "data": "Language: French (FR)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the change applies",
+          "expected": "The row reads Canada - French (FR); the country cannot be changed in the row (only the language select is editable)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Row Canada + English (EN) saved, then its language select (aria-label \"Select language for Canada\") changed to French (FR): the row shows \"Canada\" + \"French (FR)\". The country is a plain text span; the language select is the only control in the row. The row shows country and language as two separate elements, with no literal \" - \" between them."
+    },
+    {
+      "tc_id": "TC-GEO-1231-006",
+      "title": "One country in two languages gives two market rows",
+      "story_id": "GEO-1231",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-006_step1_given.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-006_step2_when.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Brand & Country",
+          "expected": "The markets section is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds United States in English",
+          "expected": "A market row \"United States - English (EN)\" is added",
+          "data": "Country: United States - Language: English (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user adds United States in Spanish",
+          "expected": "A second market row \"United States - Spanish (ES)\" is added",
+          "data": "Country: United States - Language: Spanish (ES)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the country in two languages shows as two market rows",
+          "expected": "Two distinct rows for United States, one per language",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Rows after the two adds: \"United States / English (EN)\" and \"United States / Spanish (ES)\", two distinct wizard-market-row elements. On the second add the language was prefilled English (EN) again and changed to Spanish (ES)."
+    },
+    {
+      "tc_id": "TC-GEO-1231-007",
+      "title": "No limit applies to the number of markets",
+      "story_id": "GEO-1231",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-007_step1_given.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-007_step2_when.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Brand & Country",
+          "expected": "The markets section is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds 12 markets",
+          "expected": "Each market row is added",
+          "data": "UK, France, Germany, Spain, Italy, Netherlands, Belgium (FR), Belgium (NL), United States (EN), United States (ES), Canada (EN), Canada (FR)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no market limit is shown",
+          "expected": "Add country stays available, no quota or limit message, Discover Categories stays enabled",
+          "status": "PASS"
+        }
+      ],
+      "notes": "12 rows added: United Kingdom EN, France FR, Germany DE, Spain ES, Italy IT, Netherlands NL, Belgium FR, Belgium NL, United States EN, United States ES, Canada EN, Canada FR. Add country still visible and enabled, Discover Categories enabled, no text matching limit/quota/maximum/reached, no role=alert. Belgium default language = Dutch (NL)."
+    },
+    {
+      "tc_id": "TC-GEO-1231-008",
+      "title": "Language for AI Insights applies only to this analysis's insights and summaries",
+      "story_id": "GEO-1231",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_step1_given.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_step2_when.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_step3_then.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_step3b_topics_fr.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_step3c_manage_scope_prompts.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_step3d_other_analysis_en.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_obs_categories_fr_titles.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_obs_prompts_step.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_obs_review.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-008_obs_after_create.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Brand & Country",
+          "expected": "The Language for AI Insights field is shown below the markets",
+          "data": "Brand \"Decathlon\"; markets GB (EN) and FR (FR)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user sets the Language for AI Insights to a language other than the interface language",
+          "expected": "The field shows French",
+          "data": "Language for AI Insights: French",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user creates the analysis and waits for its first collection",
+          "expected": "The analysis is collected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the AI insights and summaries of the analysis are in French",
+          "expected": "InBrief and AI summaries are written in French",
+          "status": "PASS"
+        },
+        {
+          "title": "And the rest stays unchanged",
+          "expected": "The interface stays in en-GB and the UK prompts stay in English; other analyses keep their own insight language",
+          "status": "PASS"
+        }
+      ],
+      "notes": "ANALYSIS CREATED for this TC: Decathlon (decathlon.com), UUID 27bec573-a748-4848-a673-849754cd18e5, org QA-GEO, markets GB (EN) + FR (FR), 1 category (Articles De Sport; second detected category removed), 80 prompts, ChatGPT + Gemini, created 2026-10-19 19:15:57 UTC, API insightsLanguage = \"fr\". Language for AI Insights is shown below the markets (default English (EN), list starts with English, French, then all languages); set to French (FR). The first collection finished during the run (status COMPLETED). Dashboard and category page: the Identity AI summaries (\"Summary generated by artificial intelligence\"), the Brand Image / Employer Brand / ESG / Leadership insights and the topic names are in French. The UI labels stay in English (Identity, Performance, Brand Image, Positive...), /auth/me language = en-GB, the GB (EN) prompts stay in English in Manage Scope (40 GB rows), and the other analysis Decathlon a054db66 keeps English insights (insightsLanguage \"en\"). No block is labelled \"InBrief\" in the app; the AI summaries checked are the Identity summaries. SIDE FINDING (to triage, not part of this TC verdict): with AI Insights set to French, the discovered category names come out in French (\"Articles De Sport\", \"Équipement De Plein Air\", with EN shown only as the translation) and the GB (EN) prompts show Category \"Articles De Sport\". In the smoke run (AI Insights English) the English name was the row title. Pool ring at Prompts: \"600 / 1000 · 80 selected\" (U goes from 520 to 600)."
+    },
+    {
+      "tc_id": "TC-GEO-1231-009",
+      "title": "An empty brand shows a red border and \"Add your brand to continue.\"",
+      "story_id": "GEO-1231",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-009_step1_given.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-009_step2_when.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-009_step3_then.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-009_step4_brand_entered.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Brand & Country with an empty brand and one market",
+          "expected": "The brand field is empty",
+          "data": "Market: United Kingdom - English (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Discover Categories",
+          "expected": "The wizard stays on Brand & Country",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the brand field shows a red border and a message naming it",
+          "expected": "Red border and \"Add your brand to continue.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And Discover Categories stays disabled until a brand is set",
+          "expected": "Discover Categories is disabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a brand",
+          "expected": "The error clears and Discover Categories is enabled",
+          "data": "Brand: \"Decathlon\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Brand empty, market United Kingdom / English (EN). Before the click Discover Categories is enabled. After the click the wizard stays on /geo/new with Brand & Country current; the brand field box border turns red (oklch 0.637 0.237 25.331 = red-500); \"Add your brand to continue.\" is shown (role=alert); Discover Categories is disabled. While \"Decathlon\" is only typed (no option picked yet) the error stays and the button stays disabled. Once decathlon.com is picked, the error clears, the border goes back to grey and Discover Categories is enabled."
+    },
+    {
+      "tc_id": "TC-GEO-1231-010",
+      "title": "Continuing from a valid Brand & Country shows the discovery loading screen",
+      "story_id": "GEO-1231",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-010_step1_given.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-010_step2_when.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-010_step3_then.png",
+        "screenshots-GEO-1002-GEO1231/TC-GEO-1231-010_step4_discovery_end.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on a valid Brand & Country",
+          "expected": "Discover Categories is enabled",
+          "data": "Brand \"Decathlon\"; market United Kingdom - English (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Discover Categories",
+          "expected": "A loading screen is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the loading screen states that category discovery takes about 20 seconds",
+          "expected": "The text states about 20 seconds (exact wording from the strings sheet)",
+          "status": "PASS"
+        },
+        {
+          "title": "And Brand & Country stays the active step with no footer",
+          "expected": "The stepper still marks Brand & Country; no footer is shown; Back to Dashboard is disabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When discovery ends",
+          "expected": "The Categories step opens",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Brand Decathlon + United Kingdom / English (EN), Discover Categories enabled. The loading screen reads \"Discovering Categories / Scanning how AI engines see Decathlon across your markets. / This usually takes about 20 seconds. We look at your brand, your markets and their languages.\" Stepper still marks Brand & Country (aria-current=step); footer Back / Discover Categories not displayed; Back to Dashboard disabled. Discovery ended in about 2-4 s and the Categories step opened (Sporting Goods, Outdoor Gear). Note: stepper buttons Categories / Prompts / Review are not disabled during loading (not asserted by this TC)."
+    }
+  ]
+}

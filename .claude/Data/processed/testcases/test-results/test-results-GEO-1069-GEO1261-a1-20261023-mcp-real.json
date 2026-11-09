@@ -1,0 +1,100 @@
+{
+  "spec": "GEO-1069-GEO1261-mcp-a1-20261023",
+  "runDate": "2026-10-23",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "filters": {
+    "story": "GEO-1261",
+    "tc": "TC-GEO-1261-008"
+  },
+  "runFolder": ".claude/Data/output/reports/runs/23102026-1031/",
+  "environment": {
+    "env": "staging",
+    "viewport": "1280x720",
+    "authMeStart": "GET /geo/api/v1/auth/me -> 200: org QA-GEO, language en-GB, role SUPER_ADMIN, features.unbranded_analysis = true, quota_status OK",
+    "authMeEnd": "language en-GB, org QA-GEO (no change made)",
+    "promptPool": {
+      "before": "996 / 1000 (11 analyses)",
+      "wizardWith70": "1066 / 1000 (66 over)",
+      "wizardWith5": "1001 / 1000 (1 over)",
+      "after": "996 / 1000 (11 analyses)"
+    },
+    "analysisCreated": false,
+    "a1": null
+  },
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1,
+    "successRate": 50,
+    "verdict": "NO-GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1261-008",
+      "title": "Derived domain is stored as the brand domain of the created analysis",
+      "story_id": "GEO-1261",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Analysis creation blocked by the organisation prompt pool: 996/1000 used before the run, 5 kept prompts give \"1001 / 1000 prompts · 5 selected\" — \"1 prompt over. Untick prompts or contact your account manager.\" — \"Review & Launch\" disabled.",
+      "skip_reason": "Prompt pool full (4 free slots, 5 prompts required by the QA rule). Per instructions: no untick of other analyses' prompts, no change; A1 not created.",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008-a1_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008-a1_step2_discover_categories.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008-a1_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008-a1_step3_prompts_pool_blocked.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008-a1_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with a full URL as website and a market",
+          "data": "\"https://www.licter.com/fr/about?x=1\", United States / English (EN)",
+          "expected": "\"licter.com\" is shown under the brand name with its logo preview (logo noted as L1)",
+          "status": "PASS",
+          "observed": "Brand analysis chosen; \"Licter — Custom Brand\" row selected (not the Brandfetch suggestion \"Licter licter.com\"); website typed \"https://www.licter.com/fr/about?x=1\"; United States / English (EN) saved. Brand card shows \"Licter\" + \"licter.com\" with logo preview L1 = https://www.google.com/s2/favicons?domain=licter.com&sz=64 (Google favicon, 64x64, redirects to t2.gstatic.com faviconV2). GET /geo/api/v1/brands/logo?domain=licter.com -> 200 {\"domain\":\"licter.com\"} (no logoUrl: Brandfetch brand-profile quota still exhausted)."
+        },
+        {
+          "title": "And the user clicks \"Discover Categories\" and checks the category discovery request in DevTools",
+          "data": "DevTools Network, discover-categories request",
+          "expected": "The brand domain sent (entityDomain) is \"licter.com\", not the full URL typed (the Summary step shows neither the brand nor its domain)",
+          "status": "PASS",
+          "observed": "POST /geo/api/v1/analysis/discover-categories -> 200, body {\"entityName\":\"Licter\",\"entityDomain\":\"licter.com\",\"insightsLanguage\":\"en\",\"markets\":[{\"countryCode\":\"US\",\"languageCode\":\"en\",...,\"isPrimary\":true}]}. Categories proposed: Social Listening Tools, Audience Intelligence Platforms (+ Overview)."
+        },
+        {
+          "title": "When the user goes through Categories, Prompts and Summary and creates the analysis",
+          "data": "Default categories, only 5 prompts kept (QA rule: test analyses keep 5 prompts, shared prompt pool)",
+          "expected": "The analysis A1 is created and \"View analysis\" is available",
+          "status": "SKIP",
+          "observed": "BLOCKED by the prompt pool. Pool before the run 996 / 1000 (11 analyses). Generate Prompts -> 70 preselected, pool \"1066 / 1000 · 70 selected\", \"66 prompts over. Untick prompts or contact your account manager.\". After unticking all and keeping 5 (1 Overview, 2 Social Listening Tools, 2 Audience Intelligence Platforms): \"1001 / 1000 prompts · 5 selected\" + \"1 prompt over. Untick prompts or contact your account manager.\" and the \"Review & Launch\" button stays disabled. Run stopped as instructed: no other analysis touched, A1 NOT created."
+        },
+        {
+          "title": "And the user checks the analysis creation request in DevTools",
+          "data": "DevTools Network, creation request",
+          "expected": "The brand domain sent and returned is \"licter.com\", not the full URL typed",
+          "status": "SKIP",
+          "observed": "Not reached: creation blocked by the prompt pool (1001 / 1000 with 5 prompts)."
+        },
+        {
+          "title": "And the user opens the analysis from \"View analysis\"",
+          "data": "",
+          "expected": "The dashboard of A1 opens",
+          "status": "SKIP",
+          "observed": "Not reached: A1 not created."
+        },
+        {
+          "title": "Then the brand is displayed with the logo of the stored domain",
+          "data": "",
+          "expected": "The sidebar and header show logo L1 of licter.com, not a lettermark",
+          "status": "SKIP",
+          "observed": "Not reached: A1 not created."
+        }
+      ],
+      "notes": "Steps 1-2 PASS (derived domain \"licter.com\" shown on the card and sent as entityDomain in discover-categories). Creation step blocked by the pool (1 prompt over), so the creation-request and dashboard-logo checks could not be run. L1 = Google favicon https://www.google.com/s2/favicons?domain=licter.com&sz=64 (Brandfetch brands/logo returns only {\"domain\":\"licter.com\"}). Wizard exited with \"Back to Dashboard\" -> \"Exit setup?\" (\"There is no draft: nothing is saved yet\") -> \"Exit and Discard\". After: pool 996 / 1000, 11 analyses, auth/me language en-GB, org QA-GEO (unchanged)."
+    }
+  ]
+}

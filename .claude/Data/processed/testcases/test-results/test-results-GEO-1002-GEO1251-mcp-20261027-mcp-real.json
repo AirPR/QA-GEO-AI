@@ -1,0 +1,109 @@
+{
+ "spec": "GEO-1002-GEO1251-mcp-20261027",
+ "runDate": "2026-10-27",
+ "runMode": "mcp-playwright",
+ "mode": "structured",
+ "url": "https://staging-geo.onclusive.com/geo",
+ "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+ "filters": {
+  "story": "GEO-1251",
+  "tc": "TC-GEO-1251-002"
+ },
+ "rerun_of": [
+  "test-results-GEO-1002-GEO1251-mcp-real.json",
+  "test-results-GEO-1002-rerun-sync-20261022-mcp-real.json"
+ ],
+ "reason": "Rerun of TC-GEO-1251-002 on a new Competitive-only analysis W (user approval 2026-10-27), since Nike cce7a7dc is no longer Competitive-only. Earlier runs untouched.",
+ "startTime": "2026-10-27 11:30",
+ "summary": {
+  "total": 1,
+  "pass": 1,
+  "fail": 0,
+  "skip": 0,
+  "partial": 0,
+  "successRate": 100,
+  "verdict": "GO"
+ },
+ "environment": {
+  "url": "https://staging-geo.onclusive.com/geo",
+  "account": "QA account (SUPER_ADMIN), existing session in the MCP context",
+  "language": "en-GB (GET /geo/api/v1/auth/me at start, 11:30 UTC)",
+  "organisation": "QA-GEO (never switched)",
+  "featureFlag": "unbranded_analysis = true",
+  "pool": "1000 / 1100 before creation (12 analyses); 1005 / 1100 after creation of W",
+  "viewport": "1280x720 for the wizard and step 1, 1600x1000 for steps 2 to 4"
+ },
+ "testData": {
+  "analysisW": {
+   "name": "Samsung",
+   "domain": "samsung.com",
+   "uuid": "fdc7296d-0790-46da-824e-ed718535f00d",
+   "createdAt": "2026-10-27T11:35:06Z (server time)",
+   "market": "United Kingdom - English, GB (EN), en-GB",
+   "category": "Smartphones (id 9c1bef3f-b3e6-4f12-b94f-dab5f4cd9c7b); Televisions removed on the Categories step",
+   "engines": "ChatGPT + Gemini (defaults)",
+   "keptPrompts": "5 Competitive, 0 Visibility, 0 Reputation, 0 Brand Image (35 suggestions left unticked)",
+   "collection": "snapshot 7ffc5b05, 10 answers OK, 0 failed (5 prompts x 2 engines), status COMPLETED within about 1 minute",
+   "fate": "DELETED at 11:38 UTC after the real.json, report and screenshots were written (user approval 2026-10-27, TC PASS on every step); name and UUID checked in the Delete dialog and GET /reports; afterwards the list has 12 analyses without Samsung, GET /reports/fdc7296d returns 404, pool 1005 / 1100 back to 1000 / 1100; language en-GB and organisation QA-GEO checked at the end"
+  },
+  "competitorsNamed": [
+   "Apple",
+   "Google",
+   "Xiaomi"
+  ]
+ },
+ "stateChanges": "Created analysis W \"Samsung\" fdc7296d (user approval 2026-10-27). Deletion of W: DELETED at 11:38 UTC after the real.json, report and screenshots were written (user approval 2026-10-27, TC PASS on every step); name and UUID checked in the Delete dialog and GET /reports; afterwards the list has 12 analyses without Samsung, GET /reports/fdc7296d returns 404, pool 1005 / 1100 back to 1000 / 1100; language en-GB and organisation QA-GEO checked at the end. No other analysis, Manage Scope, organisation or language change. Nothing written to Jira.",
+ "sideFindings": [
+  "Wizard Prompts step: the first Generate Prompts showed the alert \"Prompt generation failed. Please try again.\" (503 on POST /questions/adapt-batch and GET /quota); Retry worked at once. Transient staging error, not linked to GEO-1251.",
+  "GEO-1249 case (fewer than 3 competitors resolved) not exercised: the background call resolved 3 competitors for Samsung x Smartphones (Apple, Google, Xiaomi), so every slot was filled.",
+  "Prompt details of \"Samsung vs Apple vs Google vs Xiaomi for Smartphones?\" on ChatGPT: the ranking lists products (\"Samsung Galaxy Z Flip 5\", \"Apple iPhone 14\", \"Google Pixel 7\", \"Xiaomi 13 Pro\") rather than brands, and the panel header reads \"Samsung Galaxy Z Flip 5's results - CHATGPT\" / \"Won\"; Gemini ranks brands (Apple #1); the prompt shows \"Split\". Observation only (answer parsing), outside this TC."
+ ],
+ "results": [
+  {
+   "tc_id": "TC-GEO-1251-002",
+   "title": "Competitive prompts run with up to 5 competitors when there is no Visibility",
+   "story_id": "GEO-1251",
+   "status": "PASS",
+   "previousStatus": "PARTIAL (2026-10-22, analysis W Nike no longer Competitive-only)",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given analysis W has been collected once",
+     "testData": "Analysis W",
+     "expected": "The dashboard of W is available",
+     "observed": "W = new analysis \"Samsung\" (samsung.com) fdc7296d-0790-46da-824e-ed718535f00d, created with the Brand wizard in QA-GEO: GB (EN) x Smartphones, 5 Competitive prompts kept, no Visibility / Reputation / Brand Image prompt. The Summary step showed the warning \"No Visibility prompts are kept, so Visibility %, Average Position and Brand Rankings stay empty, and Share of Voice counts Competitive answers only. ...\" First collection 27 Oct 2026: status COMPLETED, 10 answers OK, 0 failed. The dashboard of W loads (27 Oct 2026, AI Engines 2, United Kingdom).",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the Competitive results of GB (EN) x C1",
+     "expected": "The Competitive prompts and answers are listed",
+     "observed": "Smartphones > Prompts Analysis, tab Competitive 5 (Visibility 0, Perception 0): 5 Competitive prompts listed with winners (4 x Apple, 1 Split), country GB; the details panel shows the ChatGPT (#1) and Gemini (#2) answers with sources.",
+     "status": "PASS"
+    },
+    {
+     "title": "Then each prompt names up to 5 competitors in place of the placeholders",
+     "expected": "No \"[Competitor N]\" placeholder left; 1 to 3 competitor names (one per template slot; up to 5 are resolved in the background); the prompt reads naturally, with no trailing \"or ?\" (GEO-1249)",
+     "observed": "5 / 5 prompts name 3 competitors (Apple, Google, Xiaomi), one per slot: \"Samsung vs Apple vs Google vs Xiaomi for Smartphones?\", \"Which do you recommend for Smartphones: Samsung, Apple, Google or Xiaomi?\", \"Best for Smartphones: Samsung, Apple, Google or Xiaomi?\", \"Most recommended for Smartphones: Samsung, Apple, Google or Xiaomi?\", \"Compare Samsung, Apple, Google and Xiaomi for Smartphones?\". No \"[Competitor N]\" left (UI and GET /questions), no \"or ?\", no empty slot. The wizard listed the same 5 templates with [Competitor 1..3] before creation.",
+     "status": "PASS"
+    },
+    {
+     "title": "And the results appear like any other Competitive result",
+     "expected": "Competitive charts of C1 are filled (AI Choice; Share of Voice = share of Competitive wins, only brands ranked #1 listed); Brand Rankings stays empty, as the Summary warning states: \"No Visibility prompts are kept, so Visibility %, Average Position and Brand Rankings stay empty, and Share of Voice counts Competitive answers only.\" (Brand Prioritization not asserted, question to the dev)",
+     "observed": "Smartphones, 27 Oct 2026: AI Choice 10% Poor (1 win out of 10 answers); Share of Voice Apple 90%, Samsung 10% (Apple won 9 answers, Samsung 1; Google and Xiaomi, never #1, are not listed); Visibility N/A, Avg Position N/A; Brand Rankings \"No brand ranking data available.\" (GET brand-rankings: 0 brands). Brand Prioritization \"No data available for the brand prioritization matrix.\" (not asserted).",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Competitive-only analysis created for this TC with 5 prompts (user rule). Competitors named in the prompts: Apple, Google, Xiaomi (3 slots filled; the GEO-1249 fewer-than-3 case was not exercised). Analysis W: DELETED at 11:38 UTC after the real.json, report and screenshots were written (user approval 2026-10-27, TC PASS on every step); name and UUID checked in the Delete dialog and GET /reports; afterwards the list has 12 analyses without Samsung, GET /reports/fdc7296d returns 404, pool 1005 / 1100 back to 1000 / 1100; language en-GB and organisation QA-GEO checked at the end. Extra screenshots: wizard Summary (setup) and the Brand Rankings card.",
+   "screenshots": [
+    "screenshots-GEO-1002-GEO1251-mcp-20261027/TC-GEO-1251-002_setup_wizard_summary.png",
+    "screenshots-GEO-1002-GEO1251-mcp-20261027/TC-GEO-1251-002_step1_given.png",
+    "screenshots-GEO-1002-GEO1251-mcp-20261027/TC-GEO-1251-002_step2_when.png",
+    "screenshots-GEO-1002-GEO1251-mcp-20261027/TC-GEO-1251-002_step3_then.png",
+    "screenshots-GEO-1002-GEO1251-mcp-20261027/TC-GEO-1251-002_step4_and.png",
+    "screenshots-GEO-1002-GEO1251-mcp-20261027/TC-GEO-1251-002_step4_and_rankings.png",
+    "screenshots-GEO-1002-GEO1251-mcp-20261027/TC-GEO-1251-002_teardown_list_after_delete.png"
+   ]
+  }
+ ]
+}

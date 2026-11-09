@@ -1,0 +1,107 @@
+
+[auth-setup] Opening https://staging-geo.onclusive.com/geo …
+[auth-setup] Step 1 — email field …
+[auth-setup] Step 2 — password field …
+[auth-setup] Waiting for app to load after redirect …
+[auth-setup] Session saved → C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\processed\auth\storageState.json
+
+
+Running 1 test using 1 worker
+
+  ✘  1 [chromium] › .claude\Data\raw\playwright\verify-analysis.spec.js:131:1 › E2E-VERIFY-001 - Verify brand analysis (reports list + dashboard detail) (1.1m)
+
+
+  1) [chromium] › .claude\Data\raw\playwright\verify-analysis.spec.js:131:1 › E2E-VERIFY-001 - Verify brand analysis (reports list + dashboard detail) 
+
+    Error: Market "United States" must be visible as a chip on the dashboard
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[aria-label="United States"], [aria-label*="United States"]').first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Market "United States" must be visible as a chip on the dashboard with timeout 10000ms[22m
+    [2m  - waiting for locator('[aria-label="United States"], [aria-label*="United States"]').first()[22m
+
+
+      220 |           page.locator(`[aria-label="${market}"], [aria-label*="${market}"]`).first(),
+      221 |           `Market "${market}" must be visible as a chip on the dashboard`,
+    > 222 |         ).toBeVisible({ timeout: 10000 });
+          |           ^
+      223 |         await shot(page, `E2E-VERIFY-001_market-${slug}`);
+      224 |       }
+      225 |     });
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\verify-analysis.spec.js:222:11
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\verify-analysis.spec.js:204:5
+
+    Error: Market "China" must be visible as a chip on the dashboard
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[aria-label="China"], [aria-label*="China"]').first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Market "China" must be visible as a chip on the dashboard with timeout 10000ms[22m
+    [2m  - waiting for locator('[aria-label="China"], [aria-label*="China"]').first()[22m
+
+
+      220 |           page.locator(`[aria-label="${market}"], [aria-label*="${market}"]`).first(),
+      221 |           `Market "${market}" must be visible as a chip on the dashboard`,
+    > 222 |         ).toBeVisible({ timeout: 10000 });
+          |           ^
+      223 |         await shot(page, `E2E-VERIFY-001_market-${slug}`);
+      224 |       }
+      225 |     });
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\verify-analysis.spec.js:222:11
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\verify-analysis.spec.js:204:5
+
+    Error: Expected exactly 1 market (chip display), but JDD declares 2
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m1[39m
+    Received: [31m2[39m
+
+      249 |         EXPECTED_MARKETS.length,
+      250 |         `Expected exactly 1 market (chip display), but JDD declares ${EXPECTED_MARKETS.length}`,
+    > 251 |       ).toBe(1);
+          |         ^
+      252 |     }
+      253 |   });
+      254 |
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\verify-analysis.spec.js:251:9
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\verify-analysis.spec.js:230:3
+
+    Error: LLM engine filter button must be visible
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('button[aria-label*="LLM"], button:has-text("LLM Engines")').first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - LLM engine filter button must be visible with timeout 10000ms[22m
+    [2m  - waiting for locator('button[aria-label*="LLM"], button:has-text("LLM Engines")').first()[22m
+
+
+      258 |   {
+      259 |     const llmFilterBtn = page.locator('button[aria-label*="LLM"], button:has-text("LLM Engines")').first();
+    > 260 |     await expect(llmFilterBtn, 'LLM engine filter button must be visible').toBeVisible({ timeout: 10000 });
+          |                                                                            ^
+      261 |     await llmFilterBtn.click();
+      262 |     await page.waitForTimeout(500); // attendre le rendu du portail Radix
+      263 |
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\verify-analysis.spec.js:260:76
+
+    Error Context: .claude\Data\raw\playwright\artifacts\verify-analysis-E2E-VERIFY-41ccb-orts-list-dashboard-detail--chromium\error-context.md
+
+  1 failed
+    [chromium] › .claude\Data\raw\playwright\verify-analysis.spec.js:131:1 › E2E-VERIFY-001 - Verify brand analysis (reports list + dashboard detail) 

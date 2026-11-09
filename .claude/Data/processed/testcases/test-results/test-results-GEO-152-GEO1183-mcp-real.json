@@ -1,0 +1,514 @@
+{
+  "spec": "GEO-152-GEO1183-mcp",
+  "story": "GEO-1183",
+  "epic": "GEO-152",
+  "runDate": "2026-10-06",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "environment": {
+    "environment": "staging",
+    "organisation": "Onclusive",
+    "interface_language": "en-GB (saved account setting, not changed)",
+    "front_bundle": "index-CKjtaSln.js",
+    "browser": "MCP Playwright, isolated fresh context (empty cache), 1440x900",
+    "analyses": [
+      {
+        "name": "Tesla",
+        "dashboard": "4419839a-317f-4f9d-8a8c-32184906a2aa",
+        "ui_filters": "5 Oct 2026 | AI Engines 3 | United States - English",
+        "snapshot": "c5e3bc35-df7d-4041-ba5e-c625e2beb276 (2026-10-05T18:21Z)",
+        "window": "2026-09-28T18:21Z - 2026-10-05T18:21Z (6 snapshots)",
+        "sources": 36,
+        "perception_sources": 29,
+        "negative_passages": 54
+      },
+      {
+        "name": "Nike",
+        "dashboard": "51f6eb92-0d7a-4c77-8fa8-e46d5d610309",
+        "ui_filters": "6 Oct 2026 | AI Engines 5 | United States - English",
+        "snapshot": "04742461-339d-4f0a-a52d-48573d597a71",
+        "window": "2026-09-29T05:53Z - 2026-10-06T05:53Z (1 snapshot)",
+        "sources": 42,
+        "perception_sources": 29,
+        "negative_passages": 41
+      },
+      {
+        "name": "Lidl Nederland",
+        "dashboard": "1444d4ef-9555-4c35-bfd6-52af5128e180",
+        "ui_filters": "Last 7 days (selected 29 Sep - 5 Oct 2026) | AI Engines 2 | United Kingdom - English",
+        "snapshot": "7c3dc64d-87f5-42ed-a2b4-0b94e3fe1c4d",
+        "window": "2026-09-28T18:21Z - 2026-10-05T18:21Z (6 snapshots)",
+        "sources": 66,
+        "perception_sources": 25,
+        "negative_passages": 29
+      }
+    ],
+    "passage_capture_this_run": ".claude/Data/processed/testcases/test-results/geo1183-passages-20261006-run1023.json"
+  },
+  "summary": {
+    "total": 9,
+    "pass": 5,
+    "fail": 3,
+    "skip": 0,
+    "partial": 0,
+    "blocked": 1,
+    "rate": 62.5,
+    "verdict": "CONDITIONAL"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1183-001",
+      "title": "Car and Driver EV of the Year passage contains Tesla or Cybertruck and the name is highlighted",
+      "story_id": "AC-1",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-001_step1_given.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-001_step2_when.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-001_step3_then.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-001_card.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Tesla analysis",
+          "status": "PASS",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\""
+        },
+        {
+          "title": "And the caranddriver.com card is displayed in the list",
+          "status": "PASS",
+          "expected": "The card shows the IMPROVE PERCEPTION badge and \"Negative perception in N articles\"",
+          "data": "caranddriver.com (#5 on \"5 Oct 2026\", #11 on \"4 Oct 2026\")"
+        },
+        {
+          "title": "When the user opens the details panel of caranddriver.com",
+          "status": "PASS",
+          "expected": "The details panel opens on the right with the header \"#N · caranddriver.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "data": ""
+        },
+        {
+          "title": "And the user locates the article \"Presenting Car and Driver's 2024 EV of the Year\"",
+          "status": "PASS",
+          "expected": "The article row shows its title, its URL and a quoted passage in italics",
+          "data": "URL caranddriver.com/news/a61836993/hyundai-ioniq-5-n-ev-of-the-year-2024/"
+        },
+        {
+          "title": "Then the passage contains \"Tesla\" or \"Cybertruck\"",
+          "status": "PASS",
+          "expected": "The quoted passage contains the word \"Tesla\" or \"Cybertruck\" and is no longer \"know that the one we rented broke on the second day, effectively parking itself with just a few hundred miles on its odometer.\"",
+          "data": "Page sentence: \"And before any Tesla loyalists complain that we aren't giving the Cybertruck its due, know that the one we rented broke on the second day, effectively parking itself with just a few hundred miles on its odometer.\""
+        },
+        {
+          "title": "And the brand or product name is highlighted in the passage",
+          "status": "PASS",
+          "expected": "\"Tesla\" (or \"Cybertruck\") is shown in bold on a highlight chip inside the passage",
+          "data": ""
+        }
+      ],
+      "notes": "Tesla, period \"5 Oct 2026\", AI Engines 3, United States - English. Card #5 caranddriver.com shows IMPROVE PERCEPTION + \"Negative perception in 3 articles\". Panel header \"#5 · caranddriver.com\", tab \"Negative perception (3)\", line \"Each of these articles mentions Tesla negatively.\". Article \"Presenting Car and Driver's 2024 EV of the Year\" (caranddriver.com/news/a61836993/hyundai-ioniq-5-n-ev-of-the-year-2024) passage (italic, curly quotes): \"into believing the car is burning dinosaur remains. And before any Tesla loyalists complain that we aren't giving the Cybertruck its due,\" - contains \"Tesla\" and \"Cybertruck\", no longer the old name-less text. \"Tesla\" is rendered in a <mark> chip (font-semibold, not-italic, bg #E0F2FE). \"Cybertruck\" is not highlighted (only one entity per passage - acceptable, the step says \"Tesla\" or \"Cybertruck\"). Note: the criticism \"broke on the second day\" is no longer in the passage (see TC-006 / OP-4)."
+    },
+    {
+      "tc_id": "TC-GEO-1183-002",
+      "title": "Tesla analysis - no negative passage is missing the brand or product name",
+      "story_id": "AC-2",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: every quoted passage contains the brand or product name as written on the page. Observed: 1/54 passage fails - consumerreports.org \"2021 Tesla Model S Road Test Report\" (Source 3 of 29): \"RECALL ALERT: There are 24 recalls on this vehicle. [Learn More.](https://www.consumerreports.org/cars/tesla/model-s/2021/reliability/#recal\". The only \"tesla\" is inside a raw markdown link URL (and that URL fragment is what gets highlighted); the article text shown on the page is \"RECALL ALERT: There are 24 recalls on this vehicle. Learn More.\" with no brand name. Related: OP-3, GEO-1202 (raw markdown), GEO-1201 (cut at 140 \"#recal\").",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-002_step1_given.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-002_step2_when.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-002_step3_then.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-002_tab_perception.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-002_step4_last.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Tesla analysis",
+          "status": "PASS",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\""
+        },
+        {
+          "title": "And the user selects the \"Improve perception\" tab",
+          "status": "PASS",
+          "expected": "Only the sources with the IMPROVE PERCEPTION badge are listed and each card shows \"Negative perception in N articles\"",
+          "data": ""
+        },
+        {
+          "title": "When the user opens the details panel of the first source",
+          "status": "PASS",
+          "expected": "The details panel opens on the right with the header \"#1 · source domain\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "data": "Source #1 of the Improve perception tab"
+        },
+        {
+          "title": "Then every passage of the \"Negative perception (N)\" tab contains the brand or a product name of the brand",
+          "status": "FAIL",
+          "expected": "Each quoted passage contains the brand or product name as written on the page and no passage without the name is shown",
+          "data": "Brand family of Tesla. Check the readable passage text inside the curly quotes. Watch-list: consumerreports.org \"2021 Tesla Model S Road Test Report\" (in the capture \"tesla\" appears only inside a link URL - see review OP-3). electrek.co \"Tesla Cybercab\" (name present but not highlighted - GEO-1182)."
+        },
+        {
+          "title": "And the user repeats the check on every source with \"Next source\" until the last one",
+          "status": "FAIL",
+          "expected": "All negative passages of the analysis are checked and none of them is missing the brand or product name",
+          "data": "Footer \"Source k of M\". Reference total: 54 negative passages"
+        }
+      ],
+      "notes": "Swept the 29 sources of the Improve perception tab with \"Next source\" (Source 1 of 29 ... Source 29 of 29): 54 negative passages, identical to the reference count. 53/54 contain Tesla / a Tesla product name in the readable text. Watch-list: electrek.co \"NHTSA orders Tesla to prove its Cybercab is legal to sell, under oath\" contains the name but has NO highlight chip (GEO-1182, not part of this TC's expected result). OP-3 applied as written in the CSV (\"readable passage text\", \"as written on the page\")."
+    },
+    {
+      "tc_id": "TC-GEO-1183-003",
+      "title": "Nike analysis - no negative passage is missing the brand or product name",
+      "story_id": "AC-2",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-003_step1_given.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-003_step2_when.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-003_step3_then.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-003_tab_perception.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Nike analysis",
+          "status": "PASS",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/51f6eb92-0d7a-4c77-8fa8-e46d5d610309/actions - period \"6 Oct 2026\""
+        },
+        {
+          "title": "And the user selects the \"Improve perception\" tab",
+          "status": "PASS",
+          "expected": "Only the sources with the IMPROVE PERCEPTION badge are listed and each card shows \"Negative perception in N articles\"",
+          "data": ""
+        },
+        {
+          "title": "When the user opens the details panel of the first source",
+          "status": "PASS",
+          "expected": "The details panel opens on the right with the header \"#1 · source domain\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Nike negatively.\"",
+          "data": "Source #1 of the Improve perception tab"
+        },
+        {
+          "title": "Then every passage of the \"Negative perception (N)\" tab contains the brand or a product name of the brand",
+          "status": "PASS",
+          "expected": "Each quoted passage contains the brand or product name as written on the page and no passage without the name is shown",
+          "data": "Brand family of Nike. Check the readable passage text inside the curly quotes. Watch-list: bloomberg.com \"Athletic Shoe Brands Hoka, On Running Beating Industry Giants Like Nike, Adidas\" (no \"Nike\" in its passage on 2026-10-05 in the former Nike report - check whether it is listed in the current report)."
+        },
+        {
+          "title": "And the user repeats the check on every source with \"Next source\" until the last one",
+          "status": "PASS",
+          "expected": "All negative passages of the analysis are checked and none of them is missing the brand or product name",
+          "data": "Footer \"Source k of M\". Reference total: 41 negative passages"
+        }
+      ],
+      "notes": "Nike 51f6eb92-... (OP-7), period \"6 Oct 2026\", AI Engines 5, United States - English. Improve perception tab: 29 cards, all IMPROVE PERCEPTION + \"Negative perception in N articles\". Panel #1 · sgbonline.com, \"Negative perception (4)\", \"Each of these articles mentions Nike negatively.\". Swept 29/29 sources: 41 negative passages (= reference). 41/41 contain \"Nike\" (or \"NIKE\") in the readable text, 41/41 have a highlight chip. Watch-list bloomberg.com \"Athletic Shoe Brands Hoka, On Running Beating Industry Giants Like Nike, Adidas\" is NOT listed in the current Nike report (no bloomberg.com source). step3_then shows the last source (mordorintelligence.com, Source 29 of 29)."
+    },
+    {
+      "tc_id": "TC-GEO-1183-004",
+      "title": "Lidl Nederland analysis - no negative passage is missing the brand or product name",
+      "story_id": "AC-2",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-004_step1_given.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-004_step2_when.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-004_step3_then.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-004_tab_perception.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Lidl analysis",
+          "status": "PASS",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/1444d4ef-9555-4c35-bfd6-52af5128e180/actions - period \"Last 7 days\""
+        },
+        {
+          "title": "And the user selects the \"Improve perception\" tab",
+          "status": "PASS",
+          "expected": "Only the sources with the IMPROVE PERCEPTION badge are listed and each card shows \"Negative perception in N articles\"",
+          "data": ""
+        },
+        {
+          "title": "When the user opens the details panel of the first source",
+          "status": "PASS",
+          "expected": "The details panel opens on the right with the header \"#1 · source domain\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Lidl negatively.\"",
+          "data": "Source #1 of the Improve perception tab"
+        },
+        {
+          "title": "Then every passage of the \"Negative perception (N)\" tab contains the brand or a product name of the brand",
+          "status": "PASS",
+          "expected": "Each quoted passage contains the brand or product name as written on the page and no passage without the name is shown",
+          "data": "Brand family of Lidl. Check the readable passage text inside the curly quotes. Watch-list: trustpilot.com \"Lidl Nederland - Lidl.nl reviews\" (matched entity \"Lidl Nederland\")."
+        },
+        {
+          "title": "And the user repeats the check on every source with \"Next source\" until the last one",
+          "status": "PASS",
+          "expected": "All negative passages of the analysis are checked and none of them is missing the brand or product name",
+          "data": "Footer \"Source k of M\". Reference total: 29 negative passages"
+        }
+      ],
+      "notes": "Marked PASS by the user (2026-10-06): the panel line \"Each of these articles mentions Lidl Nederland negatively.\" is accepted (the app uses the analysis brand name); AC-2 holds 29/29. Lidl Nederland, period \"Last 7 days\" (API window 29 Sep - 5 Oct 2026), AI Engines 2, United Kingdom - English. Improve perception tab: 25 cards. Swept 25/25 sources: 29 negative passages (= reference); 29/29 contain \"Lidl\" (trustpilot.com \"Lidl Nederland - Lidl.nlReviews ...\" included) and 29/29 have a highlight chip. The ONLY failing check is the literal panel line of step 3. This is most likely a wording issue in the CSV expected result (the app uses the analysis brand name \"Lidl Nederland\"), not a passage defect: AC-2 itself is satisfied 29/29. The CSV was not modified (rule); confirm with the user before correcting it.",
+      "userOverride": {
+        "from": "FAIL",
+        "to": "PASS",
+        "date": "2026-10-06",
+        "reason": "CSV wording \"Lidl\" vs app \"Lidl Nederland\" accepted by the user"
+      }
+    },
+    {
+      "tc_id": "TC-GEO-1183-005",
+      "title": "Negative passages are at most 140 characters in the three analyses",
+      "story_id": "AC-3",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-005_step1_given.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-005_step2_when.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Action Center of the Tesla analysis",
+          "status": "PASS",
+          "expected": "The Target Sources cards are displayed on the ALL tab",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\""
+        },
+        {
+          "title": "When the user opens the details panel of each source with negative articles using \"Next source\"",
+          "status": "PASS",
+          "expected": "Each panel lists its negative articles with a quoted passage",
+          "data": "\"Negative perception (N)\" tab"
+        },
+        {
+          "title": "Then each passage is at most 140 characters long",
+          "status": "PASS",
+          "expected": "No passage is longer than 140 characters (54 passages in the capture, longest = 140)",
+          "data": "Length = text inside the curly quotes, quotes excluded, spaces and each \"…\" counted as 1 character (see review OP-5)"
+        },
+        {
+          "title": "And the same check is done on the Nike analysis",
+          "status": "PASS",
+          "expected": "No passage is longer than 140 characters (41 passages in the capture)",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/51f6eb92-0d7a-4c77-8fa8-e46d5d610309/actions - period \"6 Oct 2026\""
+        },
+        {
+          "title": "And the same check is done on the Lidl Nederland analysis",
+          "status": "PASS",
+          "expected": "No passage is longer than 140 characters (29 passages in the capture)",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/1444d4ef-9555-4c35-bfd6-52af5128e180/actions - period \"Last 7 days\""
+        }
+      ],
+      "notes": "Length = text inside the curly quotes, quotes excluded, counted in Unicode code points (OP-5: \"…\" = 1). Tesla 54/54 <= 140 (max 140, 22 passages at 139-140). Nike 41/41 <= 140 (max 140). Lidl Nederland 29/29 <= 140 (max 140). Total 124/124. No \"…\" join was added by the app in any passage: only 1 passage contains \"…\" and it is page text (dohmenadvocaten.nl \"Bij Lidl een namaak-Philips kopen? Niet meer …\"); 3 Nike passages contain \"...\" typed as three dots (sgbonline.com, yahoo.com, kenresearch.com), counted as 3 characters - still <= 140 (OP-5)."
+    },
+    {
+      "tc_id": "TC-GEO-1183-006",
+      "title": "A sentence longer than 140 characters is shortened with \"…\" joins and not cut mid-word",
+      "story_id": "AC-3",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Then \"the passage is shortened with … at each cut\": observed no \"…\" at all (passage cut at both ends without ellipsis). And \"keeps both the part with the name and the part with the criticism\": \"broke on the second day\" is absent (OP-4). And \"no passage ends mid-word\": 39/124 do. Examples: caranddriver.com (Tesla) \"...Maybe the car was abus\"; insideevs.com (Tesla) \"...from both model\"; ev-intelligence.com (Tesla) \"...perception that the brand is safe, family-fr\"; nike consumeraffairs.com \"...AS MUCH M\"; lidl birminghammail.co.uk \"...as soon as I o\" and \"...dropping it further. Lid\". Known bug: GEO-1201.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-006_step1_given.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-006_step2_when.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-006_step3_then.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-006_step5_midword.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-006_step5_lidl_midword.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the details panel of caranddriver.com in the Tesla analysis",
+          "status": "PASS",
+          "expected": "The details panel opens on the right with the header \"#N · caranddriver.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\""
+        },
+        {
+          "title": "When the user reads the passage of the article \"Presenting Car and Driver's 2024 EV of the Year\"",
+          "status": "PASS",
+          "expected": "The article row shows a quoted passage in italics",
+          "data": "The page sentence is 213 characters long so it cannot be shown whole"
+        },
+        {
+          "title": "Then the passage is shortened with \"…\" at each cut",
+          "status": "FAIL",
+          "expected": "The passage starts and/or ends with \"…\" where the page sentence was cut and does not end on a partial word such as \"e\" or \"abus\"",
+          "data": "Expected shape (Jira example): \"…before any Tesla loyalists complain that we aren't giving the Cybertruck its due, know that the one we rented broke on the second day…\""
+        },
+        {
+          "title": "And the passage keeps both the part with the name and the part with the criticism",
+          "status": "FAIL",
+          "expected": "The passage contains the name and \"broke on the second day\"",
+          "data": "Name = \"Tesla\" or \"Cybertruck\", criticism = \"broke on the second day\" (see review OP-4)"
+        },
+        {
+          "title": "And no passage of the Tesla, Nike and Lidl Nederland panels ends mid-word",
+          "status": "FAIL",
+          "expected": "Every passage ends on a complete word, on the page punctuation or on \"…\"",
+          "data": "Capture examples: caranddriver.com \"…Maybe the car was abus\" (Tesla), insideevs.com \"…from both model\" (Tesla), birminghammail.co.uk \"…as soon as I o\" (Lidl)"
+        }
+      ],
+      "notes": "caranddriver.com passage of \"Presenting Car and Driver's 2024 EV of the Year\": \"into believing the car is burning dinosaur remains. And before any Tesla loyalists complain that we aren't giving the Cybertruck its due,\" (137 chars). It starts inside the previous sentence and stops after \"its due,\" with no \"…\" at either cut. Step 4 (criticism kept) applied as written - OP-4. Mid-word count by reading the last token of each passage: Tesla 17/54, Nike 13/41 (1 probable: consumeraffairs.com \"...when he we\"), Lidl Nederland 9/29 -> 39/124 passages end mid-word, none with \"…\"."
+    },
+    {
+      "tc_id": "TC-GEO-1183-007",
+      "title": "Each part of a passage is verbatim from the article page",
+      "story_id": "AC-3",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-007_step1_given.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-007_step2_when.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-007_step3_then.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-007_step4_nike.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-007_step5_lidl.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the details panel of caranddriver.com in the Tesla analysis",
+          "status": "PASS",
+          "expected": "The details panel opens on the right with the header \"#N · caranddriver.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\""
+        },
+        {
+          "title": "When the user opens the article \"Presenting Car and Driver's 2024 EV of the Year\" from its URL in a new tab",
+          "status": "PASS",
+          "expected": "The article page opens",
+          "data": "caranddriver.com/news/a61836993/hyundai-ioniq-5-n-ev-of-the-year-2024/"
+        },
+        {
+          "title": "Then each part of the passage is found on the page with the same words, case and punctuation",
+          "status": "PASS",
+          "expected": "Every part is found as-is on the page and only \"…\" is added between or around the parts",
+          "data": "Split the passage on \"…\" and search each part on the page (Ctrl+F)"
+        },
+        {
+          "title": "And the same check is done on a Nike passage",
+          "status": "PASS",
+          "expected": "The passage is found as-is on the article page",
+          "data": "sgbonline.com: \"Stifel’s 2025 All-Star Sneaker Survey Sees Nike Mentions Fall to All-Time Low\""
+        },
+        {
+          "title": "And the same check is done on a Lidl Nederland passage",
+          "status": "PASS",
+          "expected": "Each part of the passage between \"…\" joins is found as-is on the article page",
+          "data": "birminghammail.co.uk: \"I don't like singling Lidl out, but every time I think they've set the bar at a new low, they somehow find a way of dropping it further. Lid\""
+        }
+      ],
+      "notes": "No passage contains a \"…\" join, so each passage is a single part. Article pages opened in a new tab (all HTTP 200, no paywall). caranddriver.com: \"into believing the car is burning dinosaur remains. And before any Tesla loyalists complain that we aren't giving the Cybertruck its due,\" found exactly (same case, same straight apostrophe). sgbonline.com (Nike): \"Stifel’s 2025 All-Star Sneaker Survey Sees Nike Mentions Fall to All-Time Low\" found exactly (page headline). birminghammail.co.uk (Lidl, Coco Pops article): \"I don't like singling Lidl out, but every time I think they've set the bar at a new low, they somehow find a way of dropping it further. Lid\" found exactly as a substring (page continues \"Lidl's Choco Rice ...\"). The verbatim check passes; the mid-word cut is covered by TC-006 (GEO-1201). Raw markdown passages are covered by TC-008 (GEO-1202)."
+    },
+    {
+      "tc_id": "TC-GEO-1183-008",
+      "title": "Passages show the page text without raw markdown syntax",
+      "story_id": "AC-3",
+      "priority": "Medium",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: the passage reads \"Unfortunately, Tesla did remove standard Autosteer from both model…\" with no \"[\", \"](\" or URL. Observed (insideevs.com, Tesla): \"Unfortunately, [Tesla did remove standard Autosteer](https://insideevs.com/news/785225/tesla-removes-autopilot-base-models/) from both model\". Nike: dickssportinggoods.com \"I purchased these to replace Nike track **shoes** that did n't last 3 meets before they ripped.\"; thestreet.com \"Nike CEO says the company oversold its most iconic sneakers - TheStreet # Nike making its most famous sneakers harder to buy\". Other raw links: electrek.co \"[today’s NTSB report about Tesla’s autopilot crash](https://electrek.co/2017/...\", carbuzz.com \"Tesla [discontinuing the two models](https://carbuzz.com/...\", caranddriver.com \"[Skip to Content](https://www.caranddriver.com/tesla/model-x-2023#main-content)\", consumerreports.org \"[Learn More.](https://...\", trustpilot.com (Lidl) \"[Supermarkt](https://nl.trustpilot.com/categories/supermarket)\", grocerygazette.co.uk (Lidl) \"[trademark infringement](https://www.gov.uk/government/organis\". Known bug: GEO-1202.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-008_step1_given.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-008_step2_when.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-008_step3_then.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-008_step4_nike_bold.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-008_step4_nike_heading.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-008_step5_lidl_link.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the details panel of insideevs.com in the Tesla analysis",
+          "status": "PASS",
+          "expected": "The details panel opens on the right with the header \"#N · insideevs.com\", the tab \"Negative perception (N)\" and the line \"Each of these articles mentions Tesla negatively.\"",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - period \"5 Oct 2026\""
+        },
+        {
+          "title": "When the user reads the passage of the article \"The Best EVs To Buy In March 2026: Our Favorites In Every Category\"",
+          "status": "PASS",
+          "expected": "The article row shows a quoted passage in italics",
+          "data": "Capture: \"Unfortunately, [Tesla did remove standard Autosteer](https://insideevs.com/news/785225/tesla-removes-autopilot-base-models/) from both model\""
+        },
+        {
+          "title": "Then the passage shows the link text only",
+          "status": "FAIL",
+          "expected": "The passage reads \"Unfortunately, Tesla did remove standard Autosteer from both model…\" with no \"[\", \"](\" or URL",
+          "data": ""
+        },
+        {
+          "title": "And the Nike passages show no \"**\" or \"#\" markers",
+          "status": "FAIL",
+          "expected": "The passages show \"shoes\" and \"Nike making its most famous sneakers harder to buy\" without \"**\" or \"#\"",
+          "data": "dickssportinggoods.com: \"…replace Nike track **shoes** that did n't last…\" and thestreet.com: \"…TheStreet # Nike making its most famous sneakers harder to buy\""
+        },
+        {
+          "title": "And no passage of the Tesla, Nike and Lidl Nederland panels contains a raw markdown link",
+          "status": "FAIL",
+          "expected": "No passage contains a markdown link or a URL that is not visible as text on the article page",
+          "data": "Search the panels for \"](http\""
+        }
+      ],
+      "notes": "Applied as written; scope still open (OP-6). Search for \"](http\" over the 124 swept passages: Tesla 5/54, Nike 0/41, Lidl Nederland 2/29 -> 7/124. Nike: 1 passage with \"**\", 1 passage with \"#\" heading marker."
+    },
+    {
+      "tc_id": "TC-GEO-1183-009",
+      "title": "Verdicts of the Target Sources are unchanged after the re-judge",
+      "story_id": "AC-4",
+      "priority": "High",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "BLOCKED - \"And a re-judge has been run after the capture on the same snapshots\": no re-judge date later than 2026-10-06 09:56 UTC is available (developer confirmation needed). Triggering a re-judge is a data-changing action and was not performed.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-009_step1_given.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-009_step2_when.png",
+        "screenshots-GEO-152-GEO1183-mcp/TC-GEO-1183-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the reference capture of the negative articles per source is available for the three analyses",
+          "status": "PASS",
+          "expected": "The capture lists the negative articles (title, URL) and their passages for each source",
+          "data": "geo1183-passages-20261006.json"
+        },
+        {
+          "title": "And a re-judge has been run after the capture on the same snapshots",
+          "status": "BLOCKED",
+          "expected": "The re-judge date is later than the capture date",
+          "data": "Re-judge date confirmed by the developer, later than 2026-10-06 09:56 UTC"
+        },
+        {
+          "title": "When the user opens the Action Center of the Tesla analysis with the capture filters",
+          "status": "NOT RUN",
+          "expected": "36 sources are listed and the Improve perception tab lists 29 sources",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/4419839a-317f-4f9d-8a8c-32184906a2aa/actions - \"5 Oct 2026\", AI Engines 3, United States - English"
+        },
+        {
+          "title": "Then each source shows the same \"Negative perception in N articles\" count as in the capture",
+          "status": "NOT RUN",
+          "expected": "All 29 sources and their negative article counts are identical to the capture (54 negative articles)",
+          "data": "e.g. caranddriver.com and electrek.co"
+        },
+        {
+          "title": "And each source panel lists the same negative articles as in the capture",
+          "status": "NOT RUN",
+          "expected": "No negative article is added or removed and only the passage text may differ",
+          "data": "Compare the article URLs of the \"Negative perception (N)\" tab"
+        },
+        {
+          "title": "And the same comparison is done on the Nike and Lidl Nederland analyses",
+          "status": "NOT RUN",
+          "expected": "The sources, counts and negative articles are identical to the capture",
+          "data": "Nike \"6 Oct 2026\" (29 sources, 41 articles). Lidl Nederland with the capture date range 29 Sep - 5 Oct 2026, AI Engines 2, United Kingdom - English (25 sources, 29 articles)"
+        }
+      ],
+      "notes": "Precondition not met: no re-judge after the capture (2026-10-06 09:56 UTC) has been confirmed by the developer (OP-1 / OP-2). Informative only (not a verdict): the UI today serves the same snapshots as the capture (Tesla c5e3bc35, Nike 04742461, Lidl 7c3dc64d) and the 124 swept passages are identical to the capture (same sources, same article URLs, same text, 0 added / 0 removed / 0 text changes) - consistent with no re-judge having run since the capture. Counts: Tesla 36 sources / 29 perception / 54; Nike 42 / 29 / 41; Lidl 66 / 25 / 29."
+    }
+  ]
+}

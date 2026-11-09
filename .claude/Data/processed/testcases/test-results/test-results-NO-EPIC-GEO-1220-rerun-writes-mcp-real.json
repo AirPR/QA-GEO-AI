@@ -1,0 +1,626 @@
+{
+  "spec": "NO-EPIC-GEO-1220-rerun-writes-mcp",
+  "runDate": "2026-10-28",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "rerunOf": [
+    "runs/28102026-1546",
+    "runs/28102026-1602"
+  ],
+  "summary": {
+    "total": 14,
+    "pass": 3,
+    "fail": 0,
+    "skip": 5,
+    "partial": 2,
+    "in_progress": 4,
+    "success_rate_executed": 80,
+    "verdict": "GO"
+  },
+  "baseline": {
+    "cyclingelectric.com (API)": "JOURNALISM / GEMINI / updatedAt 2026-10-20T22:14:20.380063Z",
+    "cyclingelectric.com (Electric bikes, Last 30 days)": "Journalism | frequency 3; chart Journalism 21 URLs (61.8%), Corporate 5, Review Sites 5 (14.7%), Other 2, Gov / NGO 1; legend Journalism 17 (62%), Review Sites 4 (15%)",
+    "capterra.com (API)": "no row (regex list); only capterra.com.au REVIEW_SITES / GEMINI",
+    "capterra.com (Lictorix Geo f228f1fe, QA-GEO, Last 7 days)": "Review Sites | frequency 5",
+    "overridden=true": "0 row; cache 60,121 rows"
+  },
+  "restored": "After PUT JOURNALISM applyToHistory=true (historyRowsUpdated 27): Electric bikes Last 30 days identical to the baseline (Journalism 21 URLs / Review Sites 5 URLs, row Journalism | 3).",
+  "overridesLeftTonight": [
+    {
+      "domain": "cyclingelectric.com",
+      "sourceType": "REVIEW_SITES",
+      "applyToHistory": false,
+      "reason": "QA GEO-1220 AC1 — keep until next Electric bikes run, cleanup 29/10",
+      "overriddenAt": "2026-10-28T16:14:14.520683Z"
+    },
+    {
+      "domain": "capterra.com",
+      "sourceType": "SOCIAL_UGC",
+      "applyToHistory": false,
+      "reason": "QA GEO-1220 AC2 — keep until next run, cleanup 29/10",
+      "overriddenAt": "2026-10-28T16:14:14.650209Z"
+    }
+  ],
+  "nextRuns": [
+    "Electric bikes (42c3ab89, UNBRANDED, 5 prompts) lastCompletedAt 2026-10-27T22:20:42Z -> next daily run expected around 2026-10-28 22:20 UTC; check on 29/10.",
+    "Lictorix Geo (f228f1fe, QA-GEO) lastCompletedAt 2026-10-28T15:50:42Z -> next daily run expected around 2026-10-29 15:50 UTC; check after that."
+  ],
+  "end": "Logged in as assiya.benramdane@onclusive.com, SUPER_ADMIN, QA-GEO, en-GB (GET /geo/api/v1/auth/me)",
+  "results": [
+    {
+      "tc_id": "TC-GEO-1220-013",
+      "title": "EDITOR and READER get 403 ACCESS_DENIED on GET, PUT and DELETE",
+      "story_id": "GEO-1220",
+      "ac": "AC7",
+      "status": "PASS",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-013_step3_editor_valid_put.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-013_step7_reader_valid_put.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-013_step9_then_unchanged.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in with an EDITOR account",
+          "status": "PASS",
+          "observed": "GET /auth/me: assiya.benramdane+geo@onclusive.com, role EDITOR, org QA-GEO, language en-US (not changed)"
+        },
+        {
+          "title": "When the user calls the search",
+          "status": "PASS",
+          "observed": "403 ACCESS_DENIED (run 28102026-1602, not replayed)"
+        },
+        {
+          "title": "And the user calls PUT on the test domain",
+          "status": "PASS",
+          "observed": "VALID body {\"sourceType\":\"JOURNALISM\",\"reason\":\"QA GEO-1220 AC7 valid body\",\"applyToHistory\":false} -> 403 {\"error\":\"ACCESS_DENIED\",\"message\":\"Access denied\"}"
+        },
+        {
+          "title": "Then the DELETE is refused too",
+          "status": "PASS",
+          "observed": "403 ACCESS_DENIED (run 28102026-1602, not replayed)"
+        },
+        {
+          "title": "Given the user is logged in with a READER account",
+          "status": "PASS",
+          "observed": "assiya.benramdane+os@onclusive.com, role READER, org Onclusive, language en-US (not changed)"
+        },
+        {
+          "title": "When the user calls the search",
+          "status": "PASS",
+          "observed": "403 ACCESS_DENIED (run 28102026-1602, not replayed)"
+        },
+        {
+          "title": "And the user calls PUT on the test domain",
+          "status": "PASS",
+          "observed": "VALID body -> 403 {\"error\":\"ACCESS_DENIED\",\"message\":\"Access denied\"} (16:08:37Z)"
+        },
+        {
+          "title": "Then the DELETE is refused too",
+          "status": "PASS",
+          "observed": "403 ACCESS_DENIED (run 28102026-1602, not replayed)"
+        }
+      ],
+      "error": null,
+      "notes": "Completion of the AC7 rerun 28102026-1602 (FAIL there because an INVALID PUT body returned 400 VALIDATION_ERROR before the role check). With a VALID body both roles get 403 ACCESS_DENIED: AC7 holds for the PUT. Nothing written: SUPER_ADMIN GET right after = cyclingelectric.com JOURNALISM / GEMINI / updatedAt 2026-10-20T22:14:20.380063Z, 0 override row. Side point kept for triage (not an AC7 failure): a non-admin with an invalid body gets 400 VALIDATION_ERROR (validation runs before authorisation, the error lists the 9 accepted types). The body used is JOURNALISM (as asked) instead of the CSV REVIEW_SITES; the expected 403 is unchanged.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-008",
+      "title": "Confirming the Gemini type still turns the row into an override",
+      "story_id": "GEO-1220",
+      "ac": "AC4b",
+      "status": "PARTIAL",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-008_step3_then_override.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a domain is classified JOURNALISM by Gemini",
+          "status": "PASS",
+          "observed": "GET ?domain=cyclingelectric.com&sourceType=JOURNALISM -> 200, origin GEMINI, JOURNALISM, no overriddenBy/overriddenAt/reason"
+        },
+        {
+          "title": "When the user PUTs the same type",
+          "status": "PASS",
+          "observed": "PUT JOURNALISM \"QA GEO-1220 AC4b\" applyToHistory=false -> 200, historyRowsUpdated 0, previousSourceType JOURNALISM"
+        },
+        {
+          "title": "Then the row becomes an override",
+          "status": "PASS",
+          "observed": "origin OVERRIDE, JOURNALISM, overriddenBy assiya.benramdane@onclusive.com, overriddenAt 2026-10-28T16:10:17.893650Z, reason \"QA GEO-1220 AC4b\""
+        },
+        {
+          "title": "And Gemini can no longer change it",
+          "status": "SKIP",
+          "observed": "Needs dev evidence (logs/DB)"
+        },
+        {
+          "title": "And the user removes the override",
+          "status": "IN PROGRESS",
+          "observed": "DELETE deferred to the cleanup of 29/10 (override chained into TC-007 / 005 / 006 / 002)"
+        }
+      ],
+      "error": null,
+      "notes": "Every QA-verifiable step PASS; PARTIAL only because step 4 needs dev evidence and the DELETE is done at the 29/10 cleanup. Server clock: overriddenAt is about 71 s ahead of the browser clock (client 16:09:06Z).",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-018",
+      "title": "The search filters by domain, type and override and returns a paginated list",
+      "story_id": "GEO-1220",
+      "ac": "AC9",
+      "status": "PASS",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-018_step2_overridden_filter.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-018_step3_then_all_filters.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the cache holds an override row and Gemini rows",
+          "status": "PASS",
+          "observed": "Override row from PUT REVIEW_SITES \"QA GEO-1220 AC4\" (TC-007) -> 200"
+        },
+        {
+          "title": "When the user searches with every filter",
+          "status": "PASS",
+          "observed": "GET ?domain=cyclin&sourceType=REVIEW_SITES&overridden=true&page=0&size=20 -> 200 {content,page:0,size:20,totalElements:1,totalPages:1}, cyclingelectric.com in content"
+        },
+        {
+          "title": "Then only matching rows are returned",
+          "status": "PASS",
+          "observed": "Single row: domain contains \"cyclin\", REVIEW_SITES, OVERRIDE"
+        },
+        {
+          "title": "And each row gives the documented fields",
+          "status": "PASS",
+          "observed": "domain, sourceType, origin, overriddenBy, overriddenAt, reason, updatedAt all present on the override row"
+        },
+        {
+          "title": "And the search of the AC returns only matching rows",
+          "status": "PASS",
+          "observed": "GET ?domain=assurances&sourceType=REVIEW_SITES&overridden=true -> 200, content empty (allowed on staging)"
+        },
+        {
+          "title": "And the search without filter lists Gemini and override rows only",
+          "status": "PASS",
+          "observed": "GET ?page=0&size=100 -> origins {OVERRIDE, GEMINI}, never REGEX; totalElements 60,121"
+        },
+        {
+          "title": "And the user removes the override",
+          "status": "IN PROGRESS",
+          "observed": "DELETE deferred to the 29/10 cleanup"
+        }
+      ],
+      "error": null,
+      "notes": "Also checked with the JOURNALISM override (TC-008): ?overridden=true -> 1 row, ?domain=cyclin&overridden=true -> 1 row, ?domain=cyclingelectric.com&overridden=false -> 0 row. F-08 (Gemini rows omit the override fields instead of null) is unchanged; the override row carries all 7 fields.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-007",
+      "title": "applyToHistory false leaves the history untouched and only future runs use the new type",
+      "story_id": "GEO-1220",
+      "ac": "AC4",
+      "status": "IN PROGRESS",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-007_step1_given_journalism.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-007_step2_when_put.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-007_step3_then_history_unchanged.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-007_step4_xlsx_journalism.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Citation Sources of analysis A show the test domain with its original type",
+          "status": "PASS",
+          "observed": "Electric bikes, Last 30 days: cyclingelectric.com | Journalism | 3"
+        },
+        {
+          "title": "When the user creates an override without history",
+          "status": "PASS",
+          "observed": "PUT REVIEW_SITES \"QA GEO-1220 AC4\" false -> 200, historyRowsUpdated 0, previousSourceType JOURNALISM"
+        },
+        {
+          "title": "Then no past row is changed",
+          "status": "PASS",
+          "observed": "Reload, Last 30 days: cyclingelectric.com still Journalism | 3; chart Journalism 21 URLs / Review Sites 5 URLs (= baseline)"
+        },
+        {
+          "title": "And the XLSX export of the past period keeps the original type",
+          "status": "PASS",
+          "observed": "XLSX (29 Sept – 28 Oct 2026) Overview and Commuter Electric Bikes \"Media Type Split\": cyclingelectric.com | Journalism | 3"
+        },
+        {
+          "title": "When the next run of analysis A completes",
+          "status": "IN PROGRESS",
+          "observed": "Electric bikes (42c3ab89, UNBRANDED, 5 prompts) lastCompletedAt 2026-10-27T22:20:42Z -> next daily run expected around 2026-10-28 22:20 UTC; check on 29/10."
+        },
+        {
+          "title": "Then only the new run uses the new type",
+          "status": "IN PROGRESS",
+          "observed": "Checked on 29/10 with the AC1 override left tonight (REVIEW_SITES, applyToHistory=false, same set-up)"
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "status": "IN PROGRESS",
+          "observed": "At the 29/10 cleanup"
+        },
+        {
+          "title": "And the user removes the override",
+          "status": "IN PROGRESS",
+          "observed": "At the 29/10 cleanup"
+        }
+      ],
+      "error": null,
+      "notes": "Steps 1–4 PASS today. Steps 5–6 share the overnight AC1 override (same type and applyToHistory=false) and are checked with TC-002 on 29/10.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-005",
+      "title": "applyToHistory true updates the history and the charts and exports show the new type",
+      "story_id": "GEO-1220",
+      "ac": "AC3",
+      "status": "PARTIAL",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-005_step1_given_journalism.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-005_step2_when_put_history.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-005_step3_then_dashboard_review_sites.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-005_step4_exports_review_sites.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-005_step7_restore.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/RESTORE_dashboard_matches_baseline.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Citation Sources of analysis A show the test domain with its original type",
+          "status": "PASS",
+          "observed": "cyclingelectric.com Journalism | 3 (Last 30 days)"
+        },
+        {
+          "title": "When the user creates an override with history",
+          "status": "PASS",
+          "observed": "PUT REVIEW_SITES \"QA GEO-1220 AC3\" true -> 200, historyRowsUpdated 27, previousSourceType REVIEW_SITES (the cache already held the TC-007 override REVIEW_SITES; T0 JOURNALISM was the previous type before TC-007)"
+        },
+        {
+          "title": "Then the source charts show the new type at once",
+          "status": "PASS",
+          "observed": "Reload, Last 30 days: row cyclingelectric.com | Review Sites | 3; chart Journalism 21 -> 18 URLs, Review Sites 5 -> 8 URLs; legend Journalism 17 -> 16, Review Sites 4 -> 5 (no wait for cache expiry)"
+        },
+        {
+          "title": "And the XLSX export shows the new type",
+          "status": "PASS",
+          "observed": "Overview and Commuter Electric Bikes \"Media Type Split\": cyclingelectric.com | Review Sites | 3"
+        },
+        {
+          "title": "And the PPTX export shows the new type",
+          "status": "PASS",
+          "observed": "Slides 5 and 13: Journalism 18 (53%) | Review Sites 8 (24%) ... cyclingelectric.com | Review Sites | 3"
+        },
+        {
+          "title": "And every non-deleted row of the domain is updated in every organisation",
+          "status": "SKIP",
+          "observed": "Needs dev evidence (logs/DB): is 27 the count of non-deleted response_sources rows of cyclingelectric.com?"
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "status": "PASS",
+          "observed": "PUT JOURNALISM \"QA GEO-1220 cleanup\" true -> 200, historyRowsUpdated 27, previousSourceType REVIEW_SITES; dashboard back to the baseline (Journalism 21 URLs, Review Sites 5, row Journalism | 3)"
+        },
+        {
+          "title": "And the user removes the override",
+          "status": "IN PROGRESS",
+          "observed": "DELETE deferred to the 29/10 cleanup"
+        }
+      ],
+      "error": null,
+      "notes": "historyRowsUpdated = 27 (apply) and 27 (restore). PARTIAL: step 6 needs dev evidence. previousSourceType = REVIEW_SITES instead of the CSV T0 because TC-005 ran right after TC-007 (chained order asked for this run) — correct behaviour, not a product gap.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-006",
+      "title": "Replaying the same PUT with history changes nothing",
+      "story_id": "GEO-1220",
+      "ac": "AC3b",
+      "status": "PASS",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-006_step1_given_put_history.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-006_step3_then_replay_zero.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-006_step5_restore.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an override with history is applied on the test domain",
+          "status": "PASS",
+          "observed": "TC-005 PUT REVIEW_SITES true -> 200, historyRowsUpdated 27"
+        },
+        {
+          "title": "When the user replays the same PUT identically",
+          "status": "PASS",
+          "observed": "Same body {\"sourceType\":\"REVIEW_SITES\",\"reason\":\"QA GEO-1220 AC3\",\"applyToHistory\":true} -> 200"
+        },
+        {
+          "title": "Then no history row is updated",
+          "status": "PASS",
+          "observed": "historyRowsUpdated 0, previousSourceType REVIEW_SITES"
+        },
+        {
+          "title": "And the override is unchanged",
+          "status": "PASS",
+          "observed": "GET: REVIEW_SITES, OVERRIDE, reason \"QA GEO-1220 AC3\""
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "status": "PASS",
+          "observed": "PUT JOURNALISM true -> 200, historyRowsUpdated 27"
+        },
+        {
+          "title": "And the user removes the override",
+          "status": "IN PROGRESS",
+          "observed": "DELETE deferred to the 29/10 cleanup"
+        }
+      ],
+      "error": null,
+      "notes": "Reason \"QA GEO-1220 AC3\" (the TC-005 body replayed, as asked) instead of the CSV \"AC3b\". Observation for triage: the replay refreshes overriddenAt / updatedAt (16:12:42.124652Z -> 16:13:36.417412Z) — the CSV checks sourceType, origin, reason only, so PASS.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-002",
+      "title": "An override applies to the next run of any organisation without a Gemini call",
+      "story_id": "GEO-1220",
+      "ac": "AC1",
+      "status": "IN PROGRESS",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-002_step1_given_baseline.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-002_step3_then_override.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user reads the classification of the test domain",
+          "status": "PASS",
+          "observed": "Baseline 16:05Z: cyclingelectric.com JOURNALISM / GEMINI / updatedAt 2026-10-20T22:14:20.380063Z; T0 = JOURNALISM"
+        },
+        {
+          "title": "When the user creates an override without history",
+          "status": "PASS",
+          "observed": "After the history restore: PUT REVIEW_SITES \"QA GEO-1220 AC1 — keep until next Electric bikes run, cleanup 29/10\" false -> 200, historyRowsUpdated 0, previousSourceType JOURNALISM"
+        },
+        {
+          "title": "Then the GET shows the domain as an override",
+          "status": "PASS",
+          "observed": "REVIEW_SITES, OVERRIDE, overriddenBy assiya.benramdane@onclusive.com, overriddenAt 2026-10-28T16:14:14.520683Z, reason as sent"
+        },
+        {
+          "title": "When the next run of analysis A completes",
+          "status": "IN PROGRESS",
+          "observed": "Electric bikes (42c3ab89, UNBRANDED, 5 prompts) lastCompletedAt 2026-10-27T22:20:42Z -> next daily run expected around 2026-10-28 22:20 UTC; check on 29/10."
+        },
+        {
+          "title": "Then the source of the new run is stored as REVIEW_SITES",
+          "status": "IN PROGRESS",
+          "observed": "Check 29/10: Electric bikes, period = run day only"
+        },
+        {
+          "title": "And no Gemini call is made for the domain during the run",
+          "status": "SKIP",
+          "observed": "Needs dev evidence (logs/DB)"
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "status": "IN PROGRESS",
+          "observed": "29/10 cleanup: PUT JOURNALISM true"
+        },
+        {
+          "title": "And the user removes the override",
+          "status": "IN PROGRESS",
+          "observed": "29/10 cleanup: DELETE -> 204"
+        }
+      ],
+      "error": null,
+      "notes": "IN PROGRESS — check after next run 29/10. Override kept overnight.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-003",
+      "title": "An override beats the hard-coded regex list",
+      "story_id": "GEO-1220",
+      "ac": "AC2",
+      "status": "IN PROGRESS",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-003_step1_given_capterra_review_sites.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-003_step3_put_social_ugc.png"
+      ],
+      "steps": [
+        {
+          "title": "Given trustpilot.com is classified by the regex list",
+          "status": "PASS",
+          "observed": "capterra.com (user-approved replacement of trustpilot.com) in Lictorix Geo f228f1fe (QA-GEO), Last 7 days: capterra.com | Review Sites | 5"
+        },
+        {
+          "title": "And the GET holds no override for trustpilot.com",
+          "status": "PASS",
+          "observed": "GET ?domain=capterra.com -> only capterra.com.au (GEMINI, REVIEW_SITES); no capterra.com row (regex results not stored); ?overridden=true empty"
+        },
+        {
+          "title": "When the user overrides trustpilot.com to SOCIAL_UGC",
+          "status": "PASS",
+          "observed": "PUT capterra.com SOCIAL_UGC \"QA GEO-1220 AC2 — keep until next run, cleanup 29/10\" false -> 200, historyRowsUpdated 0, no previousSourceType field (OP-10)"
+        },
+        {
+          "title": "And the next run of analysis B completes",
+          "status": "IN PROGRESS",
+          "observed": "Lictorix Geo (f228f1fe, QA-GEO) lastCompletedAt 2026-10-28T15:50:42Z -> next daily run expected around 2026-10-29 15:50 UTC; check after that."
+        },
+        {
+          "title": "Then the next run stores SOCIAL_UGC for trustpilot.com",
+          "status": "IN PROGRESS",
+          "observed": "Check after the next Lictorix run: capterra.com = \"Social / UGC\" for the run day"
+        },
+        {
+          "title": "And the user restores REVIEW_SITES on the history",
+          "status": "IN PROGRESS",
+          "observed": "Cleanup after the check"
+        },
+        {
+          "title": "And the user removes the override",
+          "status": "IN PROGRESS",
+          "observed": "Cleanup after the check: DELETE -> 204"
+        }
+      ],
+      "error": null,
+      "notes": "IN PROGRESS — check after next run 29/10. Domain capterra.com used instead of trustpilot.com (user approval 2026-10-28). Note: the Lictorix next run is ~15:50 UTC on 29/10, later than Electric bikes.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-010",
+      "title": "DELETE removes the override, past rows keep their type and Gemini classifies the domain again",
+      "story_id": "GEO-1220",
+      "ac": "AC6",
+      "status": "IN PROGRESS",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-010_step1_given_override_in_place.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the test domain has an override applied to the history",
+          "status": "IN PROGRESS",
+          "observed": "Done at the 29/10 cleanup on cyclingelectric.com"
+        },
+        {
+          "title": "When the user removes the override",
+          "status": "IN PROGRESS",
+          "observed": "DELETE /cyclingelectric.com/override -> expected 204, empty body"
+        },
+        {
+          "title": "Then the domain no longer appears in the GET",
+          "status": "IN PROGRESS",
+          "observed": "Expected: absent from content"
+        },
+        {
+          "title": "And past rows keep the override type",
+          "status": "IN PROGRESS",
+          "observed": "29/10"
+        },
+        {
+          "title": "When the next run of analysis A completes",
+          "status": "IN PROGRESS",
+          "observed": "Next run after the DELETE"
+        },
+        {
+          "title": "Then Gemini writes the row back",
+          "status": "IN PROGRESS",
+          "observed": "Expected origin GEMINI, no override fields"
+        },
+        {
+          "title": "And the user restores the history of the domain to its original type",
+          "status": "IN PROGRESS",
+          "observed": "29/10"
+        },
+        {
+          "title": "And the user removes the override",
+          "status": "IN PROGRESS",
+          "observed": "29/10"
+        }
+      ],
+      "error": null,
+      "notes": "IN PROGRESS — check after next run 29/10. The 29/10 cleanup also covers TC-011 (second DELETE -> 404 NO_OVERRIDE).",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-004",
+      "title": "The override of a root domain applies to its regional subdomain in a lite analysis",
+      "story_id": "GEO-1220",
+      "ac": "AC2b",
+      "status": "SKIP",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-004_skip_state.png"
+      ],
+      "steps": [
+        {
+          "title": "All steps",
+          "status": "SKIP",
+          "observed": "needs a lite run citing a capterra regional subdomain, to plan"
+        }
+      ],
+      "error": null,
+      "notes": "SKIP — needs a lite run citing a capterra regional subdomain, to plan.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-009",
+      "title": "An override row survives Gemini reclassification and cache purges",
+      "story_id": "GEO-1220",
+      "ac": "AC5",
+      "status": "SKIP",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-009_skip_state.png"
+      ],
+      "steps": [
+        {
+          "title": "All steps",
+          "status": "SKIP",
+          "observed": "needs dev evidence (logs/DB)"
+        }
+      ],
+      "error": null,
+      "notes": "SKIP — needs dev evidence (logs/DB).",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-012",
+      "title": "An ADMIN can search but gets 403 ACCESS_DENIED on PUT and DELETE",
+      "story_id": "GEO-1220",
+      "ac": "AC7",
+      "status": "SKIP",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-012_skip_state.png"
+      ],
+      "steps": [
+        {
+          "title": "All steps",
+          "status": "SKIP",
+          "observed": "no plain ADMIN account on staging"
+        }
+      ],
+      "error": null,
+      "notes": "SKIP — no plain ADMIN account (main account is SUPER_ADMIN).",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-017",
+      "title": "Every valid PUT and DELETE writes a SOURCE_CLASSIFICATION_OVERRIDE audit log line",
+      "story_id": "GEO-1220",
+      "ac": "AC8d",
+      "status": "SKIP",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-017_skip_state.png"
+      ],
+      "steps": [
+        {
+          "title": "All steps",
+          "status": "SKIP",
+          "observed": "needs dev evidence (logs/DB)"
+        }
+      ],
+      "error": null,
+      "notes": "SKIP — needs dev evidence (logs/DB). Valid PUTs sent today for the dev to look up: 16:10:17Z, 16:10:38Z, 16:12:42Z, 16:13:36Z, 16:13:46Z, 16:14:14Z (x2), server time.",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1220-020",
+      "title": "In production opinion-assurances.fr shows as Review Sites and as an ops-script override",
+      "story_id": "GEO-1220",
+      "ac": "AC10",
+      "status": "SKIP",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-writes-mcp/TC-GEO-1220-020_skip_state.png"
+      ],
+      "steps": [
+        {
+          "title": "All steps",
+          "status": "SKIP",
+          "observed": "needs dev evidence (logs/DB)"
+        }
+      ],
+      "error": null,
+      "notes": "SKIP — needs dev evidence (logs/DB).",
+      "duration": 0
+    }
+  ]
+}

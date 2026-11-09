@@ -1,0 +1,276 @@
+{
+  "spec": "GEO-1068-prod-smoke-mcp",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://geo.onclusive.com/geo/",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1068.csv",
+  "environment": "production",
+  "purpose": "GEO-R1.3 go-live smoke (read-only)",
+  "notes": [
+    "Start 10:54 (29/10/2026): session authenticated; GET /geo/api/v1/auth/me -> SUPER_ADMIN, org QA-GEO, en-GB, features.unbranded_analysis=true. Home: 3 analyses, prompt pool 259 / 24400.",
+    "Read-only: no analysis creation, no Manage Scope save, no back-office write, no org/language change, no deletion. Only filter/sort UI changes (not saved) and one PPTX export (download).",
+    "Prod data limit: no brand analysis in prod has a Mixed or Negative concept (API top-concepts: Toyota 15/0/0 on every period incl. \"All reports\", Bosch 12/0/0; category pages also 100% Positive). Analysis B substituted by Toyota (afcdc69f, pre-release, brand). The only analysis with P/M/N concepts is Car insurance (UNBRANDED, card \"Top Topics in the Category\"), used only as supplementary evidence.",
+    "Network: every /geo/api/v1 call of the run returned 200 (reports, overview/*, categories/*, perception-summary, scope, snapshots, export). Console: only the known Brandfetch 410 on the Toyota/Bosch logos (cdn.brandfetch.io idR0dj2M6E, idlS72krr0).",
+    "End 11:05: GET /auth/me -> SUPER_ADMIN, QA-GEO, en-GB; home still 3 analyses, prompt pool 259 / 24400 (final_pool_check.png).",
+    "Low score explained by prod data only (no Mixed/Negative concept on a brand analysis, no prod baseline); 0 FAIL, no regression observed."
+  ],
+  "summary": {
+    "total": 7,
+    "pass": 2,
+    "fail": 0,
+    "skip": 0,
+    "partial": 5,
+    "successRate": 64.3,
+    "verdict": "CONDITIONAL"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1266-001",
+      "story_id": "GEO-1266",
+      "title": "Brand Top Topics rows show frequency and polarity with no numeric sentiment score",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1266-001_step1_given.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1266-001_step2_when.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1266-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user looks at the rows of the \"Top Topics Associated with Your Brand\" card",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no row shows a numeric sentiment score",
+          "status": "PASS"
+        },
+        {
+          "title": "And a row of each polarity shows the same simplified layout",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "B = Toyota, default period 29 Aug 2026 – 4 Sept 2026, All Countries, 2 AI engines. 15/15 rows match \"{name} {n} sources • {polarity} {f}%\" (e.g. \"vehicle reliability 61 sources • Positive 91%\"); 0 score / \"sentiment\" match on the card. Last step not verifiable: only Positive concepts exist (Mixed (0), Negative (0)), so M and N rows cannot be checked on a brand analysis. Supplementary: on Car insurance (unbranded) Mixed and Negative rows show the same layout with no score. Prod data limit: no brand analysis in prod has a Mixed or Negative concept (API top-concepts: Toyota 15/0/0 on every period incl. \"All reports\", Bosch 12/0/0; category pages also 100% Positive). Analysis B substituted by Toyota (afcdc69f, pre-release, brand). The only analysis with P/M/N concepts is Car insurance (UNBRANDED, card \"Top Topics in the Category\"), used only as supplementary evidence."
+    },
+    {
+      "tc_id": "TC-GEO-1267-001",
+      "story_id": "GEO-1267",
+      "title": "Concept detail panel shows frequency and the polarity label with no sentiment score",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1267-001_step1_given.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1267-001_step2_when.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1267-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the row of a Positive concept",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the header shows the frequency and the polarity label",
+          "status": "PASS"
+        },
+        {
+          "title": "And no sentiment score is shown in the panel",
+          "status": "PASS"
+        },
+        {
+          "title": "And the panel frequency matches the clicked row",
+          "status": "PASS"
+        }
+      ],
+      "notes": "P = \"vehicle reliability\" (row 91%). Panel opens with green header (rgb(5,150,105)), concept name and \"Close detail panel\" button. Header reads \"91% frequency • Positive\", \"Positive\" in a white pill (bg rgb(255,255,255), rounded-full, emerald text). No score, no \"sentiment\" text, no gauge element in the panel. 91% = 91% of the row."
+    },
+    {
+      "tc_id": "TC-GEO-1268-001",
+      "story_id": "GEO-1268",
+      "title": "Sort by Sentiment orders concepts Positive, then Mixed, then Negative with no score shown",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-001_step1_given.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-001_step2_when.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-001_step3_then.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-001_suppl_carinsurance_sentiment_sort.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the sort menu",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects Sentiment",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then the Positive concepts come first, then the Mixed ones, then the Negative ones",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And no numeric score is exposed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Menu lists exactly \"Sort by Frequency\", \"Sort by Sentiment\", \"Sort A-Z\" (no score entry). After \"Sort by Sentiment\" the button label changes, but the Toyota list order is identical to the frequency order because all 15 concepts are Positive: re-ordering and P > M > N grouping cannot be shown on a brand analysis. No score on rows or in the menu. Supplementary (Car insurance, unbranded): Sort by Sentiment gives 10 Positive, then 4 Mixed, then 10 Negative (PPPPPPPPPPMMMMNNNNNNNNNN), no score. Prod data limit: no brand analysis in prod has a Mixed or Negative concept (API top-concepts: Toyota 15/0/0 on every period incl. \"All reports\", Bosch 12/0/0; category pages also 100% Positive). Analysis B substituted by Toyota (afcdc69f, pre-release, brand). The only analysis with P/M/N concepts is Car insurance (UNBRANDED, card \"Top Topics in the Category\"), used only as supplementary evidence."
+    },
+    {
+      "tc_id": "TC-GEO-1269-001",
+      "story_id": "GEO-1269",
+      "title": "PowerPoint export in English shows concepts with frequency and polarity only",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1269-001_step1_given.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1269-001_step2_when.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1269-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as PowerPoint in English",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the key concepts slides",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each concept shows its source count, its polarity and its frequency %",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And no numeric sentiment score and no barometer are shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Export menu \"PDF | Presentation .pptx | Spreadsheet .xls\"; Toyota_AI_Visibility_Report.pptx downloaded (32 slides, English, en-GB interface, period 29 Aug – 4 Sept 2026 = default; the CSV period Sep 28 – Oct 4 has no prod data). Key concepts slides 4 (Overview), 21 (Hybrid Cars), 30 (SUVs): every row reads \"{n} sources • Positive\" + frequency %; 0 \"sentiment\"/score text; shapes rect only (no ellipse/arc gauge). Only Positive exists, so the Mixed (M) and Negative (N) labels cannot be checked. Copy observation: slide 21 \"driving comfort | 1 sources • Positive\" (plural with 1) while the UI shows \"1 source\". Step3 screenshot = rendered text extract of the slides (no PPTX renderer on the machine); file kept in runs/29102026-1054/exports/. Prod data limit: no brand analysis in prod has a Mixed or Negative concept (API top-concepts: Toyota 15/0/0 on every period incl. \"All reports\", Bosch 12/0/0; category pages also 100% Positive). Analysis B substituted by Toyota (afcdc69f, pre-release, brand). The only analysis with P/M/N concepts is Car insurance (UNBRANDED, card \"Top Topics in the Category\"), used only as supplementary evidence."
+    },
+    {
+      "tc_id": "TC-GEO-1266-008",
+      "story_id": "GEO-1266",
+      "title": "An analysis created before the release shows the simplified concept rows",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1266-008_step1_given.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1266-008_step2_when.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1266-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O created before the release",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user looks at the rows of the \"Top Topics Associated with Your Brand\" card",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no row shows a numeric sentiment score",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the category page \"Voitures hybrides\" of O",
+          "status": "PASS"
+        }
+      ],
+      "notes": "O = Toyota prod (afcdc69f, created 26/05, last run 04/09, pre-release). Data substitutions: staging baseline filters replaced by the prod default period 29 Aug – 4 Sept 2026 / All Countries / 2 engines; category C1 \"Voitures hybrides\" replaced by \"Hybrid Cars\". Overview: 15/15 rows \"{n} sources • {polarity} {f}%\", 0 score. Hybrid Cars: 10/10 rows same layout, 0 score. Also checked: Bosch (pre-release, 03/09) Overview 12 rows same layout, no score."
+    },
+    {
+      "tc_id": "TC-GEO-1268-006",
+      "story_id": "GEO-1268",
+      "title": "Polarity filter counts and results of an older analysis match the baseline",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-006_step1_given.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-006_step2_when.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-006_step3_then.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-006_step_mixed.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-006_step_negative.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user compares the three pill counts with the baseline",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user selects the Positive filter",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the Mixed filter",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the Negative filter",
+          "status": "PASS"
+        },
+        {
+          "title": "Then filtering behaves as before the release",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Baseline (staging Toyota 439acd96, XLSX 2026-10-05: 5/1/1, Fiabilité…) is not valid for prod and no prod baseline was taken before the release: the comparison with the baseline is not verifiable. Behaviour verified on Toyota prod (default period): pills All (15), Positive (15), Mixed (0), Negative (0); Positive -> 15 rows, all Positive (= pill count); Mixed -> empty state \"No topics available for this sentiment\" (= 0); Negative -> same empty state (= 0); All -> 15 rows. Counts and lists consistent; rows simplified."
+    },
+    {
+      "tc_id": "TC-GEO-1268-008",
+      "story_id": "GEO-1268",
+      "title": "The sentiment distribution summary above the list is unchanged",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-008_step1_given.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-008_step2_when.png",
+        "screenshots-GEO-1068-prod-smoke-mcp/TC-GEO-1268-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user compares the summary with the baseline",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user sorts the list by Sentiment",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the distribution summary is unchanged",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Distribution summary present above the list on Toyota prod: \"100% Positive 15 topics\" (aria-label \"Positive: 15 topics (100%)\"). Baseline values 71% / 14% / 14% belong to the staging Toyota and cannot be compared in prod (no pre-release prod baseline): not verifiable. After \"Sort by Sentiment\" the summary text and aria-label are identical (unchanged by the sort)."
+    }
+  ]
+}

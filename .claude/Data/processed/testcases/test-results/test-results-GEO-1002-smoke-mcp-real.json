@@ -1,0 +1,559 @@
+{
+  "spec": "GEO-1002-smoke",
+  "runDate": "2026-10-19",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "scope": "Smoke = Yes (13 TCs)",
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me language = en-GB)",
+    "organisation": "QA-GEO (dcea498b-a5cc-4c2a-b078-82530de16998), switched from default org Onclusive; P = 1000; U = 530 at start, 490 after the Volkswagen analysis (40 slots) was removed by another user during the run",
+    "featureFlag": "unbranded_analysis = true (flag ON): the wizard has 5 steps starting with Analysis Type",
+    "backOffice": "Accessible: account role SUPER_ADMIN, /geo/backoffice/organisations opened read-only",
+    "analysesCreated": [
+      "Decathlon - a054db66-6f22-45e0-8256-13c1bd56464b (TC-GEO-1251-001)"
+    ]
+  },
+  "summary": {
+    "total": 13,
+    "pass": 8,
+    "fail": 4,
+    "skip": 0,
+    "partial": 1,
+    "successRate": 65.4,
+    "verdict": "CONDITIONAL"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1229-001",
+      "title": "Keeping prompts across brands, categories and markets only decreases the shared pool",
+      "story_id": "GEO-1229",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1229-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1229-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1229-001_step3_then.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1229-001_step2b_categories.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1229-001_step2c_prompts_ring.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard of organisation T",
+          "status": "PASS",
+          "expected": "The pool block reads \"U / P\""
+        },
+        {
+          "title": "When the user starts a new analysis for a brand that no analysis of the organisation uses yet",
+          "status": "PASS",
+          "data": "Brand: a brand not used yet in T (e.g. \"Decathlon\")",
+          "expected": "Brand & Country accepts the brand with no brand quota message"
+        },
+        {
+          "title": "And the user adds 4 markets including one country in two languages",
+          "status": "PASS",
+          "data": "United Kingdom - English (EN), France - French (FR), United States - English (EN), United States - Spanish (ES)",
+          "expected": "The 4 market rows are added with no country, language or market limit message"
+        },
+        {
+          "title": "And the user keeps every detected category and adds categories until there are at least 6",
+          "status": "PASS",
+          "data": "Extra categories: \"Running shoes\", \"Cycling\", \"Camping\"",
+          "expected": "Every category is added with no category limit message"
+        },
+        {
+          "title": "And the user opens the Prompts step",
+          "status": "PASS",
+          "expected": "The toolbar ring reads \"U + S / P\", S being the number of ticked prompts of this analysis"
+        },
+        {
+          "title": "Then no per-brand, per-category, per-country or per-language cap blocks the selection",
+          "status": "PASS",
+          "expected": "The only limit shown is the pool ring; Review & Launch is enabled while U + S <= P"
+        }
+      ],
+      "notes": "Org QA-GEO, P = 1000. Dashboard pool block read \"530 / 1000\" at start. Brand Decathlon (decathlon.com) accepted with no brand quota message; 4 markets UK EN, France FR, US EN, US ES added with no limit message; 2 detected categories (Sports Equipment, Athletic Apparel) + Running Shoes, Cycling, Camping, Hiking = 6, no category limit message (only banner \"Categories are unlimited and set by you\"). Prompts step: ring \"1250 / 1000 · 760 selected\", popover \"In use by other analyses 490 / Kept in this analysis 760 / Over the pool 250\", Review & Launch disabled. U had moved from 530 to 490 during the run: the Volkswagen analysis (40 slots) was removed from QA-GEO by someone else between the dashboard read and the Prompts step (/quota then returned promptsUsed 490), so the ring matches U + S / P for the current U. After unticking all and re-ticking 100: ring \"590 / 1000 · 100 selected\", no pool message, Review & Launch enabled. Only limit shown = pool ring. Precondition deviation: unbranded flag is ON (wizard has an Analysis Type step); \"Brand analysis\" was selected to reach Brand & Country. Nothing was created."
+    },
+    {
+      "tc_id": "TC-GEO-1230-001",
+      "title": "Create organisation shows one required Prompt pool field in place of the old quotas",
+      "story_id": "GEO-1230",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1230-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1230-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1230-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on Administration > Organizations",
+          "status": "PASS",
+          "expected": "The organisations list is displayed"
+        },
+        {
+          "title": "When the super admin opens the Create organisation form",
+          "status": "PASS",
+          "expected": "The form opens with its quotas section"
+        },
+        {
+          "title": "Then the quotas show one \"Prompt pool\" field marked as required",
+          "status": "PASS",
+          "expected": "\"Prompt pool\" is displayed with the required marker used by the other required fields"
+        },
+        {
+          "title": "And the four per-type fields and the \"Countries\" and \"Categories max\" fields are not shown",
+          "status": "PASS",
+          "expected": "No per-type prompt field, no \"Countries\" field and no \"Categories max\" field"
+        },
+        {
+          "title": "And the user quota, collection frequency and allowed AI engines stay as today",
+          "status": "PASS",
+          "expected": "User quota, collection frequency with \"Daily\" and \"One time\", and the allowed AI engines are displayed"
+        }
+      ],
+      "notes": "Super admin back office reachable (Administration > Users & Organisations > Organisations, 8 organisations). Create organisation form: Name *, Master Customer Number, US organisation, QUOTAS: \"Prompt pool *\" (same \"*\" marker as \"Name *\"), User quota (100), Collection frequency (Daily / One time), Authorised AI Engine providers (ChatGPT, Gemini, Grok, Claude, Perplexity). No per-type prompt field, no \"Countries\" field, no \"Categories max\" field. Form closed with Cancel, nothing saved. Known bug GEO-1274 (missing asterisk) did NOT reproduce: the asterisk is now shown."
+    },
+    {
+      "tc_id": "TC-GEO-1231-001",
+      "title": "New Analysis opens the wizard on Brand & Country with the sidebar stepper (flag OFF)",
+      "story_id": "GEO-1231",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: New Analysis opens the wizard directly on Brand & Country, sidebar stepper \"Brand & Country\", \"Categories\", \"Prompts\", \"Review\" with Brand & Country current, footer \"Back\" and \"Discover Categories\". Observed: the wizard opens on step 1 \"Analysis Type\" (Brand analysis / Unbranded analysis), stepper shows 5 steps \"Analysis Type\", \"Brand & Country\", \"Categories\", \"Prompts\", \"Review\" with Analysis Type current, and the footer shows \"Back\" and \"Continue\". Cause: unbranded feature flag is ON on staging (/auth/me features.unbranded_analysis = true), the TC precondition (flag OFF) is not met.",
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1231-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1231-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1231-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard",
+          "status": "PASS",
+          "expected": "The New Analysis button is displayed"
+        },
+        {
+          "title": "When the user clicks New Analysis",
+          "status": "FAIL",
+          "expected": "The wizard opens directly on Brand & Country, with no \"New analysis\" top bar"
+        },
+        {
+          "title": "Then the sidebar stepper names each step",
+          "status": "FAIL",
+          "expected": "\"Brand & Country\", \"Categories\", \"Prompts\" and \"Review\", with Brand & Country as the current step"
+        },
+        {
+          "title": "And the sidebar carries Back to Dashboard",
+          "status": "PASS",
+          "expected": "\"Back to Dashboard\" is shown in the sidebar"
+        },
+        {
+          "title": "And the footer keeps Back and the primary action",
+          "status": "FAIL",
+          "expected": "The footer shows \"Back\" and \"Discover Categories\""
+        },
+        {
+          "title": "When the user adds markets until the content is longer than the screen and scrolls",
+          "status": "PASS",
+          "data": "6 markets",
+          "expected": "The content above the footer scrolls while the footer and the sidebar stay in place"
+        }
+      ],
+      "notes": "No \"New analysis\" top bar (sidebar heading \"Create new analysis\" only). \"Back to Dashboard\" present in the sidebar. After choosing Brand analysis + Continue, Brand & Country is current and the footer shows \"Back\" and \"Discover Categories\". With 6 markets (UK, FR, ES, DE, IT, US) the content area scrolled (scrollTop 233, scrollHeight 730 > clientHeight 497) while footer (top 659px) and sidebar (top 112px) stayed in place."
+    },
+    {
+      "tc_id": "TC-GEO-1232-001",
+      "title": "Detected categories show an AI-generated badge and a translation per market language",
+      "story_id": "GEO-1232",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1232-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1232-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1232-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on a valid Brand & Country with 3 markets",
+          "status": "PASS",
+          "expected": "Discover Categories is enabled"
+        },
+        {
+          "title": "When the user clicks Discover Categories and discovery ends",
+          "status": "PASS",
+          "expected": "The Categories step lists the detected categories as a flat list"
+        },
+        {
+          "title": "Then each detected category shows an AI-generated badge",
+          "status": "PASS",
+          "expected": "Every detected row carries the AI-generated badge"
+        },
+        {
+          "title": "And each category shows its translation per market language without being opened",
+          "status": "PASS",
+          "expected": "Each row shows its English, French and Spanish names, a pencil and a cross"
+        }
+      ],
+      "notes": "Brand Decathlon, markets United Kingdom English (EN), France French (FR), Spain Spanish (ES); Discover Categories enabled. Discovery returned a flat list of 2 categories: \"Sporting Goods\" (AI generated, EN · FR (Articles de sport) · ES (Artículos deportivos)) and \"Outdoor Gear\" (AI generated, EN · FR (Équipement de plein air) · ES (Equipo para exteriores)); each row has a pencil (Edit) and a cross (Delete). The English name is the row title; the EN chip carries no extra text. Flag ON deviation (Analysis Type step passed with Brand analysis)."
+    },
+    {
+      "tc_id": "TC-GEO-1233-001",
+      "title": "Each category in each market gets 10 ticked prompts per question type",
+      "story_id": "GEO-1233",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: 10 Visibility, 10 Competitive and 10 Reputation prompts for C1 in UK (EN). Observed: counts are correct (C1 Sports Equipment: 10 Visibility, 10 Competitive, 10 Reputation; Category filter C1 = 30, Type filters = 10 each) but the Market column reads \"GB (EN)\" for every row, not \"UK (EN)\".",
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1233-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1233-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1233-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step with category C1",
+          "status": "PASS",
+          "expected": "Generate Prompts is enabled"
+        },
+        {
+          "title": "When the user clicks Generate Prompts and generation ends",
+          "status": "PASS",
+          "expected": "The Prompts step shows one table with every prompt"
+        },
+        {
+          "title": "Then category C1 gets 10 prompts per question type in market UK (EN)",
+          "status": "FAIL",
+          "data": "Filter Category = C1, then Type = Visibility / Competitive / Reputation",
+          "expected": "10 Visibility, 10 Competitive and 10 Reputation prompts for C1 in UK (EN)"
+        },
+        {
+          "title": "And every suggestion is ticked",
+          "status": "PASS",
+          "expected": "\"40 selected\" (30 for C1 + 10 Brand Image); no greyed row"
+        },
+        {
+          "title": "And each prompt carries the category and type that produced it",
+          "status": "PASS",
+          "expected": "Each C1 row shows Category C1 and its type badge"
+        }
+      ],
+      "notes": "Scope: Decathlon, 1 market United Kingdom English, 1 category C1 = Sports Equipment (Athletic Apparel removed). Prompts step shows one table with 40 prompts; ring \"530 / 1000 · 40 selected\" (U = 490); every row ticked, opacity 1 (no greyed row); each C1 row shows Category \"Sports Equipment\" and its type badge; 10 Brand Image rows with category \"Overview\". Deviation is the market label only."
+    },
+    {
+      "tc_id": "TC-GEO-1234-001",
+      "title": "Add prompt opens an editable row at the top of the table",
+      "story_id": "GEO-1234",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1234-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1234-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1234-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "status": "PASS",
+          "expected": "The prompt table and Add prompt are displayed"
+        },
+        {
+          "title": "When the user clicks Add prompt",
+          "status": "PASS",
+          "expected": "An editable row opens at the top of the table"
+        },
+        {
+          "title": "Then the row holds a text input and the category, type and market selects",
+          "status": "PASS",
+          "expected": "Text input, Category select, Type select and Market select are displayed"
+        },
+        {
+          "title": "And the row holds confirm and cancel",
+          "status": "PASS",
+          "expected": "Confirm and cancel controls are displayed on the row"
+        }
+      ],
+      "notes": "Scope: Decathlon, markets GB (EN) + FR (FR), 2 categories Sporting Goods + Outdoor Gear = 140 prompts (ring \"630 / 1000 · 140 selected\"). Add prompt inserts \"wizard-prompt-draft-row\" as first tbody row with: keep checkbox, text input \"New prompt\", Category select (Other), Type select (Other), Market select (GB (EN)), confirm button \"Add this prompt\" and cancel button \"Cancel\". Draft row cancelled, no prompt added."
+    },
+    {
+      "tc_id": "TC-GEO-1235-001",
+      "title": "The prompt table shows the columns Prompt, Category, Type, Market and Actions",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1235-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1235-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1235-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has generated prompts",
+          "status": "PASS",
+          "expected": "The Prompts step is displayed"
+        },
+        {
+          "title": "When the table renders",
+          "status": "PASS",
+          "expected": "All prompts of all markets are in one table, with no market or type tabs"
+        },
+        {
+          "title": "Then the table shows its five columns",
+          "status": "PASS",
+          "expected": "\"Prompt\", \"Category\", \"Type\", \"Market\", \"Actions\""
+        }
+      ],
+      "notes": "Same 140-prompt scope. One table only, no tab/tablist; rows mix markets GB (EN) 70 and FR (FR) 70, types Brand Image 20, Visibility 40, Competitive 40, Reputation 40. Header labels (textContent) \"Prompt\", \"Category\", \"Type\", \"Market\", \"Actions\" (rendered upper-case by CSS) plus the keep-checkbox column."
+    },
+    {
+      "tc_id": "TC-GEO-1236-001",
+      "title": "The toolbar ring reads the slots used after creation and its popover splits them",
+      "story_id": "GEO-1236",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1236-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1236-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1236-001_step3_then.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1236-001_step4_keyboard.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with 40 ticked prompts",
+          "status": "PASS",
+          "expected": "The toolbar ring reads \"U + 40 / P\""
+        },
+        {
+          "title": "When the user hovers the ring",
+          "status": "PASS",
+          "expected": "The popover opens"
+        },
+        {
+          "title": "Then the popover splits other analyses, this analysis and free slots",
+          "status": "PASS",
+          "expected": "Other analyses = U, Kept in this analysis = 40, Free = P - U - 40"
+        },
+        {
+          "title": "When the user unticks 2 prompts",
+          "status": "PASS",
+          "expected": "The ring reads \"U + 38 / P\" and the popover shows 38 for this analysis and \"38 selected\""
+        },
+        {
+          "title": "And the user reaches the ring with the keyboard",
+          "status": "PASS",
+          "data": "Tab key",
+          "expected": "The popover also opens on keyboard focus"
+        }
+      ],
+      "notes": "Minimal scope from TC-GEO-1233-001 (1 market, C1, 40 ticked). U = 490 at that time (/quota promptsUsed 490). Ring \"530 / 1000 · 40 selected\" = U + 40 / P. Hover popover: \"Prompt pool | 530 of 1000 after creation | In use by other analyses 490 | Kept in this analysis 40 | Free in the pool 470\". After unticking 2 prompts: ring \"528 / 1000 · 38 selected\", popover \"Kept in this analysis 38 | Free in the pool 472\". Keyboard: focus on Back to Dashboard then Tab focuses wizard-pool-ring and the popover opens (data-state instant-open)."
+    },
+    {
+      "tc_id": "TC-GEO-1237-001",
+      "title": "Review shows the scope with its markets and categories, and the AI engines",
+      "story_id": "GEO-1237",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: the scope shows the markets \"UK (EN) and France (FR), with no Primary tag\". Observed: the Markets card shows \"United Kingdom · English\" and \"France · French\" (no Primary tag). The format differs from the expected \"UK (EN)\" / \"France (FR)\".",
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1237-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1237-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1237-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step within the pool",
+          "status": "PASS",
+          "expected": "Review & Launch is enabled"
+        },
+        {
+          "title": "When the user clicks Review & Launch",
+          "status": "PASS",
+          "expected": "The Review step loads"
+        },
+        {
+          "title": "Then the scope shows the markets",
+          "status": "FAIL",
+          "expected": "UK (EN) and France (FR), with no \"Primary\" tag"
+        },
+        {
+          "title": "And the scope shows the categories",
+          "status": "PASS",
+          "expected": "C1 and C2"
+        },
+        {
+          "title": "And the AI engines are shown",
+          "status": "PARTIAL",
+          "expected": "The engines allowed for organisation T are shown as toggles"
+        }
+      ],
+      "notes": "Scope 140 prompts within the pool (630 / 1000), Review & Launch enabled, Review step (5) loaded. Categories card: Sporting Goods, Outdoor Gear (C1, C2). AI Engines shown as switches: ChatGPT on, Gemini on, Grok off, Claude off, Perplexity off, none disabled. The list of engines allowed for QA-GEO could not be cross-checked without opening the org edit form, so the engines step is only partly verified. Known bug GEO-1271 concerns TC-GEO-1237-004 (not in this smoke run). Footer \"Back | Create Analysis\"; the analysis was not created (exited with Exit and Discard)."
+    },
+    {
+      "tc_id": "TC-GEO-1238-001",
+      "title": "Back to Dashboard with choices entered opens \"Exit setup?\"",
+      "story_id": "GEO-1238",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1238-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1238-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1238-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Brand & Country and has entered a brand and a market",
+          "status": "PASS",
+          "data": "Brand \"Decathlon\"; market UK (EN)",
+          "expected": "The entries are shown"
+        },
+        {
+          "title": "When the user clicks Back to Dashboard",
+          "status": "PASS",
+          "expected": "The \"Exit setup?\" confirmation opens"
+        },
+        {
+          "title": "Then the confirmation states that exiting discards every choice since there is no draft",
+          "status": "PASS",
+          "expected": "The message names \"Decathlon\", says there is no draft and that every choice is discarded"
+        },
+        {
+          "title": "And the confirmation offers Resume Setup and Exit and Discard",
+          "status": "PASS",
+          "expected": "\"Resume Setup\" and \"Exit and Discard\" are shown"
+        },
+        {
+          "title": "When the user clicks Exit and Discard",
+          "status": "PASS",
+          "expected": "The GEO dashboard is displayed and no analysis was created"
+        }
+      ],
+      "notes": "Brand Decathlon + market United Kingdom English entered. Back to Dashboard opens \"wizard-discard-modal\": \"Exit setup? / There is no draft: nothing is saved yet / Your analysis configuration for Decathlon is incomplete. / Exiting now discards every choice made during this session, including the prompts you kept. / To keep this work, resume the setup and create the analysis.\" Buttons \"Resume Setup\" and \"Exit and Discard\". Exit and Discard returns to /geo (GEO Analytics Dashboard); reports total 5 before and 5 after (no analysis created)."
+    },
+    {
+      "tc_id": "TC-GEO-1239-001",
+      "title": "Manage Scope Prompts shows the wizard's table, filters and pool tracker",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1239-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1239-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1239-001_step3_then.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1239-001_step2b_show_menu.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the dashboard of analysis A",
+          "status": "PARTIAL",
+          "expected": "Manage Scope is reachable"
+        },
+        {
+          "title": "When the user opens Manage Scope > Prompts",
+          "status": "PASS",
+          "expected": "The Prompts section is displayed"
+        },
+        {
+          "title": "Then the wizard's table is shown",
+          "status": "PASS",
+          "expected": "Columns \"Prompt\", \"Category\", \"Type\", \"Market\", \"Actions\" in one table; no per-country or per-type tabs; no Reset button"
+        },
+        {
+          "title": "And the wizard's filters are shown",
+          "status": "PASS",
+          "expected": "Category, Type and Market header menus and the Show prompts menu"
+        },
+        {
+          "title": "And the pool tracker is shown",
+          "status": "PASS",
+          "expected": "The ring \"U / P\" with its popover"
+        }
+      ],
+      "notes": "Precondition not available: QA-GEO has no analysis created with the new wizard on markets UK (EN) + France (FR) with at least 5 unticked suggestions. Run read-only on the closest existing analysis \"Orange\" (16cdf040-35aa-42b9-b4e2-e9f6300d50dc, FR (FR) + MA (AR), 2 categories, collected, 0 unticked). Manage Scope > Prompts: one table with columns Prompt, Category, Type, Market, Actions; no tab; no Reset button (buttons: Version history, ring, Add prompt, Show prompts, 3 header menus). Header menus Category / Type / Market (sort + filter with counts) and Show prompts menu (All / Selected only / Unselected only). Ring \"490 / 1000 · 140 selected\", popover \"490 of 1000 | In use by other analyses 350 | Kept in this analysis 140 | Free in the pool 510\". Nothing changed or saved. Rerun on a matching analysis A is needed for a full PASS."
+    },
+    {
+      "tc_id": "TC-GEO-1240-001",
+      "title": "The dashboard pool block shows the kept prompts over the pool with the wizard's ring",
+      "story_id": "GEO-1240",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: the \"Reports\" table is displayed, with the pool block next to the number of reports. Observed: the table header reads \"Analysis\" with the count \"5 analyses\"; the word \"Reports\" is not shown anywhere on the dashboard (DOM testid reports-view-table).",
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1240-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1240-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1240-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in to organisation T",
+          "status": "PASS",
+          "expected": "The GEO dashboard is reachable"
+        },
+        {
+          "title": "When the GEO dashboard loads",
+          "status": "FAIL",
+          "expected": "The \"Reports\" table is displayed"
+        },
+        {
+          "title": "Then a pool block is shown in the header of the Reports table",
+          "status": "PASS",
+          "expected": "Next to the number of reports, the ring reads \"U / P\""
+        },
+        {
+          "title": "When the user hovers the ring",
+          "status": "PASS",
+          "expected": "The popover splits used (U) and free (P - U) slots"
+        }
+      ],
+      "notes": "Org QA-GEO has 5 analyses, U = 490 < P = 1000. Pool block in the table header next to the count: ring \"490 / 1000 prompts\" (aria-label \"Prompt pool: 490 / 1000 prompts\"). Hover popover: \"Prompt pool | 490 of 1000 | In use across analyses 490 | Free in the pool 510\" (used U and free P - U)."
+    },
+    {
+      "tc_id": "TC-GEO-1251-001",
+      "title": "Competitors are resolved in the background when no Visibility prompt is kept",
+      "story_id": "GEO-1251",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-smoke/TC-GEO-1251-001_step1_given.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1251-001_step2_when.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1251-001_step3_then.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1251-001_step1b_review.png",
+        "screenshots-GEO-1002-smoke/TC-GEO-1251-001_step1c_created.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user creates an analysis whose market and category keep Competitive prompts but no Visibility prompt",
+          "status": "PASS",
+          "data": "UK (EN) x C1: 0 Visibility, 10 Competitive kept",
+          "expected": "The wizard shows no competitor step and no visible competitor call"
+        },
+        {
+          "title": "When the analysis runs",
+          "status": "PASS",
+          "data": "First collection",
+          "expected": "The collection completes"
+        },
+        {
+          "title": "Then the Competitive results of UK (EN) x C1 name competitors",
+          "status": "PASS",
+          "data": "Competitive results / prompt details",
+          "expected": "Competitor brands are named in the Competitive prompts and answers of C1"
+        },
+        {
+          "title": "And the analysed brand's own sub-brands are not used as competitors",
+          "status": "PASS",
+          "data": "Brand \"Decathlon\"",
+          "expected": "No brand whose website belongs to Decathlon is listed as a competitor"
+        }
+      ],
+      "notes": "Analysis CREATED for this TC: Decathlon (decathlon.com), UUID a054db66-6f22-45e0-8256-13c1bd56464b, org QA-GEO, market United Kingdom English, category C1 = Sporting Goods, 30 prompts kept (10 Visibility unticked, 10 Competitive + 10 Reputation + 10 Brand Image kept), engines ChatGPT + Gemini. Wizard showed no competitor step; no network request with \"competitor\" in the URL during generation; Review showed \"Some metrics will not be produced. No Visibility prompts are kept...\". Created at 18:17:40Z, status COMPLETED at 18:17:43Z (first collection finished in about 3 s, unusually fast). Category page Prompts Analysis: Visibility 0, Competitive 10, Perception 10; Competitive prompts name Sports Direct, JD Sports, Go Outdoors (Winner Split / Lost). No Decathlon sub-brand (Quechua, Btwin, Kipsta, Domyos, Kalenji, Forclaz, Rockrider, Kiprun...) found on the page. Brand ownership of the competitor websites was checked by name only. The analysis is left in QA-GEO (no delete in this run)."
+    }
+  ]
+}

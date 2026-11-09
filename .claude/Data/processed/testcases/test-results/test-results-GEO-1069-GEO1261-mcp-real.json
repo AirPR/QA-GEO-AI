@@ -1,0 +1,430 @@
+{
+  "spec": "GEO-1069-GEO1261-mcp",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1261",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "runFolder": ".claude/Data/output/reports/runs/20102026-1516/",
+  "summary": {
+    "total": 8,
+    "pass": 8,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "successRate": 100,
+    "verdict": "GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me); error copy identical to the validated en-US string",
+    "organisation": "QA-GEO",
+    "featureFlag": "unbranded_analysis = true (5-step wizard)",
+    "role": "SUPER_ADMIN",
+    "testData": "C = \"Lictorix Geo\" (Licter is a Brandfetch suggestion); website inputs per CSV (licter.com family, shop.brand.co.uk, invalid examples)",
+    "analysesCreated": [
+      {
+        "id": "A1",
+        "name": "Lictorix Geo",
+        "uuid": "f228f1fe-9363-4f3c-97e6-e7275bd383e8",
+        "entityDomain": "licter.com",
+        "createdAt": "2026-10-20T15:37:23Z",
+        "by": "TC-GEO-1261-008 (completed later)"
+      }
+    ],
+    "stateChanges": "First pass (15:16): no analysis created. TC-GEO-1261-008 completed later (15:37) with the creation of A1 (authorized by the user); all other TCs unchanged."
+  },
+  "sideFindings": [
+    "Stale domain preview: after a valid website, entering an invalid one shows the inline error but the card keeps the previous derived domain and logo under the brand name (SIDE_stale_domain_after_invalid.png). Step is blocked anyway; cosmetic/consistency issue, to confirm with PO."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1261-001",
+      "title": "Full URL with protocol, www, path and query gives the root domain",
+      "story_id": "GEO-1261",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-001_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-001_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The website field is empty and the avatar shows the letter \"L\"",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a full URL in the website field",
+          "expected": "The value is typed, no error is shown while typing",
+          "data": "\"https://www.licter.com/fr/about?x=1\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field loses focus",
+          "expected": "No inline error is shown",
+          "data": "Click outside the field",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the derived root domain is shown under the brand name",
+          "expected": "\"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the logo preview is retrieved for that domain",
+          "expected": "The 32px avatar shows the logo found for licter.com instead of the letter \"L\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data adapted as the precondition allows (same as GEO-1260 run): \"Licter\" is a Brandfetch suggestion, so C = \"Lictorix Geo\" (offered only through the \"Custom Brand\" row, first row, \"?\" avatar). Given: empty field, green 32px lettermark \"L\". While typing \"https://www.licter.com/fr/about?x=1\": aria-invalid=false, border slate-200, no error. On blur: no error; card shows \"Lictorix Geo\" with \"licter.com\" under the name; avatar replaced by <img> 32x32 src https://www.google.com/s2/favicons?domain=licter.com&sz=64 (Licter logo rendered). The field keeps the typed URL as is (only the derived domain is normalized). Logo lookup request: GET /geo/api/v1/brands/logo?domain=licter.com -> {\"domain\":\"licter.com\"}."
+    },
+    {
+      "tc_id": "TC-GEO-1261-002",
+      "title": "Protocol, www prefix, trailing slash and bare domain give the same root domain",
+      "story_id": "GEO-1261",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-002_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-002_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The website field is empty",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters an address with the http protocol and the field loses focus",
+          "expected": "No error; \"licter.com\" is shown under the brand name",
+          "data": "\"http://licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replaces it with an address with the www prefix and the field loses focus",
+          "expected": "No error; \"licter.com\" is shown under the brand name",
+          "data": "\"www.licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replaces it with a domain with a trailing slash and the field loses focus",
+          "expected": "No error; \"licter.com\" is shown under the brand name",
+          "data": "\"licter.com/\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replaces it with the bare domain and the field loses focus",
+          "expected": "No error; \"licter.com\" is shown under the brand name",
+          "data": "\"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every form gave the same root domain",
+          "expected": "\"licter.com\" each time, no inline error for any of the four inputs",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Each input typed then blurred; to rule out a stale domain, the field was also emptied and blurred before each input (card back to the \"L\" lettermark each time). http://licter.com, www.licter.com, licter.com/ and licter.com each gave \"licter.com\" under the brand name with the licter.com favicon logo; aria-invalid=false, no red border, no message for all four."
+    },
+    {
+      "tc_id": "TC-GEO-1261-003",
+      "title": "Uppercase address and port number give the lowercase root domain",
+      "story_id": "GEO-1261",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-003_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-003_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The website field is empty",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters an uppercase address and the field loses focus",
+          "expected": "No error; \"licter.com\" (lowercase) is shown under the brand name",
+          "data": "\"LICTER.COM\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replaces it with an address with a port and the field loses focus",
+          "expected": "No error; \"licter.com\" (no port) is shown under the brand name",
+          "data": "\"licter.com:8080\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "\"LICTER.COM\" -> \"licter.com\" (lowercase) under the brand name; \"licter.com:8080\" -> \"licter.com\" (no port). No error for either (aria-invalid=false, border slate-200). Field emptied and blurred between the two inputs (lettermark back each time)."
+    },
+    {
+      "tc_id": "TC-GEO-1261-004",
+      "title": "Subdomain other than www is kept in the derived domain",
+      "story_id": "GEO-1261",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-004_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-004_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The website field is empty",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters an address with a subdomain and the field loses focus",
+          "expected": "No inline error is shown",
+          "data": "\"shop.brand.co.uk\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the subdomain is kept in the domain shown under the brand name",
+          "expected": "\"shop.brand.co.uk\" (not \"brand.co.uk\")",
+          "status": "PASS"
+        }
+      ],
+      "notes": "\"shop.brand.co.uk\" -> \"shop.brand.co.uk\" shown under the brand name (subdomain kept, not \"brand.co.uk\"); no inline error; logo lookup GET /brands/logo?domain=shop.brand.co.uk; avatar <img> favicon for shop.brand.co.uk (generic globe favicon since the domain does not exist)."
+    },
+    {
+      "tc_id": "TC-GEO-1261-005",
+      "title": "Input that is not a domain shows the inline error and blocks the step",
+      "story_id": "GEO-1261",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-005_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-005_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with a market and an empty website field",
+          "expected": "The website field is empty and shows no error",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a value that is not a domain",
+          "expected": "The value is typed, no error is shown while typing",
+          "data": "\"licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field loses focus",
+          "expected": "The website field has a red border and the message \"Enter a valid website, such as example.com.\" is shown under it (same pattern as the brand error of step 1)",
+          "data": "Click outside the field",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Discover Categories\"",
+          "expected": "The step is not left: no discovery loading screen, the error is still shown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user can correct the input",
+          "expected": "The field is editable and still contains \"licter\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Market United States / English (EN) added. Typing \"licter\": no error while typing (aria-invalid=false, slate border). On blur: wrapper border-red-500, aria-invalid=true, <p id=\"wizard-brand-website-error\" role=\"alert\" class=\"text-red-600\"> \"Enter a valid website, such as example.com.\" (exact copy) shown under the field, below the hint. Click \"Discover Categories\" ([data-testid=wizard-next-btn], enabled): step not left (stepper still on Brand & Country), no \"Discovering Categories\" screen, no POST /analysis/discover-categories sent, error still shown. Field editable and still contains \"licter\"."
+    },
+    {
+      "tc_id": "TC-GEO-1261-006",
+      "title": "Each invalid example input shows the inline error",
+      "story_id": "GEO-1261",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-006_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-006_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The website field is empty",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a domain containing a space and the field loses focus",
+          "expected": "Red border and \"Enter a valid website, such as example.com.\"",
+          "data": "\"licter .com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replaces it with an e-mail address and the field loses focus",
+          "expected": "Red border and \"Enter a valid website, such as example.com.\"",
+          "data": "\"john@licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replaces it with an ftp address and the field loses focus",
+          "expected": "Red border and \"Enter a valid website, such as example.com.\"",
+          "data": "\"ftp://licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replaces it with localhost and the field loses focus",
+          "expected": "Red border and \"Enter a valid website, such as example.com.\"",
+          "data": "\"localhost\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replaces it with an IP address and the field loses focus",
+          "expected": "Red border and \"Enter a valid website, such as example.com.\"",
+          "data": "\"192.168.0.1\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no domain is shown under the brand name for any of these inputs",
+          "expected": "No derived domain and no logo preview: the avatar keeps the letter \"L\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Run twice: once with an empty blur between inputs and once exactly as written (direct replacement). \"licter .com\", \"john@licter.com\", \"ftp://licter.com\", \"localhost\", \"192.168.0.1\": each gives border-red-500 + aria-invalid=true + \"Enter a valid website, such as example.com.\" on blur, and no domain under the brand name: avatar keeps the letter \"L\" for all five."
+    },
+    {
+      "tc_id": "TC-GEO-1261-007",
+      "title": "Inline error shown on Discover Categories and cleared once the value is valid or empty",
+      "story_id": "GEO-1261",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-007_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-007_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-007_step3_then_loading.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-007_step3_then.png",
+        "screenshots-GEO-1069-GEO1261-mcp/SIDE_stale_domain_after_invalid.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with a market and an empty website field",
+          "expected": "The website field is empty",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types an invalid value and clicks \"Discover Categories\" without leaving the field first",
+          "expected": "Red border and \"Enter a valid website, such as example.com.\"; the step is not left",
+          "data": "\"john@licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user corrects the value to a valid domain",
+          "expected": "The red border and the message disappear",
+          "data": "\"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replaces it with an invalid value and the field loses focus",
+          "expected": "The error is shown again",
+          "data": "\"localhost\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clears the field",
+          "expected": "The red border and the message disappear; the empty field is accepted",
+          "data": "(empty)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then clicking \"Discover Categories\" continues the setup",
+          "expected": "The discovery loading screen is displayed and the Categories step opens",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Step 2: \"john@licter.com\" typed then \"Discover Categories\" clicked without blurring first: red border + exact message appear, step not left, no discover-categories request. Step 3: retyping \"licter.com\" clears the red border and the message immediately (before blur); on blur \"licter.com\" + logo appear. Step 4: \"localhost\" + blur shows the error again. Step 5: clearing the field removes the border/message immediately; on blur the lettermark \"L\" comes back. Step 6: \"Discover Categories\" shows \"Discovering Categories - Scanning how AI engines see Lictorix Geo across your markets.\" (step3_then_loading.png) then the Categories step opens (\"Location Intelligence Platform\", \"Geospatial Analytics Software\"); request body entityDomain = null. SIDE FINDING (outside the TC assertions, see SIDE_stale_domain_after_invalid.png): after a valid value, replacing it with an invalid one (\"localhost\") shows the error but the card still shows \"licter.com\" and the Licter logo under the brand name (stale preview of the last valid domain) until the field is emptied or corrected."
+    },
+    {
+      "tc_id": "TC-GEO-1261-008",
+      "title": "Derived domain is stored as the brand domain of the created analysis",
+      "story_id": "GEO-1261",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008_step3_then.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008_completed_step1_given.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008_completed_step2_when.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008_completed_stored_domain_api.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008_completed_view_analysis_progress.png",
+        "screenshots-GEO-1069-GEO1261-mcp/TC-GEO-1261-008_completed_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with a full URL as website and a market",
+          "expected": "\"licter.com\" is shown under the brand name with its logo preview (logo noted as L1)",
+          "data": "\"https://www.licter.com/fr/about?x=1\", United States / English (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user goes through Categories, Prompts and Review and creates the analysis",
+          "expected": "The analysis A1 is created and \"View analysis\" is available",
+          "data": "Default categories and prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the analysis creation request in DevTools",
+          "expected": "The brand domain sent and returned is \"licter.com\", not the full URL typed",
+          "data": "DevTools Network, creation request",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the analysis from \"View analysis\"",
+          "expected": "The dashboard of A1 opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the brand is displayed with the logo of the stored domain",
+          "expected": "The sidebar and header show logo L1 of licter.com, not a lettermark",
+          "status": "PASS"
+        }
+      ],
+      "notes": "COMPLETED LATER (2026-10-20 15:37, during run GEO-1069-GEO1263-mcp 20102026-1534, after the user authorized creating A1): the first pass at 15:16 stopped on Review (PARTIAL); the TC was replayed in full on a new wizard and \"Create Analysis\" was clicked. A1 = \"Lictorix Geo\" (Custom Brand row; \"Licter\" is a Brandfetch suggestion), UUID f228f1fe-9363-4f3c-97e6-e7275bd383e8. Given: website \"https://www.licter.com/fr/about?x=1\" + United States / English (EN); \"licter.com\" under the brand name, logo L1 = https://www.google.com/s2/favicons?domain=licter.com&sz=64 (Licter \"lic ter\" mark, Brandfetch quota exhausted) (completed_step1_given). Categories (default): Social Listening Software, Audience Intelligence; Prompts: 70 preselected (pool 813 -> 883/1000); Review > Create Analysis. Dialog \"Analysis created - Lictorix Geo is scheduled. 70 prompts across 1 market and 2 categories run on ChatGPT and Gemini.\" with \"View analysis\" / \"Go to Dashboard\" (completed_step2_when). Creation request POST /geo/api/v1/reports -> 201: body {\"entityName\":\"Lictorix Geo\",\"entityDomain\":\"licter.com\",\"entityLogoUrl\":null,...} - the derived domain, not the typed URL; response {\"id\":\"f228f1fe-...\",\"status\":\"PENDING\",\"entityName\":\"Lictorix Geo\"} (no domain in the creation response); GET /geo/api/v1/reports/f228f1fe-... returns \"entityDomain\":\"licter.com\",\"entityDomainConfirmed\":true (completed_stored_domain_api). \"View analysis\" opens /geo/report/f228f1fe-... (progress screen \"Analysing Lictorix Geo\", L1 shown) then the dashboard once the first run completed (~1 min). Dashboard sidebar/header brand block: <img alt=\"Lictorix Geo logo\" class=\"h-10 w-10 rounded-full\"> = L1, not a lettermark (completed_step3_then). Earlier evidence kept (15:16): discover-categories body entityDomain \"licter.com\"; step1/2/3 screenshots of the first pass (Review step).",
+      "completedLater": {
+        "date": "2026-10-20",
+        "time": "15:37 (creation) - 15:39 (dashboard checked)",
+        "session": "run GEO-1069-GEO1263-mcp (20102026-1534)",
+        "reason": "Left PARTIAL at 15:16 (analysis creation not authorized at that time); creation of A1 authorized by the user on 2026-10-20 and the TC completed later in the same day."
+      }
+    }
+  ],
+  "completedLater": "TC-GEO-1261-008 completed later on 2026-10-20 (15:37) - PARTIAL -> PASS; report regenerated in place."
+}

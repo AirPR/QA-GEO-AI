@@ -1,0 +1,810 @@
+{
+  "spec": "GEO-1209-GEO1248",
+  "runDate": "2026-10-21",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "story": "GEO-1248",
+  "storyTitle": "Show prompts in Other on the dashboard",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "analysis": "Electric bikes (unbranded) https://staging-geo.onclusive.com/geo/dashboard/42c3ab89-7dfd-4ba5-b5ec-117cec2514e4",
+  "summary": {
+    "total": 17,
+    "pass": 4,
+    "fail": 0,
+    "skip": 6,
+    "partial": 7,
+    "successRate": 68.2
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1248-001",
+      "title": "The sidebar shows a last \"Other\" category when a kept prompt has no category",
+      "story_id": "GEO-1248",
+      "priority": "High",
+      "description": "Verify that when at least one kept prompt has no category, the sidebar shows a last \"Other\" category. Covers AC-1.",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-001_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-001_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UA",
+          "expected": "The sidebar is displayed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the sidebar lists the categories",
+          "expected": "C1 and C2 are listed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a last \"Other\" category is shown",
+          "expected": "\"Other\" is the last category entry, after C1 and C2",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Other\"",
+          "expected": "The Other category page opens",
+          "data": "",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adapted: UA = unbranded 'Electric bikes' (42c3ab89), 1 market GB (EN), 1 real category C1 = 'Commuter Electric Bikes' (no C2 in this setup), 1 custom prompt Other on both category and type. Observed sidebar under Categories: 'Commuter Electric Bikes', then 'Other' as last entry (href /category/003f836d-...). Clicking 'Other' opens the Other category page (Identity + Sources tabs, InBrief, Top Topics in the Category). C2 ordering not verifiable with 1 real category."
+    },
+    {
+      "tc_id": "TC-GEO-1248-002",
+      "title": "The \"Other\" sidebar entry is hidden when no kept prompt is left without a category",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that the \"Other\" sidebar category is hidden when no kept prompt has no category, and disappears once no kept prompt is left in it. Covers AC-1. Needs setup: the last part needs the next collection after classification.",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-002_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-002_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UZ",
+          "expected": "The sidebar is displayed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no \"Other\" category is shown",
+          "expected": "Only the real categories are listed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user classifies the Other-category prompt of UA in Manage Scope and the next collection runs",
+          "expected": "The collection completes",
+          "data": "Category: C1",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the \"Other\" entry of UA disappears",
+          "expected": "The UA sidebar no longer lists \"Other\"",
+          "data": "",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Data adapted: no unbranded analysis without an Other prompt exists in QA-GEO (only 'Electric bikes' 42c3ab89, which has 1 Other prompt, and 'kids toys' FAILED). Proxy UZ = brand analysis Nike (cce7a7dc, no OTHER question type in /scope questionStats): sidebar lists 'Overview', 'Running Shoes', 'Action Center' - no 'Other' entry (PASS on the proxy). Steps 3-4 not executed: classifying the Other-category prompt of UA in Manage Scope is saved immediately (read-only run, write guard active) and needs the next collection. Current UA Manage Scope shows the warning '1 prompt is in Other.' and the custom row 'Which electric bike brands are best for commuting in London?' with Category 'Other' / Type 'Other' (step3 screenshot). Proposed CSV change: add a precondition with an unbranded analysis UZ with no Other prompt, and run the classification part on a dedicated disposable analysis."
+    },
+    {
+      "tc_id": "TC-GEO-1248-003",
+      "title": "The Other category page shows key concepts and the prompts table with no KPI, SOV, Time Evolution, prioritization or rankings",
+      "story_id": "GEO-1248",
+      "priority": "High",
+      "description": "Verify that the Other category page shows the key concepts of its prompts and the prompts table, with no KPI cards, SOV, Time Evolution, prioritization or rankings. Covers AC-2. The concept list uses the shared GEO-1068 component (tested in the GEO-1068 TCs).",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-003_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-003_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-003_step3_then.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-003_step4_then_no_kpi.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UA",
+          "expected": "The sidebar lists \"Other\"",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Other category page",
+          "expected": "The page loads with the tabs Identity and Sources (no Performance)",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "Then it shows the key concepts of its prompts and the prompts table",
+          "expected": "InBrief, Top Topics and Prompts Analysis are shown",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "And there are no KPI cards, SOV, Time Evolution, prioritization or rankings",
+          "expected": "None of these widgets is on the page",
+          "data": "",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adapted: UA = 'Electric bikes' (42c3ab89), Other category page /category/003f836d-... Observed: page tabs 'Identity' and 'Sources' only (no Performance). Sections: InBrief (bullets + 'Category summary generated by artificial intelligence'), 'Top Topics in the Category' (4 topics: 75% Positive / 25% Negative), 'Prompts Analysis' (subtitle 'All prompts across visibility, competitive, category topics, and other', tabs All 1 / Visibility 0 / Competitive 0 / Category Topics 0 / Other 1, columns Prompt / Winner / Themes / Country), 'AI Engines Citation Sources'. DOM text check: 'Share of Voice', 'Time Evolution', 'Ranking', 'Prioriti', 'Visibility Score', 'KPI', 'Average Position', 'Performance' all absent. Side observation: the Prompts Analysis of the Other page shows zero-count tabs 'Visibility 0', 'Competitive 0', 'Category Topics 0' (consistent with the known 'Competitive 0 always shows' behaviour)."
+    },
+    {
+      "tc_id": "TC-GEO-1248-004",
+      "title": "A real category with Other-type prompts shows an \"Other\" tab with its count and key concepts in Winner / Themes",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that when prompts of a real category carry the Other type, the prompts table shows an \"Other\" tab with its count after the type tabs, whose rows show their key concepts in Winner / Themes. Covers AC-3.",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-004_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-004_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category C1 of analysis UA",
+          "expected": "The prompts table is displayed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user looks at the tabs",
+          "expected": "Tabs ALL, Visibility, Competitive, Category Topics, then \"Other (1)\"",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the \"Other\" tab follows the type tabs with its count",
+          "expected": "\"Other\" is the last tab and its count is 1",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the \"Other\" tab",
+          "expected": "The Other-type prompt is listed with the \"Other\" badge",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then its row shows its key concepts in Winner / Themes",
+          "expected": "Theme chips (with \"+N\" if more) and no winner",
+          "data": "",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - data not available: the setup has no prompt that is Other on the type dimension only inside a real category (the only Other prompt of 'Electric bikes' is Other on both category and type and lives in the Other category). No brand analysis in QA-GEO has an Other-type prompt (questionStats checked via GET /reports/{id}/scope for all 10 completed analyses). Adding one requires a saved Manage Scope change + a collection (read-only run). Observed on C1 'Commuter Electric Bikes': tabs All 4 / Visibility 2 / Competitive 0 / Category Topics 2, no 'Other' tab (consistent: count 0). Proposed CSV change: precondition 'C1 holds at least one kept custom prompt with a category and an empty type, collected at least once' on a dedicated analysis."
+    },
+    {
+      "tc_id": "TC-GEO-1248-005",
+      "title": "The \"Other\" tab of a real category is hidden at 0",
+      "story_id": "GEO-1248",
+      "priority": "Low",
+      "description": "Verify that the \"Other\" tab of a real category prompts table is hidden when no prompt of the category carries the Other type. Covers AC-3.",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-005_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-005_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category C2 of analysis UA, which has no Other-type prompt",
+          "expected": "The prompts table is displayed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user looks at the tabs",
+          "expected": "Tabs ALL, Visibility, Competitive and Category Topics",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no \"Other\" tab is shown",
+          "expected": "No \"Other\" tab and no \"Other (0)\"",
+          "data": "",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adapted: C2 replaced by C1 'Commuter Electric Bikes' of 'Electric bikes' (42c3ab89), which has no Other-type prompt (the setup has 1 real category only). Observed Prompts Analysis tabs: 'All 4', 'Visibility 2', 'Competitive 0', 'Category Topics 2' - no 'Other' tab and no 'Other (0)'. Subtitle 'All prompts across visibility, competitive, and category topics' (the Other page adds ', and other'). Note: tab labels render as name + count badge ('Other 1'), not 'Other (1)'."
+    },
+    {
+      "tc_id": "TC-GEO-1248-006",
+      "title": "A Visibility or Competitive prompt in the Other category is ranked and shows a winner or \"Split\"",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that a Visibility or Competitive prompt in the Other category is ranked like any other prompt and its row shows the brand ranked first or \"Split\": production rule in a brand analysis, GEO-1244 rule in an unbranded analysis. Covers AC-4.",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-006_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-006_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Other category page of analysis UA",
+          "expected": "The prompts table lists the Visibility prompt in Other",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens its detail panel",
+          "expected": "The full ranking per engine is shown",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then its row shows the brand ranked first or \"Split\"",
+          "expected": "Winner when every engine ranks the same brand family first, else \"Split\" (GEO-1244 rule); no themes",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the Other category page of brand analysis BA",
+          "expected": "The prompts table lists the Visibility prompt in Other",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then its row follows the production winner rule of a brand analysis",
+          "expected": "The row shows the brand ranked first or \"Split\", as in any brand category",
+          "data": "",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - data not available: the Other category of 'Electric bikes' holds no Visibility or Competitive prompt (its only prompt is Other on both category and type). Observed: Other page Prompts Analysis 'Visibility 0' tab -> 'No prompts match your filters.' No brand analysis BA with an Other-category Visibility prompt exists in QA-GEO (Decathlon 27bec573/b6c8b664, Nike, Licter: no OTHER question type). Side observation for reference: Visibility rows of C1 show 'Split' (GEO-1244 rule visible on a real category). Proposed CSV change: precondition with a kept custom Visibility prompt with an empty category in UA and in BA, collected at least once (requires a saved Manage Scope change on a dedicated analysis)."
+    },
+    {
+      "tc_id": "TC-GEO-1248-007",
+      "title": "Prompts in the Other category feed no KPI, SOV, rankings or Time Evolution",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that a Visibility or Competitive prompt in the Other category feeds no KPI, SOV, rankings or Time Evolution. Covers AC-4. Needs setup: a brand X named only in the answers of the Other-category prompt (QA to find in the detail panel).",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-007_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-007_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given brand X is named only by the Other-category prompt of BA",
+          "expected": "The detail panel of that prompt lists X",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the Overview of BA",
+          "expected": "KPI cards, SOV and rankings are displayed",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then brand X is not in the SOV ring or the rankings",
+          "expected": "X is not listed",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the Overview KPIs do not include the Other-category prompt",
+          "expected": "KPIs are computed on the real categories only",
+          "data": "Compare the KPI prompt basis with the number of prompts of the real categories",
+          "status": "SKIP"
+        },
+        {
+          "title": "And Time Evolution does not show brand X",
+          "expected": "X is not plotted",
+          "data": "",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - data not available: the TC needs brand analysis BA with an Other-category Visibility prompt naming a brand X. No brand analysis in QA-GEO has an Other prompt (GET /reports/{id}/scope questionStats: no OTHER type and no prompt outside the real categories except brand-level BRAND_IMAGE prompts). Observed BA proxy Decathlon 27bec573: sidebar 'Overview | Articles De Sport | Action Center', no 'Other' entry (screenshots show the Overview for context only). The unbranded analysis cannot be used either (no Visibility prompt in its Other category, and no brand KPI/SOV ring in the unbranded Overview context of this TC). Proposed CSV change: keep as is but mark 'Needs setup: BA with an Other-category Visibility prompt' - to run on a dedicated brand analysis once created."
+    },
+    {
+      "tc_id": "TC-GEO-1248-008",
+      "title": "A Competitive prompt in the Other category runs as written with unfilled placeholders removed",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that a Competitive prompt in the Other category runs as the user wrote it with no [Competitor N] to fill, and that unfilled placeholders typed by hand are removed as in production. Covers AC-5. Needs setup: a completed collection after the prompt was added.",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Saved change required - blocked by the read-only write guard: POST https://staging-geo.onclusive.com/geo/api/v1/reports/42c3ab89-7dfd-4ba5-b5ec-117cec2514e4/prompts payload {\"marketId\":\"99920ac1-f110-4b0a-926c-3c1f188ac17d\",\"categoryId\":null,\"questionType\":\"COMPETITIVE\",\"questionText\":\"Royal Mail or DPD: which is more reliable for parcels?\"} -> aborted (net::ERR_FAILED, sent twice by the UI)",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-008_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-008_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-008_step2b_draft_row.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of analysis UA",
+          "expected": "The prompt table is displayed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a Competitive prompt with no category",
+          "expected": "The row is added with Category \"Other\"",
+          "data": "Prompt: \"Royal Mail or DPD: which is more reliable for parcels?\" - Category empty - Type Competitive - Market GB (EN)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user adds a Competitive prompt with no category and a hand-typed placeholder",
+          "expected": "The row is added with Category \"Other\"",
+          "data": "Prompt: \"Is Evri better than [Competitor 1] for small parcels?\" - Category empty - Type Competitive - Market GB (EN)",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the next collection runs",
+          "expected": "The collection completes",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the first prompt was sent as written",
+          "expected": "The sent wording is exactly the typed one",
+          "data": "Other category page > detail panel",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the unfilled placeholder was removed from the second prompt",
+          "expected": "The sent wording has no \"[Competitor 1]\" and reads naturally",
+          "data": "",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Data kept as written in the CSV (prompt texts are about postal services; on 'Electric bikes' an equivalent would be e.g. 'Brompton or VanMoof: which is more reliable for commuting?'). Observed: Manage Scope > Prompts shows '958 / 1000 prompts · 5 selected' (pool has room). 'Add prompt' opens a draft row with Category 'Other' by default, Type options Visibility / Category Topics / Competitive / Other, Market GB (EN). With Category left as Other and Type Competitive, 'Add this prompt' sends categoryId null + questionType COMPETITIVE (consistent with 'Category Other'). The request was aborted by the guard; the UI shows 'Failed to update the prompt. Please try again.' and the draft row was cancelled. The second prompt (hand-typed '[Competitor 1]'), the collection and the sent-wording checks (Other page detail panel) were not executed. Side observation: the generic error banner says 'update' for an add action (wording question, low priority)."
+    },
+    {
+      "tc_id": "TC-GEO-1248-009",
+      "title": "Competitors from Visibility answers in the Other category feed no other category",
+      "story_id": "GEO-1248",
+      "priority": "Low",
+      "description": "Verify that competitors extracted from Visibility answers of the Other category feed no other category, since extraction runs per market and category. Covers AC-6. Needs setup: a brand Y named only by Visibility answers of the Other category (QA to find); the extraction scope is otherwise only checkable in the logs.",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-009_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-009_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given brand Y is named only by Visibility answers of the Other category of UA",
+          "expected": "The Other category detail panel lists Y",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the Competitive prompts of C1 and C2 for the same market",
+          "expected": "The detail panels show the competitors compared",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then brand Y is not one of their competitors",
+          "expected": "No C1 or C2 Competitive prompt names Y",
+          "data": "",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - data not available: the Other category of 'Electric bikes' has no Visibility prompt (Other page tab 'Visibility 0') and C1 'Commuter Electric Bikes' has no Competitive prompt (tab 'Competitive 0' -> 'No prompts match your filters.'), and the setup has a single market. Brand Y cannot be identified nor checked against C1/C2 competitors. The extraction scope is otherwise only checkable in the logs. Proposed CSV change: precondition with a kept Visibility prompt with an empty category and kept Competitive prompts in C1 and C2 for the same market, on a dedicated analysis; or move to dev-support (logs) verification."
+    },
+    {
+      "tc_id": "TC-GEO-1248-010",
+      "title": "Other-type prompts produce key concepts excluded from KPIs and SOV; Visibility and Competitive prompts in Other produce none",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that key concepts are extracted from Other-type prompts and excluded from KPIs and SOV, while Visibility and Competitive prompts in the Other category are ranked only and produce no concepts. Covers AC-7.",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-010_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-010_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens a real category of brand analysis BA with its Other-type prompt",
+          "expected": "The prompts table shows the \"Other\" tab",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the \"Other\" tab",
+          "expected": "The Other-type row shows theme chips in Winner / Themes",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the Other-type prompt produced key concepts",
+          "expected": "Its detail panel shows its themes",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "And it is excluded from KPIs and SOV",
+          "expected": "The KPI cards and SOV of the category count only the Visibility, Competitive, Reputation and Brand Image prompts (no Other-type prompt in the KPI basis)",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Other category page and the Visibility prompt in Other",
+          "expected": "The row shows a winner or \"Split\"",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the Visibility prompt in the Other category produced no concepts",
+          "expected": "No theme chips on its row and no themes in its detail panel",
+          "data": "",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Brand analysis BA with an Other-type prompt does not exist in QA-GEO, and the setup has no Visibility prompt in the Other category: steps 1-2 and 5-6 not executable. Steps 3-4 verified on the adapted data (unbranded 'Electric bikes', Other-type prompt 'Which electric bike brands are best for commuting in London?' which lives in the Other category, not in a real category): (3) the prompt produced key concepts - row shows theme chips 'folding capabilities', 'commuting suitability' '+2'; detail panel THEMES ChatGPT: folding capabilities, commuting suitability; Gemini: + value for money, servicing networks; API ranking [] for both engines. (4) excluded from SOV/rankings: Overview SOV distribution is identical to C1 SOV (Specialized 22.5, Carrera 10, Ribble 10, Tern 10, ...), and the brands named only in the Other prompt answers (Gocycle, Brompton, Volt, Riese & Mueller, Tenways, Gtech) are absent from Overview SOV and brand rankings (they appear only in the Overview InBrief bullet, which is expected by AC-9). Unbranded analysis has no KPI cards / Reputation / Brand Image basis to compare. Proposed CSV change: keep BA steps; add precondition that BA holds a custom prompt with a real category and empty type plus a Visibility prompt with an empty category."
+    },
+    {
+      "tc_id": "TC-GEO-1248-011",
+      "title": "Other-type concepts follow the mode: about the brand in a brand analysis, topics on the category in an unbranded one",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that an Other-type prompt runs as written without the Perception system instruction and that its concepts follow the mode: about the brand with sentiment towards the brand in a brand analysis, topics with sentiment towards the category in an unbranded analysis. Covers AC-8. Needs setup: the absence of the Perception system instruction and the Gemini (non engine-native) extraction path are only checkable in the logs (dev support).",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-011_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-011_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the \"Other\" tab of a real category of brand analysis BA",
+          "expected": "The Other-type row is listed",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens its detail panel",
+          "expected": "Themes and sentiment per engine are shown",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then its concepts are about the brand with sentiment towards the brand",
+          "expected": "Themes describe \"Decathlon\"; the sentiment is towards the brand",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the \"Other\" tab of category C1 of unbranded analysis UA and its detail panel",
+          "expected": "Themes and sentiment per engine are shown",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "Then its concepts are topics with sentiment towards the category",
+          "expected": "Themes describe aspects of C1; the sentiment is towards the category; no brand tag",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "And the logs show the run and extraction path",
+          "expected": "Sent as written with no Perception system instruction; concepts extracted by the Gemini extraction (non engine-native path)",
+          "data": "Dev support: collection logs",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Steps 1-3 (brand analysis BA): SKIP - no brand analysis in QA-GEO has an Other-type prompt. Steps 4-5 adapted: 'Other tab of category C1' replaced by the Other category page of 'Electric bikes' (the only Other-type prompt is Other on both dimensions). Observed detail panel: header 'Which electric bike brands are best for commuting in London?' + badges 'Other', 'United Kingdom'; engine control ChatGPT / Gemini; 'SENTIMENT - CHATGPT' Positive, THEMES folding capabilities, commuting suitability; 'SENTIMENT - GEMINI' Positive, THEMES folding capabilities, commuting suitability, value for money, servicing networks. Themes describe aspects of the category (commuter e-bikes), no brand tag shown, sentiment label shown per engine (the target of the sentiment - category vs brand - is not exposed in the UI, only the label). Step 6 (no Perception system instruction, Gemini extraction path) is log-only: SKIP (dev support). Proposed CSV change: run steps 1-3 on a BA with an Other-type prompt in a real category; keep step 6 as dev-support."
+    },
+    {
+      "tc_id": "TC-GEO-1248-012",
+      "title": "Other prompts feed InBrief and Top Topics of their category, the Overview and the Other page in an unbranded analysis",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify in an unbranded analysis that an Other-type prompt feeds InBrief and Top Topics of its category and of the Overview, and that a prompt in the Other category feeds the Overview and the Other category page. Covers AC-9 (GEO-1186 text is stale: it excludes Other from Top Concepts). Needs setup: a theme T1 produced only by the Other-type prompt of C1 (QA to find in its detail panel).",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-012_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-012_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-012_step3_then_other_page.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Other-type prompt of C1 produced theme T1",
+          "expected": "Its detail panel lists T1",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens Top Topics of category C1",
+          "expected": "Top Topics in the Category is displayed",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then T1 is part of C1 Top Topics",
+          "expected": "T1 is listed",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "And T1 is part of the Overview Top Topics and not of C2",
+          "expected": "T1 is listed on the Overview, not in C2",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the Other category page",
+          "expected": "Top Topics of the Other page is displayed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Other category page shows the concepts of its prompts only",
+          "expected": "Topics of the Other-category prompts are listed; T1 (from C1) is not",
+          "data": "",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Steps 1-4 SKIP - data not available: C1 'Commuter Electric Bikes' holds no Other-type prompt, so no theme T1 can come from it (and there is no C2). Steps 5-6 verified with the Other-category prompt of 'Electric bikes' (part 'a prompt in the Other category feeds the Overview and the Other category page'): Top Topics (GET top-concepts, 20 Oct 2026, GB, ChatGPT+Gemini) - C1: integrated accessories, comfort, battery capacity, motor type, maintenance needs, safety features, legal requirements, battery degradation (8); Other page: folding capabilities, commuting suitability, value for money, servicing networks (4, all from the Other prompt, none of C1); Overview: the 12 = C1 8 + Other 4 (UI list shows folding capabilities, commuting suitability, value for money, servicing networks). Overview InBrief cites the Other-prompt concepts ('commuting suitability' and 'folding capabilities' (Brompton, Gocycle)); Other page InBrief is built on its own concepts only. Proposed CSV change: precondition with a kept custom prompt in C1 with an empty type, collected at least once."
+    },
+    {
+      "tc_id": "TC-GEO-1248-013",
+      "title": "Other-type themes feed InBrief and Top Concepts of a brand analysis, with KPIs unchanged",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify in a brand analysis that the concepts of an Other-type prompt are part of the InBrief and Top Concepts input of its category and the Overview, while the KPIs do not move (PM Q16). Covers AC-9. Needs setup: a theme T2 produced only by the Other-type prompt of BA.",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-013_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-013_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Other-type prompt of BA produced theme T2",
+          "expected": "Its detail panel lists T2",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens Top Concepts of its category and of the Overview",
+          "expected": "Top Concepts is displayed",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then T2 is listed in both",
+          "expected": "T2 appears in the category and the Overview Top Concepts",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "And InBrief can reflect T2",
+          "expected": "InBrief of the category is generated from the concepts including T2",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the KPIs do not include the Other-type prompt",
+          "expected": "KPI cards are computed without the Other-type prompt",
+          "data": "",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - data not available: the TC needs brand analysis BA with an Other-type prompt producing a theme T2. No brand analysis in QA-GEO has an Other-type prompt (Decathlon 27bec573 / b6c8b664, Nike, Licter, adidas, Orange, Toyota, BYD, Lictorix Geo checked via /scope questionStats). Screenshots show the Decathlon 27bec573 Overview for context only. The unbranded equivalent (Other prompt concepts feeding the Overview Top Topics and InBrief) is covered in TC-GEO-1248-012. Proposed CSV change: none on wording; add the BA setup (custom prompt with a real category and an empty type) to the test data plan."
+    },
+    {
+      "tc_id": "TC-GEO-1248-014",
+      "title": "An Other prompt classified in Manage Scope moves to its category and type at the next collection",
+      "story_id": "GEO-1248",
+      "priority": "High",
+      "description": "Verify that an Other prompt classified in Manage Scope moves to its category and type at the next collection and feeds their metrics, while past collections stay where they were collected. Covers AC-10. Needs setup: the next collection after the change.",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Saved change required - blocked by the read-only write guard: PATCH https://staging-geo.onclusive.com/geo/api/v1/reports/42c3ab89-7dfd-4ba5-b5ec-117cec2514e4/prompts/74c620c9-3836-485c-b420-d5171ee7801e/classification payload {\"categoryId\":\"d8330c1b-c192-4259-977c-0abd12590c37\",\"questionType\":\"OTHER\"} -> aborted (net::ERR_FAILED, sent twice by the UI)",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-014_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-014_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-014_step3_then.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-014_step4_type_options.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of analysis UA",
+          "expected": "The Visibility prompt in the Other category is listed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user picks a category for it and saves",
+          "expected": "The row reads C1 and is no longer tinted",
+          "data": "Category: C1",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the next collection runs",
+          "expected": "The collection completes",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the prompt is in category C1 for the new collection",
+          "expected": "The prompt is listed in the C1 Visibility tab and feeds C1 rankings and SOV",
+          "data": "C1 prompts table, latest collection",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the past collections stay where they were collected",
+          "expected": "The prompt is still under the Other category page for the previous collection",
+          "data": "Select the previous collection",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Data adapted: the Other-category prompt of 'Electric bikes' is Other on both dimensions (not a Visibility prompt). Step 1: Manage Scope > Prompts lists the custom row 'Which electric bike brands are best for commuting in London?' with Category 'Other' / Type 'Other', tinted, under the banner '1 prompt is in Other.' (en-GB string otherBanner_one matches). Step 2: Category select options = 'Commuter Electric Bikes' only; picking it saves immediately (no Save button) and sends the PATCH above (type kept OTHER); the guard aborted it, the UI showed 'Failed to update the prompt. Please try again.' and the row reverted to Other / Other; '· 5 selected' unchanged. Steps 3-5 (next collection, C1 Visibility tab/rankings/SOV, previous collection) not executed. Known issue re-observed on this TC: the Type select of the existing row offers only 'Visibility', 'Category Topics', 'Competitive' - no 'Other' option (screenshot step4_type_options); likewise the Category select offers no 'Other' option."
+    },
+    {
+      "tc_id": "TC-GEO-1248-015",
+      "title": "The export includes the Other section limited to key concepts",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that the export includes the Other section, limited to key concepts. Covers AC-11. Related GEO-156 (exports). The AC does not name the formats: the TC checks PowerPoint and XLSX.",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "BLOCKED - environment: at ~09:23 the account's current organisation was switched outside this run from QA-GEO to 'Onclusive' (GET /geo/api/v1/auth/me org_name 'Onclusive', org_id 03641433-...). GET /geo/api/v1/reports/42c3ab89-... and /snapshots now return 404 and the dashboard stays on the loading spinner (screenshots). Still 'Onclusive' 20 s later.",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-015_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-015_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UA",
+          "expected": "The Overview is displayed",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user runs the PowerPoint export and opens the file",
+          "expected": "The file opens",
+          "data": "Export > PowerPoint",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then it includes the Other section limited to key concepts",
+          "expected": "An \"Other\" section with its key concepts only: no KPI, SOV, rankings or Time Evolution slide for Other",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user runs the XLSX export and opens the file",
+          "expected": "The file opens",
+          "data": "Export > XLSX",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then it includes the Other section limited to key concepts",
+          "expected": "An \"Other\" sheet or section with key concepts only",
+          "data": "",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Not executed: the 'Electric bikes' analysis is not reachable in the current organisation, so neither the PowerPoint nor the XLSX export could be run. No org switch was made by this run (all non-GET requests of this session were aborted by the write guard). The organisation was not switched back on purpose (account-level setting; another session may be using it). To rerun: switch the organisation back to QA-GEO, then /run-mcp-PWT-tests --story GEO-1248 --tc TC-GEO-1248-015 (export files to runs/{TS}/downloads-GEO-1209-GEO1248/)."
+    },
+    {
+      "tc_id": "TC-GEO-1248-016",
+      "title": "The Other category page has the Sources tab of a category page",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that the Other category page also has the Sources tab of a category page. Covers AC-12.",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Step 2 (click on the 'Sources' tab) not performed: the organisation was switched externally to 'Onclusive' before this TC (report 42c3ab89 returns 404).",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-016_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-016_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Other category page of analysis UA",
+          "expected": "The page loads",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Sources tab",
+          "expected": "The Sources section is displayed",
+          "data": "",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then it shows the sources cited by the answers of the Other prompts",
+          "expected": "Same Sources layout as a real category page",
+          "data": "",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Evidence reused from the TC-GEO-1248-003 captures of the same Other category page (09:15, QA-GEO): step1 = Other page loaded with the tabs 'Identity' and 'Sources'; step3 = the SOURCES section of the Other page, 'AI Engines Citation Sources', with 'All sources 5', 'All source types', 'Journalism 8 (90%)', 'Corporate 1 (10%)', columns Domain / Type / Frequency, 'All domains 9' - same structure as the C1 'Commuter Electric Bikes' Sources section (All sources 5, source types Journalism 13 (69%) / Corporate 3 (12%) / Review Sites 3 (12%) / Gov / NGO 1 (4%) / Other 1 (4%), All domains 21). The sources listed in the Other prompt detail panel (moveelectric.com, fullycharged.com, road.cc, menshealth.com, cyclingnews.com, british360.co.uk, cyclingelectric.com) are those of the Other prompt answers. step2 screenshot = current state (spinner, wrong organisation). Rerun the tab click with --tc TC-GEO-1248-016 once the organisation is back to QA-GEO."
+    },
+    {
+      "tc_id": "TC-GEO-1248-017",
+      "title": "A prompt of the Other page opens the \"Other Details\" panel with sentiment per engine, themes, response and sources",
+      "story_id": "GEO-1248",
+      "priority": "Medium",
+      "description": "Verify that a prompt of the Other category page opens the detail panel drawn in \"Other Details\", with sentiment per engine, themes, response and sources. Covers AC-12. Needs setup: an Other-type prompt placed in the Other category (no category and no type) so the panel has themes.",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-017_step1_given.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-017_step2_when.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-017_step3_then.png",
+        "screenshots-GEO-1209-GEO1248/TC-GEO-1248-017_step4_then_gemini.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Other category page of analysis UA",
+          "expected": "The prompts table is displayed",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the prompt that is Other on both dimensions",
+          "expected": "The detail panel opens",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel shows an engine segmented control and the sentiment per engine",
+          "expected": "Engine selector; badge \"Sentiment - {ENGINE}\"",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "And it shows the themes, the response and the sources",
+          "expected": "Themes chips, Response text, Sources with \"All sources\"",
+          "data": "",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches engine",
+          "expected": "Sentiment, themes, response and sources update for that engine",
+          "data": "",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data: 'Electric bikes' Other category page, prompt 'Which electric bike brands are best for commuting in London?' (Other on both category and type, collected 20 Oct 2026). Prompts table: 1 row, badge 'Other', themes chips + '+2'. Clicking the row opens the detail panel (note: the panel is already open on the first row at page load; a click on the selected row closes it, a second click reopens it). Panel: header with prompt text + 'Other' + 'United Kingdom' badges; engine segmented control ChatGPT / Gemini; badge 'SENTIMENT - CHATGPT' (rendered uppercase of 'Sentiment - ChatGPT') Positive; THEMES chips; RESPONSE text with 'Show more'; Sources list with 'All sources 5'. Switching to Gemini updates sentiment badge ('SENTIMENT - GEMINI'), themes (4 chips vs 2), response and sources (cyclingnews.com, british360.co.uk, cyclingelectric.com vs moveelectric.com, fullycharged.com, road.cc). The 'Other Details' design frame name is not a visible label; layout matches the category detail panel. Side observation: ChatGPT source 'road.cc' displayed with its domain as title (same family as the known rospa.com placeholder title)."
+    }
+  ]
+}

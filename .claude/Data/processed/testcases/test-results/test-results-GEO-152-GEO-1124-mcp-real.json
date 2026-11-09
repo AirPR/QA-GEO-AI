@@ -1,0 +1,158 @@
+{
+  "spec": "GEO-152-GEO-1124-mcp",
+  "runDate": "2026-09-25",
+  "runMode": "mcp-playwright + manual file inspection",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "story": "GEO-1124",
+  "summary": {
+    "total": 7,
+    "pass": 4,
+    "fail": 0,
+    "skip": 2,
+    "partial": 1
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1124-001",
+      "title": "Export always uses ALL tab with total failing count",
+      "story_id": "GEO-1124",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-001_step1_given.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-001_step2_when.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-001_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the IMPROVE VISIBILITY tab is active and a source type filter is applied", "status": "PASS" },
+        { "title": "When the analysis export is generated (PowerPoint, PDF, or Excel)", "status": "PASS" },
+        { "title": "Then the Target Sources section in the export is built from the ALL tab with total failing article counts per source", "status": "PASS" }
+      ],
+      "notes": "Excel sheet 'Sources à cibler' confirmed: sources with badge 'Améliorer la perception' ONLY (topgear.com, autonext.co, caradisiac.com, greencarreports.com) appear in the export despite IMPROVE VISIBILITY tab being active. Multiple source types (Journalism, Other, Review Sites, Press Release, Corporate, Social/UGC) present despite Journalism filter. Failing counts are TOTALS across both verdict types (frandroid.com=14 total: 12 absent + 2 negative). AC-1 CONFIRMED."
+    },
+    {
+      "tc_id": "TC-GEO-1124-002",
+      "title": "Export recomputes counts inside export scope",
+      "story_id": "GEO-1124",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-002_step1_given.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-002_step2_when.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-002_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the user has market, AI engine, and date range selections active before generating the export", "status": "PARTIAL" },
+        { "title": "When the analysis export is generated (Market: France, AI Engine: Claude, Date range: Last 30 days)", "status": "PARTIAL" },
+        { "title": "Then the Target Sources section counts, badges, and order are recomputed for the France + Claude + Last 30 days scope", "status": "PARTIAL" }
+      ],
+      "notes": "Excel header confirmed scope-based computation: 'Toyota - Sources à cibler (United States · ChatGPT, Gemini, Perplexity · snapshot Sep 18, 2026 – Sep 24, 2026)'. The export header embeds the exact active filter scope and the data is scoped accordingly. Behavior is CORRECT — export does recompute per scope. BLOCKER: Claude engine is DISABLED for this Toyota dashboard (no Claude data available). Exact precondition (France + Claude + 30 days) cannot be fully tested. Counts for US + ChatGPT/Gemini/Perplexity + 7 days scope are verified as correct."
+    },
+    {
+      "tc_id": "TC-GEO-1124-003",
+      "title": "Export covers all categories and source types",
+      "story_id": "GEO-1124",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-003_step1_given.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-003_step2_when.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-003_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the category filter is set to a specific category and source type filter to Journalism", "status": "PASS" },
+        { "title": "When the analysis export is generated", "status": "PASS" },
+        { "title": "Then the exported Target Sources section includes sources from all categories and all source types", "status": "PASS" }
+      ],
+      "notes": "Export confirmed all source types present despite Journalism filter being active on screen: Journalism (frandroid.com, zonebourse.com...), Other (kbb.com, cars.com, lacentrale.fr...), Review Sites (cargurus.com, consumerreports.org, autoscout24.ch...), Press Release (prnewswire.com), Corporate (coxautoinc.com, hessautomobile.com, eniplenitude.fr), Social/UGC (msn.com, youtube.com). Note: no 'category filter' control exists in Actions Center UI — only source type, verdict tab, date, engines, country filters. AC-3 CONFIRMED for source types. Category filter aspect is N/A (filter doesn't exist in UI)."
+    },
+    {
+      "tc_id": "TC-GEO-1124-004",
+      "title": "Excel export four stacked tables with full evidence",
+      "story_id": "GEO-1124",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-004_step1_given.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-004_step2_when.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-004_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given a completed analysis with verified sources having failing articles positive articles and failing prompts", "status": "PASS" },
+        { "title": "When the Excel workbook is generated", "status": "PASS" },
+        { "title": "Then the Target Sources tab opens with four stacked tables in order: Ranked sources, Failing articles, Positive articles, Failing prompts", "status": "PASS" },
+        { "title": "And the Ranked sources table carries columns: Rank, Domain, Source type, Badges, Failing articles, Brand absent, Depicted negatively, Positive articles, Citations in qualifying answers, Brief", "status": "PASS" },
+        { "title": "And the Failing articles table carries: Domain, Source rank, Article title, URL, Verdict, Passage, Citing engines", "status": "PASS" },
+        { "title": "And the Positive articles table carries: Domain, Source rank, Article title, URL, Passage, Citing engines (no Verdict column)", "status": "PASS" },
+        { "title": "And the Failing prompts table carries: Domain, Source rank, Question, Engine, Country (no Outcome column)", "status": "PASS" },
+        { "title": "And the sheet header follows the house style with entity, sheet name, markets, engines, and snapshot date", "status": "PASS" }
+      ],
+      "notes": "Excel file 'Toyota_AI_Visibility_Report (13) - Copie.xlsx', sheet 'Sources à cibler' verified:\n- R1 header: 'Toyota - Sources à cibler (United States · ChatGPT, Gemini, Perplexity · snapshot Sep 18, 2026 – Sep 24, 2026)' ✓\n- Table 1 'Sources classées' R5 — 10 cols: Rang, Domaine, Type de source, Badges, Articles problématiques, Marque absente, Décrite négativement, Articles positifs, Citations dans les réponses défavorables, Résumé ✓\n- Table 2 'Articles problématiques' R86 — 7 cols: Domaine, Rang de la source, Titre de l'article, URL, Verdict, Passage, Moteurs citant ✓ — Passage empty for brand-absent rows ✓\n- Table 3 'Articles positifs' R234 — 6 cols: Domaine, Rang de la source, Titre de l'article, URL, Passage, Moteurs citant — no Verdict col ✓\n- Table 4 'Prompts problématiques' R376 — 5 cols: Domaine, Rang de la source, Question, Moteur, Pays — no Outcome col ✓\nAC-4 CONFIRMED."
+    },
+    {
+      "tc_id": "TC-GEO-1124-005",
+      "title": "PowerPoint carries brief for top 3 sources only",
+      "story_id": "GEO-1124",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-005_step1_given.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-005_step2_when.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-005_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given a completed analysis with more than 3 verified sources (78 sources)", "status": "PASS" },
+        { "title": "When the PowerPoint export is generated", "status": "PASS" },
+        { "title": "Then the top 3 sources each display the full brief sentence on the slide", "status": "PASS" },
+        { "title": "And sources ranked 4 and beyond show only their failing article count without a brief", "status": "PASS" },
+        { "title": "And when sources exceed what a slide holds the top sources are shown and full totals are stated following the capping convention", "status": "PASS" }
+      ],
+      "notes": "PPTX slide 14 'ACTIONS · SOURCES À CIBLER' verified:\n- #1 frandroid.com: full brief 'This source has 14 unfavorable articles: 12 where the brand is entirely absent and 2 where the brand is depicted negatively, and 3 articles that cover the brand positively.' ✓\n- #2 kbb.com: full brief 'This source has 9 unfavorable articles: 5 where the brand is entirely absent and 4 where the brand is depicted negatively, and 9 articles that cover the brand positively.' ✓\n- #3 zonebourse.com: full brief 'This source has 9 unfavorable articles where the brand is entirely absent, and 6 articles that cover the brand positively.' ✓\n- #4 automobile-propre.com: only count '7 · 15×' — no brief ✓\n- #5-10: only Type + Action + count — no brief ✓\n- Footer: 'Les 10 sources affichées portent 62 des 145 articles problématiques · 78 sources à cibler au total' — total stated ✓\nAC-5 CONFIRMED."
+    },
+    {
+      "tc_id": "TC-GEO-1124-007",
+      "title": "Export shows all-clear when no source survives",
+      "story_id": "GEO-1124",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-007_step1_given.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-007_step2_when.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-007_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given no source has failing articles in the export scope (all-clear state)", "status": "SKIP" },
+        { "title": "When the analysis export is generated", "status": "SKIP" },
+        { "title": "Then the Target Sources section of the export carries only the all-clear message", "status": "SKIP" }
+      ],
+      "skipReason": "Given state not achievable: Toyota dashboard has 78 verified sources with failing articles. No all-clear state is present or reachable via available filters. This TC requires a dedicated dataset where no source survives verification within the export scope.",
+      "notes": "Export files provided contain 78 sources (frandroid.com, kbb.com, zonebourse.com etc.). All-clear state not applicable on this dataset."
+    },
+    {
+      "tc_id": "TC-GEO-1124-008",
+      "title": "Export Target Sources section uses 7-day source window",
+      "story_id": "GEO-1124",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-008_step1_given.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-008_step2_when.png",
+        "screenshots-GEO-152-GEO-1124-mcp/TC-GEO-1124-008_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given a completed analysis with a date range shorter than 7 days active", "status": "SKIP" },
+        { "title": "When the analysis export is generated", "status": "SKIP" },
+        { "title": "Then the Target Sources section in the export is built from at least 7 days of data regardless of the shorter selected date range", "status": "SKIP" }
+      ],
+      "skipReason": "No sub-7-day date range option exists in staging date picker (minimum = '7 derniers jours'). Cannot configure the Given state (date range < 7 days). Cannot verify the differential behavior (Target Sources = 7-day floor vs AI Citation Sources = selected range) without a sub-7-day filter. Export header shows '7 derniers jours = Sep 18–Sep 24, 2026' which is consistent with the 7-day floor — but this doesn't prove the floor applies independently.",
+      "notes": "Staging date picker options: Dernière analyse, 7 derniers jours, 30 derniers jours, 3 derniers mois, 12 derniers mois, Toutes les analyses. No sub-7-day option. AC-8 requires a 3-day (or shorter) filter to be tested."
+    }
+  ]
+}

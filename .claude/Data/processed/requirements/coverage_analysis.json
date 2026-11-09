@@ -1,0 +1,262 @@
+{
+  "_metadata": {
+    "generated_at": "2026-04-08",
+    "pipeline_step": "STEP 3 - /analyze-req",
+    "source_prd": "functional_requirements.json (PRD 2026-03-16)",
+    "source_jira": "acceptance_criteria_mapped.json (8 Epics)",
+    "total_fr": 89,
+    "total_epics": 8,
+    "covered_fr": 82,
+    "uncovered_fr": 7,
+    "coverage_pct": 92.1
+  },
+  "epic_to_fr_mapping": [
+    {
+      "epic_key": "GEO-106",
+      "epic_summary": "EPIC-000: Foundation Infrastructure",
+      "covered_fr_ids": [],
+      "coverage_notes": "Pure infrastructure/technical epic: shared beans (PromptApiClient, KafkaConfig, RedisConfig, Resilience4j), Flyway migrations, JPA entities, Spring Data repos, enums, seed data. No user-facing functional requirements — it provides the technical substrate for all other Epics. AC are all technical (AC1-AC10: migrations, entities, repos, enums, seed, services start, tests pass). Maps to constraints C-003, C-008, C-023 rather than FRs."
+    },
+    {
+      "epic_key": "GEO-105",
+      "epic_summary": "EPIC-001: Authentification & Acces Module",
+      "covered_fr_ids": ["FR0", "FR1", "FR2", "FR3", "FR26"],
+      "coverage_notes": "Story 1.1 (Auth0 Login & Organization Context) covers FR1 (Editor Login), FR2 (Reader Read-Only), FR3 (Org Context Resolution). Story 1.2 (Module Activation Gate) covers FR0 (Module Gate with redirect/empty state). Story 1.3 (Report List Basic) covers FR26 (View Report List with status, metadata, sorting, pagination). Epic description confirms auth, org activation, and basic report list. FR4 (Shared Report Token-Based Access) is NOT covered here — it relates to unauthenticated sharing which is a V2/Sharing concern with no matching Epic."
+    },
+    {
+      "epic_key": "GEO-104",
+      "epic_summary": "EPIC-002: Configuration de Rapport (Wizard 4 etapes)",
+      "covered_fr_ids": ["FR5", "FR6", "FR7", "FR8", "FR9", "FR10", "FR11", "FR12", "FR13", "FR14", "FR15", "FR16", "FR17"],
+      "coverage_notes": "Complete wizard coverage. Story 2.1b (Brandfetch) → FR5. Story 2.1c (Market Config) → FR6, FR7. Story 2.2 (AI Category Discovery) → FR8, FR9, FR10. Story 2.3 (Prompts Review) → FR11, FR12, FR13. Story 2.1 (Wizard Layout) → navigation/layout for all steps. Story 2.4 (Review & Submit) → FR15, FR16. Story 2.5 (Quota Validation) → FR17. Story 2.3 implicitly covers LLM selection (FR14) as part of configuration flow review. All 13 wizard FRs are addressed."
+    },
+    {
+      "epic_key": "GEO-103",
+      "epic_summary": "EPIC-003: Pipeline d'Analyse (Batch Execution)",
+      "covered_fr_ids": ["FR18", "FR18b", "FR19", "FR20", "FR20b", "FR20c", "FR20d", "FR20e", "FR21", "FR25b", "FR25c", "FR53", "FR60", "FR62", "FR74", "FR76"],
+      "coverage_notes": "Story 3.1 (First Analysis E2E) → FR18 (Multi-LLM parallel), FR18b (JSON validation), FR20 (graceful degradation). Story 3.2 (Real-Time Progress) → FR19, FR21. Story 3.3 (Visibility Enrichment & Competitor Discovery) → FR20b (brand normalization), FR20c (citation extraction), FR20e (brand logo), FR53 (auto-detect competitors). Story 3.4 (Perception Analysis) → FR20d (source classification) partially, FR25c (cross-language matching). Story 3.5 (Competitive Execution & Source Classification) → FR20d (brand/competitor source classification). Story 3.5b (Improvement Areas Pre-Computation) → pre-computes data for FR38-FR40 but those FRs belong to GEO-101. Story 3.6 (Email Notifications) → FR74 (completion email), FR76 (quota warning email). Story 3.7 (Scheduled Weekly Execution) → FR60 (automated weekly refresh), FR62 (staggered refreshes). FR25b (auto-translation) covered by translation pipeline within analysis."
+    },
+    {
+      "epic_key": "GEO-102",
+      "epic_summary": "EPIC-004: Dashboard - Overview & Navigation",
+      "covered_fr_ids": ["FR26b", "FR27", "FR28", "FR29", "FR30", "FR31", "FR31b", "FR32", "FR33", "FR34", "FR35", "FR36", "FR37", "FR79", "FR80", "FR81", "FR82", "FR82b", "FR84"],
+      "coverage_notes": "Story 4.1 (Dashboard Layout & Sidebar Navigation) → FR27 (sidebar navigation). Story 4.2 (Market & LLM Filters) → FR28 (market filter), FR29 (LLM filter). Story 4.3 (5 KPI Cards) → FR32 (KPI display), FR79-FR82b (metric calculations), FR84 (master aggregation). Story 4.4 (Category Prioritization Matrix) → FR33. Story 4.5 (Brand Rankings) → FR35. Story 4.5b (Top Concepts) → FR36 (concepts with sentiment). Story 4.6 (AI Citation Sources) → FR37. Story 4.7 (AI Perception Summary) → FR31. Story 4.8 (Executive Summary) → FR31b. Story 4.9 (Report Deletion) → FR30. FR26b (Report Execution Metadata) covered by enhanced report list display within dashboard navigation. Story 4.4 also partially covers FR34 (Category Performance) as it is a visualization within the Overview."
+    },
+    {
+      "epic_key": "GEO-101",
+      "epic_summary": "EPIC-005: Dashboard - Category Views & Actions Center",
+      "covered_fr_ids": ["FR38", "FR38b", "FR39", "FR40", "FR41", "FR42", "FR43", "FR44", "FR45", "FR45b", "FR46", "FR46b", "FR47", "FR48", "FR49", "FR50"],
+      "coverage_notes": "Story 5.1 (Perception Summary & KPI Cards) → FR41, FR42. Story 5.1b (Brand Prioritization Matrix) → FR43. Story 5.1c (Brand Rankings) → FR44. Story 5.2 (Unified Questions Table) → FR45, FR45b, FR46. Story 5.3 (Perception Topics & Citation Sources) → FR47, FR48, FR49, FR50. Story 5.4 (Visibility Improvements) → FR38 (improvement areas), FR38b (market filter). Story 5.4b (Competitive Improvements) → FR38 (competitive subset). Story 5.4c (Reputation Improvements) → FR38 (reputation subset). Story 5.5 (Priority Source Targets & Detail Panel) → FR39, FR40. FR46b (Category View Scope Limitation) is an architectural constraint confirmed by the separation between GEO-101 (category+actions) and GEO-102 (overview)."
+    },
+    {
+      "epic_key": "GEO-100",
+      "epic_summary": "EPIC-006: Manage Scope",
+      "covered_fr_ids": ["FR51", "FR52", "FR53b", "FR54", "FR56", "FR57", "FR57b", "FR58", "FR59"],
+      "coverage_notes": "Story 6.1 (Markets & Categories) → FR51 (add market), FR52 (add category), FR53b (manually add competitor), FR54 (persist changes), FR56 (view/manage markets+categories). Story 6.2 (LLM Configuration) → FR57 (enable/disable LLM), FR58 (question counts), FR59 (analysis metadata). FR57b (modify questions in existing report) covered by manage scope editing capabilities. AC-GEO-100-001 confirms viewing scope (countries, categories, LLMs, question counts, metadata). AC-GEO-100-002 confirms LLM toggle with min-1 constraint and next-execution application."
+    },
+    {
+      "epic_key": "GEO-99",
+      "epic_summary": "EPIC-007: Snapshots & Guided Tour",
+      "covered_fr_ids": ["FR65", "FR66", "FR77", "FR78"],
+      "coverage_notes": "Story 7.1 (Immutable Snapshot Storage) → FR65 (store immutable snapshots). AC-GEO-99-001 confirms snapshot fields and 12-month retention. Story 7.2 (Snapshot Navigation) → FR66 (previous/next controls). AC-GEO-99-002 confirms dashboard data reflects selected snapshot. Story 7.3 (Guided Tour) → FR77 (tour with demo data via URL param), FR78 (navigation with tooltips, 8-12 steps, advance/skip). AC-GEO-99-003 confirms tour activation via URL parameter, contextual tooltips, advance/skip, 8-12 steps, demo data fallback."
+    }
+  ],
+  "uncovered_requirements": [
+    {
+      "req_id": "FR4",
+      "title": "Shared Report Token-Based Access",
+      "priority": "V2",
+      "category": "Authentication & Organization Context",
+      "reason": "No Epic explicitly covers token-based unauthenticated report sharing. FR68-FR73 (Sharing & Export) are also uncovered. This is a cross-cutting concern that spans authentication (token generation) and report rendering (read-only shared views). May be implicitly handled within GEO-102 (Report Deletion/Navigation) or deferred to a future Epic."
+    },
+    {
+      "req_id": "FR68",
+      "title": "Generate Shareable Link",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "reason": "No Epic covers shareable link generation (cryptographic token, /reports/shared/{token} format). The Sharing & Export feature area has no dedicated Epic. Business flow BF-004 describes this journey but no Jira Epic maps to it."
+    },
+    {
+      "req_id": "FR69",
+      "title": "Shared Report Read-Only Access",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "reason": "No Epic covers shared report read-only rendering (no auth, no edit, no cross-report navigation, org branding). Depends on FR68 (link generation) which is also uncovered."
+    },
+    {
+      "req_id": "FR70",
+      "title": "Shared Report Market and LLM Filtering",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "reason": "No Epic covers filtering within shared report views. Depends on FR68/FR69 infrastructure."
+    },
+    {
+      "req_id": "FR71",
+      "title": "Export Report to PPTX",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "reason": "No Epic covers PPTX export functionality (branded slide deck with screenshots, <30s generation). Export features have no dedicated Epic."
+    },
+    {
+      "req_id": "FR72",
+      "title": "Export Report to PDF",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "reason": "No Epic covers PDF export via browser print dialog (print-optimized CSS, static chart images). Export features have no dedicated Epic."
+    },
+    {
+      "req_id": "FR73",
+      "title": "Select Sections for Export",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "reason": "No Epic covers section selection for export (multi-select, applies to PPTX and PDF). Depends on FR71/FR72 which are also uncovered."
+    }
+  ],
+  "ambiguities": [
+    {
+      "id": "AMB-001",
+      "type": "edge_case_missing",
+      "related_fr": ["FR4", "FR68"],
+      "related_epic": null,
+      "description": "FR4 defines token-based access as V2 priority under Authentication, while FR68 defines shareable link generation under Sharing & Export. The boundary between authentication-level token access (FR4) and link generation UX (FR68) is unclear. Who generates the token — the auth system or a sharing service? What happens when an authenticated user accesses a shared link for their own org's report?"
+    },
+    {
+      "id": "AMB-002",
+      "type": "edge_case_missing",
+      "related_fr": ["FR20"],
+      "related_epic": "GEO-103",
+      "description": "FR20 defines COMPLETED_PARTIAL when 'some LLMs fail' but does not specify the user experience when viewing partial results. Which dashboard sections show partial data? Are metrics recalculated excluding failed LLMs? Is the user warned per-widget that data is incomplete? The LLM filter behavior with failed engines is unspecified."
+    },
+    {
+      "id": "AMB-003",
+      "type": "vague",
+      "related_fr": ["FR38"],
+      "related_epic": "GEO-101",
+      "description": "FR38 defines 8 improvement area types with severity thresholds (Critical <25%, Warning <40%, Info <50%) but the special rule 'all competitive improvements cleared when global favorability >= 95%' lacks precision: does 'global favorability' mean across all LLMs, all markets, or the current filter selection? The 'max 3 reputation items per category' rule does not specify the selection criteria when more than 3 exist."
+    },
+    {
+      "id": "AMB-004",
+      "type": "edge_case_missing",
+      "related_fr": ["FR17", "FR51"],
+      "related_epic": "GEO-104",
+      "description": "FR17 validates quotas at configuration time, and FR51 consumes +1 brand_market on market addition. Edge case: what happens if two editors from the same org simultaneously add markets that would exceed quota? The 'submission-time quota check' in FR17 applies to wizard, but FR51's Manage Scope flow does not explicitly mention a second check. Race condition between concurrent editors is unspecified."
+    },
+    {
+      "id": "AMB-005",
+      "type": "edge_case_missing",
+      "related_fr": ["FR60", "FR54"],
+      "related_epic": "GEO-103",
+      "description": "FR60 states weekly execution uses 'same day/time as initial configuration (or last edit)'. FR54 says changes saved immediately but applied on next execution. If an editor modifies config at 3pm Wednesday and the report was initially configured at 10am Monday, does the weekly schedule shift to Wednesday 3pm? The 'or last edit' clause creates ambiguity about schedule drift."
+    },
+    {
+      "id": "AMB-006",
+      "type": "vague",
+      "related_fr": ["FR31"],
+      "related_epic": "GEO-102",
+      "description": "FR31 defines AI Perception Summary with '3 bullet points (150 chars max)' but does not specify: max per bullet or max total? What language is the summary generated in — primary market language or the user's UI language? What happens if the LLM generates more than 3 bullets or exceeds the character limit?"
+    },
+    {
+      "id": "AMB-007",
+      "type": "contradictory",
+      "related_fr": ["FR14", "FR57"],
+      "related_epic": "GEO-104",
+      "description": "FR14 (wizard) states 'if user disables all, system auto-enables all' as a fallback. FR57 (manage scope) states 'min 1 engine must remain active'. These are two different enforcement strategies for the same constraint (min 1 LLM). The wizard allows disabling all then auto-corrects, while manage scope prevents the last disable. Inconsistent UX pattern."
+    },
+    {
+      "id": "AMB-008",
+      "type": "edge_case_missing",
+      "related_fr": ["FR53", "FR53b"],
+      "related_epic": "GEO-103",
+      "description": "FR53 auto-detects competitors from visibility rankings. FR53b allows manual competitor addition merged with auto-detected ones. Edge case: if auto-detection finds 10 competitors and the max_competitors_per_category is 10, can the user still add manual competitors? Does manual addition override auto-detected ones or are they additive up to cap? Priority between manual and auto-detected is unspecified."
+    },
+    {
+      "id": "AMB-009",
+      "type": "edge_case_missing",
+      "related_fr": ["FR30"],
+      "related_epic": "GEO-102",
+      "description": "FR30 specifies soft delete with 'shared links for deleted reports return 404'. But soft delete typically means data is retained. Is there a hard delete after a retention period? Can a deleted report be restored? What happens to scheduled weekly execution for a soft-deleted report — is it cancelled?"
+    },
+    {
+      "id": "AMB-010",
+      "type": "vague",
+      "related_fr": ["FR20e"],
+      "related_epic": "GEO-103",
+      "description": "FR20e defines brand logo display using Brandfetch with 'first-letter avatar if logo unavailable'. But it does not specify: what domain is used to look up competitor logos (auto-detected competitors may not have a known domain)? How are logos cached? What is the fallback for brands with no domain at all (custom brands from FR5)?"
+    },
+    {
+      "id": "AMB-011",
+      "type": "edge_case_missing",
+      "related_fr": ["FR8"],
+      "related_epic": "GEO-104",
+      "description": "FR8 states 'Empty category list blocks navigation to Review Prompts' but does not specify what happens if the AI discovery API is unavailable or times out. Is the user blocked entirely, or can they proceed with only custom categories (FR9)? The error/timeout handling for AI category discovery is unspecified."
+    },
+    {
+      "id": "AMB-012",
+      "type": "edge_case_missing",
+      "related_fr": ["FR65", "FR66"],
+      "related_epic": "GEO-99",
+      "description": "FR65 states 'minimum retention: 12 months' and FR66 provides previous/next navigation. Edge case: for a weekly execution, 12 months = ~52 snapshots. Is there a maximum snapshot limit? What happens at month 13 — is the oldest snapshot auto-purged? Does navigation handle gaps (skipped weeks due to failures)?"
+    }
+  ],
+  "epics_without_ac": [
+    {
+      "epic_key": "GEO-105",
+      "epic_summary": "EPIC-001: Authentification & Acces Module",
+      "has_user_stories": true,
+      "has_acceptance_criteria": false,
+      "risk": "HIGH - Auth & access is the entry gate for all users. Without formal AC, test cases for Auth0 integration, role-based access (Editor vs Reader), org context resolution, and module activation redirect logic must be derived entirely from PRD FR0-FR3. Risk of missing edge cases: expired tokens, multi-org users, concurrent sessions, SSO failure handling."
+    },
+    {
+      "epic_key": "GEO-104",
+      "epic_summary": "EPIC-002: Configuration de Rapport (Wizard 4 etapes)",
+      "has_user_stories": true,
+      "has_acceptance_criteria": false,
+      "risk": "HIGH - The wizard is the primary onboarding flow with 7 stories covering 13 FRs. Without formal AC, validation rules (quota limits, duplicate detection, min/max constraints), AI interaction patterns (Brandfetch, category discovery, auto-translation), and atomic save behavior must be inferred from PRD. Critical risk areas: quota race conditions (FR17), wizard state persistence across steps, auto-punctuation edge cases (FR11)."
+    },
+    {
+      "epic_key": "GEO-103",
+      "epic_summary": "EPIC-003: Pipeline d'Analyse (Batch Execution)",
+      "has_user_stories": true,
+      "has_acceptance_criteria": false,
+      "risk": "HIGH - The analysis pipeline is the core value engine with 8 stories covering 16 FRs including parallel LLM execution, real-time progress, email notifications, and weekly scheduling. Without formal AC, error handling (circuit breaker, retry logic), status transitions (COMPLETED/COMPLETED_PARTIAL/FAILED), and notification timing (<5 min) are untestable against Jira. Must rely entirely on PRD."
+    },
+    {
+      "epic_key": "GEO-102",
+      "epic_summary": "EPIC-004: Dashboard - Overview & Navigation",
+      "has_user_stories": true,
+      "has_acceptance_criteria": false,
+      "risk": "MEDIUM - Dashboard is the primary read surface with 10 stories covering 19 FRs. Stories are well-decomposed (one per widget/feature), which partially compensates for missing AC. However, metric calculation formulas (FR79-FR84), filter interaction behavior, and perception summary caching rules need PRD-based validation. KPI threshold values and matrix quadrant definitions are specified in PRD but not in Jira."
+    },
+    {
+      "epic_key": "GEO-101",
+      "epic_summary": "EPIC-005: Dashboard - Category Views & Actions Center",
+      "has_user_stories": true,
+      "has_acceptance_criteria": false,
+      "risk": "MEDIUM - Category views and Actions Center cover 16 FRs across 9 stories. Story decomposition is granular (per-widget), reducing risk. However, improvement area severity thresholds (Critical/Warning/Info), favorability rules per question type (FR45), and the 'max 3 reputation items' rule (FR38) have no Jira-level AC to validate against. Edge cases in Priority Source Targets sorting and detail panel content unspecified."
+    }
+  ],
+  "summary": {
+    "total_fr_in_prd": 89,
+    "total_fr_covered_by_epics": 82,
+    "total_fr_uncovered": 7,
+    "coverage_percentage": 92.1,
+    "uncovered_feature_area": "Sharing & Export (FR4, FR68-FR73) — 7 FRs with no dedicated Epic",
+    "epics_with_formal_ac": 3,
+    "epics_without_formal_ac": 5,
+    "total_ambiguities": 12,
+    "ambiguity_breakdown": {
+      "edge_case_missing": 8,
+      "vague": 2,
+      "contradictory": 1,
+      "combined_vague_edge_case": 1
+    },
+    "key_risks": [
+      "Sharing & Export is a complete backlog gap — 7 V2 FRs (FR4, FR68-FR73) have no Epic, no stories, and no AC. Business flow BF-004 (Report Sharing) is entirely unimplemented in Jira.",
+      "5 of 8 Epics (GEO-105, GEO-104, GEO-103, GEO-102, GEO-101) lack formal acceptance criteria in Jira. Test case generation must rely on PRD functional requirements as the sole source of truth.",
+      "GEO-103 (Pipeline) is the highest-risk Epic: 16 FRs, 0 AC, complex error handling (circuit breaker, partial failure), real-time progress, and email notification timing constraints.",
+      "Quota race condition (AMB-004) between wizard (FR17) and manage scope (FR51) is a concurrency risk with no specified resolution strategy.",
+      "LLM min-1 enforcement (AMB-007) uses contradictory patterns: auto-enable-all in wizard vs prevent-last-disable in manage scope."
+    ]
+  },
+  "recommendation": "clarification_required",
+  "recommendation_details": "Coverage is 92.1% (82/89 FRs) but the Sharing & Export gap (7 FRs) represents a full feature area missing from Jira. Additionally, 5 of 8 Epics lack formal AC, forcing test case generation to rely solely on PRD. Before generating test cases: (1) Confirm whether Sharing & Export is intentionally deferred or needs a new Epic (GEO-098?). (2) Request AC formalization for GEO-105 (Auth), GEO-104 (Wizard), and GEO-103 (Pipeline) — the three highest-risk Epics. (3) Resolve AMB-004 (quota race condition) and AMB-007 (LLM min-1 contradiction) as they affect test case expected behavior. If clarification is not available, test cases can proceed using PRD as authoritative source, but ambiguities should be flagged as 'assumption-based' in each affected test case."
+}

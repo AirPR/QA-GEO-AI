@@ -1,0 +1,71 @@
+{
+  "spec": "GEO-152-GEO1121-mcp",
+  "runDate": "2026-09-25",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "summary": {
+    "total": 2,
+    "pass": 0,
+    "fail": 0,
+    "skip": 2,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1121-001",
+      "title": "All-clear message when no source survives verification",
+      "story_id": "GEO-1121",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1121-mcp/TC-GEO-1121-001_step1_given.png",
+        "screenshots-GEO-152-GEO1121-mcp/TC-GEO-1121-001_step2_when.png",
+        "screenshots-GEO-152-GEO1121-mcp/TC-GEO-1121-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where every suspect article verified as neutral or positive (no failing articles)",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the Actions Center is opened",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then an all-clear message is displayed instead of a source list",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — Dataset condition not met: Toyota/staging has 167 sources with failing articles. The all-clear state requires a completed analysis where every suspect source had all articles verified as neutral or positive — a specific backend data condition that cannot be simulated via UI. A dedicated test dataset where the brand is cited positively in all LLM responses would be required."
+    },
+    {
+      "tc_id": "TC-GEO-1121-002",
+      "title": "All-clear state shows message only, no source list",
+      "story_id": "GEO-1121",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1121-mcp/TC-GEO-1121-002_step1_given.png",
+        "screenshots-GEO-152-GEO1121-mcp/TC-GEO-1121-002_step2_when.png",
+        "screenshots-GEO-152-GEO1121-mcp/TC-GEO-1121-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Actions Center is in the all-clear state",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the all-clear view is inspected",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then only the all-clear message is visible — no source list, source cards, or source table appears beneath it",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — Depends on TC-001 precondition (all-clear state). Same dataset constraint: requires an analysis where no source survives the verification funnel. Cannot be tested on the Toyota/staging dataset which consistently produces failing sources."
+    }
+  ]
+}

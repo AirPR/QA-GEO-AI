@@ -1,0 +1,821 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\playwright.config.js",
+    "rootDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\global-setup.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "all-epics",
+        "name": "all-epics",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/test-suite-epic99.spec.js",
+          "**/test-suite-epic100.spec.js",
+          "**/test-suite-epic101.spec.js",
+          "**/test-suite-epic102.spec.js",
+          "**/test-suite-epic103.spec.js",
+          "**/test-suite-epic104.spec.js",
+          "**/test-suite-epic105.spec.js",
+          "**/test-suite-epic174.spec.js",
+          "**/test-suite-epic200.spec.js",
+          "**/test-suite-epic257.spec.js",
+          "**/test-suite-epic263.spec.js",
+          "**/test-suite-epicGEO-397.spec.js"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "e2e-suite",
+        "name": "e2e-suite",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/geo-analytics-dashboard.spec.js",
+          "**/GEO-dashboard-overview.spec.js",
+          "**/verify-analysis.spec.js",
+          "**/category-questions-table.spec.js",
+          "**/category-question-analysis.spec.js",
+          "**/category-kpi-cards-analysis.spec.js",
+          "**/category-brand-prioritization-analysis.spec.js",
+          "**/category-brand-rankings-analysis.spec.js",
+          "**/category-top-concept.spec.js",
+          "**/category-perception-citation.spec.js",
+          "**/manage-scope.spec.js",
+          "**/hubspot-upsell-pql.spec.js"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": ".claude/Data/raw/playwright/test-results-epic263-raw.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 2,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "test-suite-epic263.spec.js",
+      "file": "test-suite-epic263.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "GEO-263-TC001 — Market Dropdown UI",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 31951,
+                  "error": {
+                    "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                    "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:94:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:93:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                      "column": 70,
+                      "line": 71
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "column": 70,
+                        "line": 71
+                      },
+                      "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  69 |   await H.ensureSnapshot(page, TARGET_SNAPSHOT);\n  70 |   await page.waitForTimeout(1000);\n> 71 |   await expect(page.locator(SEL.sidebar), 'Sidebar must be visible').toBeVisible({ timeout: 20000 });\n     |                                                                      ^\n  72 | }\n  73 |\n  74 | // ── Helper: open market multi-select dropdown ─────────────────────────────────\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:94:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:93:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a multi-country report is open on the Overview page",
+                      "duration": 31255,
+                      "error": {
+                        "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                        "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:94:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:93:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                          "column": 70,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-31T20:20:25.580Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic263-GEO-263-TC001-—-Market-Dropdown-UI-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "column": 70,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c4982048cf38c724911b-4d486618fc6145cdb949",
+          "file": "test-suite-epic263.spec.js",
+          "line": 92,
+          "column": 1
+        },
+        {
+          "title": "GEO-263-TC002 — Panel Data Aggregation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 31860,
+                  "error": {
+                    "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                    "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:158:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:157:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                      "column": 70,
+                      "line": 71
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "column": 70,
+                        "line": 71
+                      },
+                      "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  69 |   await H.ensureSnapshot(page, TARGET_SNAPSHOT);\n  70 |   await page.waitForTimeout(1000);\n> 71 |   await expect(page.locator(SEL.sidebar), 'Sidebar must be visible').toBeVisible({ timeout: 20000 });\n     |                                                                      ^\n  72 | }\n  73 |\n  74 | // ── Helper: open market multi-select dropdown ─────────────────────────────────\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:158:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:157:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given two or more markets are selected in the market filter",
+                      "duration": 31213,
+                      "error": {
+                        "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                        "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:158:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:157:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                          "column": 70,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-31T20:20:25.532Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic263-GEO-263-TC002-—-Panel-Data-Aggregation-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "column": 70,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c4982048cf38c724911b-a6d540d7cad516dce8f7",
+          "file": "test-suite-epic263.spec.js",
+          "line": 156,
+          "column": 1
+        },
+        {
+          "title": "GEO-263-TC003 — Selection Persistence",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 31833,
+                  "error": {
+                    "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                    "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:210:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:209:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                      "column": 70,
+                      "line": 71
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "column": 70,
+                        "line": 71
+                      },
+                      "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  69 |   await H.ensureSnapshot(page, TARGET_SNAPSHOT);\n  70 |   await page.waitForTimeout(1000);\n> 71 |   await expect(page.locator(SEL.sidebar), 'Sidebar must be visible').toBeVisible({ timeout: 20000 });\n     |                                                                      ^\n  72 | }\n  73 |\n  74 | // ── Helper: open market multi-select dropdown ─────────────────────────────────\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:210:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:209:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a market subset is selected on the Overview page",
+                      "duration": 31205,
+                      "error": {
+                        "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                        "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:210:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:209:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                          "column": 70,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-31T20:20:59.708Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic263-GEO-263-TC003-—-Selection-Persistence-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "column": 70,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c4982048cf38c724911b-9bca23344362d209e18f",
+          "file": "test-suite-epic263.spec.js",
+          "line": 206,
+          "column": 1
+        },
+        {
+          "title": "GEO-263-TC004 — [SKIP] Shared Link Reset",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "line": 280,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-31T20:20:58.452Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "line": 280,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c4982048cf38c724911b-4d83f25916620f5482a6",
+          "file": "test-suite-epic263.spec.js",
+          "line": 280,
+          "column": 6
+        },
+        {
+          "title": "GEO-263-TC005 — [SKIP] Single-Country UI",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "line": 286,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-31T20:20:58.453Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "line": 286,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c4982048cf38c724911b-a3da035af667432bf36c",
+          "file": "test-suite-epic263.spec.js",
+          "line": 286,
+          "column": 6
+        },
+        {
+          "title": "GEO-263-TC001 — Market Dropdown UI",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 31686,
+                  "error": {
+                    "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                    "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:94:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:93:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                      "column": 70,
+                      "line": 71
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "column": 70,
+                        "line": 71
+                      },
+                      "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  69 |   await H.ensureSnapshot(page, TARGET_SNAPSHOT);\n  70 |   await page.waitForTimeout(1000);\n> 71 |   await expect(page.locator(SEL.sidebar), 'Sidebar must be visible').toBeVisible({ timeout: 20000 });\n     |                                                                      ^\n  72 | }\n  73 |\n  74 | // ── Helper: open market multi-select dropdown ─────────────────────────────────\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:94:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:93:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a multi-country report is open on the Overview page",
+                      "duration": 31177,
+                      "error": {
+                        "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                        "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:94:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:93:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                          "column": 70,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-31T20:20:59.711Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic263-GEO-263-TC001-—-Market-Dropdown-UI-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "column": 70,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c4982048cf38c724911b-8e46f95aebcd372b933f",
+          "file": "test-suite-epic263.spec.js",
+          "line": 92,
+          "column": 1
+        },
+        {
+          "title": "GEO-263-TC002 — Panel Data Aggregation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 33544,
+                  "error": {
+                    "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                    "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:158:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:157:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                      "column": 70,
+                      "line": 71
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "column": 70,
+                        "line": 71
+                      },
+                      "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  69 |   await H.ensureSnapshot(page, TARGET_SNAPSHOT);\n  70 |   await page.waitForTimeout(1000);\n> 71 |   await expect(page.locator(SEL.sidebar), 'Sidebar must be visible').toBeVisible({ timeout: 20000 });\n     |                                                                      ^\n  72 | }\n  73 |\n  74 | // ── Helper: open market multi-select dropdown ─────────────────────────────────\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:158:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:157:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given two or more markets are selected in the market filter",
+                      "duration": 31270,
+                      "error": {
+                        "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                        "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:158:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:157:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                          "column": 70,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-31T20:21:34.040Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic263-GEO-263-TC002-—-Panel-Data-Aggregation-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "column": 70,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c4982048cf38c724911b-2dd85ace2d72c4b67d2a",
+          "file": "test-suite-epic263.spec.js",
+          "line": 156,
+          "column": 1
+        },
+        {
+          "title": "GEO-263-TC003 — Selection Persistence",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 34420,
+                  "error": {
+                    "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                    "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:210:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:209:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                      "column": 70,
+                      "line": 71
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "column": 70,
+                        "line": 71
+                      },
+                      "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  69 |   await H.ensureSnapshot(page, TARGET_SNAPSHOT);\n  70 |   await page.waitForTimeout(1000);\n> 71 |   await expect(page.locator(SEL.sidebar), 'Sidebar must be visible').toBeVisible({ timeout: 20000 });\n     |                                                                      ^\n  72 | }\n  73 |\n  74 | // ── Helper: open market multi-select dropdown ─────────────────────────────────\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:210:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:209:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a market subset is selected on the Overview page",
+                      "duration": 32374,
+                      "error": {
+                        "message": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n",
+                        "stack": "Error: Sidebar must be visible\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:71:70)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:210:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js:209:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                          "column": 70,
+                          "line": 71
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 69 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mH\u001b[39m\u001b[33m.\u001b[39mensureSnapshot(page\u001b[33m,\u001b[39m \u001b[33mTARGET_SNAPSHOT\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 70 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m1000\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 71 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msidebar)\u001b[33m,\u001b[39m \u001b[32m'Sidebar must be visible'\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 72 |\u001b[39m }\n \u001b[90m 73 |\u001b[39m\n \u001b[90m 74 |\u001b[39m \u001b[90m// ── Helper: open market multi-select dropdown ─────────────────────────────────\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-31T20:21:34.064Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic263-GEO-263-TC003-—-Selection-Persistence-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "column": 70,
+                    "line": 71
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c4982048cf38c724911b-4b75ba776d1da1f4dbed",
+          "file": "test-suite-epic263.spec.js",
+          "line": 206,
+          "column": 1
+        },
+        {
+          "title": "GEO-263-TC004 — [SKIP] Shared Link Reset",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "line": 280,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-31T20:22:09.016Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "line": 280,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c4982048cf38c724911b-bea4ffa4fbc8e191f07d",
+          "file": "test-suite-epic263.spec.js",
+          "line": 280,
+          "column": 6
+        },
+        {
+          "title": "GEO-263-TC005 — [SKIP] Single-Country UI",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                    "line": 286,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-31T20:22:09.016Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic263.spec.js",
+                        "line": 286,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c4982048cf38c724911b-b557d041991f131b3e39",
+          "file": "test-suite-epic263.spec.js",
+          "line": 286,
+          "column": 6
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-31T20:20:23.857Z",
+    "duration": 105188.47099999999,
+    "expected": 0,
+    "skipped": 4,
+    "unexpected": 6,
+    "flaky": 0
+  }
+}

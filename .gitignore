@@ -1,0 +1,59 @@
+# Données sensibles et credentials
+.env
+.env.local
+.env.*.local
+*.token
+
+# Permissions locales Claude Code (peut contenir des secrets, jamais à committer)
+.claude/settings.local.json
+
+# Session Auth0 (cookies + localStorage) — données sensibles, jamais à committer
+.claude/Data/processed/auth/
+
+# Artefacts transient Playwright (error-context.md, traces, vidéos) — régénérés à chaque run
+.claude/Data/raw/playwright/artifacts/
+
+# Logs et snapshots MCP Playwright — générés automatiquement à chaque session, aucune valeur livrable
+.playwright-mcp/
+
+# Lock file local du scheduler (état runtime)
+.claude/scheduled_tasks.lock
+
+# Raw Playwright JSON quand le RUN_ID n'est pas défini (artefact debug)
+.claude/Data/raw/playwright/test-results-unknown-raw.json
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+WBT/
+web/
+web-En.rar
+TC-GEO-539-US1.1-001_step3_then.png
+TC-GEO-539-US1.2-001_step3_then.png
+TC-GEO-539-US1.3-001_step3_then.png
+TC-GEO-539-US1.3-003-ai-engines.png
+TC-GEO-539-US1.3-after-deselect.png
+TC-GEO-539-US1.3-country-dropdown.png
+tc-geo539-page-load.png
+Docs/archive/AI-QA-GEO-Presentation-v3.pptx
+Docs/archive/AI-QA-GEO-Presentation.pptx
+Docs/archive/
+Docs/Claude-Code-Best-Practices.pptx
+
+# Raw Jira API responses (working files, never commit)
+.tmp-jira/
+
+# Run folders: only the consolidated folder of each epic is committed ({VERSION}_{EPIC}_{DDMMYYYY-HHMM})
+.claude/Data/output/reports/runs/*
+!.claude/Data/output/reports/runs/GEO-R*_*/
+
+# Screenshot buffers at the reports root (moved into runs/ when a report is built)
+.claude/Data/output/reports/screenshots-*/

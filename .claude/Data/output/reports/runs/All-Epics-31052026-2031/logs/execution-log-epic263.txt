@@ -1,0 +1,36 @@
+[auth-setup] Session réutilisée (19min) → C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\processed\auth\storageState.json
+
+Running 5 tests using 3 workers
+
+  ✓  1 [chromium] › .claude\Data\raw\playwright\test-suite-epic263.spec.js:156:1 › GEO-263-TC002 — Panel Data Aggregation (17.1s)
+  -  4 [chromium] › .claude\Data\raw\playwright\test-suite-epic263.spec.js:280:6 › GEO-263-TC004 — [SKIP] Shared Link Reset
+  -  5 [chromium] › .claude\Data\raw\playwright\test-suite-epic263.spec.js:286:6 › GEO-263-TC005 — [SKIP] Single-Country UI
+  ✘  2 [chromium] › .claude\Data\raw\playwright\test-suite-epic263.spec.js:92:1 › GEO-263-TC001 — Market Dropdown UI (17.9s)
+  ✓  3 [chromium] › .claude\Data\raw\playwright\test-suite-epic263.spec.js:206:1 › GEO-263-TC003 — Selection Persistence (27.7s)
+
+
+  1) [chromium] › .claude\Data\raw\playwright\test-suite-epic263.spec.js:92:1 › GEO-263-TC001 — Market Dropdown UI › Then selecting markets shows names or count, and deselecting all restores All markets 
+
+    Error: Trigger must show market count (e.g. "3 markets") when 3+ markets selected
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoMatch[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected pattern: [32m/\d+\s*market/i[39m
+    Received string:  [31m"algeria - andorra"[39m
+
+      133 |       await page.waitForTimeout(300);
+      134 |       const triggerText3 = (await trigger.textContent() || '').toLowerCase();
+    > 135 |       expect(triggerText3, 'Trigger must show market count (e.g. "3 markets") when 3+ markets selected').toMatch(/\d+\s*market/i);
+          |                                                                                                          ^
+      136 |     }
+      137 |
+      138 |     // Reset: click "All markets" to deselect → trigger should show "All markets"
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic263.spec.js:135:106
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic263.spec.js:114:3
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic263-GEO-263-TC001-—-Market-Dropdown-UI-chromium\error-context.md
+
+  1 failed
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic263.spec.js:92:1 › GEO-263-TC001 — Market Dropdown UI 
+  2 skipped
+  2 passed (35.5s)

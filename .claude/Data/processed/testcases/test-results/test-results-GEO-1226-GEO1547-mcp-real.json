@@ -1,0 +1,256 @@
+{
+  "spec": "GEO-1226-GEO1547-mcp",
+  "runDate": "2026-11-03",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "environment": {
+    "auth_me_start": "2026-11-03 16:54 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "auth_me_end": "2026-11-03 17:17 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "guard": "context.route aborted every non-GET on **/geo/api/** - 96 /geo/api/ requests in the session, all GET"
+  },
+  "summary": {
+    "total": 7,
+    "pass": 5,
+    "fail": 1,
+    "skip": 0,
+    "partial": 1,
+    "successRate": 78.6,
+    "verdict": "CONDITIONAL"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1547-005",
+      "title": "Passages of a non-review source still name the brand",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-005_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-005_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the non-review source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user reads the passage of each article",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every passage contains the brand or one of its product names",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96, Last 7 days, AI Engines (4: gemini, grok, openai, perplexity), All Countries. Cards shown with tabs ALL / IMPROVE VISIBILITY / IMPROVE PERCEPTION. guideautoweb.com (#1, badge Journalism): Negative perception (7) = 7 article rows, no page block, 1 passage each; every passage names Toyota or a model (Toyota, Toyota Venza, Toyota RAV4, Toyota C-HR), brand highlighted. Extra API check (read-only GET of the panel endpoint): 102/102 NAMED_NEGATIVELY passages on the 38 non-Review-Sites sources of the analysis contain their matchedEntity; none grouped, none without passage."
+    },
+    {
+      "tc_id": "TC-GEO-1547-011",
+      "title": "Non-review source keeps one passage per page",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-011_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-011_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Journalism source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each page URL is one article row with at most one passage",
+          "status": "PASS"
+        },
+        {
+          "title": "And the tab count equals the number of article rows",
+          "status": "PASS"
+        }
+      ],
+      "notes": "guideautoweb.com: badge \"Journalism\"; tab \"Negative perception (7)\" = 7 URL rows, each URL line is a link (https://www.guideautoweb.com/...), max 1 passage per row; no page block, no \"N negative reviews\" chip, no \"Show N more reviews\" button. API: grouped=false on all 7 articles."
+    },
+    {
+      "tc_id": "TC-GEO-1547-012",
+      "title": "Comparison page on a Review Sites domain keeps one passage naming the brand",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-012_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-012_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the comparison page shows one passage",
+          "status": "PASS"
+        },
+        {
+          "title": "And the passage names the brand",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Orange 16cdf040 (default filters Last 7 days, AI Engines gemini + openai, All Countries). choisir.com (#16, badge Review Sites): Negative perception (1) lists the comparison page \"Liste des opérateurs mobiles en France | Choisir.com\" (/forfait-mobile/operateurs) with ONE classic passage naming Orange (\"…plusieurs scandales… sur des parts de marché conclu entre Orange\"); no review entries, no chip (API grouped=false, reviewCount=0, pages=[]). degrouptest.com (Review Sites) comparison / news articles are also classic (4 negative, 1 passage each, all name Orange). Observation outside this TC: degrouptest passage \"Notre baromètre des débits se concentre exclusivement sur les 4 principaux opérateurs ... : Orange,…\" is a neutral sentence, and \"Panne Orange et Sosh : des milliers de signalements...\" is the teaser headline of another article."
+    },
+    {
+      "tc_id": "TC-GEO-1547-013",
+      "title": "Google Play or App Store page keeps today's rule",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-013_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-013_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of google.com (or apple.com)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the source badge is not Review Sites",
+          "status": "PASS"
+        },
+        {
+          "title": "And the store page keeps one passage per page",
+          "status": "PASS"
+        }
+      ],
+      "notes": "The Given data (Great Eastern 595928ee) is in another organisation: Orange 16cdf040 used as in the When data cell. google.com (#36) panel opens; badge \"Aggregators\" (not Review Sites); the store page play.google.com/store/apps/details?id=com.orange.meditel.mediteletmoi = 1 row, 1 passage (\"Max it par Orange Maroc ... c'est une catastrophe...\"), no page block, no chip. Minor: the row title shows the URL (the API returns no title for this page)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-024",
+      "title": "GEO-1224 no title, menu, cookie banner or favourable sentence on non-review sources",
+      "story_id": "GEO-1547",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-024_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-024_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-024_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-024_step4_join.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panels of edmunds, alvolante, frandroid and caradisiac and selects \"Negative perception\"",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then no passage is a page title, a cookie banner, a menu or a favourable sentence",
+          "status": "PASS"
+        },
+        {
+          "title": "And a criticism far from the brand name is joined to the nearest brand name with \"…\"",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "The step wording names edmunds / alvolante / frandroid / caradisiac, but on staging 2026-11-03 edmunds.com is Review Sites and alvolante.it / frandroid.com are not in the Last 7 days list: only caradisiac.com (Journalism, #33) could be used (test data cell). caradisiac: Negative perception (1) = /avis/ with the quote \"Un SUV en occasion : le Toyota Rav-4 de 3e génération aurait-il été le pire des Rav-4 en matière de fiabilité ?\" = a criticism of the RAV4, not the page title (\"Retrouvez tous les avis...\"), not a banner or menu; it is the teaser headline of a linked article on the listing page (checked in the page HTML). Step 4: no far-away criticism on caradisiac (the join does not apply there); the \"{brand} … {criticism}\" join is visible on other Journalism sources of the same analysis (autoplus.fr \"… Toyota applique en revanche des tarifs élevés\", automobile-magazine.fr \"Toyota Yaris Cross… 116h : Un rappel…\", caranddriver.com \"Toyota… LOWS: …\"), see step4_join. PARTIAL because 3 of the 4 named sources are not usable. Cross-reference: the GEO-1224 header defect found on automobile-magazine.fr is reported in TC-GEO-1547-025."
+    },
+    {
+      "tc_id": "TC-GEO-1547-025",
+      "title": "GEO-1224 article without a good quote shows no quote rather than the header",
+      "story_id": "GEO-1547",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: no article shows its page header as a quote (GEO-1224, PO decision c859761 \"no quote rather than page header\"). Observed: automobile-magazine.fr (Journalism, #5) > Negative perception (9) > article \"Essais Toyota bZ4X 2WD 71,4 kWh 2023 - L'Automobile Magazine\" (/tous-les-essais/article/40671-essai-toyota-bz4x-...) shows the quote \"Essai Toyota bZ4X : la 1ère 100% électrique de Toyota enfin à l’épreuve des mesures Publié le 02/11/2023 à 08h45 share Partager :\" = H1 title + publication date + share widget (confirmed in the page HTML: title-page-text / article-title-published / share-container).",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-025_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-025_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-025_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-025_obs_title_passages.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panels of the Journalism sources in Negative perception",
+          "status": "PASS"
+        },
+        {
+          "title": "Then an article with no good quote is listed without a quote",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no article shows its page header as a quote",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Step \"Then an article with no good quote is listed without a quote\" SKIP: no such article in the data - 0 of the 102 NAMED_NEGATIVELY articles on the 38 non-review sources of Toyota (Last 7 days) is listed without a passage, so the \"no quote\" display cannot be observed. Additional observation (orange frame, obs_title_passages): several quotes are exactly the article headline / page title - automobile-magazine.fr x2 (\"La Toyota Corolla, l’une des voitures japonaises les plus emblématiques risque de devenir chinoise dès 2028\", \"Les Toyota hybrides sont fiables, mais elles ont un problème de batterie qui peut être facilement réglé\"), fiches-auto.fr x2, motorbiscuit.com (incl. \"Sorry, the Best SUV Brand Isn’t Toyota or Honda\" repeated twice), slashgear.com, lesnumeriques.com, autopista.es, elnacional.cat. Analysis last run 2026-11-03T14:57Z (after the review-v1 deploy)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-026",
+      "title": "GEO-1201 passage cut at 140 characters on a whole word on non-review sources",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-026_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-026_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-mcp/TC-GEO-1547-026_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens a Journalism source panel with a passage ending with \"…\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the passage is at most 140 characters including \"…\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And it ends on a whole word with one single \"…\" character",
+          "status": "PASS"
+        }
+      ],
+      "notes": "guideautoweb.com: passages ending with \"…\" are 139, 139, 137, 139 and 132 characters (\"…\" included, quotes excluded), ending on whole words (\"a…\", \"aux…\", \"dont…\", \"les…\", \"doute…\") with one single \"…\". automobile-magazine.fr: the 3 \"…\" passages (136, 139, 137 chars) were checked against the live page HTML - the cut is always followed by a space in the source (\"conduite| bien utile\", \"se| couper\", \"peut| être\"), so no cut word. API sweep of the 102 non-review passages: max length 140, no \"……\". Observations outside the TC data: caranddriver.com \"...real-world testing.…\" and motorbiscuit.com \"...happy drivers.…\" end with a full stop followed by \"…\"; autoblog.com ends with ASCII \"...\" at 130 chars (likely the source text, not a cut)."
+    }
+  ]
+}

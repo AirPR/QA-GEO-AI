@@ -1,0 +1,738 @@
+{
+  "spec": "GEO-1209-r2-GEO1247-mcp",
+  "runDate": "2026-10-22",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "story_filter": "GEO-1247",
+  "story_title": "Classify prompts by question type with an Other fallback",
+  "campaign": "Second full campaign of epic GEO-1209 (first run 2026-10-21, test-results-GEO-1209-GEO1247-mcp-real.json + rerun 2026-10-22 test-results-GEO-1209-rerun-copy-865635-mcp-real.json for TC-GEO-1247-009)",
+  "environment": "staging, organisation QA-GEO, en-GB, features.unbranded_analysis=true, role SUPER_ADMIN, viewport 1280x720",
+  "analysis_under_test": "Wizard drafts only (brand Decathlon decathlon.com GB (EN); unbranded topic Postal services, United Kingdom - English + France - French), Create Analysis never clicked. Manage Scope read-only: UA = Electric bikes 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4, UA2 = bike d3fd1b30-7d39-4132-83a0-70e2121df2ff, BA = Decathlon 27bec573-a748-4848-a673-849754cd18e5",
+  "write_guard": "context.route on **/geo/api/** aborting every non-GET request except POST discover-categories, translate-category, questions/adapt-batch (suggestion builders, never save). No analysis created (user decision 2026-10-22). Nothing confirmed in Manage Scope. Guard removed with context.unrouteAll() at the end.",
+  "run_folder": ".claude/Data/output/reports/runs/22102026-1312/",
+  "end_checks": {
+    "auth_me_start": "QA-GEO, en-GB, unbranded_analysis=true, SUPER_ADMIN",
+    "auth_me_end": "QA-GEO, en-GB, unbranded_analysis=true, SUPER_ADMIN",
+    "electric_bikes_manage_scope": "after: \"996 / 1000 prompts · 5 selected\", 31 rows (zz_end_check_electric_bikes_manage_scope.png)",
+    "bike_manage_scope": "after: \"996 / 1000 prompts · 38 selected\", 60 rows (zz_end_check_bike_manage_scope.png)",
+    "analyses_count": "12 before and after, no Postal services analysis",
+    "non_get_calls": "wizard: only POST analysis/discover-categories (x2) and questions/adapt-batch (x6), allow-listed, 200; POST /auth/hubspot/login-event aborted by the guard. No save request sent: Create Analysis never clicked, no Add this prompt / type or category change confirmed in Manage Scope (drafts closed with Cancel / Escape). Wizard closed with Back to Dashboard > Exit and Discard.",
+    "guard": "context.unrouteAll() done"
+  },
+  "findings": {
+    "possible_product_bug": [
+      "Side observation, known (not a GEO-1247 assertion): in the wizard and in Manage Scope the inline Type select of a row whose type is Other lists Visibility, Category Topics, Competitive only - no Other option (same as first run; see TC-GEO-1241-014 / TC-GEO-1246-003 / GEO-1509)"
+    ],
+    "po_questions": [],
+    "csv_gaps": [
+      "TC-008 / TC-012 / TC-013 preconditions (BA Decathlon GB + FR with Other-type and Other-category custom prompts; UA Postal services GB + FR with the same; a completed collection after adding) cannot be met with existing analyses and a read-only Manage Scope - propose a dedicated setup with saving allowed, or accept one Other/Other prompt as alternative for TC-012",
+      "TC-010 / TC-011 give no prompt texts (chosen at execution)"
+    ],
+    "missing_data": [
+      "TC-008: no brand analysis of QA-GEO holds an Other-type prompt (GET /scope: 0 questionType OTHER on all 9 brand analyses)",
+      "TC-012: no analysis holds a prompt Other on a single dimension (Electric bikes = 1 Other/Other prompt, bike = none)",
+      "TC-013: needs a save in Manage Scope + a completed collection (not allowed in this run)"
+    ]
+  },
+  "first_run_findings": [
+    {
+      "finding": "21/10 TC-009 FAIL: banner copy did not mention measurement accuracy",
+      "status": "aligned: CSV updated 22/10 on the PO-validated copy (comment 865635); rerun 22/10 PASS; PASS again in r2 (banner text unchanged)"
+    },
+    {
+      "finding": "21/10 TC-008 / TC-012 / TC-013 PARTIAL (missing data, saving needed)",
+      "status": "still PARTIAL, same reasons; no save attempted this time (no blocked POST)"
+    },
+    {
+      "finding": "21/10 TC-011 data adaptation (empty-type prompt)",
+      "status": "resolved: precondition built exactly as CSV (empty-category prompt)"
+    }
+  ],
+  "summary": {
+    "total": 14,
+    "pass": 11,
+    "fail": 0,
+    "skip": 0,
+    "partial": 3,
+    "success_rate": 89.3,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1247-001",
+      "title": "Type badges of a brand analysis show Visibility, Competitive, Reputation, Brand Image or Other",
+      "story_id": "GEO-1247",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-001_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-001_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the brand scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user adds a prompt with the type empty",
+          "status": "PASS",
+          "data": "Prompt: \"What do runners say about trail shoes?\" - Category C1 - Market GB (EN) - Type empty",
+          "expected": "The row is added"
+        },
+        {
+          "title": "Then the type badges show the five brand values",
+          "status": "PASS",
+          "data": "",
+          "expected": "Badges read Visibility, Competitive, Reputation, Brand Image and, for the new row, Other"
+        },
+        {
+          "title": "And no Category Topics badge is shown",
+          "status": "PASS",
+          "data": "",
+          "expected": "No \"Category Topics\" badge in a brand analysis"
+        }
+      ],
+      "notes": "Wizard draft: Analysis Type > Brand analysis > Brand & Country: Decathlon (decathlon.com), market United Kingdom - English (EN) > Discover Categories: C1 'Sports Equipment', C2 'Athletic Apparel' (AI generated, kept; first run got 'Sporting Goods' / 'Outdoor Gear') > Generate Prompts: 70 rows, '1066 / 1000 prompts · 70 selected'. Add prompt: inline draft row (Category 'Other', Type 'Other', Market 'GB (EN)'); draft Type options (brand): Visibility, Reputation, Competitive, Brand Image, Other. Prompt 'What do runners say about trail shoes?', Category Sports Equipment, Type left at its empty default, GB (EN) > Add this prompt: row added at the top, ticked, CUSTOM, 71 rows, '1067 / 1000 · 71 selected'; Type cell = inline select (combobox 'Type') reading 'Other'; row on the warning tint (bg-amber-50). Type badges in the table: Visibility 20, Reputation 20, Competitive 20, Brand Image 10, Other 1 (new row); Type filter lists exactly 'Visibility 20 · Reputation 20 · Competitive 20 · Brand Image 10 · Other 1' (step3_then). 'Category Topics' appears nowhere on the step (table, filter, draft options).",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-002",
+      "title": "A prompt saved without a category is Other on its category only",
+      "story_id": "GEO-1247",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-002_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-002_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user adds a prompt with a type and no category",
+          "status": "PASS",
+          "data": "Prompt: \"Which courier is best for sending a parcel abroad?\" - Category empty - Type Visibility - Market GB (EN)",
+          "expected": "The row is added"
+        },
+        {
+          "title": "Then the category alone is Other",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Category cell reads \"Other\""
+        },
+        {
+          "title": "And the type is kept",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Type badge reads \"Visibility\""
+        }
+      ],
+      "notes": "Wizard draft exactly as CSV, same session as TC-001 (Analysis Type > Unbranded analysis > 'Switch the analysis type?' > Switch type): topic 'Postal services', markets United Kingdom - English (EN) and France - French (FR) (French auto-detected); discovered categories C1 = 'Package Delivery' (FR 'Livraison de colis'), C2 = 'Mail Services' (FR 'Services de courrier'), same as first run. Prompts step: 120 rows, '1116 / 1000 prompts · 120 selected'. Add prompt: inline draft row, Category 'Other', Type 'Other', Market 'GB (EN)'; draft Type options (unbranded): Visibility, Category Topics, Competitive, Other; draft Category options: Package Delivery, Mail Services. Prompt 'Which courier is best for sending a parcel abroad?', Category left empty, Type Visibility, GB (EN) (step2_when = filled draft) > Add this prompt: row added at the top, ticked, CUSTOM, 121 rows, '1117 / 1000 · 121 selected'. Category cell = inline select (combobox 'Category') reading 'Other'; Type badge 'Visibility' (kept, not a select). Row on the warning tint (bg-amber-50).",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-003",
+      "title": "A prompt saved without a type, or without both, is Other on each missing dimension",
+      "story_id": "GEO-1247",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-003_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-003_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-003_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-003_step4_when_both_empty.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-003_step5_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user adds a prompt with a category and no type",
+          "status": "PASS",
+          "data": "Prompt: \"What do people think of parcel lockers?\" - Category C1 - Type empty - Market GB (EN)",
+          "expected": "The row is added"
+        },
+        {
+          "title": "Then the type alone is Other",
+          "status": "PASS",
+          "data": "",
+          "expected": "Category reads C1 and the Type reads \"Other\""
+        },
+        {
+          "title": "When the user adds a prompt with neither category nor type",
+          "status": "PASS",
+          "data": "Prompt: \"Is it worth paying for tracked delivery?\" - Category empty - Type empty - Market GB (EN)",
+          "expected": "The row is added"
+        },
+        {
+          "title": "Then the prompt is Other on both",
+          "status": "PASS",
+          "data": "",
+          "expected": "Category reads \"Other\" and Type reads \"Other\""
+        }
+      ],
+      "notes": "Same wizard draft as TC-002 (Postal services, GB (EN) + FR (FR), C1 'Package Delivery', C2 'Mail Services'). (1) 'What do people think of parcel lockers?' Category C1, Type left at its empty default, GB (EN) > Add this prompt: row added, '1118 / 1000 · 122 selected'; Category 'Package Delivery', Type = inline select (combobox 'Type') reading 'Other', warning tint bg-amber-50 (step3_then). (2) 'Is it worth paying for tracked delivery?' Category and Type both left empty: 'Add this prompt' enabled; row added, '1119 / 1000 · 123 selected': Category inline select 'Other' and Type inline select 'Other', tinted (step5_then). Draft Category options list only Package Delivery and Mail Services (no explicit 'Other' option; the empty default reads 'Other'), same as first run.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-004",
+      "title": "Inline add can be confirmed with the category or type empty, falling back to Other",
+      "story_id": "GEO-1247",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-004_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-004_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user clicks Add prompt and types a prompt",
+          "status": "PASS",
+          "data": "Prompt: \"Which parcel service handles returns best?\" - Market GB (EN)",
+          "expected": "The editable row is shown"
+        },
+        {
+          "title": "And the user leaves the category and the type empty",
+          "status": "PASS",
+          "data": "",
+          "expected": "The confirm button is enabled"
+        },
+        {
+          "title": "And the user confirms",
+          "status": "PASS",
+          "data": "",
+          "expected": "The row is added, kept and marked CUSTOM"
+        },
+        {
+          "title": "Then the empty dimensions fall back to Other",
+          "status": "PASS",
+          "data": "",
+          "expected": "Category reads \"Other\" and Type reads \"Other\""
+        }
+      ],
+      "notes": "Same wizard draft (Postal services, GB (EN) + FR (FR)). Add prompt > editable draft row shown (textbox 'New prompt', Category 'Other', Type 'Other', Market 'GB (EN)'; 'Add this prompt' disabled while the text is empty). Typed 'Which parcel service handles returns best?', category and type left empty: 'Add this prompt' enabled (not disabled as under GEO-1234 AC-3 flag OFF) (step2_when). Confirmed: row added at the top, ticked (kept), CUSTOM tag, '1120 / 1000 prompts · 124 selected'. Category inline select 'Other' and Type inline select 'Other', row on the warning tint (bg-amber-50) (step3_then).",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-005",
+      "title": "Category and Type column filters list Other as its own value with a live count",
+      "story_id": "GEO-1247",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-005_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-005_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-005_step3_when_type_filter.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with 2 prompts Other on category and 1 Other on type",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user opens the Category column filter",
+          "status": "PASS",
+          "data": "",
+          "expected": "Other is listed as its own value with count 2"
+        },
+        {
+          "title": "And the user opens the Type column filter",
+          "status": "PASS",
+          "data": "",
+          "expected": "Other is listed as its own value with count 1"
+        },
+        {
+          "title": "When the user classifies one of the Other-category prompts",
+          "status": "PASS",
+          "data": "Category select: C1",
+          "expected": "The row reads C1"
+        },
+        {
+          "title": "Then the counts are live",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Category filter shows Other with count 1"
+        }
+      ],
+      "notes": "Same wizard draft. Precondition built from the custom rows of TC-002/003/004 (wizard-local, nothing saved): draft 'Which parcel service handles returns best?' deleted (Delete prompt, no confirmation dialog) and 'Is it worth paying for tracked delivery?' set to Type Visibility, giving 2 prompts Other on category ('Which courier is best for sending a parcel abroad?', 'Is it worth paying for tracked delivery?') and 1 Other on type ('What do people think of parcel lockers?'). Category filter: 'Package Delivery 61 · Mail Services 60 · Other 2' (step2_when). Type filter: 'Visibility 42 · Category Topics 40 · Competitive 40 · Other 1' (step3_when_type_filter). Courier row classified with its inline Category select = Package Delivery: row reads C1, tint removed (bg-white). Category filter now 'Package Delivery 62 · Mail Services 60 · Other 1' (live, step3_then). Side observation (same as first run, known): the inline Type select of the Other/Other row 'tracked delivery' lists Visibility, Category Topics, Competitive only - no 'Other' option in the wizard (see TC-GEO-1241-014 / TC-GEO-1246-003).",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-006",
+      "title": "In the wizard a missing dimension reads \"Other\" in an inline select and a kept row is on the warning tint",
+      "story_id": "GEO-1247",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-006_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-006_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-006_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-006_step4_then_counts.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with a kept prompt Other on its category",
+          "status": "PASS",
+          "data": "",
+          "expected": "The row is shown"
+        },
+        {
+          "title": "When the user looks at the row",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Category cell is an inline select reading \"Other\" (never \"Pick category\")"
+        },
+        {
+          "title": "Then the kept row is on the warning tint",
+          "status": "PASS",
+          "data": "",
+          "expected": "The row background is the warning tint"
+        },
+        {
+          "title": "When the user picks a category in the inline select",
+          "status": "PASS",
+          "data": "Category: C1",
+          "expected": "The Category reads C1"
+        },
+        {
+          "title": "Then the tint is removed and the counts are updated",
+          "status": "PASS",
+          "data": "",
+          "expected": "The row is no longer tinted; the Category filter count of Other drops by 1 and C1 rises by 1"
+        }
+      ],
+      "notes": "Same wizard draft. Kept custom prompt Other on its category: 'Is it worth paying for tracked delivery?' (Category empty, Type Visibility, GB (EN), ticked). Category cell = inline select (combobox 'Category') reading 'Other'; no 'Pick category' text anywhere in the row. Row on the warning tint (class bg-amber-50, background oklch(0.987 0.022 95.277)). Before: Category filter 'Package Delivery 62 · Mail Services 60 · Other 1'. Picked 'Package Delivery' in the inline select: Category reads Package Delivery, tint removed (bg-white, rgb(255,255,255)) (step3_then); Category filter 'Package Delivery 63 · Mail Services 60 · Other 0' (Other -1, C1 +1) (step4_then_counts).",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-007",
+      "title": "An unticked prompt in Other still reads \"Other\" in its inline select with no warning tint",
+      "story_id": "GEO-1247",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-007_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-007_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with a kept prompt Other on its type",
+          "status": "PASS",
+          "data": "",
+          "expected": "The row is on the warning tint"
+        },
+        {
+          "title": "When the user unticks the row",
+          "status": "PASS",
+          "data": "",
+          "expected": "The row is greyed"
+        },
+        {
+          "title": "Then its Type still reads \"Other\" in an inline select",
+          "status": "PASS",
+          "data": "",
+          "expected": "The inline select reads \"Other\""
+        },
+        {
+          "title": "And the unticked row is not on the warning tint",
+          "status": "PASS",
+          "data": "",
+          "expected": "The warning tint is not applied to the unticked row"
+        }
+      ],
+      "notes": "Same wizard draft. Kept custom prompt Other on its type: 'What do people think of parcel lockers?' (Category Package Delivery, Type empty, GB (EN)): ticked, Type inline select 'Other', row on the warning tint (bg-amber-50, oklch(0.987 0.022 95.277)), '1119 / 1000 · 123 selected'. Unticked it: checkbox unchecked, row greyed (prompt text colour rgb(148,163,184) vs rgb(30,41,59) on kept rows), '1118 / 1000 · 122 selected'. Type cell still an inline select (combobox 'Type') reading 'Other'. Row class switched to bg-white (rgb(255,255,255)): no warning tint on the unticked row.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-008",
+      "title": "In Manage Scope picking a value for an Other prompt removes the tint and updates the counts",
+      "story_id": "GEO-1247",
+      "priority": "Medium",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Not verifiable in a read-only run (missing data): no brand analysis of QA-GEO holds a kept Other-type prompt (GET /geo/api/v1/reports/{id}/scope: 0 questionType OTHER on all 9 brand analyses), creating one in Manage Scope is an immediate save, and picking a type for it is also saved immediately - both forbidden (no analysis created / nothing confirmed in Manage Scope, user decision 2026-10-22). Only the Given (Manage Scope > Prompts of a brand analysis) could be opened.",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-008_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-008_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of brand analysis BA",
+          "status": "PARTIAL",
+          "data": "",
+          "expected": "The kept Other-type prompt is shown"
+        },
+        {
+          "title": "When the user looks at its row",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The Type cell is an inline select reading \"Other\" and the row is on the warning tint"
+        },
+        {
+          "title": "And the user picks a type",
+          "status": "SKIP",
+          "data": "Type: Reputation",
+          "expected": "The Type reads \"Reputation\""
+        },
+        {
+          "title": "Then the tint is removed and the counts are updated",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The row is no longer tinted; the Type filter count of Other drops by 1 and Reputation rises by 1"
+        }
+      ],
+      "notes": "Data adaptation (same as first run): BA = QA-GEO brand analysis 'Decathlon' 27bec573-a748-4848-a673-849754cd18e5 (United Kingdom - English + France - French, 1 category 'Articles De Sport', AI insights language French (FR)). Manage Scope > Prompts: 80 rows, '996 / 1000 prompts · 80 selected', no Other banner, no 'Other' row, no tinted row. Type filter (opened read-only, closed with Escape): 'Visibility 20 · Reputation 20 · Competitive 20 · Brand Image 20 · Other 0' - Other is listed as a value with count 0. Nothing was added or changed (no 'Add prompt' clicked this time; the first run's blocked POST attempt was not repeated). Equivalent wizard behaviour verified in TC-006 (category) and TC-007 (type, unticked). Proposed CSV change (repeated from first run): run this TC on a dedicated brand analysis that already holds a kept Other-type custom prompt, with saving allowed.",
+      "skip_reason": null,
+      "first_run_status": "PARTIAL",
+      "gap_type": "missing data"
+    },
+    {
+      "tc_id": "TC-GEO-1247-009",
+      "title": "Kept prompts in Other show a non-blocking warning to classify them",
+      "story_id": "GEO-1247",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-009_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-009_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-009_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-009_step3_then_banner.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-009_step4_then_classified.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with 2 kept prompts in Other",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the table renders",
+          "status": "PASS",
+          "data": "",
+          "expected": "A warning banner is shown above the table"
+        },
+        {
+          "title": "Then the warning asks to classify them and states what Other returns",
+          "status": "PASS",
+          "data": "",
+          "expected": "Title \"2 prompts are in Other.\" and body \"Pick a category and a type. Anything left as Other still runs, but it returns key concepts only, no metrics.\"; it never says \"uncategorised\""
+        },
+        {
+          "title": "And nothing blocks the launch",
+          "status": "PASS",
+          "data": "",
+          "expected": "Review & Launch is enabled"
+        },
+        {
+          "title": "When the user classifies both prompts",
+          "status": "PASS",
+          "data": "Category: C1",
+          "expected": "The warning disappears"
+        }
+      ],
+      "notes": "Same wizard draft (Postal services, GB (EN) + FR (FR)). As in the first run and the 22/10 rerun: all rows unticked with the header checkbox ('996 / 1000 prompts · 0 selected', no banner while no kept prompt is in Other), then 2 custom prompts added with Category left as Other and Type Visibility, GB (EN): 'Which courier offers the cheapest next-day delivery?' and 'Which postal service is most reliable for letters?' ('998 / 1000 · 2 selected', both rows bg-amber-50). Banner role=status shown above the table (banner y=231, table y=307): title '2 prompts are in Other.' and body 'Pick a category and a type. Anything left as Other still runs, but it returns key concepts only, no metrics.' - both exact as the CSV (PO-validated copy, GEO-1209 comment 865635); 'uncategorised' appears nowhere on the step. 'Review & Launch' enabled (disabled=false, no aria-disabled). Classified both with Category 'Package Delivery' (C1): banner '1 prompt is in Other.' after the first, no banner after the second (only the table footnote '... A prompt left without a category or a type is saved in Other.' remains).",
+      "skip_reason": null,
+      "first_run_status": "FAIL (21/10) -> PASS in rerun 22/10 (test-results-GEO-1209-rerun-copy-865635)",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-010",
+      "title": "Summary shows the Other card listing each kept Other prompt with its market and an inline select",
+      "story_id": "GEO-1247",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-010_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-010_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-010_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-010_step4_then_row1_classified.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has 2 kept prompts in Other on the Prompts step",
+          "status": "PASS",
+          "data": "",
+          "expected": "Both rows are on the warning tint"
+        },
+        {
+          "title": "When the user goes to Summary",
+          "status": "PASS",
+          "data": "",
+          "expected": "Summary is displayed"
+        },
+        {
+          "title": "Then a card titled with \"Other\" is shown",
+          "status": "PASS",
+          "data": "",
+          "expected": "The card title contains \"Other\"; neither \"Unclassified\" nor \"uncategorised\" appears"
+        },
+        {
+          "title": "And it lists each kept Other prompt with its market and an inline select for the missing value",
+          "status": "PASS",
+          "data": "",
+          "expected": "Row 1: text, GB (EN), Category select \"Other\"; row 2: text, FR (FR), Type select \"Other\""
+        },
+        {
+          "title": "And it states the prompts return key concepts only until classified and launch is not blocked",
+          "status": "PASS",
+          "data": "",
+          "expected": "The note says key concepts only until classified; Create Analysis is enabled"
+        },
+        {
+          "title": "When the user picks a category for row 1 in the card",
+          "status": "PASS",
+          "data": "Category: C1",
+          "expected": "Row 1 leaves the card; row 2 stays"
+        }
+      ],
+      "notes": "Same wizard draft (Postal services, GB (EN) + FR (FR)); after TC-009 only 2 rows kept. Kept Other prompts added (CSV gives no prompt text; same texts as first run): row 1 'Which delivery company is best for large parcels?' Category empty, Type Visibility, GB (EN); row 2 'Que pensent les gens des points relais ?' Category Package Delivery, Type empty, FR (FR) (draft Market options GB (EN), FR (FR)). Both rows tinted (bg-amber-50), banner '2 prompts are in Other.', '1000 / 1000 prompts · 4 selected' (not over). Review & Launch > Summary displayed (headings Analysis Scope, Markets, Categories, Other prompts, AI Engines). Card title (h3) 'Other prompts'; neither 'Unclassified' nor 'uncategorised' anywhere on the page. Card rows: 'Que pensent les gens des points relais ?' FR (FR) with inline Type select 'Other'; 'Which delivery company is best for large parcels?' GB (EN) with inline Category select 'Other' (the card lists the FR row first - order not asserted by the CSV, same as first run). Note: 'A prompt can be in Other on its category, its type, or both. It returns key concepts only until both are set. Assign what is missing here; launch is never blocked.' Create Analysis enabled (disabled=false) - never clicked (user decision 2026-10-22). Picked 'Package Delivery' in the card for row 1 (options Package Delivery, Mail Services): row 1 left the card, row 2 stays.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-011",
+      "title": "The Summary Other card is hidden when no kept prompt is in Other and never lists unticked ones",
+      "story_id": "GEO-1247",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-011_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-011_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-011_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-011_step4_then_retick.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has 1 prompt in Other on the Prompts step",
+          "status": "PASS",
+          "data": "",
+          "expected": "The row is kept and tinted"
+        },
+        {
+          "title": "When the user unticks it and goes to Summary",
+          "status": "PASS",
+          "data": "",
+          "expected": "Summary is displayed"
+        },
+        {
+          "title": "Then the Other card is hidden",
+          "status": "PASS",
+          "data": "",
+          "expected": "No card titled with \"Other\"; the unticked prompt is not listed"
+        },
+        {
+          "title": "When the user goes back, ticks it again and returns to Summary",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Other card is shown with that prompt"
+        }
+      ],
+      "notes": "Same wizard draft (Postal services, GB (EN) + FR (FR)). Precondition built exactly as the CSV this time (first run used an empty-type prompt): back from Summary to Prompts, 'Que pensent les gens des points relais ?' classified Type Visibility, 'Which courier offers the cheapest next-day delivery?' unticked (pool room), then 1 custom prompt with an empty category added: 'Which courier is easiest for booking a home collection?' (Type Visibility, GB (EN)) - kept and tinted (bg-amber-50), banner '1 prompt is in Other.', '1000 / 1000 prompts · 4 selected'. Unticked it > Review & Launch: Summary displayed (headings Analysis Scope, Markets, Categories, AI Engines), no 'Other prompts' card, the prompt text appears nowhere (step3_then = full page). Back, ticked it again, Review & Launch: 'Other prompts' card shown with exactly that prompt (GB (EN), Category select 'Other', Type Visibility).",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1247-012",
+      "title": "Manage Scope Prompts shows Other prompts on inline selects",
+      "story_id": "GEO-1247",
+      "priority": "Medium",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Not fully verifiable (missing data): no existing analysis has a prompt that is Other on its type only (in C1) or Other on its category only (Visibility). UA Electric bikes holds a single Other/Other prompt (both inline selects observed on it); UA2 bike holds none (GET /scope: 0 prompt with questionType OTHER, 0 prompt outside its 2 categories). Creating the two single-dimension prompts would be an immediate save in Manage Scope (forbidden: read-only run, no analysis created - user decision 2026-10-22).",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-012_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-012_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-012_step3_then.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-012_step4_then_type_select_open.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "Manage Scope is displayed"
+        },
+        {
+          "title": "When the user opens Prompts",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "Then the prompt Other on its type shows an inline Type select",
+          "status": "PARTIAL",
+          "data": "",
+          "expected": "Type cell: inline select reading \"Other\""
+        },
+        {
+          "title": "And the prompt Other on its category shows an inline Category select",
+          "status": "PARTIAL",
+          "data": "",
+          "expected": "Category cell: inline select reading \"Other\""
+        }
+      ],
+      "notes": "Data adaptation (same as first run): UA = QA-GEO unbranded analysis 'Electric bikes' 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (1 market United Kingdom - English, category 'Commuter Electric Bikes' + automatic 'Other', ChatGPT + Gemini) instead of 'Postal services' GB + FR (not available, no analysis may be created). Manage Scope displayed ('996 / 1000 prompts · 5 selected', banner '1 prompt is in Other.'). Prompts table: 31 rows, 5 kept. The only Other prompt is the custom 'Which electric bike brands are best for commuting in London?' (GB (EN), kept, tinted bg-amber-50), Other on BOTH dimensions (GET /scope: categoryId of the automatic Other category, questionType OTHER): Category cell = inline select (combobox 'Category') reading 'Other', Type cell = inline select (combobox 'Type') reading 'Other'. Selects opened read-only and closed with Escape (Type options: Visibility, Category Topics, Competitive; Category options: Commuter Electric Bikes); row and ring unchanged after Escape. UA2 bike d3fd1b30 checked via GET /scope: 60 prompts, none in Other on either dimension. Proposed CSV change (repeated from first run): accept 'one custom prompt Other on both dimensions' as an alternative precondition, or provide a dedicated UA with the two single-dimension prompts.",
+      "skip_reason": null,
+      "first_run_status": "PARTIAL",
+      "gap_type": "missing data"
+    },
+    {
+      "tc_id": "TC-GEO-1247-013",
+      "title": "An Other-type prompt consumes a full slot and returns key concepts only, no keyword graph",
+      "story_id": "GEO-1247",
+      "priority": "Medium",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Not fully verifiable (read-only run, needs a save + a completed collection): 'Add this prompt' in Manage Scope is an immediate save (first run: POST /geo/api/v1/reports/{id}/prompts {questionType: OTHER} observed and blocked) - not clicked this time (STRICT READ-ONLY in Manage Scope, never confirm a change), so the 'X + 1 / P' ring, the next collection and the C1 'Other' tab of the new prompt cannot be observed. Key concepts only / no keyword graph observed on the existing Other/Other prompt only (reference).",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-013_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-013_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-013_step3_when_c1_prompts_table.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The ring reads \"X / P\""
+        },
+        {
+          "title": "When the user adds a prompt with the type empty in market GB (EN) and saves",
+          "status": "PARTIAL",
+          "data": "Prompt: \"What do people say about Sunday deliveries?\" - Category C1 - Type empty - Market GB (EN)",
+          "expected": "The ring reads \"X + 1 / P\""
+        },
+        {
+          "title": "And the next collection runs",
+          "status": "PARTIAL",
+          "data": "",
+          "expected": "The collection completes"
+        },
+        {
+          "title": "And the user opens the \"Other\" tab of the C1 prompts table",
+          "status": "PARTIAL",
+          "data": "",
+          "expected": "The prompt is listed"
+        },
+        {
+          "title": "Then it returns key concepts only",
+          "status": "PARTIAL",
+          "data": "",
+          "expected": "Winner / Themes shows its theme chips (no winner); the detail panel shows themes, no keyword graph"
+        }
+      ],
+      "notes": "Data adaptation: UA = 'Electric bikes' 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (C1 = 'Commuter Electric Bikes', GB (EN) only). Given: Manage Scope > Prompts, ring '996 / 1000 prompts · 5 selected' (X = 996, P = 1000). When: Add prompt > inline draft filled with 'What do people say about Sunday deliveries?', Category 'Commuter Electric Bikes', Type left at its empty default (draft reads 'Other'), Market 'GB (EN)' (step2_when) - 'Add this prompt' NOT clicked (it saves immediately); draft closed with Cancel: ring unchanged '996 / 1000 · 5 selected', no row added, no non-GET request sent. C1 dashboard page: Prompts Analysis tabs 'All 4 · Visibility 2 · Competitive 0 · Category Topics 2' - no 'Other' tab, consistent with C1 holding no Other-type prompt (step3_when_c1_prompts_table). Reference only (not the CSV prompt): on the dashboard category 'Other' page, Prompts Analysis 'All 1 · Visibility 0 · Competitive 0 · Category Topics 0 · Other 1'; the existing Other/Other prompt 'Which electric bike brands are best for commuting in London?' has Winner / Themes = theme chips 'folding design', 'value for money', '+8' and no winner; its detail panel shows SENTIMENT - CHATGPT, THEMES and RESPONSE; no 'keyword' text and no chart (svg/canvas) in the page - consistent with 'key concepts only, no keyword graph'. Proposed CSV change (repeated): keep as a manual TC run on a dedicated analysis where saving is allowed.",
+      "skip_reason": null,
+      "first_run_status": "PARTIAL",
+      "gap_type": "missing data"
+    },
+    {
+      "tc_id": "TC-GEO-1247-014",
+      "title": "Brand Image prompts are never shown as Other on the Category column",
+      "story_id": "GEO-1247",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-014_step1_given.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-014_step2_when.png",
+        "screenshots-GEO-1209-r2-GEO1247/TC-GEO-1247-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the brand scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed"
+        },
+        {
+          "title": "When the user filters on Type Brand Image",
+          "status": "PASS",
+          "data": "",
+          "expected": "10 Brand Image rows are shown"
+        },
+        {
+          "title": "Then their Category is not Other",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Category cell reads \"Overview\", never \"Other\""
+        },
+        {
+          "title": "And the Category filter count of Other excludes them",
+          "status": "PASS",
+          "data": "",
+          "expected": "Other is not listed (or counts 0) in the Category filter"
+        }
+      ],
+      "notes": "Same brand draft as TC-001 (Decathlon decathlon.com, GB (EN), C1 Sports Equipment, C2 Athletic Apparel; the table also holds TC-001's custom row Sports Equipment / Other type). Type filter > Brand Image: exactly 10 rows shown, all Category 'Overview' (never 'Other'), none tinted (bg-white). Category filter with the Brand Image filter on: 'Sports Equipment 0 · Athletic Apparel 0 · Other 0 · Overview 10' - Other counts 0, the Brand Image rows are excluded from it.",
+      "skip_reason": null,
+      "first_run_status": "PASS",
+      "gap_type": null
+    }
+  ]
+}

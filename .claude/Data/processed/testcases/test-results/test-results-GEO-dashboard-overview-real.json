@@ -1,0 +1,243 @@
+{
+  "spec_name": "GEO-dashboard-overview",
+  "generated": "2026-07-03T15:04:17.758Z",
+  "total": 20,
+  "passed": 9,
+  "failed": 8,
+  "skipped": 3,
+  "duration_ms": 63671,
+  "testcases": [
+    {
+      "tc_id": "GEO-79-TC001",
+      "title": "GEO-79-TC001 — Sidebar layout is displayed",
+      "status": "passed",
+      "duration_ms": 6902,
+      "steps": [
+        "Given an Editor opens a completed report dashboard",
+        "When the dashboard loads",
+        "Then the sidebar shows Overview, Categories sub-items (auto-expanded), and Manage Scope entries"
+      ],
+      "error": "Error: Sidebar must be visible after load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible after load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  66 |   await page.waitForTimeout(1000);\n  67 |   const sidebar = page.locator(SEL.sidebar);\n> 68 |   await expect(sidebar, 'Sidebar must be visible after load').toBeVisible({ timeout: 20000 });\n     |                                                               ^\n  69 | }\n  70 |\n  71 | // ═════════════════════════════════════════════════════════════════════════════\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:68:63)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:77:3"
+    },
+    {
+      "tc_id": "GEO-79-TC002",
+      "title": "GEO-79-TC002 — Categories accordion is auto-expanded",
+      "status": "passed",
+      "duration_ms": 6389,
+      "steps": [
+        "Given the dashboard sidebar is visible",
+        "When the dashboard loads (no click needed — Categories is auto-expanded by the app)",
+        "Then category sub-items are listed under Categories without any user action"
+      ],
+      "error": "Error: Sidebar must be visible after load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible after load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  66 |   await page.waitForTimeout(1000);\n  67 |   const sidebar = page.locator(SEL.sidebar);\n> 68 |   await expect(sidebar, 'Sidebar must be visible after load').toBeVisible({ timeout: 20000 });\n     |                                                               ^\n  69 | }\n  70 |\n  71 | // ═════════════════════════════════════════════════════════════════════════════\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:68:63)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:95:3"
+    },
+    {
+      "tc_id": "GEO-79-TC003",
+      "title": "GEO-79-TC003 — Active view is highlighted",
+      "status": "passed",
+      "duration_ms": 5395,
+      "steps": [
+        "Given the Editor is on a dashboard view",
+        "When the dashboard loads",
+        "Then the current sidebar item is visually highlighted (aria-current=page)"
+      ],
+      "error": "Error: Sidebar must be visible after load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible after load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  66 |   await page.waitForTimeout(1000);\n  67 |   const sidebar = page.locator(SEL.sidebar);\n> 68 |   await expect(sidebar, 'Sidebar must be visible after load').toBeVisible({ timeout: 20000 });\n     |                                                               ^\n  69 | }\n  70 |\n  71 | // ═════════════════════════════════════════════════════════════════════════════\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:68:63)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:112:3"
+    },
+    {
+      "tc_id": "GEO-79-TC007",
+      "title": "GEO-79-TC007 — Category sub-items stay displayed for non-category sections",
+      "status": "passed",
+      "duration_ms": 6265,
+      "steps": [
+        "Given the Editor is on Overview (a non-category section)",
+        "When the dashboard loads with Overview active",
+        "Then the category sub-items remain visible — accordion stays expanded across non-category sections"
+      ],
+      "error": "Error: Sidebar must be visible after load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible after load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  66 |   await page.waitForTimeout(1000);\n  67 |   const sidebar = page.locator(SEL.sidebar);\n> 68 |   await expect(sidebar, 'Sidebar must be visible after load').toBeVisible({ timeout: 20000 });\n     |                                                               ^\n  69 | }\n  70 |\n  71 | // ═════════════════════════════════════════════════════════════════════════════\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:68:63)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:129:3"
+    },
+    {
+      "tc_id": "GEO-79-TC008",
+      "title": "GEO-79-TC008 — Report header shows name and generated date",
+      "status": "passed",
+      "duration_ms": 4990,
+      "steps": [
+        "Given the Editor opens a completed report",
+        "When the dashboard loads",
+        "Then the brand name and the Generated date label are displayed"
+      ],
+      "error": "TimeoutError: page.screenshot: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\n\n   at e2e-helpers.js:36\n\n  34 | function makeShot(screenshotsDir) {\n  35 |   return async (page, name) => {\n> 36 |     await page.screenshot({ path: path.join(screenshotsDir, `${name}.png`), fullPage: false });\n     |                ^\n  37 |   };\n  38 | }\n  39 |\n    at shot (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\e2e-helpers.js:36:16)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:147:9"
+    },
+    {
+      "tc_id": "GEO-79-TC010",
+      "title": "GEO-79-TC010 — AC3 it shows: back arrow next to brand image",
+      "status": "failed",
+      "duration_ms": 15348,
+      "steps": [
+        "Given the dashboard Top Section (brand bar)",
+        "When the dashboard loads",
+        "Then it shows: a back arrow (\"Back to Analysis\") next to the brand image, the Generated date and the LLM filter"
+      ],
+      "error": "Error: LLM engine filters button must be visible in the top bar\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"llm-dropdown-trigger\"]').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - LLM engine filters button must be visible in the top bar with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"llm-dropdown-trigger\"]').first()\u001b[22m\n\n\n  187 |\n  188 |   const llmFilterBtn = page.locator(SEL.llmFilterBtn).first();\n> 189 |   await expect(llmFilterBtn, 'LLM engine filters button must be visible in the top bar').toBeVisible({ timeout: 10000 });\n      |                                                                                          ^\n  190 |\n  191 |   const generatedLabel = page.locator(SEL.generatedLabel).first();\n  192 |   await expect(generatedLabel, '\"Generated\" date label must be visible in the top bar').toBeVisible({ timeout: 10000 });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:189:90"
+    },
+    {
+      "tc_id": "GEO-78-TC007",
+      "title": "GEO-78-TC007 — LLM Engines dropdown lists engines",
+      "status": "failed",
+      "duration_ms": 34990,
+      "steps": [
+        "Given the Editor is on the dashboard",
+        "When the Editor opens the LLM Engines dropdown",
+        "Then the list of available LLMs is displayed with checkable items"
+      ],
+      "error": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"llm-dropdown-trigger\"]').first()\u001b[22m\n\n\n  206 |   // When the Editor opens the LLM Engines dropdown\n  207 |   const llmBtn = page.locator(SEL.llmFilterBtn).first();\n> 208 |   await llmBtn.scrollIntoViewIfNeeded();\n      |                ^\n  209 |   await llmBtn.click();\n  210 |   await page.waitForTimeout(500);\n  211 |   await shot(page, 'GEO-78-TC007_step2_when');\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:208:16"
+    },
+    {
+      "tc_id": "GEO-72-TC001",
+      "title": "GEO-72-TC001 — AI Perception Summary is displayed",
+      "status": "passed",
+      "duration_ms": 12634,
+      "steps": [
+        "Given an Editor opens the Overview page",
+        "When the AI Perception Summary section loads",
+        "Then the summary shows perception findings, key opportunities, and warnings about misperceptions"
+      ],
+      "error": "Error: Sidebar must be visible after load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible after load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  66 |   await page.waitForTimeout(1000);\n  67 |   const sidebar = page.locator(SEL.sidebar);\n> 68 |   await expect(sidebar, 'Sidebar must be visible after load').toBeVisible({ timeout: 20000 });\n     |                                                               ^\n  69 | }\n  70 |\n  71 | // ═════════════════════════════════════════════════════════════════════════════\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:68:63)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:213:3"
+    },
+    {
+      "tc_id": "GEO-107-TC001",
+      "title": "GEO-107-TC001 — KPI cards are displayed",
+      "status": "failed",
+      "duration_ms": 35326,
+      "steps": [
+        "Given an Editor opens the Overview page",
+        "When the KPI section loads",
+        "Then KPI cards are visible for Visibility, LLM Choice, and Sentiment with their labels"
+      ],
+      "error": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"kpi-card-visibility\"]').first()\u001b[22m\n\n\n  253 |   // When the KPI section loads\n  254 |   const visibilityCard = page.locator(SEL.kpiVisibility).first();\n> 255 |   await visibilityCard.scrollIntoViewIfNeeded();\n      |                        ^\n  256 |   await shot(page, 'GEO-107-TC001_step2_when');\n  257 |\n  258 |   // Then KPI cards are visible for Visibility, LLM Choice, and Sentiment with their labels\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:255:24"
+    },
+    {
+      "tc_id": "GEO-107-TC011",
+      "title": "GEO-107-TC011 — AC5 the card shows \"N/A\" with a muted style instead of 0",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [
+        "Given no data is available for a KPI type (e.g. no competitive responses yet)",
+        "When KPIs load",
+        "Then at least one KPI card shows N/A indicating no data available"
+      ],
+      "error": "Error: At least one KPI card must show N/A or \"not available\" for missing data\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[aria-label*=\"not available\"]').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - At least one KPI card must show N/A or \"not available\" for missing data with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('[aria-label*=\"not available\"]').first()\u001b[22m\n\n\n  259 |   // Then at least one KPI card shows \"N/A\" indicating no data available\n  260 |   const naText = page.locator('[aria-label*=\"not available\"]').first();\n> 261 |   await expect(naText, 'At least one KPI card must show N/A or \"not available\" for missing data').toBeVisible({ timeout: 10000 });\n      |                                                                                                   ^\n  262 |\n  263 |   await shotAt(page, visibilityCard, 'GEO-107-TC011_step3_then');\n  264 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:261:99"
+    },
+    {
+      "tc_id": "GEO-79-TC004",
+      "title": "GEO-79-TC004 — Sidebar navigation is SPA — filters persist across views",
+      "status": "passed",
+      "duration_ms": 23508,
+      "steps": [
+        "Given the Editor has active filters on Overview (at minimum the LLM filter is set)",
+        "When the Editor clicks a different sidebar item (SPA navigation to a category sub-item)",
+        "Then the destination view renders AND the filters remain applied"
+      ],
+      "error": "Error: Sidebar must be visible after load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-sidebar\"]')\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Sidebar must be visible after load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-sidebar\"]')\u001b[22m\n\n\n  66 |   await page.waitForTimeout(1000);\n  67 |   const sidebar = page.locator(SEL.sidebar);\n> 68 |   await expect(sidebar, 'Sidebar must be visible after load').toBeVisible({ timeout: 20000 });\n     |                                                               ^\n  69 | }\n  70 |\n  71 | // ═════════════════════════════════════════════════════════════════════════════\n    at gotoDashboard (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:68:63)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:272:3"
+    },
+    {
+      "tc_id": "GEO-79-TC005",
+      "title": "GEO-79-TC005 — Dashboard pages load within 2 seconds",
+      "status": "failed",
+      "duration_ms": 35495,
+      "steps": [
+        "Given an Editor opens the dashboard once",
+        "When the page is requested again — measure render time to the KPI section",
+        "Then the KPI section is visible within 2000 ms"
+      ],
+      "error": "TimeoutError: locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"kpi-card-visibility\"]').first() to be visible\u001b[22m\n\n\n   at e2e-helpers.js:522\n\n  520 |   const t0 = Date.now();\n  521 |   await page.goto(url, { waitUntil: options.waitUntil || 'commit' });\n> 522 |   await readyLocator.waitFor({ state: 'visible', timeout: options.timeout || 30000 });\n      |                      ^\n  523 |   return Date.now() - t0;\n  524 | }\n  525 |\n    at Object.measurePageLoadMs (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\e2e-helpers.js:522:22)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:304:14"
+    },
+    {
+      "tc_id": "GEO-79-TC006",
+      "title": "GEO-79-TC006 — [SKIP] Discard Changes modal appears",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "error": "SKIPPED — Requires creating an unsaved changes state on the overview page. The overview page is read-only; triggering unsaved changes requires Manage Scope edits. Re-enable with a dedicated before/after dirty-state helper."
+    },
+    {
+      "tc_id": "GEO-79-TC009",
+      "title": "GEO-79-TC009 — [SKIP] Report header has Share and Export buttons",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "error": "SKIPPED — Share and Export buttons were not found in the DOM inspection of this dashboard. These actions may be restricted by role/permission or not yet implemented. Re-enable once DOM inspection confirms their presence on this dashboard."
+    },
+    {
+      "tc_id": "IDENTITY-TC001",
+      "title": "IDENTITY-TC001 — All 5 LLM engines are active by default",
+      "status": "failed",
+      "duration_ms": 35567,
+      "steps": [
+        "Given an authenticated user is on the Toyota dashboard",
+        "When the user opens the LLM Engines filter dropdown",
+        "Then all 5 engines are toggled ON (aria-checked=true): ChatGPT, Gemini, Grok, Claude, Perplexity"
+      ],
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"llm-dropdown-trigger\"]').first()\u001b[22m\n\n\n  333 |   // When the user opens the LLM Engines filter dropdown\n  334 |   const llmBtn = page.locator(SEL.llmFilterBtn).first();\n> 335 |   await llmBtn.click();\n      |                ^\n  336 |   await page.waitForTimeout(500);\n  337 |   await shot(page, 'IDENTITY-TC001_step2_when');\n  338 |\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:335:16"
+    },
+    {
+      "tc_id": "IDENTITY-TC002",
+      "title": "IDENTITY-TC002 — 4 identity cards present below InBrief",
+      "status": "passed",
+      "duration_ms": 7991,
+      "steps": [
+        "Given an authenticated user is on the Toyota dashboard with the Identity tab active",
+        "When the Identity section is fully rendered",
+        "Then exactly 4 cards are visible with titles: Brand Image, Employer Brand, ESG / Sustainability, Leadership"
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "IDENTITY-TC003",
+      "title": "IDENTITY-TC003 — Each card shows sentiment badge and 3 AI bullets",
+      "status": "passed",
+      "duration_ms": 7678,
+      "steps": [
+        "Given the 4 identity cards are visible",
+        "When the cards are fully rendered",
+        "Then each card displays a sentiment badge (Positive / Negative / Neutral / Mixed) and exactly 3 AI-generated bullet points"
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "IDENTITY-TC004",
+      "title": "IDENTITY-TC004 — Drill-in panel opens with 6 LLM tabs",
+      "status": "failed",
+      "duration_ms": 13310,
+      "steps": [
+        "Given the 4 identity cards are visible",
+        "When the user clicks on the Brand Image card",
+        "Then the panel displays 6 tabs: All + ChatGPT + Gemini + Grok + Claude + Perplexity"
+      ],
+      "error": "Error: LLM tab \"Claude\" must be visible in the drill-in panel\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button[aria-label=\"Claude\"]').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - LLM tab \"Claude\" must be visible in the drill-in panel with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('button[aria-label=\"Claude\"]').first()\u001b[22m\n\n\n  434 |   for (const engine of LLM_ENGINES) {\n  435 |     await expect(page.locator(`button[aria-label=\"${engine}\"]`).first(),\n> 436 |       `LLM tab \"${engine}\" must be visible in the drill-in panel`).toBeVisible({ timeout: 5000 });\n      |                                                                    ^\n  437 |   }\n  438 |   const allTab = page.locator('button').filter({ hasText: new RegExp(`^${I18N.dashboard.concepts.all}$`) }).first();\n  439 |   await expect(allTab, `\"${I18N.dashboard.concepts.all}\" tab must be visible in the drill-in panel`).toBeVisible({ timeout: 5000 });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:436:68"
+    },
+    {
+      "tc_id": "IDENTITY-TC005",
+      "title": "IDENTITY-TC005 — Per-LLM tab shows raw bullets and engine-specific sources",
+      "status": "failed",
+      "duration_ms": 41976,
+      "steps": [
+        "Given the user has opened the Brand Image drill-in panel with the All tab active",
+        "When the user switches to a specific LLM tab (ChatGPT, Gemini, Grok, Claude, Perplexity)",
+        "Then the panel shows that LLM's raw response array directly (no consolidation) and cited sources specific to that LLM"
+      ],
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button[aria-label=\"Claude\"]').first()\u001b[22m\n\n\n  488 |   const perEngineBullets = {};\n  489 |   for (const engine of LLM_ENGINES) {\n> 490 |     await page.locator(`button[aria-label=\"${engine}\"]`).first().click();\n      |                                                                  ^\n  491 |     // Wait for panel content to update — sources load asynchronously after tab switch\n  492 |     await page.waitForTimeout(1500);\n  493 |\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:490:66"
+    },
+    {
+      "tc_id": "GEO-78-TC001",
+      "title": "GEO-78-TC001 — Default market filter is All Markets",
+      "status": "failed",
+      "duration_ms": 15670,
+      "steps": [
+        "Given an Editor opens the Overview page",
+        "When the dashboard loads with no market change",
+        "Then the market filter is set to All Markets by default"
+      ],
+      "error": "Error: Market/Country filter button must be visible on the Overview page\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"market-dropdown-trigger\"]').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Market/Country filter button must be visible on the Overview page with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"market-dropdown-trigger\"]').first()\u001b[22m\n\n\n  515 |   // When the dashboard loads with no market change\n  516 |   const marketBtn = page.locator('[data-testid=\"market-dropdown-trigger\"]').first();\n> 517 |   await expect(marketBtn, 'Market/Country filter button must be visible on the Overview page').toBeVisible({ timeout: 10000 });\n      |                                                                                                ^\n  518 |   await shot(page, 'GEO-78-TC001_step2_when');\n  519 |\n  520 |   // Then the country filter is set to the locale-specific \"All\" value by default\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\GEO-dashboard-overview.spec.js:517:96"
+    }
+  ]
+}

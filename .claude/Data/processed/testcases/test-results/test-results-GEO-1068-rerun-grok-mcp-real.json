@@ -1,0 +1,392 @@
+{
+  "spec": "GEO-1068-rerun-grok",
+  "runDate": "2026-10-21",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1068.csv",
+  "environment": "staging",
+  "rerun_of": [
+    {
+      "real_json": "test-results-GEO-1068-GEO1266-mcp-real.json",
+      "tc_ids": [
+        "TC-GEO-1266-007"
+      ]
+    },
+    {
+      "real_json": "test-results-GEO-1068-GEO1267-mcp-real.json",
+      "tc_ids": [
+        "TC-GEO-1267-006"
+      ]
+    },
+    {
+      "real_json": "test-results-GEO-1068-GEO1268-mcp-real.json",
+      "tc_ids": [
+        "TC-GEO-1268-006",
+        "TC-GEO-1268-008"
+      ]
+    },
+    {
+      "real_json": "test-results-GEO-1068-GEO1269-mcp-real.json",
+      "tc_ids": [
+        "TC-GEO-1269-010",
+        "TC-GEO-1269-011"
+      ]
+    }
+  ],
+  "reason": "Rerun after a test-data fix: on the first runs (21/10 11:55-13:00) Grok was turned off on Toyota 439acd96-0b1b-4da4-9e07-612d38e9783e, so the baseline filters (Sep 28 - Oct 4, 2026; US, ES, FR; ChatGPT, Perplexity, Gemini, Grok) could not be applied and these TCs were PARTIAL or verified only through the API. Grok was turned back ON today in Manage Scope (user-approved; log toyota-grok-reenable-20261021.json). Overview values remain affected by the removal of category \"Voitures electriques\" after the 2026-10-05 baseline (test-data change, not a GEO-1068 regression).",
+  "notes": [
+    "Pre-run 2026-10-21 14:40: MCP context already authenticated (single tab, sole MCP client). GET /geo/api/v1/auth/me -> 200, language en-GB, org_name QA-GEO. No organisation switch.",
+    "READ-ONLY guard installed on the context before the first navigation: context.route('**/geo/api/**') -> GET continue, POST /reports/{id}/export/(pptx|xlsx|pdf) continue, every other method aborted. Viewport 1280x720.",
+    "Manage Scope check (read only, nothing saved): Toggle ChatGPT/Gemini/Grok/Perplexity aria-checked=true, Claude false -> Grok ON (screenshot PRECHECK_manage_scope_grok_on.png).",
+    "Baseline filters applied in the UI: date picker 28 Sept 2026 - 4 Oct 2026 (Apply); AI Engines 4 = ChatGPT, Gemini, Grok, Perplexity (Claude off and disabled); All Countries = United States, France, Spain (all ticked). Requests observed: llms=gemini,grok,openai,perplexity, marketCodes=master, from=2026-09-28 to=2026-10-04.",
+    "Baseline XLSX re-read (node + xlsx): Overview Top Concepts 9/9/5/3/2/2/2 %, gauge Sentiment +66 Good; sheet Voitures hybrides 28/28/16/8/7/6/5 %, gauges SoV 30%, Visibility 99%, AI Choice 84%, Sentiment +75 Good. The baseline still has 3 categories (incl. Voitures electriques); the analysis now has 2 (Voitures hybrides, VUS).",
+    "Grok re-enable effect confirmed: with the 4 baseline engines the category Voitures hybrides equals the 2026-10-05 baseline (frequencies 28/28/16/8/7/6/5%, Sentiment +75 Good, Visibility 99%, AI Choice 84%, SoV 30%). The Overview keeps the same 7 concepts, polarities and source counts but higher frequencies (14/14/8/4/3/3/3%) and Sentiment +74 (baseline +66) because category Voitures électriques was removed after the baseline (test-data change).",
+    "Only non-GET request sent: POST /reports/439acd96.../export/pptx (TC-GEO-1269-011, allowed by the guard). Guard abort list empty (0 blocked request). Nothing saved, no setting changed.",
+    "End of run 2026-10-21 ~14:58: GET /auth/me -> 200, org QA-GEO, en-GB (unchanged). context.unrouteAll() done; helper tab (local PPTX evidence) closed; 1 tab left."
+  ],
+  "summary": {
+    "total": 6,
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "partial": 3
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1266-007",
+      "title": "TC-GEO-1266-007 - An older analysis lists the same concepts with the same frequency as before the release",
+      "story_id": "GEO-1266",
+      "status": "PARTIAL",
+      "previous_status": "PARTIAL",
+      "duration": 0,
+      "error": "Overview frequencies 14/14/8/4/3/3/3% vs baseline 9/9/5/3/2/2/2% (red frames on step3a/step3b). Explained by the removal of category \"Voitures électriques\" after the 2026-10-05 baseline (smaller Overview total). Category-level control with the full baseline filters (Grok included): Voitures hybrides 28/28/16/8/7/6/5% = baseline sheet exactly.",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PASS",
+          "test_data": "Analysis O (Toyota), baseline filters (Sep 28 – Oct 4, 2026; United States, Spain, France; ChatGPT, Perplexity, Gemini, Grok), sort: Frequency",
+          "expected": "The \"Top Topics Associated with Your Brand\" card is displayed",
+          "observed": "Toyota 439acd96 Overview, 28 Sept 2026 – 4 Oct 2026, All Countries (US, FR, ES ticked), AI Engines 4 (ChatGPT, Gemini, Grok, Perplexity), Sort by Frequency. Card \"Top Topics Associated with Your Brand\" displayed with All (7), Positive (5), Mixed (1), Negative (1)."
+        },
+        {
+          "title": "When the user compares the listed concepts with the baseline",
+          "status": "PASS",
+          "test_data": "Baseline XLSX, sheet \"Overview\", table \"Top Concepts\" (7 concepts)",
+          "expected": "The same 7 concepts are listed: Fiabilité, Efficacité énergétique, Leadership hybride, Usage urbain, Coûts d'entretien, Coût d'achat, Bruit à l'accélération; none added, none missing",
+          "observed": "7 rows: Fiabilité, Efficacité énergétique, Leadership hybride, Usage urbain, Coûts d'entretien, Coût d'achat, Bruit à l'accélération; none added, none missing."
+        },
+        {
+          "title": "And the user compares the frequency % of each concept with the baseline",
+          "status": "PARTIAL",
+          "test_data": "Baseline XLSX, column \"Frequency\"",
+          "expected": "Fiabilité 9%, Efficacité énergétique 9%, Leadership hybride 5%, Usage urbain 3%, Coûts d'entretien 2%, Coût d'achat 2%, Bruit à l'accélération 2%",
+          "observed": "Fiabilité 14%, Efficacité énergétique 14%, Leadership hybride 8%, Usage urbain 4%, Coûts d'entretien 3%, Coût d'achat 3%, Bruit à l'accélération 3% (red frames). Same order; all values scaled up by the smaller Overview total after the removal of category Voitures électriques. Category control Voitures hybrides (same filters, Grok included): 28/28/16/8/7/6/5% = baseline sheet."
+        },
+        {
+          "title": "And the user compares the polarity and the source count of each concept with the baseline",
+          "status": "PASS",
+          "test_data": "Baseline XLSX, columns \"Sentiment\" and \"Sources\"",
+          "expected": "Coût d'achat is Mixed (8 sources), Bruit à l'accélération is Negative (7 sources), the 5 others are Positive (Fiabilité 23, Efficacité énergétique 29, Leadership hybride 17, Usage urbain 19, Coûts d'entretien 10 sources); each polarity is now stated by its label",
+          "observed": "Coût d'achat \"8 sources • Mixed\", Bruit à l'accélération \"7 sources • Negative\", Fiabilité 23, Efficacité énergétique 29, Leadership hybride 17, Usage urbain 19, Coûts d'entretien 10 sources, all \"• Positive\". Polarity stated by its label on every row."
+        },
+        {
+          "title": "Then only the display changed",
+          "status": "PARTIAL",
+          "expected": "Same concepts, frequency, polarity and source counts as the baseline; only the \"{score} sentiment\" text (e.g. \"+86 sentiment\") is gone",
+          "observed": "Same concepts, polarity and source counts; no \"{score} sentiment\" text and no signed -100..+100 value in the card (0 match). Frequencies differ on the Overview only because of the removed category (see previous step); category-level frequencies equal the baseline."
+        }
+      ],
+      "notes": "Old status PARTIAL (Grok not selectable + removed category). With Grok back ON the only remaining gap is the Overview frequency, explained by the removed category Voitures électriques -> PARTIAL per the rerun rule. Category-level evidence: step3c/step3d (Voitures hybrides 28/28/16/8/7/6/5%, same sources and polarity).",
+      "screenshots": [
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1266-007_step1_given.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1266-007_step2_when.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1266-007_step2b_when_rows4-7.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1266-007_step3a_then_freq_rows1-4.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1266-007_step3b_then_freq_rows4-7.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1266-007_step3c_category_control_rows1-5.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1266-007_step3d_category_control_rows3-7.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1266-007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1269-010",
+      "title": "TC-GEO-1269-010 - The category-level Sentiment KPI tile is kept unchanged",
+      "story_id": "GEO-1269",
+      "status": "PASS",
+      "previous_status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        {
+          "title": "Given the user is on the category page C1 of brand analysis B",
+          "status": "PASS",
+          "test_data": "Analysis B, category C1",
+          "expected": "The category metrics are displayed",
+          "observed": "Category page Voitures hybrides of B (= O, Toyota 439acd96, as in the first run), filters 28 Sept – 4 Oct 2026, All Countries, AI Engines 4 (ChatGPT, Gemini, Grok, Perplexity). PERFORMANCE metrics displayed: Visibility 99%, Avg Position #1.8, AI Choice 84%, Sentiment +75."
+        },
+        {
+          "title": "Then the Sentiment KPI tile is shown with its -100 to +100 value",
+          "status": "PASS",
+          "expected": "The Sentiment tile is displayed among the category metrics with its aggregate value, as before the release",
+          "observed": "Tile \"Sentiment · Sentiment score · +75 · Good · 4.9% vs previous period\"; tooltip \"Average tone of how AI engines describe your brand, scored –100 (negative) to +100 (positive).\""
+        },
+        {
+          "title": "When the user opens the category page \"Voitures hybrides\" of analysis O with the baseline filters",
+          "status": "PASS",
+          "test_data": "Analysis O (Toyota), baseline filters (Sep 28 – Oct 4, 2026; United States, Spain, France; ChatGPT, Perplexity, Gemini, Grok), category Voitures hybrides",
+          "expected": "The category metrics are displayed",
+          "observed": "Overview -> sidebar link Voitures hybrides (category 21a79173). Filters kept: 28 Sept 2026 – 4 Oct 2026, All Countries (US, FR, ES), engines ChatGPT=on, Gemini=on, Grok=on, Perplexity=on, Claude=off. Request kpis?...llms=gemini,grok,openai,perplexity. Category metrics displayed."
+        },
+        {
+          "title": "Then the Sentiment KPI tile shows the baseline value",
+          "status": "PASS",
+          "test_data": "Baseline XLSX, sheet \"Voitures hybrides\", Gauge \"Sentiment\" (PPTX slide 14)",
+          "expected": "The Sentiment tile is shown with the value +75 and the band \"Good\", as in the baseline",
+          "observed": "Sentiment tile +75, band Good = baseline XLSX Voitures hybrides gauge Sentiment +75 Good. Other category gauges also equal the baseline: Visibility 99% Good, AI Choice 84% Good, SoV 30%."
+        },
+        {
+          "title": "And the concept rows of the page show no per-concept score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"+86 sentiment\") is shown on the Top Topics rows",
+          "observed": "7 rows \"{name} {n} sources • {label} {pct}\" (Fiabilité 23 sources • Positive 28% ... Coût d'achat 8 sources • Mixed 5%); 0 \"{score} sentiment\" text, 0 signed -100..+100 value."
+        }
+      ],
+      "notes": "Old status PARTIAL (+74 observed without Grok). With Grok back ON the tile reads exactly +75 Good = baseline. Card title on the category page is \"Top Topics Associated with Your Brand\".",
+      "screenshots": [
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-010_step1_given.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-010_step1b_then_tile_tooltip.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-010_step2_when.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-010_step2b_when_engines.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-010_step3_then.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-010_step5_then_rows_no_score.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1267-006",
+      "title": "TC-GEO-1267-006 - Concept detail panel keeps its sources and existing content, with no quotes added",
+      "story_id": "GEO-1267",
+      "status": "PARTIAL",
+      "previous_status": "PARTIAL",
+      "duration": 0,
+      "error": "Panel header \"14% frequency\" vs baseline 9% (Overview), red frame on step3_then. Explained by the removal of category \"Voitures électriques\" after the 2026-10-05 baseline. Category-level control with the full baseline filters (Grok included): Voitures hybrides panel header \"28% frequency\" = baseline sheet Voitures hybrides (Fiabilité 28%, 23 sources).",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PASS",
+          "test_data": "Analysis O (Toyota), baseline filters (Sep 28 – Oct 4, 2026; United States, Spain, France; ChatGPT, Perplexity, Gemini, Grok)",
+          "expected": "The \"Top Topics Associated with Your Brand\" card is displayed",
+          "observed": "Toyota Overview, 28 Sept 2026 – 4 Oct 2026, All Countries (US, FR, ES), AI Engines 4 (ChatGPT, Gemini, Grok, Perplexity). Card \"Top Topics Associated with Your Brand\" displayed, 7 topics."
+        },
+        {
+          "title": "When the user clicks the row of concept Fiabilité",
+          "status": "PASS",
+          "test_data": "Concept Fiabilité (Positive)",
+          "expected": "The concept detail panel opens",
+          "observed": "Click on row \"Fiabilité 23 sources • Positive 14%\" -> detail panel opens next to the list."
+        },
+        {
+          "title": "Then the header keeps the concept name, its polarity colour and the close button",
+          "status": "PASS",
+          "expected": "The header shows \"Fiabilité\" on the Positive (green) colour, with the close button",
+          "observed": "Header \"Fiabilité\" on rgb(5, 150, 105) (green), label Positive, button \"Close detail panel\" (X) present."
+        },
+        {
+          "title": "And the frequency is still shown",
+          "status": "PARTIAL",
+          "test_data": "Baseline XLSX, sheet \"Overview\": Fiabilité, Frequency 9%",
+          "expected": "The header shows \"9% frequency\"",
+          "observed": "Header shows \"14% frequency\" (red frame). Frequency still shown; value differs only because of the removed category Voitures électriques (smaller Overview total). Category control Voitures hybrides, same filters incl. Grok: header \"28% frequency\" = baseline Voitures hybrides sheet 28%."
+        },
+        {
+          "title": "And the sources section lists as many cited sources as before",
+          "status": "PASS",
+          "test_data": "Baseline XLSX, sheet \"Overview\": Fiabilité, Sources 23",
+          "expected": "The sources section is displayed and lists 23 sources",
+          "observed": "Sources section displayed (4 preview items + \"All sources 23\"); the \"Sources - Fiabilité\" pop-up reads \"23 sources\" and lists 23 unique source URLs (23 links) = baseline 23."
+        },
+        {
+          "title": "And no quote is shown in the panel",
+          "status": "PASS",
+          "expected": "The panel has no quotes section and no quote text",
+          "observed": "Panel and sources pop-up: 0 quote element (blockquote/q/[class*=quote]), no \"quote\" text, no quotes section."
+        },
+        {
+          "title": "When the user clicks the close button",
+          "status": "PASS",
+          "expected": "The panel closes and the \"Top Topics Associated with Your Brand\" card is displayed",
+          "observed": "Click \"Close detail panel\" -> panel removed, card \"Top Topics Associated with Your Brand\" displayed, URL unchanged."
+        }
+      ],
+      "notes": "Old status PARTIAL. Grok now selectable; the only remaining gap is the Overview frequency (removed category) -> PARTIAL per the rerun rule. Sources (23), polarity colour, close button and absence of quotes all verified on screen.",
+      "screenshots": [
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1267-006_step1_given.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1267-006_step2_when.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1267-006_step3_then_header.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1267-006_step3_then.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1267-006_step3b_all_sources.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1267-006_step3c_panel_no_quote.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1267-006_step3d_category_control.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1267-006_step4_close.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1268-006",
+      "title": "TC-GEO-1268-006 - Polarity filter counts and results of an older analysis match the baseline",
+      "story_id": "GEO-1268",
+      "status": "PASS",
+      "previous_status": "PASS",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PASS",
+          "test_data": "Analysis O (Toyota), baseline filters (Sep 28 – Oct 4, 2026; United States, Spain, France; ChatGPT, Perplexity, Gemini, Grok)",
+          "expected": "The Positive, Mixed and Negative filter pills are shown with their counts",
+          "observed": "Toyota Overview, 28 Sept 2026 – 4 Oct 2026, All Countries (US, FR, ES), AI Engines 4 (ChatGPT, Gemini, Grok, Perplexity; Grok now selected in the UI). Pills: All (7), Positive (5), Mixed (1), Negative (1)."
+        },
+        {
+          "title": "When the user compares the three pill counts with the baseline",
+          "status": "PASS",
+          "test_data": "Baseline XLSX, sheet \"Overview\", table \"Top Concepts\": 5 Positive, 1 Mixed, 1 Negative",
+          "expected": "The pills show Positive 5, Mixed 1, Negative 1",
+          "observed": "Positive (5), Mixed (1), Negative (1) = baseline XLSX Overview Top Concepts (5 Positive, 1 Mixed, 1 Negative)."
+        },
+        {
+          "title": "And the user selects the Positive filter",
+          "status": "PASS",
+          "test_data": "Filter: Positive",
+          "expected": "The list shows Fiabilité, Efficacité énergétique, Leadership hybride, Usage urbain and Coûts d'entretien only",
+          "observed": "Pill Positive (5) pressed: 5 rows Fiabilité, Efficacité énergétique, Leadership hybride, Usage urbain, Coûts d'entretien, all \"• Positive\"."
+        },
+        {
+          "title": "And the user selects the Mixed filter",
+          "status": "PASS",
+          "test_data": "Filter: Mixed",
+          "expected": "The list shows Coût d'achat only",
+          "observed": "Pill Mixed (1) pressed: 1 row \"Coût d'achat 8 sources • Mixed\"."
+        },
+        {
+          "title": "And the user selects the Negative filter",
+          "status": "PASS",
+          "test_data": "Filter: Negative",
+          "expected": "The list shows Bruit à l'accélération only",
+          "observed": "Pill Negative (1) pressed: 1 row \"Bruit à l'accélération 7 sources • Negative\"."
+        },
+        {
+          "title": "Then filtering behaves as before the release",
+          "status": "PASS",
+          "expected": "Same counts and same filtered concepts as the baseline; only the row display is simplified",
+          "observed": "Counts 5/1/1 and filtered concept sets identical to the baseline; rows read \"{n} sources • {label}\" + %, no score. Back to All (7): 7 rows."
+        }
+      ],
+      "notes": "Old status PASS (Grok verified only through the API). Now fully verified in the UI with Grok selected.",
+      "screenshots": [
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-006_step1_given.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-006_step2_when.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-006_step3_positive.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-006_step4_mixed.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-006_step5_negative.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-006_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1268-008",
+      "title": "TC-GEO-1268-008 - The sentiment distribution summary above the list is unchanged",
+      "story_id": "GEO-1268",
+      "status": "PASS",
+      "previous_status": "PASS",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PASS",
+          "test_data": "Analysis O (Toyota), baseline filters (Sep 28 – Oct 4, 2026; United States, Spain, France; ChatGPT, Perplexity, Gemini, Grok)",
+          "expected": "The sentiment distribution summary is displayed above the \"Top Topics Associated with Your Brand\" card",
+          "observed": "Toyota Overview, 28 Sept 2026 – 4 Oct 2026, All Countries (US, FR, ES), AI Engines 4 (incl. Grok). Summary = 3 tiles \"71% Positive 5 topics\" / \"14% Mixed 1 topic\" / \"14% Negative 1 topic\" at y=240, inside the card right under its title (y=173) and above the topics list (first row y=392) — same position as on the first run. Wording note: the summary sits above the list of the card, not above the card itself (CSV wording, not a product gap)."
+        },
+        {
+          "title": "When the user compares the summary with the baseline",
+          "status": "PASS",
+          "test_data": "Baseline XLSX, sheet \"Overview\": \"71% Positive · 14% Mixed · 14% Negative\" (PPTX slide 4: 5 / 1 / 1 topics)",
+          "expected": "The summary shows 71% positive, 14% mixed and 14% negative",
+          "observed": "71% Positive (5 topics), 14% Mixed (1 topic), 14% Negative (1 topic) = baseline."
+        },
+        {
+          "title": "And the user sorts the list by Sentiment",
+          "status": "PASS",
+          "test_data": "Sort: Sentiment",
+          "expected": "The list is re-ordered",
+          "observed": "Sort menu options: Sort by Frequency, Sort by Sentiment, Sort A-Z. After \"Sort by Sentiment\": order changes from Fiabilité, Efficacité énergétique, Leadership hybride, Usage urbain, Coûts d'entretien, Coût d'achat, Bruit à l'accélération to Efficacité énergétique, Fiabilité, Leadership hybride, Usage urbain, Coûts d'entretien, Coût d'achat (Mixed), Bruit à l'accélération (Negative)."
+        },
+        {
+          "title": "Then the distribution summary is unchanged",
+          "status": "PASS",
+          "expected": "The summary still shows 71% positive, 14% mixed and 14% negative",
+          "observed": "After the Sentiment sort the summary still reads 71% Positive 5 topics / 14% Mixed 1 topic / 14% Negative 1 topic. Sort reset to Frequency afterwards."
+        }
+      ],
+      "notes": "Old status PASS (Grok not selectable). Now verified with Grok selected; values unchanged. Possible CSV wording fix for the Given: \"above the topics list of the card\".",
+      "screenshots": [
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-008_step1_given.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-008_step2_when.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-008_step3a_sort_menu.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1268-008_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1269-011",
+      "title": "TC-GEO-1269-011 - Slide export of an analysis created before the release shows the simplified concepts",
+      "story_id": "GEO-1269",
+      "status": "PARTIAL",
+      "previous_status": "PARTIAL",
+      "duration": 0,
+      "error": "Slide 4 (Overview) frequencies 14/14/8/4/3/3/3% vs baseline 9/9/5/3/2/2/2% (red frames on step3_then). Explained by the removal of category \"Voitures électriques\" after the 2026-10-05 baseline (export has 24 slides vs 29 in the baseline). Slide 17 (Voitures hybrides) equals the baseline exactly: 28/28/16/8/7/6/5%, same order, sources and polarity.",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PASS",
+          "test_data": "Analysis O (Toyota), baseline filters (Sep 28 – Oct 4, 2026; United States, Spain, France; ChatGPT, Perplexity, Gemini, Grok)",
+          "expected": "The export action is available",
+          "observed": "Toyota Overview, 28 Sept 2026 – 4 Oct 2026, All Countries (US, FR, ES), AI Engines 4 (ChatGPT, Gemini, Grok, Perplexity). Button \"Export analysis\" available; menu \"EXPORT ANALYSIS AS\": PDF · Presentation .pptx · Spreadsheet .xls."
+        },
+        {
+          "title": "When the user exports the analysis as PowerPoint in English",
+          "status": "PASS",
+          "test_data": "Format: PPTX; export language: English (EN)",
+          "expected": "A .pptx file is downloaded",
+          "observed": "Click \"Presentation .pptx\" (no language option in the menu; the interface language is en-GB). Request POST /reports/439acd96.../export/pptx?marketCodes=master&llms=openai,gemini,perplexity,grok&from=2026-09-28&to=2026-10-04&lang=en-GB (the only non-GET request, allowed by the guard). Toyota_AI_Visibility_Report.pptx downloaded (24 slides), saved as exports/O_baseline_EN_rerun_grok_Toyota_AI_Visibility_Report.pptx. Cover slide: AI ENGINES ChatGPT · Gemini · Perplexity · Grok; MARKETS United States, France, Spain; Sep 28 – Oct 4, 2026."
+        },
+        {
+          "title": "Then the key concepts slides list the same concepts and frequencies as the baseline",
+          "status": "PARTIAL",
+          "test_data": "Baseline PPTX slide 4 (Overview) and slide 17 (Voitures hybrides)",
+          "expected": "Overview: Fiabilité 9%, Efficacité énergétique 9%, Leadership hybride 5%, Usage urbain 3%, Coûts d'entretien 2%, Coût d'achat 2%, Bruit à l'accélération 2%. Voitures hybrides: Fiabilité 28%, Efficacité énergétique 28%, Leadership hybride 16%, Usage urbain 8%, Coûts d'entretien 7%, Bruit à l'accélération 6%, Coût d'achat 5%",
+          "observed": "Slide 4: same 7 concepts, same order, frequencies 14/14/8/4/3/3/3% (red frames) — differ only because of the removed category. Slide 17 Voitures hybrides: Fiabilité 28%, Efficacité énergétique 28%, Leadership hybride 16%, Usage urbain 8%, Coûts d'entretien 7%, Bruit à l'accélération 6%, Coût d'achat 5% = baseline (now matching with Grok included; first run had 27/26/12/11/9/8/6)."
+        },
+        {
+          "title": "And each concept row reads \"{n} sources • {label}\" with its frequency %",
+          "status": "PASS",
+          "expected": "e.g. \"23 sources • Positive\" for Fiabilité, \"8 sources • Mixed\" for Coût d'achat, \"7 sources • Negative\" for Bruit à l'accélération",
+          "observed": "Slides 4 and 17: \"23 sources • Positive\" (Fiabilité), \"8 sources • Mixed\" (Coût d'achat), \"7 sources • Negative\" (Bruit à l'accélération), each followed by its %."
+        },
+        {
+          "title": "And no numeric sentiment score and no barometer are shown",
+          "status": "PASS",
+          "expected": "No \"{score} sentiment\" text (baseline: \"+86 sentiment\", \"-43 sentiment\"), no -100 to +100 value and no gauge on any key concepts slide",
+          "observed": "Key concepts slides 4, 17, 22: 0 \"{score} sentiment\" text (baseline slides 4/17 had +86 … -43 sentiment), 0 signed -100..+100 value, shapes rect only (no ellipse/gauge), no picture."
+        }
+      ],
+      "notes": "Old status PARTIAL (Grok not selectable: slide 17 27/26/12/11/9/8/6%). With Grok ON the category slide equals the baseline exactly; only the Overview slide differs, explained by the removed category -> PARTIAL per the rerun rule. PPTX read from the slide XML (jszip); evidence page rendered locally (step3_then). Side check: slide 14 Voitures hybrides Sentiment +75 Good (= baseline).",
+      "screenshots": [
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-011_step1_given.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-011_step2a_export_menu.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-011_step2b_export_started.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-011_step2_when.png",
+        "screenshots-GEO-1068-rerun-grok/TC-GEO-1269-011_step3_then.png"
+      ]
+    }
+  ]
+}

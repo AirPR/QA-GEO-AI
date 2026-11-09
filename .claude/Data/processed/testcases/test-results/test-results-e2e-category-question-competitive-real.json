@@ -1,0 +1,77 @@
+{
+  "testCases": [
+    {
+      "tc_id": "E2E-COMP-WN-01",
+      "title": "Competitive: Winner = Brand Name → all engines show Won in panel",
+      "status": "passed",
+      "duration_ms": 22729,
+      "error": "",
+      "steps": [
+        "Given I am on the Competitive tab of a category where the tracked brand wins",
+        "When I find a row where the Winner column shows the brand name (Toyota)",
+        "Then the detail panel shows Won (green) badge for every active LLM engine"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-01_step1_given.png",
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-01_step2_when.png",
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-01_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "E2E-COMP-WN-02",
+      "title": "Competitive: Winner = Competitor Name → all engines show Lost in panel",
+      "status": "passed",
+      "duration_ms": 22418,
+      "error": "",
+      "steps": [
+        "Given I am on the Competitive tab where a competitor brand wins",
+        "When I find a row where the Winner column shows a competitor brand name",
+        "Then the detail panel shows Lost (red) badge for every active LLM engine"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-02_step1_given.png",
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-02_step2_when.png",
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-02_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "E2E-COMP-WN-03",
+      "title": "Competitive: Winner = 'Lost' plain text → all engines show Lost in panel",
+      "status": "passed",
+      "duration_ms": 28677,
+      "error": "",
+      "steps": [
+        "Given I am on the Competitive tab where the Winner column shows plain 'Lost' text (no badge border)",
+        "When I find a row where the Winner column shows plain 'Lost' text (span.text-slate-400.text-sm, no badge border)",
+        "Then the detail panel shows Lost (red) badge for every active LLM engine"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-03_step1_given.png",
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-03_step2_when.png",
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-03_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "E2E-COMP-WN-04",
+      "title": "Competitive: Winner = 'Split' badge → per-engine mix Won/Lost, Split never per-engine label",
+      "status": "passed",
+      "duration_ms": 25013,
+      "error": "",
+      "steps": [
+        "Given I am on the Competitive tab where LLMs give different competitive results for the brand",
+        "When I find a row where the Winner column shows the orange 'Split' badge",
+        "Then each engine shows its individual badge (Won/Lost) — 'Split' never appears as a per-engine label"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-04_step1_given.png",
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-04_step2_when.png",
+        "screenshots-e2e-category-question-competitive/E2E-COMP-WN-04_step3_then.png"
+      ]
+    }
+  ],
+  "passed": 4,
+  "failed": 0,
+  "skipped": 0,
+  "total": 4,
+  "generated": "2026-07-03T15:04:17.797Z"
+}

@@ -1,0 +1,139 @@
+{
+  "spec": "GEO-152-GEO1122-mcp",
+  "runDate": "2026-09-25",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "summary": {
+    "total": 4,
+    "pass": 1,
+    "fail": 0,
+    "skip": 3,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1122-001",
+      "title": "Scope change applies on next scheduled execution",
+      "story_id": "GEO-1122",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-001_step1_given.png",
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-001_step2_when.png",
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given Target Sources list visible (167 sources top frandroid.com)",
+          "status": "PASS"
+        },
+        {
+          "title": "When Allemagne added via Manage Scope wizard and saved",
+          "status": "PASS"
+        },
+        {
+          "title": "Then list immediately unchanged same 167 sources same top 10",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PASS - Before: 167 sources top frandroid.com. After adding Allemagne and returning to Actions Center: identical list. Scope subsequently restored (US FR ES)."
+    },
+    {
+      "tc_id": "TC-GEO-1122-002",
+      "title": "After scope execution target list covers full run scope",
+      "story_id": "GEO-1122",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-002_step1_given.png",
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-002_step2_when.png",
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given scope change made and next scheduled execution completed",
+          "status": "SKIP"
+        },
+        {
+          "title": "When Actions Center opened after new execution",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then Target Sources list covers full scope",
+          "status": "SKIP"
+        },
+        {
+          "title": "And list ordered under same ranking rules",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - Requires next scheduled analysis execution to complete. Cannot be triggered via UI."
+    },
+    {
+      "tc_id": "TC-GEO-1122-003",
+      "title": "Previously verified article re-checked via conditional request",
+      "story_id": "GEO-1122",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-003_step1_given.png",
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-003_step2_when.png",
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given article verified in previous snapshot reappears",
+          "status": "SKIP"
+        },
+        {
+          "title": "When new execution processes article",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then page re-checked every run",
+          "status": "SKIP"
+        },
+        {
+          "title": "And if unchanged (changeStatus: same) stored verdict reused",
+          "status": "SKIP"
+        },
+        {
+          "title": "And if changed (changeStatus: changed) article re-fetched",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - Backend-only: requires acquisition provider changeStatus field. Not accessible via UI."
+    },
+    {
+      "tc_id": "TC-GEO-1122-004",
+      "title": "Staleness window forces re-judgment regardless of conditional response",
+      "story_id": "GEO-1122",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-004_step1_given.png",
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-004_step2_when.png",
+        "screenshots-GEO-152-GEO1122-mcp/TC-GEO-1122-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given stored verdict reached staleness window age",
+          "status": "SKIP"
+        },
+        {
+          "title": "When new execution processes article",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then article re-fetched even if provider says unchanged",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - Backend-only: staleness window is internal server-side logic not surfaced in UI."
+    }
+  ]
+}

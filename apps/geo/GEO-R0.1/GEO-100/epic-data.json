@@ -1,0 +1,40 @@
+{
+  "epic": {
+    "id": "GEO-100",
+    "key": "GEO-100",
+    "title": "EPIC-006: Manage Scope",
+    "status": "Done",
+    "assignee": "Youssef.AitLaydi",
+    "description": "L'utilisateur modifie le périmètre d'un rapport existant (marchés, catégories, configuration LLM). Story 6.1: Manage Scope — Markets & Categories. Story 6.2: Manage Scope — LLM Configuration.",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-100",
+    "stories": [
+      {
+        "id": "GEO-61",
+        "title": "[Story 6.1] Manage Scope — Markets & Categories",
+        "storyId": "Story 6.1",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-61",
+        "description": "As an Editor I want to add/remove markets and categories on an existing report So that I can adjust my analysis scope without creating a new report.",
+        "acceptanceCriteria": [
+          "Given an Editor on the Settings/Manage Scope page, When they view the current scope, Then they see: list of countries (with Primary indicator), list of categories, enabled LLM engines, question counts per category/market, analysis metadata (creation date, last analysis, execution time)",
+          "Given an Editor adding a new market, When they save the change, Then quota is consumed (brand_markets_used + 1), the change is included in the next scheduled execution, UI shows 'Changes will take effect on next scheduled execution'",
+          "Given an Editor adding a new category, When they save, Then no additional brand_market quota consumed, included in next scheduled execution",
+          "Given an Editor modifying questions or adding competitors, When they save, Then changes persisted and applied on next run"
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "GEO-60",
+        "title": "[Story 6.2] Manage Scope — LLM Configuration",
+        "storyId": "Story 6.2",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-60",
+        "description": "As an Editor I want to enable or disable LLM engines for an existing report So that I can adjust which AI engines are included in future analyses.",
+        "acceptanceCriteria": [
+          "Given an Editor on Manage Scope, When they toggle an LLM engine, Then the change is saved and applied on the next scheduled execution And min 1 LLM must remain enabled"
+        ],
+        "dependencies": []
+      }
+    ]
+  }
+}

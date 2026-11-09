@@ -1,0 +1,138 @@
+{
+  "spec": "GEO-1069-GEO1262-rerun-skip-20261027",
+  "runDate": "2026-10-27",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo/new",
+  "rerun_of": "test-results-GEO-1069-GEO1262-mcp-20261027-mcp-real.json (runs/27102026-0918)",
+  "environment": {
+    "org": "QA-GEO",
+    "language": "en-GB",
+    "unbranded_analysis": true,
+    "brandfetch_quota": "NOT restored",
+    "brandfetch_responses": {
+      "checkedAt": "2026-10-27T10:49:34Z",
+      "licter.com": "200 {\"domain\":\"licter.com\"}",
+      "nike.com": "200 {\"domain\":\"nike.com\"}",
+      "onclusive.com": "200 {\"domain\":\"onclusive.com\"}",
+      "sqlite.org": "200 {\"domain\":\"sqlite.org\"}",
+      "apple.com": "200 {\"domain\":\"apple.com\"}",
+      "recheckAt": "2026-10-27T10:52:09Z (licter.com, apple.com: same)"
+    }
+  },
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "story": "GEO-1262",
+  "tc_filter": [
+    "TC-GEO-1262-001",
+    "TC-GEO-1262-003"
+  ],
+  "summary": {
+    "total": 2,
+    "pass": 0,
+    "fail": 0,
+    "skip": 2,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1262-001",
+      "title": "Confirmed domain shows the logo preview in the brand card within moments",
+      "story_id": "GEO-1262",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Blocked: Brandfetch quota. Re-checked on staging 2026-10-27 10:49 UTC: GET /geo/api/v1/brands/logo?domain=licter.com, nike.com, onclusive.com, sqlite.org, apple.com all return 200 {\"domain\":\"...\"} with no logoUrl (BRANDFETCH_quota_evidence.png). No domain has a Brandfetch logo, so no substitute W1 is possible; the card shows the Google favicon fallback instead of \"the logo of licter.com\".",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-rerun-skip-20261027/TC-GEO-1262-001_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-rerun-skip-20261027/TC-GEO-1262-001_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-rerun-skip-20261027/TC-GEO-1262-001_step3_then.png"
+      ],
+      "extra_screenshots": [
+        "screenshots-GEO-1069-GEO1262-rerun-skip-20261027/BRANDFETCH_quota_evidence.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "C = \"Lictorix Geo\"",
+          "expected": "The 32px avatar shows the letter \"L\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types a valid domain in the website field",
+          "data": "W1 = \"licter.com\"",
+          "expected": "The avatar is unchanged while typing",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field loses focus",
+          "data": "Click outside the field",
+          "expected": "A grey pulsing placeholder of the same size replaces the avatar, with no text and no layout shift",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the logo retrieved for the domain is displayed within moments",
+          "data": "",
+          "expected": "The 32px avatar shows the logo of licter.com, same place and size as the logo of a selected suggestion",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "data": "",
+          "expected": "\"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the logo lookup requests are recorded",
+          "data": "DevTools Network",
+          "expected": "One logo lookup for licter.com is visible (request names noted for the other TCs)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Fresh wizard, Brand analysis, custom brand \"Lictorix Geo\" via the \"— Custom Brand\" row. Given: span lettermark \"L\" bg-green-500 32x32, website field empty. Typing \"licter.com\" (120 ms/key, sampled after each key): avatar stayed the span \"L\", 0 lookup requests. On blur: span \"h-8 w-8 shrink-0 animate-pulse rounded-full bg-slate-200\" 32x32, empty text, x unchanged (475); \"licter.com\" appears under the name at the same time (card 54 -> 61 px for the domain line, avatar stays 32x32 - same as the 09:18 run). The /brands/logo response was held with a Playwright route (test aid, response body unchanged) to capture the placeholder; the first route handler errored and the request was released by unroute, the response remained {\"domain\":\"licter.com\"}. Then <img class=\"shrink-0 object-cover h-8 w-8 rounded-full\"> src https://www.google.com/s2/favicons?domain=licter.com&sz=64 (natural 64x64, rendered 32x32). Network: exactly one GET /geo/api/v1/brands/logo?domain=licter.com -> 200 {\"domain\":\"licter.com\"}, then s2/favicons (301) -> t2.gstatic.com faviconV2 (200). Request names: \"brands/logo\" (lookup) and \"s2/favicons\" (image). Nothing submitted, no analysis created."
+    },
+    {
+      "tc_id": "TC-GEO-1262-003",
+      "title": "Favicon is used when the brand logo service has no logo for the domain",
+      "story_id": "GEO-1262",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Blocked: Brandfetch quota. The precondition requested for this rerun (brands/logo returns no logo for sqlite.org WHILE other domains do return one) is not met: every domain (licter.com, nike.com, onclusive.com, sqlite.org, apple.com) returns 200 {\"domain\":\"...\"} with no logoUrl, so \"a domain unknown to the brand logo service\" cannot be told apart from the quota error (TC description note).",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-rerun-skip-20261027/TC-GEO-1262-003_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-rerun-skip-20261027/TC-GEO-1262-003_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-rerun-skip-20261027/TC-GEO-1262-003_step3_then.png"
+      ],
+      "extra_screenshots": [
+        "screenshots-GEO-1069-GEO1262-rerun-skip-20261027/BRANDFETCH_quota_evidence.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "C = \"Lictorix Geo\"",
+          "expected": "The avatar shows the letter \"L\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a domain unknown to the brand logo service and the field loses focus",
+          "data": "W3 = \"sqlite.org\"",
+          "expected": "The grey pulsing placeholder is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the site's favicon is shown as the brand visual",
+          "data": "",
+          "expected": "The 32px avatar shows the favicon of W3, not the letter \"L\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "data": "",
+          "expected": "The W3 domain",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same wizard after TC-001: website field cleared and blurred -> avatar back to span \"L\" 32x32, no domain line. W3 typed \"sqlite.org\" (100 ms/key), blur: animate-pulse bg-slate-200 placeholder 32x32 (step2_when, 2.5 s route delay, response unchanged). One GET /brands/logo?domain=sqlite.org -> 200 {\"domain\":\"sqlite.org\"}, then <img> src https://www.google.com/s2/favicons?domain=sqlite.org&sz=64 (natural 16x16, rendered 32x32, SQLite favicon) instead of \"L\"; \"sqlite.org\" under the brand name. The favicon fallback behaves as expected, but the discriminating condition (logo service has logos for other domains) is not available on staging."
+    }
+  ]
+}

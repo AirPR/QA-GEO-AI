@@ -1,0 +1,628 @@
+{
+  "spec": "GEO-1226-GEO1548-rerun-mcp",
+  "runDate": "2026-11-04",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "rerunOf": "test-results-GEO-1226-GEO1548-mcp-real.json",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "environment": {
+    "auth_me_start": "2026-11-04 12:47 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "auth_me_end": "2026-11-04 13:14 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "period": "Last 7 days (29 Oct - 4 Nov; API window 28 Oct 11:42 -> 4 Nov 11:42 UTC, 8 snapshots, latest = forced crawl 04/11 11:42 UTC) unless stated; Last 30 days (30 snapshots) for TC-008 / 010 / 014 / 015 / 016 / 024 and the B-2 re-check.",
+    "filters": "Orange 16cdf040: AI Engines 2 (ChatGPT + Gemini, default), All Countries. Toyota 439acd96: AI Engines 4 (gemini, grok, openai, perplexity, default), All Countries.",
+    "data_notes": "Decathlon b6c8b664 not re-crawled (reviewCount 0) - not used. MSC / Victoria's Secret / Verisure / Great Eastern (other org) not needed by these TCs. Trustpilot blocks the test browser (bot block) - live pages unreadable.",
+    "read_only": "GET calls, UI filter changes, panel opening and 4 export downloads (Orange XLSX / PDF / PPTX Last 30 days, Toyota XLSX Last 7 days). No analysis created / deleted, no setting changed, no Manage Scope save. A read-only route guard in the shared MCP context blocked the export POST at first; the export endpoint was allowed for this session only and removed at the end."
+  },
+  "summary": {
+    "total": 17,
+    "pass": 7,
+    "fail": 2,
+    "skip": 3,
+    "partial": 5,
+    "successRate": 55.9,
+    "successRateExecuted": 67.9,
+    "verdict": "NO-GO"
+  },
+  "b2_recheck": {
+    "verdict": "STILL PRESENT",
+    "last30days": "Orange 16cdf040 trustpilot.com, Last 30 days, ChatGPT + Gemini: grouped article (API grouped=true, reviewCount 0, pages=[]) title 'https://ie.trustpilot.com/review/www.orange.ma' in the panel (Negative perception (9), row 3; URL line 'ie.trustpilot.com/review/www.orange.ma' as plain text, no link) and in the XLSX Target Sources sheet row 193 (Article title = URL = 'https://ie.trustpilot.com/review/www.orange.ma'). API title field = the same string.",
+    "other_untitled": "The untitled non-grouped article www.trustpilot.com/review/www.orange.fr (Last 7 days) shows 'trustpilot.com/review/www.orange.fr' (no scheme, no www) as its title; in Last 30 days the grouped www.trustpilot.com/review/www.orange.fr article now has a title 'Read Customer Service Reviews of www.orange.fr'. The inconsistency (scheme kept for the grouped untitled article only) remains.",
+    "last7days": "No grouped article with a scheme title in Last 7 days (Orange, Toyota, Decathlon, API sweep of all Review Sites sources, 5 engines).",
+    "evidence": [
+      "screenshots-GEO-1226-GEO1548-rerun-mcp/B2_recheck_panel_last30days_zoom.png",
+      "screenshots-GEO-1226-GEO1548-rerun-mcp/B2_recheck_panel_last30days.png",
+      "screenshots-GEO-1226-GEO1548-rerun-mcp/B2_recheck_xlsx_last30days.png"
+    ]
+  },
+  "side_findings": [
+    {
+      "id": "S-1",
+      "text": "Titles of review-site articles with pipes replaced by runs of spaces and a trailing review total: 'Orange Maroc   Avis   491' (fr-be, panel collapses it to 'Orange Maroc Avis 491'), 'Orange   Avis   246', 'Orange Egypt   Reviews   99', 'Toyota España   Opiniones   182' (grouped, Toyota Last 7 days), 'Decathlon France   Reviews   2,432' - XLSX keeps the triple spaces. Not a page part (AC-3 not breached), cosmetic; no AC on non-grouped titles.",
+      "evidence": "screenshots-GEO-1226-GEO1548-rerun-mcp/B2_recheck_xlsx_last30days.png"
+    },
+    {
+      "id": "S-2",
+      "text": "Grouped article whose pages have no stored reviews (ie orange.ma, www orange.fr, Last 30 days) loses the classic passage the page had when shown alone (ie ?page=2 in Last 7 days) and has no link on its URL line - linked to P1 (TC-GEO-1548-024), not a new bug.",
+      "evidence": "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step3_then.png"
+    },
+    {
+      "id": "S-3",
+      "text": "Toyota coches.net (Journalism, positive article, XLSX row 1235): title 'https://www.coches.net/noticias/mejores-coches-hib...' (truncated URL with scheme as title) - non-review source, positive list only; observation, out of the epic scope.",
+      "evidence": "screenshots-GEO-1226-GEO1548-rerun-mcp/exports/7d_Toyota_AI_Visibility_Report.xlsx"
+    },
+    {
+      "id": "S-4",
+      "text": "Front bundle changed since the JDD (index-Bt5hp1LM.js -> index-DJJ9DuoN.js): a redeploy happened after 03/11; no visible impact on the tested TCs.",
+      "evidence": ""
+    }
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1548-001",
+      "title": "Pages of a review page show as one article per subdomain",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-001_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-001_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the fr.trustpilot.com pages show as one article",
+          "status": "PASS"
+        },
+        {
+          "title": "And the fr-be.trustpilot.com pages show as another article",
+          "status": "PASS"
+        },
+        {
+          "title": "And no article is listed per page URL",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adapted (CNP Assurances is production-only, P6): Orange 16cdf040, trustpilot.com, Last 7 days (29 Oct - 4 Nov, 8 snapshots up to the forced crawl 04/11 11:42 UTC), AI Engines 2 (ChatGPT + Gemini), All Countries. Cards shown with tabs ALL / IMPROVE VISIBILITY / IMPROVE PERCEPTION. Panel header '#4 · trustpilot.com', chips 'Review Sites' + 'Improve perception', tab 'Negative perception (6)' active, subtitle 'Each of these articles mentions Orange negatively.' The fr.trustpilot.com pages of /review/www.orange.ma show as ONE article 'Avis de Orange Maroc' (URL line fr.trustpilot.com/review/www.orange.ma, chip '20 NEGATIVE REVIEWS') with page blocks https://fr.trustpilot.com/review/www.orange.ma and ...?page=4 (10 negative reviews each). The www.trustpilot.com pages show as ANOTHER article 'Orange Maroc Reviews' (URL line trustpilot.com/review/www.orange.ma, chip '30 NEGATIVE REVIEWS') with page blocks p1, ?page=2, ?page=4. fr-be.trustpilot.com/review/www.orange.ma is a third, one-page article. 6 article rows for 9 cited page URLs; tab count 6 = card 'Negative perception in 6 articles' (green frames on the two grouped articles). The only ?page=N URL shown as an article line is ie.trustpilot.com/review/www.orange.ma?page=2, the only ie page cited in this window (one article for the ie subdomain, classic passage) - in Last 30 days it is merged into the ie article. Observation: page block links show the full URL with https:// while article URL lines show it without the scheme (CSV examples show no scheme) - display detail, no AC. Known side finding (GEO-1547 rerun) visible here: ?page=4 / ?page=2 blocks start with the same entries as page 1; two reviews duplicated in www.trustpilot.com/review/www.orange.ma page 1."
+    },
+    {
+      "tc_id": "TC-GEO-1548-002",
+      "title": "Two pages on the same host with different paths are never grouped",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-002_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-002_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each path shows as its own article",
+          "status": "PASS"
+        },
+        {
+          "title": "And no page block of one article belongs to the other path",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same view as TC-001 (Orange 16cdf040, Last 7 days, ChatGPT + Gemini; step1/step2 = same state as TC-001). Data adapted from cnp.fr / cnp-prevoyance.fr to the Orange data: same host fr.trustpilot.com, two paths: /review/www.orange.ma (grouped article 'Avis de Orange Maroc', page blocks fr.trustpilot.com/review/www.orange.ma and ?page=4) and /review/www.orange.fr (article 'Avis de Orange | Lisez les avis marchands de www.orange.fr', one page, 10 negative reviews) = two articles (green frames). Step 4 now verifiable (reviews stored since the forced crawl): every page block URL shares the path of its article (orange.ma blocks only under the orange.ma article, the orange.fr block only under the orange.fr article). Last 30 days: fr. host has 3 separate articles (/www.orange.ma, /www.orange.fr, /www.orange.com?page=2)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-003",
+      "title": "Two subdomains of the same review page are never grouped",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-003_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-003_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the subdomains of the same review page show as separate articles",
+          "status": "PASS"
+        },
+        {
+          "title": "And their reviews are not mixed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Orange 16cdf040 trustpilot.com (TC data), Last 7 days, ChatGPT + Gemini. The same review page /review/www.orange.ma on 4 subdomains gives 4 separate articles, each with its own URL line (green frames): fr.trustpilot.com (grouped, 2 page blocks), trustpilot.com = www (grouped, 3 page blocks), fr-be.trustpilot.com (1 page, 10 reviews), ie.trustpilot.com/review/www.orange.ma?page=2 (1 page, classic passage). Step 4: every page block URL has the subdomain of its article (fr blocks = fr URLs, www blocks = www URLs, fr-be block = fr-be URL) - no page of one subdomain under another. Observation: the fr-be page block lists the same 10 entries as the fr page 1 block (Trustpilot shows the same company reviews on fr. and fr-be.; each is stored under its own page, not mixed by the grouping). Decathlon b6c8b664 not re-crawled (reviewCount 0) - not used."
+    },
+    {
+      "tc_id": "TC-GEO-1548-004",
+      "title": "Grouped article title is the page title without the page part",
+      "story_id": "GEO-1548",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-004_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-004_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-004_step3_then.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-004_obs_live_trustpilot_blocked.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens a page block link and reads the title of the live page",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the article title is the page title without the page part",
+          "status": "PASS"
+        },
+        {
+          "title": "And no article title holds a page part",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Orange 16cdf040 trustpilot.com, Last 7 days. Grouped article titles: 'Avis de Orange Maroc' (fr.trustpilot.com/review/www.orange.ma, pages 1 and 4) and 'Orange Maroc Reviews' (www.trustpilot.com/review/www.orange.ma, pages 1, 2, 4) - no '| 4 sur N', 'N of M' or 'Page N' (green frames). Same format as the CSV example: Trustpilot FR page titles read 'Avis de X | Lisez les avis marchands de Y | N sur M' (seen verbatim on the non-grouped article fr.trustpilot.com/review/www.orange.com?page=2: 'Avis de Orange | Lisez les avis marchands de www.orange.com | 2 sur 6'), the grouped title keeps only 'Avis de Orange Maroc'. Step 3 NOT verifiable: opening a page block link (fr.trustpilot.com/review/www.orange.ma?page=4) returns the Trustpilot bot block ('Your request has been blocked as it has been identified as coming from a bot...'), document.title empty - the live title cannot be read (TC-GEO-1548-004_obs_live_trustpilot_blocked.png). Other grouped titles in the data (API sweep, no page part): Last 30 days 'Read Customer Service Reviews of www.orange.fr'; Toyota 'Toyota España   Opiniones   182', 'Avis de Toyota | Lisez les avis marchands de toyota.fr', 'Lisez les avis marchands de toyota.fr - Trustpilot', 'Opiniones sobre Toyota España' (the trailing numbers are review totals, not page parts). B-2 (raw URL as title of the grouped ie article, Last 30 days) is tracked separately, see B-2 re-check."
+    },
+    {
+      "tc_id": "TC-GEO-1548-005",
+      "title": "Grouped article is negative when at least one of its pages is negative",
+      "story_id": "GEO-1548",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-005_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-005_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article is in Negative perception",
+          "status": "PASS"
+        },
+        {
+          "title": "And only its negative pages show as page blocks",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Orange 16cdf040 trustpilot.com, Last 7 days. Step 3 PASS: grouped articles 'Avis de Orange Maroc' (20) and 'Orange Maroc Reviews' (30) are listed and counted in 'Negative perception (6)'. Step 4 not verifiable: no grouped article in the data has a cited page WITHOUT negative reviews - every page of the two groups holds 10 negative reviews (API pages[]: fr p1 10, p4 10; www p1 10, p2 10, p4 10), and the cited trustpilot URLs of the window (overview citation-sources) are exactly these page blocks. So 'only its negative pages show as page blocks' holds trivially but the exclusion of a non-negative page cannot be observed. Same in Last 30 days and in Toyota / Decathlon (grouped articles there have pages=[]). Needs a review page with one cited page judged not negative (Figma 1.2 page 9 case)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-006",
+      "title": "Grouped article whose pages never name the brand shows in Lack of visibility",
+      "story_id": "GEO-1548",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-006_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-006_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel and selects the tab \"Lack of visibility\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the review page shows as one article",
+          "status": "SKIP"
+        },
+        {
+          "title": "And none of its pages names the brand on the live page",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Prerequisite missing: no grouped (multi-page) review page in Lack of visibility in any QA-GEO analysis (API sweep, Orange / Toyota / Decathlon, Last 7 and 30 days, all engines). The only Lack of visibility review page is Orange trustpilot.com 'Read Customer Service Reviews of www.prixtel.com | 2 of 10' (www.trustpilot.com/review/www.prixtel.com?page=2, Last 30 days): ONE cited page, grouped=false, so the grouping of several pages in Lack of visibility is not exercised (orange frame). Its title keeps the page part '| 2 of 10' (allowed: not grouped). Step 4 (search the brand on each live page) impossible anyway: Trustpilot blocks the test browser. Rerun when a competitor review page with >= 2 cited pages exists (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-007",
+      "title": "Grouped article is not in Lack of visibility when one of its pages names the brand",
+      "story_id": "GEO-1548",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-007_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-007_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel and selects the tab \"Lack of visibility\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the grouped article is not listed in Lack of visibility",
+          "status": "SKIP"
+        },
+        {
+          "title": "And none of its pages shows there as a separate article",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Prerequisite missing: no grouped review page where only one of its pages names the brand. Every cited page of the Orange groups names Orange (all hold negative reviews); no group has a page judged BRAND_NOT_NAMED (API sweep, Orange / Toyota / Decathlon, Last 7 and 30 days). Observed in the Lack of visibility tab (Orange, Last 30 days, 'Lack of visibility (1)'): only www.trustpilot.com/review/www.prixtel.com?page=2, no URL of the orange.ma / orange.fr groups (green frame) - consistent with the rule but not a test of it. Rerun with data (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-008",
+      "title": "Card lines and panel tab counts give the same number of articles",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-008_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-008_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-008_step3_then.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-008_obs_lov_tab_30d.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the lines of the Review Sites card",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the panel of the card",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card and the tabs give the same numbers",
+          "status": "PASS"
+        },
+        {
+          "title": "And each number counts grouped articles",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Orange 16cdf040, Last 30 days (6 Oct - 4 Nov, 30 snapshots), ChatGPT + Gemini, All Countries (window where trustpilot.com has both tabs). Card #5 trustpilot.com: 'Not visible in 1 article' / 'Negative perception in 9 articles'. Panel '#5 · trustpilot.com': tabs 'Lack of visibility (1)' / 'Negative perception (9)' -> N1 = X1 = 1, N2 = X2 = 9. Rows: 1 LoV (www.trustpilot.com/review/www.prixtel.com?page=2) + 9 negative rows, grouped articles one row each (fr orange.ma 2 pages, www orange.ma 3 pages, ie orange.ma, www orange.fr) -> X2 = number of article rows (9), not pages (>= 13) nor reviews (70). Last 7 days also checked: card 'Negative perception in 6 articles' (no 'Not visible' line), panel only 'Negative perception (6)', 6 rows. API sweep (all sources, Orange 7 / 30 days, Toyota 7 / 30 days): card failingArticlesByVerdict = panel row counts, 0 mismatch. B-2 still present in this view (red frame on the title of row 3, see B-2 re-check)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-010",
+      "title": "Excel export gives the same article count as the card",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-010_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-010_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user notes the card lines of the Review Sites source",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Spreadsheet .xls\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Target Sources sheet gives the same counts for the source",
+          "status": "PASS"
+        },
+        {
+          "title": "And the source rank matches the card order",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Orange 16cdf040, Last 30 days, ChatGPT + Gemini, All Countries, en-GB. Card trustpilot.com: 'Not visible in 1 article' / 'Negative perception in 9 articles'. Export 'Spreadsheet .xls' -> Orange_AI_Visibility_Report.xlsx (17 s). Sheet 'Target Sources', 'Ranked sources' row 11: rank 5, trustpilot.com, Review Sites, Failing articles 10, Brand absent 1 (= N1), Depicted negatively 9 (= N2); ranks 1-9 identical to the app cards (edcom.fr, iam.ma, degrouptest.com, ariase.com, trustpilot.com, numerama.com, lesmobiles.com, universfreebox.com, anrt.ma). 'Failing articles' section: 10 trustpilot.com rows (1 LoV + 9 negative), grouped articles one row each. B-2 still present: row 193 title 'https://ie.trustpilot.com/review/www.orange.ma'. step3_then = local rendering of the parsed sheet (file in exports/). Note on step2 screenshot: the 'Export failed - Error NETWORK' toast comes from the first two clicks, blocked client-side (fetch failed in 4 ms) by a read-only route guard left in the shared MCP browser context; the export worked once the export endpoint was allowed for this session - not an app defect."
+    },
+    {
+      "tc_id": "TC-GEO-1548-013",
+      "title": "Article with pages of 4, 2, 3 and 2 negative reviews counts 11 in the panel",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-013_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-013_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show N more reviews\" if present and adds the page block counts",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the chip under the article title reads the sum",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adapted (no article with pages of 4 / 2 / 3 / 2 reviews: the capture caps each page at 10): Orange 16cdf040 trustpilot.com, Last 7 days. After 'Show 10 more reviews' / 'Show 20 more reviews': 'Avis de Orange Maroc' page blocks 10 + 10 = 20 -> chip '20 NEGATIVE REVIEWS'; 'Orange Maroc Reviews' page blocks 10 + 10 + 10 = 30 -> chip '30 NEGATIVE REVIEWS'; entries counted in the DOM: 20 and 30 (green frames on the chips and page-block counts). One-page articles: chip = page count (fr orange.fr 10, fr-be orange.ma 10). Same values in Last 30 days and in the API (reviewCount = sum of pages[].reviewCount). The 11 / non-uniform case is not in the data; the sum rule is verified. Chip text rendered upper-case ('20 NEGATIVE REVIEWS')."
+    },
+    {
+      "tc_id": "TC-GEO-1548-014",
+      "title": "XLSX export shows the number of negative reviews per article, not the quotes",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-014_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-014_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Spreadsheet .xls\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the export shows the number of negative reviews of the article",
+          "status": "PASS"
+        },
+        {
+          "title": "And the export shows no review quote",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Orange 16cdf040, Last 30 days, ChatGPT + Gemini. Chips noted in the panel: 'Avis de Orange Maroc' 20, 'Orange Maroc Reviews' 30, 'Avis de Orange | Lisez les avis marchands de www.orange.fr' 10, 'Orange Maroc Avis 491' 10. XLSX Orange_AI_Visibility_Report.xlsx, sheet 'Target Sources', section 'Failing articles', column 'Negative reviews' (P5 recorded: location = Target Sources sheet, Failing articles table, column header 'Negative reviews', en-GB): rows 191 = 20, 197 = 30, 192 = 10, 198 = 10 - equal to the chips; classic / no-review rows = 0. No review text in the export: the 20 / 30 / 10 / 10 grouped rows have an empty 'Passage' cell, and a search of the review texts ('Service client archi nul', 'A WARNING TO ANYONE', 'Ras le bol du réseau') over all 9 sheets returns 0 hits. Classic rows keep their classic passage (incl. the known B-1 title-as-passage on fr.trustpilot.com/review/www.orange.com?page=2)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-015",
+      "title": "PDF export shows the number of negative reviews per article, not the quotes",
+      "story_id": "GEO-1548",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"Then the export shows the number of negative reviews of the article\" - expected: \"[Open point P5 - expected to confirm] The number equals the chip of the app (e.g. 11); QA records where and with which label it is shown\" on the last page \"ACTION CENTER · TARGET SOURCES\". Observed (Orange 16cdf040, Last 30 days, ChatGPT + Gemini, Orange_AI_Visibility_Report.pdf, 32 pages): the last page 'ACTION CENTER · TARGET SOURCES / Where PR effort pays first' lists the top 10 sources only (row 5 trustpilot.com, Review Sites, 'Not visible in 1 article / Negative perception in 9 articles'); there is no article row and no number of negative reviews (20 / 30 / 10 / 10 in the app) anywhere in the PDF (red frame).",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-015_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-015_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"PDF\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the export shows the number of negative reviews of the article",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the export shows no review quote",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Export 'PDF' (7 s), page 32 rendered locally with pdf.js (text drawn as outlines, no text layer). Step 4 PASS: no review text in the PDF. P5 is open (where / with which label the per-article number is shown in XLSX / PDF / PPTX); if the PO decides that the PDF keeps the source summary only, align the TC (drop the article-count check for PDF). Recommendation: PO question P5 rather than a bug."
+    },
+    {
+      "tc_id": "TC-GEO-1548-016",
+      "title": "PPTX export shows the number of negative reviews per article, not the quotes",
+      "story_id": "GEO-1548",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"Then the export shows the number of negative reviews of the article\" - expected: \"[Open point P5 - expected to confirm] The number equals the chip of the app (e.g. 11); QA records where and with which label it is shown\" on the last slide \"ACTION CENTER · TARGET SOURCES\". Observed (Orange 16cdf040, Last 30 days, ChatGPT + Gemini, Orange_AI_Visibility_Report.pptx, 32 slides): slide 32 lists the top 10 sources only (row 5 trustpilot.com, Review Sites, 'Not visible in 1 article' / 'Negative perception in 9 articles'); no article row and no 'negative reviews' figure on any of the 32 slides (red frame).",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-016_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-016_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Presentation .pptx\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the export shows the number of negative reviews of the article",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the export shows no review quote",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Export 'Presentation .pptx' (3 s); step3_then = text runs of slide32.xml extracted locally. Step 4 PASS: no review text on any slide. Same P5 remark as TC-GEO-1548-015 (PO question rather than bug)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-019",
+      "title": "Pagination parameters page, p and pg of one review page share one article",
+      "story_id": "GEO-1548",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-019_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-019_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the page block URLs of the article",
+          "status": "PASS"
+        },
+        {
+          "title": "Then page 1 and the ?page= / ?p= / ?pg= pages of the same path are in the same article",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And a page of another company on the same host has its own article",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Orange 16cdf040 trustpilot.com, Last 7 days. Page blocks listed in page order: www.trustpilot.com/review/www.orange.ma (page 1, no parameter), ?page=2, ?page=4; fr.trustpilot.com/review/www.orange.ma, ?page=4 -> page 1 and the ?page= pages of the same path are in ONE article (green frames). Step 4 adapted (axa.fr not in data): a page of another company on the same host has its own article - fr.trustpilot.com/review/www.orange.fr is a separate article. PARTIAL: only ?page= exists in the data; no ?p= or ?pg= URL in any QA-GEO analysis (API search, 5 analyses, Last 30 days, all engines: one ?p= URL on businessman.ma, Journalism, positive) - ?p= / ?pg= grouping needs the dev unit-test evidence (TC description)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-020",
+      "title": "Journalism URLs with ?p= stay two articles",
+      "story_id": "GEO-1548",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-020_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-020_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-020_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Journalism source",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the two ?p= URLs are two articles",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Prerequisite missing: no Journalism source with two ?p= URLs. API search over Orange 16cdf040, Toyota 439acd96, Decathlon b6c8b664, adidas 7afde4fe, Lictorix f228f1fe (Last 30 days, 5 engines, failing + positive articles): only www.businessman.ma/?p=32505 (Orange, Journalism, positive, grouped=false, not shown in the panel). Related non-regression seen: Journalism ?page= URLs stay one article per URL (Toyota lefigaro.fr /automobile?page=130, larepubliquedespyrenees.fr, all grouped=false). Per TC description: dev evidence (unit test of the grouping function) needed."
+    },
+    {
+      "tc_id": "TC-GEO-1548-023",
+      "title": "URL variants of one review page are not merged",
+      "story_id": "GEO-1548",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-023_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-023_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-023_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the URL lines of the articles",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then each variant is its own article",
+          "status": "PASS"
+        }
+      ],
+      "notes": "No URL variant of one review page in a Negative perception tab of a Review Sites source (API sweep Orange / Toyota / Decathlon, 7 and 30 days). Closest data: Toyota 439acd96, Last 7 days, AI Engines 4, consumerreports.org (Review Sites, #41): the same page cited as https://www.consumerreports.org/cars/Toyota/ and https://www.consumerreports.org/cars/toyota/ (path case variant) gives TWO articles, not merged (API grouped=false on both; XLSX 'Positive articles' rows 1275 'Toyota' and 1276 'Toyota Cars, SUVs, Trucks, & Minivans - Consumer Reports', green frames). These two are positive (NAMED_NOT_NEGATIVE), so they are not shown in the panel tabs - the panel shows 'Negative perception (3)' without them. Scheme / www / trailing-slash variants found only on non-Review Sites sources (guideautoweb.com http vs https, caranddriver.com and aramisauto.com slash, vivacar.fr www) where grouping does not apply. PARTIAL: rule observed in data and export, not in the Negative perception tab as the TC states."
+    },
+    {
+      "tc_id": "TC-GEO-1548-024",
+      "title": "Page without stored reviews inside a grouped article",
+      "story_id": "GEO-1548",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the page blocks of the article",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page without stored reviews shows as decided by the PO",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And its effect on the article tab is as decided by the PO",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "P1 open - behaviour recorded. Orange 16cdf040 trustpilot.com, Last 30 days, ChatGPT + Gemini. The grouped article for ie.trustpilot.com/review/www.orange.ma (API grouped=true, reviewCount 0, pages=[]) merges the 03/11 run page ie.trustpilot.com/review/www.orange.ma (no reviews stored) and the 04/11 page ie.trustpilot.com/review/www.orange.ma?page=2 (no reviews stored, judged NAMED_NEGATIVELY with a classic passage 'Orange is an absolutely terrible service...' - shown as such in Last 7 days). Shown in the panel: title 'https://ie.trustpilot.com/review/www.orange.ma' (B-2) + URL line ie.trustpilot.com/review/www.orange.ma as plain text (no link), NO page block, NO entry, NO classic passage, NO chip (green frame). Effect on the tabs: the article counts for the Negative perception verdict ('Negative perception (9)', card 9, XLSX row 193 'Negative reviews' 0). Same display for the grouped www.trustpilot.com/review/www.orange.fr article (title 'Read Customer Service Reviews of www.orange.fr', no link, no passage). So a page without stored reviews inside a grouped article is not shown at all (its classic passage is dropped) but still makes the article negative. To confirm with the PO (P1)."
+    }
+  ]
+}

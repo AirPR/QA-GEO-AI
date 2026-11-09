@@ -1,0 +1,1036 @@
+{
+  "stats": {
+    "startTime": "2026-05-30T16:51:18.939Z",
+    "duration": 2451734.8830000004,
+    "expected": 253,
+    "skipped": 153,
+    "unexpected": 120,
+    "flaky": 0
+  },
+  "suites": [
+    {
+      "title": "test-suite-epic99.spec.js",
+      "file": "test-suite-epic99.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "GEO-56-TC001 - Previous and Next controls change the selected snapshot",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 95,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 27520,
+                  "error": {
+                    "message": "Error: snapshot trigger must match \"Analysis — DD Mon YYYY\", got: \"29 mai 2026\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"29 mai 2026\"\u001b[39m",
+                    "stack": "Error: snapshot trigger must match \"Analysis — DD Mon YYYY\", got: \"29 mai 2026\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"29 mai 2026\"\u001b[39m\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:336:5",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                      "column": 5,
+                      "line": 336
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 334 |\u001b[39m     triggerText\u001b[33m,\u001b[39m\n \u001b[90m 335 |\u001b[39m     \u001b[32m`snapshot trigger must match \"Analysis — DD Mon YYYY\", got: \"${triggerText}\"`\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 336 |\u001b[39m   )\u001b[33m.\u001b[39mtoMatch(\u001b[33mSNAPSHOT_LABEL_REGEX\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 337 |\u001b[39m   expect(triggerText\u001b[33m,\u001b[39m \u001b[32m'snapshot trigger must change after selecting a different option'\u001b[39m)\u001b[33m.\u001b[39mnot\u001b[33m.\u001b[39mtoContain(initialOption\u001b[33m.\u001b[39mslice(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m \u001b[35m15\u001b[39m))\u001b[33m;\u001b[39m\n \u001b[90m 338 |\u001b[39m\n \u001b[90m 339 |\u001b[39m   \u001b[36mawait\u001b[39m screenshot(page\u001b[33m,\u001b[39m \u001b[32m'GEO-56-TC001_step3_then'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "column": 5,
+                        "line": 336
+                      },
+                      "message": "Error: snapshot trigger must match \"Analysis — DD Mon YYYY\", got: \"29 mai 2026\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"29 mai 2026\"\u001b[39m\n\n  334 |     triggerText,\n  335 |     `snapshot trigger must match \"Analysis — DD Mon YYYY\", got: \"${triggerText}\"`,\n> 336 |   ).toMatch(SNAPSHOT_LABEL_REGEX);\n      |     ^\n  337 |   expect(triggerText, 'snapshot trigger must change after selecting a different option').not.toContain(initialOption.slice(0, 15));\n  338 |\n  339 |   await screenshot(page, 'GEO-56-TC001_step3_then');\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:336:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:26:53.334Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic99-GEO-56-T-a413d-hange-the-selected-snapshot-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "column": 5,
+                    "line": 336
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-9db2d6db65c9871478c1",
+          "file": "test-suite-epic99.spec.js",
+          "line": 312,
+          "column": 1
+        },
+        {
+          "title": "GEO-56-TC002 - Filters remain consistent across snapshots",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 94,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 40859,
+                  "error": {
+                    "message": "Error: market filter trigger must still reflect \"United States\" after snapshot switch\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"market-dropdown\"] button')\nExpected substring: \u001b[32m\"\u001b[7mUnited Stat\u001b[27mes\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mAll Countri\u001b[27mes\"\u001b[39m\nTimeout: 20000ms\n\nCall log:\n\u001b[2m  - market filter trigger must still reflect \"United States\" after snapshot switch with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"market-dropdown\"] button')\u001b[22m\n\u001b[2m    23 × locator resolved to <button type=\"button\" aria-expanded=\"false\" aria-haspopup=\"listbox\" aria-label=\"Country filter — All countries\" class=\"flex w-[228px] items-center gap-2 rounded border border-[#E2E8F0] py-2 pr-2 pl-2.5 shadow-[0px_1px_2px_rgba(228,229,231,0.24)] transition-colors duration-150 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"All Countries\"\u001b[22m\n",
+                    "stack": "Error: market filter trigger must still reflect \"United States\" after snapshot switch\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"market-dropdown\"] button')\nExpected substring: \u001b[32m\"\u001b[7mUnited Stat\u001b[27mes\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mAll Countri\u001b[27mes\"\u001b[39m\nTimeout: 20000ms\n\nCall log:\n\u001b[2m  - market filter trigger must still reflect \"United States\" after snapshot switch with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"market-dropdown\"] button')\u001b[22m\n\u001b[2m    23 × locator resolved to <button type=\"button\" aria-expanded=\"false\" aria-haspopup=\"listbox\" aria-label=\"Country filter — All countries\" class=\"flex w-[228px] items-center gap-2 rounded border border-[#E2E8F0] py-2 pr-2 pl-2.5 shadow-[0px_1px_2px_rgba(228,229,231,0.24)] transition-colors duration-150 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"All Countries\"\u001b[22m\n\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:376:5",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                      "column": 5,
+                      "line": 376
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 374 |\u001b[39m     page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39mmarketTrigger)\u001b[33m,\u001b[39m\n \u001b[90m 375 |\u001b[39m     \u001b[32m`market filter trigger must still reflect \"${marketKeyword}\" after snapshot switch`\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 376 |\u001b[39m   )\u001b[33m.\u001b[39mtoContainText(marketKeyword)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 377 |\u001b[39m\n \u001b[90m 378 |\u001b[39m   \u001b[36mawait\u001b[39m screenshot(page\u001b[33m,\u001b[39m \u001b[32m'GEO-56-TC002_step3_then'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 379 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "column": 5,
+                        "line": 376
+                      },
+                      "message": "Error: market filter trigger must still reflect \"United States\" after snapshot switch\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"market-dropdown\"] button')\nExpected substring: \u001b[32m\"\u001b[7mUnited Stat\u001b[27mes\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mAll Countri\u001b[27mes\"\u001b[39m\nTimeout: 20000ms\n\nCall log:\n\u001b[2m  - market filter trigger must still reflect \"United States\" after snapshot switch with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"market-dropdown\"] button')\u001b[22m\n\u001b[2m    23 × locator resolved to <button type=\"button\" aria-expanded=\"false\" aria-haspopup=\"listbox\" aria-label=\"Country filter — All countries\" class=\"flex w-[228px] items-center gap-2 rounded border border-[#E2E8F0] py-2 pr-2 pl-2.5 shadow-[0px_1px_2px_rgba(228,229,231,0.24)] transition-colors duration-150 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"All Countries\"\u001b[22m\n\n\n  374 |     page.locator(SEL.marketTrigger),\n  375 |     `market filter trigger must still reflect \"${marketKeyword}\" after snapshot switch`,\n> 376 |   ).toContainText(marketKeyword);\n      |     ^\n  377 |\n  378 |   await screenshot(page, 'GEO-56-TC002_step3_then');\n  379 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:376:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:27:04.179Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic99-GEO-56-T-1ad64-consistent-across-snapshots-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "column": 5,
+                    "line": 376
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-549220cc7045d00000a1",
+          "file": "test-suite-epic99.spec.js",
+          "line": 342,
+          "column": 1
+        },
+        {
+          "title": "GEO-56-TC003 - Previous button is disabled on the oldest snapshot",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 93,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 26508,
+                  "error": {
+                    "message": "Error: trigger must show the oldest snapshot label after selecting the last option\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"26 mai 2026\"\u001b[39m",
+                    "stack": "Error: trigger must show the oldest snapshot label after selecting the last option\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"26 mai 2026\"\u001b[39m\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:399:102",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                      "column": 102,
+                      "line": 399
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 397 |\u001b[39m\n \u001b[90m 398 |\u001b[39m   \u001b[90m// Then the oldest snapshot is selected and is the last available option (no earlier snapshot accessible)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 399 |\u001b[39m   expect(triggerText\u001b[33m,\u001b[39m \u001b[32m'trigger must show the oldest snapshot label after selecting the last option'\u001b[39m)\u001b[33m.\u001b[39mtoMatch(\u001b[33mSNAPSHOT_LABEL_REGEX\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 400 |\u001b[39m   \u001b[90m// Re-open dropdown and verify the oldest option is still last (no option below it)\u001b[39m\n \u001b[90m 401 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msnapshotTrigger)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 402 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msnapshotOption)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "column": 102,
+                        "line": 399
+                      },
+                      "message": "Error: trigger must show the oldest snapshot label after selecting the last option\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"26 mai 2026\"\u001b[39m\n\n  397 |\n  398 |   // Then the oldest snapshot is selected and is the last available option (no earlier snapshot accessible)\n> 399 |   expect(triggerText, 'trigger must show the oldest snapshot label after selecting the last option').toMatch(SNAPSHOT_LABEL_REGEX);\n      |                                                                                                      ^\n  400 |   // Re-open dropdown and verify the oldest option is still last (no option below it)\n  401 |   await page.locator(SEL.snapshotTrigger).first().click();\n  402 |   await page.locator(SEL.snapshotOption).first().waitFor({ state: 'visible', timeout: 5000 });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:399:102"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:27:15.223Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic99-GEO-56-T-ed1ef-bled-on-the-oldest-snapshot-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "column": 102,
+                    "line": 399
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-800865cbb9efdcacac58",
+          "file": "test-suite-epic99.spec.js",
+          "line": 381,
+          "column": 1
+        },
+        {
+          "title": "GEO-56-TC004 - Next button is disabled on the most recent snapshot",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 96,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 20807,
+                  "error": {
+                    "message": "Error: trigger must show the newest snapshot label\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"30 mai 2026\"\u001b[39m",
+                    "stack": "Error: trigger must show the newest snapshot label\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"30 mai 2026\"\u001b[39m\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:431:70",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                      "column": 70,
+                      "line": 431
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 429 |\u001b[39m\n \u001b[90m 430 |\u001b[39m   \u001b[90m// Then the most recent snapshot is selected and is the first available option (no newer snapshot accessible)\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 431 |\u001b[39m   expect(triggerText\u001b[33m,\u001b[39m \u001b[32m'trigger must show the newest snapshot label'\u001b[39m)\u001b[33m.\u001b[39mtoMatch(\u001b[33mSNAPSHOT_LABEL_REGEX\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 432 |\u001b[39m   \u001b[90m// Re-open dropdown and verify the newest option is still first\u001b[39m\n \u001b[90m 433 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msnapshotTrigger)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 434 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msnapshotOption)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "column": 70,
+                        "line": 431
+                      },
+                      "message": "Error: trigger must show the newest snapshot label\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"30 mai 2026\"\u001b[39m\n\n  429 |\n  430 |   // Then the most recent snapshot is selected and is the first available option (no newer snapshot accessible)\n> 431 |   expect(triggerText, 'trigger must show the newest snapshot label').toMatch(SNAPSHOT_LABEL_REGEX);\n      |                                                                      ^\n  432 |   // Re-open dropdown and verify the newest option is still first\n  433 |   await page.locator(SEL.snapshotTrigger).first().click();\n  434 |   await page.locator(SEL.snapshotOption).first().waitFor({ state: 'visible', timeout: 5000 });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:431:70"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:27:23.559Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic99-GEO-56-T-41d67-on-the-most-recent-snapshot-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "column": 70,
+                    "line": 431
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-8b3223b801847773d4fa",
+          "file": "test-suite-epic99.spec.js",
+          "line": 412,
+          "column": 1
+        },
+        {
+          "title": "GEO-56-TC005 - Snapshot controls are hidden when only one snapshot exists",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "requires DASHBOARD_UUID_SINGLE (a report with exactly one snapshot) — set jdd single_snapshot_uuid to run",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "line": 444,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 97,
+                  "parallelIndex": 1,
+                  "status": "skipped",
+                  "duration": 550,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:27:44.335Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "requires DASHBOARD_UUID_SINGLE (a report with exactly one snapshot) — set jdd single_snapshot_uuid to run",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "line": 444,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-0e448fa7899da67a9eef",
+          "file": "test-suite-epic99.spec.js",
+          "line": 442,
+          "column": 1
+        },
+        {
+          "title": "GEO-57-TC001 - Snapshot is created when analysis completes",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 98,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 24192,
+                  "error": {
+                    "message": "Error: snapshot label must match \"Analysis — DD Mon YYYY\", got: \"30 mai 2026\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"30 mai 2026\"\u001b[39m",
+                    "stack": "Error: snapshot label must match \"Analysis — DD Mon YYYY\", got: \"30 mai 2026\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"30 mai 2026\"\u001b[39m\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:491:5",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                      "column": 5,
+                      "line": 491
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 489 |\u001b[39m     snapshotLabel\u001b[33m,\u001b[39m\n \u001b[90m 490 |\u001b[39m     \u001b[32m`snapshot label must match \"Analysis — DD Mon YYYY\", got: \"${snapshotLabel}\"`\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 491 |\u001b[39m   )\u001b[33m.\u001b[39mtoMatch(\u001b[33mSNAPSHOT_LABEL_REGEX\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 492 |\u001b[39m\n \u001b[90m 493 |\u001b[39m   \u001b[36mawait\u001b[39m screenshot(page\u001b[33m,\u001b[39m \u001b[32m'GEO-57-TC001_step3_then'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 494 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "column": 5,
+                        "line": 491
+                      },
+                      "message": "Error: snapshot label must match \"Analysis — DD Mon YYYY\", got: \"30 mai 2026\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"30 mai 2026\"\u001b[39m\n\n  489 |     snapshotLabel,\n  490 |     `snapshot label must match \"Analysis — DD Mon YYYY\", got: \"${snapshotLabel}\"`,\n> 491 |   ).toMatch(SNAPSHOT_LABEL_REGEX);\n      |     ^\n  492 |\n  493 |   await screenshot(page, 'GEO-57-TC001_step3_then');\n  494 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:491:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:27:46.310Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic99-GEO-57-T-c345a-ted-when-analysis-completes-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "column": 5,
+                    "line": 491
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-4df40f2a1bbd9fade084",
+          "file": "test-suite-epic99.spec.js",
+          "line": 467,
+          "column": 1
+        },
+        {
+          "title": "GEO-57-TC002 - Snapshot remains immutable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 97,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 31836,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:27:45.195Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-66e15a9669f3ee88bcec",
+          "file": "test-suite-epic99.spec.js",
+          "line": 496,
+          "column": 1
+        },
+        {
+          "title": "GEO-57-TC003 - Snapshot retention is preserved",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 99,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 25369,
+                  "error": {
+                    "message": "Error: oldest snapshot must have a valid date label, got: \"26 mai 2026\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"26 mai 2026\"\u001b[39m",
+                    "stack": "Error: oldest snapshot must have a valid date label, got: \"26 mai 2026\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"26 mai 2026\"\u001b[39m\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:551:5",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                      "column": 5,
+                      "line": 551
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 549 |\u001b[39m     oldestLabel\u001b[33m,\u001b[39m\n \u001b[90m 550 |\u001b[39m     \u001b[32m`oldest snapshot must have a valid date label, got: \"${oldestLabel}\"`\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 551 |\u001b[39m   )\u001b[33m.\u001b[39mtoMatch(\u001b[33mSNAPSHOT_LABEL_REGEX\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 552 |\u001b[39m\n \u001b[90m 553 |\u001b[39m   \u001b[36mawait\u001b[39m screenshot(page\u001b[33m,\u001b[39m \u001b[32m'GEO-57-TC003_step3_then'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 554 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "column": 5,
+                        "line": 551
+                      },
+                      "message": "Error: oldest snapshot must have a valid date label, got: \"26 mai 2026\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatch\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}/\u001b[39m\nReceived string:  \u001b[31m\"26 mai 2026\"\u001b[39m\n\n  549 |     oldestLabel,\n  550 |     `oldest snapshot must have a valid date label, got: \"${oldestLabel}\"`,\n> 551 |   ).toMatch(SNAPSHOT_LABEL_REGEX);\n      |     ^\n  552 |\n  553 |   await screenshot(page, 'GEO-57-TC003_step3_then');\n  554 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:551:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:27:46.499Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic99-GEO-57-T-1f782-shot-retention-is-preserved-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "column": 5,
+                    "line": 551
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-743d31073947ff4c43c2",
+          "file": "test-suite-epic99.spec.js",
+          "line": 524,
+          "column": 1
+        },
+        {
+          "title": "GEO-57-TC004 - Snapshot stores report and response links",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 100,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18541,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:13.217Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-590fe14f530cebb8b139",
+          "file": "test-suite-epic99.spec.js",
+          "line": 556,
+          "column": 1
+        },
+        {
+          "title": "GEO-55-TC001 - Guided tour starts from URL parameter",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-55-TC001: requires TOUR_ENTRY_URL (e.g. http://localhost:3000/geo?tour=true) — set env var to run",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "line": 594,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 101,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 467,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:13.522Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-55-TC001: requires TOUR_ENTRY_URL (e.g. http://localhost:3000/geo?tour=true) — set env var to run",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "line": 594,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-5388c83e7d2325501120",
+          "file": "test-suite-epic99.spec.js",
+          "line": 592,
+          "column": 1
+        },
+        {
+          "title": "GEO-55-TC002 - Tour can be advanced or skipped",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-55-TC002: requires TOUR_ENTRY_URL — set env var to run",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "line": 616,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 101,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 233,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:14.390Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-55-TC002: requires TOUR_ENTRY_URL — set env var to run",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "line": 616,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-e9d3d2599d6d52e3ed7f",
+          "file": "test-suite-epic99.spec.js",
+          "line": 615,
+          "column": 1
+        },
+        {
+          "title": "GEO-55-TC003 - Tour uses demo data and stays within step range",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-55-TC003: requires TOUR_ENTRY_URL configured for a no-report account — set env var to run",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "line": 647,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 101,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 291,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:14.639Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-55-TC003: requires TOUR_ENTRY_URL configured for a no-report account — set env var to run",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "line": 647,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-97180b222f53e53b49e8",
+          "file": "test-suite-epic99.spec.js",
+          "line": 645,
+          "column": 1
+        },
+        {
+          "title": "GEO-55-TC004 - Guided tour completion is tracked",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "GEO-55-TC004: requires TOUR_ENTRY_URL — set env var to run",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "line": 677,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 101,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 222,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:14.951Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "GEO-55-TC004: requires TOUR_ENTRY_URL — set env var to run",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "line": 677,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-a34bb443ad84b7c237c9",
+          "file": "test-suite-epic99.spec.js",
+          "line": 676,
+          "column": 1
+        },
+        {
+          "title": "GEO-235-TC001 - Mention sidebar link opens the Mention application",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 101,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 37420,
+                  "error": {
+                    "message": "TimeoutError: page.waitForNavigation: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://staging-360.onclusive.com/\"\n============================================================",
+                    "stack": "TimeoutError: page.waitForNavigation: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://staging-360.onclusive.com/\"\n============================================================\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:719:10",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                      "column": 10,
+                      "line": 719
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 717 |\u001b[39m   \u001b[36mawait\u001b[39m expect(mentionBtn\u001b[33m,\u001b[39m \u001b[32m`\"${SIDEBAR_MODULE_LABELS[0]}\" button must be visible in the sidebar module navigation`\u001b[39m)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 718 |\u001b[39m   \u001b[36mawait\u001b[39m \u001b[33mPromise\u001b[39m\u001b[33m.\u001b[39mall([\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 719 |\u001b[39m     page\u001b[33m.\u001b[39mwaitForNavigation({ waitUntil\u001b[33m:\u001b[39m \u001b[32m'load'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m15000\u001b[39m })\u001b[33m,\u001b[39m\n \u001b[90m     |\u001b[39m          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 720 |\u001b[39m     mentionBtn\u001b[33m.\u001b[39mclick()\u001b[33m,\u001b[39m\n \u001b[90m 721 |\u001b[39m   ])\u001b[33m;\u001b[39m\n \u001b[90m 722 |\u001b[39m   \u001b[36mawait\u001b[39m screenshot(page\u001b[33m,\u001b[39m \u001b[32m'GEO-235-TC001_step2_when'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "column": 10,
+                        "line": 719
+                      },
+                      "message": "TimeoutError: page.waitForNavigation: Timeout 15000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://staging-360.onclusive.com/\"\n============================================================\n\n  717 |   await expect(mentionBtn, `\"${SIDEBAR_MODULE_LABELS[0]}\" button must be visible in the sidebar module navigation`).toBeVisible({ timeout: 10000 });\n  718 |   await Promise.all([\n> 719 |     page.waitForNavigation({ waitUntil: 'load', timeout: 15000 }),\n      |          ^\n  720 |     mentionBtn.click(),\n  721 |   ]);\n  722 |   await screenshot(page, 'GEO-235-TC001_step2_when');\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:719:10"
+                    },
+                    {
+                      "location": {
+                        "file": "eval at evaluate (:302:30), <anonymous>",
+                        "column": 21,
+                        "line": 19
+                      },
+                      "message": "Error: page.evaluate: TypeError: Cannot read properties of null (reading 'prepend')\n    at eval (eval at evaluate (:302:30), <anonymous>:19:21)\n    at UtilityScript.evaluate (<anonymous>:304:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at eval (eval at evaluate (:302:30), <anonymous>:19:21)\n    at UtilityScript.evaluate (<anonymous>:304:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:288:16"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:15.187Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic99-GEO-235--c5209-ens-the-Mention-application-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "column": 10,
+                    "line": 719
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-a2ce416e2acceeff19cd",
+          "file": "test-suite-epic99.spec.js",
+          "line": 710,
+          "column": 1
+        },
+        {
+          "title": "GEO-235-TC002 - Review sidebar link opens the Review application",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 97,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 28952,
+                  "error": {
+                    "message": "Error: expected Review URL (\"https://test.reputation.onclusive.com/up\") or auth-staging login redirect; got \"https://test.reputation.onclusive.com/auth?accounts=false&&r=&&&returnUrl=https://test.reputation.onclusive.com/up\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m",
+                    "stack": "Error: expected Review URL (\"https://test.reputation.onclusive.com/up\") or auth-staging login redirect; got \"https://test.reputation.onclusive.com/auth?accounts=false&&r=&&&returnUrl=https://test.reputation.onclusive.com/up\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:767:5",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                      "column": 5,
+                      "line": 767
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 765 |\u001b[39m     isDestination \u001b[33m||\u001b[39m isAuthRedirect\u001b[33m,\u001b[39m\n \u001b[90m 766 |\u001b[39m     \u001b[32m`expected Review URL (\"${VITE_REVIEW_URL}\") or auth-staging login redirect; got \"${finalUrl}\"`\u001b[39m\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 767 |\u001b[39m   )\u001b[33m.\u001b[39mtoBe(\u001b[36mtrue\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 768 |\u001b[39m\n \u001b[90m 769 |\u001b[39m   \u001b[36mawait\u001b[39m screenshot(page\u001b[33m,\u001b[39m \u001b[32m'GEO-235-TC002_step3_then'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 770 |\u001b[39m })\u001b[33m;\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "column": 5,
+                        "line": 767
+                      },
+                      "message": "Error: expected Review URL (\"https://test.reputation.onclusive.com/up\") or auth-staging login redirect; got \"https://test.reputation.onclusive.com/auth?accounts=false&&r=&&&returnUrl=https://test.reputation.onclusive.com/up\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  765 |     isDestination || isAuthRedirect,\n  766 |     `expected Review URL (\"${VITE_REVIEW_URL}\") or auth-staging login redirect; got \"${finalUrl}\"`,\n> 767 |   ).toBe(true);\n      |     ^\n  768 |\n  769 |   await screenshot(page, 'GEO-235-TC002_step3_then');\n  770 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:767:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:17.049Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epic99-GEO-235--19f0c-pens-the-Review-application-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "column": 5,
+                    "line": 767
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-0d646ba0625471ec9bbb",
+          "file": "test-suite-epic99.spec.js",
+          "line": 741,
+          "column": 1
+        },
+        {
+          "title": "GEO-235-TC003 - Contact sidebar link opens the Contact portal",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 100,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18432,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:32.039Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-5a2a1dc9c67bb584a660",
+          "file": "test-suite-epic99.spec.js",
+          "line": 772,
+          "column": 1
+        },
+        {
+          "title": "GEO-235-TC004 - Settings sidebar link opens the internal Coming Soon page",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 102,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 16371,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:48.330Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-cd8e7d8eb0babfdfc5a3",
+          "file": "test-suite-epic99.spec.js",
+          "line": 803,
+          "column": 1
+        },
+        {
+          "title": "GEO-235-TC005 - Measure sidebar item stays active when already selected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 100,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18479,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:50.488Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-2c8c7524b3695c726e52",
+          "file": "test-suite-epic99.spec.js",
+          "line": 829,
+          "column": 1
+        },
+        {
+          "title": "GEO-235-TC006 - Missing module URL leaves the sidebar item inactive",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "requires MISSING_MODULE_LABEL (e.g. \"Mention\") — set the env var to designate an unconfigured module",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                    "line": 855,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 103,
+                  "parallelIndex": 2,
+                  "status": "skipped",
+                  "duration": 376,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:28:54.484Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "requires MISSING_MODULE_LABEL (e.g. \"Mention\") — set the env var to designate an unconfigured module",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js",
+                        "line": 855,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "885a5527aa73980a4c04-5ee9303608cb76b422ca",
+          "file": "test-suite-epic99.spec.js",
+          "line": 852,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "metadata": {}
+}

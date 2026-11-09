@@ -1,0 +1,362 @@
+<title>{{LABEL}} Release Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: release summary (two donuts: anomalies, test cases), then a release tree with one card per epic:
+   ticket bars on a shared scale + the epic's own anomaly and test-case donuts */
+:root {
+  --bg: #f6f7f9; --surface: #ffffff; --ink: #14171c; --ink-2: #4a505a; --ink-3: #7a808a;
+  --line: #d5d9e0; --accent: #1f5fb4; --accent-soft: #e6eef9;
+  --st-ready: #2a78d6; --st-passed: #0ca30c; --st-done: #0ca30c; --st-action: #d03b3b;
+  --st-todo: #a8a6a0; --st-qa: #eb6834; --st-abandoned: #cfcdc7; --stripe: rgba(255,255,255,.6); --stripe-dark: rgba(0,0,0,.2);
+  --tc-pass: #0ca30c; --tc-partial: #fab219; --tc-fail: #d03b3b; --tc-skip: #a8a6a0;
+  --tc-pass-ink: #067a06; --tc-partial-ink: #8a5a00; --tc-fail-ink: #b42323;
+  --f-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111317; --surface: #1a1c21; --ink: #f2f3f5; --ink-2: #b9bec7; --ink-3: #8a909a;
+  --line: #343841; --accent: #6aa3ee; --accent-soft: #1c2a3e;
+  --st-ready: #3987e5; --st-qa: #d95926; --st-todo: #6b6a65; --st-abandoned: #45443f; --stripe: rgba(255,255,255,.45); --stripe-dark: rgba(0,0,0,.35);
+  --tc-skip: #6b6a65; --tc-pass-ink: #3fbf3f; --tc-partial-ink: #fab219; --tc-fail-ink: #f06a6a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111317; --surface: #1a1c21; --ink: #f2f3f5; --ink-2: #b9bec7; --ink-3: #8a909a;
+  --line: #343841; --accent: #6aa3ee; --accent-soft: #1c2a3e;
+  --st-ready: #3987e5; --st-qa: #d95926; --st-todo: #6b6a65; --st-abandoned: #45443f; --stripe: rgba(255,255,255,.45); --stripe-dark: rgba(0,0,0,.35);
+  --tc-skip: #6b6a65; --tc-pass-ink: #3fbf3f; --tc-partial-ink: #fab219; --tc-fail-ink: #f06a6a; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.45; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; display: grid; gap: 28px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+.mono { font-family: var(--f-mono); font-size: .86em; }
+a { color: var(--accent); }
+a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+header.top { display: grid; gap: 6px; }
+.eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: 12px; font-weight: 600; color: var(--ink-3); }
+header.top h1 { font-size: clamp(26px, 4vw, 34px); font-weight: 700; letter-spacing: -.01em; }
+header.top p { margin: 0; color: var(--ink-2); }
+@media (min-width: 1100px) { header.top p { white-space: nowrap; } }
+
+/* release summary */
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; grid-template-rows: auto auto 1fr; align-content: start; gap: 12px; min-width: 0; }
+.panel .donut-box { flex-direction: column; flex-wrap: nowrap; align-items: center; }
+.panel .dl { width: 100%; max-width: 260px; flex: none; }
+.panel .verdict-line { justify-content: center; text-align: center; }
+.panel h2 { font-size: 16px; font-weight: 700; }
+.panel .sub { color: var(--ink-2); font-size: 13px; margin-top: -8px; }
+
+.totals { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--ink-2); font-size: 13.5px; }
+.totals b { color: var(--ink); font-size: 16px; font-variant-numeric: tabular-nums; margin-right: 4px; }
+
+/* donut + legend */
+.donut-box { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; min-width: 0; }
+.donut { flex: none; display: block; }
+.donut .slice { cursor: default; transition: opacity .15s; }
+.donut:hover .slice:not(:hover) { opacity: .55; }
+.donut .c-n { font-weight: 700; fill: var(--ink); font-variant-numeric: tabular-nums; }
+.dl { display: grid; gap: 4px; font-size: 13px; min-width: 0; flex: 1 1 170px; }
+.dl .li { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto auto; gap: 8px; align-items: center; color: var(--ink-2); }
+.dl .li b { color: var(--ink); font-variant-numeric: tabular-nums; text-align: right; }
+.dl .li .pct { color: var(--ink-3); font-variant-numeric: tabular-nums; min-width: 3.4em; text-align: right; }
+.chip { width: 14px; height: 10px; border-radius: 2px; display: inline-block; }
+.chip.done { background-image: repeating-linear-gradient(135deg, transparent 0 3px, var(--stripe) 3px 5px); }
+.chip.abandoned { background-image: repeating-linear-gradient(45deg, transparent 0 3px, var(--stripe-dark) 3px 5px); }
+.verdict-line { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; font-size: 13px; color: var(--ink-2); }
+.verdict { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; border: 1px solid currentColor; }
+.v-go { color: var(--tc-pass-ink); } .v-conditional { color: var(--tc-partial-ink); } .v-no-go { color: var(--tc-fail-ink); }
+.empty { color: var(--ink-3); font-size: 13px; font-style: italic; }
+
+/* tree */
+.root { display: inline-flex; align-items: center; gap: 10px; background: var(--accent); color: #fff; border-radius: 8px; padding: 8px 14px; font-weight: 700; justify-self: start; }
+.root small { font-weight: 500; opacity: .85; }
+.tree { position: relative; margin-left: 22px; padding-left: 26px; border-left: 2px solid var(--line); display: grid; gap: 22px; padding-block: 18px 4px; margin-top: -28px; }
+.epic { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 14px; min-width: 0; }
+.epic::before { content: ""; position: absolute; left: -27px; top: 26px; width: 26px; border-top: 2px solid var(--line); }
+.epic.orphan { border-style: dashed; background: transparent; }
+.epic-head { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; }
+.epic-head h2 { font-size: 18px; font-weight: 700; }
+.epic-head h2 .ttl { font-weight: 600; }
+.pill { font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); border: 1px solid currentColor; }
+.rows { display: grid; gap: 8px; }
+.row { display: grid; grid-template-columns: 150px 40px minmax(0, 1fr); gap: 12px; align-items: center; }
+.row .lbl { color: var(--ink-2); font-size: 14px; }
+.row .n { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.bar { display: flex; gap: 2px; height: 18px; min-width: 0; }
+.seg { height: 100%; border-radius: 2px; cursor: default; min-width: 6px; }
+.seg:first-child { border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+.seg:last-child { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+.seg.done { background-image: repeating-linear-gradient(135deg, transparent 0 3px, var(--stripe) 3px 5px); }
+.seg.abandoned { background-image: repeating-linear-gradient(45deg, transparent 0 3px, var(--stripe-dark) 3px 5px); }
+.chips { grid-column: 3; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; color: var(--ink-2); margin-top: -2px; }
+.chips .sw { display: inline-flex; gap: 5px; align-items: center; }
+.chips b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.bilan { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
+.bilan h3 { font-size: 14px; font-weight: 600; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 1.45em; }
+.bilan .donut-box { flex-direction: column; flex-wrap: nowrap; align-items: center; gap: 10px; }
+.bilan .dl { flex: none; width: 100%; max-width: 230px; }
+.bilan .verdict-line { justify-content: center; text-align: center; }
+.bilan > div { display: grid; grid-template-rows: auto auto auto; align-content: start; gap: 10px; min-width: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+
+.note { font-size: 13px; color: var(--ink-2); background: var(--surface); border: 1px dashed var(--line); border-radius: 8px; padding: 10px 14px; margin: 0; }
+details.tbl { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px; }
+details.tbl summary { cursor: pointer; font-weight: 600; }
+.scroll { overflow-x: auto; margin-top: 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--ink-3); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+td.st { white-space: nowrap; }
+
+#tip { position: fixed; pointer-events: none; z-index: 10; background: var(--ink); color: var(--bg); font-size: 12.5px; padding: 8px 10px; border-radius: 6px; max-width: 340px; box-shadow: 0 4px 14px rgba(0,0,0,.2); }
+#tip b { display: block; margin-bottom: 2px; }
+
+@media (max-width: 640px) {
+  .row { grid-template-columns: 1fr 36px; }
+  .row .bar, .row .empty { grid-column: 1 / -1; }
+  .chips { grid-column: 1 / -1; }
+  .tree { margin-left: 10px; padding-left: 16px; }
+  .epic::before { left: -17px; width: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .donut .slice { transition: none; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="pat-done" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(135)">
+      <rect width="6" height="6" style="fill: var(--st-done)"></rect><rect width="2" height="6" style="fill: var(--stripe)"></rect>
+    </pattern>
+    <pattern id="pat-abandoned" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" style="fill: var(--st-abandoned)"></rect><rect width="2" height="6" style="fill: var(--stripe-dark)"></rect>
+    </pattern>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">Release {{LABEL}} · Jira snapshot <span id="snap"></span></span>
+    <h1>{{LABEL}} release map</h1>
+    <p>Epics, test cases and bugs of the release, then each epic with its stories, test cases and bugs. Hover a slice or a segment to see the keys.</p>
+  </header>
+
+  <div class="totals" id="totals" aria-label="Release totals"></div>
+
+  <section class="summary" aria-label="Release summary">
+    <div class="panel" id="sum-epics"></div>
+    <div class="panel" id="sum-tests"></div>
+    <div class="panel" id="sum-bugs"></div>
+  </section>
+
+  <div class="root"><span>{{LABEL}}</span><small id="rootsub"></small></div>
+  <section class="tree" id="tree" aria-label="Epics of the release"></section>
+
+  <details class="tbl">
+    <summary>All tickets (table view)</summary>
+    <div class="scroll"><table id="tbl"><thead><tr><th>Epic</th><th>Type</th><th>Key</th><th>Status</th><th>Summary</th></tr></thead><tbody></tbody></table></div>
+  </details>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+const DATA = /*DATA*/null;
+const JIRA = 'https://onclusive.atlassian.net/browse/';
+const STATUSES = [
+  { s: 'Passed QA', cls: 'passed', v: '--st-passed' },
+  { s: 'Done', cls: 'done', v: '--st-done', pat: 'pat-done' },
+  { s: 'QA In Progress', cls: 'qa', v: '--st-qa' },
+  { s: 'Ready for QA', cls: 'ready', v: '--st-ready' },
+  { s: 'Action Needed', cls: 'action', v: '--st-action' },
+  { s: 'To Do', cls: 'todo', v: '--st-todo' },
+  { s: 'Abandoned', cls: 'abandoned', v: '--st-abandoned', pat: 'pat-abandoned' },
+];
+// statuses outside the main workflow take the colour of the closest group and keep their own name
+const ALIAS = { 'Ready for Release': 'Done', 'Feedback Required': 'Action Needed', 'Backlog': 'To Do', 'In Progress': 'To Do', 'Code Review': 'To Do' };
+const stOf = s => { const a = STATUSES.find(x => x.s === (ALIAS[s] || s)) || STATUSES.find(x => x.s === 'To Do'); return { ...a, s }; };
+const VERDICTS = [
+  { s: 'PASS', v: '--tc-pass', label: 'Passed' },
+  { s: 'PARTIAL', v: '--tc-partial', label: 'Partial' },
+  { s: 'FAIL', v: '--tc-fail', label: 'Failed' },
+  { s: 'SKIP', v: '--tc-skip', label: 'Skipped' },
+];
+const ROWS = [
+  { id: 'stories', label: 'Stories' },
+  { id: 'tasks', label: 'Design tasks' },
+  { id: 'subtasks', label: 'QA test plan' },
+];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+const pct = (n, t) => t ? (n / t * 100).toFixed(n / t < .1 ? 1 : 0) + '%' : '';
+
+const tip = document.getElementById('tip');
+const moveTip = e => {
+  const r = e.target.getBoundingClientRect();
+  const x = e.clientX ?? (r.left + r.width / 2), y = e.clientY ?? r.top;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.min(Math.max(8, x - w / 2), innerWidth - w - 8) + 'px';
+  tip.style.top = (y - h - 12 < 8 ? y + 18 : y - h - 12) + 'px';
+};
+const bindTip = (node, html) => {
+  node.addEventListener('mouseenter', e => { tip.innerHTML = html; tip.hidden = false; moveTip(e); });
+  node.addEventListener('mousemove', moveTip);
+  node.addEventListener('mouseleave', () => { tip.hidden = true; });
+  node.addEventListener('focus', e => { tip.innerHTML = html; tip.hidden = false; moveTip(e); });
+  node.addEventListener('blur', () => { tip.hidden = true; });
+};
+
+// groups of bugs by real status name, ordered like the workflow
+function groupBugs(list) {
+  const map = new Map();
+  for (const b of list) { if (!map.has(b.s)) map.set(b.s, { st: stOf(b.s), list: [] }); map.get(b.s).list.push(b); }
+  const rank = s => { const i = STATUSES.findIndex(x => x.s === (ALIAS[s] || s)); return (i < 0 ? 99 : i) + (ALIAS[s] ? .5 : 0); };
+  return [...map.values()].sort((a, b) => rank(a.st.s) - rank(b.st.s));
+}
+
+// donut: slices = [{ label, n, color, pat, cls, keys }]
+const NS = 'http://www.w3.org/2000/svg';
+function donut(slices, size, centerLabel, ariaPrefix) {
+  const total = slices.reduce((a, s) => a + s.n, 0);
+  const box = el('div', 'donut-box');
+  const R = 40, W = 16, C = 2 * Math.PI * R, GAP = slices.filter(s => s.n).length > 1 ? 1.4 : 0;
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', '0 0 100 100'); svg.setAttribute('width', size); svg.setAttribute('height', size);
+  svg.setAttribute('class', 'donut'); svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', `${ariaPrefix}: ` + slices.map(s => `${s.n} ${s.label}`).join(', '));
+  const bg = document.createElementNS(NS, 'circle');
+  bg.setAttribute('cx', 50); bg.setAttribute('cy', 50); bg.setAttribute('r', R); bg.setAttribute('fill', 'none');
+  bg.setAttribute('stroke-width', W); bg.style.stroke = 'var(--line)'; svg.append(bg);
+  let off = 0;
+  for (const s of slices) {
+    if (!s.n) continue;
+    const len = s.n / total * C;
+    const c = document.createElementNS(NS, 'circle');
+    c.setAttribute('cx', 50); c.setAttribute('cy', 50); c.setAttribute('r', R); c.setAttribute('fill', 'none');
+    c.setAttribute('stroke-width', W); c.setAttribute('class', 'slice'); c.setAttribute('tabindex', '0');
+    c.style.stroke = s.pat ? `url(#${s.pat})` : `var(${s.color})`;
+    c.setAttribute('stroke-dasharray', `${Math.max(len - GAP, .6)} ${C - Math.max(len - GAP, .6)}`);
+    c.setAttribute('stroke-dashoffset', String(-off));
+    c.setAttribute('transform', 'rotate(-90 50 50)');
+    bindTip(c, `<b>${esc(s.label)} · ${s.n} (${pct(s.n, total)})</b>${s.keys && s.keys.length ? esc(s.keys.join(', ')) : ''}`);
+    svg.append(c); off += len;
+  }
+  const t1 = document.createElementNS(NS, 'text'); t1.setAttribute('x', 50); t1.setAttribute('y', 50); t1.setAttribute('text-anchor', 'middle'); t1.setAttribute('dominant-baseline', 'central');
+  t1.setAttribute('class', 'c-n'); t1.setAttribute('font-size', total > 99 ? 20 : 22); t1.textContent = total; svg.append(t1);
+  box.append(svg);
+  const dl = el('div', 'dl');
+  for (const s of slices) {
+    if (!s.n) continue;
+    dl.append(el('div', 'li', `<i class="chip ${s.cls || ''}" style="background-color:var(${s.color})"></i><span>${esc(s.label)}</span><b>${s.n}</b><span class="pct">${pct(s.n, total)}</span>`));
+  }
+  box.append(dl);
+  return box;
+}
+const bugSlices = list => groupBugs(list).map(g => ({ label: g.st.s, n: g.list.length, color: g.st.v, pat: g.st.pat, cls: g.st.cls, keys: g.list.map(b => b.k) }));
+const tcSlices = t => VERDICTS.map(v => ({ label: v.label, n: t[v.s] || 0, color: v.v, keys: (t.keys && t.keys[v.s] && v.s !== 'PASS' && v.s !== 'SKIP') ? t.keys[v.s] : null }));
+const verdictLine = t => {
+  const ex = t.PASS + t.FAIL + t.PARTIAL;
+  return el('div', 'verdict-line', `<span class="verdict v-${t.verdict.toLowerCase()}">${esc(t.verdict)}</span><span><b>${t.rate}%</b> success on ${ex} executed</span>${t.note ? `<span>· ${esc(t.note)}</span>` : ''}`);
+};
+
+/* ---------- header ---------- */
+document.getElementById('snap').textContent = new Date(DATA.fetchedAt).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC';
+
+/* ---------- release summary ---------- */
+const se = document.getElementById('sum-epics');
+se.append(el('h2', null, 'Epics'));
+se.append(donut(groupBugs(DATA.epics.map(e => ({ k: e.key, s: e.status, t: e.title }))).map(g => ({ label: g.st.s, n: g.list.length, color: g.st.v, pat: g.st.pat, cls: g.st.cls, keys: g.list.map(e => e.k) })), 168, 'epics', `Epics of release ${DATA.release.fixVersion}`));
+const sb = document.getElementById('sum-bugs');
+sb.append(el('h2', null, 'Bugs'));
+sb.append(donut(bugSlices(DATA.bugs13), 168, 'bugs', `Bugs of release ${DATA.release.fixVersion}`));
+
+const TESTS = DATA.tests.epics;
+const tt = Object.values(TESTS);
+const sum = k => tt.reduce((a, t) => a + (t[k] || 0), 0);
+const glob = { PASS: sum('PASS'), FAIL: sum('FAIL'), PARTIAL: sum('PARTIAL'), SKIP: sum('SKIP'), keys: { FAIL: tt.flatMap(t => t.keys.FAIL), PARTIAL: [] } };
+const gex = glob.PASS + glob.FAIL + glob.PARTIAL;
+glob.rate = Math.round((glob.PASS + .5 * glob.PARTIAL) / gex * 1000) / 10;
+glob.verdict = glob.rate >= 80 ? 'GO' : glob.rate >= 60 ? 'CONDITIONAL' : 'NO-GO';
+const st = document.getElementById('sum-tests');
+st.append(el('h2', null, 'Test cases'));
+st.append(donut(tcSlices(glob), 168, 'test cases', `Test cases of release ${DATA.release.fixVersion}`), verdictLine(glob));
+
+/* ---------- totals ---------- */
+const uniq = id => new Set(DATA.epics.flatMap(e => e[id].map(t => t.k))).size;
+const orphans = DATA.bugs13.filter(b => !b.parent);
+const T = document.getElementById('totals');
+[[DATA.epics.length, 'epics'], [uniq('stories'), 'stories'], [uniq('tasks'), 'design tasks'], [uniq('subtasks'), 'QA test plans'],
+ [DATA.bugs13.length, 'bugs'],
+ [orphans.length, 'bugs with no epic']]
+  .forEach(([n, l]) => T.append(el('span', null, `<b>${n}</b>${esc(l)}`)));
+// test execution time: one full pass of every epic (one run of each story), optional data
+const fmtMin = m => m >= 60 ? `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')} min` : `${m} min`;
+if (DATA.execTime && DATA.execTime.fullPassMinutes) {
+  const x = el('span', null, `<b>${fmtMin(DATA.execTime.fullPassMinutes)}</b>test execution (one full pass)`); x.tabIndex = 0;
+  bindTip(x, `<b>One full pass of the release · ${fmtMin(DATA.execTime.fullPassMinutes)}</b>` + Object.entries(DATA.execTime.epics).map(([k, v]) => `${esc(k)}: ${fmtMin(v.fullPassMinutes)} (${v.fullPassRuns} story runs)`).join('<br>') + '<br>Reruns and bug retests not included.');
+  T.append(x);
+}
+document.getElementById('rootsub').textContent = `${DATA.epics.length} epics · ${uniq('stories')} stories`;
+
+/* ---------- tree ---------- */
+const BAR_ROWS = ROWS.filter(r => r.id !== 'stories');
+const max = Math.max(1, ...DATA.epics.flatMap(e => BAR_ROWS.map(r => e[r.id].length)));
+function barRow(label, items) {
+  const row = el('div', 'row');
+  row.append(el('span', 'lbl', label), el('span', 'n', String(items.length)));
+  if (!items.length) { row.append(el('span', 'empty', 'none')); return row; }
+  const bar = el('div', 'bar'); bar.style.width = `max(${(items.length / max * 100).toFixed(1)}%, 40px)`;
+  bar.setAttribute('role', 'img');
+  const groups = groupBugs(items);
+  bar.setAttribute('aria-label', `${label}: ` + groups.map(g => `${g.list.length} ${g.st.s}`).join(', '));
+  const chips = el('div', 'chips');
+  for (const g of groups) {
+    const seg = el('span', `seg ${g.st.cls}`); seg.style.flex = String(g.list.length); seg.style.backgroundColor = `var(${g.st.v})`; seg.tabIndex = 0;
+    bindTip(seg, `<b>${esc(g.st.s)} · ${g.list.length}</b>${g.list.map(i => esc(i.k)).join(', ')}`);
+    bar.append(seg);
+    chips.append(el('span', 'sw', `<i class="chip ${g.st.cls}" style="background-color:var(${g.st.v})"></i>${esc(g.st.s)} <b>${g.list.length}</b>`));
+  }
+  row.append(bar, chips);
+  return row;
+}
+
+const tree = document.getElementById('tree');
+for (const ep of DATA.epics) {
+  const card = el('article', 'epic');
+  card.append(el('div', 'epic-head',
+    `<h2><a href="${JIRA + ep.key}" target="_blank" rel="noopener">${ep.key}</a>, <span class="ttl">${esc(ep.title)}</span>, <span class="pill">${esc(ep.status)}</span></h2>`));
+  const rows = el('div', 'rows');
+  BAR_ROWS.forEach(r => rows.append(barRow(r.label, ep[r.id])));
+  card.append(rows);
+
+  const bil = el('div', 'bilan');
+  const childK = new Set(ep.bugs.map(b => b.k));
+  const bugs = [...ep.bugs, ...ep.linked.filter(b => !childK.has(b.k))];
+  const a = el('div'); a.append(el('h3', null, `Bugs <span class="empty">(${ep.bugs.length} child · ${bugs.length - ep.bugs.length} linked)</span>`));
+  a.append(bugs.length ? donut(bugSlices(bugs), 120, 'bugs', `Bugs of ${ep.key}`) : el('span', 'empty', 'no bug'));
+  const b = el('div'); b.append(el('h3', null, 'Test cases'));
+  const t = TESTS[ep.key];
+  if (t && t.total) b.append(donut(tcSlices(t), 120, 'TCs', `Test cases of ${ep.key}`), verdictLine(t));
+  else b.append(el('span', 'empty', 'no test case in the QA campaign'));
+  const s = el('div'); s.append(el('h3', null, 'Stories'));
+  s.append(ep.stories.length ? donut(bugSlices(ep.stories), 120, 'stories', `Stories of ${ep.key}`) : el('span', 'empty', 'no story'));
+  bil.append(s, b, a);
+  card.append(bil);
+  tree.append(card);
+}
+if (orphans.length) {
+  const card = el('article', 'epic orphan');
+  card.append(el('div', 'epic-head', `<h2>No epic parent, <span class="ttl">bugs of fixVersion ${esc(DATA.release.fixVersion)} that have no parent in Jira</span></h2>`));
+  const bil = el('div', 'bilan'); const a = el('div');
+  a.append(el('h3', null, 'Bugs'), donut(bugSlices(orphans), 120, 'bugs', 'Bugs with no epic'));
+  bil.append(a); card.append(bil); tree.append(card);
+}
+
+/* ---------- table ---------- */
+const tb = document.querySelector('#tbl tbody');
+const addRow = (epic, type, i) => { const tr = el('tr'); tr.innerHTML = `<td class="mono">${esc(epic)}</td><td>${type}</td><td class="mono"><a href="${JIRA + i.k}" target="_blank" rel="noopener">${esc(i.k)}</a></td><td class="st">${esc(i.s)}</td><td>${esc(i.t)}</td>`; tb.append(tr); };
+for (const ep of DATA.epics) {
+  ROWS.forEach(r => ep[r.id].forEach(i => addRow(ep.key, r.label, i)));
+  ep.bugs.forEach(i => addRow(ep.key, 'Bug (child)', i));
+  ep.linked.forEach(i => addRow(ep.key, 'Bug (linked)', i));
+}
+orphans.forEach(i => addRow('No epic', 'Bug', i));
+</script>

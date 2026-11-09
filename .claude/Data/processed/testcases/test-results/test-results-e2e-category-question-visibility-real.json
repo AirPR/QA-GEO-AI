@@ -1,0 +1,84 @@
+{
+  "specName": "e2e-category-question-visibility",
+  "csvFile": "e2e-category-question-visibility.csv",
+  "generatedAt": "2026-06-26",
+  "testCases": [
+    {
+      "tc_id": "E2E-VIS-WN-01",
+      "title": "Visibility: Winner = Brand Name → all engines show Favorable in panel",
+      "status": "passed",
+      "duration": 17247,
+      "error": "",
+      "steps": [
+        "Given I am on the Visibility tab of a category where the tracked brand wins",
+        "When I find a row where the Winner column shows the brand name (e.g., Toyota)",
+        "Then the detail panel shows Favorable (green) badge for every active LLM engine"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-01_step1_given.png",
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-01_step2_when.png",
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-01_step3_then.png"
+      ],
+      "duration_ms": 10956
+    },
+    {
+      "tc_id": "E2E-VIS-WN-02",
+      "title": "Visibility: Winner = Competitor Name → non-Favorable in panel + competitor is #1 in ranking",
+      "status": "passed",
+      "duration": 48600,
+      "error": "",
+      "steps": [
+        "Given I am on the Visibility tab of a category where the tracked brand is not ranked #1",
+        "When I find a row where the Winner column shows a competitor brand name",
+        "Then panel shows Unfavorable or Unranked per engine, and competitor matches #1 in ranking list"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-02_step1_given.png",
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-02_step2_when.png",
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-02_step3_then.png"
+      ],
+      "duration_ms": 48835
+    },
+    {
+      "tc_id": "E2E-VIS-WN-03",
+      "title": "Visibility: Winner = \"Unranked\" badge → all engines show Unranked in panel",
+      "status": "passed",
+      "duration": 21851,
+      "error": "",
+      "steps": [
+        "Given I am on the Visibility tab where the brand is absent and LLMs disagree on which competitor is #1",
+        "When I find a row where the Winner column shows the red \"Unranked\" badge",
+        "Then the detail panel shows Unranked (red, #--) for every active LLM engine"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-03_step1_given.png",
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-03_step2_when.png",
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-03_step3_then.png"
+      ],
+      "duration_ms": 10130
+    },
+    {
+      "tc_id": "E2E-VIS-WN-04",
+      "title": "Visibility: Winner = \"Split\" badge → per-engine mix, \"Split\" never appears as per-engine label",
+      "status": "passed",
+      "duration": 36641,
+      "error": "",
+      "steps": [
+        "Given I am on the Visibility tab where LLMs give different tier results for the brand",
+        "When I find a row where the Winner column shows the orange \"Split\" badge",
+        "Then each engine independently shows its tier (Favorable/Unfavorable/Unranked) — Split never appears as a per-engine label in the panel"
+      ],
+      "screenshots": [
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-04_step1_given.png",
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-04_step2_when.png",
+        "screenshots-e2e-category-question-visibility/E2E-VIS-WN-04_step3_then.png"
+      ],
+      "duration_ms": 20662
+    }
+  ],
+  "passed": 4,
+  "failed": 0,
+  "skipped": 0,
+  "total": 4,
+  "generated": "2026-07-03T15:04:17.790Z"
+}

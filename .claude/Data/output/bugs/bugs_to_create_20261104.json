@@ -1,0 +1,379 @@
+{
+  "created_by": "senior-qa-campaign GEO-1226 GEO-R1.4 — phase 8 (triage B-1 / B-2, apps/geo/GEO-R1.4/GEO-1226-RUN-FINDINGS.md)",
+  "date": "2026-11-04",
+  "defaults": {
+    "project": "GEO",
+    "issuetype": "Bug",
+    "component": "GEO Module (25539)",
+    "customfield_13220": "Automated QA (14349)",
+    "customfield_13208": "Does not exist in Production",
+    "customfield_17549": "Roadmap Work (20951)",
+    "sprint_customfield_10006": "14638 (GEO + Digimind Sprint 2, active — Sprint 1 14578 is closed)",
+    "fixVersion": "1.4",
+    "labels": [],
+    "status_after_creation": "To Do",
+    "assignee": "Abdenasser Aroukhsiss (712020:c3b70d4b-ff45-4f0b-9feb-9cd412e1d06a)"
+  },
+  "bugs": [
+    {
+      "bug_id": "BUG-GEO-1226-001",
+      "finding": "B-1",
+      "status": "created",
+      "summary": "[Target Sources] The quote of some negative articles is the page header or the page title instead of a passage",
+      "priority": "Medium",
+      "parent": "GEO-1226",
+      "links": [
+        {
+          "type": "Relates",
+          "key": "GEO-1547"
+        },
+        {
+          "type": "Relates",
+          "key": "GEO-1224"
+        }
+      ],
+      "description": {
+        "description": "In the Target Sources panel (Negative perception tab), some articles show the page title or the page header as their quote instead of a passage that criticises the brand. Still seen after the forced crawl of 2026-11-04 (run 11:42 UTC), on Journalism sources and on review-site pages shown in classic mode. GEO-1224 had removed page titles and headers from the quotes (PO decision in GEO-1224 comment 859761: \"no quote rather than page header\").",
+        "steps_to_reproduce": [
+          "Open staging, organisation QA-GEO, analysis Toyota (439acd96) > Action Center > Target Sources, period Last 7 days.",
+          "Open the panel of automobile-magazine.fr (Journalism) and select Negative perception.",
+          "Look at the article \"Essais Toyota bZ4X 2WD 71,4 kWh 2023 - L'Automobile Magazine\".",
+          "Look at the other articles of automobile-magazine.fr, and at analysis Orange (16cdf040) > trustpilot.com, article fr.trustpilot.com/review/www.orange.com?page=2."
+        ],
+        "expected_result": "PROPOSED, to confirm (source: GEO-1224 and PO comment 859761): the quote is a passage of the page body that criticises the brand. It is never the page title, the H1 header, the publication date or a share widget. If no such passage exists, the article is listed with no quote.",
+        "actual_result": [
+          "automobile-magazine.fr, \"Essais Toyota bZ4X 2WD 71,4 kWh 2023\": the quote is \"Essai Toyota bZ4X : la 1ère 100% électrique de Toyota enfin à l'épreuve des mesures Publié le 02/11/2023 à 08h45 share Partager :\" (H1 title + publication date + share widget).",
+          "automobile-magazine.fr, \"Défauts de batterie 12 V chez Toyota et Lexus…\": the quote is the page title \"Défauts de batterie 12 V chez Toyota et Lexus : attention, vous pourriez rester enfermé ! - L'Automobile Magazine\". Same pattern on caradisiac.com (Yaris Cross article title quoted word for word).",
+          "edmunds.com, \"Used 2023 Toyota RAV4 SUV Consumer Reviews\": the quote is the page title itself.",
+          "Orange (16cdf040), Last 30 days, fr.trustpilot.com/review/www.orange.com?page=2: the quote is the page title \"Avis de Orange | Lisez les avis marchands de www.orange.com | 2 sur 6\" (also in the XLSX export)."
+        ],
+        "environment": {
+          "url": "[Staging GEO](https://staging-geo.onclusive.com/geo) — analysis Toyota 439acd96 > Action Center > Target Sources",
+          "environment": "staging, organisation QA-GEO, en-GB",
+          "browser": "Chromium (MCP Playwright)",
+          "component": "GEO Module",
+          "parent_epic": "GEO-1226",
+          "found_by": "TC-GEO-1547-024 and TC-GEO-1547-025 (FAIL, rerun 2026-11-04)"
+        }
+      },
+      "evidence": [
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_header_quote_rerun.png",
+          "caption": "Toyota / automobile-magazine.fr, Last 7 days, run of 2026-11-04 — two quotes are the page title, or the H1 + date + share widget",
+          "jira_attachment_id": "775518"
+        },
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_header_quote_edmunds.png",
+          "caption": "Toyota / edmunds.com — the consumer-reviews page quotes its own title",
+          "jira_attachment_id": "775519"
+        },
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_header_quote_trustpilot_rerun.png",
+          "caption": "Orange / trustpilot.com, Last 30 days — the quote is the Trustpilot page title",
+          "jira_attachment_id": "775520"
+        }
+      ],
+      "jira_key": "GEO-1580",
+      "jira_id": "402065",
+      "jira_url": "https://onclusive.atlassian.net/browse/GEO-1580",
+      "verification": {
+        "status": "To Do",
+        "sprint_ok": true,
+        "fixVersion": "1.4",
+        "parent": "GEO-1226",
+        "links": [
+          "GEO-1547",
+          "GEO-1224"
+        ],
+        "links_ok": true,
+        "media_nodes": 3,
+        "images_expected": 3,
+        "attachments": 3,
+        "priority": "Medium",
+        "assignee": "Abdenasser Aroukhsiss",
+        "components": "GEO Module",
+        "capacity": "Roadmap Work",
+        "labels": []
+      }
+    },
+    {
+      "bug_id": "BUG-GEO-1226-002",
+      "finding": "B-2",
+      "status": "created",
+      "summary": "[Target Sources] Review-page article titles: an untitled grouped article shows the raw URL with https://, and separators are replaced by runs of spaces",
+      "priority": "Low",
+      "parent": "GEO-1226",
+      "links": [
+        {
+          "type": "Relates",
+          "key": "GEO-1548"
+        }
+      ],
+      "description": {
+        "description": "Article titles of review pages are not cleaned consistently. When a grouped review-page article (STORY-49.2) has no title, the panel and the XLSX export show the full URL with the scheme as its title, while another untitled article shows its URL without the scheme. Other review-site titles keep runs of spaces where the separators were and end with the review total.",
+        "steps_to_reproduce": [
+          "Open staging, organisation QA-GEO, analysis Orange (16cdf040) > Action Center > Target Sources, period Last 30 days.",
+          "Open the panel of trustpilot.com and select Negative perception.",
+          "Look at the article ie.trustpilot.com/review/www.orange.ma.",
+          "Export the analysis as XLSX and open the Target Sources sheet."
+        ],
+        "expected_result": "PROPOSED, to confirm (source: GEO-1548 AC-3, grouped article title): every review-page article gets a readable title with the same fallback (for example the URL without https://, as for trustpilot.com/review/www.orange.fr) and no leftover runs of spaces from removed separators.",
+        "actual_result": [
+          "Panel, Orange, Last 30 days: the grouped article title is \"https://ie.trustpilot.com/review/www.orange.ma\", above the URL line ie.trustpilot.com/review/www.orange.ma (still seen after the forced crawl of 2026-11-04).",
+          "XLSX, Target Sources sheet, row 193: same raw URL with https:// as the title.",
+          "Another untitled article (Last 7 days) shows \"trustpilot.com/review/www.orange.fr\" as its title (no scheme, no www).",
+          "Titles such as \"Orange Maroc   Avis   491\", \"Orange   Avis   246\", \"Toyota España   Opiniones   182\", \"Decathlon France   Reviews   2,432\": the separators are replaced by runs of spaces and the review total stays at the end (also in the XLSX)."
+        ],
+        "environment": {
+          "url": "[Staging GEO](https://staging-geo.onclusive.com/geo) — analysis Orange 16cdf040 > Action Center > Target Sources",
+          "environment": "staging, organisation QA-GEO, en-GB",
+          "browser": "Chromium (MCP Playwright)",
+          "component": "GEO Module",
+          "parent_epic": "GEO-1226",
+          "found_by": "TC-GEO-1548-008 / 010 (rerun 2026-11-04)"
+        }
+      },
+      "evidence": [
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_grouped_title_raw_url_rerun.png",
+          "caption": "Orange / trustpilot.com, Last 30 days — the grouped ie.trustpilot.com article shows the raw URL with https:// as its title",
+          "jira_attachment_id": "775521"
+        },
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_grouped_title_xlsx.png",
+          "caption": "XLSX export, Target Sources sheet — same raw URL title, and titles with runs of spaces",
+          "jira_attachment_id": "775522"
+        }
+      ],
+      "jira_key": "GEO-1581",
+      "jira_id": "402066",
+      "jira_url": "https://onclusive.atlassian.net/browse/GEO-1581",
+      "verification": {
+        "status": "To Do",
+        "sprint_ok": true,
+        "fixVersion": "1.4",
+        "parent": "GEO-1226",
+        "links": [
+          "GEO-1548"
+        ],
+        "links_ok": true,
+        "media_nodes": 2,
+        "images_expected": 2,
+        "attachments": 2,
+        "priority": "Low",
+        "assignee": "Abdenasser Aroukhsiss",
+        "components": "GEO Module",
+        "capacity": "Roadmap Work",
+        "labels": []
+      }
+    },
+    {
+      "bug_id": "BUG-GEO-1226-003",
+      "finding": "B-3",
+      "status": "created",
+      "summary": "[Target Sources] The same negative review is listed several times in a review-page article (inside a page and across ?page= blocks)",
+      "priority": "Medium",
+      "parent": "GEO-1226",
+      "links": [
+        {
+          "type": "Relates",
+          "key": "GEO-1547"
+        },
+        {
+          "type": "Relates",
+          "key": "GEO-1548"
+        }
+      ],
+      "description": {
+        "description": "In the Target Sources panel, a review page lists the same review twice, and the blocks of the other pages of a grouped article (?page=2, ?page=4) start with the same reviews as page 1. The \"N negative reviews\" counts and the article chip therefore count the same review several times.",
+        "steps_to_reproduce": [
+          "Open staging, organisation QA-GEO, analysis Orange (16cdf040) > Action Center > Target Sources, period Last 7 days.",
+          "Open the panel of trustpilot.com.",
+          "Look at the article \"Orange Maroc Reviews\" (trustpilot.com/review/www.orange.ma, 30 negative reviews) and its page blocks www.trustpilot.com/review/www.orange.ma, ?page=2 and ?page=4."
+        ],
+        "expected_result": "PROPOSED, to confirm (source: GEO-1547 — every negative review of the page is listed and the count equals the entries; GEO-1548 — one block per page): each review is listed once, and the counts only count distinct reviews.",
+        "actual_result": [
+          "Page 1 block (\"10 negative reviews\"): \"⚠️ A WARNING TO ANYONE CONSIDERING BUYING THROUGH ORANGE MAROC'S ONLINE STORE…\" and \"Unfortunately I can't give them 0/5. Absolutely awful service…\" are each listed twice, so the block holds 8 distinct reviews.",
+          "The ?page=2 and ?page=4 blocks (\"10 negative reviews\" each) start with the same 4 reviews as page 1. Same on fr.trustpilot.com/review/www.orange.ma (?page=4 repeats page 1).",
+          "The chip \"30 NEGATIVE REVIEWS\" counts these repeats."
+        ],
+        "environment": {
+          "url": "[Staging GEO](https://staging-geo.onclusive.com/geo) — analysis Orange 16cdf040 > Action Center > Target Sources",
+          "environment": "staging, organisation QA-GEO, en-GB",
+          "browser": "Chromium (MCP Playwright)",
+          "component": "GEO Module",
+          "parent_epic": "GEO-1226",
+          "found_by": "TC-GEO-1547-001 (FAIL), TC-GEO-1548-001 / 003, TC-GEO-1549-009 (rerun 2026-11-04)"
+        }
+      },
+      "evidence": [
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_duplicate_reviews.png",
+          "caption": "Orange / trustpilot.com — the page 1 block lists two reviews twice",
+          "jira_attachment_id": "775523"
+        },
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_duplicate_reviews_page2.png",
+          "caption": "Same article — the ?page=2 block starts with the same 4 reviews as page 1",
+          "jira_attachment_id": "775524"
+        }
+      ],
+      "jira_key": "GEO-1582",
+      "jira_id": "402067",
+      "jira_url": "https://onclusive.atlassian.net/browse/GEO-1582",
+      "verification": {
+        "status": "To Do",
+        "sprint_ok": true,
+        "fixVersion": "1.4",
+        "parent": "GEO-1226",
+        "links": [
+          "GEO-1547",
+          "GEO-1548"
+        ],
+        "links_ok": true,
+        "media_nodes": 2,
+        "images_expected": 2,
+        "attachments": 2,
+        "priority": "Medium",
+        "assignee": "Abdenasser Aroukhsiss",
+        "components": "GEO Module",
+        "capacity": "Roadmap Work",
+        "labels": []
+      }
+    },
+    {
+      "bug_id": "BUG-GEO-1226-004",
+      "finding": "B-4",
+      "status": "created",
+      "summary": "[Target Sources] Text written by the site and positive reviews are listed as negative reviews",
+      "priority": "Medium",
+      "parent": "GEO-1226",
+      "links": [
+        {
+          "type": "Relates",
+          "key": "GEO-1547"
+        }
+      ],
+      "description": {
+        "description": "On review pages, the list of negative reviews contains entries that are not negative reviews written by users: editorial text of the site and positive user reviews. They are also counted in the \"N negative reviews\" chip.",
+        "steps_to_reproduce": [
+          "Open staging, organisation QA-GEO, analysis Toyota (439acd96) > Action Center > Target Sources, period Last 7 days.",
+          "Open the panel of auto123.com, Negative perception tab, article \"Véhicules neufs Toyota - Autos, VUS, Camions - Auto123\".",
+          "Open the panel of cardekho.com, Negative perception tab, article \"Toyota Fortuner Review by Vishwajit Konsam\".",
+          "Open the panel of edmunds.com, articles corolla-hybrid/2023 and sequoia."
+        ],
+        "expected_result": "PROPOSED, to confirm (source: GEO-1547 AC — only the negative reviews written by users are listed; the site's own text and positive reviews are left out): these entries are not listed and not counted.",
+        "actual_result": [
+          "auto123.com: the 2 entries are the site's own text (\"La marque nippone Toyota a toujours été synonyme de qualité et de fiabilité…\", \"La première Toyota débarque aux États-Unis en 1957…\"), shown as \"2 NEGATIVE REVIEWS\".",
+          "cardekho.com: 2 positive user reviews (4.5★ and 4.2★ on the live page, e.g. \"Fortuner 9/10. Beast on the road, powerful engine…\") are listed as negative reviews.",
+          "edmunds.com corolla-hybrid/2023 and sequoia: Edmunds' own summary paragraphs are listed as reviews."
+        ],
+        "environment": {
+          "url": "[Staging GEO](https://staging-geo.onclusive.com/geo) — analysis Toyota 439acd96 > Action Center > Target Sources",
+          "environment": "staging, organisation QA-GEO, en-GB",
+          "browser": "Chromium (MCP Playwright)",
+          "component": "GEO Module",
+          "parent_epic": "GEO-1226",
+          "found_by": "TC-GEO-1547-006 / 007 (FAIL, rerun 2026-11-04)"
+        }
+      },
+      "evidence": [
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_site_text_as_review.png",
+          "caption": "Toyota / auto123.com — the two entries are text written by the site",
+          "jira_attachment_id": "775525"
+        },
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_positive_review_listed.png",
+          "caption": "Toyota / cardekho.com — two positive reviews listed as negative",
+          "jira_attachment_id": "775526"
+        }
+      ],
+      "jira_key": "GEO-1583",
+      "jira_id": "402068",
+      "jira_url": "https://onclusive.atlassian.net/browse/GEO-1583",
+      "verification": {
+        "status": "To Do",
+        "sprint_ok": true,
+        "fixVersion": "1.4",
+        "parent": "GEO-1226",
+        "links": [
+          "GEO-1547"
+        ],
+        "links_ok": true,
+        "media_nodes": 2,
+        "images_expected": 2,
+        "attachments": 2,
+        "priority": "Medium",
+        "assignee": "Abdenasser Aroukhsiss",
+        "components": "GEO Module",
+        "capacity": "Roadmap Work",
+        "labels": []
+      }
+    },
+    {
+      "bug_id": "BUG-GEO-1226-005",
+      "finding": "B-5",
+      "status": "created",
+      "summary": "[Target Sources] The page URL header of a review page block keeps https://",
+      "priority": "Low",
+      "parent": "GEO-1226",
+      "links": [
+        {
+          "type": "Relates",
+          "key": "GEO-1549"
+        }
+      ],
+      "description": {
+        "description": "In a grouped review-page article, the URL header of each page block shows the full address with https://. The article URL line just above drops the scheme and www., and the Figma frames 1.1 / 1.2 show the page URL without the scheme.",
+        "steps_to_reproduce": [
+          "Open staging, organisation QA-GEO, analysis Orange (16cdf040) > Action Center > Target Sources, period Last 7 days.",
+          "Open the panel of trustpilot.com and look at the article \"Orange Maroc Reviews\" (30 negative reviews).",
+          "Read the URL header of each page block."
+        ],
+        "expected_result": "PROPOSED, to confirm (source: GEO-1549 AC page URL header, Figma 1.1 / 1.2): the page URL header is shown without https://, like the article URL line.",
+        "actual_result": [
+          "Page block headers read \"https://www.trustpilot.com/review/www.orange.ma\", \"https://www.trustpilot.com/review/www.orange.ma?page=2\", \"https://www.trustpilot.com/review/www.orange.ma?page=4\".",
+          "The article URL line above reads \"trustpilot.com/review/www.orange.ma\"."
+        ],
+        "environment": {
+          "url": "[Staging GEO](https://staging-geo.onclusive.com/geo) — analysis Orange 16cdf040 > Action Center > Target Sources",
+          "environment": "staging, organisation QA-GEO, en-GB",
+          "browser": "Chromium (MCP Playwright)",
+          "component": "GEO Module",
+          "parent_epic": "GEO-1226",
+          "found_by": "TC-GEO-1549-001 (FAIL, rerun 2026-11-04)"
+        }
+      },
+      "evidence": [
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_page_header_scheme.png",
+          "caption": "Orange / trustpilot.com — the page block headers keep https://, under the article URL line without it",
+          "jira_attachment_id": "775527"
+        }
+      ],
+      "jira_key": "GEO-1584",
+      "jira_id": "402069",
+      "jira_url": "https://onclusive.atlassian.net/browse/GEO-1584",
+      "verification": {
+        "status": "To Do",
+        "sprint_ok": true,
+        "fixVersion": "1.4",
+        "parent": "GEO-1226",
+        "links": [
+          "GEO-1549"
+        ],
+        "links_ok": true,
+        "media_nodes": 1,
+        "images_expected": 1,
+        "attachments": 1,
+        "priority": "Low",
+        "assignee": "Abdenasser Aroukhsiss",
+        "components": "GEO Module",
+        "capacity": "Roadmap Work",
+        "labels": []
+      }
+    }
+  ],
+  "updated": "2026-11-04 — re-checked after the forced crawl of Toyota / Orange (snapshot 11:42 UTC), runs 04112026-1243 / 1255 / 1340; creation approved by the user 2026-11-04"
+}

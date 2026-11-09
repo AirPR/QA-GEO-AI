@@ -1,0 +1,45 @@
+{
+  "epic": {
+    "id": "GEO-656",
+    "key": "GEO-656",
+    "title": "EPIC-30 : Replace primary market with an explicit AI insights language field in the Brand & Country step",
+    "status": "Passed QA",
+    "assignee": "Abdenasser Aroukhsiss",
+    "created": "2026-06-11",
+    "updated": "2026-07-16",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-656",
+    "functionalNeed": "As a user setting up an analysis, I want to explicitly choose the language of my AI insights in the Brand & Country step, instead of having it implicitly derived from a primary market, so that I clearly understand and control the language in which AI-generated content is produced across the app.\n- Remove the primary market concept from the setup flow - no country is implicitly treated as the one driving the insights language.\n- Add a clearly labeled \"AI insights language\" field to the Brand & Country step.\n- Add a tooltip on the field explaining that the selected language will be the language of all AI-generated insights: In-brief summaries across the app (including the corporate reputation graph) and the key concepts graphs (brand territory and themes sentiment).\n- The selected language applies consistently to every AI-generated insight in the analysis: In-brief summaries wherever they appear (including the corporate reputation graph), brand territory, and themes sentiment.\n- The AI insights language is set at the analysis level: within the same organization, each analysis can have its own insights language.",
+    "scope": [
+      "- Remove the primary market concept from the setup flow - no country is implicitly treated as the one driving the insights language.",
+      "- Add a clearly labeled \"AI insights language\" field to the Brand & Country step.",
+      "- Add a tooltip on the field explaining that the selected language will be the language of all AI-generated insights: In-brief summaries across the app (including the corporate reputation graph) and the key concepts graphs (brand territory and themes sentiment).",
+      "- The selected language applies consistently to every AI-generated insight in the analysis: In-brief summaries wherever they appear (including the corporate reputation graph), brand territory, and themes sentiment.",
+      "- The AI insights language is set at the analysis level: within the same organization, each analysis can have its own insights language."
+    ],
+    "outOfScope": [],
+    "stories": [
+      {
+        "id": "GEO-868",
+        "title": "[Frontend] AI Insights Language — Wizard Step 1 & Manage Scope (Story 30.2)",
+        "status": "Passed QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-06-30",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-868",
+        "userStory": "**As** a user configuring a GEO analysis,\n**I want** to explicitly select the language in which my AI insights will be generated,\n**so that** I fully understand and control the language of all AI-generated content in my analysis (in-brief summaries, brand territory, themes sentiment).\n\n---",
+        "acceptanceCriteria": "**AC1 — Language selector visible in Wizard Step 1**\n\n- Given: I am on the Brand & Country step of the wizard (new analysis)\n- When: the step loads\n- Then: I see an \"AI insights language\" field with a language dropdown and a tooltip icon\n\n**AC2 — Tooltip content**\n\n- Given: I hover or click the tooltip on the \"AI insights language\" field\n- When: the tooltip opens\n- Then: I read that this language covers: in-brief summaries across the app (including corporate reputation graph), brand territory, and themes sentiment\n\n**AC3 — Default language = my platform language**\n\n- Given: my platform interface is set to French\n- When: I open the wizard Brand & Country step for a new analysis\n- Then: \"French\" is preselected in the AI insights language dropdown\n\n**AC4 — Language list: full list + market languages pinned**\n\n- Given: I open the AI insights language dropdown\n- When: the dropdown opens\n- Then: I see the full supported language list; the languages of my added markets are pinned at the top\n\n**AC5 — Language selection commits immediately (no modal in wizard)**\n\n- Given: I am in the wizard (new analysis)\n- When: I select a different language\n- Then: the selection is applied immediately with no confirmation modal\n\n**AC6 — Language independent from country selection**\n\n- Given: I change a market's country or language\n- When: the change is applied\n- Then: the AI insights language field is NOT automatically updated\n\n**AC7 — Language sent in wizard submit payload**\n\n- Given: I complete the wizard and submit\n- When: the report is created\n- Then: the selected `insightsLanguage` is included in the creation payload\n\n**AC8 — AI insights language visible in Manage Scope**\n\n- Given: I open Manage Scope on an existing report\n- When: the scope view loads\n- Then: I can see the current AI insights language for this analysis\n\n**AC9 — Language editable in Manage Scope with confirmation modal**\n\n- Given: I am in Manage Scope\n- When: I select a different language and confirm in the modal\n- Then: the new language is saved and the Manage Scope view reflects the change\n\n**AC10 — Confirmation modal explains the impact**\n\n- Given: I change the AI insights language in Manage Scope\n- When: the confirmation modal appears\n- Then: it explains that existing insights will be re-generated at the next scheduled analysis run\n\n---",
+        "technicalNotes": "Key files: `insightsLanguages.ts`, `InsightsLanguageSelector.tsx`, `InsightsLanguageChangeModal.tsx`, `useUpdateInsightsLanguage.ts`, `useWizardStore.ts`, `Step1Content.tsx`, `useSubmitReport.ts`, `ManageScopeView.tsx`, i18n 4 locales. Remove `?lang=` from in-brief API calls.\n\n**Depends on:** GEO-867 (Story 30.1)\n\n📋 Spec complète : [30-2-frontend-insights-language.md](https://github.com/AirPR/geo-analytics/blob/feature/GEO-656-ai-insights-language/docs/implementation-artifacts/epics/epic-30/30-2-frontend-insights-language.md)"
+      },
+      {
+        "id": "GEO-867",
+        "title": "[Backend] AI Insights Language — DB, API & Pipeline (Story 30.1)",
+        "status": "Passed QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-06-30",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-867",
+        "userStory": "**As** a developer building the GEO platform,\n**I want** the backend to store and expose an `insights_language` field at the report level, and use it throughout the AI text generation pipeline,\n**so that** every AI-generated insight (in-brief summaries, brand territory labels, themes sentiment labels) is consistently produced in the language explicitly chosen by the user for their analysis.\n\n---",
+        "acceptanceCriteria": "**AC1 — **`insights_language` persisted on report creation\n\n- Given: an Editor creates a new analysis via the wizard\n- When: the wizard submits the configuration\n- Then: the `insights_language` value selected in Step 1 is stored on the report and returned in the report detail and scope responses\n\n**AC2 — **`insights_language` editable on existing reports\n\n- Given: an Editor opens Manage Scope on an existing report\n- When: they change and confirm the AI insights language\n- Then: the new value is persisted immediately and returned in subsequent scope responses\n\n**AC3 — In-brief summaries produced in **`insights_language`\n\n- Given: an analysis has `insights_language = \"fr\"`\n- When: any user (regardless of their own UI language) views an in-brief summary for that report\n- Then: the summary text is in French\n\n**AC4 — In-brief language is fixed per analysis**\n\n- Given: two users with different UI languages viewing the same report\n- When: they both open the in-brief summary\n- Then: both see the same language — the report's `insights_language` — not their respective UI languages\n\n**AC5 — Perception concepts extracted in **`insights_language`\n\n- Given: an analysis has `insights_language = \"es\"`\n- When: the enrichment pipeline extracts perception concepts after batch completion\n- Then: the concept names (brand territory labels, themes sentiment labels) are in Spanish\n\n**AC6 — Each analysis has its own **`insights_language`\n\n- Given: an organisation with two analyses — one `insights_language = \"en\"`, another `insights_language = \"fr\"`\n- When: both analyses complete\n- Then: in-brief summaries and concept labels are in English for the first, French for the second\n\n---",
+        "technicalNotes": "Key files: Flyway `V2.7.0`, `Report.java`, `CreateReportRequest`, `ScopeResponse`, `ReportDetailResponse`, `PATCH /api/v1/reports/{id}/insights-language`, `ExecutiveSummaryService`, `PerceptionSummaryService`, `OverviewController`, `ConceptExtractionService`, `PerceptionEnrichmentService`.\n\n📋 Spec complète : [30-1-backend-insights-language.md](https://github.com/AirPR/geo-analytics/blob/feature/GEO-656-ai-insights-language/docs/implementation-artifacts/epics/epic-30/30-1-backend-insights-language.md)"
+      }
+    ]
+  }
+}

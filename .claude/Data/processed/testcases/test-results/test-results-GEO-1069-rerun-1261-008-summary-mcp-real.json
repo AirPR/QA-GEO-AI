@@ -1,0 +1,120 @@
+{
+  "spec": "GEO-1069-rerun-1261-008-summary-mcp",
+  "runDate": "2026-10-22",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "rerun": true,
+  "rerun_of": {
+    "spec": "GEO-1069-GEO1261-mcp",
+    "realJson": ".claude/Data/processed/testcases/test-results/test-results-GEO-1069-GEO1261-mcp-real.json",
+    "runFolder": ".claude/Data/output/reports/runs/20102026-1516/ (TC completed later during session 20102026-1534)",
+    "status": "PASS"
+  },
+  "reason": "CSV update: wizard step \"Review\" renamed \"Summary\" (GEO-1507); test analyses keep 5 prompts (QA rule 2026-10-20). User decision 2026-10-22 (option 2): no analysis created; steps up to Summary run in a wizard draft, creation step SKIP, post-creation steps verified read-only on A1 (f228f1fe-9363-4f3c-97e6-e7275bd383e8).",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "tcFilter": [
+    "TC-GEO-1261-008"
+  ],
+  "runFolder": ".claude/Data/output/reports/runs/22102026-1659/",
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "successRate": 100,
+    "verdict": "GO"
+  },
+  "environment": {
+    "env": "staging",
+    "viewport": "1280x720",
+    "authMeStart": "GET /geo/api/v1/auth/me -> 200: org QA-GEO, language en-GB, role SUPER_ADMIN, features.unbranded_analysis = true, quota OK",
+    "authMeEnd": "GET /geo/api/v1/auth/me -> 200: org QA-GEO, language en-GB, features.unbranded_analysis = true (no switch made)",
+    "promptPool": "992 / 1000 before and after the run (wizard-local preview 997 / 1000 with 5 kept)",
+    "noAnalysisCreated": true,
+    "guard": "context.route('**/geo/api/**'): GET + discover-categories / translate-category / questions/adapt-batch continue, everything else aborted; context.unrouteAll() at the end",
+    "exit": "Wizard closed with \"Back to Dashboard\" -> dialog \"Exit setup?\" (\"There is no draft: nothing is saved yet\") -> \"Exit and Discard\"",
+    "a1": {
+      "name": "Lictorix Geo",
+      "uuid": "f228f1fe-9363-4f3c-97e6-e7275bd383e8",
+      "entityDomain": "licter.com",
+      "entityDomainConfirmed": true,
+      "status": "COMPLETED",
+      "createdAt": "2026-10-20T15:37:23.802122Z"
+    }
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1261-008",
+      "title": "Derived domain is stored as the brand domain of the created analysis",
+      "story_id": "GEO-1261",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "skipped_steps": [
+        "When the user goes through Categories, Prompts and Summary and creates the analysis - no analysis created: user decision 2026-10-22 — stored domain verified on A1 (created by this TC on 20/10)"
+      ],
+      "screenshots": [
+        "screenshots-GEO-1069-rerun-1261-008-summary/TC-GEO-1261-008_step1_given.png",
+        "screenshots-GEO-1069-rerun-1261-008-summary/TC-GEO-1261-008_step2_discover_categories.png",
+        "screenshots-GEO-1069-rerun-1261-008-summary/TC-GEO-1261-008_step3_prompts_5_kept.png",
+        "screenshots-GEO-1069-rerun-1261-008-summary/TC-GEO-1261-008_step2_when.png",
+        "screenshots-GEO-1069-rerun-1261-008-summary/TC-GEO-1261-008_step4_a1_stored_domain_api.png",
+        "screenshots-GEO-1069-rerun-1261-008-summary/TC-GEO-1261-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with a full URL as website and a market",
+          "data": "\"https://www.licter.com/fr/about?x=1\", United States / English (EN)",
+          "expected": "\"licter.com\" is shown under the brand name with its logo preview (logo noted as L1)",
+          "status": "PASS",
+          "observed": "Custom Brand row \"Licter — Custom Brand\" selected (not the Brandfetch suggestion \"Licter licter.com\"); website typed \"https://www.licter.com/fr/about?x=1\"; country United States / English (EN) saved. The brand card shows \"Licter\" with \"licter.com\" under it and the logo preview L1 = https://www.google.com/s2/favicons?domain=licter.com&sz=64 (64x64 loaded, \"lic ter\" mark)."
+        },
+        {
+          "title": "And the user clicks \"Discover Categories\" and checks the category discovery request in DevTools",
+          "data": "DevTools Network, discover-categories request",
+          "expected": "The brand domain sent (entityDomain) is \"licter.com\", not the full URL typed (the Summary step shows neither the brand nor its domain)",
+          "status": "PASS",
+          "observed": "Captured POST /geo/api/v1/analysis/discover-categories -> 200, body {\"entityName\":\"Licter\",\"entityDomain\":\"licter.com\",\"insightsLanguage\":\"en\",\"markets\":[{\"countryCode\":\"US\",\"languageCode\":\"en\",\"languageName\":\"English\",\"isPrimary\":true}]} - the derived domain, not the typed URL. Summary step checked later: its content shows neither \"Licter\" nor \"licter.com\" (Analysis Scope = Markets + Categories, then AI Engines)."
+        },
+        {
+          "title": "When the user goes through Categories, Prompts and Summary and creates the analysis",
+          "data": "Default categories, only 5 prompts kept (QA rule: test analyses keep 5 prompts, shared prompt pool)",
+          "expected": "The analysis A1 is created and \"View analysis\" is available",
+          "status": "SKIP",
+          "observed": "SKIP - no analysis created: user decision 2026-10-22 — stored domain verified on A1 (created by this TC on 20/10). Executed part: Categories (default: Social Listening Tools, Audience Intelligence Platforms) -> \"Generate Prompts\" -> Prompts (70 preselected, pool preview 1062 / 1000; all unticked, 5 kept: 3 Social Listening Tools + 2 Audience Intelligence Platforms, all type Reputation; pool preview \"997 / 1000 prompts · 5 selected\") -> button \"Review & Launch\" -> wizard step \"5 Summary\" (stepper: Analysis Type, Brand & Country, Categories, Prompts, Summary). Summary heading \"Check your scope and AI engines. Then create your analysis.\"; \"Create Analysis\" enabled and NOT clicked. Wizard closed with \"Back to Dashboard\" -> \"Exit setup?\" -> \"Exit and Discard\"."
+        },
+        {
+          "title": "And the user checks the analysis creation request in DevTools",
+          "data": "DevTools Network, creation request",
+          "expected": "The brand domain sent and returned is \"licter.com\", not the full URL typed",
+          "status": "PASS",
+          "observed": "Verified read-only on A1 \"Lictorix Geo\" (f228f1fe-9363-4f3c-97e6-e7275bd383e8, created by this TC on 2026-10-20 15:37 UTC; its POST /geo/api/v1/reports body then sent \"entityDomain\":\"licter.com\"). GET /geo/api/v1/reports/f228f1fe-... -> 200: \"entityName\":\"Lictorix Geo\",\"entityDomain\":\"licter.com\",\"entityDomainConfirmed\":true,\"status\":\"COMPLETED\". No creation request in this run."
+        },
+        {
+          "title": "And the user opens the analysis from \"View analysis\"",
+          "expected": "The dashboard of A1 opens",
+          "status": "PASS",
+          "observed": "No \"View analysis\" dialog in this run (no creation): A1 opened directly at /geo/report/f228f1fe-... which redirects to /geo/dashboard/f228f1fe-... (page title \"Lictorix Geo — GEO Analytics\"); the dashboard of A1 opens (Overview > Identity, InBrief displayed)."
+        },
+        {
+          "title": "Then the brand is displayed with the logo of the stored domain",
+          "expected": "The sidebar and header show logo L1 of licter.com, not a lettermark",
+          "status": "PASS",
+          "observed": "Dashboard sidebar/header brand block of A1: <img alt=\"Lictorix Geo logo\" src=\"https://www.google.com/s2/favicons?domain=licter.com&sz=64\"> (64x64, loaded) = L1 of licter.com next to \"Lictorix Geo\", no lettermark. The analyses list also shows \"Lictorix Geo logo / licter.com\"."
+        }
+      ],
+      "labelsSeen": {
+        "lastWizardStep": "Summary",
+        "promptsStepButton": "Review & Launch",
+        "summaryStepButton": "Create Analysis",
+        "domainShown": "licter.com",
+        "a1StoredDomain": "licter.com"
+      },
+      "notes": "RERUN after the CSV update (wizard step \"Review\" renamed \"Summary\" - GEO-1507; precondition: test analyses keep 5 prompts). USER DECISION 2026-10-22 (option 2): no analysis created - every step up to and including Summary run in a wizard draft, creation step SKIP, post-creation steps verified read-only on A1 \"Lictorix Geo\" (f228f1fe-9363-4f3c-97e6-e7275bd383e8, created by this TC on 20/10). Labels seen: last wizard step \"Summary\" (stepper \"5 Summary\"); the Prompts-step button is \"Review & Launch\" (the CSV does not name this button - it only says \"goes through Categories, Prompts and Summary\"); Summary-step button \"Create Analysis\". Domain shown in the wizard: \"licter.com\"; discover-categories entityDomain \"licter.com\"; A1 stored entityDomain \"licter.com\" (entityDomainConfirmed true). Observation: keeping the first 5 prompts (all category \"Overview\") made the Summary show both categories as \"dropped\" with the alert \"At least one category needs a kept prompt.\" and \"Create Analysis\" disabled; the 5 prompts were then re-picked inside the two categories (3 + 2) - consistent with the on-screen rule, not a defect. Network guard: only GET + discover-categories / translate-category / questions/adapt-batch allowed; no POST sent; prompt pool unchanged at 992 / 1000 after the run, still 11 analyses."
+    }
+  ]
+}

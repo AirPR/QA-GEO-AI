@@ -1,0 +1,105 @@
+{
+  "spec": "GEO-1069-rerun-csv-update-mcp",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "rerun": true,
+  "rerunReason": "Rerun of 3 TCs whose CSV steps were updated after the first runs (20102026-1509 for GEO-1260, 20102026-1516 for GEO-1261). The original runs and their real.json are left untouched.",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "tcFilter": ["TC-GEO-1260-005", "TC-GEO-1260-007", "TC-GEO-1261-007"],
+  "runFolder": ".claude/Data/output/reports/runs/20102026-1705/",
+  "summary": { "total": 3, "pass": 3, "fail": 0, "skip": 0, "partial": 0 },
+  "environment": {
+    "env": "staging",
+    "org": "QA-GEO",
+    "authMe": "GET /geo/api/v1/auth/me -> 200, language en-GB, role SUPER_ADMIN, features.unbranded_analysis = true (Analysis Type step shown first)",
+    "noAnalysisCreated": true,
+    "exit": "Each wizard left with \"Back to Dashboard\" -> \"Exit and Discard\"; no reload of /geo/new"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1260-005",
+      "title": "Brand name typed as an address prefills the website field",
+      "story_id": "GEO-1260",
+      "priority": "Medium",
+      "status": "PASS",
+      "originalRun": { "runFolder": "20102026-1509", "realJson": "test-results-GEO-1069-GEO1260-mcp-real.json", "status": "FAIL" },
+      "csvChange": "Then step expected result updated: the website field now expects \"licter.com\" (root domain: the \"www.\" prefix is removed by the GEO-1261 AC-1 normalization) instead of \"www.licter.com\".",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1260-005_step1_given.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1260-005_step2_when.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1260-005_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the user is on the Brand & Country step", "expected": "The brand search is empty", "status": "PASS" },
+        { "title": "When the user types an address as brand name", "data": "\"www.licter.com\"", "expected": "The dropdown shows a \"Custom Brand\" row for \"www.licter.com\"", "status": "PASS" },
+        { "title": "And the user selects the \"Custom Brand\" row", "expected": "The custom brand card \"www.licter.com\" is displayed with the website field under it", "status": "PASS" },
+        { "title": "Then the website field is prefilled with the typed address", "expected": "The website field contains \"licter.com\" (root domain: the \"www.\" prefix is removed by the GEO-1261 AC-1 normalization) and shows no error", "status": "PASS" }
+      ],
+      "notes": "Brand search empty on Brand & Country (step1). \"www.licter.com\" typed character by character: options = \"www.licter.com — Custom Brand\" + suggestion \"Licter / licter.com\" (step2). After selecting the Custom Brand row, the card shows \"www.licter.com\" (with \"licter.com\" and the Licter logo under it) and the website field #wizard-brand-website-input is shown under the card. Field value = \"licter.com\", aria-invalid=false, no \"Enter a valid website, such as example.com.\" message (step3_then, field outlined in blue for readability). Same app behaviour as the original run; the verdict changes only because the CSV expectation was aligned on the GEO-1261 AC-1 normalization."
+    },
+    {
+      "tc_id": "TC-GEO-1260-007",
+      "title": "Unbranded analysis shows no website field",
+      "story_id": "GEO-1260",
+      "priority": "Medium",
+      "status": "PASS",
+      "originalRun": { "runFolder": "20102026-1509", "realJson": "test-results-GEO-1069-GEO1260-mcp-real.json", "status": "PASS" },
+      "csvChange": "Former step 5 split in two: \"When the user goes back, selects \"Brand analysis\" and continues\" -> the \"Switch the analysis type?\" dialog with \"Cancel\" and \"Switch type\"; then \"And the user clicks \"Switch type\" and selects the \"Custom Brand\" row (Lictorix Geo)\" -> custom brand card \"Lictorix Geo\" on Brand & Country.",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1260-007_step1_given.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1260-007_step2_when.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1260-007_step2b_switch_type_dialog.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1260-007_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the user is on the Analysis Type step", "data": "Unbranded feature flag ON", "expected": "The \"Brand analysis\" and \"Unbranded analysis\" cards are displayed", "status": "PASS" },
+        { "title": "When the user selects \"Unbranded analysis\" and continues", "expected": "The Topic & Country step asks \"What industry or topic are you analysing?\"", "status": "PASS" },
+        { "title": "And the user types a topic", "data": "\"Electric cars\"", "expected": "The topic is accepted", "status": "PASS" },
+        { "title": "Then no website field is displayed", "expected": "No \"What is your brand's website? (optional)\" field is shown on Topic & Country", "status": "PASS" },
+        { "title": "When the user goes back, selects \"Brand analysis\" and continues", "expected": "The dialog \"Switch the analysis type?\" is displayed with \"Cancel\" and \"Switch type\"", "status": "PASS" },
+        { "title": "And the user clicks \"Switch type\" and selects the \"Custom Brand\" row (Lictorix Geo)", "data": "C = \"Lictorix Geo\"", "expected": "The custom brand card \"Lictorix Geo\" is displayed on Brand & Country", "status": "PASS" },
+        { "title": "Then the website field is displayed under the custom brand card", "expected": "\"What is your brand's website? (optional)\"", "status": "PASS" }
+      ],
+      "notes": "Analysis Type shows \"Brand analysis\" (Default) and \"Unbranded analysis\" (Advanced) (step1). Unbranded + Continue -> Topic & Country with \"What industry or topic are you analysing?\"; \"Electric cars\" typed, aria-invalid=false, no error; the only visible input is [data-testid=wizard-topic-input]; no website label nor #wizard-brand-website-input (step2). Back -> click on \"Brand analysis\": the dialog [data-testid=wizard-mode-switch-modal] \"Switch the analysis type?\" (\"Switching the mode clears your brand or topic, your markets, your categories and your prompts. Nothing is saved: this cannot be undone.\") with \"Cancel\" and \"Switch type\" is displayed (step2b). Timing detail: the dialog opens as soon as the \"Brand analysis\" card is clicked, before \"Continue\" (the Continue click is blocked by the modal overlay); expected result met, CSV wording \"selects ... and continues\" could be refined to \"selects\". After \"Switch type\" the wizard stays on Analysis Type with Brand analysis selected; Continue -> Brand & Country; \"Lictorix Geo\" typed -> \"Lictorix Geo — Custom Brand\" row selected -> card \"Lictorix Geo\" (lettermark L) with \"What is your brand's website? (optional)\" and an empty #wizard-brand-website-input right under the card (step3_then)."
+    },
+    {
+      "tc_id": "TC-GEO-1261-007",
+      "title": "Inline error shown on Discover Categories and cleared once the value is valid or empty",
+      "story_id": "GEO-1261",
+      "priority": "Medium",
+      "status": "PASS",
+      "originalRun": { "runFolder": "20102026-1516", "realJson": "test-results-GEO-1069-GEO1261-mcp-real.json", "status": "PASS" },
+      "csvChange": "Steps 3 and 5 expected results made explicit: the red border and the message disappear as soon as the value is valid (step 3) / as soon as the field is empty (step 5), without leaving the field. Values typed character by character in this rerun.",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1261-007_step1_given.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1261-007_step2_when.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1261-007_step2c_valid_while_focused.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1261-007_step2d_prefix_deleted_focused.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1261-007_step2e_localhost_error.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1261-007_step2f_cleared_focused.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1261-007_step3_then_loading.png",
+        "screenshots-GEO-1069-rerun-csv-update-mcp/TC-GEO-1261-007_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the custom brand \"Lictorix Geo\" is selected with a market and an empty website field", "data": "C = \"Lictorix Geo\"", "expected": "The website field is empty", "status": "PASS" },
+        { "title": "When the user types an invalid value and clicks \"Discover Categories\" without leaving the field first", "data": "\"john@licter.com\"", "expected": "Red border and \"Enter a valid website, such as example.com.\"; the step is not left", "status": "PASS" },
+        { "title": "And the user corrects the value to a valid domain", "data": "\"licter.com\"", "expected": "The red border and the message disappear as soon as the value is valid, without leaving the field", "status": "PASS" },
+        { "title": "And the user replaces it with an invalid value and the field loses focus", "data": "\"localhost\"", "expected": "The error is shown again", "status": "PASS" },
+        { "title": "And the user clears the field", "data": "(empty)", "expected": "The red border and the message disappear as soon as the field is empty; the empty field is accepted", "status": "PASS" },
+        { "title": "Then clicking \"Discover Categories\" continues the setup", "expected": "The discovery loading screen is displayed and the Categories step opens", "status": "PASS" }
+      ],
+      "notes": "Run in the same wizard as TC-GEO-1260-007 (custom brand \"Lictorix Geo\", empty website field), market added: United States / English (EN) (step1). All values typed key by key (pressSequentially / keyboard). Step 2: \"john@licter.com\" typed with focus kept, then \"Discover Categories\" clicked directly: aria-invalid=true, field wrapper border red oklch(0.637 0.237 25.331), exact message \"Enter a valid website, such as example.com.\", still on Brand & Country, no discover-categories request (step2_when). Step 3 (focus kept all along, checked after each key): via select-all + Backspace then typing \"licter.com\" -> no error at \"licter.com\" (step2c); stricter variant from \"john@licter.com\" (error shown) deleting \"john@\" with Delete key by key -> no message, aria-invalid=false, no red border at \"licter.com\" while still focused (step2d). Detail: the error is in fact cleared on the first edit (already at \"ohn@licter.com\", still invalid) and is only re-evaluated on blur; it is therefore gone when the value becomes valid, as expected. Also, while the field is focused and invalid (before any edit), the focus border (rgb(3,105,161)) replaces the red border, the message staying visible. Step 4: \"localhost\" typed (no error while focused), field blurred -> red border + message shown again (step2e). Step 5: Backspace key by key while focused -> message and red border gone (already from the first Backspace); field empty and blurred -> no error, neutral border (step2f). Step 6: \"Discover Categories\" -> \"Discovering Categories - Scanning how AI engines see Lictorix Geo across your markets.\" (step3_then_loading), request body entityName=\"Lictorix Geo\", entityDomain=null, then Categories step: \"We detected these categories for Lictorix Geo.\" with \"Geospatial Analytics Software\" and \"Location Intelligence Platforms\" (step3_then). Wizard exited with Back to Dashboard -> Exit and Discard (no analysis created)."
+    }
+  ]
+}

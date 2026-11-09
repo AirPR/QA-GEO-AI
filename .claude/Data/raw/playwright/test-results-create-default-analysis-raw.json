@@ -1,0 +1,212 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\playwright.config.js",
+    "rootDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\global-setup.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "e2e-suite",
+        "name": "e2e-suite",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/create-default-analysis.spec.js",
+          "**/verify-analysis.spec.js",
+          "**/category-question-analysis.spec.js",
+          "**/category-kpi-cards-analysis.spec.js",
+          "**/category-brand-prioritization-analysis.spec.js",
+          "**/category-brand-rankings-analysis.spec.js",
+          "**/category-questions-table.spec.js",
+          "**/category-top-concept.spec.js",
+          "**/category-perception-citation.spec.js",
+          "**/geo-analytics-dashboard.spec.js"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": ".claude/Data/raw/playwright/test-results-create-default-analysis-raw.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 3,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "create-default-analysis.spec.js",
+      "file": "create-default-analysis.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "E2E-CREATE-DEFAULT-001 - Create default analysis (Chanel / United States / English)",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 600000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 34162,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given an authenticated Editor opens the wizard",
+                      "duration": 2438
+                    },
+                    {
+                      "title": "When the Editor types Toyota in the Brand search field",
+                      "duration": 541
+                    },
+                    {
+                      "title": "And selects the Toyota suggestion",
+                      "duration": 632
+                    },
+                    {
+                      "title": "When the Editor adds the market United States",
+                      "duration": 2087
+                    },
+                    {
+                      "title": "Then the language English is auto-detected for United States",
+                      "duration": 232
+                    },
+                    {
+                      "title": "When the Editor adds the market China",
+                      "duration": 4389
+                    },
+                    {
+                      "title": "Then the language Chinese is auto-detected for China",
+                      "duration": 330
+                    },
+                    {
+                      "title": "When the Editor clicks Discover Categories",
+                      "duration": 176
+                    },
+                    {
+                      "title": "And the Editor accepts the AI-discovered categories without modification",
+                      "duration": 976
+                    },
+                    {
+                      "title": "When the Editor clicks Review Prompts",
+                      "duration": 123
+                    },
+                    {
+                      "title": "And the system generates default questions for each category",
+                      "duration": 11069
+                    },
+                    {
+                      "title": "When the Editor clicks Review",
+                      "duration": 146
+                    },
+                    {
+                      "title": "Then the Review summary shows the Markets Categories and Total Prompts cards",
+                      "duration": 120
+                    },
+                    {
+                      "title": "And the Editor selects the LLMs: ChatGPT, Gemini, Perplexity",
+                      "duration": 6027
+                    },
+                    {
+                      "title": "When the Editor clicks Review & Launch",
+                      "duration": 441
+                    },
+                    {
+                      "title": "Then the user is redirected to the report overview",
+                      "duration": 87
+                    },
+                    {
+                      "title": "When the Editor navigates back to the reports list (BASE_URL)",
+                      "duration": 2142
+                    },
+                    {
+                      "title": "Then the Chanel analysis row shows the value In progress in the Last update column",
+                      "duration": 80
+                    }
+                  ],
+                  "startTime": "2026-05-24T22:23:36.806Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d88cd21896a692d7369d-915d2db60c3a8bd1804d",
+          "file": "create-default-analysis.spec.js",
+          "line": 178,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-24T22:23:22.367Z",
+    "duration": 51750.867000000006,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

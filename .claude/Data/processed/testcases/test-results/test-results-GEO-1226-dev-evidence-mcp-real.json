@@ -1,0 +1,210 @@
+{
+  "spec": "GEO-1226-dev-evidence-mcp",
+  "runDate": "2026-11-04",
+  "runMode": "dev-evidence",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.4/testcases-coverage-epicGEO-1226.csv",
+  "campaign": "GEO-1226 technical ACs checked through the dev PR test reports",
+  "environment": "GitHub Actions run 40885465592 (backend job 123487970441, frontend job 123487970703)",
+  "summary": {
+    "total": 5,
+    "pass": 5,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "success_rate": 100,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1547-017",
+      "title": "Optional contract without review fields keeps today's behaviour",
+      "story_id": "GEO-1547",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given a candidate without reviewSite and a verdict without reviews / pageTitle are consumed",
+          "status": "PASS",
+          "data": "Dev test or log extract",
+          "expected": "The dev shares the test or log evidence",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "When QA reviews the evidence",
+          "status": "PASS",
+          "data": "",
+          "expected": "The evidence covers both messages",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "Then today's behaviour applies with no error",
+          "status": "PASS",
+          "data": "",
+          "expected": "No consumer error; the page keeps its classic passage",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        }
+      ],
+      "notes": "PASS on dev evidence (user decision 2026-11-04): automated tests of the story PR, test report https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441 (GEO-1226 comment 872714, dev summary 872651). Not re-run by QA in the UI."
+    },
+    {
+      "tc_id": "TC-GEO-1547-018",
+      "title": "Only review-site pages are re-judged after the deploy",
+      "story_id": "GEO-1547",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given verdicts judged depiction-v6 before the deploy",
+          "status": "PASS",
+          "data": "Dev logs / DB of the first run after the deploy",
+          "expected": "The dev shares the dispatch log or query",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "When the next run dispatches",
+          "status": "PASS",
+          "data": "",
+          "expected": "The run completes",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "Then a non-review page is not stale and a review-site page is stale once",
+          "status": "PASS",
+          "data": "",
+          "expected": "Evidence shows review-site pages expect review-v1, non-review pages are reused",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "And in the UI a non-review page keeps its passage after the deploy",
+          "status": "PASS",
+          "data": "Toyota QA-GEO 439acd96, Journalism source",
+          "expected": "Same passage as before the deploy for an unchanged page",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        }
+      ],
+      "notes": "PASS on dev evidence (user decision 2026-11-04): automated tests of the story PR, test report https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441 (GEO-1226 comment 872714, dev summary 872651). Not re-run by QA in the UI."
+    },
+    {
+      "tc_id": "TC-GEO-1548-021",
+      "title": "NOT_FETCHED page counts nowhere and card, panel and Excel agree",
+      "story_id": "GEO-1548",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the dev identifies a group with one NOT_FETCHED page",
+          "status": "PASS",
+          "data": "Dev query or log",
+          "expected": "Page URL and group noted",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "When the user reads the card, the panel tabs and the Excel export of that source",
+          "status": "PASS",
+          "data": "",
+          "expected": "Three counts noted",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "Then the three counts are equal",
+          "status": "PASS",
+          "data": "",
+          "expected": "Card = panel = XLSX",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "And the NOT_FETCHED page shows nowhere",
+          "status": "PASS",
+          "data": "",
+          "expected": "No page block or article for that URL",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        }
+      ],
+      "notes": "PASS on dev evidence (user decision 2026-11-04): automated tests of the story PR, test report https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441 (GEO-1226 comment 872714, dev summary 872651). Not re-run by QA in the UI."
+    },
+    {
+      "tc_id": "TC-GEO-1548-022",
+      "title": "Group with all pages NOT_FETCHED or CHECK_FAILED is in no tab",
+      "story_id": "GEO-1548",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the dev identifies a group whose pages are all NOT_FETCHED or CHECK_FAILED",
+          "status": "PASS",
+          "data": "Dev query or log",
+          "expected": "Group noted",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "When the user opens the panel of the source",
+          "status": "PASS",
+          "data": "",
+          "expected": "Both tabs readable",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        },
+        {
+          "title": "Then the group shows in neither Lack of visibility nor Negative perception",
+          "status": "PASS",
+          "data": "",
+          "expected": "No article for the group in either tab",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441"
+        }
+      ],
+      "notes": "PASS on dev evidence (user decision 2026-11-04): automated tests of the story PR, test report https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970441 (GEO-1226 comment 872714, dev summary 872651). Not re-run by QA in the UI."
+    },
+    {
+      "tc_id": "TC-GEO-1549-025",
+      "title": "Older API article without pages renders as today",
+      "story_id": "GEO-1549",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given an ArticleDto without pages is rendered",
+          "status": "PASS",
+          "data": "Dev component test",
+          "expected": "The dev shares the test result",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970703"
+        },
+        {
+          "title": "When QA reviews the evidence",
+          "status": "PASS",
+          "data": "",
+          "expected": "Evidence available",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970703"
+        },
+        {
+          "title": "Then today's article row with its passage is rendered",
+          "status": "PASS",
+          "data": "",
+          "expected": "No page block, passage shown, no error",
+          "observed": "Covered by the dev automated tests (not visible in the UI): https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970703"
+        }
+      ],
+      "notes": "PASS on dev evidence (user decision 2026-11-04): automated tests of the story PR, test report https://github.com/AirPR/geo-analytics/actions/runs/40885465592/job/123487970703 (GEO-1226 comment 872714, dev summary 872651). Not re-run by QA in the UI."
+    }
+  ]
+}

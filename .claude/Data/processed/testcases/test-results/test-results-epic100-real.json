@@ -1,0 +1,273 @@
+{
+  "epic": "100",
+  "execution_date": "2026-05-31T14:31:26.529Z",
+  "total": 18,
+  "passed": 1,
+  "failed": 5,
+  "skipped": 12,
+  "success_rate": "5.6%",
+  "duration_total_ms": 207675,
+  "results": [
+    {
+      "tc_id": "GEO-61-TC001",
+      "name": "GEO-61-TC001 - Current scope is displayed",
+      "status": "FAILED",
+      "duration": 21973,
+      "error": "Error: \"Primary\" badge must be visible on the primary market\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'Countries', exact: true }) }).first().locator('text=\"Primary\", span:has-text(\"Primary\")').first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - \"Primary\" badge must be visible on the primary market with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'Countries', exact: true }) }).first().locator('text=\"Primary\", span:has-text(\"Primary\")').first()\u001b[22m\n\n\n  225 |   // Primary badge on first market (Figma 01: \"★ Primary\")\n  226 |   const primaryBadge = marketsSection.locator(SEL.primaryBadge).first();\n> 227 |   await expect(primaryBadge, '\"Primary\" badge must be visible on the primary market').toBeVisible({ timeout: 5000 });\n      |                                                                                       ^\n  228 |\n  229 |   // At least one category item in the categories section\n  230 |   const firstCategory = categoriesSection.locator('li, div[role=\"listitem\"], span').first();\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:227:87",
+      "steps": [
+        "Given an Editor opens the Settings/Manage Scope page",
+        "When the current scope loads",
+        "Then the page shows countries with a Primary indicator, categories, enabled LLM engines, question counts, and analysis metadata"
+      ],
+      "screenshots": [
+        "screenshots-epic100/GEO-61-TC001_step1_given.png",
+        "screenshots-epic100/GEO-61-TC001_step2_when.png",
+        "screenshots-epic100/GEO-61-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-61-TC002",
+      "name": "GEO-61-TC002 - Adding a market updates quota and shows next-run notice",
+      "status": "SKIPPED",
+      "duration": 835,
+      "error": null,
+      "steps": [
+        "Given an Editor adds a new market to the report",
+        "When the Editor saves the market change",
+        "Then brand_markets_used increases by 1, the change is included in the next scheduled execution, and the UI shows the next-run message"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-61-TC003",
+      "name": "GEO-61-TC003 - Adding a category does not consume market quota",
+      "status": "SKIPPED",
+      "duration": 868,
+      "error": null,
+      "steps": [
+        "Given an Editor adds a new category to the report",
+        "When the Editor saves the category change",
+        "Then no additional brand_market quota is consumed and the change is included in the next scheduled execution"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-61-TC004",
+      "name": "GEO-61-TC004 - Removing a market is applied on the next execution",
+      "status": "SKIPPED",
+      "duration": 854,
+      "error": null,
+      "steps": [
+        "Given an Editor removes an existing market from the report",
+        "When the Editor saves the market removal",
+        "Then the market is removed on the next scheduled execution and the UI shows the next-run message"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-61-TC005",
+      "name": "GEO-61-TC005 - Removing a category is applied on the next execution",
+      "status": "SKIPPED",
+      "duration": 294,
+      "error": null,
+      "steps": [
+        "Given an Editor removes an existing category from the report",
+        "When the Editor saves the category removal",
+        "Then the category is removed on the next scheduled execution"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-61-TC006",
+      "name": "GEO-61-TC006 - Question and competitor updates are persisted",
+      "status": "SKIPPED",
+      "duration": 267,
+      "error": null,
+      "steps": [
+        "Given an Editor modifies questions or adds competitors",
+        "When the Editor saves the changes",
+        "Then the changes are persisted and applied on the next scheduled execution"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-61-TC007",
+      "name": "GEO-61-TC007 - Markets quota: Add Country button disabled with warning banner",
+      "status": "SKIPPED",
+      "duration": 282,
+      "error": null,
+      "steps": [
+        "Given the organization has reached max_brand_markets quota",
+        "When the Editor views Manage Scope",
+        "Then the \"+ Add Country\" button is disabled",
+        "And a yellow warning banner is displayed: \"You have reached the maximum number of markets you can add. Please contact our sales team if you wish to add more.\""
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-61-TC008",
+      "name": "GEO-61-TC008 - Categories quota: Add Topic button disabled with warning banner",
+      "status": "SKIPPED",
+      "duration": 705,
+      "error": null,
+      "steps": [
+        "Given the organization has reached max_categories quota",
+        "When the Editor views Manage Scope",
+        "Then the \"+ Add Topic\" button is disabled",
+        "And a yellow warning banner is displayed (analogous)"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-61-TC009",
+      "name": "GEO-61-TC009 - Reader sees Manage Scope in read-only mode",
+      "status": "SKIPPED",
+      "duration": 691,
+      "error": null,
+      "steps": [
+        "Given a Reader on the Manage Scope page",
+        "When the page loads",
+        "Then all data is displayed (read-only) but no add/remove buttons are visible",
+        "And the page is purely informational"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-60-TC001",
+      "name": "GEO-60-TC001 - LLM toggle saves change and applies on next execution",
+      "status": "PASSED",
+      "duration": 16312,
+      "error": null,
+      "steps": [
+        "Given an Editor opens the Manage Scope page",
+        "When the Editor toggles an LLM engine",
+        "Then the change is saved and applied on the next scheduled execution"
+      ],
+      "screenshots": [
+        "screenshots-epic100/GEO-60-TC001_step1_given.png",
+        "screenshots-epic100/GEO-60-TC001_step2_when.png",
+        "screenshots-epic100/GEO-60-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-60-TC002",
+      "name": "GEO-60-TC002 - Last enabled LLM cannot be disabled",
+      "status": "SKIPPED",
+      "duration": 14893,
+      "error": null,
+      "steps": [
+        "Given only one LLM engine remains enabled",
+        "When the Editor tries to disable the last enabled LLM",
+        "Then the last LLM stays enabled and the validation prevents the change"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-60-TC003",
+      "name": "GEO-60-TC003 - Saved LLM configuration persists until modified again",
+      "status": "FAILED",
+      "duration": 31079,
+      "error": "Error: LLM toggle states must match the saved snapshot after return\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 1\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"ChatGPT\": \"true\",\u001b[39m\n\u001b[31m+   \"ChatGPT\": \"false\",\u001b[39m\n\u001b[2m    \"Claude\": \"true\",\u001b[22m\n\u001b[2m    \"Gemini\": \"true\",\u001b[22m\n\u001b[2m    \"Grok\": \"true\",\u001b[22m\n\u001b[2m    \"Perplexity\": \"true\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  632 |     return out;\n  633 |   });\n> 634 |   expect(stateAfter, 'LLM toggle states must match the saved snapshot after return').toEqual(savedState);\n      |                                                                                      ^\n  635 |\n  636 |   await screenshot(page, 'GEO-60-TC003_step3_then');\n  637 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:634:86",
+      "steps": [
+        "Given the Editor has saved an LLM configuration change",
+        "When the report is viewed later",
+        "Then the saved LLM selection is still applied"
+      ],
+      "screenshots": [
+        "screenshots-epic100/GEO-60-TC003_step1_given.png",
+        "screenshots-epic100/GEO-60-TC003_step2_when.png",
+        "screenshots-epic100/GEO-60-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-60-TC004",
+      "name": "GEO-60-TC004 - Disabling last LLM is prevented with inline message",
+      "status": "SKIPPED",
+      "duration": 12525,
+      "error": null,
+      "steps": [
+        "Given an Editor on the Manage Scope page",
+        "When they attempt to disable the last remaining enabled LLM",
+        "Then the toggle action is prevented",
+        "And a tooltip or inline message shows: \"At least one AI engine must remain active\""
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-60-TC005",
+      "name": "GEO-60-TC005 - When only 1 LLM is enabled its toggle is disabled",
+      "status": "SKIPPED",
+      "duration": 12466,
+      "error": null,
+      "steps": [
+        "Given only 1 LLM is enabled",
+        "Then its toggle is disabled (cannot be turned off)"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-60-TC006",
+      "name": "GEO-60-TC006 - Web search toggle is saved and persists after page refresh",
+      "status": "FAILED",
+      "duration": 17594,
+      "error": "Error: Web search checkbox must be visible on the enabled LLM card\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Web search checkbox must be visible on the enabled LLM card with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div:has([role=\"switch\"][aria-checked=\"true\"]):has(:text-matches(\"Web search\", \"i\"))').first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\u001b[22m\n\n\n  695 |     .getByRole('checkbox', { name: /Web search/i })\n  696 |     .or(card.locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'));\n> 697 |   await expect(webSearchCheckbox, 'Web search checkbox must be visible on the enabled LLM card').toBeVisible({ timeout: 5000 });\n      |                                                                                                  ^\n  698 |   await expect(webSearchCheckbox, 'Web search checkbox must be enabled when the LLM is on').toBeEnabled();\n  699 |   const initialChecked = await webSearchCheckbox.isChecked();\n  700 |   await screenshot(page, 'GEO-60-TC006_step1_given');\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:697:98",
+      "steps": [
+        "Given an Editor viewing an enabled LLM card that supports web search (webSearchCapable = true)",
+        "When they toggle the \"Web search\" checkbox",
+        "Then the change is saved and still applied after refreshing the page",
+        "And the web search checkbox is only interactive when the LLM is enabled"
+      ],
+      "screenshots": [
+        "screenshots-epic100/GEO-60-TC006_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-60-TC007",
+      "name": "GEO-60-TC007 - Disabled LLM web search checkbox is grayed out and non-interactive",
+      "status": "FAILED",
+      "duration": 17928,
+      "error": "Error: Web search checkbox on the disabled LLM card must be visible (grayed out)\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Web search checkbox on the disabled LLM card must be visible (grayed out) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().getByRole('checkbox', { name: /Web search/i }).or(locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('article, section, div').filter({ has: locator('[role=\"switch\"][aria-checked=\"false\"]') }).first().locator('input[type=\"checkbox\"][aria-label*=\"Web search\" i]'))\u001b[22m\n\n\n  741 |     webSearchDisabled,\n  742 |     'Web search checkbox on the disabled LLM card must be visible (grayed out)',\n> 743 |   ).toBeVisible({ timeout: 5000 });\n      |     ^\n  744 |   await expect(\n  745 |     webSearchDisabled,\n  746 |     'Web search checkbox must be non-interactive (disabled) when its LLM is turned off',\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:743:5",
+      "steps": [
+        "Given an LLM is disabled",
+        "Then the web search checkbox is grayed out and non-interactive"
+      ],
+      "screenshots": [
+        "screenshots-epic100/GEO-60-TC007_step1_given.png",
+        "screenshots-epic100/GEO-60-TC007_step2_when.png",
+        "screenshots-epic100/GEO-60-TC007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-60-TC008",
+      "name": "GEO-60-TC008 - Reader: AI Engines section is read-only",
+      "status": "SKIPPED",
+      "duration": 228,
+      "error": null,
+      "steps": [
+        "Given a Reader on the Manage Scope page",
+        "When they view the \"AI Engines\" section",
+        "Then LLM cards are displayed in read-only mode (no toggles, no web search checkboxes)",
+        "And the section shows \"X of N active\" indicator (same as current 6.1 implementation)"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-60-TC009",
+      "name": "GEO-60-TC009 - Saved LLM state is preserved after navigation and included in next scheduled run",
+      "status": "FAILED",
+      "duration": 57881,
+      "error": "TimeoutError: locator.getAttribute: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-testid=\"dashboard-layout\"] main').locator('section, article, div').filter({ has: getByRole('heading', { name: 'LLM Engines', exact: true }) }).first().locator('[role=\"switch\"][aria-checked=\"false\"]').first()\u001b[22m\n\n\n  813 |   await expect(llmSectionAfter).toBeVisible({ timeout: 15000 });\n  814 |   // Re-locate the same toggle by aria-label (it was flipped, so find it by its new state)\n> 815 |   const ariaLabel = await targetToggle.getAttribute('aria-label');\n      |                                        ^\n  816 |   const toggleAfter = llmSectionAfter.locator(`[role=\"switch\"][aria-label=\"${ariaLabel}\"]`).first();\n  817 |   await expect(\n  818 |     toggleAfter,\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic100.spec.js:815:40",
+      "steps": [
+        "Given an Editor has toggled LLM configurations",
+        "When they navigate away and return to the Manage Scope page",
+        "Then the saved LLM state is reflected correctly",
+        "And the changes are included in the next scheduled weekly execution (not triggered immediately)"
+      ],
+      "screenshots": [
+        "screenshots-epic100/GEO-60-TC009_step1_given.png",
+        "screenshots-epic100/GEO-60-TC009_step2_when.png",
+        "screenshots-epic100/GEO-60-TC009_step3_then.png"
+      ]
+    }
+  ]
+}

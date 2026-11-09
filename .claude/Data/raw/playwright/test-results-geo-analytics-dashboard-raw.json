@@ -1,0 +1,172 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\playwright.config.js",
+    "rootDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\global-setup.js",
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "e2e-suite",
+        "name": "e2e-suite",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/create-default-analysis.spec.js",
+          "**/verify-analysis.spec.js",
+          "**/category-question-analysis.spec.js",
+          "**/category-kpi-cards-analysis.spec.js",
+          "**/category-brand-prioritization-analysis.spec.js",
+          "**/category-brand-rankings-analysis.spec.js",
+          "**/category-questions-table.spec.js",
+          "**/category-top-concept.spec.js",
+          "**/category-perception-citation.spec.js",
+          "**/geo-analytics-dashboard.spec.js"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": ".claude/Data/raw/playwright/test-results-geo-analytics-dashboard-raw.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 3,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "geo-analytics-dashboard.spec.js",
+      "file": "geo-analytics-dashboard.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "E2E-GEO95-001 - GEO Analytics Dashboard displays correctly",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5062,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given an authenticated Editor opens the GEO Analytics Dashboard",
+                      "duration": 3844
+                    },
+                    {
+                      "title": "Then the heading GEO Analytics Dashboard is visible",
+                      "duration": 16
+                    },
+                    {
+                      "title": "And the subtitle Monitor your brand's presence across AI search engines is visible",
+                      "duration": 7
+                    },
+                    {
+                      "title": "And the New Analysis button is visible",
+                      "duration": 8
+                    },
+                    {
+                      "title": "And the 6 stat cards MARKETS CATEGORIES COMPETITORS REPORTS PROMPTS SOURCES are displayed",
+                      "duration": 34
+                    },
+                    {
+                      "title": "And the Analysis table is visible with columns Brand Countries Categories Last update and Actions",
+                      "duration": 169
+                    },
+                    {
+                      "title": "Then the CATEGORIES stat card total equals the sum of category chips displayed in the table",
+                      "duration": 104
+                    },
+                    {
+                      "title": "And the REPORTS stat card total equals the number of rows in the Analysis table",
+                      "duration": 103
+                    }
+                  ],
+                  "startTime": "2026-05-18T21:58:30.412Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "21f0ae9ec5c33c3b0d6d-04458191e4816831db1c",
+          "file": "geo-analytics-dashboard.spec.js",
+          "line": 88,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-18T21:58:16.637Z",
+    "duration": 21085.435999999998,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

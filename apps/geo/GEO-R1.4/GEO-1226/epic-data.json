@@ -1,0 +1,403 @@
+{
+  "epic": {
+    "id": "GEO-1226",
+    "key": "GEO-1226",
+    "title": "EPIC-049: Target Sources Improvements for Review Pages",
+    "status": "Ready for QA",
+    "assignee": "Abdenasser Aroukhsiss",
+    "created": "2026-10-07",
+    "updated": "2026-11-02",
+    "updatedAt": "2026-11-02T06:58:35.571-0500",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1226",
+    "fixVersions": [
+      "1.4"
+    ],
+    "functionalNeed": "Review sites (Trustpilot, Google Play, opinion sites) are among the most cited sources in Target Sources, and they do not behave like articles: the reviews of one company are split over many pages, each page holds about 20 reviews from different users, and the useful content is the reviews themselves, not the page header.\n\nExample on production, CNP Assurances, source #1 trustpilot.com: \"Negative perception (13)\" lists fr.trustpilot.com/review/cnp.fr?page=2, ?page=3 up to ?page=10, plus fr-be.trustpilot.com/review/cnp.fr?page=3, 4 and 5, each with one passage, mostly the page title \"Avis de CNP Assurances | Lisez les avis marchands de cnp.fr | 2 sur 29\", while the pages hold many 1-star reviews.\n\nToday, on developer:\n\n- The panel lists one article per URL (TargetSourceDetailService.java:86), so each page of the same review page is a separate article. The list is hard to read, the count is inflated, and the card ranking (sorted by failing articles) favours review sites only because they are paginated.\n- The check returns one verdict and one passage of 140 characters per URL (DepictionPrompt.java:75, one passage column in action_verdicts), so out of 20 reviews on a page the user sees one quote at best.\n- The judge only receives excerpts of 300 characters around the brand name (Prefilter.java:32). On a company review page most reviews do not repeat the brand name, so they never reach the judge.\n- The passage must contain the brand or product name (GEO-1183), so a review like \"A EVITER ABSOLUMENT - POUR PRENDRE VOTRE ARGENT ILS SONT FORTS\" can never be quoted, while the page is entirely about CNP.\n\nFor a review page, the panel shows one article, and under it every negative review of every page, one entry per review. Three levels, used with the same meaning in the rest of this epic:\n\n- Review: what one user wrote. A page holds several reviews from different users.\n- Page: one URL, eg: fr.trustpilot.com/review/cnp.fr?page=3.\n- Article: the line in the panel. For a review page, it groups all the pages of the same review page.",
+    "scope": [
+      "1. One article per review page",
+      "2. Every negative review, not one per page",
+      "3. Panel"
+    ],
+    "outOfScope": [],
+    "acceptanceCriteria": [
+      "On the CNP Assurances analysis, trustpilot.com shows the cnp.fr reviews as one article for fr.trustpilot.com and one for fr-be.trustpilot.com, instead of one article per page.",
+      "A page with 4 negative reviews from 4 users shows 4 entries under its page block.",
+      "Each entry is quoted verbatim from the page, and its page block opens that page.",
+      "No entry is a page title, a menu, a banner or a positive review.",
+      "A review that does not name the brand is listed when it criticises it.",
+      "Two different pages on the same host (different paths) are never grouped.",
+      "The count on the card, the count in the panel and the export give the same number.",
+      "An article with more than 10 negative reviews shows the first 10 and a \"Show N more reviews\" for the rest.",
+      "A review page whose pages never name the brand shows in Lack of visibility as one article; it does not show there when one of its pages names the brand.",
+      "A page with more than 10 negative reviews lists 10 entries under its page block, and its count reads \"10 negative reviews\"."
+    ],
+    "dependencies": [
+      "GEO-1204: if the capture of a review page holds only the header (reviews loaded by script), there is no review to list. The capture must return the reviews first."
+    ],
+    "design": {
+      "task": "GEO-1497",
+      "figma": "https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=17435-4056",
+      "strings": "https://docs.google.com/spreadsheets/d/1Nab90jZNdxgAT5pouDk2QxLM5-6skrDF6p2A4w9o0z4/edit#gid=2029821253"
+    },
+    "ignoredChildren": [
+      {
+        "key": "GEO-1204",
+        "type": "Bug",
+        "title": "[Target Sources] Some negative pages are still judged not negative, and the passage does not always support the verdict",
+        "status": "Ready for QA",
+        "fixVersions": [
+          "1.4"
+        ]
+      },
+      {
+        "key": "GEO-1497",
+        "type": "Design Task",
+        "title": "Design the review pages in the Target Sources panel (one article, negative reviews by page)",
+        "status": "Done",
+        "fixVersions": [
+          "1.3"
+        ]
+      }
+    ],
+    "stories": [
+      {
+        "id": "GEO-1547",
+        "type": "Story",
+        "title": "STORY-49.1: List every negative review of a review page",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-27",
+        "updated": "2026-11-02",
+        "updatedAt": "2026-11-02T06:58:27.912-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1547",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a PR manager reading the Target Sources panel",
+          "want": "every negative review of a review page to be listed, even when the reviewer does not repeat the brand name",
+          "so": "I see what customers actually criticise instead of the page title."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Every negative review, one entry each",
+            "given": "a review page of the brand where 4 users criticise the brand",
+            "when": "the page is checked",
+            "then": "the page gives 4 entries, one per review."
+          },
+          {
+            "id": "AC2",
+            "title": "Verbatim, 140 characters",
+            "given": "a negative review longer than 140 characters",
+            "when": "it is listed",
+            "then": "it is quoted verbatim, shortened with « … » on a word boundary (same rule as GEO-1201)."
+          },
+          {
+            "id": "AC3",
+            "title": "Brand name not required on a review page",
+            "given": "a review page of the brand and the review « A EVITER ABSOLUMENT - POUR PRENDRE VOTRE ARGENT ILS SONT FORTS »",
+            "when": "the page is checked",
+            "then": "the review is listed although it does not name the brand. The GEO-1183 rule (the passage names the brand) stays for every other page."
+          },
+          {
+            "id": "AC4",
+            "title": "Never chrome or a positive review",
+            "given": "a review page",
+            "when": "it is checked",
+            "then": "no entry is the page title, a menu, a banner, a summary written by the site, a reply from the company or a positive review (GEO-1224)."
+          },
+          {
+            "id": "AC5",
+            "title": "At most 10 per page",
+            "given": "a page with more than 10 negative reviews",
+            "when": "it is checked",
+            "then": "10 entries are kept, and the page counts 10."
+          },
+          {
+            "id": "AC6",
+            "title": "Negative page",
+            "given": "a review page",
+            "when": "it is checked",
+            "then": "the page is negative when it holds at least one negative review."
+          },
+          {
+            "id": "AC7",
+            "title": "Other sources unchanged",
+            "given": "a page of a source that is not classified Review Sites",
+            "when": "it is checked",
+            "then": "it keeps one passage per page, as today."
+          }
+        ],
+        "technicalAcceptanceCriteria": [
+          {
+            "id": "TAC1",
+            "title": "Optional contract",
+            "given": "a candidate without `reviewSite`, and a verdict without `reviews` / `pageTitle`",
+            "when": "they are consumed",
+            "then": "today's behaviour, no error."
+          },
+          {
+            "id": "TAC2",
+            "title": "Only review pages re-judged",
+            "given": "verdicts judged `depiction-v6` before the deploy",
+            "when": "the next run dispatches",
+            "then": "a non-review page is not stale; a review-site page is stale once (expects `review-v1`)."
+          },
+          {
+            "id": "TAC3",
+            "title": "Verbatim only",
+            "given": "an engine answer with a quote that is not in the page text",
+            "when": "the verdict is built",
+            "then": "the quote is dropped; a page left with no quote is not `NAMED_NEGATIVELY` on that quote."
+          },
+          {
+            "id": "TAC4",
+            "title": "Cap and cut",
+            "given": "14 negative reviews, one of 200 characters",
+            "when": "the verdict is built",
+            "then": "10 entries; the long one ends with « … » on a word boundary, ≤ 140 characters."
+          },
+          {
+            "id": "TAC5",
+            "title": "Reviews survive reuse",
+            "given": "an unchanged page with a stored review verdict",
+            "when": "it is reused (hash match or GEO-1534 window)",
+            "then": "its reviews are still returned for the panel."
+          }
+        ],
+        "technicalNotes": [
+          "**Waiting for the PM (question on GEO-1226):** which review-site pages get review mode. Default built: only a page that reviews one company of the brand family; a page comparing several companies keeps today's rule (AC7). Reversible by the prompt only.",
+          "**Technical part (dev only):** Flink judge prompt with its own version, optional Kafka fields, reviews table, deploy with stop-with-savepoint. Capture of review pages checked on 2026-10-27 (GEO-1204 does not block).",
+          "⚠️ **Dev note (not for QA):** T1's real Firecrawl captures were not found in the repo; the dev agent used synthetic fixtures reproducing the documented traps instead. Re-run against the real six captures before this reaches prod. Migration moved to V2.10.10 (V2.10.9 collision with `feature/crawl-blocklist`)."
+        ],
+        "externalSpecs": [
+          "https://github.com/AirPR/geo-analytics/blob/docs/GEO-1226-epic-49-stories/docs/implementation-artifacts/epics/epic-49/49-1-list-every-negative-review-of-a-review-page.md"
+        ],
+        "related": [
+          "GEO-1201",
+          "GEO-1183",
+          "GEO-1224",
+          "GEO-1204",
+          "GEO-1534"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1548",
+        "type": "Story",
+        "title": "STORY-49.2: Group the pages of a review page into one article",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-27",
+        "updated": "2026-11-02",
+        "updatedAt": "2026-11-02T06:58:40.774-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1548",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a PR manager",
+          "want": "the paginated pages of one review page to read as a single article",
+          "so": "the list is short, the counts are honest and review sites are not ranked first only because they are paginated."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "One article per review page",
+            "given": "the CNP Assurances analysis, source trustpilot.com",
+            "when": "I open the panel",
+            "then": "the cnp.fr reviews show as one article for fr.trustpilot.com and one for fr-be.trustpilot.com, instead of one article per page."
+          },
+          {
+            "id": "AC2",
+            "title": "Same page only",
+            "given": "two pages on the same host with different paths",
+            "when": "the panel is built",
+            "then": "they are never grouped. Two subdomains are never grouped either."
+          },
+          {
+            "id": "AC3",
+            "title": "Title",
+            "given": "pages titled « Avis de CNP Assurances | Lisez les avis marchands de cnp.fr | 2 sur 30 »",
+            "when": "they are grouped",
+            "then": "the article title is « Avis de CNP Assurances »."
+          },
+          {
+            "id": "AC4",
+            "title": "Tabs",
+            "given": "a grouped article",
+            "when": "the panel is built",
+            "then": "it is negative when at least one of its pages is negative; it shows in Lack of visibility only when none of its pages names the brand."
+          },
+          {
+            "id": "AC5",
+            "title": "Same number everywhere",
+            "given": "a review site with grouped articles",
+            "when": "I compare the card, the panel tabs and the export",
+            "then": "they give the same number of articles, and the cards are sorted by that number."
+          },
+          {
+            "id": "AC6",
+            "title": "Review counts",
+            "given": "an article whose pages hold 4, 2, 3 and 2 negative reviews",
+            "when": "the panel and the export are built",
+            "then": "the article counts 11 negative reviews."
+          },
+          {
+            "id": "AC7",
+            "title": "Unchanged",
+            "given": "a source that is not classified Review Sites, or the « Prompts associated with this source » section",
+            "when": "the panel is built",
+            "then": "nothing changes (one article per URL)."
+          }
+        ],
+        "technicalAcceptanceCriteria": [
+          {
+            "id": "TAC1",
+            "title": "Key",
+            "given": "`fr.trustpilot.com/review/cnp.fr`, `?page=2`, `?p=3`, `?pg=4`, `fr-be.trustpilot.com/review/cnp.fr?page=3`, `fr.trustpilot.com/review/axa.fr?page=2`",
+            "when": "`articleKey` runs on a Review Sites source",
+            "then": "the first four share one key (pages 1–4), the other two have their own."
+          },
+          {
+            "id": "TAC2",
+            "title": "Not on other sources",
+            "given": "`blog.example.com/?p=12` and `?p=34` on a Journalism source",
+            "when": "the panel is built",
+            "then": "two articles."
+          },
+          {
+            "id": "TAC3",
+            "title": "Same count",
+            "given": "a review site with 13 page URLs forming 2 articles, one page now `NOT_FETCHED`",
+            "when": "the card, the panel and the XLSX are built",
+            "then": "all three say 2, and the `NOT_FETCHED` page counts nowhere."
+          },
+          {
+            "id": "TAC4",
+            "title": "No vacuous Lack of visibility",
+            "given": "a group whose pages are all `NOT_FETCHED` or `CHECK_FAILED`",
+            "when": "the panel is built",
+            "then": "the article is in no tab."
+          }
+        ],
+        "technicalNotes": [
+          "**Technical part (dev only):** one grouping function for panel, card and exports (Review Sites only); card counts recomputed for Review Sites domains only; the panel query gets the VERIFIED filter the card already has (today the card and the panel can disagree).",
+          "⚠️ **Dev note (not for QA):** T3 (whether trustpilot.com ever has scheme/www/trailing-slash URL variants within one review page) needs a prod query the dev agent could not run (no prod DB access); the conservative default (never merge these variants) is implemented and safe either way. The open design question on pages without stored reviews (comparison pages, ~half of review-site pages) was confirmed by the user: such a page keeps its classic passage only when it is the article's only page."
+        ],
+        "externalSpecs": [
+          "https://github.com/AirPR/geo-analytics/blob/docs/GEO-1226-epic-49-stories/docs/implementation-artifacts/epics/epic-49/49-2-group-the-pages-of-a-review-page-into-one-article.md"
+        ],
+        "related": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1549",
+        "type": "Story",
+        "title": "STORY-49.3: Show review pages in the Target Sources panel",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-27",
+        "updated": "2026-11-02",
+        "updatedAt": "2026-11-02T06:58:15.248-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1549",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a PR manager",
+          "want": "a review page to show as one article with its negative reviews grouped by page",
+          "so": "I can read what customers criticise and open the page where each review sits."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Reviews by page",
+            "given": "an article grouping several pages",
+            "when": "I open it in the panel",
+            "then": "the reviews are listed by page, in page order; each page block starts with the page URL as a link that opens the page, then its count (« 4 negative reviews »), then its reviews. The URL shows in full even when it is long."
+          },
+          {
+            "id": "AC2",
+            "title": "Article chip",
+            "given": "an article with 17 negative reviews",
+            "when": "it is shown",
+            "then": "a chip under the title reads « 17 negative reviews ». There is no page count and no « of 20 reviews »."
+          },
+          {
+            "id": "AC3",
+            "title": "URL line",
+            "given": "an article that groups several pages",
+            "when": "it is shown",
+            "then": "its URL line is plain text. A review page with one page has no page block: its reviews show under the title and its URL line opens the page, as today."
+          },
+          {
+            "id": "AC4",
+            "title": "Entry",
+            "given": "a negative review",
+            "when": "it is shown",
+            "then": "the entry is the quote only, without the user name, the rating or the date."
+          },
+          {
+            "id": "AC5",
+            "title": "Show more",
+            "given": "an article with more than 10 negative reviews",
+            "when": "it is shown",
+            "then": "the first 10 reviews show, then « Show N more reviews ». The step counts reviews, not pages; when the cut falls inside a page, the header of that page shows above its first reviews and the rest shows after the click."
+          },
+          {
+            "id": "AC6",
+            "title": "Engines",
+            "given": "an article grouping pages cited by different engines",
+            "when": "it is shown",
+            "then": "the cited-by icons are the engines that cite any of its pages."
+          },
+          {
+            "id": "AC7",
+            "title": "Lack of visibility",
+            "given": "a review page whose pages never name the brand",
+            "when": "I open the Lack of visibility tab",
+            "then": "it shows as one article with its pages as links, without quotes."
+          }
+        ],
+        "technicalAcceptanceCriteria": [
+          {
+            "id": "TAC1",
+            "title": "Step counts reviews",
+            "given": "pages with 4, 2, 3 and 2 reviews and 6 more on later pages (17)",
+            "when": "the article renders",
+            "then": "10 entries (page 5 shows 1 of its 2 under its header), then « Show 7 more reviews »; after the click, 17 entries."
+          },
+          {
+            "id": "TAC2",
+            "title": "One page",
+            "given": "an article with one page and 3 reviews",
+            "when": "it renders",
+            "then": "no page block, 3 entries under the title, the URL line is a link."
+          },
+          {
+            "id": "TAC3",
+            "title": "Older API",
+            "given": "an `ArticleDto` without `pages`",
+            "when": "it renders",
+            "then": "today's article row with its passage."
+          }
+        ],
+        "technicalNotes": [
+          "⚠️ **Dev note (not for QA):** the FR/ES texts of `negativeReviews`/`showMoreReviews` are temporary literal translations — the Google Sheets tab « GEO-1226 Review pages » was not read in this pass. They must be corrected against the locked sheet before prod; EN text matches the epic wording exactly."
+        ],
+        "externalSpecs": [
+          "https://github.com/AirPR/geo-analytics/blob/docs/GEO-1226-epic-49-stories/docs/implementation-artifacts/epics/epic-49/49-3-show-review-pages-in-the-target-sources-panel.md"
+        ],
+        "related": [
+          "GEO-1497"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      }
+    ]
+  }
+}

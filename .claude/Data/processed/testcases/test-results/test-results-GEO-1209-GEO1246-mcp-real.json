@@ -1,0 +1,163 @@
+{
+  "spec": "GEO-1209-GEO1246-mcp",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1246",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "analyses": {
+    "unbranded": "42c3ab89-7dfd-4ba5-b5ec-117cec2514e4",
+    "brand": "27bec573-a748-4848-a673-849754cd18e5"
+  },
+  "writeGuard": "GET only on **/geo/api/** (every POST/PUT/PATCH/DELETE aborted, incl. POST /questions/adapt-batch); removed with context.unrouteAll() at the end; afterwards UA Manage Scope = 958 / 1000 prompts · 5 selected, 31 rows, 1 market, 1 category",
+  "successRate": 50,
+  "verdict": "NO-GO",
+  "summary": {
+    "total": 4,
+    "pass": 1,
+    "fail": 1,
+    "skip": 0,
+    "partial": 2
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1246-001",
+      "title": "Adding a category in Manage Scope suggests 10 Visibility, 10 Competitive and 10 Category Topics per market",
+      "story_id": "GEO-1246",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Not fully verifiable: step \"And FR (FR) gets the same split\" (10 / 10 / 10, in French) cannot run - the only unbranded analysis available has a single market GB (EN), and the French adaptation goes through POST /questions/adapt-batch, blocked by the read-only guard. The final save POST /geo/api/v1/reports/42c3ab89-7dfd-4ba5-b5ec-117cec2514e4/categories was blocked (\"Failed to add category\").",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-001_step1_given.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-001_step2_when.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-001_step3_then.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-001_step4_blocked.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a category",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each market gets 30 suggestions for the new category",
+          "status": "PASS"
+        },
+        {
+          "title": "And FR (FR) gets the same split",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And there is no Reputation or Brand Image suggestion",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adaptation: TC data names analysis UA \"Postal services\" (GB (EN) + FR (FR), categories C1/C2, custom Other prompts); executed on the QA-GEO unbranded analysis \"Electric bikes\" 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (1 market United Kingdom - English, 1 category \"Commuter Electric Bikes\" + automatic \"Other\", ChatGPT + Gemini, 31 prompt rows of which 5 kept: 2 Visibility, 2 Category Topics, 1 custom in Other). Pool block before the run: \"958 / 1000 prompts · 5 selected\". Category used: \"Folding Electric Bikes\" (instead of \"Courier services\", to fit the topic). Add Category dialog = 2 steps \"Category\" > \"Prompts\"; step 1 shows \"Translations per Country: GB - English Folding Electric Bikes\". Step 2 (Prompts): 30 rows, all ticked, category \"Folding Electric Bikes\", market GB (EN); pool block in view \"988 / 1000 prompts · 30 selected\" (958 + 30). Type filter of the dialog: \"Visibility 10 · Category Topics 10 · Competitive 10\" - no Reputation or Brand Image row or filter value. adapt-batch request payload: analysisMode \"UNBRANDED\", entityName \"Electric bikes\", 10 PERCEPTION (= Category Topics) + 10 VISIBILITY + 10 COMPETITIVE, markets [en-GB]. Blocked save payload (POST .../categories): categoryName \"Folding Electric Bikes\", questions per market {visibility 10, competitive 10, perception 10}, all isKept=true. Dialog cancelled; after reload the analysis still has 1 category. Write guard on (GET only on **/geo/api/**): every POST was aborted, including POST /geo/api/v1/questions/adapt-batch (language/topic adaptation of the suggestions, not a save), so the dialog shows \"Prompt adaptation failed — showing English templates. You can edit them before saving.\" (i18n adaptationError) - an effect of the guard, not a product defect."
+    },
+    {
+      "tc_id": "TC-GEO-1246-002",
+      "title": "Adding a market in Manage Scope suggests the unbranded mix and no Brand Image",
+      "story_id": "GEO-1246",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Not fully verifiable: (1) Given expects markets GB (EN) and FR (FR) - the unbranded analysis has GB (EN) only; (2) Then expects 60 suggestions \"in Spanish\" for C1 and C2 - the analysis has 1 category (30 suggestions observed, 10 / 10 / 10) and the Spanish adaptation (POST /questions/adapt-batch, markets es-ES) was blocked by the read-only guard, so English templates were shown. The final save POST /geo/api/v1/reports/42c3ab89-7dfd-4ba5-b5ec-117cec2514e4/markets was blocked.",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-002_step1_given.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-002_step2_when.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-002_step3_then.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-002_step4_blocked.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope of analysis UA",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user adds a market",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each category gets 30 suggestions in the new market",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And no Brand Image or Reputation suggestion is created",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adaptation: TC data names analysis UA \"Postal services\" (GB (EN) + FR (FR), categories C1/C2, custom Other prompts); executed on the QA-GEO unbranded analysis \"Electric bikes\" 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (1 market United Kingdom - English, 1 category \"Commuter Electric Bikes\" + automatic \"Other\", ChatGPT + Gemini, 31 prompt rows of which 5 kept: 2 Visibility, 2 Category Topics, 1 custom in Other). Pool block before the run: \"958 / 1000 prompts · 5 selected\". Add Country dialog: \"Spain\" + language auto-detected \"Spanish (ES)\" > Next. Prompts step: 30 rows, all ticked, market ES (ES), category \"Commuter Electric Bikes\" (the only category); pool \"988 / 1000 prompts · 30 selected\". Type filter: \"Visibility 10 · Category Topics 10 · Competitive 10\" - no Brand Image or Reputation row. adapt-batch payload: analysisMode \"UNBRANDED\", entityName \"Electric bikes\", 10 PERCEPTION + 10 VISIBILITY + 10 COMPETITIVE, markets [es-ES / es]. Blocked save payload (POST .../markets): countryCode \"ES\", languageCode \"es\", questions {Commuter Electric Bikes: visibility 10, competitive 10, perception 10}, brandImageQuestions [] (empty - no Brand Image prompt created, story rule OK). Spanish wording not verifiable (English templates shown because adapt-batch was blocked). Dialog cancelled. Write guard on (GET only on **/geo/api/**): every POST was aborted, including POST /geo/api/v1/questions/adapt-batch (language/topic adaptation of the suggestions, not a save), so the dialog shows \"Prompt adaptation failed — showing English templates. You can edit them before saving.\" (i18n adaptationError) - an effect of the guard, not a product defect."
+    },
+    {
+      "tc_id": "TC-GEO-1246-003",
+      "title": "The type select of an unbranded analysis in Manage Scope lists Visibility, Competitive, Category Topics and Other only",
+      "story_id": "GEO-1246",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And the user cancels and opens the type select of an existing row\" - Expected: \"The select lists Visibility, Competitive, Category Topics and Other only\". Observed: the type select of an existing row lists \"Visibility\", \"Category Topics\", \"Competitive\" only - no \"Other\" (checked on the custom row currently in Other and on the generated Visibility row \"Best Commuter Electric Bikes?\"). Same gap as TC-GEO-1241-014 (20/10/2026).",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-003_step1_given.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-003_step2_when.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-003_step2b_when_custom_row.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-003_step2c_when_visibility_row.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Add prompt and opens the type select",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user cancels and opens the type select of an existing row",
+          "status": "FAIL"
+        },
+        {
+          "title": "Then no Reputation or Brand Image type is offered",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adaptation: TC data names analysis UA \"Postal services\" (GB (EN) + FR (FR), categories C1/C2, custom Other prompts); executed on the QA-GEO unbranded analysis \"Electric bikes\" 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (1 market United Kingdom - English, 1 category \"Commuter Electric Bikes\" + automatic \"Other\", ChatGPT + Gemini, 31 prompt rows of which 5 kept: 2 Visibility, 2 Category Topics, 1 custom in Other). Pool block before the run: \"958 / 1000 prompts · 5 selected\". Add prompt adds an inline draft row (textbox \"New prompt\", Category \"Other\", Type \"Other\", Market GB (EN), buttons \"Add this prompt\" (disabled) / \"Cancel\"). Draft row Type select options: \"Visibility, Category Topics, Competitive, Other\" (PASS). Draft cancelled with \"Cancel\" (31 rows, unchanged). Existing row \"Which electric bike brands are best for commuting in London?\" (CUSTOM, Other / Other): Type select options \"Visibility, Category Topics, Competitive\" - no Other (red frame in step3_then). Existing row \"Best Commuter Electric Bikes?\" (Visibility): same 3 options. The pencil \"Edit prompt\" only turns the prompt text into an input (no type select); closed with Escape, nothing saved. No \"Reputation\" or \"Brand Image\" in any select (PASS). For comparison the brand analysis Add prompt select lists \"Visibility, Reputation, Competitive, Brand Image, Other\" (TC-GEO-1246-004). PO question: is \"Other\" meant to be selectable on an existing row (move a typed prompt back to Other), or should the CSV expect the 3 types only for an existing row?"
+    },
+    {
+      "tc_id": "TC-GEO-1246-004",
+      "title": "A brand analysis keeps Reputation and Brand Image in Manage Scope with the flag ON",
+      "story_id": "GEO-1246",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-004_step1_given.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-004_step2_when.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-004_step3_then.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-004_step4_blocked.png",
+        "screenshots-GEO-1209-GEO1246/TC-GEO-1246-004_side_discard_modal.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of brand analysis BA",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the type select of Add prompt",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user adds a market",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the brand mix is suggested",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adaptation: BA = QA-GEO brand analysis \"Decathlon\" 27bec573-a748-4848-a673-849754cd18e5 (GB (EN) + FR (FR), 1 category \"Articles De Sport\", 80 kept prompts: per market 10 Visibility, 10 Competitive, 10 Reputation, 10 Brand Image; no custom Other prompt, unlike the CSV precondition). Flag ON (GET /geo/api/v1/auth/me: features.unbranded_analysis = true, language en-GB, org QA-GEO). Prompt table displayed: 80 rows, \"958 / 1000 prompts · 80 selected\". Add prompt draft row Type select: \"Visibility, Reputation, Competitive, Brand Image, Other\" (draft cancelled). Add Country > Spain - Spanish (ES) > Next: 40 fresh suggestions, all ticked, market ES (ES), \"998 / 1000 prompts · 40 selected\": \"Articles De Sport\" 10 Visibility, 10 Competitive, 10 Reputation + category \"Overview\" 10 Brand Image (\"What do you think of Decathlon?\", \"What is Decathlon known for?\"...); Type filter \"Visibility 10 · Reputation 10 · Competitive 10 · Brand Image 10\"; no Category Topics. Blocked save payload (POST /geo/api/v1/reports/27bec573-a748-4848-a673-849754cd18e5/markets): countryCode ES, languageCode es, questions {visibility 10, competitive 10, perception 10}, brandImageQuestions 10. The Then is verified on the suggestions before the save, so the blocked save does not limit the verdict. Dialog cancelled; Cancel opened a confirmation \"Discard Category - Your category creation is incomplete...\" in the Add Country flow (side finding, screenshot side_discard_modal) > \"Exit and Discard\" (local only). Write guard on (GET only on **/geo/api/**): every POST was aborted, including POST /geo/api/v1/questions/adapt-batch (language/topic adaptation of the suggestions, not a save), so the dialog shows \"Prompt adaptation failed — showing English templates. You can edit them before saving.\" (i18n adaptationError) - an effect of the guard, not a product defect."
+    }
+  ]
+}

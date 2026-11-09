@@ -1,0 +1,907 @@
+{
+  "epic": "101",
+  "execution_date": "2026-05-31T14:31:26.536Z",
+  "total": 55,
+  "passed": 38,
+  "failed": 0,
+  "skipped": 17,
+  "success_rate": "69.1%",
+  "duration_total_ms": 614228,
+  "results": [
+    {
+      "tc_id": "kpi-TC001",
+      "name": "kpi-TC001 - Category view shows summary and KPIs",
+      "status": "PASSED",
+      "duration": 17529,
+      "error": null,
+      "steps": [
+        "Given an Editor navigates to a category view",
+        "When the view loads",
+        "Then the page shows a per-category AI perception summary and 5 KPI cards"
+      ],
+      "screenshots": [
+        "screenshots-epic101/kpi-TC001_step1_given.png",
+        "screenshots-epic101/kpi-TC001_step2_when.png",
+        "screenshots-epic101/kpi-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-70-TC001",
+      "name": "GEO-70-TC001 - Category view respects market and LLM filters",
+      "status": "PASSED",
+      "duration": 16245,
+      "error": null,
+      "steps": [
+        "Given market and LLM filters are already applied",
+        "When the category view loads",
+        "Then the summary and KPI cards reflect the selected market and LLM scope"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-70-TC001_step1_given.png",
+        "screenshots-epic101/GEO-70-TC001_step2_when.png",
+        "screenshots-epic101/GEO-70-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-70-TC003",
+      "name": "GEO-70-TC003 - 5 KPI cards are displayed with values and quality labels",
+      "status": "PASSED",
+      "duration": 16158,
+      "error": null,
+      "steps": [
+        "Given the category view loads",
+        "When KPI cards render",
+        "Then 5 cards are displayed: Share of Voice, Visibility, Avg Position, Win Rate, Sentiment",
+        "And each shows current value with unit (%, position, score)",
+        "And each has a quality label (Good/Fair/Poor) based on thresholds",
+        "And all KPIs are computed from responses scoped to the selected category only"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-70-TC003_step1_given.png",
+        "screenshots-epic101/GEO-70-TC003_step2_when.png",
+        "screenshots-epic101/GEO-70-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-70-TC004",
+      "name": "GEO-70-TC004 - KPI formula values are displayed correctly",
+      "status": "PASSED",
+      "duration": 15505,
+      "error": null,
+      "steps": [
+        "Given the formulas (category-scoped, same as global but filtered by categoryId)",
+        "Then SOV = Visibility% x (2 / (AvgPosition + 1))",
+        "And Visibility% = mentionCount / totalLLMResponseCount x 100",
+        "And Avg Position = ceil(mean(target_rank)), unranked = penalty 11 (NOT_MENTIONED_PENALTY_POSITION)",
+        "And Win Rate = winsCount / totalCompetitiveResponses x 100",
+        "And Sentiment = sum(score x freq) / sum(freq), displayed as -100 to +100"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-70-TC004_step1_given.png",
+        "screenshots-epic101/GEO-70-TC004_step2_when.png",
+        "screenshots-epic101/GEO-70-TC004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-70-TC005",
+      "name": "GEO-70-TC005 - KPIs are refetched with updated filter parameters",
+      "status": "PASSED",
+      "duration": 17496,
+      "error": null,
+      "steps": [
+        "Given filter state changes (market or LLM)",
+        "When the Editor changes a filter",
+        "Then KPIs are refetched with updated filter parameters",
+        "And perception summary is refetched with updated filters",
+        "And loading skeletons are shown during fetch"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-70-TC005_step1_given.png",
+        "screenshots-epic101/GEO-70-TC005_step2_when.png",
+        "screenshots-epic101/GEO-70-TC005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-70-TC006",
+      "name": "GEO-70-TC006 - KPI card shows N/A with a muted style instead of 0",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given no data for a KPI type in the selected category (e.g., no competitive responses)",
+        "When KPIs load",
+        "Then the card shows \"N/A\" with a muted style instead of 0"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-70-TC007",
+      "name": "GEO-70-TC007 - Perception summary shows loading state then resolves",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given the perception summary is not yet cached",
+        "When the category view loads",
+        "And caches the result in Redis (30-day TTL)",
+        "And the frontend shows a loading state during generation (up to 5 seconds)",
+        "Then the backend generates it on-demand via Gemini meta-LLM (internal) is applied successfully"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-69-TC001",
+      "name": "GEO-69-TC001 - Category brand matrix is displayed with category-scoped data",
+      "status": "PASSED",
+      "duration": 15856,
+      "error": null,
+      "steps": [
+        "Given an Editor opens a category view",
+        "When the matrix loads",
+        "Then the Brand Prioritization Matrix is shown with category-scoped data"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-69-TC001_step1_given.png",
+        "screenshots-epic101/GEO-69-TC001_step2_when.png",
+        "screenshots-epic101/GEO-69-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-69-TC002",
+      "name": "GEO-69-TC002 - Category brand matrix reflects market and LLM filters",
+      "status": "PASSED",
+      "duration": 17144,
+      "error": null,
+      "steps": [
+        "Given market and LLM filters are applied",
+        "When the matrix loads",
+        "Then the matrix reflects the selected market and LLM filters"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-69-TC002_step1_given.png",
+        "screenshots-epic101/GEO-69-TC002_step2_when.png",
+        "screenshots-epic101/GEO-69-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-69-TC003",
+      "name": "GEO-69-TC003 - Hovering a data point shows a tooltip with full brand details",
+      "status": "PASSED",
+      "duration": 16413,
+      "error": null,
+      "steps": [
+        "Given the matrix is populated",
+        "When a user hovers over a data point",
+        "Then a tooltip displays: brand name, market emoji, Visibility%, Win Rate%, SOV%, Avg Position (#), quadrant label",
+        "And the target brand is visually distinguished (bold/indicator in tooltip)"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-69-TC003_step1_given.png",
+        "screenshots-epic101/GEO-69-TC003_step2_when.png",
+        "screenshots-epic101/GEO-69-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-69-TC004",
+      "name": "GEO-69-TC004 - All Markets: each market selects its own top 4 competitors by SOV",
+      "status": "PASSED",
+      "duration": 15461,
+      "error": null,
+      "steps": [
+        "Given \"All markets\" (master) filter",
+        "When the matrix loads",
+        "Then each market selects its own top 4 competitors by SOV descending",
+        "And a competitor may appear in market A but not market B"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-69-TC004_step1_given.png",
+        "screenshots-epic101/GEO-69-TC004_step2_when.png",
+        "screenshots-epic101/GEO-69-TC004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-69-TC005",
+      "name": "GEO-69-TC005 - Specific market filter shows only brands from that market",
+      "status": "PASSED",
+      "duration": 16772,
+      "error": null,
+      "steps": [
+        "Given a specific market filter applied",
+        "When the matrix loads",
+        "Then only brands from that market are shown (target + top 4 competitors for that single market) is applied successfully"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-69-TC005_step1_given.png",
+        "screenshots-epic101/GEO-69-TC005_step2_when.png",
+        "screenshots-epic101/GEO-69-TC005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-69-TC006",
+      "name": "GEO-69-TC006 - Brand matrix shows empty state when no visibility data exists",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given no visibility responses exist for the selected category",
+        "When the matrix loads",
+        "Then an empty state is displayed (\"No data available for the brand prioritization matrix.\")"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-69-TC007",
+      "name": "GEO-69-TC007 - Quadrant legend shows counts for all four quadrants",
+      "status": "PASSED",
+      "duration": 15841,
+      "error": null,
+      "steps": [
+        "Given the matrix data loaded",
+        "Then a quadrant legend is shown below the chart with counts: Stars: N, Opportunity: N, At Risk: N, Monitor: N"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-69-TC007_step1_given.png",
+        "screenshots-epic101/GEO-69-TC007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-68-TC001",
+      "name": "GEO-68-TC001 - Category brand rankings table is shown",
+      "status": "PASSED",
+      "duration": 15383,
+      "error": null,
+      "steps": [
+        "Given an Editor opens a category view",
+        "When the rankings load",
+        "Then the Brand Rankings table is shown for the current category"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-68-TC001_step1_given.png",
+        "screenshots-epic101/GEO-68-TC001_step2_when.png",
+        "screenshots-epic101/GEO-68-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-68-TC002",
+      "name": "GEO-68-TC002 - Category brand rankings reflect market and LLM filters",
+      "status": "PASSED",
+      "duration": 16946,
+      "error": null,
+      "steps": [
+        "Given market and LLM filters are applied",
+        "When the rankings load",
+        "Then the rankings reflect the selected market and LLM filters"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-68-TC002_step1_given.png",
+        "screenshots-epic101/GEO-68-TC002_step2_when.png",
+        "screenshots-epic101/GEO-68-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-68-TC003",
+      "name": "GEO-68-TC003 - Parent row shows aggregated metrics with expandable variants",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given a brand has variants (e.g., \"Audi\" + \"Audi RS\" share normalized_name = \"Audi\")",
+        "When the table renders",
+        "Then the parent row shows aggregated metrics (best rank per response across variants)",
+        "And an expandable \"+N\" badge indicates additional variants",
+        "And expanding shows individual variant rows with their own metrics",
+        "And variant rows do NOT show LLM Choice% (displayed as \"—\")"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-68-TC004",
+      "name": "GEO-68-TC004 - Target brand row is visually highlighted with warm yellow/gold background",
+      "status": "PASSED",
+      "duration": 15403,
+      "error": null,
+      "steps": [
+        "When the table renders",
+        "Then the target brand row is visually highlighted with warm yellow/gold background (bg-amber-50) is applied successfully"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-68-TC004_step1_given.png",
+        "screenshots-epic101/GEO-68-TC004_step2_when.png",
+        "screenshots-epic101/GEO-68-TC004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-68-TC005",
+      "name": "GEO-68-TC005 - Rankings recalculate when market filter changes",
+      "status": "PASSED",
+      "duration": 17121,
+      "error": null,
+      "steps": [
+        "Given market filter changes",
+        "When the user selects a specific market",
+        "Then the table recalculates from that market's visibility + competitive responses only, within the selected category"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-68-TC005_step1_given.png",
+        "screenshots-epic101/GEO-68-TC005_step2_when.png",
+        "screenshots-epic101/GEO-68-TC005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-68-TC006",
+      "name": "GEO-68-TC006 - Rankings recalculate when LLM filter changes",
+      "status": "PASSED",
+      "duration": 18223,
+      "error": null,
+      "steps": [
+        "Given LLM filter changes",
+        "When the user deselects an LLM",
+        "Then the table recalculates from the filtered response pool only, within the selected category"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-68-TC006_step1_given.png",
+        "screenshots-epic101/GEO-68-TC006_step2_when.png",
+        "screenshots-epic101/GEO-68-TC006_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-68-TC007",
+      "name": "GEO-68-TC007 - Master All Markets: aggregates all markets into single brand list",
+      "status": "PASSED",
+      "duration": 15398,
+      "error": null,
+      "steps": [
+        "Given \"Master (All Markets)\" filter",
+        "When the table renders",
+        "Then all visibility + competitive responses across all markets are aggregated together for this category (single brand list, not per-market)"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-68-TC007_step1_given.png",
+        "screenshots-epic101/GEO-68-TC007_step2_when.png",
+        "screenshots-epic101/GEO-68-TC007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-68-TC008",
+      "name": "GEO-68-TC008 - Brand rankings shows empty state when no visibility data exists",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given zero data (no visibility responses for this category)",
+        "When Brand Rankings loads",
+        "Then an empty state message is displayed (\"No brand ranking data available.\")"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-68-TC009",
+      "name": "GEO-68-TC009 - Brand rankings shows error state with retry option",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given an API error occurs",
+        "When Brand Rankings fails to load",
+        "Then an error state is displayed with a retry option"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-67-TC001",
+      "name": "GEO-67-TC001 - Questions table shows grouped questions and key columns",
+      "status": "PASSED",
+      "duration": 15147,
+      "error": null,
+      "steps": [
+        "Given an Editor opens a category view with questions available",
+        "When the questions table loads",
+        "Then questions are grouped by type and each row shows the question text, winner/themes, market flag, and per-LLM rank badges"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC001_step1_given.png",
+        "screenshots-epic101/GEO-67-TC001_step2_when.png",
+        "screenshots-epic101/GEO-67-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC002",
+      "name": "GEO-67-TC002 - Visibility favorability maps Won/Split/Not Named correctly",
+      "status": "PASSED",
+      "duration": 15037,
+      "error": null,
+      "steps": [
+        "Given the table contains a visibility question with a known outcome",
+        "When the row is displayed",
+        "Then Won, Split, and Not Named map to Favorable, Neutral, and Unfavorable"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC002_step1_given.png",
+        "screenshots-epic101/GEO-67-TC002_step2_when.png",
+        "screenshots-epic101/GEO-67-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC003",
+      "name": "GEO-67-TC003 - Competitive favorability maps Won/Split/Lost correctly",
+      "status": "PASSED",
+      "duration": 15417,
+      "error": null,
+      "steps": [
+        "Given the table contains a competitive question with a known outcome",
+        "When the row is displayed",
+        "Then Won, Split, and Lost map to Favorable, Neutral, and Unfavorable"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC003_step1_given.png",
+        "screenshots-epic101/GEO-67-TC003_step2_when.png",
+        "screenshots-epic101/GEO-67-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC004",
+      "name": "GEO-67-TC004 - Perception favorability maps Positive/Mixed/Negative correctly",
+      "status": "PASSED",
+      "duration": 14997,
+      "error": null,
+      "steps": [
+        "Given the table contains a perception question with a known outcome",
+        "When the row is displayed",
+        "Then Positive, Mixed, and Negative map to Favorable, Neutral, and Unfavorable"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC004_step1_given.png",
+        "screenshots-epic101/GEO-67-TC004_step2_when.png",
+        "screenshots-epic101/GEO-67-TC004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC005",
+      "name": "GEO-67-TC005 - Favorability filter reduces visible rows and combines with type tabs",
+      "status": "PASSED",
+      "duration": 15433,
+      "error": null,
+      "steps": [
+        "Given the table contains questions with different favorability values",
+        "When the Editor selects a favorability filter",
+        "Then only matching questions remain visible and the filter can combine with question type filters"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC005_step1_given.png",
+        "screenshots-epic101/GEO-67-TC005_step2_when.png",
+        "screenshots-epic101/GEO-67-TC005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC006",
+      "name": "GEO-67-TC006 - Expanding a question shows detailed evidence (ranking + sources)",
+      "status": "PASSED",
+      "duration": 15308,
+      "error": null,
+      "steps": [
+        "Given an Editor sees a collapsed question row",
+        "When the Editor expands the row",
+        "Then the row shows the full ranking list, win/loss details, and cited sources with full LLM response text"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC006_step1_given.png",
+        "screenshots-epic101/GEO-67-TC006_step2_when.png",
+        "screenshots-epic101/GEO-67-TC006_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC007",
+      "name": "GEO-67-TC007 - Perception favorability rules show correct color coding and themes",
+      "status": "PASSED",
+      "duration": 14885,
+      "error": null,
+      "steps": [
+        "Given perception questions displayed",
+        "When the table renders each row",
+        "Then favorability rules apply:",
+        "And positive sentiment = Favorable (green)",
+        "And mixed sentiment = Neutral (orange)",
+        "And negative sentiment = Unfavorable (red)",
+        "And the Themes column shows key_themes from enriched concepts (first 2 as badges + \"+N\")",
+        "And no rank badges are shown (perception has no ranking)"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC007_step1_given.png",
+        "screenshots-epic101/GEO-67-TC007_step2_when.png",
+        "screenshots-epic101/GEO-67-TC007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC008",
+      "name": "GEO-67-TC008 - Search questions input filters rows by question text",
+      "status": "PASSED",
+      "duration": 15498,
+      "error": null,
+      "steps": [
+        "Given an Editor searching questions",
+        "When they type in the \"Search questions...\" input",
+        "Then the table filters rows by question text (client-side filter, no backend call)"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC008_step1_given.png",
+        "screenshots-epic101/GEO-67-TC008_step2_when.png",
+        "screenshots-epic101/GEO-67-TC008_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC009",
+      "name": "GEO-67-TC009 - Filters button applies favorability filter combinable with tabs and search",
+      "status": "PASSED",
+      "duration": 15915,
+      "error": null,
+      "steps": [
+        "Given an Editor filtering by favorability",
+        "When they click \"Filters\" button and select Favorable / Split / Not Favorable",
+        "Then the table filters accordingly",
+        "And the filter is combinable with the question type tabs and search bar"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC009_step1_given.png",
+        "screenshots-epic101/GEO-67-TC009_step2_when.png",
+        "screenshots-epic101/GEO-67-TC009_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC010",
+      "name": "GEO-67-TC010 - Expanding a visibility row shows per-LLM badges, position, and sources",
+      "status": "PASSED",
+      "duration": 15348,
+      "error": null,
+      "steps": [
+        "Given an Editor expanding a visibility question row",
+        "When they click to expand",
+        "Then the detail panel shows:",
+        "And Per-LLM rank badges at the top (clickable to switch LLM context)",
+        "And \"BMW's Position — {LLM}\" with the target_rank",
+        "And Sources list from sources_news + sources_other of the selected LLM (title + URL, \"+N more\" if > 3)"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC010_step1_given.png",
+        "screenshots-epic101/GEO-67-TC010_step2_when.png",
+        "screenshots-epic101/GEO-67-TC010_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC011",
+      "name": "GEO-67-TC011 - Expanding a competitive row shows win/loss badges and brand responses",
+      "status": "PASSED",
+      "duration": 15487,
+      "error": null,
+      "steps": [
+        "Given an Editor expanding a competitive question row",
+        "When they click to expand",
+        "Then the detail panel shows:",
+        "And Per-LLM rank badges (clickable)",
+        "And Win/loss per LLM (won -> \"BMW You\" badge, lost -> \"Chosen\" badge on winner)",
+        "And Full ranking from entities_ranking[]",
+        "And \"About BMW\" section with entities_ranking[BMW].raw_response",
+        "And \"About {winner}\" section (only when Lost) with entities_ranking[rank1].raw_response",
+        "And Sources from the selected LLM"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC011_step1_given.png",
+        "screenshots-epic101/GEO-67-TC011_step2_when.png",
+        "screenshots-epic101/GEO-67-TC011_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC012",
+      "name": "GEO-67-TC012 - Expanding a perception row shows sentiment badge, themes, and sources",
+      "status": "PASSED",
+      "duration": 15687,
+      "error": null,
+      "steps": [
+        "Given an Editor expanding a perception question row",
+        "When they click to expand",
+        "Then the detail panel shows:",
+        "And Sentiment badge for the selected LLM (Positive/Mixed/Negative, calculated from perception_concepts[].sentiment_score)",
+        "And Themes badges from key_themes",
+        "And Sources from the selected LLM"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC012_step1_given.png",
+        "screenshots-epic101/GEO-67-TC012_step2_when.png",
+        "screenshots-epic101/GEO-67-TC012_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC013",
+      "name": "GEO-67-TC013 - Market filter limits questions to matching market responses",
+      "status": "PASSED",
+      "duration": 17007,
+      "error": null,
+      "steps": [
+        "Given market filter changes",
+        "When the user selects a specific market",
+        "Then the table shows only questions matching that market's responses, within the selected category"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC013_step1_given.png",
+        "screenshots-epic101/GEO-67-TC013_step2_when.png",
+        "screenshots-epic101/GEO-67-TC013_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC014",
+      "name": "GEO-67-TC014 - LLM filter recalculates question status and favorability",
+      "status": "PASSED",
+      "duration": 15753,
+      "error": null,
+      "steps": [
+        "Given LLM filter changes",
+        "When the user deselects an LLM",
+        "Then the table recalculates status/favorability from the filtered LLM pool only"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-67-TC014_step1_given.png",
+        "screenshots-epic101/GEO-67-TC014_step2_when.png",
+        "screenshots-epic101/GEO-67-TC014_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-67-TC015",
+      "name": "GEO-67-TC015 - Questions table shows empty state when no data exists",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given zero data (no responses for this category)",
+        "Then an empty state message is displayed (\"No question data available.\")"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-67-TC016",
+      "name": "GEO-67-TC016 - Questions table shows error state with retry",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given an API error occurs",
+        "Then an error state is displayed with a retry option"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-66-TC001",
+      "name": "GEO-66-TC001 - Perception topics show clustering, sentiment filters, and LLM attribution",
+      "status": "PASSED",
+      "duration": 14774,
+      "error": null,
+      "steps": [
+        "Given an Editor opens a category view with perception topics available",
+        "When the perception topics load",
+        "Then topic clustering, sentiment filters, and LLM attribution badges are shown"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-66-TC001_step1_given.png",
+        "screenshots-epic101/GEO-66-TC001_step2_when.png",
+        "screenshots-epic101/GEO-66-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-66-TC002",
+      "name": "GEO-66-TC002 - Citation sources highlight reputation gaps against competitors",
+      "status": "PASSED",
+      "duration": 15805,
+      "error": null,
+      "steps": [
+        "Given an Editor views citation sources for a category",
+        "When the sources load",
+        "Then the source list includes perception-related sources and reputation gaps are highlighted"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-66-TC002_step1_given.png",
+        "screenshots-epic101/GEO-66-TC002_step2_when.png",
+        "screenshots-epic101/GEO-66-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-66-TC003",
+      "name": "GEO-66-TC003 - Source detail shows full URL, title, domain, and citing LLMs",
+      "status": "PASSED",
+      "duration": 16038,
+      "error": null,
+      "steps": [
+        "Given the sources list contains a clickable source",
+        "When the Editor clicks a source",
+        "Then the detail view shows the full URL, page title, normalized domain, and citing LLMs"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-66-TC003_step1_given.png",
+        "screenshots-epic101/GEO-66-TC003_step2_when.png",
+        "screenshots-epic101/GEO-66-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-66-TC004",
+      "name": "GEO-66-TC004 - Market filter recalculates perception topics and citation sources",
+      "status": "PASSED",
+      "duration": 18858,
+      "error": null,
+      "steps": [
+        "Given market filter changes",
+        "When the user selects a specific market",
+        "Then both perception topics and citation sources recalculate from the filtered response pool (category + market + LLMs)"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-66-TC004_step1_given.png",
+        "screenshots-epic101/GEO-66-TC004_step2_when.png",
+        "screenshots-epic101/GEO-66-TC004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-66-TC005",
+      "name": "GEO-66-TC005 - LLM filter recalculates both perception topics and citation sources",
+      "status": "PASSED",
+      "duration": 18579,
+      "error": null,
+      "steps": [
+        "Given LLM filter changes",
+        "When the user deselects an LLM",
+        "Then both components recalculate from the filtered LLM pool only"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-66-TC005_step1_given.png",
+        "screenshots-epic101/GEO-66-TC005_step2_when.png",
+        "screenshots-epic101/GEO-66-TC005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-66-TC006",
+      "name": "GEO-66-TC006 - Empty state messages shown when no perception data exists",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given zero data (no perception responses or no sources for this category)",
+        "When the components load",
+        "Then empty state messages are displayed (\"No perception data available.\" / \"No citation sources available.\")"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-66-TC007",
+      "name": "GEO-66-TC007 - Error state with retry shown when component fails to load",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given an API error occurs",
+        "When a component fails to load",
+        "Then an error state is displayed with a retry option"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-65-TC001",
+      "name": "GEO-65-TC001 - Visibility improvements are displayed with badge, severity, and sorting",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given pre-computed visibility improvements exist for the report",
+        "When the Actions Center loads",
+        "Then low_visibility, poor_position, category_market_low, and owned_media_gap are displayed with badge, severity, category, LLM, target domain count, and severity sorting"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-65-TC002",
+      "name": "GEO-65-TC002 - Visibility improvements render from pre-computed pipeline results",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given the pipeline has already computed visibility improvements",
+        "When the Actions Center renders the visibility section",
+        "Then the UI shows the stored results without recalculating detection"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-64-TC001",
+      "name": "GEO-64-TC001 - Competitive improvements are displayed with type badges",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given pre-computed competitive improvements exist for the report",
+        "When the Actions Center loads",
+        "Then low_favorability, category_market_losing, and low_source_favorability are displayed"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-64-TC002",
+      "name": "GEO-64-TC002 - Competitive improvements respect the market filter",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given a market filter is applied",
+        "When the competitive improvements section loads",
+        "Then only improvements for the selected market are shown"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-63-TC001",
+      "name": "GEO-63-TC001 - Reputation improvements are displayed capped at 3 per category",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given pre-computed reputation improvements exist for the report",
+        "When the Actions Center loads",
+        "Then negative_sentiment items are shown with no more than 3 items per category ordered by severity"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-62-TC001",
+      "name": "GEO-62-TC001 - Detail panel shows Quick Stats, Priority Targets, Owned Media, Competitor Media",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given an Editor expands an improvement area",
+        "When the detail panel opens",
+        "Then Quick Stats, Priority Source Targets, Owned Media, and Competitor Media are shown"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-62-TC002",
+      "name": "GEO-62-TC002 - Priority source targets show metadata sorted by impact potential",
+      "status": "SKIPPED",
+      "duration": 0,
+      "error": null,
+      "steps": [
+        "Given priority source targets are listed in the detail panel",
+        "When the target list is displayed",
+        "Then each domain shows favorability, citation count, gap count, per-LLM badges, and is sorted by impact potential"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-193-TC001",
+      "name": "GEO-193-TC001 - Favorability filter chips match design and interaction states",
+      "status": "PASSED",
+      "duration": 16026,
+      "error": null,
+      "steps": [
+        "Given the favorability filter (Favorable/Split/Not Favorable)",
+        "When reviewed",
+        "Then filter chips match the Figma design and interaction states (hover, active, disabled)"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-193-TC001_step1_given.png",
+        "screenshots-epic101/GEO-193-TC001_step2_when.png",
+        "screenshots-epic101/GEO-193-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-193-TC002",
+      "name": "GEO-193-TC002 - Questions table layout degrades gracefully on different screen widths",
+      "status": "PASSED",
+      "duration": 18335,
+      "error": null,
+      "steps": [
+        "Given responsive behavior",
+        "When the table is viewed on different screen widths",
+        "Then the layout degrades gracefully per the UX specification"
+      ],
+      "screenshots": [
+        "screenshots-epic101/GEO-193-TC002_step1_given.png",
+        "screenshots-epic101/GEO-193-TC002_step2_when.png",
+        "screenshots-epic101/GEO-193-TC002_step3_then.png"
+      ]
+    }
+  ]
+}

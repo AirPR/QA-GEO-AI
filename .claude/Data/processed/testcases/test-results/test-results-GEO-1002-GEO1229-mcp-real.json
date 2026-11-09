@@ -1,0 +1,325 @@
+{
+  "spec": "GEO-1002-GEO1229",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1229",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "runFolder": "20102026-0933",
+  "summary": {
+    "total": 7,
+    "pass": 3,
+    "fail": 0,
+    "skip": 3,
+    "partial": 1,
+    "successRate": 50,
+    "successRateExecuted": 87.5,
+    "verdict": "NO-GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me at start and end)",
+    "organisation": "QA-GEO (org_id dcea498b-a5cc-4c2a-b078-82530de16998), role SUPER_ADMIN, existing session (no login needed)",
+    "featureFlag": "unbranded_analysis = true: 5-step wizard, Brand analysis card + Continue used for every wizard",
+    "pool": "P = 1000; U = 703 at start and at end (7 analyses both times)",
+    "stateChanges": "None. No analysis created, no back-office action, no deletion, no Manage Scope save. Wizards ended with Back to Dashboard > Exit and Discard. Toyota country filter reset to All Countries."
+  },
+  "sideFindings": [
+    "Stepper \"Brand & Country\" clicked from the Prompts step (after unticks or custom prompts) opens \"Exit setup?\" (wizard.discardModal.title) with \"Your analysis configuration for {brand} is incomplete. Exiting the process now will result in the loss of all progress made during this session.\" (wizard.discardModal.stepChangesDescription); \"Exit and Discard\" (wizard.common.exitAndDiscard) does not exit: the user stays in the wizard on Brand & Country with brand and markets kept. The copy says exit and loss of all progress, the behaviour is a step change. Seen twice (Nike, Decathlon). Same pattern as Review > Categories in the GEO-1237 run.",
+    "Remove category dialog: \"Are you sure you want to remove Outdoor Gear ? This action cannot be undone.\" has a space before \"?\" (wizard.deleteCategory.description = \"... {{name}} ? ...\"); and \"60 prompts across your markets will be deleted with it.\" (wizard.deleteCategory.impact_other) was shown after France had been removed, with only GB (EN) left (30 expected for the remaining market; 60 = count of the previous GB + FR prompt set).",
+    "Dashboard country filter aria-label reads \"Country filter — 1 selected\" / \"— 2 selected\" while the key is \"Country filter — {{market}} selected\" (dashboard.market.ariaSelected): a count is passed instead of the market name(s).",
+    "Dashboard country filter: with \"All Countries\" active every country is ticked; clicking \"United States\" unticks it (result \"France - Spain\") instead of selecting it alone. Selecting one country needs the others unticked. The selection persists across a reload.",
+    "AI Sense translation of the custom category \"Football boots\": FR \"Bottes de football\" (literal; usual term \"Chaussures de football\" / \"Crampons\"), US (EN) \"Soccer Cleats\", ES \"Tacos de fútbol\". Data quality only.",
+    "Wizard pool popover opens on hover only (data-state delayed-open); clicking the ring does not open it (keyboard / touch access to be confirmed)."
+  ],
+  "proposedCsvChanges": [
+    "TC-GEO-1229-001 step 2 Test data: replace the example \"Decathlon\" (already used twice in QA-GEO) by a brand not used in T, e.g. \"Nike\".",
+    "TC-GEO-1229-001 step 4 Test data: \"Running shoes\" duplicates the AI category \"Running Shoes\" usually detected for sports brands and is refused as \"This category already exists.\"; use extra categories that cannot collide and add enough to reach 6 when discovery returns 2 (e.g. \"Cycling\", \"Camping\", \"Basketball\", \"Football boots\").",
+    "TC-GEO-1229-001 steps 5-6: state that with 6 categories x 4 markets the selection (760) is over the pool, so the user unticks prompts (e.g. 3 markets via the market filter and the header checkbox) until U + S <= P, then checks that Review & Launch is enabled.",
+    "TC-GEO-1229-003 step 3: name the popover parts as shown: \"Kept in this analysis\" reads 37 (and \"In use by other analyses\" reads U); the popover opens on hover of the ring.",
+    "TC-GEO-1229-003 precondition: when the minimal scope is reached from a wider wizard, custom prompts of the kept market and category are carried over; delete them to get 40.",
+    "TC-GEO-1229-004 step 4 expected: use the real label: \"In use by other analyses\" = U - S.",
+    "TC-GEO-1229-007 step 3: \"the user ticks only United States (unticks the other countries)\" - with All Countries active a click on United States unticks it. Precondition: no analysis M with United States EN + ES exists in QA-GEO; it must be created in a dedicated run."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1229-001",
+      "title": "Keeping prompts across brands, categories and markets only decreases the shared pool",
+      "story_id": "GEO-1229",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-001_step2b_categories.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-001_step2c_prompts_over_pool.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard of organisation T",
+          "expected": "The pool block reads \"U / P\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user starts a new analysis for a brand that no analysis of the organisation uses yet",
+          "data": "Brand: a brand not used yet in T (e.g. \"Decathlon\")",
+          "expected": "Brand & Country accepts the brand with no brand quota message",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user adds 4 markets including one country in two languages",
+          "data": "United Kingdom - English (EN), France - French (FR), United States - English (EN), United States - Spanish (ES)",
+          "expected": "The 4 market rows are added with no country, language or market limit message",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user keeps every detected category and adds categories until there are at least 6",
+          "data": "Extra categories: \"Running shoes\", \"Cycling\", \"Camping\"",
+          "expected": "Every category is added with no category limit message",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the Prompts step",
+          "expected": "The toolbar ring reads \"U + S / P\", S being the number of ticked prompts of this analysis",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no per-brand, per-category, per-country or per-language cap blocks the selection",
+          "expected": "The only limit shown is the pool ring; Review & Launch is enabled while U + S <= P",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Dashboard pool block \"703 / 1000 prompts\" (U = 703, P = 1000, 7 analyses). Brand used: Nike (nike.com), because Decathlon is already used by 2 analyses of QA-GEO (the CSV example no longer meets \"a brand not used yet\"). Brand & Country: brand accepted, no brand quota message. 4 markets added: United Kingdom - English (EN), France - French (FR), United States - English (EN), United States - Spanish (ES) (language changed to Spanish (ES) on the second US row); no country, language or market limit message, Add country still available. Categories: discovery returned Running Shoes + Athletic Apparel; \"Running shoes\" refused only as a duplicate (\"This category already exists.\", views.addCategory.alreadyExists), not as a limit; Cycling, Camping, Basketball, Football Boots added = 6 categories, no limit message (helper \"Categories are unlimited and set by you, never derived from results.\", wizard.category.infoTitle). Prompts: 760 rows ticked (6 categories x 4 markets x 30 + 4 x 10 Brand Image), ring \"1463 / 1000 prompts · 760 selected\" = U + S / P, message \"463 prompts over. Untick prompts or contact your account manager.\" (wizard.pool.overWizard_other), Review & Launch disabled. Page text searched for limit / quota / maximum / cap / upgrade / higher plan: nothing found. Then market filter FR (FR) + US (EN) + US (ES) and header checkbox \"Tick or untick every prompt\": ring \"893 / 1000 prompts · 190 selected\", over message gone, Review & Launch enabled. The only limit shown is the pool ring. Extra screenshots: step2b (6 categories), step2c (ring over the pool).",
+      "description": "Verify that prompts kept in any analysis draw on the single organisation pool and that no per-brand, per-category, per-country or per-language cap blocks the user, even beyond the old per-type, Countries and Categories max quotas. Covers AC-1."
+    },
+    {
+      "tc_id": "TC-GEO-1229-002",
+      "title": "The same prompt kept in two markets consumes two slots",
+      "story_id": "GEO-1229",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-002_step2a_gb_added.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of an analysis with markets GB (EN) and FR (FR)",
+          "expected": "The toolbar ring reads \"X / P\" (X = U + ticked prompts of this analysis)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a custom prompt in market GB (EN)",
+          "data": "Prompt: \"Which brand sells the best trail running shoes?\" - Category C1 - Type Visibility - Market GB (EN)",
+          "expected": "The row is added ticked and the ring reads \"X + 1 / P\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user adds the same prompt in market FR (FR)",
+          "data": "Same text, Category C1, Type Visibility, Market FR (FR)",
+          "expected": "The row is accepted (same text in another market is not a duplicate) and the ring reads \"X + 2 / P\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the prompt kept in two markets consumes two slots",
+          "expected": "\"N selected\" and the ring both increased by 2 for the two rows",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Scope: Decathlon (decathlon.com), GB (EN) + FR (FR), C1 = Sporting Goods, C2 = Outdoor Gear (discovery returned exactly these 2) = 140 rows. Ring \"843 / 1000 prompts · 140 selected\" (X = 843 = U + 140). Custom prompt \"Which brand sells the best trail running shoes?\", Sporting Goods, Visibility, GB (EN): row added ticked (CUSTOM tag), toast \"Prompt added. It uses one pool slot.\" (wizard.promptTable.promptAdded), ring \"844 / 1000 · 141 selected\". Same text, Sporting Goods, Visibility, FR (FR): accepted with no duplicate message (wizard.promptTable.duplicatePrompt not shown), ticked, ring \"845 / 1000 · 142 selected\". Ring and \"N selected\" both +2 for the two rows (green frames in step3). The draft row defaults to Category \"Other\" and Type \"Other\" (flag ON, GEO-1247). Extra screenshot step2a = after the GB (EN) row.",
+      "description": "Verify that a kept prompt that runs in two markets consumes two pool slots (one ticked prompt in one market = one slot). Covers AC-2."
+    },
+    {
+      "tc_id": "TC-GEO-1229-003",
+      "title": "An unticked prompt consumes no slot",
+      "story_id": "GEO-1229",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-003_step3_then.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-003_step4_when_retick.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with every suggestion ticked",
+          "expected": "The ring reads \"U + 40 / P\" and \"40 selected\" is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user unticks 3 prompts",
+          "data": "Any 3 rows",
+          "expected": "The 3 rows are greyed and the ring reads \"U + 37 / P\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the unticked prompts consume no slot",
+          "expected": "\"37 selected\" is shown and the popover \"this analysis\" part reads 37",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user ticks one of them again",
+          "expected": "The ring reads \"U + 38 / P\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Minimal scope from the same wizard: France removed on Brand & Country, Outdoor Gear removed on Categories, prompts regenerated (41 rows: the GB custom prompt of TC-002 was carried over and deleted to get the CSV scope) = 40 rows, ring \"743 / 1000 prompts · 40 selected\" (U + 40). Rows 1-3 (Brand Image, GB (EN)) unticked: text grey rgb(148,163,184) vs rgb(30,41,59) for kept rows, ring \"740 / 1000 prompts · 37 selected\". Pool popover (opens on hover, data-state delayed-open; a click does not open it): \"Prompt pool / 740 of 1000 after creation / In use by other analyses 703 / Kept in this analysis 37 / Free in the pool 260\" (wizard.pool.summaryAfterCreation, inUseByOthers, keptHere, free). Row 1 ticked again: ring \"741 / 1000 prompts · 38 selected\". Extra screenshot step4 = after the re-tick.",
+      "description": "Verify that unticking a prompt frees its slot and ticking it back consumes it again: an unticked prompt consumes none. Covers AC-2."
+    },
+    {
+      "tc_id": "TC-GEO-1229-004",
+      "title": "Deleting an analysis returns its slots to the pool immediately",
+      "story_id": "GEO-1229",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard of organisation T",
+          "data": "Analysis D, Prompts column = S",
+          "expected": "The pool block reads \"U / P\" and the Prompts column of D reads S",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user deletes analysis D and confirms",
+          "expected": "Analysis D disappears from the Analysis table",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then its slots return to the pool immediately",
+          "expected": "Without reloading the page, the pool block reads \"U - S / P\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user clicks New Analysis and reaches the Prompts step",
+          "data": "Any brand, 1 market, 1 category",
+          "expected": "The ring popover shows other analyses = U - S",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: state-changing action not allowed (user decision) - the TC deletes an existing analysis (no disposable analysis D allowed). Not executed, no screenshot. Related evidence only: in the wizard popover of TC-003 \"In use by other analyses\" = 703 = dashboard U, so the \"other analyses\" figure used by the last step matches the dashboard.",
+      "description": "Verify that deleting an analysis returns its slots to the pool immediately, on the dashboard pool block and in the wizard ring. Covers AC-3."
+    },
+    {
+      "tc_id": "TC-GEO-1229-005",
+      "title": "A pool lowered below usage leaves existing prompts and running analyses untouched",
+      "story_id": "GEO-1229",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T was lowered below usage in the back office",
+          "data": "Pool: U - 10",
+          "expected": "The back office saves the new pool with the below-usage warning",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the GEO dashboard of organisation T",
+          "expected": "Every analysis is still listed with the same Prompts column values; the pool block reads \"U / U - 10\" in red",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user opens Manage Scope > Prompts of analysis R",
+          "expected": "Every kept prompt is still listed and ticked; none was removed or unticked",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then analysis R keeps collecting",
+          "data": "Next daily collection after the change",
+          "expected": "The next run of R is collected with the same prompts and its results are updated",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: state-changing action not allowed (user decision) - the TC needs the prompt pool of QA-GEO lowered below usage in the back office (and a later daily collection). Not executed, no screenshot.",
+      "description": "Verify that when the pool is reduced below usage (downgrade or non-renewal), existing prompts and running analyses are untouched. Covers AC-4. Needs setup: back-office admin access to lower the pool of organisation T, and a later collection."
+    },
+    {
+      "tc_id": "TC-GEO-1229-006",
+      "title": "Over a lowered pool only adding prompts is blocked until the count fits",
+      "story_id": "GEO-1229",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T is 2 slots below usage",
+          "data": "Pool: U - 2",
+          "expected": "The Manage Scope ring of analysis R reads \"U / U - 2\" in red",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user tries to tick a suggested prompt or add a prompt in Manage Scope > Prompts of analysis R",
+          "expected": "The tick or the add is refused because the pool has no room",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user edits the wording of a kept prompt and saves",
+          "data": "New wording: existing wording + \" in 2026\"",
+          "expected": "The edit is saved",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user unticks 3 kept prompts and saves",
+          "expected": "The unticks are saved and the ring reads \"U - 3 / U - 2\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then adding prompts is possible again once the count fits",
+          "expected": "Ticking one suggested prompt is accepted and the ring reads \"U - 2 / U - 2\"",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: state-changing action not allowed (user decision) - the TC needs the prompt pool of QA-GEO lowered below usage in the back office, then saved edits and unticks in Manage Scope of an existing analysis. Not executed, no screenshot.",
+      "description": "Verify that after a downgrade below usage only adding prompts is blocked, while unticking, deleting and editing stay possible, and that adding works again once the count fits. Covers AC-4. Needs setup: back-office admin access to lower the pool of organisation T."
+    },
+    {
+      "tc_id": "TC-GEO-1229-007",
+      "title": "The dashboard market filter lists a country once and rolls up its languages",
+      "story_id": "GEO-1229",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-007_step1_given.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-007_step2_when.png",
+        "screenshots-GEO-1002-GEO1229/TC-GEO-1229-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis M",
+          "data": "Analysis M",
+          "expected": "The Overview is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the market (country) filter",
+          "expected": "The filter lists \"United States\" once and \"France\" once (no separate entry per language)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user selects \"United States\" only",
+          "expected": "The filter shows United States selected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the results roll up both languages of the country",
+          "expected": "The prompts and results shown include the English and the Spanish prompts of United States, and none of France",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Prerequisite missing: no analysis of QA-GEO has a country in two languages. GET /geo/api/v1/reports: for all 7 analyses marketCount = number of countryCodes (Decathlon x2 FR,GB; kids toys MA; BYD ES; adidas IN,MA,US; Orange FR,MA; Toyota ES,FR,US). Executed read-only on Toyota 439acd96-0b1b-4da4-9e07-612d38e9783e (markets ES, FR, US). Overview displayed. Country filter (data-testid market-dropdown-trigger) lists \"All Countries\", \"United States\", \"France\", \"Spain\": one entry per country, but \"one entry for a country in two languages\" cannot be proven with one language per country. Selecting \"United States\" only: trigger \"United States\", aria-label \"Country filter — 1 selected\". The roll-up of the English and Spanish prompts of United States is not checkable (no such analysis; creating one is not allowed). Filter reset to All Countries at the end (the selection persists across reloads).",
+      "description": "Verify that in an analysis with several country and language pairs, the market filter lists one entry per country and selecting it rolls up all its languages together. Covers AC-5."
+    }
+  ]
+}

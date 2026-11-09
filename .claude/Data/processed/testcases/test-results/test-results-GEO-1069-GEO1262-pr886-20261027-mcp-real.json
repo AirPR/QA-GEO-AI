@@ -1,0 +1,500 @@
+{
+  "spec": "GEO-1069-GEO1262-pr886-20261027",
+  "runDate": "2026-10-27",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo/new",
+  "environment": {
+    "org": "QA-GEO",
+    "language": "en-GB",
+    "unbranded_analysis": true,
+    "build": "PR #886 deployed (brands/logo returns the Logo API URL)",
+    "test_aid": "Test aid (whole run): the Brandfetch Logo CDN answers 302 x-bf-error \"automated_traffic\" to the MCP browser (HeadlessChrome user agent), so a Playwright context route rewrites ONLY the User-Agent of cdn.brandfetch.io requests to a standard Chrome UA, to reproduce what a real user's Chrome receives (200 image/png). No app request was changed."
+  },
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "story": "GEO-1262",
+  "prechecks": {
+    "auth_me": {
+      "org_name": "QA-GEO",
+      "language": "en-GB",
+      "features": {
+        "unbranded_analysis": true
+      }
+    },
+    "brands_logo": {
+      "licter.com": {
+        "status": 200,
+        "logoUrl": "https://cdn.brandfetch.io/domain/licter.com/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F",
+        "cdn_real_chrome_ua": "200 image/png"
+      },
+      "nike.com": {
+        "status": 200,
+        "logoUrl": "https://cdn.brandfetch.io/domain/nike.com/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F",
+        "cdn_real_chrome_ua": "200 image/png"
+      },
+      "onclusive.com": {
+        "status": 200,
+        "logoUrl": "https://cdn.brandfetch.io/domain/onclusive.com/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F",
+        "cdn_real_chrome_ua": "200 image/png"
+      },
+      "sqlite.org": {
+        "status": 200,
+        "logoUrl": "https://cdn.brandfetch.io/domain/sqlite.org/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F",
+        "cdn_real_chrome_ua": "200 image/png"
+      },
+      "gnu.org": {
+        "status": 200,
+        "logoUrl": "https://cdn.brandfetch.io/domain/gnu.org/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F",
+        "cdn_real_chrome_ua": "404 application/json"
+      },
+      "example.com": {
+        "status": 200,
+        "logoUrl": "https://cdn.brandfetch.io/domain/example.com/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F",
+        "cdn_real_chrome_ua": "404 application/json"
+      }
+    },
+    "cdn_non_browser_ua": "302 -> https://docs.brandfetch.com/docs/logo-link/guidelines#2-hotlinking, x-bf-error: automated_traffic (HeadlessChrome, python-requests, node-fetch); user_agent_required (empty UA)"
+  },
+  "side_observations": {
+    "entity_logo_url": "GET /geo/api/v1/reports: analyses created from a suggestion store entityLogoUrl = search icon https://cdn.brandfetch.io/{brandId}/w/128/h/128/fallback/lettermark/icon.webp?c=<time-signed token>; only today's Zomato URL still loads, the 6 older ones (Nike, Decathlon x2, adidas, Orange, Toyota) fail (expired tokens, already known as 410). A1 \"Lictorix Geo\" + licter.com (custom brand, created 20/10 before the fix) has entityLogoUrl = null. Front bundle: create payload sends entityLogoUrl = selectedBrand.logoUrl (null for unbranded), so a custom brand created now would store the Logo API URL, also for domains where it answers 404 (not verified: Create not clicked).",
+    "server_side_risk": "The Logo CDN refuses non-browser clients (302 automated_traffic). Any server-side fetch of a stored Logo API URL (PPT/PDF export, GEO-1263) would get no image and must fall back."
+  },
+  "summary": {
+    "total": 8,
+    "pass": 7,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1,
+    "success_rate": 93.8,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1262-001",
+      "title": "Confirmed domain shows the logo preview in the brand card within moments",
+      "story_id": "GEO-1262",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-001_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-001_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-001_step3_then.png"
+      ],
+      "extra_screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-001_step2b_placeholder.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-001_step3_card_zoom.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-001_ref_suggestion_card_zoom.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "C = \"Lictorix Geo\"",
+          "expected": "The 32px avatar shows the letter \"L\"",
+          "observed": "Avatar = green 32px lettermark \"L\", no domain under the name",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types a valid domain in the website field",
+          "data": "W1 = \"licter.com\"",
+          "expected": "The avatar is unchanged while typing",
+          "observed": "Typed \"licter.com\" one character at a time: avatar unchanged (no DOM change recorded while typing)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field loses focus",
+          "data": "Click outside the field",
+          "expected": "A grey pulsing placeholder of the same size replaces the avatar, with no text and no layout shift",
+          "observed": "Blur: at +26 ms the avatar becomes span.h-8.w-8.animate-pulse.rounded-full.bg-slate-200 (32x32, no text); domain \"licter.com\" appears; same 32x32 box, no layout shift",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the logo retrieved for the domain is displayed within moments",
+          "data": "",
+          "expected": "The 32px avatar shows the logo of licter.com, same place and size as the logo of a selected suggestion",
+          "observed": "At +163 ms img src = https://cdn.brandfetch.io/domain/licter.com/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F, loaded at +267 ms (64x64 natural, real Licter logo). Position (635,249) and 32x32 identical to the selected suggestion \"Licter / licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "data": "",
+          "expected": "\"licter.com\"",
+          "observed": "\"licter.com\" under \"Lictorix Geo\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the logo lookup requests are recorded",
+          "data": "DevTools Network",
+          "expected": "One logo lookup for licter.com is visible (request names noted for the other TCs)",
+          "observed": "1 x GET /geo/api/v1/brands/logo?domain=licter.com -> 200 {\"domain\":\"licter.com\",\"logoUrl\":\"https://cdn.brandfetch.io/domain/licter.com/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F\"}; then cdn.brandfetch.io/domain/licter.com (200 image/png) and www.google.com/s2/favicons?domain=licter.com&sz=64 (requested in parallel, 301)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "AC1 now verified: the real Brandfetch logo (Logo API, PR #886) is shown for a Custom Brand with a typed website. Placeholder captured from the DOM recorder (very short, ~140 ms). Side observation: the app requests the Google s2 favicon in parallel even when the CDN logo loads (prefetch, no visual effect). Test aid (whole run): the Brandfetch Logo CDN answers 302 x-bf-error \"automated_traffic\" to the MCP browser (HeadlessChrome user agent), so a Playwright context route rewrites ONLY the User-Agent of cdn.brandfetch.io requests to a standard Chrome UA, to reproduce what a real user's Chrome receives (200 image/png). No app request was changed."
+    },
+    {
+      "tc_id": "TC-GEO-1262-002",
+      "title": "Lookup runs on Enter and not on every keystroke",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-002_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-002_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-002_step3_then.png"
+      ],
+      "extra_screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-002_step3_card_zoom.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "DevTools Network cleared",
+          "expected": "The avatar shows the letter \"L\"",
+          "observed": "Avatar \"L\", website field empty",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types a valid domain one character at a time",
+          "data": "W2 = \"onclusive.com\"",
+          "expected": "No logo lookup request is sent while typing and the avatar stays the letter \"L\"",
+          "observed": "Typed \"onclusive.com\" one key at a time (120 ms delay): 0 request to brands/logo, s2/favicons or cdn.brandfetch.io; avatar stays \"L\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user presses Enter",
+          "data": "",
+          "expected": "The grey pulsing placeholder is shown, then the logo of onclusive.com",
+          "observed": "Enter: pulse placeholder at +4 ms, then the onclusive.com logo (cdn.brandfetch.io/domain/onclusive.com, loaded at +257 ms)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a single logo lookup was sent for the domain",
+          "data": "DevTools Network",
+          "expected": "One lookup for onclusive.com, none for partial values (e.g. \"onclu\")",
+          "observed": "Exactly 1 x GET brands/logo?domain=onclusive.com; none for partial values",
+          "status": "PASS"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "data": "",
+          "expected": "\"onclusive.com\"",
+          "observed": "\"onclusive.com\" under \"Lictorix Geo\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Lookup fires on Enter only. Focus stays in the field after Enter. Test aid (whole run): the Brandfetch Logo CDN answers 302 x-bf-error \"automated_traffic\" to the MCP browser (HeadlessChrome user agent), so a Playwright context route rewrites ONLY the User-Agent of cdn.brandfetch.io requests to a standard Chrome UA, to reproduce what a real user's Chrome receives (200 image/png). No app request was changed."
+    },
+    {
+      "tc_id": "TC-GEO-1262-003",
+      "title": "Favicon is used when the brand logo service has no logo for the domain",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-003_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-003_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-003_step3_then.png"
+      ],
+      "extra_screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-003_step3_then_sqlite.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-003_card_zoom_sqlite.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-003_step2_when_gnu.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-003_step3_card_zoom.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/FINDING_TC-003_sqlite_known_to_brandfetch.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "C = \"Lictorix Geo\"",
+          "expected": "The avatar shows the letter \"L\"",
+          "observed": "Avatar \"L\", website field empty",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a domain unknown to the brand logo service and the field loses focus",
+          "data": "W3 = \"sqlite.org\"",
+          "expected": "The grey pulsing placeholder is shown",
+          "observed": "CSV W3 \"sqlite.org\": pulse placeholder shown at blur. Same for substitute \"gnu.org\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the site's favicon is shown as the brand visual",
+          "data": "",
+          "expected": "The 32px avatar shows the favicon of W3, not the letter \"L\"",
+          "observed": "W3 \"sqlite.org\" (CSV data): the card shows the BRANDFETCH logo of sqlite.org (CDN 200 image/png), not the favicon, because Brandfetch now has a logo for sqlite.org, so the precondition \"domain unknown to the brand logo service\" is not met. With \"gnu.org\" (CDN 404): img chain cdn.brandfetch.io (404) -> www.google.com/s2/favicons?domain=gnu.org&sz=64 (via t2.gstatic.com faviconV2, 200) -> GNU head favicon shown, not \"L\"",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "data": "",
+          "expected": "The W3 domain",
+          "observed": "\"sqlite.org\" / \"gnu.org\" under the brand name",
+          "status": "PASS"
+        }
+      ],
+      "notes": "AC2 favicon fallback is VERIFIED (CDN 404 -> onError -> Google favicon) with gnu.org, a domain that meets the step condition. PARTIAL only because the CSV data W3 = \"sqlite.org\" no longer qualifies (Brandfetch Logo API now returns a logo for it). Proposed CSV data fix: W3 = \"gnu.org\" (also checked: catb.org = CDN 404 + favicon). Needs user approval before the CSV is changed. Test aid (whole run): the Brandfetch Logo CDN answers 302 x-bf-error \"automated_traffic\" to the MCP browser (HeadlessChrome user agent), so a Playwright context route rewrites ONLY the User-Agent of cdn.brandfetch.io requests to a standard Chrome UA, to reproduce what a real user's Chrome receives (200 image/png). No app request was changed."
+    },
+    {
+      "tc_id": "TC-GEO-1262-004",
+      "title": "Generic favicon (globe) is shown when the site has neither a logo nor a favicon",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-004_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-004_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-004_step3_then.png"
+      ],
+      "extra_screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-004_step3_card_zoom.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "C = \"Lictorix Geo\"",
+          "expected": "The avatar shows the letter \"L\"",
+          "observed": "Avatar \"L\", website field empty",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a domain with neither a brand logo nor a favicon and the field loses focus",
+          "data": "W4 = \"example.com\"",
+          "expected": "The grey pulsing placeholder is shown",
+          "observed": "Pulse placeholder at blur (+608 ms after the start of typing)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the general favicon is shown as the brand visual",
+          "data": "",
+          "expected": "The 32px avatar shows the generic grey globe of the favicon service (image from www.google.com/s2/favicons), not the letter \"L\"",
+          "observed": "Chain: cdn.brandfetch.io/domain/example.com -> 404 application/json -> img src switches to www.google.com/s2/favicons?domain=example.com&sz=64 (t0.gstatic.com faviconV2 404 image/png = generic globe) -> grey globe shown, not \"L\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "data": "",
+          "expected": "The W4 domain",
+          "observed": "\"example.com\" under the brand name",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Matches the PO decision (GEO-1262 comment 865598): the generic globe is accepted as the general favicon. Test aid (whole run): the Brandfetch Logo CDN answers 302 x-bf-error \"automated_traffic\" to the MCP browser (HeadlessChrome user agent), so a Playwright context route rewrites ONLY the User-Agent of cdn.brandfetch.io requests to a standard Chrome UA, to reproduce what a real user's Chrome receives (200 image/png). No app request was changed."
+    },
+    {
+      "tc_id": "TC-GEO-1262-005",
+      "title": "Editing the website updates the preview to the logo of the new domain",
+      "story_id": "GEO-1262",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-005_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-005_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-005_step3_then.png"
+      ],
+      "extra_screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-005_step2b_placeholder.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-005_step4_categories.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-005_step5_back.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-005_step5_card_zoom.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with a confirmed website",
+          "data": "W1 = \"licter.com\"",
+          "expected": "The avatar shows the logo of licter.com and \"licter.com\" is under the brand name",
+          "observed": "licter.com logo + \"licter.com\"; market United States / English (EN) added (wizard-local Save)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user edits the website URL",
+          "data": "W2 = \"onclusive.com\"",
+          "expected": "The avatar still shows the licter.com logo while typing",
+          "observed": "While typing \"onclusive.com\": avatar still the licter.com logo, domain line still \"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field loses focus",
+          "data": "Click outside the field",
+          "expected": "The grey pulsing placeholder is shown",
+          "observed": "Blur: pulse placeholder with \"onclusive.com\" under the name",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the preview updates to the logo of the new domain",
+          "data": "",
+          "expected": "The avatar shows the logo of onclusive.com and \"onclusive.com\" is under the brand name",
+          "observed": "onclusive.com logo (cdn.brandfetch.io/domain/onclusive.com) + \"onclusive.com\"; 1 lookup for onclusive.com",
+          "status": "PASS"
+        },
+        {
+          "title": "And the previous domain's logo is never shown next to the new domain",
+          "data": "",
+          "expected": "At no moment is the licter.com logo shown with \"onclusive.com\"",
+          "observed": "DOM recorder (50 ms + MutationObserver): 0 state where the licter.com image is paired with \"onclusive.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Discover Categories\" and then Back",
+          "data": "",
+          "expected": "Brand & Country shows \"onclusive.com\" with the onclusive.com logo, not the licter.com logo",
+          "observed": "Discover Categories -> Categories step (2 AI categories) -> Back: Brand & Country shows \"onclusive.com\" with the onclusive.com logo, website field = onclusive.com",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Previous-domain logo never shown with the new domain. Discover Categories runs POST /analysis/discover-categories (read-only, no analysis created). Test aid (whole run): the Brandfetch Logo CDN answers 302 x-bf-error \"automated_traffic\" to the MCP browser (HeadlessChrome user agent), so a Playwright context route rewrites ONLY the User-Agent of cdn.brandfetch.io requests to a standard Chrome UA, to reproduce what a real user's Chrome receives (200 image/png). No app request was changed."
+    },
+    {
+      "tc_id": "TC-GEO-1262-006",
+      "title": "No website shows the lettermark and triggers no logo lookup",
+      "story_id": "GEO-1262",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-006_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-006_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-006_step3_then.png"
+      ],
+      "extra_screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-006_step3_card_zoom.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "DevTools Network cleared",
+          "expected": "The custom brand card \"Lictorix Geo\" is displayed",
+          "observed": "Custom brand cleared and re-selected through the \"Lictorix Geo — Custom Brand\" row; website field empty",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the lettermark is shown as the brand visual",
+          "data": "",
+          "expected": "The 32px avatar shows the letter \"L\" and no domain is shown under the brand name",
+          "observed": "\"L\" (32px, bg-green-500), no domain line",
+          "status": "PASS"
+        },
+        {
+          "title": "And no logo lookup is sent",
+          "data": "DevTools Network",
+          "expected": "No logo lookup request appears",
+          "observed": "0 request to brands/logo / s2/favicons / cdn.brandfetch.io/domain (only the search-suggestion icons of the dropdown, before selection)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks in the empty website field and then outside it",
+          "data": "",
+          "expected": "No error, the avatar keeps the letter \"L\" and still no logo lookup request appears",
+          "observed": "Click in the empty field, then outside: no error element, avatar \"L\", still 0 lookup",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test aid (whole run): the Brandfetch Logo CDN answers 302 x-bf-error \"automated_traffic\" to the MCP browser (HeadlessChrome user agent), so a Playwright context route rewrites ONLY the User-Agent of cdn.brandfetch.io requests to a standard Chrome UA, to reproduce what a real user's Chrome receives (200 image/png). No app request was changed."
+    },
+    {
+      "tc_id": "TC-GEO-1262-007",
+      "title": "Clearing a confirmed website brings back the lettermark",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-007_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-007_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-007_step3_then.png"
+      ],
+      "extra_screenshots": [],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with a confirmed website",
+          "data": "W1 = \"licter.com\"",
+          "expected": "The avatar shows the logo of licter.com",
+          "observed": "licter.com logo shown",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clears the website field and the field loses focus",
+          "data": "(empty)",
+          "expected": "No error is shown",
+          "observed": "Field cleared (Ctrl+A, Backspace) then blur: no error (no alert / aria-invalid)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the lettermark is shown as the brand visual",
+          "data": "",
+          "expected": "The avatar shows the letter \"L\"; the licter.com logo and the domain under the brand name are no longer shown",
+          "observed": "Avatar back to \"L\" at blur; logo and \"licter.com\" line removed (logo kept while the empty field still had focus)",
+          "status": "PASS"
+        },
+        {
+          "title": "And no logo lookup is sent for the empty value",
+          "data": "DevTools Network",
+          "expected": "No new logo lookup request appears",
+          "observed": "0 new lookup request",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test aid (whole run): the Brandfetch Logo CDN answers 302 x-bf-error \"automated_traffic\" to the MCP browser (HeadlessChrome user agent), so a Playwright context route rewrites ONLY the User-Agent of cdn.brandfetch.io requests to a standard Chrome UA, to reproduce what a real user's Chrome receives (200 image/png). No app request was changed."
+    },
+    {
+      "tc_id": "TC-GEO-1262-008",
+      "title": "Lettermark is shown when the favicon fails to load",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-008_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-008_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-008_step3_then.png"
+      ],
+      "extra_screenshots": [
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-008_step3_card_zoom.png",
+        "screenshots-GEO-1069-GEO1262-pr886-20261027/TC-GEO-1262-008_ref_dashboard_lettermark.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "data": "C = \"Lictorix Geo\"",
+          "expected": "The avatar shows the letter \"L\"",
+          "observed": "Avatar \"L\", website field empty",
+          "status": "PASS"
+        },
+        {
+          "title": "When request blocking is on for \"s2/favicons\" and the user enters a domain with no brand logo and the field loses focus",
+          "data": "W4 = \"example.com\"; DevTools request blocking pattern \"s2/favicons\"",
+          "expected": "The grey pulsing placeholder is shown",
+          "observed": "Request blocking \"*s2/favicons*\" via CDP Network.setBlockedURLs (same mechanism as DevTools request blocking) + cache disabled; pulse placeholder shown at blur",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the neutral lettermark is shown as the brand visual",
+          "data": "",
+          "expected": "The 32px avatar shows the letter \"L\", same letter avatar as the dashboard",
+          "observed": "Chain: cdn.brandfetch.io/domain/example.com 404 -> s2/favicons blocked (blockedReason \"inspector\") -> lettermark \"L\" (inline-flex h-8 w-8 rounded-full text-sm, same component as the dashboard letter avatars: Licter \"L\", bike \"B\", kids toys \"K\")",
+          "status": "PASS"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "data": "",
+          "expected": "\"example.com\"",
+          "observed": "\"example.com\" under the brand name",
+          "status": "PASS"
+        }
+      ],
+      "notes": "A first attempt with a Playwright route did not block the favicon because it was served from the memory cache. It was redone with CDP blocking and the cache disabled. Only that second attempt counts. Test aid (whole run): the Brandfetch Logo CDN answers 302 x-bf-error \"automated_traffic\" to the MCP browser (HeadlessChrome user agent), so a Playwright context route rewrites ONLY the User-Agent of cdn.brandfetch.io requests to a standard Chrome UA, to reproduce what a real user's Chrome receives (200 image/png). No app request was changed."
+    }
+  ]
+}

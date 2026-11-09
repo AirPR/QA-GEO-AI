@@ -1,0 +1,378 @@
+{
+  "spec": "epicGEO-680",
+  "runDate": "2026-08-05",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/settings",
+  "summary": {
+    "total": 21,
+    "pass": 6,
+    "fail": 0,
+    "skip": 9,
+    "partial": 6
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1051-001",
+      "title": "Opérateur définit le quota d'une organisation",
+      "story_id": "GEO-1051",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        { "title": "Given l'opérateur ouvre une organisation dans le back office", "status": "SKIP" },
+        { "title": "When il définit un quota utilisateur (ex : 50) et enregistre", "status": "SKIP" },
+        { "title": "Then le quota est sauvegardé et affiché sur la fiche de l'organisation", "status": "SKIP" }
+      ],
+      "notes": "SKIP — Nécessite l'interface back-office opérateur. Non accessible depuis /geo/settings (front office)."
+    },
+    {
+      "tc_id": "TC-GEO-1051-002",
+      "title": "Opérateur modifie le quota d'une organisation",
+      "story_id": "GEO-1051",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        { "title": "Given l'opérateur ouvre une organisation ayant déjà un quota défini", "status": "SKIP" },
+        { "title": "When il change la valeur du quota et enregistre", "status": "SKIP" },
+        { "title": "Then le nouveau quota est sauvegardé et affiché sur la fiche de l'organisation", "status": "SKIP" }
+      ],
+      "notes": "SKIP — Modification de quota = opération back-office uniquement."
+    },
+    {
+      "tc_id": "TC-GEO-1051-003",
+      "title": "Compteur utilisateurs visible contre le quota",
+      "story_id": "GEO-1051",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1051-003_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1051-003_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1051-003_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given une organisation dont le quota est défini", "status": "PASS" },
+        { "title": "When la liste des utilisateurs de l'organisation est consultée", "status": "PASS" },
+        { "title": "Then le nombre d'utilisateurs courant est affiché en regard du quota (ex : \"3/50\")", "status": "PASS" }
+      ],
+      "notes": "Indicateur visible : 'Seats used: 6 of 31' et '25 seats remaining in your organisation quota'. Comportement conforme."
+    },
+    {
+      "tc_id": "TC-GEO-1051-004",
+      "title": "Abaissement quota sous le compte actuel déclenche un avertissement",
+      "story_id": "GEO-1051",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        { "title": "Given un opérateur abaisse le quota en dessous du nombre d'utilisateurs courant", "status": "SKIP" },
+        { "title": "When il enregistre le changement", "status": "SKIP" },
+        { "title": "Then le système affiche un message d'avertissement et le changement n'est pas bloqué", "status": "SKIP" }
+      ],
+      "notes": "SKIP — Abaisser le quota nécessite l'interface back-office opérateur."
+    },
+    {
+      "tc_id": "TC-GEO-1051-005",
+      "title": "Abaissement quota ne supprime pas les utilisateurs existants",
+      "story_id": "GEO-1051",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        { "title": "Given un opérateur a abaissé le quota en dessous du nombre d'utilisateurs courant et enregistré", "status": "SKIP" },
+        { "title": "When la liste des utilisateurs de l'organisation est consultée", "status": "SKIP" },
+        { "title": "Then tous les utilisateurs existants sont toujours présents dans la liste", "status": "SKIP" }
+      ],
+      "notes": "SKIP — Nécessite d'abord une action back-office (abaissement quota)."
+    },
+    {
+      "tc_id": "TC-GEO-1051-006",
+      "title": "Organisation au-dessus du quota bloque tout ajout d'utilisateur",
+      "story_id": "GEO-1051",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        { "title": "Given une organisation dont le nombre d'utilisateurs est supérieur ou égal à son quota", "status": "SKIP" },
+        { "title": "When n'importe quel acteur tente d'ajouter un utilisateur à cette organisation", "status": "SKIP" },
+        { "title": "Then l'ajout est bloqué tant que l'organisation reste au-dessus de son quota", "status": "SKIP" }
+      ],
+      "notes": "SKIP — Précondition non remplie : QA-GEO a 6/31 sièges (quota non atteint). Impossible de tester le blocage."
+    },
+    {
+      "tc_id": "TC-GEO-1051-007",
+      "title": "Les super admins ne sont pas comptabilisés dans le quota",
+      "story_id": "GEO-1051",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        { "title": "Given une organisation dont certains membres sont des super admins", "status": "SKIP" },
+        { "title": "When le compteur d'utilisateurs est comparé au quota", "status": "SKIP" },
+        { "title": "Then les super admins ne sont pas inclus dans le décompte des utilisateurs contre le quota", "status": "SKIP" }
+      ],
+      "notes": "SKIP — Vérification du calcul interne quota vs super admins = back-office/API uniquement. Non vérifiable depuis le front office."
+    },
+    {
+      "tc_id": "TC-GEO-1051-008",
+      "title": "Toutes les organisations existantes reçoivent un quota par défaut de 100",
+      "story_id": "GEO-1051",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        { "title": "Given les organisations existantes au moment du déploiement de la fonctionnalité de quota", "status": "SKIP" },
+        { "title": "When le déploiement de la fonctionnalité de quota est effectué", "status": "SKIP" },
+        { "title": "Then chaque organisation possède un quota de 100 par défaut visible dans le back office", "status": "SKIP" }
+      ],
+      "notes": "SKIP — TC de migration/déploiement. Nécessite un environnement vierge avant activation de la feature."
+    },
+    {
+      "tc_id": "TC-GEO-1052-001",
+      "title": "Éditeur ajoute un utilisateur sous quota avec invitation",
+      "story_id": "GEO-1052",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1052-001_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-001_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-001_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un éditeur dans une organisation dont le quota n'est pas atteint", "status": "PASS" },
+        { "title": "When il ajoute un utilisateur (email + rôle)", "status": "PARTIAL" },
+        { "title": "Then l'utilisateur est créé dans l'organisation et reçoit une invitation de bienvenue", "status": "PARTIAL" }
+      ],
+      "notes": "PARTIAL — Formulaire 'Provision a new user' accessible (wizard 3 étapes : Email, Identity, Review & submit). Organisation QA-GEO à 6/31 sièges. Création réelle et envoi d'invitation email non exécutés (non-destructif + pipeline email non vérifiable via UI)."
+    },
+    {
+      "tc_id": "TC-GEO-1052-002",
+      "title": "Éditeur bloqué lors de l'ajout si quota plein",
+      "story_id": "GEO-1052",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        { "title": "Given un éditeur dans une organisation ayant atteint ou dépassé son quota", "status": "SKIP" },
+        { "title": "When il tente d'ajouter un utilisateur", "status": "SKIP" },
+        { "title": "Then l'action est bloquée et un message clair indique que le quota est plein", "status": "SKIP" }
+      ],
+      "notes": "SKIP — Précondition non remplie : QA-GEO a 6/31 sièges (quota non atteint). Impossible de simuler le quota plein depuis le front office."
+    },
+    {
+      "tc_id": "TC-GEO-1052-003",
+      "title": "Éditeur ne peut gérer que les utilisateurs de sa propre organisation",
+      "story_id": "GEO-1052",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1052-003_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-003_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-003_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un éditeur authentifié", "status": "PASS" },
+        { "title": "When il gère les utilisateurs", "status": "PASS" },
+        { "title": "Then il ne peut ajouter des utilisateurs qu'à son propre organisation et n'a aucun accès à d'autres organisations", "status": "PASS" }
+      ],
+      "notes": "PASS — Aucun sélecteur d'organisation présent. Texte UI : 'Manage users in QA-GEO, your current organisation'. Scope strictement limité à l'organisation courante."
+    },
+    {
+      "tc_id": "TC-GEO-1052-004",
+      "title": "Un reader ne peut pas ajouter d'utilisateurs",
+      "story_id": "GEO-1052",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1052-004_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-004_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-004_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un utilisateur avec le rôle reader", "status": "PASS" },
+        { "title": "When il consulte le produit", "status": "PASS" },
+        { "title": "Then aucune action d'ajout d'utilisateur n'est disponible pour lui", "status": "PASS" }
+      ],
+      "notes": "PASS — Compte reader (assiya.benramdane+geo@onclusive.com). Pas de bouton '+ Provision a user', pas de colonne ACTIONS dans le tableau. Message affiché : 'You have view-only access. Contact an editor in your organisation to manage users.'"
+    },
+    {
+      "tc_id": "TC-GEO-1052-005",
+      "title": "Les super admins n'apparaissent pas dans la liste front office",
+      "story_id": "GEO-1052",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1052-005_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-005_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-005_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un utilisateur front office (éditeur ou reader) connecté", "status": "PASS" },
+        { "title": "When il consulte les paramètres utilisateurs", "status": "PASS" },
+        { "title": "Then les utilisateurs super admin n'apparaissent pas dans la liste", "status": "PARTIAL" }
+      ],
+      "notes": "PARTIAL — Liste de 8 utilisateurs : uniquement rôles READER et EDITOR, aucun SUPER ADMIN visible. Comportement observable conforme. Impossible de confirmer l'existence de super admins en backend pour certifier le masquage."
+    },
+    {
+      "tc_id": "TC-GEO-1052-006",
+      "title": "Éditeur change le rôle d'un Reader en Editor",
+      "story_id": "GEO-1052",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1052-006_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-006_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-006_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un éditeur visualisant la liste des utilisateurs dont un avec le rôle reader", "status": "PASS" },
+        { "title": "When il ouvre les actions de la ligne de l'utilisateur et change le rôle de Reader à Editor", "status": "PARTIAL" },
+        { "title": "Then le nouveau rôle Editor est sauvegardé et reflété immédiatement dans la liste", "status": "PARTIAL" }
+      ],
+      "notes": "PARTIAL — Dialog 'Change role' accessible pour assiya.benramdane+geo@onclusive.com (READER). Current role: READER, New role: Editor disponible dans le sélecteur. Changement réel non exécuté (non-destructif — affecterait un utilisateur réel de staging)."
+    },
+    {
+      "tc_id": "TC-GEO-1052-007",
+      "title": "Éditeur change le rôle d'un Editor en Reader",
+      "story_id": "GEO-1052",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1052-007_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-007_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-007_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un éditeur visualisant la liste des utilisateurs dont un avec le rôle editor", "status": "PASS" },
+        { "title": "When il ouvre les actions de la ligne de l'utilisateur et change le rôle de Editor à Reader", "status": "PARTIAL" },
+        { "title": "Then le nouveau rôle Reader est sauvegardé et reflété immédiatement dans la liste", "status": "PARTIAL" }
+      ],
+      "notes": "PARTIAL — Dialog 'Change role' accessible pour kaoutar.aissaoui@onclusive.com (EDITOR). Current role: EDITOR, New role: Reader disponible dans le sélecteur. Changement réel non exécuté (non-destructif)."
+    },
+    {
+      "tc_id": "TC-GEO-1052-008",
+      "title": "Éditeur suspend un utilisateur - accès bloqué et siège maintenu",
+      "story_id": "GEO-1052",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1052-008_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-008_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-008_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un éditeur visualisant un utilisateur actif", "status": "PASS" },
+        { "title": "When il suspend l'utilisateur", "status": "PARTIAL" },
+        { "title": "Then l'utilisateur ne peut plus se connecter; il apparaît avec le statut suspendu et occupe toujours un siège dans le quota", "status": "PARTIAL" }
+      ],
+      "notes": "PARTIAL — Dialog 'Suspend user' accessible. Texte UI confirme : 'Suspending blocks sign-in and pauses all access. The seat stays occupied, and you can reactivate this user at any time.' — correspond exactement au Then. Suspension réelle non exécutée (non-destructif)."
+    },
+    {
+      "tc_id": "TC-GEO-1052-009",
+      "title": "Éditeur réactive un utilisateur suspendu - accès restauré",
+      "story_id": "GEO-1052",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        { "title": "Given un utilisateur suspendu dans l'organisation", "status": "SKIP" },
+        { "title": "When l'éditeur le réactive", "status": "SKIP" },
+        { "title": "Then l'utilisateur retrouve l'accès avec le même rôle qu'avant la suspension", "status": "SKIP" }
+      ],
+      "notes": "SKIP — Précondition non remplie : aucun utilisateur avec statut 'suspended' dans la liste QA-GEO (uniquement 'active' et 'deleted')."
+    },
+    {
+      "tc_id": "TC-GEO-1052-010",
+      "title": "Éditeur supprime un utilisateur - siège libéré dans le quota",
+      "story_id": "GEO-1052",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1052-010_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-010_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1052-010_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un éditeur visualisant un utilisateur de son organisation", "status": "PASS" },
+        { "title": "When il supprime l'utilisateur (soft-delete)", "status": "PARTIAL" },
+        { "title": "Then l'utilisateur perd l'accès; n'apparaît plus comme actif; et son siège est libéré dans le compteur de quota", "status": "PARTIAL" }
+      ],
+      "notes": "PARTIAL — Dialog 'Soft-delete user' accessible. Texte UI confirme : 'The user loses access and moves to the Deleted list. Their seat is freed in the organisation quota.' — correspond exactement au Then. Suppression réelle non exécutée (non-destructif)."
+    },
+    {
+      "tc_id": "TC-GEO-1053-001",
+      "title": "Reader voit la liste des utilisateurs de son organisation avec les rôles",
+      "story_id": "GEO-1053",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1053-001_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1053-001_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1053-001_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un utilisateur avec le rôle reader", "status": "PASS" },
+        { "title": "When il ouvre les paramètres utilisateurs", "status": "PASS" },
+        { "title": "Then il voit la liste des utilisateurs de son organisation avec le rôle de chacun", "status": "PASS" }
+      ],
+      "notes": "PASS — 12 utilisateurs visibles avec colonnes EMAIL, NAME, ROLE, STATUS. Rôles READER et EDITOR affichés pour chaque membre. hasRoles: true sur tous les utilisateurs."
+    },
+    {
+      "tc_id": "TC-GEO-1053-002",
+      "title": "Reader n'a aucune action de gestion des utilisateurs",
+      "story_id": "GEO-1053",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1053-002_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1053-002_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1053-002_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un reader visualisant les paramètres utilisateurs", "status": "PASS" },
+        { "title": "When il consulte la page", "status": "PASS" },
+        { "title": "Then aucune action pour créer; supprimer ou changer le rôle d'un utilisateur n'est disponible", "status": "PASS" }
+      ],
+      "notes": "PASS — hasProvisionBtn: false, hasActionsColumn: false, actionsBtnCount: 0, changeRoleBtnCount: 0. Message : 'You have view-only access. Contact an editor in your organisation to manage users.'"
+    },
+    {
+      "tc_id": "TC-GEO-1053-003",
+      "title": "Reader voit uniquement les utilisateurs de sa propre organisation",
+      "story_id": "GEO-1053",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-epicGEO-680/TC-GEO-1053-003_step1_given.png",
+        "screenshots-epicGEO-680/TC-GEO-1053-003_step2_when.png",
+        "screenshots-epicGEO-680/TC-GEO-1053-003_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given un reader utilisateur", "status": "PASS" },
+        { "title": "When il consulte les paramètres utilisateurs", "status": "PASS" },
+        { "title": "Then il voit uniquement les utilisateurs appartenant à sa propre organisation", "status": "PASS" }
+      ],
+      "notes": "PASS — hasOrgSelector: false, hasOtherOrgLinks: 0. Scope affiché : 'Manage users in QA-GEO, your current organisation'. Aucune autre organisation accessible."
+    }
+  ]
+}

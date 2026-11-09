@@ -1,0 +1,58 @@
+
+[auth-setup] Opening https://staging-geo.onclusive.com/geo …
+[auth-setup] Step 1 — email field …
+[auth-setup] Step 2 — password field …
+[auth-setup] Waiting for app to load after redirect …
+[auth-setup] Session saved → C:\QA-Workflow1\.claude\Data\processed\auth\storageState.json
+
+
+Running 15 tests using 1 worker
+
+  ✓   1 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:98:1 › GEO-79-TC001 — Sidebar layout is displayed (22.4s)
+  ✓   2 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:116:1 › GEO-79-TC002 — Categories accordion is auto-expanded (19.2s)
+  ✓   3 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:133:1 › GEO-79-TC003 — Active view is highlighted (20.5s)
+  ✓   4 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:150:1 › GEO-79-TC007 — Category sub-items stay displayed for non-category sections (17.9s)
+  ✓   5 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:167:1 › GEO-79-TC008 — Report header shows name and generated date (17.7s)
+  ✓   6 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:182:1 › GEO-79-TC010 — AC3 it shows: back arrow next to brand image (18.5s)
+  ✓   7 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:207:1 › GEO-78-TC007 — LLM Engines dropdown lists engines (22.2s)
+  ✓   8 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:234:1 › GEO-72-TC001 — AI Perception Summary is displayed (18.3s)
+  ✓   9 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:254:1 › GEO-107-TC001 — KPI cards are displayed (23.9s)
+  ✘  10 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:272:1 › GEO-107-TC011 — AC5 the card shows "N/A" with a muted style instead of 0 (42.2s)
+  ✓  11 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:293:1 › GEO-79-TC004 — Sidebar navigation is SPA — filters persist across views (27.5s)
+  ✓  12 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:314:1 › GEO-79-TC005 — Dashboard pages load within 2 seconds (21.8s)
+  -  13 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:329:6 › GEO-79-TC006 — [SKIP] Discard Changes modal appears
+  -  14 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:335:6 › GEO-79-TC009 — [SKIP] Report header has Share and Export buttons
+  ✓  15 [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:341:1 › GEO-78-TC001 — Default market filter is All Markets (22.0s)
+
+
+  1) [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:272:1 › GEO-107-TC011 — AC5 the card shows "N/A" with a muted style instead of 0 
+
+    Error: At least one KPI card must show N/A or "not available" for missing data
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[aria-label*="not available"]').first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - At least one KPI card must show N/A or "not available" for missing data with timeout 10000ms[22m
+    [2m  - waiting for locator('[aria-label*="not available"]').first()[22m
+
+
+      282 |   // Then at least one KPI card shows "N/A" indicating no data available
+      283 |   const naText = page.locator('[aria-label*="not available"]').first();
+    > 284 |   await expect(naText, 'At least one KPI card must show N/A or "not available" for missing data').toBeVisible({ timeout: 10000 });
+          |                                                                                                   ^
+      285 |
+      286 |   await shotAt(page, visibilityCard, 'GEO-107-TC011_step3_then');
+      287 | });
+        at C:\QA-Workflow1\.claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:284:99
+
+    Error Context: .claude\Data\raw\playwright\artifacts\GEO-dashboard-overview-GEO-4e3d4--a-muted-style-instead-of-0-chromium\error-context.md
+
+  1 failed
+    [chromium] › .claude\Data\raw\playwright\GEO-dashboard-overview.spec.js:272:1 › GEO-107-TC011 — AC5 the card shows "N/A" with a muted style instead of 0 
+  2 skipped
+  12 passed (5.4m)

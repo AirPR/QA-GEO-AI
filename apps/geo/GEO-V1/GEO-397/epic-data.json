@@ -1,0 +1,79 @@
+{
+  "epic": {
+    "id": "GEO-397",
+    "key": "GEO-397",
+    "title": "[EPIC] User Administration improvements — organization config defaults, LLM allow-list, user editing & super-admin",
+    "status": "Ready for QA",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-05-11",
+    "updated": "2026-05-19",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-397",
+    "goal": "Tighten the User Administration backoffice so internal admins can configure organizations, manage users, and grant super-admin rights without leaving the UI. Removes obsolete fields, fixes defaults that no longer reflect product reality, and adds missing user lifecycle operations.",
+    "scope": [
+      "1) Set the Brand Image questions to 20 by default — default value for newly created organizations; existing organizations keep their current value.",
+      "2) Remove the Frequency field from organization creation/edit form and read view.",
+      "3) Remove the 'Competitors / category (auto-detected)' field from organization creation/edit form.",
+      "4) Rename 'Brand x Markets max' to 'Markets' on create, edit, and read views with tooltip update.",
+      "5) Replace 'LLMs Max' with an LLM allow-list (checkboxes per LLM: ChatGPT, Gemini, Grok, Claude, Perplexity).",
+      "6) Allow modification of existing users (name, organization membership, super-admin flag).",
+      "7) Allow setting / unsetting Super-admin at user creation and modification via role dropdown.",
+      "8) Enforce READER role restrictions in GEO — 'New analysis' button disabled, all creation entry points disabled, read-only access to existing reports."
+    ],
+    "outOfScope": [
+      "No change to authentication / SSO setup.",
+      "No change to org-level branding / theming.",
+      "No additional customer-facing roles beyond READER and the existing default (full CRUD) in V1."
+    ],
+    "acceptanceCriteria": [
+      {
+        "id": "AC1",
+        "given": "a super admin creates a new organization",
+        "when": "they open the form",
+        "then": "the Brand Image questions field defaults to 20, the Frequency and 'Competitors / category (auto-detected)' fields are absent, the 'Brand x Markets max' label reads 'Markets', and the LLMs configuration is a checkbox allow-list (not a numeric max)"
+      },
+      {
+        "id": "AC2",
+        "given": "a super admin edits an existing organization",
+        "when": "they save changes",
+        "then": "the new defaults and field set apply consistently; legacy LLMs-Max values are migrated to a pre-checked allow-list reflecting the previous count under the canonical LLM order"
+      },
+      {
+        "id": "AC3",
+        "given": "a super admin opens the users page",
+        "when": "they click Edit on a user row",
+        "then": "they can update the user's editable fields including Super admin being available in the role dropdown and the change persists"
+      },
+      {
+        "id": "AC4",
+        "given": "a super admin creates a new user",
+        "when": "they select the Super admin role in the dropdown",
+        "then": "the user is granted super-admin rights without a separate ticket"
+      },
+      {
+        "id": "AC5",
+        "given": "super-admin grants/revokes are performed via the UI",
+        "when": "audited",
+        "then": "an audit log captures the actor, target, action (grant/revoke), and timestamp"
+      },
+      {
+        "id": "AC6",
+        "given": "a user with the READER role logs into GEO",
+        "when": "the app loads",
+        "then": "the 'New analysis' button is rendered in a disabled/greyed-out state, is not clickable, and shows a tooltip explaining the restriction"
+      },
+      {
+        "id": "AC7",
+        "given": "a reader",
+        "when": "they open any existing report",
+        "then": "all sections (Overview, categories, AI Citation Sources, etc.) load with the full data their organization has access to — no data is hidden by the role"
+      },
+      {
+        "id": "AC8",
+        "given": "a reader",
+        "when": "they attempt any report-creation entry point (duplicate, on-demand run, scheduled trigger)",
+        "then": "the action is blocked client-side via disabled controls and server-side rejects the request if bypassed"
+      }
+    ],
+    "stories": []
+  }
+}

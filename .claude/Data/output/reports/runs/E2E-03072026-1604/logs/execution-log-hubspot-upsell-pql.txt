@@ -1,0 +1,27 @@
+
+[auth-setup] Opening https://staging-geo.onclusive.com/geo …
+[auth-setup] Step 1 — email field …
+[auth-setup] Step 2 — password field …
+[auth-setup] Waiting for app to load after redirect …
+[auth-setup] Cookie consent accepted (cc_cookie set).
+[auth-setup] Upsell page loaded ("Speak to Us" visible).
+[auth-setup] Session saved → C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\processed\auth\storageState-upsell.json
+
+
+Running 12 tests using 1 worker
+
+  ✓   1 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:134:1 › TC-GEO-237-001 — Modal See it in action affichée au clic (2.6s)
+  ✓   2 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:169:1 › TC-GEO-237-002 — Confirm activé après coche de la checkbox (3.0s)
+  ✓   3 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:195:1 › TC-GEO-237-003 — Fermeture modal sans confirmation -> aucun appel backend (4.0s)
+  ✓   4 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:228:1 › TC-GEO-237-007 — Confirmation + cookies accordés -> appel direct sans JitBridgeModal (5.3s)
+  ✓   5 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:258:1 › TC-GEO-237-008 — Idempotence - un seul appel HubSpot par session (7.9s)
+  ✓   6 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:307:1 › TC-GEO-237-010 — Erreur HubSpot non-bloquante pour l'utilisateur (5.1s)
+  ✓   7 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:339:1 › TC-GEO-237-011 — Les 5 boutons "Speak to Us" déclenchent la même logique (3.2s)
+  ✓   8 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:375:1 › TC-GEO-237-012 — Réponse 401 ne déclenche pas de redirection Auth0 (5.2s)
+  -   9 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:415:6 › TC-GEO-237-004 — Confirmation + cookies absents -> JitBridgeModal
+  -  10 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:422:6 › TC-GEO-237-005 — Acceptation dans JIT -> événement HubSpot envoyé
+  -  11 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:428:6 › TC-GEO-237-006 — Refus dans JIT -> PrivacyFallbackModal - aucun appel
+  -  12 [chromium] › .claude\Data\raw\playwright\hubspot-upsell-pql.spec.js:433:6 › TC-GEO-237-009 — Utilisateur @onclusive.com exclu du tracking HubSpot
+
+  4 skipped
+  8 passed (56.7s)

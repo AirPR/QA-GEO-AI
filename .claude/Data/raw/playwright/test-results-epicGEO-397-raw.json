@@ -1,0 +1,2246 @@
+{
+  "stats": {
+    "startTime": "2026-05-30T16:51:18.939Z",
+    "duration": 2451734.8830000004,
+    "expected": 253,
+    "skipped": 153,
+    "unexpected": 120,
+    "flaky": 0
+  },
+  "suites": [
+    {
+      "title": "test-suite-epicGEO-397.spec.js",
+      "file": "test-suite-epicGEO-397.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-GEO-397-001 New org form: Brand Image questions defaults to 20",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 103,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 32491,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:176:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:175:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:176:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:175:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin is authenticated and navigates to the Create Organization form",
+                      "duration": 31978,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:176:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:175:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:28:55.159Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--3821c-ge-questions-defaults-to-20-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-3ba628817452dcb525e6",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 172,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-002 New org form: Frequency field is absent",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 90,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 31211,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:202:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:201:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:202:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:201:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin is authenticated and navigates to the Create Organization form",
+                      "duration": 30732,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:202:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:201:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:28:58.058Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--861f4-m-Frequency-field-is-absent-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-334cb0ae6bb60084b284",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 198,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-003 New org form: Competitors / category (auto-detected) field is absent",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 102,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 32709,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:226:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:225:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:226:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:225:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin is authenticated and navigates to the Create Organization form",
+                      "duration": 32271,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:226:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:225:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:29:05.022Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--d2245-to-detected-field-is-absent-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-d6f604fd5d3aca68b427",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 222,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-004 New org form: \"Brand x Markets max\" renamed to \"Markets\"",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 100,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 29549,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:250:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:249:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:250:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:249:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin is authenticated and navigates to the Create Organization form",
+                      "duration": 29113,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:250:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:249:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:29:09.002Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--3ce0e-ets-max-renamed-to-Markets--all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-a036888fbb2bfc569c4a",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 246,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-005 New org form: LLMs configuration is a checkbox allow-list",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 104,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 38148,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:278:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:277:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:278:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:277:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin is authenticated and navigates to the Create Organization form",
+                      "duration": 37564,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:278:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:277:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:29:30.090Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--5c77a-on-is-a-checkbox-allow-list-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-23ef16a536a2ed170f2c",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 274,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-006 New org form: all checkboxes can be individually selected/unselected",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 105,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 30368,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:312:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:311:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:312:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:311:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin is on the Create Organization form with the LLM allow-list section visible",
+                      "duration": 29693,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:312:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:311:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:29:30.770Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--13a9e-idually-selected-unselected-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-c25e46ea6e90e0c64ca5",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 308,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-007 New org created: Brand Image questions value is 20 in the read view",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 106,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 29912,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:387:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:386:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:387:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:386:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin submits the Create Organization form with the default Brand Image questions value of 20",
+                      "duration": 29147,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:387:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:386:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:29:39.636Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--23a59-alue-is-20-in-the-read-view-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-2085d8450881b617d332",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 383,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-008 Edit org form: Frequency and Competitors fields are absent",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 107,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 38708,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:438:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:437:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:438:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:437:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin opens the edit form of an existing organization",
+                      "duration": 38028,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:438:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:437:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:29:40.000Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--08f73-mpetitors-fields-are-absent-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-26ec964a45fd919ae2fd",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 434,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-009 Edit org form: \"Markets\" label and LLM allow-list present",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 108,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 35368,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:470:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:469:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:470:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:469:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin opens the edit form of an existing organization",
+                      "duration": 34793,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:470:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:469:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:30:03.911Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--ea64c--and-LLM-allow-list-present-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-2c9323198efdf369b39c",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 466,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-010 Edit org: legacy LLMs-Max migrated to pre-checked allow-list",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 516,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:30:09.127Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 516,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-951ab8e440ef0e914ee9",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 516,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-011 Edit org: save changes persists new field values",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 109,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 36238,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:545:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:544:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:545:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:544:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin has opened the edit form of an existing organization and modified the \"Markets\" value and the LLM allow-list",
+                      "duration": 35581,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:545:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:544:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:30:10.393Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--aa743-s-persists-new-field-values-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-69f4d59b4333deb1c4c4",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 539,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-012 Edit org: read view does not show Frequency or Competitors fields",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 110,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 36303,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:615:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:614:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:615:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:614:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin has saved an existing organization via the edit form",
+                      "duration": 35641,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:615:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:614:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:30:11.221Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--a03ab-uency-or-Competitors-fields-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-9c0e09801b221224638a",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 611,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-013 Users page: Edit action available on each user row",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 111,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 35828,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:647:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:646:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:647:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:646:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin navigates to the Users administration page",
+                      "duration": 35247,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:647:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:646:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:30:21.634Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--20706--available-on-each-user-row-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-e2a4b9f99ad24a422555",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 643,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-014 Edit user: editable fields include name and organization",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 112,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 36371,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:682:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:681:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:682:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:681:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin clicks the Edit action on an existing user row",
+                      "duration": 35814,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:682:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:681:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:30:41.939Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--61ce1-clude-name-and-organization-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-be39a0cdea2fc64b8d7e",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 678,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-015 Edit user: Super admin option available in role dropdown",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 113,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 40838,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:719:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:718:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:719:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:718:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin has opened the edit user form for an existing user",
+                      "duration": 40229,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:719:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:718:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:30:48.767Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--01720--available-in-role-dropdown-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-8c926cbaf786820974e3",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 715,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-016 Edit user: granting super-admin is persisted",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 114,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 35477,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:761:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:760:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:761:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:760:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin has selected \"Super admin\" in the role dropdown for an existing non-super-admin user and saved",
+                      "duration": 34847,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:761:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:760:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:30:49.146Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--8c82b-ng-super-admin-is-persisted-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-1c1da1d756542720239a",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 753,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-017 Edit user: revoking super-admin is persisted",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 115,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 34388,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:844:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:843:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:844:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:843:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin has selected a non-super-admin role for a currently super-admin user and saved",
+                      "duration": 33812,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:844:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:843:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:31:00.359Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--dc165-ng-super-admin-is-persisted-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-8460b63b778ae4470c89",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 838,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-018 Create user: Super admin available in role dropdown",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 116,
+                  "parallelIndex": 3,
+                  "status": "failed",
+                  "duration": 30164,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:958:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:957:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:958:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:957:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin navigates to the Create User form",
+                      "duration": 29522,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:958:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:957:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:31:21.066Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--d99c4--available-in-role-dropdown-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-7b443a6f3da616644dcc",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 954,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-019 Create user with Super admin role: user is granted super-admin rights",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 117,
+                  "parallelIndex": 1,
+                  "status": "failed",
+                  "duration": 34005,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1001:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1000:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1001:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1000:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin fills in the Create User form and selects \"Super admin\" in the role dropdown",
+                      "duration": 33410,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1001:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1000:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:31:26.776Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--54645--granted-super-admin-rights-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-3a92b7b6f02dfa483df2",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 995,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-020 Audit trail: grant super-admin captured",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1092,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1092,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-66dbf0f925152dc1dabb",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1092,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-021 Audit trail: revoke super-admin captured",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1107,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1107,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-b0d9ecf395b1c80ec87a",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1107,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-022 READER role: \"New analysis\" button is disabled on load",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1121,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1121,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-5da35772d68f3639c077",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1121,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-023 READER role: \"New analysis\" button shows restriction tooltip",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1134,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1134,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-e12f77459d4159e94993",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1134,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-024 READER role: full read access to existing reports",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1146,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1146,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-c81b4794081f792816c8",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1146,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-025 READER role: duplicate report action is disabled",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1158,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1158,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-59f700694e08a0e65d5f",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1158,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-026 READER role: on-demand run action is disabled",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1170,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1170,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-e132ed7e79f8548b6bc1",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1170,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-027 READER role: scheduled analysis trigger is disabled",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1182,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1182,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-23dc9e6f2ae8fa193903",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1182,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-028 Non-reader user: full CRUD behaviour unchanged",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1196,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1196,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-23c9bdfb9584661551e1",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1196,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-029 LLM allow-list enforced in analysis picker for organization users",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1212,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:30.514Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1212,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-fe7e59763d9f9801da60",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1212,
+          "column": 6
+        },
+        {
+          "title": "TC-GEO-397-030 New org form: submitting with invalid Brand Image questions value",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 118,
+                  "parallelIndex": 2,
+                  "status": "failed",
+                  "duration": 37299,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1229:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1228:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1229:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1228:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin has opened the Create Organization form",
+                      "duration": 36565,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1229:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1228:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:31:31.944Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--1f296-Brand-Image-questions-value-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-7335918874600e318911",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1225,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-031 New org form: submitting with no LLM selected",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": 119,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 32630,
+                  "error": {
+                    "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                    "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1274:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1273:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 20,
+                      "line": 96
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 20,
+                        "line": 96
+                      },
+                      "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n\n  94 |   // Auth0 Step 1 — Email\n  95 |   const emailInput = page.locator(SEL.emailInput).first();\n> 96 |   await emailInput.waitFor({ state: 'visible', timeout: 20000 });\n     |                    ^\n  97 |   await emailInput.fill(ADMIN_EMAIL);\n  98 |   await page.locator(SEL.submitBtn).first().click();\n  99 |\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1274:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1273:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin has opened the Create Organization form and unchecked all LLM checkboxes",
+                      "duration": 32031,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#username').first() to be visible\u001b[22m\n\n    at loginAsAdmin (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:96:20)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1274:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:1273:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 20,
+                          "line": 96
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 94 |\u001b[39m   \u001b[90m// Auth0 Step 1 — Email\u001b[39m\n \u001b[90m 95 |\u001b[39m   \u001b[36mconst\u001b[39m emailInput \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39memailInput)\u001b[33m.\u001b[39mfirst()\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 96 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m20000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                    \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 97 |\u001b[39m   \u001b[36mawait\u001b[39m emailInput\u001b[33m.\u001b[39mfill(\u001b[33mADMIN_EMAIL\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 98 |\u001b[39m   \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(\u001b[33mSEL\u001b[39m\u001b[33m.\u001b[39msubmitBtn)\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 99 |\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-30T17:31:36.937Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--985c2-itting-with-no-LLM-selected-all-epics\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 20,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-dec1025508c7419406bb",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1270,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-032 Existing org: Brand Image questions value unchanged after migration",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "line": 1341,
+                    "column": 6
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "all-epics",
+              "projectName": "all-epics",
+              "results": [
+                {
+                  "workerIndex": -1,
+                  "parallelIndex": -1,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-05-30T17:31:52.605Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "line": 1341,
+                        "column": 6
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-351f07848eb8b2a32304",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1341,
+          "column": 6
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "metadata": {}
+}

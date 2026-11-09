@@ -1,0 +1,41 @@
+{
+  "created": "2026-10-29",
+  "mode": "statique-bugs",
+  "source": "GEO-1002-RUN-FINDINGS.md Q-12 (PO answer GEO-1232 comment 869648: used as is)",
+  "bugs": [
+    {
+      "bug_id": "BUG-GEO-1232-002",
+      "status": "created",
+      "summary": "[Wizard] Add category modal says the category is translated by AI Sense although, with a single market, the name is used as is",
+      "priority": "Low",
+      "parent": "GEO-1002",
+      "link": {
+        "type": "Relates",
+        "key": "GEO-1232"
+      },
+      "assignee": {
+        "name": "Youssef Ait Laydi",
+        "accountId": "712020:9a3bc993-afd5-4a5e-b7b2-9cc67229f7f2"
+      },
+      "fixVersion": "1.3",
+      "exists_in_production": "Does not exist in Production",
+      "component": "GEO Module",
+      "bug_found_by": "Automated QA",
+      "capacity": "Roadmap Work",
+      "sprint": 14578,
+      "labels": [],
+      "expected": "With a single market the custom category name is used as is (GEO-1232 rule; PO, comment 869648: \"used as is\"), so the modal should not announce a translation: the subtitle \"Translated for each country and language by AI Sense\" and the helper \"AI Sense translates the category for each country and language\" are hidden or replaced by a single-market wording (to confirm).",
+      "actual": "With one market (Afghanistan · Dari), the modal still says \"Translated for each country and language by AI Sense\" and \"AI Sense translates the category for each country and language. Use the edit icon to adjust any translation.\", while the row keeps the typed name \"Maison\" untranslated.",
+      "attachments": [
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1232/bug_GEO-1232_single-market-copy.png",
+          "kind": "image",
+          "caption": "Single market: the copy announces a translation (framed) while the name is kept as typed",
+          "jira_attachment_id": "773110"
+        }
+      ],
+      "jira_key": "GEO-1573",
+      "jira_url": "https://onclusive.atlassian.net/browse/GEO-1573"
+    }
+  ]
+}

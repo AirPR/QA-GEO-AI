@@ -1,0 +1,208 @@
+{
+  "spec": "GEO-1226-GEO1547-rerun2-mcp",
+  "runDate": "2026-11-09",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "rerunOf": "test-results-GEO-1226-GEO1547-rerun-mcp-real.json",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "environment": {
+    "auth_me_start": "2026-11-09 11:06 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "org_switch": "UI organisation switcher -> 'GEO Stress Test 2026-10' (org_id 6d1a6849-4dcd-4ab5-9db8-7dcfdc3aca0f, /auth/me checked) at 11:06 UTC, read-only, back to QA-GEO with the UI switcher at ~11:12 UTC",
+    "auth_me_end": "2026-11-09 ~11:12 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "period": "Last 7 days (3 Nov 2026 - 9 Nov 2026). Snapshot dates: MSC / VS / Verisure 2026-11-05 (+ 2026-10-02), USPS 2026-11-09 (+ 2026-10-05). AI Engines: ChatGPT only. Countries: All Countries (VS), France (MSC), Spain (Verisure).",
+    "api": "GET /geo/api/v1/reports/{uuid}/target-sources/{domain}?from=2026-11-03T00:00:00Z&to=2026-11-09T23:59:59Z&marketCodes=master&llms=openai&lang=en-GB ; GET /geo/api/v1/reports/{uuid}/overview/citation-sources/cited-urls?domain=...",
+    "read_only": "Only GET calls and UI filter changes (period, list view). Nothing created, changed or deleted in GEO Stress Test 2026-10."
+  },
+  "summary": {
+    "total": 5,
+    "pass": 4,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1,
+    "successRate": 90,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1547-019",
+      "title": "GEO-1204 Victoria's Secret uk.trustpilot.com now negative with review entries",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/0bd0b48c-e78a-4e43-b607-f0318b48f6ba/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-019_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-019_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-019_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-019_step3b_www.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the uk.trustpilot.com article is listed",
+          "status": "PASS"
+        },
+        {
+          "title": "And it shows review entries, not the page header",
+          "status": "PASS"
+        },
+        {
+          "title": "And the www.trustpilot.com article shows review entries too",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Victoria's Secret 0bd0b48c, org GEO Stress Test 2026-10, Last 7 days (3-9 Nov 2026, run of 05/11), AI Engines ChatGPT, All Countries. Card #2 trustpilot.com Review Sites 'Negative perception in 4 articles'. Panel header '#2 · trustpilot.com' + chip 'Review Sites', tab 'Negative perception (4)' active, subtitle 'Each of these articles mentions Victoria's Secret negatively.' (no Lack of visibility tab: BRAND_NOT_NAMED 0). Article 'Victoria's Secret Reviews 58' - uk.trustpilot.com/review/victoriasecret.co.uk, '10 NEGATIVE REVIEWS', 10 quoted review entries, none is the page title or header. www.trustpilot.com: two separate articles, www.trustpilot.com/review/victoriasecret.co.uk and www.trustpilot.com/review/www.victoriassecret.co.uk, each '10 NEGATIVE REVIEWS' with review entries (step3b_www). Panel API: the 4 articles are NAMED_NEGATIVELY, grouped false, reviewCount 10, 10 reviews each. The cited uk URL uses the domain victoriasecret.co.uk (one 's'). Side findings (not assertions of this TC): duplicate entries - on uk and www/victoriasecret.co.uk entry 1 = entry 4 ('I recently purchased two bras...'), on www/www.victoriassecret.co.uk entries 1 = 6 and 2 = 5 -> GEO-1582; first entry of www/www.victoriassecret.co.uk ('Ordered my items easily was given several options for delivery date...') starts positive -> GEO-1583. Live Trustpilot pages not opened (403 WAF to the test browser)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-020",
+      "title": "GEO-1204 MSC fr.trustpilot.com shows review entries instead of the header passage",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/dc801726-99e5-4e53-bf72-87b469ed5098/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-020_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-020_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-020_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the fr.trustpilot.com article shows review entries",
+          "status": "PASS"
+        },
+        {
+          "title": "And no entry is the page header",
+          "status": "PASS"
+        }
+      ],
+      "notes": "MSC Croisieres dc801726, org GEO Stress Test 2026-10, Last 7 days, ChatGPT, France. Card #1 trustpilot.com Review Sites 'Negative perception in 14 articles'. Panel '#1 · trustpilot.com' + 'Review Sites', 'Negative perception (14)' active, subtitle 'Each of these articles mentions MSC Croisieres negatively.'. Article 'Avis de MSC Croisières | Lisez les avis marchands de www.msccroisieres.fr' - fr.trustpilot.com/review/www.msccroisieres.fr, '10 NEGATIVE REVIEWS', 10 quoted review entries (e.g. 'Lors de ma dernière croisière à bord du MSC OPERA, nous avons subis de fortes odeurs d'égouts...', 'arnaque , nous avions demandé le forfait internet...'); no entry is the page title or header. API: NAMED_NEGATIVELY, reviewCount 10, 10 reviews. Side finding (not an assertion of this TC): positive or mixed reviews are listed as negative entries - 'très bonne compagnie de croisière nous n'avons jamais été déçus...', 'Superbe navire. Personnel professionnel et avenant. Petit bémol...', 'Encore une belle croisière...' -> GEO-1583. The other 13 trustpilot articles are 12 single-review pages fr.trustpilot.com/reviews/{id} (1 NEGATIVE REVIEW each) and www.trustpilot.com/review/www.msccroisieres.fr (10)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-021",
+      "title": "GEO-1204 Verisure es.trustpilot.com now negative with review entries",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/183bdb00-e80a-4d98-8866-e3dc5645900c/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-021_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-021_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-021_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the es.trustpilot.com article is in Negative perception",
+          "status": "PASS"
+        },
+        {
+          "title": "And it shows its Spanish negative reviews as entries",
+          "status": "PASS"
+        },
+        {
+          "title": "And the article is not in Lack of visibility with a negative passage",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Verisure 183bdb00, org GEO Stress Test 2026-10, Last 7 days, ChatGPT, Spain. Card #6 trustpilot.com Review Sites. Panel '#6 · trustpilot.com' + 'Review Sites', 'Negative perception (2)' active, subtitle 'Each of these articles mentions Verisure negatively.'. Article 'Verisure España Opiniones 17' - es.trustpilot.com/review/verisure.es, '1 NEGATIVE REVIEW', entry in Spanish 'Advertir a los clientes q te hacen una valoración del equipo ( q no vale más de 200 € en cualquier tienda ) de 1100€ y de la instalación…', counted in the 2. Second article www.trustpilot.com/review/verisure.es, 2 NEGATIVE REVIEWS (English). No Lack of visibility tab: API BRAND_NOT_NAMED 0 and positive [] -> es.trustpilot.com is not in Lack of visibility. Verbatim check against the live page not possible (Trustpilot 403 WAF); the entry matches the API reviews[] value."
+    },
+    {
+      "tc_id": "TC-GEO-1547-022",
+      "title": "GEO-1192 Trustpilot pages fixed in GEO-1192 stay negative",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/dc801726-99e5-4e53-bf72-87b469ed5098/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-022_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-022_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-022_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-022_step3b_vs_nl.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the MSC fr.trustpilot.com article is in Negative perception",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Victoria's Secret nl-be.trustpilot.com and www.trustpilot.com articles are in Negative perception",
+          "status": "PASS"
+        },
+        {
+          "title": "And no negative passage shows with a not negative verdict",
+          "status": "PASS"
+        }
+      ],
+      "notes": "MSC dc801726: fr.trustpilot.com/review/www.msccroisieres.fr in 'Negative perception (14)' with '10 NEGATIVE REVIEWS' and 10 entries (step3_then). Victoria's Secret 0bd0b48c - DATA ADAPTATION (not an expectation change): the GEO-1192 pages nl-be.trustpilot.com/review/www.victoriassecret.com and www.trustpilot.com/review/www.victoriassecret.com are not cited in the 05/11 run (cited-urls for trustpilot.com: www/victoriassecret.co.uk, uk/victoriasecret.co.uk, nl/www.victoriassecret.com, www/www.victoriassecret.co.uk). Checked on the equivalent company pages: nl.trustpilot.com/review/www.victoriassecret.com (same company page, nl subdomain) and www.trustpilot.com/review/www.victoriassecret.co.uk + www.trustpilot.com/review/victoriasecret.co.uk - separate articles, each in Negative perception with '10 NEGATIVE REVIEWS' and 10 entries (step3b_vs_nl). Lack of visibility: none of these pages - BRAND_NOT_NAMED 0 and positive [] on trustpilot.com for MSC and VS (no Lack of visibility tab in the panel). Side findings: duplicate entries on VS www / uk pages -> GEO-1582; positive reviews listed on MSC fr -> GEO-1583."
+    },
+    {
+      "tc_id": "TC-GEO-1547-023",
+      "title": "GEO-1192 non-review pages fixed in GEO-1192 stay negative with one passage",
+      "story_id": "GEO-1547",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Not fully verifiable with the current data: 2 of the 3 GEO-1192 pages are not cited in the post-deploy runs. Expected: 'Each page is listed and counted' / 'One passage per page, no page block, no \"N negative reviews\" chip'. Observed: routard.com forum OK; prc.gov FY2023 financial report PDF not cited (USPS run 09/11); comparador-alarmas.es/opiniones-alarmas/securitas-direct not cited (Verisure run 05/11).",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/183bdb00-e80a-4d98-8866-e3dc5645900c/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-023_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-023_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-023_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-023_step3a_routard.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-023_step3b_prc.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of each source and selects the tab \"Negative perception\"",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then the routard.com forum page, the prc.gov PDF and the comparador-alarmas.es page are in Negative perception",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And each of them shows one negative passage",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "(1) MSC dc801726 routard.com (#9, Journalism): 'Negative perception (1)', article 'Croisière sur le MSC SEASHORE à eviter - Croisières - Forums Routard.com' (routard.com/forums/t/croisiere-sur-le-msc-seashore-a-eviter/340911) with ONE passage 'Première et dernière croisière avec MSC Seashore, très beau bateau, propre et bien entretenu. L'embarquement à Marseille à durée 4h00 sans…', no page block, no 'N negative reviews' chip -> OK (step3a_routard). The second cited routard thread (croisiere-msc-mediterannee-depart-le-4-mars-2023) is a positive article. (2) USPS 3e6da2fd (run 09/11): the GEO-1192 page prc.gov FY2023FinancialReport.pdf is not cited; cited-urls for prc.gov = the press release + www.prc.gov/sites/default/files/reports/2803%202804.pdf (another document, cited but not judged negative, not in the panel). The prc.gov press release (the GEO-1204 'still not negative' case) is now in 'Negative perception (1)' with one passage 'PRC Questions the Reliability of USPS Service Performance Measurement System', no chip (step3b_prc) - relevant to the GEO-1204 non-review scope question. (3) Verisure 183bdb00: comparador-alarmas.es/opiniones-alarmas/securitas-direct (GEO-1192 QA retest page, 1.15/5) is not cited; cited-urls for comparador-alarmas.es = /negocios and /mejores-alarmas, neither is a Target Source (panel API 404, absent from the 43 sources, step3_then) - generic comparison pages, not equivalent, so no adaptation. In GEO-1192 the dev listed Verisure / Securitas Direct as out of scope (former brand name); QA saw it negative on 06/10. To finish the TC: a run citing those two pages, or a CSV data update (user decision)."
+    }
+  ]
+}

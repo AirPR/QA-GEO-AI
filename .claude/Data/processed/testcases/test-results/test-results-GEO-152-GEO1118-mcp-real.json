@@ -1,0 +1,475 @@
+{
+  "spec": "GEO-152-GEO1118-mcp",
+  "runDate": "2026-09-25",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "summary": {
+    "total": 14,
+    "pass": 11,
+    "fail": 0,
+    "skip": 1,
+    "partial": 2
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1118-001",
+      "title": "Sources ordered by failing article count with tie-break",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-001_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-001_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with at least 3 verified sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Actions Center is opened on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the list is titled Target Sources",
+          "status": "PASS"
+        },
+        {
+          "title": "And sources are ranked descending by failing article count",
+          "status": "PASS"
+        },
+        {
+          "title": "And ties are broken by badge count then citations",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Rank1 frandroid.com 26 articles. Tie 2/3: kbb.com(10,2 badges)>automobile-propre.com(10,1 badge). Tie 4/5: elpais.com(9,13x)>zonebourse.com(9,5x)."
+    },
+    {
+      "tc_id": "TC-GEO-1118-002",
+      "title": "Source type filter available and defaults to all",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-002_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-002_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with sources of multiple types",
+          "status": "PASS"
+        },
+        {
+          "title": "When the source type filter is inspected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the filter defaults to All source types",
+          "status": "PASS"
+        },
+        {
+          "title": "And the dropdown lists only types present in scope",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Filter: Tous les types de sources. Dropdown: Academique(1),Agregateurs(12),Entreprise(26),Gouvernement/ONG(4),Journalisme(101),Autre(9),Sites d avis(10),Reseaux sociaux/UGC(3)."
+    },
+    {
+      "tc_id": "TC-GEO-1118-003",
+      "title": "Card view and list view switchable same order",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-003_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-003_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Target Sources list is displayed in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the List view toggle",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the list view shows the same sources in the same ranked order",
+          "status": "PASS"
+        },
+        {
+          "title": "And no re-sorting control is available",
+          "status": "PASS"
+        }
+      ],
+      "notes": "List view: table #,Source,Type,Action,Articles,Citee. Same order 1=frandroid(26),2=kbb(10),3=automobile-propre(10). Column headers not sortable."
+    },
+    {
+      "tc_id": "TC-GEO-1118-004",
+      "title": "Card shows all required fields",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-004_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-004_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Target Sources list renders in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "When a source card is inspected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card displays the rank number",
+          "status": "PASS"
+        },
+        {
+          "title": "And the source name is displayed with its icon",
+          "status": "PASS"
+        },
+        {
+          "title": "And the source type is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And the applicable reason badges are shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And the failing article count is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the citation count is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com: rank 1, favicon Google s2/favicons(naturalWidth=24), Journalisme, 2 badges(AMELIORER LA VISIBILITE+AMELIORER LA PERCEPTION), 26 articles, Citee 43 fois."
+    },
+    {
+      "tc_id": "TC-GEO-1118-005",
+      "title": "Badges come only from persisted verdicts",
+      "story_id": "GEO-1118",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-005_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-005_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a source has brand-absent and brand-negative failing articles",
+          "status": "PASS"
+        },
+        {
+          "title": "When the source card is displayed on ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card carries both IMPROVE VISIBILITY and IMPROVE PERCEPTION badges",
+          "status": "PASS"
+        },
+        {
+          "title": "And badges are derived from page-level verdicts only",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "PARTIAL - frandroid.com shows both badges. 24 brand-absent+2 negative from GEO-1116. Cannot confirm page-level vs answer-level via UI."
+    },
+    {
+      "tc_id": "TC-GEO-1118-006",
+      "title": "Three verdict tabs ALL selected by default",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-006_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-006_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with verified sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Actions Center is opened",
+          "status": "PASS"
+        },
+        {
+          "title": "Then three tabs are visible ALL IMPROVE VISIBILITY IMPROVE PERCEPTION",
+          "status": "PASS"
+        },
+        {
+          "title": "And ALL is selected by default",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Tabs: TOUTES[selected], AMELIORER LA VISIBILITE, AMELIORER LA PERCEPTION. TOUTES has [selected] attribute on initial load."
+    },
+    {
+      "tc_id": "TC-GEO-1118-007",
+      "title": "ALL tab shows total failing article count",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-007_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-007_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a source has both VISIBILITE and PERCEPTION failing articles",
+          "status": "PASS"
+        },
+        {
+          "title": "When the ALL tab is active",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the failing article count is the total across both verdicts",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com: ALL=26=24(VISIBILITE)+2(PERCEPTION). kbb.com: ALL=10=5+5. Total=sum of verdict-specific counts confirmed."
+    },
+    {
+      "tc_id": "TC-GEO-1118-008",
+      "title": "Verdict tab ranks on that verdict alone",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-008_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-008_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given sources with different VISIBILITE and PERCEPTION failing article counts",
+          "status": "PASS"
+        },
+        {
+          "title": "When the IMPROVE VISIBILITY tab is selected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each source shows only its VISIBILITE failing article count",
+          "status": "PASS"
+        },
+        {
+          "title": "And sources are ordered by VISIBILITE count descending",
+          "status": "PASS"
+        }
+      ],
+      "notes": "VISIBILITE tab: automobile-propre.com=10(rank 2) vs kbb.com=5(rank 7). ALL tab: kbb(10)=rank 2>automobile-propre(10)=rank 3. Re-ranking by verdict-specific count confirmed."
+    },
+    {
+      "tc_id": "TC-GEO-1118-009",
+      "title": "Source absent from verdict tab if no matching article",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-009_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-009_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given source A has only VISIBILITE articles and source B has only PERCEPTION articles",
+          "status": "PASS"
+        },
+        {
+          "title": "When the IMPROVE PERCEPTION tab is selected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then source A does not appear in the IMPROVE PERCEPTION tab",
+          "status": "PASS"
+        },
+        {
+          "title": "And source B appears in the IMPROVE PERCEPTION tab",
+          "status": "PASS"
+        }
+      ],
+      "notes": "automobile-propre.com(VISIBILITE-only) ABSENT from PERCEPTION tab. kbb.com(both badges) in PERCEPTION tab rank 1 with 5 articles."
+    },
+    {
+      "tc_id": "TC-GEO-1118-010",
+      "title": "Badges unchanged when switching verdict tabs",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-010_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-010_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a source carries both badges on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to the IMPROVE VISIBILITY tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the source still shows both badges unchanged",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com on VISIBILITE tab: rawText includes both AMELIORER LA VISIBILITE and AMELIORER LA PERCEPTION. Badge display independent of active tab filter."
+    },
+    {
+      "tc_id": "TC-GEO-1118-011",
+      "title": "Empty verdict tab message other tabs reachable",
+      "story_id": "GEO-1118",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-011_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-011_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given no source has negative-mention failing article so IMPROVE PERCEPTION tab is empty",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the IMPROVE PERCEPTION tab is selected",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the tab states that no source carries that verdict",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - Given condition not met. Current analysis has PERCEPTION sources: kbb.com(5),trustpilot.com(5),caradisiac.com(3),frandroid.com(2),electrek.co(2). Different dataset required."
+    },
+    {
+      "tc_id": "TC-GEO-1118-012",
+      "title": "Domain logo shown neutral placeholder when unavailable",
+      "story_id": "GEO-1118",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-012_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-012_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a source with resolvable favicon and one without are both in the list",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the Target Sources list renders in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the source with resolvable favicon shows its domain logo",
+          "status": "PASS"
+        },
+        {
+          "title": "And the source without resolvable favicon shows a neutral placeholder icon",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "PARTIAL - All cards use Google s2/favicons. First 10 sources naturalWidth=24(real favicons). autopista.es naturalWidth=16(Google generic placeholder). Cannot confirm app own neutral placeholder."
+    },
+    {
+      "tc_id": "TC-GEO-1118-013",
+      "title": "Top 10 shown with explicit control for remainder",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-013_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-013_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with more than 10 verified sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Target Sources list renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only the top 10 sources are initially visible",
+          "status": "PASS"
+        },
+        {
+          "title": "And a Show N more sources control is displayed below the list",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user activates the Show N more sources control",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the remaining sources become visible",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Initial render: exactly 10 cards + Afficher 157 sources de plus button. After click: 167 total, show-more button gone. 10+157=167 confirmed."
+    },
+    {
+      "tc_id": "TC-GEO-1118-014",
+      "title": "Filter dropdown shows count per source type",
+      "story_id": "GEO-1118",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-014_step1_given.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-014_step2_when.png",
+        "screenshots-GEO-152-GEO1118-mcp/TC-GEO-1118-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Target Sources list is open with multiple source types present",
+          "status": "PASS"
+        },
+        {
+          "title": "When the source type filter dropdown is opened",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each source type entry displays the type name and its source count",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Dropdown: Academique(1),Agregateurs(12),Entreprise(26),Journalisme(101),Autre(9),Sites d avis(10),Reseaux sociaux/UGC(3). Format Type(N) confirmed."
+    }
+  ]
+}

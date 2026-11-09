@@ -1,0 +1,347 @@
+{
+  "spec": "GEO-1069-GEO1262-mcp",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1262",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "runFolder": ".claude/Data/output/reports/runs/20102026-1518/",
+  "summary": {
+    "total": 7,
+    "pass": 5,
+    "fail": 1,
+    "skip": 1,
+    "partial": 0,
+    "successRate": 71.4,
+    "successRateExecuted": 83.3,
+    "verdict": "CONDITIONAL"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me)",
+    "organisation": "QA-GEO",
+    "featureFlag": "unbranded_analysis = true (5-step wizard)",
+    "role": "SUPER_ADMIN",
+    "brandfetch": "Quota still exhausted on staging: /brands/logo returns {\"domain\":...} without logo for every domain (licter.com, onclusive.com, nike.com) -> Google favicon fallback everywhere",
+    "testData": "C = \"Lictorix Geo\"; W1 = licter.com, W2 = onclusive.com, W3 = sqlite.org, W4 = example.com",
+    "analysesCreated": [],
+    "stateChanges": "No analysis created. Wizards left via Back to Dashboard > Exit and Discard."
+  },
+  "sideFindings": [
+    "Lettermark fallback reachable only on an image load error: with the s2/favicons request aborted, the card shows the green \"L\" (SIDE_lettermark_when_favicon_fails_to_load.png). Google answers 404 + globe image for sites without favicon, so in practice the globe is shown (TC-004, known limit).",
+    "A failed /brands/logo request (aborted during exploration) still ends on the favicon image (graceful fallback, no error shown).",
+    "The domain line under the brand name appears with the placeholder and makes the card grow 54 -> 61 px; the avatar keeps 32x32 (no shift of the avatar itself)."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1262-001",
+      "title": "Confirmed domain shows the logo preview in the brand card within moments",
+      "story_id": "GEO-1262",
+      "priority": "High",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "CSV rule: \"SKIP on staging while the Brandfetch quota is exhausted (GEO-1262 rule, Staging 2026-10-16)\". Still exhausted on 2026-10-20: GET /geo/api/v1/brands/logo returns only {\"domain\":...} (no logo) for licter.com, onclusive.com and nike.com, so the avatar shows the Google favicon fallback, not the brand logo service logo. AC1 (Brandfetch logo) cannot be validated on staging.",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-001_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-001_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The 32px avatar shows the letter \"L\"",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types a valid domain in the website field",
+          "expected": "The avatar is unchanged while typing",
+          "data": "W1 = \"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field loses focus",
+          "expected": "A grey pulsing placeholder of the same size replaces the avatar, with no text and no layout shift",
+          "data": "Click outside the field",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the logo retrieved for the domain is displayed within moments",
+          "expected": "The 32px avatar shows the logo of licter.com, same place and size as the logo of a selected suggestion",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "expected": "\"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the logo lookup requests are recorded",
+          "expected": "One logo lookup for licter.com is visible (request names noted for the other TCs)",
+          "data": "DevTools Network",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Executed in full; every observable step passes. C = \"Lictorix Geo\" (\"Licter\" is a Brandfetch suggestion, see GEO-1260/1261 runs). Given: green 32x32 span lettermark \"L\", empty field. Typing \"licter.com\" (one char at a time): avatar unchanged, no lookup request. On blur: avatar replaced by span \"h-8 w-8 animate-pulse rounded-full bg-slate-200\" (32x32, empty, no text) for ~205 ms, then <img class=\"h-8 w-8 rounded-full object-cover\"> 32x32 src https://www.google.com/s2/favicons?domain=licter.com&sz=64 (Licter \"lic ter\" mark). \"licter.com\" appears under the brand name at the same time as the placeholder (card height 54 -> 61 px because of the domain line; the avatar itself keeps 32x32, no shift). Same 32x32 size as a selected suggestion logo (Nike: <img width=32 height=32 class=\"rounded-full object-cover\">). Network: exactly one GET /geo/api/v1/brands/logo?domain=licter.com (+ the favicon image s2/favicons -> t3.gstatic.com faviconV2 redirect). Request names for the other TCs: \"brands/logo\" (lookup) and \"s2/favicons\" (image)."
+    },
+    {
+      "tc_id": "TC-GEO-1262-002",
+      "title": "Lookup runs on Enter and not on every keystroke",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-002_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-002_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The avatar shows the letter \"L\"",
+          "data": "DevTools Network cleared",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types a valid domain one character at a time",
+          "expected": "No logo lookup request is sent while typing and the avatar stays the letter \"L\"",
+          "data": "W2 = \"onclusive.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user presses Enter",
+          "expected": "The grey pulsing placeholder is shown, then the logo of onclusive.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a single logo lookup was sent for the domain",
+          "expected": "One lookup for onclusive.com, none for partial values (e.g. \"onclu\")",
+          "data": "DevTools Network",
+          "status": "PASS"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "expected": "\"onclusive.com\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Fresh wizard (full page load, Exit and Discard of the previous one) so that no domain was cached. \"onclusive.com\" typed one character at a time (200 ms per key): 0 lookup requests and avatar stays the letter \"L\" during typing (MutationObserver log: no avatar change). Enter: step not submitted (still Brand & Country, focus stays in the field), placeholder \"animate-pulse bg-slate-200\" 32x32 for ~195 ms, then the onclusive.com favicon image. Network: exactly one GET /geo/api/v1/brands/logo?domain=onclusive.com (7 ms after Enter), none for partial values; a later blur of the same value sent no second lookup. Visual = Google favicon fallback (Brandfetch quota exhausted on staging), which is the onclusive.com logo mark. Placeholder captured in DOM log only (too short for a screenshot without delay; see TC-004 step2 for the visual)."
+    },
+    {
+      "tc_id": "TC-GEO-1262-003",
+      "title": "Favicon is used when the brand logo service has no logo for the domain",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-003_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-003_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The avatar shows the letter \"L\"",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a domain unknown to the brand logo service and the field loses focus",
+          "expected": "The grey pulsing placeholder is shown",
+          "data": "W3 (QA to provide)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the site's favicon is shown as the brand visual",
+          "expected": "The 32px avatar shows the favicon of W3, not the letter \"L\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "expected": "The W3 domain",
+          "status": "PASS"
+        }
+      ],
+      "notes": "W3 = \"sqlite.org\" (real site with a favicon). On blur: placeholder (DOM log), one GET /brands/logo?domain=sqlite.org returning {\"domain\":\"sqlite.org\"} (no logo), then <img> s2/favicons?domain=sqlite.org&sz=64 showing the SQLite feather favicon (natural size 16x16, rendered 32x32) instead of \"L\"; \"sqlite.org\" under the brand name. Limit: as stated in the TC description, with the Brandfetch quota exhausted on staging every domain falls back to the favicon, so the \"no logo in the brand logo service\" precondition cannot be told apart from the quota error; the favicon fallback itself is verified."
+    },
+    {
+      "tc_id": "TC-GEO-1262-004",
+      "title": "Lettermark is shown when neither a logo nor a favicon is available",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: the 32px avatar shows the letter \"L\" (neutral lettermark) when the domain has neither a brand logo nor a favicon. Observed: a generic grey globe image is shown (<img src=\"https://www.google.com/s2/favicons?domain=example.com&sz=64\">, 16x16 natural; Google favicon service answers 404 with the default globe image, so the image does not fail to load and the lettermark fallback is never triggered). Known limit (OS-Team, 2026-10-14) - PO to confirm whether the globe is accepted.",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-004_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-004_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The avatar shows the letter \"L\"",
+          "data": "C = \"Licter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a domain with neither a brand logo nor a favicon and the field loses focus",
+          "expected": "The grey pulsing placeholder is shown",
+          "data": "W4 (QA to provide)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the neutral lettermark is shown as the brand visual",
+          "expected": "The 32px avatar shows the letter \"L\", same letter avatar as the dashboard (record if a generic globe is shown instead: known limit)",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "expected": "The W4 domain",
+          "status": "PASS"
+        }
+      ],
+      "notes": "W4 = \"example.com\" (real site, no favicon). Same globe for a nonexistent domain \"qzxwvqkjtest-nofavicon.com\" and for \"info.cern.ch\": no tested domain gives the lettermark. Placeholder visible in step2_when (the /brands/logo response was delayed 2.5 s with a Playwright route, test aid only, to capture the transient placeholder; response unchanged). \"example.com\" shown under the brand name. Side exploration: when the favicon request is aborted (route abort on s2/favicons), the card falls back to the green \"L\" lettermark (SIDE_lettermark_when_favicon_fails_to_load.png) - the lettermark fallback exists, it only triggers on an image load error."
+    },
+    {
+      "tc_id": "TC-GEO-1262-005",
+      "title": "Editing the website updates the preview to the logo of the new domain",
+      "story_id": "GEO-1262",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-005_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-005_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with a confirmed website",
+          "expected": "The avatar shows the logo of licter.com and \"licter.com\" is under the brand name",
+          "data": "W1 = \"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user edits the website URL",
+          "expected": "The avatar still shows the licter.com logo while typing",
+          "data": "W2 = \"onclusive.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field loses focus",
+          "expected": "The grey pulsing placeholder is shown",
+          "data": "Click outside the field",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the preview updates to the logo of the new domain",
+          "expected": "The avatar shows the logo of onclusive.com and \"onclusive.com\" is under the brand name",
+          "status": "PASS"
+        },
+        {
+          "title": "And the previous domain's logo is never shown next to the new domain",
+          "expected": "At no moment is the licter.com logo shown with \"onclusive.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Discover Categories\" and then Back",
+          "expected": "Brand & Country shows \"onclusive.com\" with the onclusive.com logo, not the licter.com logo",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Given: \"Lictorix Geo\" + website \"licter.com\" confirmed (licter favicon logo, \"licter.com\" under the name) + market United States / English (EN). Edit: field selected and \"onclusive.com\" typed character by character: avatar still the licter.com logo and \"licter.com\" still under the name while typing, no request. Blur: full DOM state log = [licter logo + \"licter.com\"] -> [placeholder + \"onclusive.com\"] (~435 ms) -> [onclusive.com favicon + \"onclusive.com\"]; no recorded state ever paired the licter.com logo with \"onclusive.com\". One GET /brands/logo?domain=onclusive.com. Discover Categories: POST /analysis/discover-categories with entityDomain \"onclusive.com\" (categories \"Geospatial Analytics Software\", \"Location Intelligence Platforms\"); Back: Brand & Country shows \"onclusive.com\" with the onclusive.com logo, field value \"onclusive.com\", no new lookup. Visuals are Google favicon fallbacks (Brandfetch quota exhausted on staging). Extra screenshots: TC-GEO-1262-005_after_blur.png, TC-GEO-1262-005_categories.png."
+    },
+    {
+      "tc_id": "TC-GEO-1262-006",
+      "title": "No website shows the lettermark and triggers no logo lookup",
+      "story_id": "GEO-1262",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-006_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-006_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with an empty website field",
+          "expected": "The custom brand card \"Licter\" is displayed",
+          "data": "DevTools Network cleared",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the lettermark is shown as the brand visual",
+          "expected": "The 32px avatar shows the letter \"L\" and no domain is shown under the brand name",
+          "status": "PASS"
+        },
+        {
+          "title": "And no logo lookup is sent",
+          "expected": "No logo lookup request appears",
+          "data": "DevTools Network",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks in the empty website field and then outside it",
+          "expected": "No error, the avatar keeps the letter \"L\" and still no logo lookup request appears",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Card \"Lictorix Geo\" with 32x32 green span lettermark \"L\", no <img>, no domain line (only <p>Lictorix Geo</p>). Network from brand selection on: no /brands/logo and no s2/favicons request (the only logo requests are the cdn.brandfetch.io suggestion icons of the search dropdown, before selection). Click in the empty field then outside: aria-invalid=false, no error/role=alert, avatar still \"L\", still no lookup request."
+    },
+    {
+      "tc_id": "TC-GEO-1262-007",
+      "title": "Clearing a confirmed website brings back the lettermark",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-007_step1_given.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-007_step2_when.png",
+        "screenshots-GEO-1069-GEO1262-mcp/TC-GEO-1262-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Licter\" is selected with a confirmed website",
+          "expected": "The avatar shows the logo of licter.com",
+          "data": "W1 = \"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clears the website field and the field loses focus",
+          "expected": "No error is shown",
+          "data": "(empty)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the lettermark is shown as the brand visual",
+          "expected": "The avatar shows the letter \"L\"; the licter.com logo and the domain under the brand name are no longer shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And no logo lookup is sent for the empty value",
+          "expected": "No new logo lookup request appears",
+          "data": "DevTools Network",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Given: \"licter.com\" confirmed (licter favicon logo + \"licter.com\" under the name). Field cleared (Ctrl+A, Delete): logo kept while focused; on blur: aria-invalid=false, no error, avatar back to the green \"L\" span, domain line removed (card back to 54 px). No new request (no /brands/logo, no s2/favicons) after clearing."
+    }
+  ]
+}

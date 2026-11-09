@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP QA Report — epicGEO-680</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #f8fafc; color: #1e293b; }
+
+  /* Section 1 — Blue banner */
+  .banner { background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); color: white; padding: 32px 40px; }
+  .banner h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
+  .banner .meta { font-size: 0.9rem; opacity: 0.85; margin-bottom: 16px; line-height: 1.7; }
+  .verdict { display: inline-block; padding: 6px 20px; border-radius: 20px; font-weight: 700; font-size: 1rem; letter-spacing: 0.05em; }
+  .verdict-nogo { background: #dc2626; }
+  .verdict-conditional { background: #d97706; }
+  .verdict-go { background: #16a34a; }
+  .verdict-note { font-size: 0.8rem; opacity: 0.8; margin-top: 6px; }
+
+  /* Section 2 — Stats */
+  .stats { background: white; padding: 20px 40px; display: flex; gap: 24px; flex-wrap: wrap; border-bottom: 1px solid #e2e8f0; }
+  .stat { text-align: center; min-width: 80px; }
+  .stat-value { font-size: 1.8rem; font-weight: 700; }
+  .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-top: 2px; }
+  .c-pass { color: #16a34a; }
+  .c-fail { color: #dc2626; }
+  .c-skip { color: #6b7280; }
+  .c-partial { color: #d97706; }
+  .c-total { color: #1e3a8a; }
+  .c-rate { color: #0369a1; }
+
+  /* Section 3 — Accordion */
+  .section3 { padding: 24px 40px; }
+  .story-block { margin-bottom: 16px; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .story-header { background: #f1f5f9; padding: 14px 20px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; user-select: none; }
+  .story-header:hover { background: #e2e8f0; }
+  .story-title { font-weight: 600; font-size: 0.95rem; }
+  .story-badges { display: flex; gap: 8px; align-items: center; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge-pass { background: #dcfce7; color: #16a34a; }
+  .badge-fail { background: #fee2e2; color: #dc2626; }
+  .badge-skip { background: #f1f5f9; color: #6b7280; }
+  .badge-partial { background: #fef3c7; color: #d97706; }
+  .story-body { display: none; background: white; }
+  .story-body.open { display: block; }
+  .chevron { transition: transform 0.2s; font-size: 0.8rem; }
+  .chevron.open { transform: rotate(90deg); }
+
+  /* TC Cards */
+  .tc-card { border-bottom: 1px solid #f1f5f9; padding: 16px 20px; }
+  .tc-card:last-child { border-bottom: none; }
+  .tc-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  .tc-id { font-family: monospace; font-size: 0.8rem; color: #475569; white-space: nowrap; padding-top: 2px; }
+  .tc-title { font-weight: 600; font-size: 0.9rem; flex: 1; }
+  .tc-status { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; padding: 2px 10px; border-radius: 10px; white-space: nowrap; }
+  .status-PASS { background: #dcfce7; color: #16a34a; }
+  .status-FAIL { background: #fee2e2; color: #dc2626; }
+  .status-SKIP { background: #f1f5f9; color: #6b7280; }
+  .status-PARTIAL { background: #fef3c7; color: #d97706; }
+
+  /* Steps */
+  .steps { margin: 10px 0; padding-left: 8px; }
+  .step { display: flex; gap: 8px; padding: 4px 0; font-size: 0.83rem; line-height: 1.5; align-items: flex-start; }
+  .step-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .dot-PASS { background: #16a34a; }
+  .dot-FAIL { background: #dc2626; }
+  .dot-SKIP { background: #9ca3af; }
+  .dot-PARTIAL { background: #d97706; }
+
+  /* Notes */
+  .tc-notes { font-size: 0.8rem; color: #64748b; background: #f8fafc; border-left: 3px solid #cbd5e1; padding: 8px 12px; border-radius: 0 4px 4px 0; margin-top: 8px; line-height: 1.5; }
+  .tc-notes.note-partial { border-left-color: #fbbf24; background: #fffbeb; }
+  .tc-notes.note-pass { border-left-color: #4ade80; background: #f0fdf4; }
+
+  /* Screenshots */
+  .screenshots { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+  .screenshot-item { flex: 1; min-width: 200px; max-width: 340px; }
+  .screenshot-item img { width: 100%; border: 1px solid #e2e8f0; border-radius: 6px; }
+  .screenshot-label { font-size: 0.7rem; color: #94a3b8; text-align: center; margin-top: 3px; }
+
+  /* Footer */
+  footer { text-align: center; padding: 24px; color: #94a3b8; font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<!-- Section 1 — Bandeau bleu -->
+<div class="banner">
+  <h1>GEO QA — MCP Playwright Run</h1>
+  <div class="meta">
+    <strong>Epic :</strong> GEO-680 — User Management &amp; Seat Quota<br>
+    <strong>Date :</strong> 2026-08-05 &nbsp;|&nbsp; <strong>Heure :</strong> 12:15<br>
+    <strong>URL :</strong> https://staging-geo.onclusive.com/geo/settings<br>
+    <strong>Mode :</strong> structured &nbsp;|&nbsp; <strong>Compte :</strong> assiya.benramdane@onclusive.com (EDITOR)<br>
+    <strong>CSV :</strong> testcases-coverage-epicGEO-680.csv
+  </div>
+  <span class="verdict verdict-go">GO</span>
+  <div class="verdict-note">Couverture effective (hors SKIP) : 87.5% &mdash; 6 PASS + 6 PARTIAL sur 12 TCs exécutables &nbsp;|&nbsp; 9 SKIP (back-office / préconditions manquantes)</div>
+</div>
+
+<!-- Section 2 — Stats -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-value c-total">21</div>
+    <div class="stat-label">Total TCs</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value c-pass">6</div>
+    <div class="stat-label">PASS</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value c-fail">0</div>
+    <div class="stat-label">FAIL</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value c-skip">9</div>
+    <div class="stat-label">SKIP</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value c-partial">6</div>
+    <div class="stat-label">PARTIAL</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value c-rate">87.5%</div>
+    <div class="stat-label">Taux effectif</div>
+  </div>
+</div>
+
+<!-- Section 3 — Accordion -->
+<div class="section3">
+
+  <!-- GEO-1051 -->
+  <div class="story-block">
+    <div class="story-header" onclick="toggle('s1051')">
+      <span class="story-title">GEO-1051 — Set quota on organization (back office)</span>
+      <div class="story-badges">
+        <span class="badge badge-pass">1 PASS</span>
+        <span class="badge badge-skip">7 SKIP</span>
+        <span id="chev-s1051" class="chevron">&#9658;</span>
+      </div>
+    </div>
+    <div id="s1051" class="story-body">
+
+      <!-- TC-GEO-1051-001 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1051-001</span>
+          <span class="tc-title">Opérateur définit le quota d'une organisation</span>
+          <span class="tc-status status-SKIP">SKIP</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Given l'opérateur ouvre une organisation dans le back office</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>When il définit un quota utilisateur (ex : 50) et enregistre</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Then le quota est sauvegardé et affiché sur la fiche de l'organisation</span></div>
+        </div>
+        <div class="tc-notes">Nécessite l'interface back-office opérateur. Non accessible depuis /geo/settings (front office).</div>
+      </div>
+
+      <!-- TC-GEO-1051-002 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1051-002</span>
+          <span class="tc-title">Opérateur modifie le quota d'une organisation</span>
+          <span class="tc-status status-SKIP">SKIP</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Given l'opérateur ouvre une organisation ayant déjà un quota défini</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>When il change la valeur du quota et enregistre</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Then le nouveau quota est sauvegardé et affiché sur la fiche de l'organisation</span></div>
+        </div>
+        <div class="tc-notes">Modification de quota = opération back-office uniquement.</div>
+      </div>
+
+      <!-- TC-GEO-1051-003 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1051-003</span>
+          <span class="tc-title">Compteur utilisateurs visible contre le quota</span>
+          <span class="tc-status status-PASS">PASS</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given une organisation dont le quota est défini</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>When la liste des utilisateurs de l'organisation est consultée</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Then le nombre d'utilisateurs courant est affiché en regard du quota (ex : "3/50")</span></div>
+        </div>
+        <div class="tc-notes note-pass">PASS — Indicateur visible : "Seats used: 6 of 31" et "25 seats remaining in your organisation quota". Comportement conforme.</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1051-003_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1051-003_step2_when.png" alt="When">
+            <div class="screenshot-label">step2_when</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1051-003_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1051-004 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1051-004</span>
+          <span class="tc-title">Abaissement quota sous le compte actuel déclenche un avertissement</span>
+          <span class="tc-status status-SKIP">SKIP</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Given un opérateur abaisse le quota en dessous du nombre d'utilisateurs courant</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>When il enregistre le changement</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Then le système affiche un message d'avertissement et le changement n'est pas bloqué</span></div>
+        </div>
+        <div class="tc-notes">Abaisser le quota nécessite l'interface back-office opérateur.</div>
+      </div>
+
+      <!-- TC-GEO-1051-005 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1051-005</span>
+          <span class="tc-title">Abaissement quota ne supprime pas les utilisateurs existants</span>
+          <span class="tc-status status-SKIP">SKIP</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Given un opérateur a abaissé le quota en dessous du nombre d'utilisateurs courant et enregistré</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>When la liste des utilisateurs de l'organisation est consultée</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Then tous les utilisateurs existants sont toujours présents dans la liste</span></div>
+        </div>
+        <div class="tc-notes">Nécessite d'abord une action back-office (abaissement quota).</div>
+      </div>
+
+      <!-- TC-GEO-1051-006 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1051-006</span>
+          <span class="tc-title">Organisation au-dessus du quota bloque tout ajout d'utilisateur</span>
+          <span class="tc-status status-SKIP">SKIP</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Given une organisation dont le nombre d'utilisateurs est supérieur ou égal à son quota</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>When n'importe quel acteur tente d'ajouter un utilisateur à cette organisation</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Then l'ajout est bloqué tant que l'organisation reste au-dessus de son quota</span></div>
+        </div>
+        <div class="tc-notes">Précondition non remplie : QA-GEO a 6/31 sièges (quota non atteint). Impossible de tester le blocage.</div>
+      </div>
+
+      <!-- TC-GEO-1051-007 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1051-007</span>
+          <span class="tc-title">Les super admins ne sont pas comptabilisés dans le quota</span>
+          <span class="tc-status status-SKIP">SKIP</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Given une organisation dont certains membres sont des super admins</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>When le compteur d'utilisateurs est comparé au quota</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Then les super admins ne sont pas inclus dans le décompte des utilisateurs contre le quota</span></div>
+        </div>
+        <div class="tc-notes">Vérification du calcul interne quota vs super admins = back-office/API uniquement. Non vérifiable depuis le front office.</div>
+      </div>
+
+      <!-- TC-GEO-1051-008 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1051-008</span>
+          <span class="tc-title">Toutes les organisations existantes reçoivent un quota par défaut de 100</span>
+          <span class="tc-status status-SKIP">SKIP</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Given les organisations existantes au moment du déploiement de la fonctionnalité de quota</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>When le déploiement de la fonctionnalité de quota est effectué</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Then chaque organisation possède un quota de 100 par défaut visible dans le back office</span></div>
+        </div>
+        <div class="tc-notes">TC de migration/déploiement. Nécessite un environnement vierge avant activation de la feature.</div>
+      </div>
+
+    </div><!-- end story-body s1051 -->
+  </div>
+
+  <!-- GEO-1052 -->
+  <div class="story-block">
+    <div class="story-header" onclick="toggle('s1052')">
+      <span class="story-title">GEO-1052 — User management front office (éditeur)</span>
+      <div class="story-badges">
+        <span class="badge badge-pass">2 PASS</span>
+        <span class="badge badge-partial">6 PARTIAL</span>
+        <span class="badge badge-skip">2 SKIP</span>
+        <span id="chev-s1052" class="chevron">&#9658;</span>
+      </div>
+    </div>
+    <div id="s1052" class="story-body">
+
+      <!-- TC-GEO-1052-001 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-001</span>
+          <span class="tc-title">Éditeur ajoute un utilisateur sous quota avec invitation</span>
+          <span class="tc-status status-PARTIAL">PARTIAL</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un éditeur dans une organisation dont le quota n'est pas atteint</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>When il ajoute un utilisateur (email + rôle)</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>Then l'utilisateur est créé dans l'organisation et reçoit une invitation de bienvenue</span></div>
+        </div>
+        <div class="tc-notes note-partial">PARTIAL — Formulaire "Provision a new user" accessible (wizard 3 étapes : Email → Identity → Review &amp; submit). Organisation QA-GEO à 6/31 sièges. Création réelle et envoi d'invitation email non exécutés (non-destructif + pipeline email non vérifiable via UI).</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-001_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-001_step2_when.png" alt="When — Dialog provision">
+            <div class="screenshot-label">step2_when — Dialog ouvert</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-001_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1052-002 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-002</span>
+          <span class="tc-title">Éditeur bloqué lors de l'ajout si quota plein</span>
+          <span class="tc-status status-SKIP">SKIP</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Given un éditeur dans une organisation ayant atteint ou dépassé son quota</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>When il tente d'ajouter un utilisateur</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Then l'action est bloquée et un message clair indique que le quota est plein</span></div>
+        </div>
+        <div class="tc-notes">Précondition non remplie : QA-GEO a 6/31 sièges (quota non atteint). Impossible de simuler le quota plein depuis le front office.</div>
+      </div>
+
+      <!-- TC-GEO-1052-003 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-003</span>
+          <span class="tc-title">Éditeur ne peut gérer que les utilisateurs de sa propre organisation</span>
+          <span class="tc-status status-PASS">PASS</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un éditeur authentifié</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>When il gère les utilisateurs</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Then il ne peut ajouter des utilisateurs qu'à son propre organisation et n'a aucun accès à d'autres organisations</span></div>
+        </div>
+        <div class="tc-notes note-pass">PASS — Aucun sélecteur d'organisation présent. Texte UI : "Manage users in QA-GEO, your current organisation". Scope strictement limité à l'organisation courante.</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-003_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-003_step2_when.png" alt="When">
+            <div class="screenshot-label">step2_when</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-003_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1052-004 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-004</span>
+          <span class="tc-title">Un reader ne peut pas ajouter d'utilisateurs</span>
+          <span class="tc-status status-PASS">PASS</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un utilisateur avec le rôle reader</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>When il consulte le produit</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Then aucune action d'ajout d'utilisateur n'est disponible pour lui</span></div>
+        </div>
+        <div class="tc-notes note-pass">PASS — Compte reader (assiya.benramdane+geo@onclusive.com). Pas de bouton "+ Provision a user", pas de colonne ACTIONS. Message : "You have view-only access. Contact an editor in your organisation to manage users."</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-004_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-004_step2_when.png" alt="When">
+            <div class="screenshot-label">step2_when — User admin (reader)</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-004_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1052-005 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-005</span>
+          <span class="tc-title">Les super admins n'apparaissent pas dans la liste front office</span>
+          <span class="tc-status status-PARTIAL">PARTIAL</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un utilisateur front office (éditeur ou reader) connecté</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>When il consulte les paramètres utilisateurs</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>Then les utilisateurs super admin n'apparaissent pas dans la liste</span></div>
+        </div>
+        <div class="tc-notes note-partial">PARTIAL — Liste de 8 utilisateurs : uniquement rôles READER et EDITOR visibles, aucun SUPER ADMIN. Comportement observable conforme. Impossible de certifier le masquage sans confirmer l'existence de super admins en backend.</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-005_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-005_step2_when.png" alt="When">
+            <div class="screenshot-label">step2_when</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-005_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1052-006 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-006</span>
+          <span class="tc-title">Éditeur change le rôle d'un Reader en Editor</span>
+          <span class="tc-status status-PARTIAL">PARTIAL</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un éditeur visualisant la liste des utilisateurs dont un avec le rôle reader</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>When il ouvre les actions de la ligne de l'utilisateur et change le rôle de Reader à Editor</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>Then le nouveau rôle Editor est sauvegardé et reflété immédiatement dans la liste</span></div>
+        </div>
+        <div class="tc-notes note-partial">PARTIAL — Dialog "Change role" accessible pour assiya.benramdane+geo@onclusive.com (READER). Current role: READER, New role: Editor disponible dans le sélecteur. Changement réel non exécuté (non-destructif — affecterait un utilisateur réel de staging).</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-006_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-006_step2_when.png" alt="When — Dialog change role">
+            <div class="screenshot-label">step2_when — Dialog change role</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-006_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1052-007 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-007</span>
+          <span class="tc-title">Éditeur change le rôle d'un Editor en Reader</span>
+          <span class="tc-status status-PARTIAL">PARTIAL</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un éditeur visualisant la liste des utilisateurs dont un avec le rôle editor</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>When il ouvre les actions de la ligne de l'utilisateur et change le rôle de Editor à Reader</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>Then le nouveau rôle Reader est sauvegardé et reflété immédiatement dans la liste</span></div>
+        </div>
+        <div class="tc-notes note-partial">PARTIAL — Dialog "Change role" accessible pour kaoutar.aissaoui@onclusive.com (EDITOR). Current role: EDITOR, New role: Reader disponible. Changement réel non exécuté (non-destructif).</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-007_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-007_step2_when.png" alt="When — Dialog Editor→Reader">
+            <div class="screenshot-label">step2_when — Dialog Editor→Reader</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-007_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1052-008 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-008</span>
+          <span class="tc-title">Éditeur suspend un utilisateur — accès bloqué et siège maintenu</span>
+          <span class="tc-status status-PARTIAL">PARTIAL</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un éditeur visualisant un utilisateur actif</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>When il suspend l'utilisateur</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>Then l'utilisateur ne peut plus se connecter; il apparaît avec le statut suspendu et occupe toujours un siège dans le quota</span></div>
+        </div>
+        <div class="tc-notes note-partial">PARTIAL — Dialog "Suspend user" accessible. Texte UI confirme : <em>"Suspending blocks sign-in and pauses all access. The seat stays occupied, and you can reactivate this user at any time."</em> Correspond exactement au Then. Suspension réelle non exécutée (non-destructif).</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-008_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-008_step2_when.png" alt="When — Dialog suspend">
+            <div class="screenshot-label">step2_when — Dialog suspend</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-008_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1052-009 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-009</span>
+          <span class="tc-title">Éditeur réactive un utilisateur suspendu — accès restauré</span>
+          <span class="tc-status status-SKIP">SKIP</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Given un utilisateur suspendu dans l'organisation</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>When l'éditeur le réactive</span></div>
+          <div class="step"><div class="step-dot dot-SKIP"></div><span>Then l'utilisateur retrouve l'accès avec le même rôle qu'avant la suspension</span></div>
+        </div>
+        <div class="tc-notes">Précondition non remplie : aucun utilisateur avec statut "suspended" dans la liste QA-GEO (uniquement "active" et "deleted").</div>
+      </div>
+
+      <!-- TC-GEO-1052-010 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1052-010</span>
+          <span class="tc-title">Éditeur supprime un utilisateur — siège libéré dans le quota</span>
+          <span class="tc-status status-PARTIAL">PARTIAL</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un éditeur visualisant un utilisateur de son organisation</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>When il supprime l'utilisateur (soft-delete)</span></div>
+          <div class="step"><div class="step-dot dot-PARTIAL"></div><span>Then l'utilisateur perd l'accès; n'apparaît plus comme actif; et son siège est libéré dans le compteur de quota</span></div>
+        </div>
+        <div class="tc-notes note-partial">PARTIAL — Dialog "Soft-delete user" accessible. Texte UI confirme : <em>"The user loses access and moves to the Deleted list. Their seat is freed in the organisation quota."</em> Correspond exactement au Then. Suppression réelle non exécutée (non-destructif).</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-010_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-010_step2_when.png" alt="When — Dialog soft-delete">
+            <div class="screenshot-label">step2_when — Dialog soft-delete</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1052-010_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end s1052 -->
+  </div>
+
+  <!-- GEO-1053 -->
+  <div class="story-block">
+    <div class="story-header" onclick="toggle('s1053')">
+      <span class="story-title">GEO-1053 — User management front office (reader)</span>
+      <div class="story-badges">
+        <span class="badge badge-pass">3 PASS</span>
+        <span id="chev-s1053" class="chevron">&#9658;</span>
+      </div>
+    </div>
+    <div id="s1053" class="story-body">
+
+      <!-- TC-GEO-1053-001 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1053-001</span>
+          <span class="tc-title">Reader voit la liste des utilisateurs de son organisation avec les rôles</span>
+          <span class="tc-status status-PASS">PASS</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un utilisateur avec le rôle reader</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>When il ouvre les paramètres utilisateurs</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Then il voit la liste des utilisateurs de son organisation avec le rôle de chacun (editor ou reader)</span></div>
+        </div>
+        <div class="tc-notes note-pass">PASS — 12 utilisateurs visibles avec colonnes EMAIL, NAME, ROLE, STATUS. Rôles READER et EDITOR affichés pour chaque membre (hasRoles: true).</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1053-001_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1053-001_step2_when.png" alt="When">
+            <div class="screenshot-label">step2_when</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1053-001_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then — Liste avec rôles</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1053-002 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1053-002</span>
+          <span class="tc-title">Reader n'a aucune action de gestion des utilisateurs</span>
+          <span class="tc-status status-PASS">PASS</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un reader visualisant les paramètres utilisateurs</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>When il consulte la page</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Then aucune action pour créer; supprimer ou changer le rôle d'un utilisateur n'est disponible</span></div>
+        </div>
+        <div class="tc-notes note-pass">PASS — hasProvisionBtn: false, hasActionsColumn: false, actionsBtnCount: 0, changeRoleBtnCount: 0. Message : "You have view-only access. Contact an editor in your organisation to manage users."</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1053-002_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1053-002_step2_when.png" alt="When">
+            <div class="screenshot-label">step2_when</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1053-002_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then — View-only confirmé</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TC-GEO-1053-003 -->
+      <div class="tc-card">
+        <div class="tc-header">
+          <span class="tc-id">TC-GEO-1053-003</span>
+          <span class="tc-title">Reader voit uniquement les utilisateurs de sa propre organisation</span>
+          <span class="tc-status status-PASS">PASS</span>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Given un reader utilisateur</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>When il consulte les paramètres utilisateurs</span></div>
+          <div class="step"><div class="step-dot dot-PASS"></div><span>Then il voit uniquement les utilisateurs appartenant à sa propre organisation</span></div>
+        </div>
+        <div class="tc-notes note-pass">PASS — hasOrgSelector: false, hasOtherOrgLinks: 0. Scope : "Manage users in QA-GEO, your current organisation". Aucune autre organisation accessible.</div>
+        <div class="screenshots">
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1053-003_step1_given.png" alt="Given">
+            <div class="screenshot-label">step1_given</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1053-003_step2_when.png" alt="When">
+            <div class="screenshot-label">step2_when</div>
+          </div>
+          <div class="screenshot-item">
+            <img src="screenshots-epicGEO-680/TC-GEO-1053-003_step3_then.png" alt="Then">
+            <div class="screenshot-label">step3_then — Scope org unique</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end s1053 -->
+  </div>
+
+</div><!-- end section3 -->
+
+<footer>
+  Rapport MCP Playwright &mdash; Epic GEO-680 &mdash; 2026-08-05 12:15 &mdash; staging-geo.onclusive.com
+</footer>
+
+<script>
+function toggle(id) {
+  const body = document.getElementById(id);
+  const chev = document.getElementById('chev-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+// Auto-open all stories
+['s1051','s1052','s1053'].forEach(id => {
+  const body = document.getElementById(id);
+  const chev = document.getElementById('chev-' + id);
+  if (body) { body.classList.add('open'); chev.classList.add('open'); }
+});
+</script>
+</body>
+</html>

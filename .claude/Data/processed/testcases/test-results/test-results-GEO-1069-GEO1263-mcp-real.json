@@ -1,0 +1,605 @@
+{
+  "spec": "GEO-1069-GEO1263-mcp",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1263",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "runFolder": ".claude/Data/output/reports/runs/20102026-1534/",
+  "summary": {
+    "total": 12,
+    "pass": 1,
+    "fail": 0,
+    "skip": 5,
+    "partial": 6,
+    "successRate": 33.3,
+    "successRateExecuted": 57.1,
+    "verdict": "NO-GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me)",
+    "organisation": "QA-GEO",
+    "featureFlag": "unbranded_analysis = true (5-step wizard)",
+    "role": "SUPER_ADMIN",
+    "brandfetch": "Quota still exhausted on staging: logos fall back to https://www.google.com/s2/favicons?domain=<stored domain>&sz=64 (expected chain: stored logo -> favicon of stored domain -> lettermark)",
+    "analysesCreated": [
+      {
+        "id": "A1",
+        "name": "Lictorix Geo",
+        "uuid": "f228f1fe-9363-4f3c-97e6-e7275bd383e8",
+        "website": "https://www.licter.com/fr/about?x=1",
+        "entityDomain": "licter.com",
+        "entityDomainConfirmed": true,
+        "markets": "United States / English",
+        "categories": "Social Listening Software, Audience Intelligence",
+        "prompts": 70,
+        "createdBy": "TC-GEO-1261-008 (completed in this session)",
+        "firstRun": "COMPLETED ~1 min after creation"
+      },
+      {
+        "id": "A2",
+        "name": "Licter (Custom Brand row)",
+        "uuid": "79e18910-041d-454d-bd34-2e4737d4a55a",
+        "website": "(empty)",
+        "entityDomain": null,
+        "entityDomainConfirmed": true,
+        "markets": "United States / English",
+        "categories": "LED Lighting, Smart Home Devices",
+        "prompts": 70,
+        "firstRun": "COMPLETED within ~1 min"
+      }
+    ],
+    "promptPool": "813/1000 before the run -> 953/1000 after A1 and A2",
+    "stateChanges": "Exactly two analyses created (A1, A2), as authorized. Other wizards (TC-010, TC-007) left via Back to Dashboard > Exit and Discard. Exports downloaded to the scratchpad only."
+  },
+  "sideFindings": [
+    "Target-brand surfaces depend on data: both A1 (\"Lictorix Geo\", fictional name) and A2 (\"Licter\" in LED Lighting / Smart Home Devices) have 0% visibility, so the rankings target row, the rankings slide of the exports and the prompts-table winner cannot be checked. Re-run proposal: an analysis whose target is ranked (e.g. custom brand \"Licter\" via the Custom Brand row with website licter.com and the social-listening categories) - needs a new creation approval.",
+    "Lettermark shape differs between surfaces: report list = 32px circle (rounded-full), dashboard sidebar/header = 40px rounded square (rounded, 4px), export cover = grey \"L\" in a square box. Same letter, colour consistent between list and sidebar (red-500 for \"Licter\"). Existing components; to confirm with the PO whether one shape is expected.",
+    "AI Citation Sources has no \"Owned Media\" type: own domains of selected suggestions are classified \"Corporate\" (decathlon.fr, adidas.com) - the CSV wording of TC-011 step 2 should be aligned."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1263-001",
+      "title": "Captured domain logo is shown on every brand surface of the app",
+      "story_id": "GEO-1263",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Target brand row not observable: A1 target brand \"Lictorix Geo\" has 0% visibility (fictional name, AI answers never rank it), so it is not in the top-10 Brand Rankings (Overview: Brandwatch..GWI; Category \"Social Listening Software\": Brandwatch..Cision) and no highlighted target row (bg-amber-50, as seen for Decathlon/adidas) exists to check.",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-001_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-001_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-001_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-001_report_list_row.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-001_overview_sov.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-001_category_view.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-001_competitive_view.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis A1 exists with a captured domain",
+          "expected": "A1 is listed in the analyses list",
+          "data": "A1, logo L1 (licter.com)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the report list",
+          "expected": "The A1 row shows logo L1",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the Overview of A1",
+          "expected": "The dashboard sidebar and header show logo L1",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the target brand row of the brand rankings in Overview shows logo L1",
+          "expected": "Logo L1, not the favicon of a domain cited by the AI answers",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user opens a Category view",
+          "expected": "The target brand row of the rankings shows logo L1",
+          "data": "First category of A1",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user opens a competitive view",
+          "expected": "The target brand shows logo L1",
+          "data": "e.g. the competitor comparison of A1",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "A1 = \"Lictorix Geo\" + website \"https://www.licter.com/fr/about?x=1\" (stored entityDomain licter.com), UUID f228f1fe-9363-4f3c-97e6-e7275bd383e8. Logo L1 = https://www.google.com/s2/favicons?domain=licter.com&sz=64 (Licter \"lic ter\" mark; Brandfetch quota exhausted on staging, favicon of the stored domain is the expected fallback). Report list: row \"Lictorix Geo / licter.com\" with <img> L1 32x32. Overview: dashboard sidebar/header brand block = <img alt=\"Lictorix Geo logo\" class=\"h-10 w-10 rounded-full\"> L1 + \"Lictorix Geo\" (the only brand block of the dashboard header area; no other brand visual in the top bar). Category view: same L1 in the sidebar. A1 target brand \"Lictorix Geo\" has 0% visibility (fictional name, AI answers never rank it), so it is not in the top-10 Brand Rankings (Overview: Brandwatch..GWI; Category \"Social Listening Software\": Brandwatch..Cision) and no highlighted target row (bg-amber-50, as seen for Decathlon/adidas) exists to check. Share of Voice centre label \"Lictorix Geo 0%\" is text only (no visual). Competitive view: competitive prompts of the category (\"Lictorix Geo vs Brandwatch vs Talkwalker vs Agorapulse...\", detail panel \"Lictorix Geo's results - CHATGPT Lost, Brandwatch was chosen\", ChatGPT #4 / Gemini #4) show no brand visual for the target at all (winner cells = competitor favicons) - no surface showing the target in a competitive view was found. No L1 replaced by another favicon anywhere; no lettermark shown for A1."
+    },
+    {
+      "tc_id": "TC-GEO-1263-002",
+      "title": "Captured domain logo is used on the cover and rankings of the PowerPoint and PDF exports",
+      "story_id": "GEO-1263",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Rankings target row not observable in the exports: the target is not in the top-10 \"Brand Rankings\" slide (slide/page 7).",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-002_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-002_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-002_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-002_export_menu.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-002_pptx_slide1_cover_logo.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-002_pdf_rankings_slide7.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Overview of analysis A1 is open",
+          "expected": "The sidebar shows logo L1",
+          "data": "A1, logo L1 (licter.com)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as PowerPoint",
+          "expected": "The .pptx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the cover slide shows logo L1",
+          "expected": "Logo L1 of licter.com",
+          "status": "PASS"
+        },
+        {
+          "title": "And the target brand row of the rankings slide shows logo L1",
+          "expected": "Logo L1, not the favicon of a domain cited by the AI answers",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user exports the analysis as PDF",
+          "expected": "The .pdf file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the cover and the rankings target row of the PDF show logo L1",
+          "expected": "Logo L1 on both",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "A1 = \"Lictorix Geo\" + website \"https://www.licter.com/fr/about?x=1\" (stored entityDomain licter.com), UUID f228f1fe-9363-4f3c-97e6-e7275bd383e8. Export menu (data-testid dashboard-export-trigger-btn): \"PDF\", \"Presentation .pptx\", \"Spreadsheet .xls\". Lictorix_Geo_AI_Visibility_Report.pptx (155 KB, 17 slides) and .pdf (17 image pages, 960x540, no text layer) downloaded and inspected locally in the scratchpad (not kept in the repo). PPTX slide 1 (cover): picture at the brand position = ppt/media/image2.png, which is the licter.com \"lic ter\" logo L1 (TC-GEO-1263-002_pptx_slide1_cover_logo.png). PDF page 1 rendered with pdf.js: same L1 logo left of \"Lictorix Geo\" (step3_then). Slide/page 7 \"How you rank against competitors - Top 10 brands by visibility\": Brandwatch, Meltwater, Talkwalker, Agorapulse, Mention, BuzzSumo, Audiense, Sprout Social, Sprinklr, GWI, each with its own logo; \"Lictorix Geo\" not listed (0% visibility), so the target row logo cannot be checked. No AI-cited domain favicon used on the cover."
+    },
+    {
+      "tc_id": "TC-GEO-1263-003",
+      "title": "Custom brand without website shows the lettermark on every brand surface of the app",
+      "story_id": "GEO-1263",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Target brand row not observable: A2 target brand \"Licter\" has 0% visibility in its discovered categories (LED Lighting, Smart Home Devices), so it is not in the top-10 Brand Rankings (Overview: Philips Hue..Eaton; Category \"LED Lighting\": Acuity Brands..Philips Hue): no target row to check.",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-003_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-003_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-003_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-003_report_list_row.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-003_category_view.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-003_competitive_view.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis A2 exists for a custom brand created without website",
+          "expected": "A2 is listed in the analyses list",
+          "data": "A2, D noted",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the report list",
+          "expected": "The A2 row shows the letter \"L\", not a logo searched by the brand name",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the Overview of A2",
+          "expected": "The dashboard sidebar and header show the letter \"L\", not the favicon of D",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the target brand row of the brand rankings in Overview shows the letter \"L\"",
+          "expected": "Letter \"L\", not the favicon of D",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user opens a Category view",
+          "expected": "The target brand row of the rankings shows the letter \"L\"",
+          "data": "First category of A2",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user opens a competitive view",
+          "expected": "The target brand shows the letter \"L\"",
+          "data": "e.g. the competitor comparison of A2",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "A2 = \"Licter\" (Custom Brand row) + empty website (entityDomain null), UUID 79e18910-041d-454d-bd34-2e4737d4a55a. D = licter.com (AI Citation Sources of A2: licter.com, Corporate, 12 citations, the most cited domain). Created through the \"Custom Brand\" row for \"Licter\" (the dropdown also offers the suggestion \"Licter / licter.com\", not selected); creation body entityDomain null, entityLogoUrl null; GET /reports/{id}: entityDomainConfirmed true, no entityDomain. Report list: row \"Licter\" with span \"L\" (h-8 w-8 rounded-full, bg-red-500), no domain line, no <img>. Overview and Category view sidebar/header brand block: span \"L\" (h-10 w-10 rounded, text-sm, bg-red-500), not the licter.com favicon. Network on a full reload of the A2 dashboard: no /brands/search, no /brands/logo, no s2/favicons?domain=licter.com request (the licter.com favicon only appears as a 24px source icon in the Citation Sources table, which is expected). A2 target brand \"Licter\" has 0% visibility in its discovered categories (LED Lighting, Smart Home Devices), so it is not in the top-10 Brand Rankings (Overview: Philips Hue..Eaton; Category \"LED Lighting\": Acuity Brands..Philips Hue): no target row to check. Competitive prompts (prompts table / detail panel) show no visual for the target. Observation: the sidebar lettermark is a rounded square (4px radius, 40px) while the report list one is a 32px circle - same letter/colour, different shape (same shape as the cover box of the export; existing component, to confirm with PO if relevant)."
+    },
+    {
+      "tc_id": "TC-GEO-1263-004",
+      "title": "Custom brand without website shows the initial on the PowerPoint and PDF exports",
+      "story_id": "GEO-1263",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Rankings target row not observable in the exports: \"Licter\" is not in the top-10 \"Brand Rankings\" slide (slide/page 7).",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-004_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-004_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-004_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-004_pdf_rankings_slide7.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Overview of analysis A2 is open",
+          "expected": "The sidebar shows the letter \"L\"",
+          "data": "A2, D noted",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as PowerPoint",
+          "expected": "The .pptx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the cover slide and the target brand row of the rankings slide show the initial",
+          "expected": "Letter \"L\" on both, never the favicon of D",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user exports the analysis as PDF",
+          "expected": "The .pdf file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the cover and the rankings target row of the PDF show the initial",
+          "expected": "Letter \"L\" on both, never the favicon of D",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "A2 = \"Licter\" (Custom Brand row) + empty website (entityDomain null), UUID 79e18910-041d-454d-bd34-2e4737d4a55a. Licter_AI_Visibility_Report.pptx (17 slides) and .pdf (17 image pages) downloaded and inspected in the scratchpad (not kept in the repo). PPTX slide 1 (cover): the brand box contains the text \"L\" (<a:t>L</a:t>) and no brand picture (only the 4 template pictures: Onclusive logo, InBrief, flag, footer); compare A1 cover which has an extra picture (L1). PDF page 1: grey \"L\" in the square box left of \"Licter\" (step3_then) - never the licter.com favicon (D). Slide/page 7 top-10: Philips Hue, Amazon, Acuity Brands, Google, Cree, GE Lighting, TP-Link, Arlo, Signify, Eaton - \"Licter\" not listed, so the initial on the rankings target row cannot be checked. Cover part of both Then steps: PASS."
+    },
+    {
+      "tc_id": "TC-GEO-1263-005",
+      "title": "Analysis created before the change keeps today's brand logo behaviour",
+      "story_id": "GEO-1263",
+      "priority": "High",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Blocked by test data: QA-GEO has no analysis O = created before the release for a custom brand with no stored brand domain. GET /reports: the pre-release analyses (entityDomainConfirmed false) are BYD (byd.com), adidas (adidas.com), Orange (orange.fr), Toyota (toyota.com) - all with a stored domain and Brandfetch logo URL - and \"kids toys\" (UNBRANDED topic analysis). Baseline screenshots are also missing (B2 still open in the CSV description).",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-005_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-005_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis O created before the release has no stored brand domain",
+          "expected": "O is listed in the analyses list",
+          "data": "O (QA to provide), baseline screenshots",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the report list",
+          "expected": "The O row shows the same logo as the baseline (logo searched by the brand name)",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user opens the Overview of O",
+          "expected": "The sidebar and header show the same logo as the baseline (favicon of the domain most cited by the AI answers)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the target brand row of the rankings shows the same logo as the baseline",
+          "expected": "Favicon of the domain cited by the AI answers, as in the baseline",
+          "data": "Overview and one Category view",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user exports O as PowerPoint",
+          "expected": "The .pptx file is downloaded",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the cover and the rankings target row show the same visuals as the baseline",
+          "expected": "No surface switched to the lettermark or to another logo",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Observation only (not an execution of the TC): for the closest older analysis adidas (7afde4fe-55be-4f53-b91f-241e4c91a234, entityDomainConfirmed false, stored entityLogoUrl = Brandfetch), the report list, sidebar and rankings target row (highlighted adidas row) show the favicon https://www.google.com/s2/favicons?domain=adidas.com, i.e. today's behaviour, not a lettermark (step2_when, step3_then). The new analyses created after the change with a Brandfetch suggestion (Nike cce7a7dc, Decathlon b6c8b664, entityDomainConfirmed true) show the stored Brandfetch logo instead. Screenshots are context only."
+    },
+    {
+      "tc_id": "TC-GEO-1263-006",
+      "title": "Competitor logos and brand variant rows are unchanged by the captured domain",
+      "story_id": "GEO-1263",
+      "priority": "Medium",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Target brand row and its variant rows not observable: A1 target brand \"Lictorix Geo\" has 0% visibility (fictional name, AI answers never rank it), so it is not in the top-10 Brand Rankings (Overview: Brandwatch..GWI; Category \"Social Listening Software\": Brandwatch..Cision) and no highlighted target row (bg-amber-50, as seen for Decathlon/adidas) exists to check.",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-006_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-006_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Overview of analysis A1 is open",
+          "expected": "The brand rankings are displayed",
+          "data": "A1, logo L1 (licter.com)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only the target brand row shows logo L1",
+          "expected": "Logo L1 on the target brand row",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And each competitor row shows its own logo",
+          "expected": "Competitor logos are not replaced by logo L1",
+          "status": "PASS"
+        },
+        {
+          "title": "And the brand variant rows keep their own visuals",
+          "expected": "Variant rows are not replaced by logo L1",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user opens a Category view",
+          "expected": "Same result: L1 on the target brand row only, competitor and variant rows unchanged",
+          "data": "First category of A1",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "A1 = \"Lictorix Geo\" + website \"https://www.licter.com/fr/about?x=1\" (stored entityDomain licter.com), UUID f228f1fe-9363-4f3c-97e6-e7275bd383e8. Overview Brand Rankings displayed (step1_given). Each competitor row shows its own favicon: brandwatch.com, meltwater.com, talkwalker.com, agorapulse.com, mention.com, buzzsumo.com, audiense.com, sproutsocial.com, sprinklr.com, gwi.com - none replaced by L1 (licter.com). Variant rows: the target has no row (0% visibility), hence no target variant rows; expanding a competitor group (Brandwatch +1) shows its variant rows \"Brandwatch\" and \"Brandwatch Consumer Intelligence\" with the brandwatch.com favicon (step2_when) - unchanged, not L1. Category \"Social Listening Software\": competitor rows with their own favicons (Brandwatch, Talkwalker, Agorapulse +1, Mention, Meltwater, BuzzSumo, Sprout Social, NetBase Quid, Sprinklr, Cision), no L1, target absent."
+    },
+    {
+      "tc_id": "TC-GEO-1263-007",
+      "title": "Selected suggestion with neither domain nor logo now shows the lettermark",
+      "story_id": "GEO-1263",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Blocked by test data, as foreseen by the CSV (\"TC blocked if none is found\"): no Brandfetch suggestion with neither domain nor logo was found. GET /geo/api/v1/brands/search for 20 queries (Qzx, Licter, acme, zz, test, local bakery, bar, xy, Smith, Café, Lumo, Ortho, Nova, alpha beta, Le Petit, jean, Kiko, Aurore, Blue, Zeta) returned ~95 suggestions, all with a domain and a logoUrl. In addition, steps 4-5 would require creating a third analysis, not authorized for this run.",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-007_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-007_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Brand & Country step",
+          "expected": "The brand search is empty",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects a suggestion that has neither domain nor logo",
+          "expected": "The selected brand card is displayed, with no website field (GEO-1260 AC-4)",
+          "data": "S0 (QA to find)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the brand card shows the lettermark",
+          "expected": "The avatar shows the initial of S0, no domain under the name",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user creates the analysis and opens it once a run is completed",
+          "expected": "The dashboard of the analysis opens",
+          "data": "Default categories and prompts",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the lettermark is shown in the sidebar, header and rankings target row",
+          "expected": "The initial of S0, never a logo searched by name or the favicon of a domain cited by the AI answers",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Given executed: Brand & Country step with an empty brand search (step1_given). Dropdowns for \"Zeta\" and \"acme\" shown as evidence that every suggestion has a domain/logo (step2_when, step3_then). Wizard left via Back to Dashboard > Exit and Discard, nothing created."
+    },
+    {
+      "tc_id": "TC-GEO-1263-008",
+      "title": "Prompts table shows the captured-domain logo for the target brand as winner",
+      "story_id": "GEO-1263",
+      "priority": "High",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Precondition not met (CSV: \"At least one prompt of A1 has \"Licter\" as winner ... to confirm at execution\"): in A1 no prompt has the target as winner. Winner cells of the Visibility/Competitive prompts: Social Listening Software = Brandwatch x17, Unranked x2, Lost x1; Audience Intelligence = Lost x7, Unranked x10, Split x2, Brandwatch x1. The A1 brand name is \"Lictorix Geo\" (fictional, as agreed because \"Licter\" is a Brandfetch suggestion), so AI answers never pick it.",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-008_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-008_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Overview of analysis A1 is open",
+          "expected": "The sidebar shows logo L1",
+          "data": "A1, logo L1 (licter.com)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the prompts table of A1",
+          "expected": "The prompts are listed with their winner",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user locates a prompt whose winner is the target brand",
+          "expected": "The prompt row shows \"Licter\" as winner",
+          "data": "\"Licter\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the winner cell shows logo L1",
+          "expected": "Logo L1 of licter.com, not a lettermark and not the favicon of a domain cited by the AI answers",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "A1 = \"Lictorix Geo\" + website \"https://www.licter.com/fr/about?x=1\" (stored entityDomain licter.com), UUID f228f1fe-9363-4f3c-97e6-e7275bd383e8. Given: sidebar shows L1 (step1_given). Prompts table (\"Prompts Analysis\", columns Type / Prompt / Winner / Themes / Country, 30 prompts per category) listed with winners; winner cells show the winner favicon (e.g. brandwatch.com) (step2_when, step3_then). Not verifiable: the winner cell of a target-won prompt."
+    },
+    {
+      "tc_id": "TC-GEO-1263-009",
+      "title": "Prompts table shows the lettermark for a custom brand without website as winner",
+      "story_id": "GEO-1263",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Precondition not met (CSV: \"At least one prompt of A2 has \"Licter\" as winner ... to confirm at execution\"): in A2 no prompt has \"Licter\" as winner. Winner cells: LED Lighting = Acuity Brands x8, Unranked x7, Signify x3, Cree x1, Lost x1; Smart Home Devices = Amazon/Amazon Echo x8, Lost x5, Unranked x6, Google Nest x1. Category discovery without website gave LED Lighting / Smart Home Devices (Brandfetch quota degrades discovery on staging, GEO-1179), where Licter is never chosen.",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-009_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-009_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Overview of analysis A2 is open",
+          "expected": "The sidebar shows the letter \"L\"",
+          "data": "A2, D noted",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the prompts table of A2",
+          "expected": "The prompts are listed with their winner",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user locates a prompt whose winner is the target brand",
+          "expected": "The prompt row shows \"Licter\" as winner",
+          "data": "\"Licter\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the winner cell shows the lettermark",
+          "expected": "Letter \"L\", never the favicon of D nor a logo searched by the brand name",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "A2 = \"Licter\" (Custom Brand row) + empty website (entityDomain null), UUID 79e18910-041d-454d-bd34-2e4737d4a55a. Given: sidebar shows the letter \"L\" (step1_given). Prompts tables of both categories listed with winners (step2_when, step3_then). Not verifiable: the winner cell of a target-won prompt."
+    },
+    {
+      "tc_id": "TC-GEO-1263-010",
+      "title": "Category discovery uses the captured website as the brand domain, like a selected suggestion",
+      "story_id": "GEO-1263",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-010_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-010_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user selects the suggestion \"Nike\", adds a market and clicks \"Discover Categories\"",
+          "expected": "The category discovery request is visible in DevTools; the field carrying \"nike.com\" is noted as the brand domain field",
+          "data": "S = \"Nike\" (nike.com), United States / English (EN), DevTools Network",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user goes back, selects the \"Custom Brand\" row (Licter) and enters the website",
+          "expected": "\"licter.com\" is shown under the brand name, no error",
+          "data": "C = \"Licter\", \"licter.com\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks \"Discover Categories\"",
+          "expected": "The discovery loading screen is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the discovery request carries the captured domain as the brand domain",
+          "expected": "The brand domain field noted for \"Nike\" contains \"licter.com\"",
+          "data": "DevTools Network",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same wizard, nothing created (left via Back to Dashboard > Exit and Discard). S = \"Nike\" suggestion (nike.com) + United States / English (EN) > Discover Categories: POST /geo/api/v1/analysis/discover-categories body {\"entityName\":\"Nike\",\"entityDomain\":\"nike.com\",...} -> brand domain field = entityDomain (categories Athletic Shoes, Athletic Apparel). Back > clear > \"Custom Brand\" row: C = \"Lictorix Geo\" (test data adapted as in GEO-1260/1261 runs: \"Licter\" is itself a Brandfetch suggestion) + website \"licter.com\" + blur: \"licter.com\" under the brand name, licter.com favicon logo, aria-invalid=false, no error, market kept. Discover Categories: \"Discovering Categories - Scanning how AI engines see Lictorix Geo across your markets.\" (step3_then), request body {\"entityName\":\"Lictorix Geo\",\"entityDomain\":\"licter.com\",...} -> categories Social Listening Tools, Audience Intelligence. The brand domain field noted for Nike contains \"licter.com\"."
+    },
+    {
+      "tc_id": "TC-GEO-1263-011",
+      "title": "Sources on the captured domain are treated as the brand's own domain",
+      "story_id": "GEO-1263",
+      "priority": "Medium",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Step 2 expectation \"Owned Media\" cannot be met as written: the AI Citation Sources types are Corporate, Review Sites, Academic, Journalism, Aggregators, Other, Social / UGC, Press Release, Gov / NGO - there is no \"Owned Media\" type. licter.com is classified \"Corporate\", exactly like the own domain of a selected suggestion (decathlon.fr / decathlon.co.uk in Decathlon b6c8b664, adidas.com / adidas.co.in in adidas). CSV adaptation proposed.",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-011_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-011_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-011_step3_then.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-011_step3_when_target_sources.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis A1 is open and its AI answers cite licter.com",
+          "expected": "licter.com is listed in AI Citation Sources",
+          "data": "A1, licter.com",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads how licter.com is classified in AI Citation Sources",
+          "expected": "The classification of licter.com is recorded (Owned Media expected, as for the domain of a selected suggestion)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user opens the Target Sources of the Action Center",
+          "expected": "The target source cards are listed",
+          "data": "A1",
+          "status": "PASS"
+        },
+        {
+          "title": "Then licter.com is never proposed as a target source",
+          "expected": "No target source card for licter.com (owned domain excluded, as for a selected suggestion)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "A1 = \"Lictorix Geo\" + website \"https://www.licter.com/fr/about?x=1\" (stored entityDomain licter.com), UUID f228f1fe-9363-4f3c-97e6-e7275bd383e8. Given: licter.com listed in AI Engines Citation Sources (Corporate, 7 citations, 3rd domain) (step1_given, step2_when with the row outlined). Action Center > Target Sources: 83 sources (12 shown + \"Show 71 more sources\" expanded), cards IMPROVE VISIBILITY/PERCEPTION; licter.com is not among them (DOM text check of all 83 cards; brandwatch.com, a competitor domain, is not proposed either). Then PASS. Limit of the evidence: in A2 (no captured domain) licter.com is not proposed as a target source either, so the exclusion in A1 cannot be attributed to the captured domain alone (A2 sources may be excluded because the brand \"Licter\" is visible in those articles)."
+    },
+    {
+      "tc_id": "TC-GEO-1263-012",
+      "title": "Competitor discovery treats the captured domain as the analysed brand's domain",
+      "story_id": "GEO-1263",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Requires analysis B (custom brand whose website has a known sub-brand, e.g. website \"nike.com\" with sub-brand \"Jordan\", category with Competitive prompts only, run completed). Only two analyses (A1, A2) were authorized for this run, so B was not created; no existing analysis in QA-GEO matches B (the Nike analysis cce7a7dc is a selected suggestion, not a custom brand).",
+      "screenshots": [
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-012_step1_given.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-012_step2_when.png",
+        "screenshots-GEO-1069-GEO1263-mcp/TC-GEO-1263-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis B exists with a custom brand whose website has a known sub-brand",
+          "expected": "B is listed with at least one run completed",
+          "data": "B, e.g. website \"nike.com\", sub-brand \"Jordan\" (jordan.nike.com)",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the Competitive results of the market and category that keep only Competitive prompts",
+          "expected": "The Competitive prompts were sent with competitors named in place of the placeholders",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then no competitor named belongs to the captured domain",
+          "expected": "\"Jordan\" (or any brand whose website is on the captured domain) is not among the competitors, as for the selected suggestion \"Nike\"",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Screenshots are context only (report list without B, A1 category rankings, A1 competitive prompt panel). To run: create B per the CSV precondition (user approval needed)."
+    }
+  ]
+}

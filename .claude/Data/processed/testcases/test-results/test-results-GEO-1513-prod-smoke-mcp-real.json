@@ -1,0 +1,53 @@
+{
+  "spec": "GEO-1513-prod-smoke-mcp",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "environment": "production (read-only smoke, GEO-R1.3 go-live)",
+  "url": "https://geo.onclusive.com/geo/",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "skip": 1,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1184-001",
+      "title": "TC-GEO-1184-001 - Prompts sort orders the cards by descending prompt count",
+      "story_id": "GEO-1184",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Prerequisite not available in production: no prod analysis has Target Sources. GET /target-sources for Toyota (afcdc69f) and Bosch (b1600449) returns 200 {state: VERIFYING, verificationNeverRan: true, totalSources: 0}; the Action Center shows \"Sources not verified for this period - Results will be available after the next scheduled run.\" and no card and no \"Sort by\" control are rendered.",
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the chosen analysis",
+          "status": "SKIP",
+          "note": "Action Center opened on Toyota (afcdc69f) then Bosch (b1600449). \"Last 7 days\" preset disabled (last snapshot 4 Sept 2026, pre-release analyses); default window 29 Aug - 4 Sept and \"Last 3 months\" tried. Empty state \"Sources not verified for this period\"; no \"Sort by\" control, no card."
+        },
+        {
+          "title": "When the user opens \"Sort by\" and selects \"Prompts\"",
+          "status": "SKIP",
+          "note": "No \"Sort by\" control rendered (no card). API check: GET target-sources ...&sort=PROMPTS -> 200, totalSources 0."
+        },
+        {
+          "title": "Then the cards are in descending order of their prompt count",
+          "status": "SKIP",
+          "note": "No card to compare."
+        },
+        {
+          "title": "And the ranks are renumbered from 1",
+          "status": "SKIP",
+          "note": "No card to compare."
+        }
+      ],
+      "notes": "Production read-only smoke, 29/10/2026. Toyota and Bosch: verificationNeverRan = true (Target Sources verification has never run on prod for these pre-release analyses, last snapshot 4 Sept). Car insurance (UNBRANDED): GET /reports/{id}/target-sources -> 404 \"Report not found\" (QA probe from the console, not triggered by the UI; unbranded analysis, Action Center not expected). To execute once a BRAND analysis with verified Target Sources exists in prod (after the next scheduled run of a running analysis).",
+      "screenshots": [
+        "screenshots-GEO-1513-prod-smoke-mcp/TC-GEO-1184-001_step1_given.png",
+        "screenshots-GEO-1513-prod-smoke-mcp/TC-GEO-1184-001_step2_when.png",
+        "screenshots-GEO-1513-prod-smoke-mcp/TC-GEO-1184-001_step3_then.png"
+      ]
+    }
+  ]
+}

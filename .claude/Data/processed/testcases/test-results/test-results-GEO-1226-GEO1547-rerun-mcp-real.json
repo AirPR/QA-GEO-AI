@@ -1,0 +1,706 @@
+{
+  "spec": "GEO-1226-GEO1547-rerun-mcp",
+  "runDate": "2026-11-04",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "rerunOf": "test-results-GEO-1226-GEO1547-mcp-real.json",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "environment": {
+    "auth_me_start": "2026-11-04 12:22 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "auth_me_end": "2026-11-04 12:43 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "period": "Last 7 days (default; from 2026-10-29 to 2026-11-04). The panel returns the data of the latest snapshot in the window: forced-crawl snapshots 2026-11-04 11:42 UTC (Orange 81817a30, Toyota 0d323dcb). Same panel data with from=to=2026-11-04; a window ending 2026-11-03 returns the old run (reviewCount 0, pages []). UI period options: Latest report, Last 7 days, Last 30 days, Last 3 months, Last 12 months, All reports.",
+    "filters": "Orange: AI Engines gemini + openai (default), All Countries. Toyota: gemini, grok, openai, perplexity (default), All Countries.",
+    "step0_api": {
+      "orange_16cdf040_trustpilot": [
+        "fr.trustpilot.com/review/www.orange.ma: grouped true, reviewCount 20, pages 2 (p1, p4), reviews 20",
+        "fr.trustpilot.com/review/www.orange.fr: grouped false, reviewCount 10, pages 1, reviews 10",
+        "www.trustpilot.com/review/www.orange.fr: grouped false, reviewCount 0, pages 0, classic passage",
+        "fr-be.trustpilot.com/review/www.orange.ma: grouped false, reviewCount 10, pages 1, reviews 10",
+        "www.trustpilot.com/review/www.orange.ma: grouped true, reviewCount 30, pages 3 (p1, p2, p4), reviews 30",
+        "ie.trustpilot.com/review/www.orange.ma?page=2: grouped false, reviewCount 0, pages 0, classic passage"
+      ],
+      "toyota_439acd96_review_sites": [
+        "edmunds.com: corolla-hybrid/2023 rc 10, sequoia rc 10, 2026-toyota-rav4-opinions rc 6, corolla-hybrid/2026/consumer-reviews rc 3, sequoia/2024/suv/consumer-reviews rc 3 (pages 1 each); 7 other NAMED_NEGATIVELY pages classic (rc 0)",
+        "consumerreports.org camry-hybrid rc 6; ocu.org TOYOTA ESPAÑA SLU rc 4; carwow.es toyota/rav4 rc 7; carmax.com/reviews/toyota rc 9; auto123.com 2 pages rc 2; cardekho.com 1 page rc 2; quecochemecompro.com toyota-rav4 rc 1",
+        "trustpilot.com: fr.trustpilot.com/review/toyota.fr and www.trustpilot.com/review/toyota.es classic (rc 0, passage), es.trustpilot.com/review/toyota.es grouped true, reviewCount 0, pages [] (no passage)"
+      ],
+      "decathlon_b6c8b664_not_forced": "run 2026-11-04 09:27 UTC (before the forced crawl): trustpilot grouped articles still reviewCount 0 / pages []"
+    },
+    "live_pages": "Trustpilot (403 AWS WAF), Edmunds (403), Consumer Reports (403), CarMax and Auto123 (unreachable) block the test browser; OCU, carwow.es, quecochemecompro.com, cardekho.com and boutique-box-internet.fr are reachable.",
+    "read_only": "Only GET calls and UI filter changes (type filter, period). No analysis created / deleted, no setting changed, no Manage Scope save."
+  },
+  "summary": {
+    "total": 19,
+    "pass": 6,
+    "fail": 5,
+    "skip": 6,
+    "partial": 2,
+    "successRate": 36.8,
+    "successRateExecuted": 53.8,
+    "verdict": "NO-GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1547-001",
+      "title": "Page with 4 negative reviews lists 4 entries, one per review",
+      "story_id": "GEO-1547",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And each entry is a different review of the live page\" - expected: \"The 4 entries match 4 different reviews (4 different users) of page P; no review is listed twice\". Observed (Orange 16cdf040, trustpilot.com, article \"Orange Maroc Reviews\", page block https://www.trustpilot.com/review/www.orange.ma, \"10 negative reviews\"): the same review is listed twice in the block - entries 1 and 5 \"⚠️ A WARNING TO ANYONE CONSIDERING BUYING THROUGH ORANGE MAROC'S ONLINE STORE. I paid 222 MAD for a service that I never received, and I am…\" and entries 4 and 7 \"Unfortunately I can't give them 0/5. Absolutely awful service. Even the 1Mbps they used to provide previously (for 250DH!!!) is a pipe…\" -> 8 distinct reviews for a count of 10 (API: reviews[] of page 1 holds the same duplicates, reviewCount 10).",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-001_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-001_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the live page P of one page block and counts the reviews that criticise the brand",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page block of P lists one entry per negative review",
+          "status": "PASS"
+        },
+        {
+          "title": "And each entry is a different review of the live page",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Data: (1) Toyota 439acd96 ocu.org \"Reclamaciones y opiniones TOYOTA ESPAÑA SLU | OCU\" (single-company complaints page, Review Sites): \"4 NEGATIVE REVIEWS\" + 4 entries; live page (reachable) shows 5 complaints: the 4 listed ones (J. M. 02/11, D. D. 07/10, \"Problemas inyector Adblue\", \"Reclamación Toyota Yaris Batería\") + 1 unfilled OCU template complaint (\"Estimados/as señores/as: En fecha [….] adquirí en su [elegir una opción…]\") not listed - 4 different users, no duplicate -> one entry per negative review OK on this page. (2) Orange trustpilot.com (TC example data): Trustpilot blocks the test browser (HTTP 403 AWS WAF, also via curl) so live counting is impossible there, but the duplicates are visible in the panel itself. Same pattern on pages ?page=2 and ?page=4 of www.orange.ma and ?page=4 of fr.trustpilot.com/review/www.orange.ma: their first 4 entries are the first 4 entries of page 1 (see SIDE_trustpilot_page2_repeats_page1.png) - looks like the capture keeps the highlighted reviews shown on every page."
+    },
+    {
+      "tc_id": "TC-GEO-1547-002",
+      "title": "Review longer than 140 characters is cut with a single \"…\" on a word boundary",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-002_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-002_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-002_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-002_obs_live_ocu.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user locates the entry of the review longer than 140 characters",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user compares the entry with the full review on the live page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the entry is at most 140 characters including \"…\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the cut falls on a word boundary",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96, ocu.org page block (4 entries): \"El pasado 30/4/2026 compré un vehículo de ocasión en el concesionario Toyota Gamboa y al cabo de un tiempo oberservé un chinazo en el…\" (134 chars), \"Estimados/as señores/as: En fecha 23/07/2026 llevé a pasar la revisión anual un Toyota RAV 4 , como todos los años a un taller oficial…\" (135), \"Estimados señores: Por medio de la presente queremos presentar una reclamación formal en relación con una avería sufrida en nuestro…\" (132), \"Por medio de la presente, quiero presentar una reclamación relacionada con mi Toyota Yaris, adquirido en marzo de 2025 mediante un plan de…\" (139) - lengths include the \"…\". DOM check: each ends with one U+2026, no \"...\" or \"……\". Live page (www.ocu.org, reachable): each text before \"…\" is the exact beginning of the complaint (same words, case, punctuation, Spanish), and the next live character is a space (\"en el| parabrisas\", \"oficial| TOYORA\", \"nuestro| vehículo\", \"plan de| financiación\") -> cut on a word boundary. API sweep of every review entry of Orange + Toyota (Last 7 days): max 140 chars, no double ellipsis."
+    },
+    {
+      "tc_id": "TC-GEO-1547-003",
+      "title": "Review of 140 characters or less is shown whole without \"…\"",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-003_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-003_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user locates the entry of the review of 140 characters or less",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user compares it with the review on the live page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the entry does not end with \"…\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96, carwow.es/toyota/rav4 (\"7 NEGATIVE REVIEWS\"): \"Materiales y calidad percibida por debajo del precio\" (52 chars), \"Detalles de confort trasero demasiado justos\" (44), \"Carga inalámbrica sin ventilación\" (33) are shown in quotes, without \"…\", and each equals the whole text of its <li> on the live page (reachable). Also quecochemecompro.com \"Cambio ruidoso, precios elevados\" (32) = the whole \"Lo mejorable\" line of the live page. Limits: these are short items of editorial / expert review pages; no reachable page offered a 130-140 character review (Trustpilot, Edmunds, Consumer Reports and CarMax block the test browser), so the 130-140 boundary itself was not observed on a live page."
+    },
+    {
+      "tc_id": "TC-GEO-1547-004",
+      "title": "Review that does not name the brand is listed on a review page",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-004_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-004_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the entries of the page blocks",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a negative review that does not name the brand is listed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the review is found verbatim on the page of its page block",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96, ocu.org single-company page \"TOYOTA ESPAÑA SLU\": entry \"Estimados señores: Por medio de la presente queremos presentar una reclamación formal en relación con una avería sufrida en nuestro…\" names neither Toyota nor a model, and is found verbatim on the live page (complaint \"Problemas inyector Adblue\", which goes on \"…nuestro vehículo Toyota Proace City\"). Orange trustpilot.com also lists brand-less reviews, e.g. \"Nul il sont pas sérieux internet faible et surtout pas stable sa coupe tt le temps\" and \"Service client archi nul ! Une calamité ! …\" (fr.trustpilot.com/review/www.orange.ma) - live check impossible there (Trustpilot 403)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-006",
+      "title": "No entry is a page title, menu, banner or site summary",
+      "story_id": "GEO-1547",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And no entry is a menu, a banner or a summary written by the site\" - expected: \"No navigation, cookie banner, TrustScore / rating summary or site-generated text in any entry\". Observed (Toyota 439acd96, Review Sites sources in review mode): auto123.com/fr/vehicules-neufs/recherche/toyota (\"Véhicules neufs Toyota - Autos, VUS, Camions - Auto123\", \"2 NEGATIVE REVIEWS\") lists the site's own brand presentation: \"La marque nippone Toyota a toujours été synonyme de qualité et de fiabilité. Couvrant presque toutes les catégories de véhicules en…\" and \"La première Toyota débarque aux États-Unis en 1957 et essuie un échec cuisant. Portant un nom ridicule et manquant de jus pour les routes…\"; edmunds.com/toyota/corolla-hybrid/2023 first entry is the Edmunds verdict summary \"The 2023 Corolla Hybrid is a comfortable small hybrid sedan whose biggest appeal lies in its low cost of entry, available all-wheel drive…\"; edmunds.com/toyota/sequoia first entry \"Among large SUVs, the 2026 Toyota Sequoia stands out for its powerful yet efficient engine. It's also as adept at towing heavy loads as it…\".",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-006_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-006_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-006_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-006_obs_edmunds_summary.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads every entry of every page block, after clicking \"Show N more reviews\" if present",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no entry is the page title",
+          "status": "PASS"
+        },
+        {
+          "title": "And no entry is a menu, a banner or a summary written by the site",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "All page blocks read after \"Show N more reviews\". No entry is a page title on the review-mode blocks; on Orange trustpilot.com (TC example data) no title, menu, cookie banner or TrustScore text in any entry. Live pages of auto123 (connection refused) and edmunds (HTTP 403) cannot be opened from the test environment; the verdict rests on the entry text (brand presentation on a \"new vehicles\" search page, editorial verdict paragraph)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-007",
+      "title": "No entry is a positive review or a reply from the company",
+      "story_id": "GEO-1547",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"Then no entry is a positive review\" - expected: \"Every entry criticises the brand; the positive reviews of the page are not listed\". Observed (Toyota 439acd96, cardekho.com, page cardekho.com/user-review/toyota-fortuner/no1-suv-of-all-time-331732.htm, \"2 NEGATIVE REVIEWS\"): entry \"Toyota should upgrade more to make it more luxurious interior.\" is the last sentence of Vishwajit Konsam's 4.5-star review \"No1 SUV Of All Time.\" (\"Most reliable suv for now. Less maintenance. Rugged build. …\"); entry \"Fortuner 9/10. Beast on the road, powerful engine, great road presence and reliable performence, mileage and the price could be better.…\" is Rrakesh's 4.2-star review \"Beast On The Road\". Both reviews are positive (checked on the live page). Also auto123.com/fr/vehicules-neufs/recherche/toyota lists \"La marque nippone Toyota a toujours été synonyme de qualité et de fiabilité. …\" (favourable sentence).",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-007_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-007_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user compares each entry with the live page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no entry is a positive review",
+          "status": "FAIL"
+        },
+        {
+          "title": "And no entry is a reply from the company",
+          "status": "PASS"
+        }
+      ],
+      "notes": "No company reply text found in any entry (Orange, Toyota). Positive control: boutique-box-internet.fr/orange/avis lists none of the 9 positive / mixed reviews quoted on the live page (Timothée, Cequad, Perin, Psyché 1708, Anto…)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-008",
+      "title": "Page with more than 10 negative reviews keeps 10 entries and counts 10",
+      "story_id": "GEO-1547",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-008_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-008_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show N more reviews\" if present",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user counts the negative reviews of that page on the live page",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the page block lists 10 entries",
+          "status": "PASS"
+        },
+        {
+          "title": "And the page block count reads \"10 negative reviews\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Orange 16cdf040 trustpilot.com after \"Show 10 / 20 more reviews\": every page block (fr.trustpilot.com/review/www.orange.ma, ?page=4, fr.trustpilot.com/review/www.orange.fr, fr-be…/www.orange.ma, www.trustpilot.com/review/www.orange.ma, ?page=2, ?page=4) lists exactly 10 entries and reads \"10 negative reviews\"; no text says that more exist (API: reviewCount 10, reviews[] length 10 on every page). Not verifiable: \"the user counts the negative reviews of that page on the live page\" - Trustpilot and Edmunds block the test browser (HTTP 403); boutique-box-internet.fr/orange/avis (10 entries) is reachable but shows only 6 negative quoted reviews in its article and 4 of the 10 entries (\"Orange Replay quel enfer !!!…\", \"Demande raccordement fibre faite le 6 avril…\", \"Orange vous facture votre installation de fibre…\", \"Un débit fibre de 15 à 20 fois moins…\") are not on the rendered page (comments widget stays on \"Loading comments…\"), so \"more than 10 negative reviews on the page\" cannot be confirmed. Note: in the www.orange.ma page-1 block, 2 of the 10 entries are duplicates (see TC-GEO-1547-001)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-009",
+      "title": "Page with one negative review is negative",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-009_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-009_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then page P shows as a page block with its count",
+          "status": "PASS"
+        },
+        {
+          "title": "And the article of page P is counted in the Negative perception tab",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96, quecochemecompro.com (#13, chip \"Review Sites\"): header \"#13 · quecochemecompro.com\", tab \"Negative perception (1)\" active, subtitle \"Each of these articles mentions Toyota negatively.\"; article \"Opiniones Toyota RAV4 Híbrido\" (quecochemecompro.com/opiniones/toyota-rav4) shows \"1 negative review\" (rendered upper-case) with 1 entry \"Cambio ruidoso, precios elevados\"; the article is listed and counted in \"Negative perception (1)\". One-page article: the URL line and the count are under the title (no separate page-block header). Live page: expert page whose only negative item is the \"Lo mejorable: Cambio ruidoso, precios elevados\" line (expert ratings 3.5-4.5)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-010",
+      "title": "Review page with no negative review is not in Negative perception",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-010_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-010_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no page block is shown for page P",
+          "status": "PASS"
+        },
+        {
+          "title": "And an article whose pages all hold no negative review is not listed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96, cardekho.com: the user-review page cardekho.com/user-review/toyota-fortuner/toyota-fortuner-336690.htm (Hitansh Yadav 4.2-star + 4.5 / 5-star reviews, verdict NAMED_NOT_NEGATIVE in the API positive[]) has no page block and is absent from \"Negative perception (1)\", which lists only no1-suv-of-all-time-331732. Observation: quecochemecompro.com/opiniones/toyota-corolla-sedan (not negative, absent) has the same layout as the rav4 page judged negative, including a \"Lo mejorable\" line (\"Cambio CVT, sin opciones de personalización, sin motor HSD 180 CV\") - not used as TC data because it is not a page with only positive content."
+    },
+    {
+      "tc_id": "TC-GEO-1547-014",
+      "title": "Every entry is found verbatim on the live page",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-014_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-014_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-014_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-014_obs_live_carwow.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens each page block link and searches the text of each entry on the live page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every entry is found verbatim on its page",
+          "status": "PASS"
+        },
+        {
+          "title": "And the entries stay in the page language",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Spanish review pages of Toyota 439acd96 under the en-GB interface: carwow.es/toyota/rav4 (7 entries) and ocu.org TOYOTA ESPAÑA SLU (4 entries). Each of the 11 entries (text before \"…\") was searched in the live page text: 11/11 found verbatim, in Spanish, no paraphrase, no translation, no text merged from two reviews. Verisure 183bdb00 / es.trustpilot.com (example data) is not reachable from QA-GEO."
+    },
+    {
+      "tc_id": "TC-GEO-1547-015",
+      "title": "Cap and cut together on a page with more than 10 negative reviews",
+      "story_id": "GEO-1547",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-015_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-015_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show N more reviews\" if present",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page block lists 10 entries and reads \"10 negative reviews\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the long review entry ends with \"…\" on a word boundary",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Orange trustpilot.com page blocks after \"Show N more reviews\": 10 entries and \"10 negative reviews\" per page (PASS). Long reviews are cut: e.g. \"Service client et réseau absolument déplorables. Client fibre, je paie chaque mois pour un service censé être stable et performant, mais la…\" (140 chars incl. \"…\"), single U+2026, last token a whole French word. Not verifiable: the page holding >= 11 negative reviews and the word boundary against the live review - Trustpilot blocks the test browser (HTTP 403), so the comparison with the source text cannot be made (rely on TC-GEO-1547-002 for the cut rule)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-016",
+      "title": "Reviews are still shown after a later run reuses the page verdict",
+      "story_id": "GEO-1547",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-016_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-016_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user notes the entries of page P on run R1",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user selects the snapshot of the next run R2 and reopens the panel",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then page P still shows its review entries",
+          "status": "SKIP"
+        },
+        {
+          "title": "And page P does not fall back to a single passage",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Prerequisite missing: two runs after the fix that both stored reviews. Orange / Toyota have only one run with stored reviews (forced crawl, snapshot 2026-11-04 11:42 UTC); the 2026-11-03 14:57 run has reviewCount 0 / pages [] everywhere (Firecrawl key capped). Run R1 entries cannot be noted, so the reuse of the verdict at R2 cannot be observed. Rerun after the next daily run (Orange / Toyota run daily ~14:57 UTC) using 04/11 11:42 as R1. Hash / reuse confirmation still needs dev evidence."
+    },
+    {
+      "tc_id": "TC-GEO-1547-019",
+      "title": "GEO-1204 Victoria's Secret uk.trustpilot.com now negative with review entries",
+      "story_id": "GEO-1547",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/0bd0b48c-e78a-4e43-b607-f0318b48f6ba/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-019_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-019_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the uk.trustpilot.com article is listed",
+          "status": "SKIP"
+        },
+        {
+          "title": "And it shows review entries, not the page header",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the www.trustpilot.com article shows review entries too",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Analysis in organisation \"GEO Stress Test 2026-10\" (ONE_TIME): GET /geo/api/v1/reports/{uuid} returns 404 from QA-GEO (checked 2026-11-04 12:40 UTC; dashboard stays on the loading spinner). Running it needs an organisation switch of the main account (account setting change, forbidden in this read-only rerun) and a post-deploy re-run of the analysis by the dev. To run after: dev forces MSC / Victoria's Secret / Verisure (+ USPS uuid), then user approves the org switch."
+    },
+    {
+      "tc_id": "TC-GEO-1547-020",
+      "title": "GEO-1204 MSC fr.trustpilot.com shows review entries instead of the header passage",
+      "story_id": "GEO-1547",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/dc801726-99e5-4e53-bf72-87b469ed5098/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-020_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-020_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-020_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the fr.trustpilot.com article shows review entries",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no entry is the page header",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Analysis in organisation \"GEO Stress Test 2026-10\" (ONE_TIME): GET /geo/api/v1/reports/{uuid} returns 404 from QA-GEO (checked 2026-11-04 12:40 UTC; dashboard stays on the loading spinner). Running it needs an organisation switch of the main account (account setting change, forbidden in this read-only rerun) and a post-deploy re-run of the analysis by the dev. To run after: dev forces MSC / Victoria's Secret / Verisure (+ USPS uuid), then user approves the org switch."
+    },
+    {
+      "tc_id": "TC-GEO-1547-021",
+      "title": "GEO-1204 Verisure es.trustpilot.com now negative with review entries",
+      "story_id": "GEO-1547",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/183bdb00-e80a-4d98-8866-e3dc5645900c/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-021_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-021_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-021_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the es.trustpilot.com article is in Negative perception",
+          "status": "SKIP"
+        },
+        {
+          "title": "And it shows its Spanish negative reviews as entries",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the article is not in Lack of visibility with a negative passage",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Analysis in organisation \"GEO Stress Test 2026-10\" (ONE_TIME): GET /geo/api/v1/reports/{uuid} returns 404 from QA-GEO (checked 2026-11-04 12:40 UTC; dashboard stays on the loading spinner). Running it needs an organisation switch of the main account (account setting change, forbidden in this read-only rerun) and a post-deploy re-run of the analysis by the dev. To run after: dev forces MSC / Victoria's Secret / Verisure (+ USPS uuid), then user approves the org switch."
+    },
+    {
+      "tc_id": "TC-GEO-1547-022",
+      "title": "GEO-1192 Trustpilot pages fixed in GEO-1192 stay negative",
+      "story_id": "GEO-1547",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/dc801726-99e5-4e53-bf72-87b469ed5098/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-022_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-022_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-022_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the MSC fr.trustpilot.com article is in Negative perception",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the Victoria's Secret nl-be.trustpilot.com and www.trustpilot.com articles are in Negative perception",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no negative passage shows with a not negative verdict",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Analysis in organisation \"GEO Stress Test 2026-10\" (ONE_TIME): GET /geo/api/v1/reports/{uuid} returns 404 from QA-GEO (checked 2026-11-04 12:40 UTC; dashboard stays on the loading spinner). Running it needs an organisation switch of the main account (account setting change, forbidden in this read-only rerun) and a post-deploy re-run of the analysis by the dev. To run after: dev forces MSC / Victoria's Secret / Verisure (+ USPS uuid), then user approves the org switch."
+    },
+    {
+      "tc_id": "TC-GEO-1547-023",
+      "title": "GEO-1192 non-review pages fixed in GEO-1192 stay negative with one passage",
+      "story_id": "GEO-1547",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/183bdb00-e80a-4d98-8866-e3dc5645900c/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-023_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-023_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-023_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the panel of each source and selects the tab \"Negative perception\"",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the routard.com forum page, the prc.gov PDF and the comparador-alarmas.es page are in Negative perception",
+          "status": "SKIP"
+        },
+        {
+          "title": "And each of them shows one negative passage",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Analysis in organisation \"GEO Stress Test 2026-10\" (ONE_TIME): GET /geo/api/v1/reports/{uuid} returns 404 from QA-GEO (checked 2026-11-04 12:40 UTC; dashboard stays on the loading spinner). Running it needs an organisation switch of the main account (account setting change, forbidden in this read-only rerun) and a post-deploy re-run of the analysis by the dev. To run after: dev forces MSC / Victoria's Secret / Verisure (+ USPS uuid), then user approves the org switch. The USPS analysis uuid is still unknown."
+    },
+    {
+      "tc_id": "TC-GEO-1547-024",
+      "title": "GEO-1224 no title, menu, cookie banner or favourable sentence on non-review sources",
+      "story_id": "GEO-1547",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"Then no passage is a page title, a cookie banner, a menu or a favourable sentence\" - expected: \"Every passage is a criticism of the brand\". Observed (Toyota 439acd96, Last 7 days, run 2026-11-04 11:42 UTC): automobile-magazine.fr \"Défauts de batterie 12 V chez Toyota et Lexus : attention, vous pourriez rester enfermé ! - L'Automobile Magazine\" (= the page <title>, site name included); \"Essai Toyota bZ4X : la 1ère 100% électrique de Toyota enfin à l’épreuve des mesures Publié le 02/11/2023 à 08h45 share Partager :\" (H1 + publication date + share widget); \"La Toyota Corolla, l’une des voitures japonaises les plus emblématiques risque de devenir chinoise dès 2028\" (= article title); caradisiac.com \"Un essai vérité et une expérience mitigée : Abel et Audrey nous parlent de leur Toyota Yaris Cross 130 hybride GR Sport\" (= article title, word for word).",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-024_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-024_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-024_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-024_obs_caradisiac_title.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-024_obs_autoplus_join.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panels of the Journalism sources caradisiac, autoplus and automobile-magazine and selects \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no passage is a page title, a cookie banner, a menu or a favourable sentence",
+          "status": "FAIL"
+        },
+        {
+          "title": "And a criticism far from the brand name is joined to the nearest brand name with \"…\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Sources caradisiac.com (#21), autoplus.fr (#5), automobile-magazine.fr (#4), all Journalism. Join rule OK: autoplus \"Le Toyota RAV4 \\\"2026\\\" reste fidèle au savoir-faire de la marque en matière d’hybridation. … Toyota applique en revanche des tarifs élevés\" and \"…La… qu’elle est assemblée dans l’usine de Toyota\". No cookie banner or menu text seen."
+    },
+    {
+      "tc_id": "TC-GEO-1547-025",
+      "title": "GEO-1224 article without a good quote shows no quote rather than the header",
+      "story_id": "GEO-1547",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And no article shows its page header as a quote\" - expected: \"No title / banner / menu passage\". Observed (B-1 still present after the forced crawl, Toyota 439acd96 run 2026-11-04 11:42 UTC, Last 7 days): automobile-magazine.fr/tous-les-essais/article/40671-essai-toyota-bz4x-… quotes \"Essai Toyota bZ4X : la 1ère 100% électrique de Toyota enfin à l’épreuve des mesures Publié le 02/11/2023 à 08h45 share Partager :\"; automobile-magazine.fr …/52800-defauts-de-batterie-12-v… quotes its <title> \"Défauts de batterie 12 V chez Toyota et Lexus : attention, vous pourriez rester enfermé ! - L'Automobile Magazine\". Orange 16cdf040, Last 30 days: fr.trustpilot.com/review/www.orange.com?page=2 still quotes \"Avis de Orange | Lisez les avis marchands de www.orange.com | 2 sur 6\".",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-025_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-025_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-025_step3_then.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-025_obs_no_quote_largus.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-025_obs_B1_orange_trustpilot_30d.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panels of the Journalism sources in Negative perception",
+          "status": "PASS"
+        },
+        {
+          "title": "Then an article with no good quote is listed without a quote",
+          "status": "PASS"
+        },
+        {
+          "title": "And no article shows its page header as a quote",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Step \"an article with no good quote is listed without a quote\" now observable: largus.fr/actualite-automobile/voitures-hybrides-que-valent-elles-en-occasion-10389396_p_4.html is listed with title + URL and no passage (API passage absent). Other title-as-quote passages in the same run (API): fiches-auto.fr \"Chiffres fiabilité Toyota . Quels sont les modèles à problèmes ?\" and \"Tous les problèmes sur Toyota RAV4 2001-2006 (306 témoignages)\", motorbiscuit.com \"Exactly Zero 2023 Toyota SUVs Won Car and Driver Editors' Choice Awards\" and \"Sorry, the Best SUV Brand Isn’t Toyota or Honda Sorry, the Best SUV Brand Isn’t Toyota or Honda\" (title twice), automobile-magazine \"Les Toyota hybrides sont fiables, mais elles ont un problème de batterie qui peut être facilement réglé\". The orange.com?page=2 article is cited only by an older run (it is not in Last 7 days), so its verdict was not re-judged by the forced crawl."
+    }
+  ]
+}

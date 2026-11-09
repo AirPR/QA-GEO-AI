@@ -1,0 +1,912 @@
+{
+  "epic": {
+    "id": "GEO-1209",
+    "key": "GEO-1209",
+    "title": "Unbranded Analysis and Other Prompts",
+    "jiraSummary": "EPIC-046: Unbranded Analysis and Other Prompts",
+    "status": "Ready for QA",
+    "assignee": "Abdenasser Aroukhsiss",
+    "created": "2026-10-06",
+    "updated": "2026-10-19",
+    "updatedAt": "2026-10-19T20:47:27.032-0400",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1209",
+    "version": "GEO-R1.3",
+    "functionalNeed": "This epic opens GEO to analyses without a brand, and lets a prompt run without a category or a question type. An unbranded analysis measures an industry or a topic instead of a brand (football, car insurance, frozen food). The topic frames the analysis and is never measured: the measured entities are the brands the AI answers name. Everything set during creation stays manageable after launch in Manage Scope. An unbranded analysis stays unbranded: adding a brand to it comes in a later version.\n\nIt builds on the new-analysis wizard and the prompt pool of EPIC-034 (https://onclusive.atlassian.net/browse/GEO-1002). This epic adds a first step, Analysis Type, before Brand & Country, so the wizard has five steps: Analysis Type, Brand & Country (Topic & Country in an unbranded analysis), Categories, Prompts and Review. From step 1 onward a mode pill in the product bar reads Brand analysis or Unbranded analysis. An unbranded analysis consumes the pool exactly like a brand analysis. Both features ship behind one global flag, off until validated, then on for every organisation. While the flag is off, the wizard stays as it is today: four steps, no Analysis Type step and no mode pill.\n\nA prompt that misses its category or its type falls back to Other instead of being blocked. It still runs and returns key concepts, which feed InBrief and Top Concepts (Top Topics in an unbranded analysis), and it moves to its category and type once classified. In EPIC-034 both are required.\n\nThe functional rules come from the GEO flexible scope behaviour spec (rule IDs such as S3.12 are quoted where useful). The design is the Figma page \"Onboarding / New Analysis V3\" of the Measure - GEO Module file: [https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=13458-101707](https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=13458-101707)\n\nEvery UI string of this epic, with its key and its en-US, en-GB, fr-FR and es-ES text, is in the strings sheet shared with EPIC-034. The criteria quote the English text only: [https://docs.google.com/spreadsheets/d/1G3C6DF1B_GmOrga4BB9GYtxv1fc-x7mCsnxyVsumL8Y/edit](https://docs.google.com/spreadsheets/d/1G3C6DF1B_GmOrga4BB9GYtxv1fc-x7mCsnxyVsumL8Y/edit)",
+    "dependencies": [
+      "EPIC-034 (https://onclusive.atlassian.net/browse/GEO-1002): the wizard, the prompt table, the prompt pool and Manage Scope prompts. This epic cannot start before the EPIC-034 wizard exists.",
+      "EPIC-010 (https://onclusive.atlassian.net/browse/GEO-152): story 1.5 hides the Actions Center entry.",
+      "EPIC-011 (https://onclusive.atlassian.net/browse/GEO-156): stories 1.5 and 1.8 change the XLSX and PowerPoint exports.",
+      "EPIC-017 (https://onclusive.atlassian.net/browse/GEO-428): story 1.5 changes the analysis ready email.",
+      "EPIC-044 (https://onclusive.atlassian.net/browse/GEO-1068): Top Topics in story 1.3 uses the same simplified concept display."
+    ],
+    "notes": [
+      "Updated 2026-10-07 after the dev questions on https://onclusive.atlassian.net/browse/GEO-1209 (comment of 2026-10-07): criteria marked (Updated 2026-10-07) changed. Rule: where this epic says nothing, the behaviour stays as in production.",
+      "Updated 2026-10-09 after the functional and design review of the dev team (Q1 to Q16, D1 to D14, comment of 2026-10-09 on https://onclusive.atlassian.net/browse/GEO-1209): criteria marked (Updated 2026-10-09) changed. The Category Topics analysis prompt and the InBrief topic prompt are attached to https://onclusive.atlassian.net/browse/GEO-1209.",
+      "- 1.1: step 2 is \"Topic & Country\"; switching the mode clears the later steps after a confirmation; text-only topic variant of the discovery screen\n- 1.2: Category Topics questions run as written; the analysis keeps the brands attached to each topic; sentiment is for the category as a whole; competitive prompts with too few competitors are sent with the cleaned text in a brand analysis (changed for unbranded on 2026-10-19, see below); the topic is not editable\n- 1.3: no header, the sidebar block mirrors the brand one; InBrief may name the brands attached to a topic, the brand-name check is removed; empty state when topic prompts returned nothing; \"Category Topics\" label; home list column \"Brand / Topic\"\n- 1.4: matrix shows the top 5 brands by SOV; winner follows the production rule as is; \"{category} landscape\" at category scope; \"Category Topics\" label\n- 1.7: \"Other\" is the only term, in the wizard too\n- 1.8: Visibility and Competitive prompts in the Other category are ranked only, no concepts; Sources tab and detail panel of the Other category",
+      "Updated 2026-10-19 after the staging check of the unbranded analysis (comments of 2026-10-15 and 2026-10-19 on GEO-1209, GEO-1242 and GEO-1243): criteria marked (Updated 2026-10-19) changed. The Category Topics analysis prompt and the InBrief topic prompt in the repo (PR #801) replace the versions attached to GEO-1209.",
+      "- 1.1: with the flag off, the wizard is unchanged\n- 1.2: in an unbranded analysis, a Competitive prompt with fewer than 2 competitors is not sent (PR #808); Category Topics extraction keeps up to 12 topics per category instead of 7 (PR #801)\n- 1.3: the InBrief topic prompt gets one quote per topic, so the bullets say why a topic comes up (PR #801)"
+    ],
+    "scope": [
+      "User Story 1.1: Choose the analysis type",
+      "User Story 1.2: Run an analysis without a target brand",
+      "User Story 1.3: Show an Overview built for a topic",
+      "User Story 1.4: Show the Category view and the prompts for a topic",
+      "User Story 1.5: Adapt the Actions Center, the export and the emails for a topic",
+      "User Story 1.6: Manage the prompts of an unbranded analysis",
+      "User Story 1.7: Classify prompts by question type with an Other fallback",
+      "User Story 1.8: Show prompts in Other on the dashboard"
+    ],
+    "outOfScope": [
+      "The prompt pool, the prompt table and the wizard steps Brand & Country to Review (EPIC-034)",
+      "Plan names and price points (pricing v0.3, set by Management and Sales)",
+      "Agency workspaces and consolidated billing (client workspaces spec)",
+      "Adding a brand to an unbranded analysis, a later version"
+    ],
+    "stillOpen": [],
+    "designUrl": "https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=13458-101707",
+    "stringsSheetUrl": "https://docs.google.com/spreadsheets/d/1G3C6DF1B_GmOrga4BB9GYtxv1fc-x7mCsnxyVsumL8Y/edit",
+    "reviewUrl": "https://claude.ai/artifact/HMh5vxPJkBD4JTX228ysho",
+    "attachmentsNotImported": [
+      "Category Topics analysis prompt (attached to GEO-1209)",
+      "InBrief topic prompt / TOPIC_SUMMARY (attached to GEO-1209)"
+    ],
+    "crossReferences": {
+      "GEO-1002": [
+        "GEO-1209 builds on the EPIC-034 wizard, prompt table, prompt pool and Manage Scope prompts (GEO-1002, Jira summary \"EPIC-045\") and cannot start before it exists",
+        "GEO-1209 adds the Analysis Type step before Brand & Country: the wizard goes from 4 to 5 steps (anticipated by GEO-1231 AC7 and its rules)",
+        "GEO-1241 AC8 cites EPIC-034 story 1.4 (GEO-1233); GEO-1247 AC3 overrides GEO-1234 AC3 (confirm no longer disabled when category or type is empty)",
+        "GEO-1246 extends GEO-1239 (Manage Scope prompts); GEO-1241 AC12 extends the GEO-1237 Review warning",
+        "GEO-1251 (STORY-45.13): competitor discovery disabled in unbranded V1 and Other category excluded, guards added by epic 46",
+        "GEO-1235 / GEO-1239 frames: \"Pick category\" rows (4.22, MS.4) belong to the unbranded/Other epic, now reworded \"Other\" (GEO-1247 AC5)",
+        "Strings sheet shared between both epics"
+      ],
+      "GEO-152": [
+        "EPIC-010: GEO-1245 hides the Actions Center entry"
+      ],
+      "GEO-156": [
+        "EPIC-011: GEO-1245 and GEO-1248 change the XLSX and PowerPoint exports"
+      ],
+      "GEO-428": [
+        "EPIC-017: GEO-1245 changes the analysis ready email"
+      ],
+      "GEO-1068": [
+        "EPIC-044: Top Topics (GEO-1243) uses the same simplified concept display"
+      ]
+    },
+    "ignoredChildren": [
+      {
+        "key": "GEO-1185",
+        "type": "Design Task",
+        "title": "Design the unbranded analysis dashboard",
+        "status": "Done"
+      },
+      {
+        "key": "GEO-1186",
+        "type": "Design Task",
+        "title": "Design the Other category and Other question type in the analysis",
+        "status": "Done"
+      }
+    ],
+    "stories": [
+      {
+        "id": "GEO-1241",
+        "type": "Story",
+        "title": "Choose the analysis type",
+        "storyNumber": "STORY-46.1",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-08",
+        "updated": "2026-10-19",
+        "updatedAt": "2026-10-19T07:27:36.295-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1241",
+        "file": "STORY_GEO-1241_Choose_the_analysis_type.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-46/46-1-choose-the-analysis-type.md",
+        "reviewUrl": "https://claude.ai/artifact/HMh5vxPJkBD4JTX228ysho",
+        "userStory": {
+          "as": "a user starting a new analysis",
+          "want": "to choose between a brand analysis and an unbranded analysis",
+          "so": "I can measure a whole industry when I do not have a target brand"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Two cards, nothing selected",
+            "given": "I click New Analysis",
+            "when": "Analysis Type opens",
+            "then": "two cards, Brand analysis and Unbranded analysis, each say what they measure, and nothing is selected"
+          },
+          {
+            "id": "AC1b",
+            "title": "Flag off, wizard unchanged",
+            "given": "the unbranded flag is off",
+            "when": "I click New Analysis",
+            "then": "the wizard is unchanged: four steps starting at Brand & Country, no Analysis Type step and no mode pill",
+            "note": "Updated 2026-10-19"
+          },
+          {
+            "id": "AC2",
+            "title": "Selection enables continue and the pill",
+            "given": "I select a card",
+            "when": "it is selected",
+            "then": "the primary action is enabled and the mode pill shows the mode"
+          },
+          {
+            "id": "AC3",
+            "title": "Topic & Country step in unbranded",
+            "given": "I select Unbranded analysis",
+            "when": "I continue",
+            "then": "Brand & Country is labelled Topic & Country and asks for an industry or topic instead of a brand",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC4",
+            "title": "Topic question and helper",
+            "given": "an unbranded analysis",
+            "when": "Topic & Country loads",
+            "then": "it asks \"What industry or topic are you analyzing?\" with a helper stating the topic frames the analysis and is never measured"
+          },
+          {
+            "id": "AC5",
+            "title": "Empty topic",
+            "given": "the topic is empty",
+            "when": "I try to continue",
+            "then": "the field shows a red border and a message naming it"
+          },
+          {
+            "id": "AC6",
+            "title": "Switching the mode clears the later steps",
+            "given": "I went past Analysis Type",
+            "when": "I go back and switch the mode",
+            "then": "a confirmation states that the brand or topic, the markets, the categories and the prompts are cleared, and confirming clears them",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC7",
+            "title": "Topic version of the discovery screen",
+            "given": "Topic & Country is valid",
+            "when": "I continue",
+            "then": "the category discovery screen shows a topic version of its text, on the same layout as the brand version",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC8",
+            "title": "Prompt types in unbranded",
+            "given": "an unbranded analysis",
+            "when": "prompts are generated",
+            "then": "there is no Brand Image, Reputation becomes Category Topics, and Competitive takes a fourth auto-resolved competitor in the brand's place (story 1.2 here, and EPIC-034 story 1.4)"
+          },
+          {
+            "id": "AC9",
+            "title": "30 prompts per category and market",
+            "given": "an unbranded analysis",
+            "when": "suggestions are generated",
+            "then": "each category in each market still gets 30 prompts (Visibility, Competitive and Category Topics), so 2 markets with 3 categories give 2 x (3 x 30) = 180 prompts"
+          },
+          {
+            "id": "AC10",
+            "title": "Type badges and selects",
+            "given": "the table renders in an unbranded analysis",
+            "when": "I look at the type badges or open a type select",
+            "then": "they show Visibility, Competitive, Category Topics or Other"
+          },
+          {
+            "id": "AC11",
+            "title": "Pool cost",
+            "given": "an unbranded analysis",
+            "when": "its prompts are counted against the pool",
+            "then": "each kept prompt costs one slot per market, the same as in a brand analysis"
+          },
+          {
+            "id": "AC12",
+            "title": "Review warning",
+            "given": "an unbranded analysis has no kept Category Topics prompt and no kept prompt in Other",
+            "when": "Review loads",
+            "then": "the warning names InBrief and Top Topics as metrics the analysis will not produce"
+          }
+        ],
+        "acCount": 13,
+        "technicalNotes": [
+          "Rules (OS-Team, updated 2026-10-19)",
+          "Reviews",
+          "PM decisions (2026-10-09)",
+          "PM decisions (2026-10-19)",
+          "Open points",
+          "Design"
+        ],
+        "relatedTo": [
+          "GEO-1002 (EPIC-034 wizard, prompt table and pool; AC8 cites EPIC-034 story 1.4 = GEO-1233)",
+          "GEO-1231 (STORY-45.2: markets block and Language for AI Insights reused on Topic & Country)",
+          "GEO-1237 (STORY-45.8: Review frames 5.x reused, AC12 warning)",
+          "GEO-1242 (STORY-46.2: discovery returns 2 categories, topic not editable)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1242",
+        "type": "Story",
+        "title": "Run an analysis without a target brand",
+        "storyNumber": "STORY-46.2",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-08",
+        "updated": "2026-10-19",
+        "updatedAt": "2026-10-19T07:35:23.141-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1242",
+        "file": "STORY_GEO-1242_Run_an_analysis_without_a_target_brand.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-46/46-2-run-an-analysis-without-a-target-brand.md",
+        "reviewUrl": "https://claude.ai/artifact/HMh5vxPJkBD4JTX228ysho",
+        "userStory": {
+          "as": "a user creating an unbranded analysis",
+          "want": "the topic to replace the brand everywhere the analysis needs a subject",
+          "so": "the analysis runs and measures every brand the answers name"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Mode and topic stored, no target",
+            "given": "an unbranded analysis",
+            "when": "it is created",
+            "then": "it stores its mode and topic with no target brand, and the topic is its name in the dashboard, emails and exports"
+          },
+          {
+            "id": "AC2",
+            "title": "No brand is the target",
+            "given": "its answers",
+            "when": "they are processed",
+            "then": "no brand is scored or treated as the target, brand grouping protects no target, and source classification receives the topic and the brands named"
+          },
+          {
+            "id": "AC3",
+            "title": "Topic split into 2 categories",
+            "given": "Categories",
+            "when": "categories are discovered",
+            "then": "the topic is split into 2 consumer search areas, such as \"postal services\" into \"parcel delivery\" and \"international shipping\", with no brand website"
+          },
+          {
+            "id": "AC4",
+            "title": "Production templates, [Competitor 4]",
+            "given": "Visibility and Competitive prompts",
+            "when": "they are generated",
+            "then": "they use the 10 production templates of each type (frontend/src/utils/questionTemplates.ts): Visibility is unchanged and uses {category} only, and in Competitive the {entity} slot becomes [Competitor 4], so each competitive prompt compares the top 4 brands from that category and market's visibility answers",
+            "note": "Updated 2026-10-07"
+          },
+          {
+            "id": "AC5",
+            "title": "Adaptation with the topic",
+            "given": "prompts are adapted and translated for a market",
+            "when": "they are generated",
+            "then": "QUESTION_ADAPTATION receives the topic instead of the brand and drops the \"entity must not appear\" rule, and the topic does not have to appear in the text since the category already carries it",
+            "note": "Updated 2026-10-07"
+          },
+          {
+            "id": "AC6",
+            "title": "10 Category Topics prompts per category",
+            "given": "Category Topics prompts",
+            "when": "they are generated",
+            "then": "each category gets these 10, one per theme:",
+            "thenDetail": "| Theme | Prompt |\n|---|---|\n| Selection criteria | What should I look for in {category}? |\n| Quality | What makes {category} good quality? |\n| Price and value | What is good value for money in {category}? |\n| Experience | What do people like most about {category}? |\n| Problems | What are the most common problems with {category}? |\n| Trust and safety | How do I know which {category} options I can trust? |\n| Trends | What is changing in {category} right now? |\n| Ethics and sustainability | What are the ethical and environmental concerns around {category}? |\n| Expert advice | What do experts recommend about {category}? |\n| Controversies | What are the main controversies in {category}? |"
+          },
+          {
+            "id": "AC7",
+            "title": "Category Topics questions run as written",
+            "given": "Category Topics prompts",
+            "when": "they run",
+            "then": "they run as written without the Perception system instruction, like prompts with the Other type",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC8",
+            "title": "Category Topics analysis",
+            "given": "a Category Topics answer",
+            "when": "it is analysed",
+            "then": "the Category Topics analysis prompt attached to GEO-1209 returns the topics raised, their sentiment for the category as a whole and up to 3 brands attached to each topic as written in the answers, on the non engine-native extraction path even when engine-native concepts are on",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC9",
+            "title": "Competitive with too few competitors",
+            "given": "a Competitive prompt of an unbranded analysis, outside the Other category",
+            "when": "fewer than 2 competitors were extracted for its category and market",
+            "then": "it is not sent for this run and shows no result in the prompts table. A brand analysis still sends it with the empty slots removed (Q7)",
+            "note": "Updated 2026-10-19"
+          },
+          {
+            "id": "AC10",
+            "title": "Topic not editable",
+            "given": "an unbranded analysis",
+            "when": "I open Manage Scope",
+            "then": "the topic cannot be changed, as the brand today",
+            "note": "Updated 2026-10-09"
+          }
+        ],
+        "acCount": 10,
+        "technicalNotes": [
+          "Rules (OS-Team, updated 2026-10-19)",
+          "Reviews",
+          "PM decisions (2026-10-09)",
+          "PM decisions (2026-10-19)",
+          "Open points",
+          "Design"
+        ],
+        "relatedTo": [
+          "GEO-1209 (Category Topics analysis prompt attached to the epic)",
+          "GEO-1243 / GEO-1245 (topic as analysis name visible in the Overview, exports and email)",
+          "GEO-1247 (46.7 T9: shared \"as written\" capture instruction)",
+          "GEO-1251 (STORY-45.13 of GEO-1002: competitor discovery disabled in unbranded V1, guards added by epic 46)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1243",
+        "type": "Story",
+        "title": "Show an Overview built for a topic",
+        "storyNumber": "STORY-46.3",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-08",
+        "updated": "2026-10-19",
+        "updatedAt": "2026-10-19T07:28:31.621-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1243",
+        "file": "STORY_GEO-1243_Show_an_Overview_built_for_a_topic.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-46/46-3-show-an-overview-built-for-a-topic.md",
+        "reviewUrl": "https://claude.ai/artifact/HMh5vxPJkBD4JTX228ysho",
+        "userStory": {
+          "as": "a user of an unbranded analysis",
+          "want": "an Overview that shows who leads the topic and what the answers say about it",
+          "so": "I read the landscape without a brand scorecard"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Sidebar block",
+            "given": "the analysis loads",
+            "when": "the sidebar renders",
+            "then": "its block shows the topic's first letter in the logo slot and the topic, as the brand block does today, with no extra header, mode label or date",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC2",
+            "title": "Hidden widgets",
+            "given": "the Overview loads",
+            "when": "it renders",
+            "then": "the scope bar, the KPI cards and deltas, Time Evolution, Category Prioritization, Corporate Reputation, Brand Territory and the Brand Image hint are not shown"
+          },
+          {
+            "id": "AC3",
+            "title": "InBrief about the topic",
+            "given": "InBrief",
+            "when": "it is generated",
+            "then": "3 bullets built from the Category Topics answers and the answers of prompts with the Other type say what the answers say about the topic, may name the brands the answers attach to a topic, and carry \"Category summary generated by artificial intelligence\"",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC4",
+            "title": "Dedicated topic prompt",
+            "given": "an unbranded analysis",
+            "when": "InBrief is generated",
+            "then": "it uses a dedicated topic prompt, not the brand Perception summary, with the Category Topics concepts and the concepts of prompts with the Other type (label, sentiment, frequency, attached brands, one quote per topic) of the Overview or the category as input, through the InBrief topic prompt attached to GEO-1209",
+            "note": "Updated 2026-10-19"
+          },
+          {
+            "id": "AC5",
+            "title": "Format check",
+            "given": "the generated bullets",
+            "when": "they are checked",
+            "then": "only the format is checked (3 bullets of 150 characters max), with no brand-name check, and after the last failed attempt the widget shows its error state",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC6",
+            "title": "Hidden or empty",
+            "given": "an analysis or a category with no Category Topics prompts and no prompts in Other",
+            "when": "the Overview or the category loads",
+            "then": "InBrief and Top Topics are hidden, since no prompt feeds them; when such prompts exist but returned no topic, both show an empty state",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC7",
+            "title": "Top Topics",
+            "given": "Top Concepts",
+            "when": "it loads",
+            "then": "it is titled \"Top Topics in the Category\", and each topic describes the category, never names a brand, has its sentiment towards the category and its frequency, as in Top Concepts today, with no brand tags",
+            "note": "Updated 2026-10-07"
+          },
+          {
+            "id": "AC8",
+            "title": "Neutral SOV ring",
+            "given": "the Share of Voice ring",
+            "when": "it loads",
+            "then": "it keeps the brand analysis calculation, with no enlarged slice, no centre value and the subtitle \"How the answers split across entities\""
+          },
+          {
+            "id": "AC9",
+            "title": "Landscape table",
+            "given": "the rankings table",
+            "when": "it loads",
+            "then": "it is titled \"{topic} landscape\", with no highlighted row and tooltips without \"your brand\""
+          },
+          {
+            "id": "AC10",
+            "title": "Citation sources",
+            "given": "AI Citation Sources",
+            "when": "it loads",
+            "then": "its subtitle refers to the topic, its legend has no Owned Media or Competitor Media, there is no Favorability column, and the related prompts modal lists the Category Topics prompts under a \"Category Topics\" tab",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC11",
+            "title": "Captions",
+            "given": "any widget caption",
+            "when": "it renders",
+            "then": "it describes the widget and never reminds the user that no brand is set"
+          },
+          {
+            "id": "AC12",
+            "title": "Analyses list",
+            "given": "the GEO dashboard analyses list",
+            "when": "it shows an unbranded analysis",
+            "then": "the column is titled \"Brand / Topic\" and shows the topic with its first letter, no domain, and the Competitors card also counts the brands detected in unbranded analyses",
+            "note": "new, 2026-10-09"
+          }
+        ],
+        "acCount": 12,
+        "technicalNotes": [
+          "Rules (OS-Team, updated 2026-10-19)",
+          "Reviews",
+          "PM decisions (2026-10-09)",
+          "PM decisions (2026-10-19)",
+          "Open points",
+          "Design"
+        ],
+        "relatedTo": [
+          "GEO-1209 (InBrief topic prompt attached to the epic)",
+          "GEO-1068 (EPIC-044: same simplified concept display for Top Topics, per the epic dependencies)",
+          "GEO-1185 (Design Task: unbranded dashboard design, to be updated)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1244",
+        "type": "Story",
+        "title": "Show the Category view and the prompts for a topic",
+        "storyNumber": "STORY-46.4",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:21:43.598-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1244",
+        "file": "STORY_GEO-1244_Show_the_Category_view_and_the_prompts_f.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-46/46-4-show-the-category-view-and-the-prompts-for-a-topic.md",
+        "reviewUrl": "https://claude.ai/artifact/HMh5vxPJkBD4JTX228ysho",
+        "userStory": {
+          "as": "a user of an unbranded analysis",
+          "want": "each category page and the prompt details to compare brands with no target",
+          "so": "I see which brand wins each category and each prompt"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "No KPI cards",
+            "given": "a Category view",
+            "when": "it loads",
+            "then": "there are no KPI cards, and InBrief, Top Topics, the SOV ring and rankings follow story 1.3 at category scope"
+          },
+          {
+            "id": "AC2",
+            "title": "Time Evolution and matrix",
+            "given": "Time Evolution and Brand Prioritization",
+            "when": "they load",
+            "then": "Time Evolution shows the top 10 brands with no highlighted line and no Sentiment tab, and the matrix plots the top 5 brands by SOV with no target dot",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC3",
+            "title": "Top 10 rule",
+            "given": "Time Evolution",
+            "when": "it selects its 10 brands",
+            "then": "it uses the production rule: top 10 by SOV in the latest collection inside the selected window, with the market and LLM filters applied, so the list follows the filters, and the chart still needs 7 collections in the window",
+            "note": "Updated 2026-10-07"
+          },
+          {
+            "id": "AC4",
+            "title": "Winner or Split",
+            "given": "the prompts table",
+            "when": "it loads",
+            "then": "each prompt shows the brand ranked first when every engine ranks the same brand family first, otherwise \"Split\", following the production rule as is (2 engines on A and 1 on B is Split, an engine with an empty ranking makes it Split), with no favourability filters or count",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC5",
+            "title": "Per collection",
+            "given": "the prompts table",
+            "when": "the winner is computed",
+            "then": "it is per collection (the latest or the selected one), not over the date range, as in production",
+            "note": "Updated 2026-10-07"
+          },
+          {
+            "id": "AC6",
+            "title": "Detail panel",
+            "given": "a prompt detail panel",
+            "when": "it opens",
+            "then": "it shows the full ranking and the brand chosen per engine, with no target brand block"
+          },
+          {
+            "id": "AC7",
+            "title": "Category Topics label",
+            "given": "the prompts table tabs and the detail panel",
+            "when": "they show Category Topics prompts",
+            "then": "they are labelled \"Category Topics\", not \"Perception\"",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC8",
+            "title": "Landscape title at category scope",
+            "given": "the rankings table at category scope",
+            "when": "it loads",
+            "then": "it is titled \"{category} landscape\"",
+            "note": "Updated 2026-10-09"
+          }
+        ],
+        "acCount": 8,
+        "technicalNotes": [
+          "Rules (OS-Team, updated 2026-10-09)",
+          "Reviews",
+          "PM decisions (2026-10-09)",
+          "Open points",
+          "Design"
+        ],
+        "relatedTo": [
+          "GEO-1243 (STORY-46.3: InBrief, Top Topics, SOV ring and rankings rules applied at category scope)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1245",
+        "type": "Story",
+        "title": "Adapt the Actions Center, the export and the emails for a topic",
+        "storyNumber": "STORY-46.5",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:21:53.872-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1245",
+        "file": "STORY_GEO-1245_Adapt_the_Actions_Center_the_export_and.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-46/46-5-adapt-the-actions-center-the-export-and-the-emails-for-a-topic.md",
+        "reviewUrl": "https://claude.ai/artifact/HMh5vxPJkBD4JTX228ysho",
+        "userStory": {
+          "as": "a user of an unbranded analysis",
+          "want": "every other surface to follow the same rules as the dashboard",
+          "so": "nothing shows a brand scorecard I did not ask for"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Actions Center hidden",
+            "given": "the sidebar",
+            "when": "it renders",
+            "then": "the Actions Center entry is hidden"
+          },
+          {
+            "id": "AC2",
+            "title": "Export",
+            "given": "an XLSX or PowerPoint export",
+            "when": "I run it",
+            "then": "the cover and titles use the topic, dropped sheets and slides are skipped, no text says \"your brand\" and no brand carries a target marker"
+          },
+          {
+            "id": "AC3",
+            "title": "Analysis ready email",
+            "given": "the analysis ready email",
+            "when": "it is sent",
+            "then": "its subject and body use the topic as the analysis name"
+          }
+        ],
+        "acCount": 3,
+        "technicalNotes": [
+          "Rules (OS-Team, updated 2026-10-09)",
+          "Reviews",
+          "PM decisions (2026-10-09)",
+          "Open points",
+          "Design"
+        ],
+        "relatedTo": [
+          "GEO-152 (EPIC-010: Actions Center entry)",
+          "GEO-156 (EPIC-011: XLSX and PowerPoint exports)",
+          "GEO-428 (EPIC-017: analysis ready email)",
+          "GEO-1185 (Design Task: \"PowerPoint export\" still to come)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1246",
+        "type": "Story",
+        "title": "Manage the prompts of an unbranded analysis",
+        "storyNumber": "STORY-46.6",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:22:07.681-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1246",
+        "file": "STORY_GEO-1246_Manage_the_prompts_of_an_unbranded_analy.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-46/46-6-manage-the-prompts-of-an-unbranded-analysis.md",
+        "reviewUrl": "https://claude.ai/artifact/HMh5vxPJkBD4JTX228ysho",
+        "userStory": {
+          "as": "a user of a running unbranded analysis",
+          "want": "Manage Scope to suggest prompts that fit a topic",
+          "so": "a category or a market I add later gets the same mix as at creation"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Fresh suggestions per mode",
+            "given": "an unbranded analysis in Manage Scope",
+            "when": "I add a category or a market",
+            "then": "its fresh suggestions are 10 Visibility, 10 Competitive and 10 Category Topics prompts per market, with no Reputation or Brand Image"
+          },
+          {
+            "id": "AC2",
+            "title": "Type select",
+            "given": "an unbranded analysis in Manage Scope",
+            "when": "I add or edit a prompt",
+            "then": "the type select lists Visibility, Competitive, Category Topics and Other only"
+          }
+        ],
+        "acCount": 2,
+        "technicalNotes": [
+          "Rules (OS-Team, 2026-10-08)",
+          "Reviews",
+          "Design"
+        ],
+        "relatedTo": [
+          "GEO-1239 (STORY-45.10: Manage Scope prompts, MS.x frames reused)",
+          "GEO-1242 (STORY-46.2: suggestions adapted with the topic)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1247",
+        "type": "Story",
+        "title": "Classify prompts by question type with an Other fallback",
+        "storyNumber": "STORY-46.7",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:22:25.986-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1247",
+        "file": "STORY_GEO-1247_Classify_prompts_by_question_type_with_a.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-46/46-7-classify-prompts-by-question-type-with-an-other-fallback.md",
+        "reviewUrl": "https://claude.ai/artifact/HMh5vxPJkBD4JTX228ysho",
+        "userStory": {
+          "as": "a user",
+          "want": "every prompt labelled with a category and a question type, defaulting to Other when one is missing",
+          "so": "no prompt is lost and I can see the analytical mix"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Type badges in a brand analysis",
+            "given": "the table renders in a brand analysis",
+            "when": "I look at the type badges",
+            "then": "they show Visibility, Competitive, Reputation, Brand Image or Other"
+          },
+          {
+            "id": "AC2",
+            "title": "Each missing dimension falls back alone",
+            "given": "a prompt misses its category or its type",
+            "when": "it is saved",
+            "then": "that dimension alone is Other, so a prompt can be Other on one or both"
+          },
+          {
+            "id": "AC3",
+            "title": "Inline add never blocked",
+            "given": "I add a prompt inline",
+            "when": "I confirm with its category or type empty",
+            "then": "that dimension falls back to Other, instead of the confirm staying disabled as in EPIC-034"
+          },
+          {
+            "id": "AC4",
+            "title": "Other in the column filters",
+            "given": "the Category or Type column filter",
+            "when": "it opens",
+            "then": "Other is a value of its own with its live count"
+          },
+          {
+            "id": "AC5",
+            "title": "« Other » in an inline select",
+            "given": "a prompt in Other",
+            "when": "it renders in the wizard or in Manage Scope",
+            "then": "the missing dimension reads \"Other\" in an inline select, ticked or not, a kept row is on the warning tint, and picking a value removes the tint and updates the counts",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC6",
+            "title": "Non-blocking table warning",
+            "given": "kept prompts sit in Other",
+            "when": "the table renders",
+            "then": "a warning states that classifying them improves measurement accuracy, and nothing blocks the launch"
+          },
+          {
+            "id": "AC7",
+            "title": "Review card",
+            "given": "kept prompts sit in Other",
+            "when": "Review loads",
+            "then": "a card titled with \"Other\" (never \"Unclassified\" or \"uncategorised\") lists each with its market and an inline select for the missing value, states it returns key concepts only until classified, and never blocks launch; with none, the card is hidden",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC8",
+            "title": "Manage Scope",
+            "given": "Manage Scope",
+            "when": "I open Prompts",
+            "then": "Other prompts show on inline selects"
+          },
+          {
+            "id": "AC9",
+            "title": "Cost and output of an Other-type prompt",
+            "given": "a prompt is Other on its type",
+            "when": "it runs",
+            "then": "it consumes a full slot and returns key concepts only, no keyword graph",
+            "note": "Updated 2026-10-07"
+          }
+        ],
+        "acCount": 9,
+        "technicalNotes": [
+          "Rules (OS-Team, updated 2026-10-09)",
+          "Reviews",
+          "PM decisions (2026-10-09)",
+          "Open points",
+          "Design"
+        ],
+        "relatedTo": [
+          "GEO-1234 (STORY-45.5: inline add, confirm no longer disabled when category or type is empty)",
+          "GEO-1233 / GEO-1235 (STORY-45.4 / 45.6: table layout and visuals)",
+          "GEO-1239 (STORY-45.10: Manage Scope Prompts)",
+          "GEO-1241 (STORY-46.1 AC12: InBrief / Top Topics warning on Review)",
+          "GEO-1242 (46.2 T1b: global flag via AuthMeResponse.features)",
+          "GEO-1248 (STORY-46.8: classification takes effect from the next collection)",
+          "GEO-1186 (Design Task: Other category and Other question type, to be updated)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1248",
+        "type": "Story",
+        "title": "Show prompts in Other on the dashboard",
+        "storyNumber": "STORY-46.8",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-08",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T06:22:34.255-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1248",
+        "file": "STORY_GEO-1248_Show_prompts_in_Other_on_the_dashboard.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-46/46-8-show-prompts-in-other-on-the-dashboard.md",
+        "reviewUrl": "https://claude.ai/artifact/HMh5vxPJkBD4JTX228ysho",
+        "userStory": {
+          "as": "a user",
+          "want": "to see what my unclassified prompts return",
+          "so": "a prompt in Other is never captured for nothing"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Sidebar entry",
+            "given": "at least one kept prompt has no category",
+            "when": "the analysis loads",
+            "then": "the sidebar shows a last \"Other\" category, hidden when there is none"
+          },
+          {
+            "id": "AC2",
+            "title": "Other category page",
+            "given": "the Other category page",
+            "when": "it loads",
+            "then": "it shows the key concepts of its prompts and the prompts table, with no KPI cards, SOV, Time Evolution, prioritization or rankings"
+          },
+          {
+            "id": "AC3",
+            "title": "Other tab in a real category",
+            "given": "prompts in a real category carry the Other type",
+            "when": "I open that category's prompts table",
+            "then": "an \"Other\" tab with its count follows the type tabs, hidden at 0, and its rows show their key concepts in Winner / Themes"
+          },
+          {
+            "id": "AC4",
+            "title": "Visibility / Competitive in the Other category",
+            "given": "a Visibility or Competitive prompt in the Other category",
+            "when": "its answers are enriched",
+            "then": "it is ranked like any other prompt and its row shows the brand ranked first, or \"Split\" (production rule in a brand analysis, story 1.4 rule in an unbranded analysis), and it feeds no KPI, SOV, rankings or Time Evolution",
+            "note": "Updated 2026-10-07"
+          },
+          {
+            "id": "AC5",
+            "title": "Competitive in Other runs as written",
+            "given": "a Competitive prompt in the Other category",
+            "when": "it runs",
+            "then": "it runs as the user wrote it with no [Competitor N] to fill (suggested prompts always carry a category), and unfilled placeholders typed by hand are removed as in production",
+            "note": "Updated 2026-10-07"
+          },
+          {
+            "id": "AC6",
+            "title": "No cross-category extraction",
+            "given": "Visibility answers in the Other category",
+            "when": "competitors are extracted",
+            "then": "they feed no other category, since extraction runs per market and category as in production",
+            "note": "Updated 2026-10-07"
+          },
+          {
+            "id": "AC7",
+            "title": "Concepts extracted, excluded from KPIs",
+            "given": "prompts with the Other type",
+            "when": "answers are enriched and metrics computed",
+            "then": "key concepts are extracted from them (today only Perception produces concepts), and they are excluded from KPIs and SOV; Visibility and Competitive prompts in the Other category are ranked only and produce no concepts, as anywhere in production",
+            "note": "Updated 2026-10-09"
+          },
+          {
+            "id": "AC8",
+            "title": "Other-type prompt runs as written",
+            "given": "a prompt with the Other type",
+            "when": "it runs",
+            "then": "it runs as written without the Perception system instruction, its concepts are extracted afterwards by the existing Gemini extraction (the non engine-native path of ConceptExtractionService), and they follow the mode: about the brand with sentiment towards the brand in a brand analysis, topics with sentiment towards the category in an unbranded analysis",
+            "note": "Updated 2026-10-07"
+          },
+          {
+            "id": "AC9",
+            "title": "Concepts feed InBrief and Top Concepts",
+            "given": "prompts in Other",
+            "when": "InBrief and Top Concepts (Top Topics in an unbranded analysis) are generated",
+            "then": "their concepts are part of the input in both modes: a prompt with the Other type feeds its category and the Overview, and a prompt in the Other category feeds the Overview and the Other category page"
+          },
+          {
+            "id": "AC10",
+            "title": "Classification takes effect next run",
+            "given": "I classify an Other prompt in Manage Scope",
+            "when": "the next collection runs",
+            "then": "it moves to its category and type and feeds their metrics"
+          },
+          {
+            "id": "AC11",
+            "title": "Export",
+            "given": "an export",
+            "when": "it runs",
+            "then": "it includes the Other section, limited to key concepts"
+          },
+          {
+            "id": "AC12",
+            "title": "Sources tab and detail panel",
+            "given": "the Other category page",
+            "when": "it loads",
+            "then": "it also has the Sources tab of a category page, and a prompt opens the detail panel drawn in \"Other Details\", with sentiment per engine, themes, response and sources",
+            "note": "Updated 2026-10-09"
+          }
+        ],
+        "acCount": 12,
+        "technicalNotes": [
+          "Rules (OS-Team, updated 2026-10-09)",
+          "Reviews",
+          "PM decisions (2026-10-09)",
+          "Open points",
+          "Design"
+        ],
+        "relatedTo": [
+          "GEO-1244 (STORY-46.4: winner / Split rule in an unbranded analysis)",
+          "GEO-1247 (STORY-46.7: \"as written\" capture instruction of Other-type prompts)",
+          "GEO-156 (EPIC-011: export Other section)",
+          "GEO-1186 (Design Task: text stale, superseded by AC9)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      }
+    ]
+  }
+}

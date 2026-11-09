@@ -1,0 +1,288 @@
+{
+  "epic": "105",
+  "execution_date": "2026-05-31T14:31:26.652Z",
+  "total": 18,
+  "passed": 8,
+  "failed": 0,
+  "skipped": 10,
+  "success_rate": "44.4%",
+  "duration_total_ms": 128050,
+  "results": [
+    {
+      "tc_id": "GEO-97-TC001",
+      "name": "GEO-97-TC001 Auth0 login resolves organization context",
+      "status": "PASSED",
+      "duration": 5394,
+      "error": null,
+      "steps": [
+        "Given an Auth0 test user with valid credentials for organization A",
+        "When the user authenticates via Auth0",
+        "Then the user can access data scoped to organization A only"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-97-TC001_step1_given.png",
+        "screenshots-epic105/GEO-97-TC001_step2_when.png",
+        "screenshots-epic105/GEO-97-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-97-TC002",
+      "name": "GEO-97-TC002 Missing token returns 401",
+      "status": "SKIPPED",
+      "duration": 3128,
+      "error": null,
+      "steps": [
+        "Given an unauthenticated user requests a protected resource",
+        "When the request is sent without a token",
+        "Then the system returns 401 Unauthorized"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-97-TC002_step1_given.png",
+        "screenshots-epic105/GEO-97-TC002_step2_when.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-97-TC003",
+      "name": "GEO-97-TC003 Invalid token returns 401",
+      "status": "SKIPPED",
+      "duration": 2883,
+      "error": null,
+      "steps": [
+        "Given a request with an invalid or expired Auth0 token",
+        "When the request reaches a protected resource",
+        "Then the system returns 401 Unauthorized"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-97-TC003_step1_given.png",
+        "screenshots-epic105/GEO-97-TC003_step2_when.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-97-TC004",
+      "name": "GEO-97-TC004 Reader cannot create reports",
+      "status": "SKIPPED",
+      "duration": 322,
+      "error": null,
+      "steps": [
+        "Given an authenticated Reader",
+        "When they attempt to create a report",
+        "Then the system returns 403 Forbidden"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-97-TC005",
+      "name": "GEO-97-TC005 Reader cannot edit reports",
+      "status": "SKIPPED",
+      "duration": 226,
+      "error": null,
+      "steps": [
+        "Given an authenticated Reader",
+        "When they attempt to edit a report",
+        "Then the system returns 403 Forbidden"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-97-TC006",
+      "name": "GEO-97-TC006 Reader cannot delete reports",
+      "status": "SKIPPED",
+      "duration": 271,
+      "error": null,
+      "steps": [
+        "Given an authenticated Reader",
+        "When they attempt to delete a report",
+        "Then the system returns 403 Forbidden"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-96-TC001",
+      "name": "GEO-96-TC001 Unactivated module redirects to upgrade page",
+      "status": "SKIPPED",
+      "duration": 214,
+      "error": null,
+      "steps": [
+        "Given an authenticated user belongs to an organization without Mesure",
+        "When the user opens the Mesure module",
+        "Then the user is redirected to the sales/upgrade page"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-96-TC002",
+      "name": "GEO-96-TC002 Activated module with no reports shows empty state",
+      "status": "SKIPPED",
+      "duration": 211,
+      "error": null,
+      "steps": [
+        "Given an authenticated user belongs to an organization with Mesure activated and no reports",
+        "When the user opens the Mesure module",
+        "Then an empty state with illustration and Create Report CTA is shown"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-96-TC003",
+      "name": "GEO-96-TC003 Activated module with reports shows list",
+      "status": "PASSED",
+      "duration": 13598,
+      "error": null,
+      "steps": [
+        "Given an authenticated user belongs to an organization with Mesure activated and existing reports",
+        "When the user opens the Mesure module",
+        "Then the report list is displayed"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-96-TC003_step1_given.png",
+        "screenshots-epic105/GEO-96-TC003_step2_when.png",
+        "screenshots-epic105/GEO-96-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-95-TC001",
+      "name": "GEO-95-TC001 Core report fields are displayed",
+      "status": "PASSED",
+      "duration": 13464,
+      "error": null,
+      "steps": [
+        "Given an authenticated Editor with existing reports in organization A",
+        "When the report list is opened",
+        "Then each report displays its name, status badge, creation date, number of markets, and number of categories"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-95-TC001_step1_given.png",
+        "screenshots-epic105/GEO-95-TC001_step2_when.png",
+        "screenshots-epic105/GEO-95-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-95-TC002",
+      "name": "GEO-95-TC002 Status badges are displayed correctly",
+      "status": "PASSED",
+      "duration": 13496,
+      "error": null,
+      "steps": [
+        "Given an authenticated Editor has one PENDING report and one CONFIGURED report",
+        "When the report list is opened",
+        "Then each report shows the correct status badge"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-95-TC002_step1_given.png",
+        "screenshots-epic105/GEO-95-TC002_step2_when.png",
+        "screenshots-epic105/GEO-95-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-95-TC003",
+      "name": "GEO-95-TC003 Most recent reports appear first",
+      "status": "PASSED",
+      "duration": 13479,
+      "error": null,
+      "steps": [
+        "Given an authenticated Editor has reports created on different dates",
+        "When the report list is opened",
+        "Then the newest report appears first"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-95-TC003_step1_given.png",
+        "screenshots-epic105/GEO-95-TC003_step2_when.png",
+        "screenshots-epic105/GEO-95-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-95-TC004",
+      "name": "GEO-95-TC004 Sorting changes report order",
+      "status": "PASSED",
+      "duration": 16001,
+      "error": null,
+      "steps": [
+        "Given an authenticated Editor has multiple reports and sorting controls are available",
+        "When the user sorts the list by creation date ascending",
+        "Then the reports are reordered according to the selected sort"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-95-TC004_step1_given.png",
+        "screenshots-epic105/GEO-95-TC004_step2_when.png",
+        "screenshots-epic105/GEO-95-TC004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-95-TC005",
+      "name": "GEO-95-TC005 Filtering narrows visible reports",
+      "status": "SKIPPED",
+      "duration": 13859,
+      "error": null,
+      "steps": [
+        "Given an authenticated Editor has multiple reports and filtering controls are available",
+        "When the user applies a valid filter, such as status PENDING",
+        "Then only reports matching the filter are displayed"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-95-TC005_step1_given.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-95-TC006",
+      "name": "GEO-95-TC006 Pagination shows the requested page",
+      "status": "SKIPPED",
+      "duration": 12723,
+      "error": null,
+      "steps": [
+        "Given an authenticated Editor has more reports than fit on one page",
+        "When the user navigates to the next page of the list",
+        "Then only the reports for that page are displayed"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-95-TC006_step1_given.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-95-TC007",
+      "name": "GEO-95-TC007 List loads within one second",
+      "status": "PASSED",
+      "duration": 2900,
+      "error": null,
+      "steps": [
+        "Given an authenticated Editor has existing reports in a standard dataset",
+        "When the report list is opened",
+        "Then the list is fully rendered within 1 second"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-95-TC007_step1_given.png",
+        "screenshots-epic105/GEO-95-TC007_step2_when.png",
+        "screenshots-epic105/GEO-95-TC007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-95-TC008",
+      "name": "GEO-95-TC008 Reader sees read-only report list",
+      "status": "SKIPPED",
+      "duration": 227,
+      "error": null,
+      "steps": [
+        "Given an authenticated Reader with existing reports is available",
+        "When the report list is opened",
+        "Then no create, edit, or delete actions are available"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-95-TC009",
+      "name": "GEO-95-TC009 Organization A only sees its own reports",
+      "status": "PASSED",
+      "duration": 15654,
+      "error": null,
+      "steps": [
+        "Given an authenticated user belongs to organization A with reports in organizations A and B",
+        "When the report list is opened",
+        "Then only organization A reports are displayed"
+      ],
+      "screenshots": [
+        "screenshots-epic105/GEO-95-TC009_step1_given.png",
+        "screenshots-epic105/GEO-95-TC009_step2_when.png",
+        "screenshots-epic105/GEO-95-TC009_step3_then.png"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,542 @@
+{
+  "spec": "GEO-1002-GEO1239",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1239",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "runFolder": "20102026-1043",
+  "analyses": {
+    "primary": "Decathlon b6c8b664-e146-464a-bbd7-78d9deb99926 (GB (EN) + FR (FR), 2 categories, 133 kept + 7 unticked)",
+    "secondary": "Decathlon 27bec573-a748-4848-a673-849754cd18e5 (read only: group counts, history)",
+    "substitute": "Orange 16cdf040-35aa-42b9-b4e2-e9f6300d50dc (read only: version history panel, TC-006)"
+  },
+  "summary": {
+    "total": 10,
+    "pass": 1,
+    "fail": 0,
+    "skip": 3,
+    "partial": 6,
+    "successRate": 40,
+    "successRateExecuted": 57.1,
+    "verdict": "NO-GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me at start and end)",
+    "organisation": "QA-GEO, role SUPER_ADMIN, existing session still valid (no login needed); one transient 503 on /geo/oauth2/authorization/auth0 at 10:32, recovered after 30 s",
+    "featureFlag": "unbranded_analysis = true",
+    "pool": "P = 1000; U = 703 at start and at end (7 analyses both times); b6c8b664 133 slots, 27bec573 80 slots, unchanged",
+    "stateChanges": "None. A Playwright route aborted every non-GET call to /geo/api during the whole run (write guard). Only two stateless calls were let through: POST /questions/adapt-batch and POST /analysis/translate-category (prompt/category translation, no analysis id). Blocked writes: PATCH /prompts/kept x2 (tick, TC-002), PATCH /prompts/{id}/classification x2 (category select, TC-007), plus the 2 translation calls before they were allowed. Every modal ended with Cancel / Exit and Discard / Escape. Version history of b6c8b664 and 27bec573 still empty at the end. No analysis created or deleted, nothing in the back office."
+  },
+  "sideFindings": [
+    "Ticking an unticked suggestion in Manage Scope > Prompts saves at once (PATCH /reports/{id}/prompts/kept on click, no Save / confirmation). Unticking a single row was not tried; untick-all opens a confirmation (\"Untick N prompts\", views.manageScope.prompts.untickModalTitle_other). Possibly by design (story: \"ticking one keeps it\") but the CSV says \"ticks one ... and saves\". TC-002 stopped.",
+    "The row Category select saves on change (PATCH /reports/{id}/prompts/{promptId}/classification), no Save / confirmation; the Type select is expected to do the same. TC-007 stopped, TC-008 not attempted.",
+    "No \"Suggested Prompts\" heading or label in the Manage Scope table: the unticked suggestions are only the last rows, greyed. No i18n key for \"Suggested Prompts\" (only wizard.promptTable.emptyBody mentions \"Suggested prompts\"). Check Figma MS frames.",
+    "Cancel in Add Country opens \"Discard Category\" / \"Your category creation is incomplete. ...\" (wizard.discardChanges.title / description, same strings as views.addCategory.discardTitle / discardDescription): wrong wording for a country. No views.addMarket discard key exists.",
+    "Untick warning on the last prompts of a group names the group, not the metrics: \"This is the last Reputation prompt of Sporting Goods in United Kingdom (EN).\" (stopWarning.groupInCategory). The metric lines (e.g. stopWarning.perception) probably appear only when the type disappears from the whole analysis (not verified). AC-5 / rules say \"the warning names the metrics of that type\". Also the market reads \"United Kingdom (EN)\" there vs \"GB (EN)\" in the table.",
+    "Delete Prompt confirmation does not name the prompt being deleted (views.manageScope.prompts.deleteModalNextRun only).",
+    "Version history shows markets as \"France (French)\" while the table uses \"FR (FR)\".",
+    "Add Category > Prompts step: FR rows show the category as \"Cycling\" though the FR translation is \"Cyclisme\"; Add Category has no Back button on its Prompts step (Add Country has one)."
+  ],
+  "csvProposals": [
+    "TC-002 step 2 expected: \"The unticked suggestions are listed last, greyed, after the kept prompts\" (no \"Suggested Prompts\" label in the UI), unless the PO confirms a heading is required.",
+    "TC-002 step 3: \"And the user ticks one suggested prompt\" / expected \"The tick is saved at once; the ring increases by 1 and G is kept\" (no Save step).",
+    "TC-007 / TC-008 step 2: \"When the user changes the category (type) of K with the row select\" / expected \"The change is saved at once and the toast 'Prompt moved. Past results stay under the previous category and type; new results start on the next analysis re-run.' is shown\" (views.manageScope.prompts.reclassifiedNextRun).",
+    "TC-009 step 1 / TC-010 step 1 expected: use the real labels \"Add Country\" / \"Add Category\"; TC-009 step 3 expected: '\"Add Country\" stays disabled with \"Tick at least one prompt to add this country.\"'.",
+    "TC-005: add the untick path (untick-all of the group shows the same warning) and state the exact expected warning text once the PO confirms whether the metrics must be named for a group-level loss.",
+    "TC-002/003/004/006/007/008/009/010 precondition: add \"Needs setup: changes saved on a QA analysis (not allowed on shared analyses)\" so they are planned with a dedicated disposable analysis."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1239-001",
+      "title": "Manage Scope Prompts shows the wizard's table, filters and pool tracker",
+      "description": "Verify that the Prompts section of Manage Scope shows the wizard's table, filters and pool tracker, without per-country or per-type tabs and without the per-group Reset button. Covers AC-1.",
+      "story_id": "GEO-1239",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skipReason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the dashboard of analysis A",
+          "testData": "",
+          "expected": "Manage Scope is reachable",
+          "observed": "Decathlon b6c8b664 dashboard; \"Manage Scope\" link in the sidebar (/manage-scope)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens Manage Scope > Prompts",
+          "testData": "",
+          "expected": "The Prompts section is displayed",
+          "observed": "Manage Scope page with the \"Prompts\" section (views.manageScope.prompts.title) and its subtitle, \"Version history\" button, \"Add prompt\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the wizard's table is shown",
+          "testData": "",
+          "expected": "Columns \"Prompt\", \"Category\", \"Type\", \"Market\", \"Actions\" in one table; no per-country or per-type tabs; no Reset button",
+          "observed": "One table, column headers Prompt / Category / Type / Market / Actions (wizard.promptTable.col*, displayed uppercase by CSS); 0 role=tab / tablist; no button containing \"Reset\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the wizard's filters are shown",
+          "testData": "",
+          "expected": "Category, Type and Market header menus and the Show prompts menu",
+          "observed": "Header menus \"Sort and filter Category\" (Sporting Goods 60, Outdoor Gear 60, Other 0, Overview 20), \"Sort and filter Type\" (Visibility 40, Reputation 40, Competitive 40, Brand Image 20, Other 0), \"Sort and filter Market\" (GB (EN) 70, FR (FR) 70) and \"Show prompts\" (All / Selected only / Unselected only)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the pool tracker is shown",
+          "testData": "",
+          "expected": "The ring \"U / P\" with its popover",
+          "observed": "Ring \"703 / 1000 prompts · 133 selected\"; hover popover \"Prompt pool 703 of 1000 · In use by other analyses 570 · Kept in this analysis 133 · Free in the pool 297\" (wizard.pool.*)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Read-only TC. \"Other (0)\" in the Category and Type menus is the known flag-ON behaviour."
+    },
+    {
+      "tc_id": "TC-GEO-1239-002",
+      "title": "Retained unticked suggestions show under Suggested Prompts and can be ticked when the pool has room",
+      "description": "Verify that retained unticked suggestions show greyed under Suggested Prompts at the end of the table, and that ticking one keeps it from the next run when the pool has room. Covers AC-2. The no-room case is covered by TC-GEO-1236-004. Needs setup: a later collection to see the prompt collected.",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skipReason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A",
+          "testData": "",
+          "expected": "The kept prompts are listed",
+          "observed": "140 rows: 133 kept prompts ticked first",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user scrolls to the end of the table",
+          "testData": "",
+          "expected": "The unticked suggestions are listed, greyed, under Suggested Prompts",
+          "observed": "The 7 unticked suggestions are the last 7 rows (GB (EN), Overview, Brand Image), greyed (prompt text #94a3b8 vs #1e293b). No \"Suggested Prompts\" heading, label or separator row is displayed (and no such i18n key exists; wizard.promptTable.emptyBody only says \"Suggested prompts appear at the end of the table\")",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user ticks one suggested prompt and saves",
+          "testData": "Suggested prompt G",
+          "expected": "The ring increases by 1 and G is kept",
+          "observed": "STOPPED: ticking suggestion G \"What do you think of Decathlon?\" sends PATCH /reports/{id}/prompts/kept immediately (no Save step). The write guard aborted it: banner \"Failed to update the prompt. Please try again.\" (views.manageScope.prompts.genericError), checkbox reverted, ring stayed 703 / 1000. requires saving a change on an existing analysis — not allowed (user decision 2026-10-20)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then G is kept from the next run",
+          "testData": "Next collection of A",
+          "expected": "G is collected and appears in the results of the next run only; the tick is not written in the version history",
+          "observed": "Not verified — needs a saved tick and a later collection",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Steps verified: 1, 2 (partly: at the end + greyed, but no \"Suggested Prompts\" label). Not verified: 3, 4. Side finding: ticking auto-saves (see side findings). Write guard = Playwright route aborting every non-GET call to /geo/api."
+    },
+    {
+      "tc_id": "TC-GEO-1239-003",
+      "title": "Editing a prompt in Manage Scope changes only its wording, from the next run",
+      "description": "Verify that editing a prompt in Manage Scope and saving changes only its wording, applied from the next run. Covers AC-3. Needs setup: a later collection after the edit.",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skipReason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a kept prompt K of analysis A collected in past runs",
+          "testData": "Prompt K (C1, Visibility, GB (EN))",
+          "expected": "K shows its original wording",
+          "observed": "K = \"Best Sporting Goods?\" (Sporting Goods, Visibility, GB (EN)), ticked, shows its original wording",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user edits the wording of K and saves",
+          "testData": "New wording: original wording + \" in 2026\"",
+          "expected": "K shows the new wording; category, type, market and ticked state are unchanged",
+          "observed": "Edit prompt turns the cell into an inline input; wording changed to \"Best Sporting Goods? in 2026\"; category, type, market and tick unchanged while editing. Enter opens the \"Save Changes\" modal: \"Only the wording changes. Results from past runs stay as they are; the new wording is asked from the next analysis re-run.\" (views.manageScope.prompts.editModalTitle / editModalNextRun) with Cancel / Save Changes. Cancel used: K back to \"Best Sporting Goods?\", no write request sent. Save not clicked",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then past results keep the original wording",
+          "testData": "Results of the last run",
+          "expected": "The last run shows K with its original wording",
+          "observed": "requires saving a change on an existing analysis — not allowed (user decision 2026-10-20) (and a later collection)",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the next run uses the new wording",
+          "testData": "Next collection of A",
+          "expected": "The next run shows K with the new wording",
+          "observed": "requires saving a change on an existing analysis — not allowed (user decision 2026-10-20) (and a later collection)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Steps verified: 1 and step 2 up to the save confirmation. Not verified: the saved wording, steps 3 and 4."
+    },
+    {
+      "tc_id": "TC-GEO-1239-004",
+      "title": "Deleting a prompt frees its slot and keeps its past data points",
+      "description": "Verify that deleting a prompt in Manage Scope asks for confirmation (no Undo), returns its slot to the pool and keeps its past data points in the history. Covers AC-4.",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skipReason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a kept prompt K of analysis A with past data points",
+          "testData": "Prompt K",
+          "expected": "The ring reads \"X / P\"",
+          "observed": "K = \"What do you think of Decathlon for Sporting Goods?\" (Sporting Goods, Reputation, GB (EN)); ring reads \"703 / 1000\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the trash icon of K",
+          "testData": "",
+          "expected": "A confirmation opens",
+          "observed": "Trash icon opens the \"Delete Prompt\" confirmation: \"Its slot returns to the prompt pool. Results from past runs stay in the history; the prompt is no longer asked from the next analysis re-run.\" (views.manageScope.prompts.deleteModalTitle / deleteModalNextRun), buttons Cancel / Delete Prompt",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user confirms",
+          "testData": "",
+          "expected": "K is removed from the table, with no Undo toast",
+          "observed": "Not confirmed — requires saving a change on an existing analysis — not allowed (user decision 2026-10-20). Cancel used: K still listed, 140 rows, ring 703 / 1000",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then its slot returns to the pool",
+          "testData": "",
+          "expected": "The ring reads \"X - 1 / P\"",
+          "observed": "Not verified (needs the confirmed deletion)",
+          "status": "SKIP"
+        },
+        {
+          "title": "And its past data points stay in the history",
+          "testData": "Results of past runs",
+          "expected": "The past results of K are still shown",
+          "observed": "Not verified (needs the confirmed deletion)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Steps verified: 1, 2. Not verified: 3, 4, 5 (removal, no Undo toast, ring X - 1, past data kept)."
+    },
+    {
+      "tc_id": "TC-GEO-1239-005",
+      "title": "The last prompt of a group can be deleted with a warning naming the metrics that stop",
+      "description": "Verify that deleting the last prompt of a question type, category or market is allowed (the GEO-581 minimum of 1 prompt per group goes away) and that a warning names the metrics the analysis will stop producing. Covers AC-5.",
+      "story_id": "GEO-1239",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skipReason": "requires saving a change on an existing analysis — not allowed (user decision 2026-10-20)",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the group GB (EN) x C1 x Reputation holds a single prompt",
+          "testData": "Filters: Market GB (EN), Category C1, Type Reputation",
+          "expected": "One row is listed",
+          "observed": "Precondition not met: filters Market GB (EN) + Category Sporting Goods + Type Reputation list 10 rows, not 1. No group of either Decathlon analysis has a single kept prompt (smallest: GB (EN) x Overview x Brand Image = 3 kept). Reducing the group needs 9 deletions/unticks = requires saving a change on an existing analysis — not allowed (user decision 2026-10-20)",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user deletes that last prompt",
+          "testData": "",
+          "expected": "The deletion is allowed (no minimum error)",
+          "observed": "Not executed",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then a warning names the metrics the analysis will stop producing",
+          "testData": "",
+          "expected": "The warning names the Reputation metrics of C1 in GB (EN)",
+          "observed": "Not executed on the delete path. Related observation (untick path, cancelled): untick-all of the 10 filtered rows opens \"Untick 10 prompts\" with \"What stops from the next run\" — \"This is the last Reputation prompt of Sporting Goods in United Kingdom (EN).\" (stopWarning.title / groupInCategory). It names the group, not the Reputation metrics",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user confirms",
+          "testData": "",
+          "expected": "The prompt is deleted and the group is empty",
+          "observed": "Not executed (Cancel used on the untick modal)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: requires saving a change on an existing analysis — not allowed (user decision 2026-10-20). Screenshots show the 10-row group and the untick warning (cancelled)."
+    },
+    {
+      "tc_id": "TC-GEO-1239-006",
+      "title": "Version history groups prompt changes by date with count and original and edited wording",
+      "description": "Verify that the version history groups prompt changes by date with their count and the original and edited wording. Covers AC-6. Needs setup: prompt edits made on at least two different days.",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skipReason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-006_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-006_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given prompts of analysis A were changed on two dates",
+          "testData": "D1: 2 edits; D2: 1 edit",
+          "expected": "The changes are saved",
+          "observed": "Not available on QA analyses: b6c8b664 and 27bec573 history is empty (\"No changes yet\" / \"Prompt edits made by you and your teammates will appear here.\"). Creating edits = requires saving a change on an existing analysis — not allowed (user decision 2026-10-20). Substitute (read only): Orange 16cdf040 (QA-GEO), edited on 13 and 15 July 2026",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the version history",
+          "testData": "",
+          "expected": "The version history is displayed",
+          "observed": "Orange: \"Prompts Version history\" side panel opens (views.manageScope.versionHistory.title)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the changes are grouped by date with their count",
+          "testData": "",
+          "expected": "A D2 group with 1 change and a D1 group with 2 changes",
+          "observed": "Grouped by day with a count: \"15 July 2026 · 5 Changes\" (expanded) and \"13 July 2026 · 5 Changes\" (collapsible, groupToggleAria \"Toggle day\"); newest day first",
+          "status": "PASS"
+        },
+        {
+          "title": "And each change shows the original and the edited wording",
+          "testData": "",
+          "expected": "Original and edited wording of each of the 3 prompts",
+          "observed": "Each \"Edited a Brand Image prompt\" entry shows the original wording struck through in red and the edited wording in green, e.g. \"Qu'est-ce qui fait la renommée d'Orange ?\" -> \"kkk ?\", \"kkk ?\" -> \"test 001 ?\", \"test001 de kaoutar\" -> \"test002a de kaoutar\"; author, category, market and time on each entry",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Steps verified: 2, 3, 4 on a substitute analysis (Orange, not created by this QA run; only the panel was opened). Not verified: step 1 on analysis A and the expected counts D2 = 1 / D1 = 2 (Orange days hold edits plus adds/deletes). Market shown as \"France (French)\" in the history vs \"FR (FR)\" in the table."
+    },
+    {
+      "tc_id": "TC-GEO-1239-007",
+      "title": "A category change keeps the prompt history where it was collected",
+      "description": "Verify that changing the category of a prompt keeps its history where it was collected, the change showing in the history as deleted from the old category and added to the new one. Covers AC-7. Needs setup: a later collection after the change.",
+      "story_id": "GEO-1239",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skipReason": "requires saving a change on an existing analysis — not allowed (user decision 2026-10-20)",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-007_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-007_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given prompt K of category C1 has past results",
+          "testData": "Prompt K",
+          "expected": "K is listed under C1",
+          "observed": "K = \"Best Sporting Goods?\" listed under Sporting Goods (C1), Visibility, GB (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user changes the category of K to C2 with the row select and saves",
+          "testData": "Category: C2",
+          "expected": "K is listed under C2",
+          "observed": "STOPPED: picking \"Outdoor Gear\" in the row Category select sends PATCH /reports/{id}/prompts/{promptId}/classification immediately (no Save). Aborted by the write guard: \"Failed to update the prompt. Please try again.\"; after reload K is still under Sporting Goods. requires saving a change on an existing analysis — not allowed (user decision 2026-10-20)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the version history shows K deleted from C1 and added to C2",
+          "testData": "",
+          "expected": "Two entries: deleted from C1, added to C2",
+          "observed": "Not verified",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the past results of K stay under C1",
+          "testData": "Category view C1, past runs",
+          "expected": "The past results of K are still counted in C1",
+          "observed": "Not verified",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the next run collects K under C2",
+          "testData": "Next collection of A",
+          "expected": "K results appear under C2 from the next run",
+          "observed": "Not verified",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Only the Given is verified. Row selects save on change (side finding)."
+    },
+    {
+      "tc_id": "TC-GEO-1239-008",
+      "title": "A type change ends the old series and starts a new one",
+      "description": "Verify that changing the type of a prompt ends its old series and starts a new one. Covers AC-7. Needs setup: a later collection after the change.",
+      "story_id": "GEO-1239",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skipReason": "requires saving a change on an existing analysis — not allowed (user decision 2026-10-20)",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-008_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-008_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given prompt K of type Visibility has past results",
+          "testData": "Prompt K",
+          "expected": "K shows type Visibility",
+          "observed": "K = \"Best Sporting Goods?\" shows type Visibility",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user changes the type of K to Reputation with the row select and saves",
+          "testData": "Type: Reputation",
+          "expected": "K shows type Reputation",
+          "observed": "Not done: the row Type select uses the same save-on-change call as the Category select (TC-007). Select opened only: options Visibility (selected), Reputation, Competitive, Brand Image; closed with Escape, type unchanged. requires saving a change on an existing analysis — not allowed (user decision 2026-10-20)",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the Visibility series of K ends",
+          "testData": "Visibility results, past runs",
+          "expected": "The past Visibility results of K stay and get no new data point",
+          "observed": "Not verified",
+          "status": "SKIP"
+        },
+        {
+          "title": "And a new Reputation series starts from the next run",
+          "testData": "Next collection of A",
+          "expected": "K results appear as Reputation from the next run",
+          "observed": "Not verified",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Only the Given is verified."
+    },
+    {
+      "tc_id": "TC-GEO-1239-009",
+      "title": "Adding a market brings fresh suggestions, all ticked, with the pool in view",
+      "description": "Verify that adding a market in Manage Scope brings fresh suggestions for it, all ticked, with the pool in view; what the user unticks joins the retained set (Suggested Prompts), and the market cannot be saved with no ticked prompt nor over the pool. Covers AC-8.",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skipReason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-009_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-009_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-009_step3_then.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-009_step4_before_save.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-009_side_discard_dialog.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is in Manage Scope of analysis A",
+          "testData": "",
+          "expected": "Add market is available",
+          "observed": "\"Add Country\" button (views.manageScope.addMarket) in Analysis Scope > Countries",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a market",
+          "testData": "Market: Spain - Spanish (ES)",
+          "expected": "Fresh suggestions for Spain are generated, all ticked, with the pool ring in view",
+          "observed": "Add Country > Spain, language auto-set to Spanish (ES) > Next: 70 Spanish suggestions for ES (ES) (Overview/Brand Image, Sporting Goods and Outdoor Gear x Reputation/Visibility/Competitive), all 70 ticked, ring \"773 / 1000 prompts · 70 selected\" in the dialog",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user unticks every suggestion of the new market",
+          "testData": "",
+          "expected": "Save is refused with no ticked prompt",
+          "observed": "Header checkbox unticks all: ring \"703 / 1000 · 0 selected\", \"Add Country\" save button disabled, message \"Tick at least one prompt to add this country.\" (views.addMarket.noKeptPrompt)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user ticks back all but 3 suggestions and saves",
+          "testData": "",
+          "expected": "The market is added; the ring reflects the ticked prompts",
+          "observed": "Ticked all back then unticked 3: ring \"770 / 1000 prompts · 67 selected\", \"Add Country\" enabled. Not clicked — requires saving a change on an existing analysis — not allowed (user decision 2026-10-20). Cancel > \"Exit and Discard\"; scope still GB + FR",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then the 3 unticked suggestions join Suggested Prompts",
+          "testData": "Manage Scope > Prompts",
+          "expected": "The 3 rows are listed greyed under Suggested Prompts; the new prompts show as \"Added\" in the version history",
+          "observed": "Not verified (needs the saved market)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Steps verified: 1, 2, 3, and step 4 up to the save point. Not verified: market added, Suggested Prompts rows, \"Added\" in history. Over-the-pool refusal not tested (297 free slots). The guard first blocked POST /questions/adapt-batch (\"Prompt adaptation failed — showing English templates.\", views.addMarket.adaptationError); this stateless translation call (no analysis id) was then allowed and the flow replayed."
+    },
+    {
+      "tc_id": "TC-GEO-1239-010",
+      "title": "Adding a category brings fresh suggestions, all ticked, with the pool in view",
+      "description": "Verify that adding a category in Manage Scope brings fresh suggestions for it in every market, all ticked, with the pool in view, joining the retained set. Covers AC-8.",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skipReason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-010_step1_given.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-010_step2_when.png",
+        "screenshots-GEO-1002-GEO1239/TC-GEO-1239-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is in Manage Scope of analysis A",
+          "testData": "",
+          "expected": "Add category is available",
+          "observed": "\"Add Category\" button (views.manageScope.addCategory) in Analysis Scope > Categories",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a category",
+          "testData": "Category: \"Cycling\"",
+          "expected": "Fresh suggestions for \"Cycling\" in GB (EN) and FR (FR) are shown, all ticked, with the pool ring in view",
+          "observed": "Add Category \"Cycling\" > AI Sense translations \"GB - English: Cycling\", \"FR - French: Cyclisme\" > Next: 60 suggestions (GB (EN) and FR (FR) x Reputation/Visibility/Competitive, 10 each), all ticked, ring \"763 / 1000 prompts · 60 selected\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user saves",
+          "testData": "",
+          "expected": "The category is added",
+          "observed": "\"Add Category\" save button enabled but not clicked — requires saving a change on an existing analysis — not allowed (user decision 2026-10-20). Cancel > \"Discard Category\" > \"Exit and Discard\"; categories still Sporting Goods + Outdoor Gear, ring 703 / 1000",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the new prompts join the analysis",
+          "testData": "Filter Category = Cycling",
+          "expected": "The \"Cycling\" prompts are listed in Manage Scope > Prompts and show as \"Added\" in the version history",
+          "observed": "Not verified (needs the saved category)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Steps verified: 1, 2. Not verified: 3, 4. The FR rows show the category as \"Cycling\" (category column) although the FR translation is \"Cyclisme\" (AI insights language English). POST /analysis/translate-category (stateless) allowed through the guard."
+    }
+  ]
+}

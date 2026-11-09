@@ -1,0 +1,603 @@
+{
+  "spec": "GEO-1035-mcp",
+  "runDate": "2026-09-22",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 21,
+    "pass": 18,
+    "fail": 0,
+    "skip": 3,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "GEO-1035-SC-01",
+      "title": "Switcher Placement and Anatomy",
+      "story_id": "GEO-1129",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-01_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-01_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-01_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Logo at x=20-114, switcher at x=126-306. aria-label=Current organisation: QA-GEO. Avatar img, Organisation label, QA-GEO name, inline SVG chevron. User menu at x=1228."
+    },
+    {
+      "tc_id": "GEO-1035-SC-02",
+      "title": "Switcher Behaviour Mirrors UP",
+      "story_id": "GEO-1129",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-02_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-02_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-02_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - navigated to /geo, authenticated as Onclusive org (active)",
+          "status": "PASS"
+        },
+        {
+          "title": "When - clicked org switcher, dropdown opened with 3 orgs including suspended QA-GEO",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - search field OK, role tags OK, active org distinguished (bg-sky-50), QA-GEO visible in list, clicking QA-GEO shows error message in dropdown and keeps Onclusive active — behaviour confirmed compliant",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PASS — All assertions confirmed. Search field present. Role tags (Super Admin) per org. Active org (Onclusive) distinguished with bg-sky-50/text-sky-700. QA-GEO visible as 3rd item. Clicking QA-GEO: dropdown stays open, red-bordered message You no longer have access to this organisation. appears inline, org switch blocked, active org remains Onclusive. Behaviour validated as compliant per spec."
+    },
+    {
+      "tc_id": "GEO-1035-SC-03",
+      "title": "Organisation Switch Context Refresh",
+      "story_id": "GEO-1129",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-03_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-03_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-03_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "QA-GEO (9 countries, 645 prompts) switched to Onclusive (8 countries, 1101 prompts). Full context refresh via client-side navigation without reload."
+    },
+    {
+      "tc_id": "GEO-1035-SC-04",
+      "title": "Switcher Present on All Three Pages",
+      "story_id": "GEO-1129",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-04_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-04_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-04_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Switcher confirmed on /geo/ (dashboard), /geo/settings, /geo/backoffice/users. Consistent label and state on all three."
+    },
+    {
+      "tc_id": "GEO-1035-SC-06",
+      "title": "UP Top Bar Unaffected",
+      "story_id": "GEO-1129",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-06_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-06_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-06_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "SKIP"
+        },
+        {
+          "title": "When - action performed",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - requires UP mode environment. Staging runs in OS mode only."
+    },
+    {
+      "tc_id": "GEO-1035-SC-07",
+      "title": "Logo Identity in OS Mode",
+      "story_id": "GEO-1129",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-07_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-07_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-07_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "img alt=Onclusive GEO, src=onclusive-logo-geo-guLgo78E.svg. No Onclusive Social logo found anywhere."
+    },
+    {
+      "tc_id": "GEO-1035-SC-08",
+      "title": "Home Tab on Settings Page",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-08_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-08_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-08_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "subnav-link-home (A tag, href=/geo) and subnav-link-settings (SPAN, aria-current=page, child span.bg-[#18ae46] green underline). Settings tab active."
+    },
+    {
+      "tc_id": "GEO-1035-SC-09",
+      "title": "Home Tab on Administration Page",
+      "story_id": "GEO-1130",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-09_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-09_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-09_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "subnav-link-home (A) and subnav-link-backoffice (SPAN, aria-current=page, bg-[#18ae46]). Administration tab active. 122 users shown."
+    },
+    {
+      "tc_id": "GEO-1035-SC-10",
+      "title": "Home Tab Navigation",
+      "story_id": "GEO-1130",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-10_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-10_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-10_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Clicked subnav-link-home from /geo/backoffice/users. URL changed to /geo. GEO Analytics Dashboard shown. Client-side React Router navigation."
+    },
+    {
+      "tc_id": "GEO-1035-SC-11",
+      "title": "No Sub-Nav on GEO Homepage",
+      "story_id": "GEO-1130",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-11_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-11_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-11_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "hasSubNav=false on /geo. The unnamed nav element absent on homepage. Only banner and main content present."
+    },
+    {
+      "tc_id": "GEO-1035-SC-12",
+      "title": "Active Tab Click Is a No-Op",
+      "story_id": "GEO-1130",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-12_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-12_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-12_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Active Settings tab is SPAN (not A or BUTTON), aria-current=page, no onclick. Clicking produced no URL change."
+    },
+    {
+      "tc_id": "GEO-1035-SC-13",
+      "title": "Sub-Navigation Tab Labels Translated",
+      "story_id": "GEO-1130",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-13_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-13_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-13_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - navigated to /geo/settings in OS mode",
+          "status": "PASS"
+        },
+        {
+          "title": "When - switched interface language across all 4 locales",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - fr-FR: Accueil/Parametres | es-ES: Inicio/Configuracion | en-US: Home/Settings | en-GB: Home/Settings — all 4 locales PASS",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PASS — All 4 locales verified. fr-FR: Home=Accueil, Settings=Parametres. es-ES: Home=Inicio (hardcoded in app), Settings=Configuracion. en-US: Home=Home, Settings=Settings. en-GB: Home=Home, Settings=Settings (identical to en-US, expected). Language switch confirmed via alert \"Interface language updated\"."
+    },
+    {
+      "tc_id": "GEO-1035-SC-14",
+      "title": "UP Sub-Navigation Unchanged",
+      "story_id": "GEO-1130",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-14_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-14_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-14_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "SKIP"
+        },
+        {
+          "title": "When - action performed",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - requires UP mode environment."
+    },
+    {
+      "tc_id": "GEO-1035-SC-15",
+      "title": "Settings Entry Opens Settings Page",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-15_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-15_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-15_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Clicked app-topbar-user-menu-settings-btn. URL=/geo/settings. Heading=Settings confirmed. Menu closed."
+    },
+    {
+      "tc_id": "GEO-1035-SC-16",
+      "title": "Settings Entry Visible for All Roles",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-16_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-16_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-16_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - logged in as assiya.benramdane+os@onclusive.com on /geo",
+          "status": "PASS"
+        },
+        {
+          "title": "When - opened avatar menu",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - Settings entry visible for Editor role and Reader role",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PASS — Settings visible for both Editor and Reader roles. Menu opens via User menu button. Reader: New Analysis button disabled (read-only role confirmed). Editor: same menu structure. All roles confirmed via assiya.benramdane+os@onclusive.com account."
+    },
+    {
+      "tc_id": "GEO-1035-SC-17",
+      "title": "Avatar Menu Order per Role",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-17_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-17_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-17_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - logged in as Reader/Editor (assiya.benramdane+os@onclusive.com)",
+          "status": "PASS"
+        },
+        {
+          "title": "When - opened avatar menu, listed all items",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - Editor order: [Settings, Cookie Settings, Log out] | Reader order: [Settings, Cookie Settings, Log out] — no Administration, no Help, no timezone footer",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PASS — Editor: [Settings, Cookie Settings, Log out]. Reader: [Settings, Cookie Settings, Log out]. Administration absent, Help absent, timezone footer absent on both roles. Super Admin (main account): [Administration, Settings, Cookie Settings, Log out] — confirmed in initial run."
+    },
+    {
+      "tc_id": "GEO-1035-SC-18",
+      "title": "UP Avatar Menu Unaffected",
+      "story_id": "GEO-1131",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-18_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-18_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-18_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "SKIP"
+        },
+        {
+          "title": "When - action performed",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - requires UP mode environment."
+    },
+    {
+      "tc_id": "GEO-1035-SC-19",
+      "title": "Settings Page Behaviour Identical to UP Path",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-19_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-19_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-19_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Preferences: 4 language options. User admin: EMAIL/NAME/ROLE/STATUS/ACTIONS table. Language change to French saved correctly."
+    },
+    {
+      "tc_id": "GEO-1035-SC-20",
+      "title": "Settings Entry Translation",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-20_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-20_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-20_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "French avatar menu: Administration > Parametres > Parametres des cookies > Log out. Settings correctly translated to Parametres."
+    },
+    {
+      "tc_id": "GEO-1035-SC-21",
+      "title": "Settings Entry Disabled on Upsell Page",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-21_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-21_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-21_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - navigated to /geo/upsell, page loaded without login redirect",
+          "status": "PASS"
+        },
+        {
+          "title": "When - opened User menu avatar, Settings entry located in dropdown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - Settings visible, disabled (disabled=true, cursor=not-allowed, opacity-40), clicking does not trigger navigation",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Settings button: data-testid=app-topbar-user-menu-settings-btn, role=menuitem, disabled=true, cursor=not-allowed, opacity-40. URL remained /geo/upsell after click. All three assertions confirmed: visible, disabled, no navigation."
+    },
+    {
+      "tc_id": "GEO-1035-SC-22",
+      "title": "Administration Entry Flattened in OS Mode",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-22_step1_given.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-22_step2_when.png",
+        "screenshots-GEO-1035-mcp/GEO-1035-SC-22_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given - initial state verified",
+          "status": "PASS"
+        },
+        {
+          "title": "When - action performed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then - result verified",
+          "status": "PASS"
+        }
+      ],
+      "notes": "OS mode Administration: no bg-* class, backgroundColor=rgba(0,0,0,0), hasIcon=false, hasBadge=false. innerHTML=plain text Administration only."
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "spec": "GEO-152-GEO1116-mcp",
+  "runDate": "2026-09-24",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/2d429380-42ad-4448-82ac-e9916d633eaa/",
+  "summary": {
+    "total": 5,
+    "pass": 2,
+    "fail": 0,
+    "skip": 1,
+    "partial": 2
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1116-001",
+      "title": "Sources qualifying on three legs",
+      "story_id": "GEO-1116",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-001_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-001_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-001_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given a completed analysis with visibility, competitive, and negative concept answers each citing at least one source", "status": "PASS" },
+        { "title": "When the Actions Center is opened and the Target Sources list renders", "status": "PASS" },
+        { "title": "Then sources cited in visibility gap answers where the brand is entirely absent appear in the list", "status": "PASS" },
+        { "title": "And sources cited in competitive loss answers where the brand was not chosen appear in the list", "status": "PARTIAL" },
+        { "title": "And sources cited in negative concept answers appear in the list", "status": "PARTIAL" }
+      ],
+      "notes": "Target Sources list renders with 12 sources total. IMPROVE VISIBILITY tab confirms aol.com from visibility gap answers (brand absent). IMPROVE PERCEPTION tab has 11 sources from negative/competitive answers. However the UI does not distinguish competitive loss answers from negative concept answers — both are grouped under IMPROVE PERCEPTION. Cannot confirm 3 distinct legs separately from UI alone."
+    },
+    {
+      "tc_id": "TC-GEO-1116-002",
+      "title": "Brand ranked but not first does not qualify",
+      "story_id": "GEO-1116",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-002_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-002_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-002_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given a completed analysis where a source is cited only in visibility answers where the brand is present but ranked 2nd or lower", "status": "SKIP" },
+        { "title": "When the Actions Center is opened and the Target Sources list renders", "status": "SKIP" },
+        { "title": "Then the source cited only in those non-qualifying visibility answers does not appear in the Target Sources list", "status": "SKIP" }
+      ],
+      "notes": "SKIP — backend-only verification. The TC requires knowing which specific domain was cited exclusively in visibility answers where the brand appeared ranked 2nd or lower. The UI shows only sources that ARE in the list — it does not expose which sources were evaluated and excluded, nor the ranking criteria applied. Cannot determine from UI which domain qualifies as the suspect source in the precondition. Verifying absence of an unknown domain is not feasible without backend data or test fixture knowledge."
+    },
+    {
+      "tc_id": "TC-GEO-1116-003",
+      "title": "Articles recorded with the source",
+      "story_id": "GEO-1116",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-003_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-003_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-003_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given a completed analysis exists and a suspect source appears in the Target Sources list", "status": "PASS" },
+        { "title": "When the explanation panel is opened for that source", "status": "PASS" },
+        { "title": "Then the failing articles displayed in the panel are the specific articles cited in the qualifying answers for that source", "status": "PASS" }
+      ],
+      "notes": "Clicked ev-intelligence.com (rank #1, 8 failing articles, cited 6x in gap answers). Dialog 'Details of ev-intelligence.com' opened beside the list. Panel shows 8 specific article URLs each with a quote about Tesla and the AI engine(s) that cited them (gemini, openai). 'Failing prompts on this source' section lists 6 specific gap questions. Article count in panel matches the card count (8). PASS."
+    },
+    {
+      "tc_id": "TC-GEO-1116-004",
+      "title": "Owned and competitor domains excluded",
+      "story_id": "GEO-1116",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-004_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-004_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-004_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given a completed analysis where a brand-owned domain and a competitor domain are both cited in qualifying answers", "status": "PARTIAL" },
+        { "title": "When the Actions Center is opened and the Target Sources list renders", "status": "PASS" },
+        { "title": "Then the brand-owned domain does not appear in the Target Sources list", "status": "PASS" },
+        { "title": "And the competitor domain does not appear in the Target Sources list", "status": "PASS" }
+      ],
+      "notes": "Full 12-source Target Sources list inspected (after expanding 'Show 2 more sources'). tesla.com (brand-owned, visible in AI Citation Sources on Overview with frequency 5) is absent from all Target Sources tabs. Known competitor domains (ford.com, rivian.com, hyundai.com, chevrolet.com, bmw.com) also absent — confirmed via JS evaluation. PARTIAL because the TC precondition requires these domains to have been cited in qualifying answers — from UI alone it is impossible to confirm they were cited and then excluded (vs. simply not appearing in any qualifying answer). Exclusion causality is backend-only."
+    },
+    {
+      "tc_id": "TC-GEO-1116-005",
+      "title": "No cap from AI Citation Sources",
+      "story_id": "GEO-1116",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-005_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-005_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-005_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given a completed analysis where more domains than the AI Citation Sources display limit are cited in qualifying answers", "status": "PASS" },
+        { "title": "When the Actions Center is opened and the Target Sources list renders", "status": "PASS" },
+        { "title": "Then all domains from qualifying answers appear as candidates in the Target Sources list (not capped to AI Citation Sources display limit)", "status": "PASS" }
+      ],
+      "notes": "Target Sources list initially showed 10 sources with 'Show 2 more sources' button — confirming >10 sources exist. After expanding, 12 sources total confirmed via JS evaluation. AI Citation Sources on Overview shows 10 domains by default ('All domains 51' to expand full list). Target Sources count of 12 exceeds AI Citation Sources default display cap of 10, confirming no cap was applied. The 'Show N more source(s)' control is present as specified in the TC."
+    }
+  ]
+}

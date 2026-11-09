@@ -1,0 +1,180 @@
+{
+  "spec": "NO-EPIC-GEO-1220-rerun-ac7-mcp",
+  "rerunOf": "NO-EPIC-GEO-1220-mcp (runs/28102026-1546)",
+  "runDate": "2026-10-28",
+  "runMode": "mcp-playwright",
+  "mode": "structured (API calls with fetch from the logged-in page, per account)",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "apiBase": "https://staging-geo.onclusive.com/geo/api/v1/admin/source-classifications",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-storyGEO-1220.csv",
+  "story": "GEO-1220",
+  "environment": "staging",
+  "accounts": {
+    "main": "assiya.benramdane@onclusive.com — QA-GEO, SUPER_ADMIN, en-GB (before and after, unchanged)",
+    "editor": "assiya.benramdane+geo@onclusive.com — QA-GEO, EDITOR, en-US (recorded, not changed)",
+    "reader": "assiya.benramdane+os@onclusive.com — org Onclusive (not QA-GEO, recorded, not changed), READER, en-US (recorded, not changed)",
+    "admin": "none — no plain ADMIN account available"
+  },
+  "probes": {
+    "note": "PUT sent with an INVALID body on purpose (sourceType NOT_A_TYPE) so nothing can be written; DELETE sent on a domain with no override so nothing can be deleted. No valid PUT sent. No 401 retry needed.",
+    "putBody": "{\"sourceType\":\"NOT_A_TYPE\",\"reason\":\"QA AC7 permission check\",\"applyToHistory\":false}",
+    "editor": {
+      "at": "2026-10-28T16:01:04Z",
+      "get": "403 ACCESS_DENIED",
+      "put": "400 VALIDATION_ERROR",
+      "delete": "403 ACCESS_DENIED"
+    },
+    "reader": {
+      "at": "2026-10-28T16:01:45Z",
+      "get": "403 ACCESS_DENIED",
+      "put": "400 VALIDATION_ERROR",
+      "delete": "403 ACCESS_DENIED"
+    }
+  },
+  "dataState": {
+    "before": {
+      "at": "2026-10-28T15:59:50Z",
+      "domain": "cyclingelectric.com",
+      "sourceType": "JOURNALISM",
+      "origin": "GEMINI",
+      "updatedAt": "2026-10-20T22:14:20.380063Z",
+      "overrides": 0
+    },
+    "after": {
+      "at": "2026-10-28T16:02:12Z",
+      "domain": "cyclingelectric.com",
+      "sourceType": "JOURNALISM",
+      "origin": "GEMINI",
+      "updatedAt": "2026-10-20T22:14:20.380063Z",
+      "overrides": 0
+    },
+    "unchanged": true,
+    "proofScreenshots": [
+      "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/BEFORE_superadmin_state.png",
+      "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/AFTER_superadmin_state.png"
+    ]
+  },
+  "summary": {
+    "total": 2,
+    "pass": 0,
+    "fail": 1,
+    "skip": 1,
+    "partial": 0,
+    "success_rate_executed": 0,
+    "verdict": "NO-GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1220-012",
+      "title": "An ADMIN can search but gets 403 ACCESS_DENIED on PUT and DELETE",
+      "story_id": "GEO-1220",
+      "acs": "AC7",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "No plain ADMIN account (main account is SUPER_ADMIN).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-012_step1_given_skip.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in with an ADMIN account",
+          "expected": "The role reads ADMIN",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user calls the search",
+          "expected": "200 with {content, page, size, totalElements, totalPages}",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user calls PUT on the test domain",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user calls DELETE on the test domain",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the test domain is unchanged",
+          "expected": "The row of {D} still shows origin GEMINI and sourceType T0",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "No plain ADMIN account (main account is SUPER_ADMIN). Only EDITOR and READER accounts were provided for this rerun. Still blocked by OP-2."
+    },
+    {
+      "tc_id": "TC-GEO-1220-013",
+      "title": "EDITOR and READER get 403 ACCESS_DENIED on GET, PUT and DELETE",
+      "story_id": "GEO-1220",
+      "acs": "AC7",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "PUT /admin/source-classifications/cyclingelectric.com as EDITOR and as READER: Expected 403 {\"error\":\"ACCESS_DENIED\"} — observed 400 {\"error\":\"VALIDATION_ERROR\",\"message\":\"sourceType: invalid value, accepted values are [JOURNALISM, CORPORATE, GOVERNMENT_NGO, AGGREGATOR, ACADEMIC, PRESS_RELEASE, SOCIAL_UGC, REVIEW_SITES, OTHER]\"}. The request body is validated before the role is checked, so a non-admin gets a validation error instead of 403. Nothing was written (invalid body). A valid PUT was not sent, so whether a valid body from a non-admin would be refused could not be checked without risking a global write.",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-013_step1_given_editor.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-013_step2_when_editor_get.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-013_step3_editor_put.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-013_step4_editor_delete.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-013_step5_given_reader.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-013_step6_when_reader_get.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-013_step7_reader_put.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-013_step8_then_reader_delete.png",
+        "screenshots-NO-EPIC-GEO-1220-rerun-ac7-mcp/TC-GEO-1220-013_step9_then_unchanged.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in with an EDITOR account",
+          "expected": "The role reads EDITOR",
+          "status": "PASS",
+          "observed": "role EDITOR, org QA-GEO, language en-US"
+        },
+        {
+          "title": "When the user calls the search",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "PASS",
+          "observed": "403 {\"error\":\"ACCESS_DENIED\",\"message\":\"Access denied\"}"
+        },
+        {
+          "title": "And the user calls PUT on the test domain",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "FAIL",
+          "observed": "400 {\"error\":\"VALIDATION_ERROR\", ...}"
+        },
+        {
+          "title": "Then the DELETE is refused too",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "PASS",
+          "observed": "403 {\"error\":\"ACCESS_DENIED\",\"message\":\"Access denied\"}"
+        },
+        {
+          "title": "Given the user is logged in with a READER account",
+          "expected": "The role reads READER",
+          "status": "PASS",
+          "observed": "role READER, org Onclusive, language en-US"
+        },
+        {
+          "title": "When the user calls the search",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "PASS",
+          "observed": "403 {\"error\":\"ACCESS_DENIED\",\"message\":\"Access denied\"}"
+        },
+        {
+          "title": "And the user calls PUT on the test domain",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "FAIL",
+          "observed": "400 {\"error\":\"VALIDATION_ERROR\", ...}"
+        },
+        {
+          "title": "Then the DELETE is refused too",
+          "expected": "403 with {\"error\":\"ACCESS_DENIED\", ...}",
+          "status": "PASS",
+          "observed": "403 {\"error\":\"ACCESS_DENIED\",\"message\":\"Access denied\"}"
+        }
+      ],
+      "notes": "Run with an INVALID PUT body on purpose (sourceType NOT_A_TYPE), as agreed for this rerun: a 400 means authorisation is checked after validation (or missing on PUT). GET and DELETE are correctly refused with 403 for both roles (DELETE on a domain with no override returned 403, not 404 NO_OVERRIDE, so the role check runs first there). READER account belongs to org Onclusive, not QA-GEO (recorded, not changed); the override API is global so the role check is org-independent. Before / after proof as SUPER_ADMIN: cyclingelectric.com JOURNALISM / GEMINI / updatedAt 2026-10-20T22:14:20.380063Z, 0 override, both identical. CSV step text uses a valid REVIEW_SITES body; this rerun used the invalid body instead (no write risk) — the PUT expectation (403) is unchanged."
+    }
+  ]
+}

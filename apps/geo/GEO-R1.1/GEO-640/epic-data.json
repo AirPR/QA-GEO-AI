@@ -1,0 +1,50 @@
+{
+  "epic": {
+    "id": "GEO-640",
+    "key": "GEO-640",
+    "title": "EPIC-23: Share of Voice Dedicated Chart (Extract SOV from Per-Brand Metrics)",
+    "status": "Passed QA",
+    "assignee": "Abdenasser Aroukhsiss",
+    "created": "2026-06-08",
+    "updated": "2026-07-07",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-640",
+    "functionalNeed": "A user sees Share of Voice presented as what it is, a competitive share distributed across the brand and its competitors, in its own dedicated chart, instead of being shown as a per-brand metric alongside Visibility, Win Rate, Position and Sentiment where it misleads.\nShare of Voice is a share split across all brands in a category, so a single brand rarely holds more than about 30 percent even when it dominates. Presenting it as a per-brand KPI with Good / Fair / Poor banding makes a strong brand read Poor, and using it as a quadrant axis squashes every brand into one corner. The quadrant axis was already switched away from Share of Voice to Visibility (ref GEO-354) for exactly this reason. This epic completes that move by giving Share of Voice the visualization that fits a share: a dedicated chart that compares the brand against its competitors.\n- A dedicated Share of Voice chart that shows the target brand's share against its top competitors for the selected scope (country, category, engines, period), so the distribution and the brand's slice are immediately readable.\n- The Share of Voice chart should be placed right below the KPI card.\n- Share of Voice is removed from the per-brand KPI card set on the Overview and Category views, where it currently carries a Good / Fair / Poor quality pill that misrepresents a share\n- The Share of Voice formula itself is unchanged; the mention-density model from EPIC-015 stays.",
+    "scope": [
+      "- A dedicated Share of Voice chart that shows the target brand's share against its top competitors for the selected scope (country, category, engines, period), so the distribution and the brand's slice are immediately readable.",
+      "- The Share of Voice chart should be placed right below the KPI card.",
+      "- Share of Voice is removed from the per-brand KPI card set on the Overview and Category views, where it currently carries a Good / Fair / Poor quality pill that misrepresents a share",
+      "- The Share of Voice formula itself is unchanged; the mention-density model from EPIC-015 stays.",
+      "- The quadrant axis change, already delivered in GEO-354.",
+      "- Visibility, Win Rate (now AI choice), Position and Sentiment surfaces, unchanged."
+    ],
+    "outOfScope": [
+      "- The Share of Voice formula itself is unchanged; the mention-density model from EPIC-015 stays.",
+      "- The quadrant axis change, already delivered in GEO-354.",
+      "- Visibility, Win Rate (now AI choice), Position and Sentiment surfaces, unchanged."
+    ],
+    "stories": [
+      {
+        "id": "GEO-664",
+        "title": "23-2 — Dedicated Share of Voice Doughnut Chart (Overview + Category)",
+        "status": "Passed QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-06-15",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-664",
+        "userStory": "## Story\n\nAs an Editor or Reader viewing the Overview and Category dashboards,",
+        "acceptanceCriteria": "**AC1** — Given the Overview view (and, with parity, a Category view), When the page loads with data, Then a full-width \"Share of Voice\" card renders directly below the KPI card row, with title \"Share of Voice\" + subtitle \"By brand, your brand is highlighted\", and a doughnut comparing the target brand vs top competitors.\n\n**AC2** — Given the doughnut, When it renders, Then it shows the top 10 brands by SOV (descending), And all remaining share is aggregated into a single \"Others\" slice, And each arc has an outside % callout (callouts < ~2% hidden; legend still lists the brand), And a bottom-centered legend lists each brand (color dot + name + bold %), ordered by SOV desc with \"Others\" last, And colors are assigned by SOV rank (extended palette + gray \"Others\").\n\n**AC3** — Given the target brand IS in the top 10, When the doughnut renders, Then its arc is emphasized by size (structural, not a reserved color), And the persistent center label shows the target brand's name + SOV value + \"Share of Voice\" — even when it is not the largest slice.\n\n**AC3b** — Given the target brand is NOT in the top 10, When the doughnut renders, Then the center label still shows the target brand's name + SOV value (sourced from KPI shareOfVoice), And no slice is popped out or highlighted for it — its share is absorbed into \"Others\".\n\n**AC4** — Given a brand slice, When its value is computed, Then it uses the aggregated SOV of the brand incl. variants/products — exactly the per-parent-brand SOV from the Brand Rankings data (normalized_name grouping, mention-density), with no separate recomputation.\n\n**AC5** — Given a scope with no responses, When the card would render, Then it shows an empty state (\"No data to show\" / \"Adjust your filters or widen the date range to see this metric\") inside the card, keeping the header, never a misleading 0%.\n\n**AC6** — Given the chart data fails to load, When the card renders, Then it keeps its header and shows the error state (crossed-chart icon, \"Couldn't load this chart\", helper text, Reload button), And clicking Reload re-fetches inline without a full page reload.\n\n**AC7** — Given the chart is fetching, When the request is in flight, Then a loading skeleton occupies the chart area, keeping the card header.\n\n**AC8** — Given market/category/engine/period filters change, When the user updates any filter, Then the doughnut, callouts, legend and center label recompute for the new scope.\n\n**AC9** — Given the new component, When tested, Then unit tests cover: top-10 selection from SOV-desc data, \"Others\" residual (100 − Σtop10, clamped ≥ 0, last), center label from KPI shareOfVoice (incl. target not largest), callout hiding < ~2%, legend order + colors, empty state, error + reload, loading skeleton.\n\n📋 Spec complète : [23-2-dedicated-sov-doughnut-chart.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-23/23-2-dedicated-sov-doughnut-chart.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-663",
+        "title": "23-1 — Remove Share of Voice from Per-Brand Surfaces (Overview + Category)",
+        "status": "Done",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-06-15",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-663",
+        "userStory": "## Story\n\nAs an Editor or Reader viewing the Overview and Category dashboards,",
+        "acceptanceCriteria": "**AC1** — Given I am on the Overview view, When the Performance KPI row renders, Then it shows exactly 4 KPI cards — Visibility, Avg Position, AI Choice, Sentiment — in that order, And there is no Share of Voice KPI card, And no Good/Fair/Poor quality pill for Share of Voice is rendered.\n\n**AC2** — Given I am on a Category view, When the Performance KPI row renders, Then it shows the same 4 KPI cards (no Share of Voice), And the row layout reflows cleanly for 4 cards (no empty 5th cell / broken grid).\n\n**AC3** — Given I am on the Overview or a Category view, When the Brand Rankings table renders, Then its columns are Rank · Brand · Visibility% · Avg Position · LLM Choice%, And there is no SoV% column (neither header nor any parent or variant row cell).\n\n**AC4** — Given the Brand Rankings table renders with the SoV% column removed, When no explicit user sort is applied, Then the table's default row order is Visibility% descending (D1 resolved), And the \"Rank\" column reflects that order (rank 1 = highest Visibility%), And the target brand highlight (🏆 / \"YOU\" badge + amber row) still renders correctly.\n\n**AC5** — Given SOV is removed from both surfaces, When the components render, Then all now-unused SOV-specific i18n strings, tooltips, and quality-band references tied to these two surfaces are removed/unreachable, And no missing-translation-key console warnings are produced.\n\n**AC6** — Given the existing component test suites, When SOV is removed, Then the suites assert the 4-card row and the SoV-less column set, And any test asserting the presence of the SOV card / SoV% column is updated to assert its absence.\n\n📋 Spec complète : [23-1-remove-sov-from-per-brand-surfaces.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-23/23-1-remove-sov-from-per-brand-surfaces.md)",
+        "technicalNotes": ""
+      }
+    ]
+  }
+}

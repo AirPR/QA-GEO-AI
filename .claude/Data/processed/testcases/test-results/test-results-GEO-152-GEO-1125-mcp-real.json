@@ -1,0 +1,219 @@
+{
+  "spec": "GEO-152-GEO-1125-mcp",
+  "runDate": "2026-09-25",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+  "summary": {
+    "total": 7,
+    "pass": 4,
+    "fail": 0,
+    "skip": 2,
+    "partial": 1
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1125-001",
+      "title": "Citation Sources card: three columns, no Favorability",
+      "story_id": "GEO-1125",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-001_step1_given.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-001_step2_when.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with AI Citation Sources visible on the dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the AI Citation Sources card domain list renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then exactly three columns are shown: Domain, Type, and Frequency — AND no Favorability column is present",
+          "status": "PASS"
+        }
+      ],
+      "notes": "UI language: Spanish (staging). Heading: 'Fuentes de citación de los motores de IA'. Table headers confirmed: ['Dominio', 'Tipo', 'Frecuencia'] — exactly 3 meaningful columns. No 'favorab' text anywhere in the card container. No badge elements found. hasFavorability=false."
+    },
+    {
+      "tc_id": "TC-GEO-1125-002",
+      "title": "All Domains modal: three columns, no Favorability",
+      "story_id": "GEO-1125",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-002_step1_given.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-002_step2_when.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Citation Sources card is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the 'All domains' modal (click 'Todos los dominios' button showing 54 domains)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the modal renders with Domain, Type, and Frequency columns only — AND no Favorability column in the modal",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Clicked 'Todos los dominios54' button. Modal opened as <dialog open> with class fixed top-1/2 left-1/2 z-[1202]. Modal table headers: ['Dominio', 'Tipo', 'Frecuencia'] — 3 columns only. hasFavorability=false on modal text content."
+    },
+    {
+      "tc_id": "TC-GEO-1125-003",
+      "title": "Favorability not a sort key",
+      "story_id": "GEO-1125",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-003_step1_given.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-003_step2_when.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Citation Sources card and All Domains modal are both accessible",
+          "status": "PASS"
+        },
+        {
+          "title": "When the column headers of the domain table (card) are inspected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only Domain, Type, and Frequency are sortable — no Favorability sort option exists",
+          "status": "PASS"
+        },
+        {
+          "title": "And when the All Domains modal is opened, Favorability is also absent as a sort key",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Card sort buttons: ['Dominio', 'Tipo', 'Frecuencia', 'Todos los dominios54', filter buttons]. Modal header sort buttons: ['Dominio', 'Tipo', 'Frecuencia']. hasFavorabilitySort=false for both card and modal. No favorability sort option anywhere."
+    },
+    {
+      "tc_id": "TC-GEO-1125-004",
+      "title": "No favorability badge anywhere on the surface",
+      "story_id": "GEO-1125",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-004_step1_given.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-004_step2_when.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with AI Citation Sources data",
+          "status": "PASS"
+        },
+        {
+          "title": "When the AI Citation Sources card is inspected — no Favorable / Mixed / Unfavorable badge",
+          "status": "PASS"
+        },
+        {
+          "title": "And when the All Domains modal is opened — no favorability badge in the modal",
+          "status": "PASS"
+        },
+        {
+          "title": "And when a domain (toyota.fr) is selected and source details panel opened — no favorability badge in the panel",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Full page scan for 'favorable', 'unfavorable', 'mixed', 'favorab', 'desfavorable', 'sentiment' in visible text: 0 matches. Badge/chip element scan: 0 badge elements found. Source details panel for toyota.fr opened ('Detalles de las fuentes de citación de los motores de IA'): hasFavText=false. Note: 'sentiment' word found only in SVG mask ID attributes (mask-sentiment-positive) — not visible UI content, icon sprite definitions only."
+    },
+    {
+      "tc_id": "TC-GEO-1125-005",
+      "title": "XLSX and PPTX exports drop Favorability",
+      "story_id": "GEO-1125",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-005_step1_given.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-005_step2_when.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with AI Citation Sources",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user exports to XLSX and PPTX",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then exported files do not contain a Favorability column",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — Export pipeline test. Cannot download and inspect XLSX/PPTX file contents via MCP browser UI alone. Requires file download and binary parsing. Pre-marked SKIP in TC definition."
+    },
+    {
+      "tc_id": "TC-GEO-1125-006",
+      "title": "Lite PQL table: Favorability column removed",
+      "story_id": "GEO-1125",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-006_step1_given.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-006_step2_when.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis accessible under a Lite (PQL) account",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the AI Citation Sources domain table in the Lite (PQL) view",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then no Favorability column and no favorability badge in the Lite view",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — PQL account (assiya.benramdane+oa@onclusive.com) navigated to https://geo.onclusive.com/geo/upsell. Auth0 login succeeded but account redirected to /geo/contact-admin with message: 'Your account isn't currently linked to any organization.' PQL/Lite view not accessible — cannot verify."
+    },
+    {
+      "tc_id": "TC-GEO-1125-007",
+      "title": "Backend favorability computation removed (not just hidden)",
+      "story_id": "GEO-1125",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-007_step1_given.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-007_step2_when.png",
+        "screenshots-GEO-152-GEO-1125-mcp/TC-GEO-1125-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Citation Sources section is rendering",
+          "status": "PASS"
+        },
+        {
+          "title": "When the network response for the domain list API call is inspected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the domain DTO does not include any favorability field (no favorable/unfavorable/mixed/sentiment property)",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "API endpoint captured: GET /geo/api/v1/reports/.../overview/citation-sources [200]. Domain DTO keys: ['domain', 'sourceType', 'frequency', 'citedBy', 'visibilityGaps', 'competitiveLosses', 'sentimentIssues', 'llmCitations', 'citedUrls']. No 'favorable', 'unfavorable', 'mixed', or 'favorability' field found (favKeys=[]). HOWEVER: 'sentimentIssues' field IS present with sentimentScore values (e.g., {conceptName: 'Service après-vente', sentimentScore: -0.61, questionText: '...', providerKey: 'perplexity'}). Whether 'sentimentIssues' is the legacy Favorability field renamed/restructured or a distinct unrelated feature cannot be confirmed via network inspection alone — requires backend knowledge. Marking PARTIAL: explicit favorability labels removed, but sentiment scoring data persists in DTO."
+    }
+  ]
+}

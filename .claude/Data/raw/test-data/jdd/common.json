@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "description": "Données JDD communes à tous les epics — fusionnées dans chaque spec via deep merge",
+    "note": "Ne pas mettre ici les données spécifiques à un epic ou un env. Uniquement ce qui est stable et partagé.",
+    "merge_pattern": "const JDD = { ...JDD_COMMON, ...JDD_EPIC, sidebar: { ...JDD_COMMON.sidebar, ...JDD_EPIC.sidebar } }"
+  },
+
+  "base_url": "https://staging-geo.onclusive.com/geo",
+  "_base_url_comment": "Sans trailing slash (cf. CLAUDE.md). Override via env BASE_URL.",
+
+  "sidebar": {
+    "module_labels": ["Mention", "Review", "Contact", "Measure"],
+    "_comment": "Labels des modules sidebar — identiques sur tous les envs et tous les epics"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "page": "wizard",
+  "route": "/geo/new",
+  "description": "Create-New-Analysis wizard — 4 steps: Brand & Country, Categories, Prompts, Review. Brand search is a combobox (input type=text placeholder 'Search for a brand...').",
+  "scenarios": {
+    "complete": {
+      "step_1_brand_and_country": {
+        "brand_search": "Anthropic",
+        "brand_selected": "Anthropic",
+        "countries": ["United States", "France"],
+        "default_country": "United States"
+      },
+      "step_2_categories": {
+        "categories": ["AI chatbot", "large language model"],
+        "discover_categories_clicked": true
+      },
+      "step_3_prompts": {
+        "questions": [
+          "What are the leading AI chatbot providers?",
+          "Which large language model is most popular in 2026?"
+        ]
+      },
+      "step_4_review": {
+        "confirm": true
+      }
+    },
+    "empty": {
+      "step_1_brand_and_country": {
+        "brand_search": "",
+        "brand_selected": null,
+        "countries": [],
+        "default_country": null
+      },
+      "step_2_categories": {
+        "categories": [],
+        "discover_categories_clicked": false
+      },
+      "step_3_prompts": {
+        "questions": []
+      },
+      "step_4_review": {
+        "confirm": false
+      }
+    },
+    "invalid": {
+      "step_1_brand_and_country": {
+        "brand_search_too_long": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "brand_search_special_chars": "<script>alert('xss')</script>",
+        "brand_search_unknown": "ZZZ_NonExistingBrand",
+        "brand_search_sql": "'; DROP TABLE brand; --",
+        "brand_search_whitespace": "     ",
+        "countries_duplicates": ["United States", "United States"],
+        "countries_unknown": ["Wakanda", "Atlantis"],
+        "countries_over_quota": [
+          "United States", "France", "Germany", "Spain", "Italy",
+          "United Kingdom", "Japan", "China", "India", "Brazil", "Canada"
+        ]
+      },
+      "step_2_categories": {
+        "categories_unknown": ["not_a_real_category"],
+        "categories_duplicates": ["AI chatbot", "AI chatbot"],
+        "categories_over_quota": [
+          "cat1","cat2","cat3","cat4","cat5","cat6","cat7","cat8","cat9","cat10","cat11","cat12","cat13","cat14","cat15"
+        ]
+      },
+      "step_3_prompts": {
+        "question_empty": "",
+        "question_whitespace": "     ",
+        "question_too_long": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        "questions_over_quota": [
+          "q1","q2","q3","q4","q5","q6","q7","q8","q9","q10",
+          "q11","q12","q13","q14","q15","q16","q17","q18","q19","q20",
+          "q21","q22","q23","q24","q25","q26","q27","q28","q29","q30","q31"
+        ],
+        "sql_injection": "'; DELETE FROM questions; --"
+      }
+    }
+  },
+  "options": {
+    "step_names": ["Brand & Country", "Categories", "Prompts", "Review"],
+    "step_buttons": ["Discover Categories", "Review Prompts", "Review & Launch", "Create Report", "Discard"],
+    "brand_search_selector": { "role": "combobox", "placeholder": "Search for a brand..." },
+    "countries_available": ["United States", "France"],
+    "categories_available": ["AI chatbot", "large language model"],
+    "configurable_quotas": ["markets", "categories", "questions", "LLMs"],
+    "ui_states": {
+      "loading": ["Discovering Categories screen", "Generating questions... loading state", "skeleton loader"],
+      "notifications": ["undo toast", "blocking toast notification", "yellow warning banner"]
+    }
+  }
+}

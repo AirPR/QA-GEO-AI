@@ -1,0 +1,61 @@
+{
+  "epic": "create-default-analysis",
+  "execution_date": "2026-05-18T21:58:56.001Z",
+  "total": 1,
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "success_rate": "100.0%",
+  "duration_total_ms": 72810,
+  "results": [
+    {
+      "tc_id": "E2E-CREATE-DEFAULT-001",
+      "name": "E2E-CREATE-DEFAULT-001 - Create default analysis (Chanel / United States / English)",
+      "status": "PASSED",
+      "duration": 95296,
+      "error": null,
+      "steps": [
+        "Given an authenticated Editor opens the wizard",
+        "When the Editor types Peugeot in the Brand search field",
+        "And selects the Peugeot suggestion",
+        "When the Editor adds the market France",
+        "Then the language French is auto-detected for France",
+        "When the Editor adds the market Morocco",
+        "Then the language Arabic is auto-detected for Morocco",
+        "When the Editor clicks Discover Categories",
+        "And the Editor accepts the AI-discovered categories and adds: Hybrid Cars",
+        "When the Editor clicks Review Prompts",
+        "And the system generates default questions for each category",
+        "When the Editor clicks Review",
+        "Then the Review summary shows the Markets Categories and Total Prompts cards",
+        "And the Editor selects the LLMs: Claude, ChatGPT, Grok",
+        "When the Editor clicks Review & Launch",
+        "Then the user is redirected to the report overview",
+        "When the Editor navigates back to the reports list (BASE_URL)",
+        "Then the Chanel analysis row shows the value In progress in the Last update column"
+      ],
+      "screenshots": [
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_01_given-wizard-open.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_02_when-brand-typed.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_03_and-brand-selected.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_06_when-discover-categories.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_07_and-categories-accepted.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_08_when-review-prompts.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_09_and-questions-generated.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_10_when-review-step4.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_11_then-summary-cards.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_12_and-llm-selected.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_13_when-review-launch.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_14_then-redirect-report.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_15_when-back-to-reports-list.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_16_then-chanel-in-progress.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_fail.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_lang-france.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_lang-morocco.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_market-france.png",
+        "screenshots-create-default-analysis/E2E-CREATE-DEFAULT-001_market-morocco.png"
+      ],
+      "failedSteps": []
+    }
+  ]
+}

@@ -1,0 +1,935 @@
+{
+  "spec": "GEO-1226-GEO1549-rerun-mcp",
+  "runDate": "2026-11-04",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "context": "Rerun of story GEO-1549 (epic GEO-1226, GEO-R1.4), 2026-11-04 ~13:17-13:40 UTC. Main account QA-GEO / SUPER_ADMIN / en-GB (/auth/me checked at start and end, unbranded_analysis=true). Read-only: no analysis created, no setting changed; AI Engines filter changed for TC-014 and reset to ChatGPT + Gemini. Data after the forced crawl of 04/11 11:42 UTC (Orange 16cdf040, Toyota 439acd96), period Last 7 days. Decathlon b6c8b664 not re-crawled (not used). TC-022 (PASS earlier) and TC-025 (dev evidence) not rerun.",
+  "summary": {
+    "total": 25,
+    "pass": 9,
+    "fail": 2,
+    "skip": 8,
+    "partial": 6,
+    "successRate": 48,
+    "successRateExecuted": 70.6,
+    "verdict": "NO-GO"
+  },
+  "sideFindings": [
+    {
+      "id": "N-1",
+      "title": "Page block header shows the URL with its scheme \"https://\"",
+      "detail": "Every page block link reads \"https://fr.trustpilot.com/review/www.orange.ma?page=4\" / \"https://www.trustpilot.com/review/www.orange.ma?page=2\", while Figma 1.1 / 1.2 and the CSV show \"fr.trustpilot.com/review/cnp.fr?page=2\" (no scheme) and the article URL line above drops the scheme (and \"www.\"). Recommendation: BUG Minor (UI vs design) -> GEO-1549.",
+      "evidence": "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step4_header.png"
+    },
+    {
+      "id": "N-2",
+      "title": "CSV TC-GEO-1549-018 expects an underlined page block URL; Figma 1.1 shows no underline",
+      "detail": "App: underline on hover only (hover:underline), same as Figma at rest. Recommendation: CSV alignment (\"URL link followed by the open_in_new icon, underlined on hover\"), with the user OK.",
+      "evidence": "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-018_step2_when.png"
+    }
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1549-001",
+      "title": "Reviews are listed by page in page order under page URL links",
+      "story_id": "GEO-1549",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And each page block starts with its page URL then its count\": expected header \"fr.trustpilot.com/review/cnp.fr?page=2\" (URL without scheme, Figma 1.1) then \"4 negative reviews\"; observed header text \"https://www.trustpilot.com/review/www.orange.ma?page=2\" (scheme https:// shown on every page block link, red frames) then \"10 negative reviews\". Order and count position are correct.",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step3_then.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step4_header.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step5_newtab.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS",
+          "data": "Grouped review article with >= 3 pages (e.g. MSC dc801726 fr.trustpilot.com, or CNP)",
+          "expected": "The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS",
+          "data": "Source with the badge \"Review Sites\" (e.g. trustpilot.com)",
+          "expected": "The panel header shows \"#N · trustpilot.com\" with the chip \"Review Sites\"; the tab \"Negative perception (N)\" is active with the subtitle \"Each of these articles mentions {brand} negatively.\""
+        },
+        {
+          "title": "Then the page blocks are listed in page order",
+          "status": "PASS",
+          "expected": "e.g. fr.trustpilot.com/review/cnp.fr?page=2, then ?page=3, then ?page=4 (increasing page number)"
+        },
+        {
+          "title": "And each page block starts with its page URL then its count",
+          "status": "FAIL",
+          "expected": "Header \"fr.trustpilot.com/review/cnp.fr?page=2\" then \"4 negative reviews\", then its entries"
+        },
+        {
+          "title": "When the user clicks the page URL of a page block",
+          "status": "PASS",
+          "expected": "The page of that URL opens (e.g. ?page=2), not page 1 or another page"
+        }
+      ],
+      "notes": "Data adapted (MSC / CNP not in QA-GEO): Orange 16cdf040, Last 7 days, AI Engines 2 (ChatGPT + Gemini), All Countries. Given: cards shown with tabs ALL / IMPROVE VISIBILITY / IMPROVE PERCEPTION. When: card #4 trustpilot.com, panel header \"#4 · trustpilot.com\", chips \"Review Sites\" + \"Improve perception\", tab \"Negative perception (6)\" active (aria-selected=true), subtitle \"Each of these articles mentions Orange negatively.\" Then: grouped article \"Orange Maroc Reviews\" (www.trustpilot.com/review/www.orange.ma, 30 reviews), after \"Show 20 more reviews\": page blocks in DOM order page 1 (no parameter), ?page=2, ?page=4 = increasing page number; same for \"Avis de Orange Maroc\" (page 1, ?page=4). Each block = link, then \"10 negative reviews\", then its entries. Header text keeps the scheme (FAIL, new side finding N-1). Click on the ?page=2 link: a new tab opens on https://www.trustpilot.com/review/www.orange.ma?page=2 (not page 1); Trustpilot answers its bot-block page to the test browser (content not comparable, extra shot step5_newtab)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-002",
+      "title": "Long page URL is shown in full in the page block",
+      "story_id": "GEO-1549",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-002_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-002_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "SKIP",
+          "data": "Page block with a URL longer than the panel width",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the header of that page block",
+          "status": "SKIP",
+          "expected": "The URL is displayed"
+        },
+        {
+          "title": "Then the whole URL is visible",
+          "status": "SKIP",
+          "expected": "The URL wraps on several lines; no ellipsis, no cut, no horizontal scroll"
+        },
+        {
+          "title": "And the count follows the URL",
+          "status": "SKIP",
+          "expected": "\"N negative reviews\" still shown after the URL"
+        }
+      ],
+      "notes": "Prerequisite missing: no page block URL longer than the panel width. Longest page block URL in QA-GEO post-crawl data = 54 characters (www.trustpilot.com/review/www.orange.ma?page=2/4; only Orange trustpilot has page blocks). The panel has a fixed width (470 px) even at a 560 px viewport, and the link (364 px) holds on one line, so wrapping is not exercised. Observed: page block link class break-all, text-overflow clip (no ellipsis), no horizontal scroll, the count \"10 negative reviews\" wraps under the URL when the line is full (step3 shot). Rerun with a long review URL (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-003",
+      "title": "Article chip reads the number of negative reviews",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-003_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-003_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Grouped article with 17 (or N > 1) negative reviews",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the line under the article title",
+          "status": "PASS",
+          "expected": "A chip is shown under the URL line"
+        },
+        {
+          "title": "Then the chip reads the number of negative reviews of the article",
+          "status": "PASS",
+          "expected": "\"17 negative reviews\" (case-insensitive), = sum of its page block counts"
+        },
+        {
+          "title": "And there is no page count and no total of reviews",
+          "status": "PASS",
+          "expected": "No \"N pages\" chip, no \"of 20 reviews\""
+        }
+      ],
+      "notes": "Orange 16cdf040 trustpilot.com, Last 7 days. Article \"Avis de Orange Maroc\": chip under the URL line reads \"20 NEGATIVE REVIEWS\" (DOM text \"20 negative reviews\") = page blocks 10 + 10 after expansion. \"Orange Maroc Reviews\": chip 30 = 10 + 10 + 10. No \"N pages\" chip, no \"of 20 reviews\" anywhere in the panel (regex check on the expanded panel, entries excluded)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-004",
+      "title": "Singular form for one negative review",
+      "story_id": "GEO-1549",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-004_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-004_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Article with 1 negative review; grouped article with a page block of 1 review (Figma 1.1 fr-be ?page=4)",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the chip of the article with 1 negative review",
+          "status": "PASS",
+          "expected": "\"1 negative review\" (not \"1 negative reviews\")"
+        },
+        {
+          "title": "Then the page block with one review reads the singular count",
+          "status": "SKIP",
+          "expected": "\"1 negative review\""
+        }
+      ],
+      "notes": "Step 2 PASS: Toyota 439acd96, Last 7 days, AI Engines 4, card #72 quecochemecompro.com (Review Sites), tab \"Negative perception (1)\": article \"Opiniones Toyota RAV4 Híbrido\" chip \"1 NEGATIVE REVIEW\" (DOM \"1 negative review\", not \"1 negative reviews\"), 1 entry. Step 3 not verifiable: no grouped article has a page block with exactly 1 review (every page block of the Orange groups holds 10; API sweep Orange / Toyota, 7 and 30 days). Rerun with data (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-005",
+      "title": "URL line of a grouped article is plain text",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-005_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-005_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-005_step3_then.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-005_step2_hover.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Grouped article (e.g. fr.trustpilot.com/review/cnp.fr)",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user hovers and clicks the URL line under the article title",
+          "status": "PASS",
+          "expected": "No pointer cursor, no underline"
+        },
+        {
+          "title": "Then nothing opens",
+          "status": "PASS",
+          "expected": "The URL line \"fr.trustpilot.com/review/cnp.fr\" is plain text; only the page block URLs open pages"
+        }
+      ],
+      "notes": "Orange 16cdf040 trustpilot.com, Last 7 days. Grouped article \"Avis de Orange Maroc\": URL line \"fr.trustpilot.com/review/www.orange.ma\" is a <p> (data-testid actions-panel-review-article-url), not inside a link, cursor auto, no underline on hover (computed). Click on it: no new tab, page URL unchanged, panel still open. Only the page block links (data-testid actions-panel-review-page-link-N) open pages. Same on \"Orange Maroc Reviews\"."
+    },
+    {
+      "tc_id": "TC-GEO-1549-006",
+      "title": "One-page review page shows its reviews under the title with a linked URL line",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-006_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-006_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-006_step3_then.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-006_step4_newtab.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "One-page review page with 3 negative reviews",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the one-page article",
+          "status": "PASS",
+          "expected": "Title, URL line, chip \"3 negative reviews\""
+        },
+        {
+          "title": "Then its reviews show directly under the title",
+          "status": "PASS",
+          "expected": "3 entries, no page block header"
+        },
+        {
+          "title": "When the user clicks the URL line",
+          "status": "PASS",
+          "expected": "The page (e.g. fr.trustpilot.com/review/cnp-prevoyance.fr) opens, as today"
+        }
+      ],
+      "notes": "Data adapted (CNP Prévoyance not in QA-GEO): Toyota 439acd96, Last 7 days, AI Engines 4, card #4 edmunds.com (Review Sites), tab \"Negative perception (12)\". One-page review page \"2026 Toyota Corolla Hybrid Consumer Reviews - 32 Car Reviews | Edmunds\": URL line edmunds.com/toyota/corolla-hybrid/2026/consumer-reviews (link), chip \"3 NEGATIVE REVIEWS\", 3 entries directly under the title, no page block header, no page link. Click on the URL line: new tab https://www.edmunds.com/toyota/corolla-hybrid/2026/consumer-reviews/ (Edmunds answers 403 Access Denied to the test browser, content not comparable; panel stays open). Title with review total = known finding."
+    },
+    {
+      "tc_id": "TC-GEO-1549-007",
+      "title": "Entry is the quote only, without user name, rating or date",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-007_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-007_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Grouped article with entries",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads each entry",
+          "status": "PASS",
+          "expected": "Each entry is a quoted text, e.g. “A EVITER ABSOLUMENT - POUR PRENDRE VOTRE ARGENT ILS SONT FORTS”"
+        },
+        {
+          "title": "Then no entry shows the user name, the rating or the date",
+          "status": "PASS",
+          "expected": "No reviewer name, no stars or \"{rating}/5\", no date next to or inside the entries"
+        }
+      ],
+      "notes": "Orange 16cdf040 trustpilot.com, Last 7 days. Each entry (data-testid actions-panel-review-entry) = grey card, purple bar, italic text in quotes, one text node only, e.g. “Service client archi nul ! Une calamité ! …”. No reviewer name, no stars or rating, no date next to or inside the entries (DOM of the entry: bar span + text span only). Note: some quotes contain user-written text like \"I can't give them 0/5\" - part of the review text, not a rating element."
+    },
+    {
+      "tc_id": "TC-GEO-1549-008",
+      "title": "Article with more than 10 reviews shows the first 10 then Show 7 more reviews",
+      "story_id": "GEO-1549",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-008_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-008_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Article with 17 negative reviews (pages 4, 2, 3, 2, then 6 more)",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user counts the entries shown before any click",
+          "status": "PASS",
+          "expected": "10 entries"
+        },
+        {
+          "title": "Then the cut inside page 5 shows its header above its first review",
+          "status": "SKIP",
+          "expected": "Page block \"…?page=5\" with \"2 negative reviews\" and 1 entry shown"
+        },
+        {
+          "title": "And the button below reads the number of remaining reviews",
+          "status": "PASS",
+          "expected": "\"Show 7 more reviews\" (reviews, not pages)"
+        }
+      ],
+      "notes": "Data adapted (no 17-review article; the capture stores 10 reviews per page): Orange 16cdf040 trustpilot.com \"Avis de Orange Maroc\" (20 reviews, pages 1 and 4). Before any click: 10 entries, all of page block 1 (header https://fr.trustpilot.com/review/www.orange.ma, \"10 negative reviews\"). Button below: \"Show 10 more reviews\" (counts reviews, not pages); \"Orange Maroc Reviews\" (30): \"Show 20 more reviews\". Step 3 not verifiable: the cut falls on a page boundary (pages of 10), so a cut inside a page (header shown above its first review) is not exercised. Rerun with an article whose pages hold fewer than 10 reviews (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-009",
+      "title": "Click on Show 7 more reviews shows all 17 reviews in page order",
+      "story_id": "GEO-1549",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-009_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-009_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Article with 17 negative reviews collapsed at 10",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user clicks \"Show 7 more reviews\"",
+          "status": "PASS",
+          "expected": "The article expands"
+        },
+        {
+          "title": "Then 17 entries are shown",
+          "status": "PARTIAL",
+          "expected": "17 entries; the second review of page 5 shows under the same page 5 block"
+        },
+        {
+          "title": "And the page blocks follow page order",
+          "status": "PASS",
+          "expected": "e.g. ?page=2, 3, 4, 5, 6, 7, 8, 10; the sum of block counts = 17 = chip"
+        }
+      ],
+      "notes": "Data adapted: Orange \"Avis de Orange Maroc\" (20, collapsed at 10). Click \"Show 10 more reviews\": the article expands, 20 entries shown, page blocks in order page 1 then ?page=4, block counts 10 + 10 = 20 = chip \"20 NEGATIVE REVIEWS\". Same on \"Orange Maroc Reviews\": 30 entries, blocks 1, 2, 4. Not verifiable: \"the second review of page 5 shows under the same page 5 block\" (no cut inside a page, see TC-008). Known: 4 reviews of ?page=4 repeat page 1 (duplicates across ?page= blocks, already recorded)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-010",
+      "title": "[Figma] Expanded article has no button left and no Show less",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-010_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-010_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Article with 11 to 20 negative reviews",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user clicks \"Show N more reviews\"",
+          "status": "PASS",
+          "expected": "All reviews shown"
+        },
+        {
+          "title": "Then no button is left in the article",
+          "status": "PASS",
+          "expected": "No \"Show N more reviews\" and no \"Show less\" in the article"
+        }
+      ],
+      "notes": "Orange \"Avis de Orange Maroc\" (20 negative reviews, in the 11-20 range). After \"Show 10 more reviews\": all 20 reviews shown, no button left in the article (0 button elements in the row), no \"Show less\" text."
+    },
+    {
+      "tc_id": "TC-GEO-1549-011",
+      "title": "Article with exactly 10 reviews has no Show more button",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-011_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-011_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Article with exactly 10 negative reviews",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the article",
+          "status": "PASS",
+          "expected": "Chip \"10 negative reviews\""
+        },
+        {
+          "title": "Then all 10 entries are shown",
+          "status": "PASS",
+          "expected": "10 entries"
+        },
+        {
+          "title": "And there is no Show more button in the article",
+          "status": "PASS",
+          "expected": "No \"Show N more reviews\""
+        }
+      ],
+      "notes": "Orange trustpilot.com, article \"Avis de Orange | Lisez les avis marchands de www.orange.fr\" (one page, fr.trustpilot.com/review/www.orange.fr): chip \"10 NEGATIVE REVIEWS\", 10 entries shown, no \"Show N more reviews\" button. Same on \"Orange Maroc Avis 491\" (fr-be, 10) and Toyota edmunds corolla-hybrid/2023 (10)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-012",
+      "title": "Article with 11 reviews shows Show 1 more review",
+      "story_id": "GEO-1549",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-012_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "SKIP",
+          "data": "Article with 11 negative reviews",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the bottom of the article",
+          "status": "SKIP",
+          "expected": "10 entries shown"
+        },
+        {
+          "title": "Then the button reads the singular form",
+          "status": "SKIP",
+          "expected": "\"Show 1 more review\""
+        },
+        {
+          "title": "When the user clicks it",
+          "status": "SKIP",
+          "expected": "11 entries shown, no button left"
+        }
+      ],
+      "notes": "Prerequisite missing: no article with exactly 11 negative reviews in QA-GEO (API sweep Orange 16cdf040 / Toyota 439acd96, Last 7 and 30 days: review counts 1, 2, 3, 4, 6, 7, 9, 10, 20, 30). The string \"Show 1 more review\" cannot be shown. Decathlon b6c8b664 not re-crawled (reviewCount 0). Rerun with data (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-013",
+      "title": "Show more on an article with more than 20 reviews",
+      "story_id": "GEO-1549",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-013_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-013_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Article with > 20 negative reviews (e.g. 25)",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the button under the first 10 reviews",
+          "status": "PASS",
+          "expected": "[Open point P2 — expected to confirm] \"Show 15 more reviews\" (all remaining) or \"Show 10 more reviews\" (next step); QA records the text"
+        },
+        {
+          "title": "And the user clicks it",
+          "status": "PASS",
+          "expected": "[Open point P2 — expected to confirm] all remaining reviews, or the next 10 with a new button; QA records the result"
+        }
+      ],
+      "notes": "Open point P2 - behaviour recorded. Orange \"Orange Maroc Reviews\" (www.trustpilot.com/review/www.orange.ma, 30 negative reviews > 20). Button under the first 10 reviews: \"Show 20 more reviews\" (all remaining, not \"Show 10 more reviews\"). Click: all 30 entries shown at once (pages 1, ?page=2, ?page=4), no new button. Matches Figma 1.2 \"the rest comes after the click\"; PO to confirm P2 vs the GEO-1161 step of 10."
+    },
+    {
+      "tc_id": "TC-GEO-1549-014",
+      "title": "Cited-by icons of an article are the engines citing any of its pages",
+      "story_id": "GEO-1549",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-014_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-014_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-014_step3_then.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-014_step2_when_chatgpt.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Multi-engine analysis, grouped article with page A cited by Gemini only and page B by ChatGPT only",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user notes the engines citing each page",
+          "status": "PASS",
+          "data": "AI Engines filter set to one engine at a time",
+          "expected": "Engines per page noted"
+        },
+        {
+          "title": "Then the article row shows the icons of all these engines",
+          "status": "PASS",
+          "data": "AI Engines filter: all",
+          "expected": "Gemini and ChatGPT icons on the article row"
+        },
+        {
+          "title": "And the page blocks show no engine icons",
+          "status": "PASS",
+          "expected": "Icons only on the article row"
+        }
+      ],
+      "notes": "Orange 16cdf040 trustpilot.com, Last 7 days, AI Engines filter one engine at a time (filter reset to ChatGPT + Gemini at the end). ChatGPT only: \"Avis de Orange Maroc\" pages 1 and ?page=4, \"Orange Maroc Reviews\" pages 1 and ?page=2. Gemini only: fr article page 1 only; www article pages 1, ?page=2, ?page=4. So fr ?page=4 = ChatGPT only, www ?page=4 = Gemini only. All engines: both article rows show Gemini + ChatGPT icons (aria-label \"Cited by gemini, openai\", 2 icons); page block headers and entries hold no engine icon (0 img). PARTIAL: page 1 of each article is cited by both engines, so the union is not discriminating (no article with page A Gemini only and page B ChatGPT only and no shared page)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-015",
+      "title": "Lack of visibility review article shows its pages as links without quotes",
+      "story_id": "GEO-1549",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-015_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-015_step2_when.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "SKIP",
+          "data": "Review Sites source with a paginated competitor / category review page",
+          "expected": "The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION"
+        },
+        {
+          "title": "When the user opens the panel and selects the tab \"Lack of visibility\"",
+          "status": "SKIP",
+          "expected": "Subtitle \"None of these articles mentions {brand} anywhere on the page.\""
+        },
+        {
+          "title": "Then the review page shows as one article with one link per page",
+          "status": "SKIP",
+          "expected": "e.g. \"Avis Generali Vie\", links fr.trustpilot.com/review/generali.fr, …?page=2 … ?page=6"
+        },
+        {
+          "title": "And no quote is shown",
+          "status": "SKIP",
+          "expected": "No entry, no passage under the article"
+        },
+        {
+          "title": "When the user clicks one page link",
+          "status": "SKIP",
+          "expected": "That page opens"
+        }
+      ],
+      "notes": "Prerequisite missing: no grouped (multi-page) review page in a Lack of visibility tab in QA-GEO (same sweep as TC-GEO-1548-006: Orange / Toyota / Decathlon, Last 7 and 30 days). Orange trustpilot.com in Last 7 days has no Lack of visibility tab (panel tabs: \"Negative perception (6)\" only). Rerun with data (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-016",
+      "title": "[Figma] Lack of visibility review article has no chip and no count",
+      "story_id": "GEO-1549",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-016_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-016_step2_when.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "SKIP",
+          "data": "Review Sites source with a paginated review page in Lack of visibility",
+          "expected": "The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION"
+        },
+        {
+          "title": "When the user opens the panel and selects the tab \"Lack of visibility\"",
+          "status": "SKIP",
+          "expected": "The grouped article is listed"
+        },
+        {
+          "title": "Then the article has no \"N negative reviews\" chip",
+          "status": "SKIP",
+          "expected": "No chip under the URL line"
+        },
+        {
+          "title": "And the page links have no count",
+          "status": "SKIP",
+          "expected": "Each page line is the URL with the open_in_new icon only"
+        },
+        {
+          "title": "And page 1 is listed as a link and the URL line is plain text",
+          "status": "SKIP",
+          "expected": "First link e.g. fr.trustpilot.com/review/generali.fr; the grey URL line under the title does not open anything"
+        }
+      ],
+      "notes": "Prerequisite missing: same as TC-GEO-1549-015 (no grouped review page in Lack of visibility)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-017",
+      "title": "[Figma] Pages without a negative review are not listed as page blocks",
+      "story_id": "GEO-1549",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-017_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-017_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-017_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Grouped article with gaps in page numbers (e.g. ?page=8 then ?page=10)",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user clicks \"Show N more reviews\" if present and reads all page blocks",
+          "status": "PASS",
+          "expected": "All page blocks shown"
+        },
+        {
+          "title": "Then every page block has a count of at least 1 and at least 1 entry",
+          "status": "PASS",
+          "expected": "No block with \"0 negative reviews\" or without entry"
+        },
+        {
+          "title": "And a page without negative review has no block",
+          "status": "SKIP",
+          "expected": "e.g. ?page=9 absent"
+        }
+      ],
+      "notes": "Orange trustpilot.com, Last 7 days, both grouped articles expanded. Every page block has a count of at least 1 and at least 1 entry (\"10 negative reviews\" and 10 entries each; no \"0 negative reviews\" block). Gaps exist (fr: pages 1, 4; www: pages 1, 2, 4). Step 4 not verifiable: the cited trustpilot pages of the window are exactly these blocks (API pages[] per engine), so no cited page without negative review exists to be excluded. Rerun with data (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-018",
+      "title": "[Figma] Page block link opens in a new tab with the external icon",
+      "story_id": "GEO-1549",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"When the user reads a page block header\": expected \"Underlined URL followed by the open_in_new icon\"; observed the URL with the open_in_new icon but NOT underlined at rest (computed text-decoration none, class hover:underline: underline only on mouse hover; red frame). Note: Figma 1.1 also shows the URL without underline - recommendation CSV alignment rather than bug.",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-018_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-018_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-018_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Grouped article",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads a page block header",
+          "status": "FAIL",
+          "expected": "Underlined URL followed by the open_in_new icon"
+        },
+        {
+          "title": "And the user clicks the URL",
+          "status": "PASS",
+          "expected": "The page opens in a new browser tab; the GEO panel stays open in the first tab"
+        }
+      ],
+      "notes": "Orange trustpilot.com, \"Orange Maroc Reviews\" page block ?page=2. Header = blue link (rgb 3,105,161, weight 500) + open_in_new icon (mask \"Open in new\"), target=_blank rel=noopener. Click: the page opens in a new browser tab (https://www.trustpilot.com/review/www.orange.ma?page=2, bot-block page from Trustpilot), the GEO panel stays open in the first tab."
+    },
+    {
+      "tc_id": "TC-GEO-1549-019",
+      "title": "[Figma] Dropped texts are not shown",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-019_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-019_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Grouped article and one-page article",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the article rows, page blocks and entries, expanded",
+          "status": "PASS",
+          "expected": "All texts shown"
+        },
+        {
+          "title": "Then none of the dropped texts is shown",
+          "status": "PASS",
+          "expected": "No \"N pages\", no \"Page N\" header, no \"N/5\" rating, no \"of 20 reviews\""
+        }
+      ],
+      "notes": "Orange trustpilot.com, Last 7 days, all articles expanded (grouped and one-page). Regex check of every article row (entries excluded): no \"N pages\", no \"Page N\" header, no \"N/5\" rating, no \"of 20 reviews\". Only match in the whole panel: \"0/5\" inside a reviewer's quote (\"Unfortunately I can't give them 0/5…\") = review text, not a rating element."
+    },
+    {
+      "tc_id": "TC-GEO-1549-020",
+      "title": "[Figma] Article chip is rendered in upper case",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-020_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-020_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-020_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Grouped article with 17 (or N) negative reviews",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the chip under the URL line",
+          "status": "PASS",
+          "expected": "Chip shown"
+        },
+        {
+          "title": "Then the chip text is displayed in upper case",
+          "status": "PASS",
+          "expected": "\"17 NEGATIVE REVIEWS\" (same text as \"17 negative reviews\", style only)"
+        }
+      ],
+      "notes": "Orange trustpilot.com: chips displayed \"20 NEGATIVE REVIEWS\", \"10 NEGATIVE REVIEWS\", \"30 NEGATIVE REVIEWS\" (CSS text-transform uppercase; DOM text \"20 negative reviews\" = same string, style only). Toyota: \"3 NEGATIVE REVIEWS\", \"1 NEGATIVE REVIEW\"."
+    },
+    {
+      "tc_id": "TC-GEO-1549-021",
+      "title": "[Figma] One-page and grouped URL lines look the same but only one is a link",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-021_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-021_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-021_step3_then.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-021_newtab_onepage.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "One-page article above a grouped article (Figma 1.4)",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user compares the two URL lines",
+          "status": "PASS",
+          "expected": "Same grey text style"
+        },
+        {
+          "title": "Then only the one-page URL line opens a page",
+          "status": "PASS",
+          "expected": "Click on fr.trustpilot.com/review/cnp-prevoyance.fr opens the page; click on fr-be.trustpilot.com/review/cnp.fr opens nothing"
+        }
+      ],
+      "notes": "Orange trustpilot.com, Last 7 days. One-page article \"Orange Maroc Avis 491\" URL line fr-be.trustpilot.com/review/www.orange.ma (<a>) and grouped article \"Orange Maroc Reviews\" URL line trustpilot.com/review/www.orange.ma (<p>): same grey style (rgb 100,116,139, 12 px, weight 400, truncate). Click on the one-page line: new tab https://fr-be.trustpilot.com/review/www.orange.ma; click on the grouped line: nothing opens (no new tab). Same with fr.trustpilot.com/review/www.orange.fr (one-page) vs fr.trustpilot.com/review/www.orange.ma (grouped). Order in data: grouped above one-page (Figma 1.4 shows one-page above)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-023",
+      "title": "Show more reviews and Show more articles work together in one tab",
+      "story_id": "GEO-1549",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-023_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "SKIP",
+          "data": "Tab with > 10 articles, one of them with > 10 reviews",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user clicks \"Show N more reviews\" in the article",
+          "status": "SKIP",
+          "expected": "Only that article expands; the list button \"Show N more articles\" keeps its number"
+        },
+        {
+          "title": "And the user clicks \"Show N more articles\"",
+          "status": "SKIP",
+          "expected": "The next articles show; the expanded article stays expanded"
+        },
+        {
+          "title": "Then each button counts its own items",
+          "status": "SKIP",
+          "expected": "Reviews for the article button, articles for the list button"
+        }
+      ],
+      "notes": "Prerequisite missing: no tab with more than 10 articles holding an article with more than 10 reviews. Only Orange trustpilot.com has articles > 10 reviews and its Negative perception tab has 6 articles (Last 7 days) / 9 (Last 30 days): no \"Show N more articles\" button. Rerun with data (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-024",
+      "title": "OS native shell shows the same review panel",
+      "story_id": "GEO-1549",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-024_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the analysis in the Onclusive Social native shell",
+          "status": "SKIP",
+          "data": "OS native access on staging (P8)",
+          "expected": "Topbar \"Onclusive Social\" only, no GEO left navigation"
+        },
+        {
+          "title": "When the user opens Actions Center > Target Sources and the panel of the Review Sites source",
+          "status": "SKIP",
+          "expected": "The panel opens"
+        },
+        {
+          "title": "Then the grouped article shows the same chip, page blocks and button as in the standalone shell",
+          "status": "SKIP",
+          "expected": "e.g. \"17 negative reviews\", page blocks with URL links and counts, \"Show 7 more reviews\""
+        }
+      ],
+      "notes": "Prerequisite missing: no access to the Onclusive Social native shell on staging (open point P8, JDD other.os_native_shell empty). Only the standalone GEO shell was tested."
+    },
+    {
+      "tc_id": "TC-GEO-1549-026",
+      "title": "FR strings of the review panel",
+      "story_id": "GEO-1549",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-026_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the interface language is set to French",
+          "status": "SKIP",
+          "data": "Settings > language fr-FR",
+          "expected": "The interface is in French"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and the grouped article with more than 10 reviews",
+          "status": "SKIP",
+          "expected": "Chip, page block counts and button shown in French"
+        },
+        {
+          "title": "Then the chip and page block counts read the FR plural and singular forms",
+          "status": "SKIP",
+          "expected": "[expected FR text to confirm from the strings sheet, P7]"
+        },
+        {
+          "title": "And the button reads the FR plural and singular forms",
+          "status": "SKIP",
+          "data": "Articles with 17 and 11 reviews",
+          "expected": "[expected FR text to confirm from the strings sheet, P7]"
+        },
+        {
+          "title": "And the user restores the interface language to British English",
+          "status": "SKIP",
+          "data": "Settings > language en-GB",
+          "expected": "Interface back in en-GB; /auth/me returns en-GB"
+        }
+      ],
+      "notes": "Not run: needs a switch of the interface language to French (account setting); language switches are out of scope of this read-only rerun, and the expected FR texts are still to confirm from the strings sheet (P7). Interface checked en-GB at start and end (/auth/me)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-027",
+      "title": "ES strings of the review panel",
+      "story_id": "GEO-1549",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-027_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the interface language is set to Spanish",
+          "status": "SKIP",
+          "data": "Settings > language es-ES",
+          "expected": "The interface is in Spanish"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and the grouped article with more than 10 reviews",
+          "status": "SKIP",
+          "expected": "Chip, page block counts and button shown in Spanish"
+        },
+        {
+          "title": "Then the chip and page block counts read the ES plural and singular forms",
+          "status": "SKIP",
+          "expected": "[expected ES text to confirm from the strings sheet, P7]"
+        },
+        {
+          "title": "And the button reads the ES plural and singular forms",
+          "status": "SKIP",
+          "data": "Articles with 17 and 11 reviews",
+          "expected": "[expected ES text to confirm from the strings sheet, P7]"
+        },
+        {
+          "title": "And the user restores the interface language to British English",
+          "status": "SKIP",
+          "data": "Settings > language en-GB",
+          "expected": "Interface back in en-GB; /auth/me returns en-GB"
+        }
+      ],
+      "notes": "Not run: needs a switch of the interface language to Spanish (account setting); out of scope of this read-only rerun; expected ES texts to confirm from the strings sheet (P7)."
+    }
+  ]
+}

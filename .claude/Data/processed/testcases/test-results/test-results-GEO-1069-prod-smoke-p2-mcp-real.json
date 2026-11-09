@@ -1,0 +1,118 @@
+{
+  "spec": "GEO-1069-prod-smoke-p2-mcp",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://geo.onclusive.com/geo/",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "context": "PROD smoke phase 2 (controlled creation, approved). Org QA-GEO, SUPER_ADMIN, en-GB, unbranded flag ON. Quota before: 259/24400 (3 analyses). Analysis A \"Licter\" 62be61d8-444b-4d7f-9366-092e75211be5 created 2026-10-29T11:35:06Z -> 264/24400. Analysis B \"Postal services\" 49e2640d-b614-4f0e-a3b3-0ed8ee41a3e2 created 2026-10-29T11:36:48Z -> 269/24400.",
+  "summary": {
+    "total": 2,
+    "pass": 1,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1
+  },
+  "results": [
+    {
+      "duration": 0,
+      "tc_id": "TC-GEO-1262-001",
+      "title": "Confirmed domain shows the logo preview in the brand card within moments",
+      "story_id": "GEO-1262",
+      "status": "PASS",
+      "error": null,
+      "notes": "PROD re-check in the wizard of analysis A: custom brand \"Licter\" (CSV \"Lictorix Geo\"), URL \"https://www.licter.com/en/page?x=1\" (CSV W1 \"licter.com\"). Avatar \"L\" 32x32 (bg-red-500) while empty and while typing. On blur (MutationObserver): grey pulsing span 32x32 (h-8 w-8 animate-pulse rounded-full bg-slate-200, no text) at ~+1.05 s, then IMG 32x32 Brandfetch URL at +1.18 s, then IMG 32x32 www.google.com/s2/favicons?domain=licter.com at +1.84 s. One lookup GET /geo/api/v1/brands/logo?domain=licter.com 200 -> logoUrl https://cdn.brandfetch.io/domain/licter.com/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F. In the headless browser Brandfetch answers 302 -> docs.brandfetch.com (x-bf-error: automated_traffic), so the card shows the Google favicon fallback (licter mark, black). curl with a desktop Chrome UA: 200 image/png 64x64 (purple \"lic ter\" logo, saved as licter_brandfetch_logo_chromeUA.png). Domain \"licter.com\" shown under \"Licter\". Visual check of the Brandfetch logo in a real browser: CONFIRMED by the user on 29/10/2026 (purple Licter logo displayed) -> PASS.",
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "status": "PASS",
+          "testData": "C = \"Licter\" (prod smoke data)",
+          "observed": "Avatar \"L\" 32x32"
+        },
+        {
+          "title": "When the user types a valid domain in the website field",
+          "status": "PASS",
+          "testData": "W1 = \"https://www.licter.com/en/page?x=1\"",
+          "observed": "Avatar unchanged while typing"
+        },
+        {
+          "title": "And the field loses focus",
+          "status": "PASS",
+          "testData": "Click outside the field",
+          "observed": "Grey pulsing placeholder 32x32, no text"
+        },
+        {
+          "title": "Then the logo retrieved for the domain is displayed within moments",
+          "status": "PASS",
+          "observed": "Headless: Brandfetch 302 automated_traffic -> Google favicon of licter.com shown at 32x32. Brandfetch URL OK (200) with a desktop UA - visual to be checked in a real browser | Real-browser check by the user 29/10: Brandfetch logo displayed."
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "status": "PASS",
+          "observed": "\"licter.com\""
+        },
+        {
+          "title": "And the logo lookup requests are recorded",
+          "status": "PASS",
+          "testData": "DevTools Network",
+          "observed": "1 x GET /geo/api/v1/brands/logo?domain=licter.com 200; cdn.brandfetch.io/domain/licter.com/... 302 (headless); www.google.com/s2/favicons?domain=licter.com 301->200"
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1069-prod-smoke-p2-mcp/TC-GEO-1262-001_step1_given.png",
+        "screenshots-GEO-1069-prod-smoke-p2-mcp/TC-GEO-1262-001_step2_when.png",
+        "screenshots-GEO-1069-prod-smoke-p2-mcp/TC-GEO-1262-001_step3_then.png",
+        "screenshots-GEO-1069-prod-smoke-p2-mcp/licter_brandfetch_logo_chromeUA.png"
+      ]
+    },
+    {
+      "duration": 0,
+      "tc_id": "TC-GEO-1263-001",
+      "title": "Captured domain logo is shown on every brand surface of the app",
+      "story_id": "GEO-1263",
+      "status": "PARTIAL",
+      "error": null,
+      "notes": "PROD, A1 = analysis A 62be61d8-444b-4d7f-9366-092e75211be5 (\"Licter\", created after the release, COMPLETED). GET /reports: entityDomain licter.com, entityDomainConfirmed true, entityLogoUrl = L1 = https://cdn.brandfetch.io/domain/licter.com/w/64/h/64/fallback/404/icon.png?c=1idqBOqddsIGy5EF11F; headless request -> 302 (x-bf-error automated_traffic) -> app falls back to www.google.com/s2/favicons?domain=licter.com&sz=64 (loaded). Desktop Chrome UA curl -> 200 image/png. Report list row \"Licter / licter.com\": img alt \"Licter logo\" = favicon fallback (headless). Overview sidebar block: img alt \"Licter logo\" 40px, same fallback, no other header logo on the page. Category view: same sidebar logo. Rankings target row (Overview and Category view): BLOCKED - \"No brand ranking data available.\" because A keeps no Visibility prompt (scope chosen for TC-GEO-1251-001; Summary warned that Brand Rankings stay empty). Competitive view: Share of Voice chart has no brand logos (dots only); Prompts Analysis winners show Brandwatch with its favicon, Licter is never a winner, so the target brand logo is not displayed there. Visual comparison with L1 (Brandfetch) to be checked by the user in a real browser.",
+      "steps": [
+        {
+          "title": "Given analysis A1 exists with a captured domain",
+          "status": "PASS",
+          "testData": "A1 = Licter 62be61d8, logo L1 (licter.com)",
+          "observed": "Licter listed in the analyses list, entityDomainConfirmed true"
+        },
+        {
+          "title": "When the user opens the report list",
+          "status": "PARTIAL",
+          "observed": "Row shows a licter.com logo (Google favicon fallback in headless; L1 Brandfetch blocked by automated_traffic) - real-browser check needed"
+        },
+        {
+          "title": "And the user opens the Overview of A1",
+          "status": "PARTIAL",
+          "observed": "Sidebar block shows the same licter.com logo (favicon fallback in headless)"
+        },
+        {
+          "title": "Then the target brand row of the brand rankings in Overview shows logo L1",
+          "status": "SKIP",
+          "observed": "Blocked - no brand rankings (no Visibility prompt kept in A1)"
+        },
+        {
+          "title": "When the user opens a Category view",
+          "status": "SKIP",
+          "testData": "First category of A1",
+          "observed": "Category view opened; rankings \"No brand ranking data available.\" - blocked"
+        },
+        {
+          "title": "And the user opens a competitive view",
+          "status": "SKIP",
+          "testData": "e.g. the competitor comparison of A1",
+          "observed": "Share of Voice has no logos; Licter not a winner in Competitive prompts - target logo not displayed"
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1069-prod-smoke-p2-mcp/TC-GEO-1263-001_step1_given.png",
+        "screenshots-GEO-1069-prod-smoke-p2-mcp/TC-GEO-1263-001_step2_when.png",
+        "screenshots-GEO-1069-prod-smoke-p2-mcp/TC-GEO-1263-001_step3_then.png"
+      ]
+    }
+  ]
+}

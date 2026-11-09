@@ -1,0 +1,1865 @@
+{
+  "spec": "GEO-152-PROD-C",
+  "runDate": "2026-10-07",
+  "runTimestamp": "07102026-1452",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "env": "prod",
+  "url": "https://geo.onclusive.com/geo/dashboard/bfbb34ce-e1a3-435e-aec0-1b7a66d98c3c",
+  "organisation": "Onclusive",
+  "analysis": "Toyota (toyota.com), 5 markets (UK, US, ES, FR, IT), categories Electric cars / SUVs, engines ChatGPT, Gemini, Grok, Perplexity, period Last 7 days (Oct 1 – Oct 7, 2026)",
+  "bundle": "index-BoaWyZbU.js",
+  "r12Deployed": "yes (Action Center / Target Sources, details panel with prompts, exports with Action Center last)",
+  "accountLanguageStart": "en-GB",
+  "accountLanguageEnd": "en-GB",
+  "scope": "GEO-1124, GEO-1125, GEO-1169, GEO-1173 (excluding TC-GEO-1124-009, TC-GEO-1124-010, TC-GEO-1125-004)",
+  "downloads": "runs/07102026-1452/downloads-GEO-152-PROD-C/",
+  "summary": {
+    "total": 42,
+    "pass": 25,
+    "fail": 3,
+    "skip": 8,
+    "partial": 5,
+    "blocked": 1,
+    "successRate": 83.3,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1124-001",
+      "title": "PowerPoint Target Sources slide is built from the ALL tab whatever the screen shows",
+      "story_id": "GEO-1124",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-001_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-001_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-001_step2b_exported.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis with default filters",
+          "expected": "The user notes the sources ranked 1 to 10 of the ALL tab and the total M of target sources",
+          "status": "PASS",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\""
+        },
+        {
+          "title": "When the user selects the \"IMPROVE PERCEPTION\" tab and switches to the list view",
+          "expected": "The screen shows the reduced perception list in the table",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user exports the analysis as \"Presentation .pptx\"",
+          "expected": "A .pptx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user opens the last slide of the deck",
+          "expected": "It shows \"ACTION CENTER · TARGET SOURCES\", the title \"Where PR effort pays first\" and the subtitle \"Top N of M verified target sources · every claim checked against the page itself\", M being the total noted in step 1",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the top 3 cards and the table of the slide",
+          "expected": "The cards are the sources ranked 1 to 3 and the table rows follow ranks 4 to 10 of the ALL tab (visibility-only sources included), not the perception list on screen",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the counts of the slide",
+          "expected": "Each source shows its total of both verdicts (missing and negative counts as in the app), not its perception count only",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Prod Toyota bfbb34ce, Last 7 days, 4 engines, All Countries. ALL tab: 1 frandroid.com, 2 caranddriver.com, 3 edmunds.com, 4 elpais.com, 5 gazzetta.it, 6 autobild.es, 7 autojournal.fr, 8 autoexpress.co.uk, 9 autohero.com, 10 kbb.com; M = 97 (12 cards + \"Show 85 more sources\"). Screen set to IMPROVE PERCEPTION + List view (perception list: edmunds.com, alvolante.it, frandroid.com, caradisiac.com, electrek.co ...). PPTX (32 slides) last slide 32: \"ACTION CENTER · TARGET SOURCES\", \"Where PR effort pays first\", \"Top 10 of 97 verified target sources · every claim checked against the page itself\". Cards = ranks 1-3, table = ranks 4-10 of the ALL tab (gazzetta.it and autohero.com, visibility-only, included). Counts = both verdicts as in the app (e.g. frandroid.com \"Not visible in 20 articles · Negative perception in 9 articles\"). Side note: table last header reads \"Articles\" (known GEO-1222, not asserted by this TC)."
+    },
+    {
+      "tc_id": "TC-GEO-1124-002",
+      "title": "Excel Target Sources sheet is recomputed inside the export scope",
+      "story_id": "GEO-1124",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-002_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-002_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis and keeps only one country",
+          "expected": "The list is recomputed; the user notes the #1 source and its reason lines",
+          "status": "PASS",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\" - Country: United States"
+        },
+        {
+          "title": "When the user exports the analysis as \"Spreadsheet .xls\"",
+          "expected": "An .xlsx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user reads the first line of the Target Sources sheet",
+          "expected": "One title line \"Toyota - {sheet} ({markets} · {engines} · snapshot {dates})\" names the selected country and the engines of the page",
+          "status": "PASS",
+          "data": "Sheet named Target Sources in the export language"
+        },
+        {
+          "title": "And the user reads rank 1 of the ranked sources table",
+          "expected": "Rank 1 is the #1 source noted in step 1",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user compares its counts with the app",
+          "expected": "Its Brand absent and Depicted negatively values equal its \"Not visible in N articles\" and \"Negative perception in N articles\" lines in the United States scope, and its Badges match the card",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Country = United States only (4 others deselected in the multi-select). App: #1 caranddriver.com, \"Not visible in 16 articles\" / \"Negative perception in 5 articles\", badges IMPROVE VISIBILITY + IMPROVE PERCEPTION, 30 sources (12 + \"Show 18 more\"). XLSX sheet \"Target Sources\" R1: \"Toyota - Target Sources  (United States · ChatGPT, Gemini, Grok, Perplexity · snapshot Oct 1, 2026 – Oct 7, 2026)\". Rank 1 caranddriver.com, Brand absent 16, Depicted negatively 5, Badges \"Improve visibility, Improve perception\"; 30 ranked rows. Observation: two spaces before \"(\" in the title line (cosmetic, not asserted)."
+    },
+    {
+      "tc_id": "TC-GEO-1124-003",
+      "title": "Export covers all categories and all source types whatever the screen filters",
+      "story_id": "GEO-1124",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-003_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-003_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-003_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-003_step3b_xlsx.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the sources ranked 1 to 10 with default filters",
+          "expected": "The ALL-tab order and the total M are noted",
+          "status": "PASS",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\""
+        },
+        {
+          "title": "When the user selects a category and the type \"Journalism\"",
+          "expected": "The screen shows a reduced list",
+          "status": "PASS",
+          "data": "Category: first category of the left menu; Type: Journalism"
+        },
+        {
+          "title": "And the user exports the analysis as \"PDF\" and as \"Spreadsheet .xls\"",
+          "expected": "The two files are downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last page of the PDF lists the ALL-tab sources of step 1",
+          "expected": "The top cards and the table follow ranks 1 to 10 of step 1, including types other than Journalism, and the subtitle states M",
+          "status": "PASS",
+          "data": "Page rendered and read visually"
+        },
+        {
+          "title": "And the ranked sources table of the Excel sheet holds every source of step 1",
+          "expected": "The table holds M rows with every source type, not only Journalism sources of the selected category",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Screen: Category = Electric cars (first category of the left menu), Type = Journalism (62) -> reduced list. PDF (32 pages) last page = ALL-tab ranks 1-10 of step 1 incl. Corporate (autohero.com) and Review Sites (edmunds.com, kbb.com), subtitle \"Top 10 of 97\". XLSX ranked table = 97 rows with types Journalism 66, Corporate 10, Aggregators 10, Review Sites 9, Social / UGC 1, Gov / NGO 1; identical to the default-filter export."
+    },
+    {
+      "tc_id": "TC-GEO-1124-004",
+      "title": "Excel Target Sources sheet carries the panel evidence in stacked tables",
+      "story_id": "GEO-1124",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-004_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-004_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user exports the analysis as \"Spreadsheet .xls\" with default filters",
+          "expected": "An .xlsx file is downloaded",
+          "status": "PASS",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\""
+        },
+        {
+          "title": "When the user opens the Target Sources sheet",
+          "expected": "The first line is one title line \"{entity} - {sheet} ({markets} · {engines} · snapshot {date})\", with no key/value block",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the first table is the ranked sources table",
+          "expected": "Its columns start with Rank, Domain, Source type, Badges, Failing articles, Brand absent, Depicted negatively and include Brief (record whether \"Positive articles\" and \"Citations in qualifying answers\" are present)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the failing articles table follows",
+          "expected": "Columns: Domain, Source rank, Article title, URL, Verdict, Passage, Citing engines; the Passage cell is empty for brand-absent articles whose Verdict reads \"No mention of {brand} anywhere on this page\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the failing prompts table is present",
+          "expected": "Columns: Domain, Source rank, Question, Engine, Country, with no Outcome column",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user records whether a positive articles table is present",
+          "expected": "If present: columns Domain, Source rank, Article title, URL, Passage, Citing engines, with no Verdict column, kept separate from the failing articles table",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Default XLSX (9 sheets). R1 single title line \"Toyota - Target Sources  (United Kingdom, United States, Spain, France, Italy · ChatGPT, Gemini, Grok, Perplexity · snapshot Oct 1, 2026 – Oct 7, 2026)\", no key/value block. Ranked sources header: Rank | Domain | Source type | Badges | Failing articles | Brand absent | Depicted negatively | Positive articles | Brief (recorded: \"Positive articles\" PRESENT, \"Citations in qualifying answers\" ABSENT). Failing articles: Domain | Source rank | Article title | URL | Verdict | Passage | Citing engines; 744 rows, the 579 \"No mention of Toyota anywhere on this page\" rows have an empty Passage. Failing prompts: Domain | Source rank | Question | Engine | Country (no Outcome), 3533 rows. Positive articles table recorded PRESENT: Domain | Source rank | Article title | URL | Passage | Citing engines (no Verdict), 1127 rows, separate table. Observations: double space before \"(\" in the title; passages cut mid-word (known GEO-1201, not asserted here)."
+    },
+    {
+      "tc_id": "TC-GEO-1124-005",
+      "title": "PowerPoint shows the top 3 sources as cards and the next ones in the table",
+      "story_id": "GEO-1124",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And the table lists ranks 4 to 10 with their counts\": expected exactly 4 columns \"#\", \"Source\", \"Type\", \"Failing articles\"; observed the 4th header reads \"Articles\" (ppt/slides/slide32.xml, default export; same on PDF page 32). Known bug GEO-1222.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-005_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-005_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the reason lines of the cards ranked 1 to 3 and the total M",
+          "expected": "The reason lines and M are noted",
+          "status": "PASS",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\""
+        },
+        {
+          "title": "When the user exports the analysis as \"Presentation .pptx\"",
+          "expected": "A .pptx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last slide shows three top cards for ranks 1, 2 and 3",
+          "expected": "Each card shows its rank, favicon, domain, badges and the same reason lines as the app joined with \" · \" (e.g. \"Not visible in N articles · Negative perception in N articles\"), singular \"1 article\" when a count is 1 (record whether a brief sentence is shown)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the table lists ranks 4 to 10 with their counts",
+          "expected": "The table has exactly 4 columns \"#\", \"Source\", \"Type\", \"Failing articles\"; each row shows its missing and negative counts as in the app; no \"Cited\" column",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the subtitle states the full total",
+          "expected": "\"Top 10 of M verified target sources · every claim checked against the page itself\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Cards ranks 1-3 (frandroid.com, caranddriver.com, edmunds.com) with rank, favicon, domain, badges \"Improve visibility\" / \"Improve perception\" and reason lines joined with \" · \" identical to the app; singular \"1 article\" used (elpais.com \"Negative perception in 1 article\"). Brief sentence on cards: NOT shown (recorded). Table ranks 4-10 with missing / negative counts as in the app, no \"Cited\" column, 4 columns. Subtitle \"Top 10 of 97 verified target sources · every claim checked against the page itself\" (M = 97). Only the header label fails (GEO-1222)."
+    },
+    {
+      "tc_id": "TC-GEO-1124-007",
+      "title": "Export carries the all-clear message alone when no source survives",
+      "story_id": "GEO-1124",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-007_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-007_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-007_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-007_step3b_xlsx.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Action Center shows the all-clear state",
+          "expected": "\"All clear\" is displayed",
+          "status": "PASS",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/76aad462-a33f-4bdb-a925-2c1533e97a53/actions - AI Engines = Gemini only (candidate)"
+        },
+        {
+          "title": "When the user exports the analysis as \"Presentation .pptx\" with the same scope",
+          "expected": "A .pptx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last slide carries the all-clear message alone",
+          "expected": "It shows \"ACTION CENTER · TARGET SOURCES\", a check icon and \"All clear\" with \"Every article used by AI engines describes your brand positively.\", with no source list",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Spreadsheet .xls\" with the same scope",
+          "expected": "An .xlsx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Target Sources sheet carries the all-clear message alone",
+          "expected": "The sheet shows the all-clear message and no ranked sources rows",
+          "status": "PASS"
+        }
+      ],
+      "notes": "No all-clear analysis exists on prod; equivalent scope found read-only: Toyota with AI Engines = Grok only (target-sources API state ALL_CLEAR). App shows \"All clear\" / \"Every article used by AI engines describes your brand positively.\". PPTX (32 slides) last slide: \"ACTION CENTER · TARGET SOURCES\", check icon, \"All clear\", the sentence, no source list. XLSX \"Target Sources\": R1 title (Grok), R3 \"TARGET SOURCES\", R5 \"Every article used by AI engines describes your brand positively.\", no ranked rows. Observation: the API returns citedSourceCount 0 for Grok, so the all-clear state comes from no cited source in that scope (coordinator to judge). AI Engines filter restored to the 4 engines afterwards (stored in local storage of the runner context only)."
+    },
+    {
+      "tc_id": "TC-GEO-1124-008",
+      "title": "Export Target Sources section uses the 7-day source window",
+      "story_id": "GEO-1124",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And the AI Citation Sources slide follows the selected period only\": expected the domain total for \"Latest report\" to be lower than the \"Last 7 days\" count; observed identical values: PPTX \"Top 10 of 55 source domains · 5,515 citations analysed\" for both periods, app \"All domains 55\" / \"Showing 55 of 1293 domains\" for both, and GET /overview/citation-sources returns totalDomainCount 1293 / totalUrls 5515 for 1 day, 7 days, 30 days and no range, although one snapshot exists per day (2026-09-26 .. 10-07). The citation sources data ignores the selected period. No known bug matches (new).",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-008_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-008_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-008_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1124-008_step3b_api.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the Target Sources total T7 with \"Last 7 days\"",
+          "expected": "T7 and the #1 source are noted",
+          "status": "PASS",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\""
+        },
+        {
+          "title": "When the user selects the period \"Last analysis\", clicks \"Apply\" and exports the analysis as \"Presentation .pptx\"",
+          "expected": "A .pptx file is downloaded",
+          "status": "PASS",
+          "data": "Date preset: Last analysis"
+        },
+        {
+          "title": "Then the Target Sources slide is built on at least 7 days",
+          "expected": "The subtitle states M = T7 and the #1 card is the #1 source noted in step 1 (any difference is recorded with the snapshot dates)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the AI Citation Sources slide follows the selected period only",
+          "expected": "Its domain total equals the \"All domains\" count of the Overview for \"Last analysis\", lower than the \"Last 7 days\" count",
+          "status": "FAIL",
+          "data": "Slide \"Which sources shape your AI presence\""
+        }
+      ],
+      "notes": "Prod label is \"Latest report\" (CSV: \"Last analysis\"). T7 = 97, #1 frandroid.com. After \"Latest report\" + Apply: Target Sources still 97 / #1 frandroid.com (7-day window, API window 2026-09-30 -> 2026-10-07, 7 snapshots). PPTX \"Latest report\" = 17 slides, last slide subtitle \"Top 10 of 97\", #1 frandroid.com -> M = T7 (step 3 PASS). Slide 8 domain total 55 = app Overview \"All domains\" for Latest report (55) but not lower than Last 7 days (55). Red frame on step3: modal subtitle and period button; step3b = period comparison (app, PPTX, API)."
+    },
+    {
+      "tc_id": "TC-GEO-1125-001",
+      "title": "Citation Sources section shows only Domain Type and Frequency columns",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-001_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-001_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-001_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-001_row_hover.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the overview page of the Toyota dashboard",
+          "expected": "The dashboard overview is displayed",
+          "status": "PASS",
+          "data": "Dashboard 439acd96-0b1b-4da4-9e07-612d38e9783e"
+        },
+        {
+          "title": "When the AI Engines Citation Sources section renders",
+          "expected": "\"AI Engines Citation Sources\" and \"See which domains AI Engines reference most often for your brand and niche\" are displayed, with the \"All source types\" filter, the stacked bar and its legend",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the domain table shows exactly three column headers",
+          "expected": "The headers read \"Domain\", \"Type\" and \"Frequency\", in this order, each with a sort icon",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column and no chevron column are present",
+          "expected": "No header or column labelled \"Favorability\" (or Favorable / Mixed / Unfavorable) and no empty chevron column is displayed; each row shows only the domain with its favicon and external-link icon, the type chip and the frequency",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"All domains\" button is displayed under the table",
+          "expected": "\"All domains\" with the count badge N is displayed under the last row",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Overview > Sources: \"AI Engines Citation Sources\" + subtitle \"See which domains AI Engines reference most often for your brand and niche\", filter \"All source types\", stacked bar and legend. Headers Domain / Type / Frequency, each with a sort icon; exactly 3 th / 3 td per row, no chevron column, no Favorability anywhere (text or HTML). Rows: favicon + domain (external-link icon shown on hover) + type chip + frequency. \"All domains 55\" button under the last row."
+    },
+    {
+      "tc_id": "TC-GEO-1125-002",
+      "title": "All domains modal shows only Domain Type and Frequency columns",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-002_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-002_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "expected": "The domain table and the \"All domains (N)\" button are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the \"All domains\" button",
+          "expected": "A modal opens with the title \"Sources - All domains\", the subtitle \"Showing N of M domains\" and the search field \"Search domains...\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the modal table shows exactly three column headers",
+          "expected": "The headers read \"Domain\", \"Type\" and \"Frequency\", in this order, each with a sort icon",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column and no chevron column are present in the modal",
+          "expected": "No header or column labelled \"Favorability\" (or Favorable / Mixed / Unfavorable) and no chevron column is displayed in the modal",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types a domain in the search field",
+          "expected": "The list is narrowed to the domains matching the term",
+          "status": "PASS",
+          "data": "Search term: the first domain of the list (for example \"reuters\")"
+        },
+        {
+          "title": "Then the filtered table still shows only the Domain, Type and Frequency columns",
+          "expected": "The headers still read \"Domain\", \"Type\" and \"Frequency\" and no Favorability column appears",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Modal \"Sources - All domains\", subtitle \"Showing 55 of 1293 domains\", search placeholder \"Search domains…\". Headers Domain / Type / Frequency with sort icons, 55 rows x 3 cells, no Favorability / chevron. Search \"caranddriver\" -> 1 row caranddriver.com Journalism 98, headers unchanged. Observation: the subtitle keeps \"Showing 55 of 1293\" after the search (not asserted)."
+    },
+    {
+      "tc_id": "TC-GEO-1125-003",
+      "title": "[Figma] Source type filter and legend hover keep the three-column table",
+      "story_id": "GEO-1125",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-003_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-003_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed with \"All source types\"",
+          "expected": "The domain table lists domains of several types",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user hovers a segment of the stacked bar",
+          "expected": "The table behind it is unchanged (no hover highlight is required: no AC covers it)",
+          "status": "PASS",
+          "data": "Segment: Journalism"
+        },
+        {
+          "title": "Then the table still shows only the Domain, Type and Frequency columns",
+          "expected": "The headers read \"Domain\", \"Type\" and \"Frequency\" and no Favorability column appears",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects one source type in the \"All source types\" filter",
+          "expected": "The table lists only domains with the \"Journalism\" type chip",
+          "status": "PASS",
+          "data": "Source type: Journalism"
+        },
+        {
+          "title": "Then the filtered table still shows only the Domain, Type and Frequency columns",
+          "expected": "The headers read \"Domain\", \"Type\" and \"Frequency\" and no Favorability column appears",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Hover on the Journalism segment (58%) of the stacked bar: table rows and headers unchanged. Filter \"Journalism (33)\": 10 rows all with the Journalism chip, headers Domain / Type / Frequency, no Favorability."
+    },
+    {
+      "tc_id": "TC-GEO-1125-005",
+      "title": "Favorability is not a sort key in the Citation Sources section",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-005_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-005_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "expected": "The domain table is displayed with the headers \"Domain\", \"Type\" and \"Frequency\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user inspects the sortable headers of the table",
+          "expected": "Exactly three headers carry a sort icon: \"Domain\", \"Type\" and \"Frequency\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Frequency\" header",
+          "expected": "The rows are re-ordered by frequency",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Domain\" header",
+          "expected": "The rows are re-ordered alphabetically by domain",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Type\" header",
+          "expected": "The rows are re-ordered by type",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no Favorability sort key is offered",
+          "expected": "No header, sort menu or sort option named \"Favorability\" exists, and no fourth sortable header is present",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Exactly 3 header buttons with sort icon (Domain, Type, Frequency); no sort menu, no Favorability text on the page. Frequency click -> ascending (com.tr 3, comillas.edu 4, prnewswire.com 5...); Domain click -> descending alphabetical (youtube.com, whatcar.com, virgilio.it); Type click -> descending by type (Social / UGC, Review Sites...). The sort applies to the full 55-domain set, top 10 shown."
+    },
+    {
+      "tc_id": "TC-GEO-1125-006",
+      "title": "Favorability is not a sort key in the All domains modal",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-006_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-006_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the \"All domains\" modal is open",
+          "expected": "\"Sources - All domains\" is displayed with the headers \"Domain\", \"Type\" and \"Frequency\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user inspects the sortable headers of the modal table",
+          "expected": "Exactly three headers carry a sort icon: \"Domain\", \"Type\" and \"Frequency\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Frequency\" header",
+          "expected": "The rows are re-ordered by frequency",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Type\" header",
+          "expected": "The rows are re-ordered by type",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no Favorability sort key is offered",
+          "expected": "No header, sort menu or sort option named \"Favorability\" exists, and no fourth sortable header is present",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Modal: 3 sortable headers (button + svg each), no menu / select. Frequency -> 55 rows ascending (com.tr 3 ... caranddriver.com 98); Type -> rows grouped by type descending (Social / UGC, Review Sites, Press Release, Other, Journalism, Gov / NGO, Corporate, Aggregators, Academic). No Favorability sort key."
+    },
+    {
+      "tc_id": "TC-GEO-1125-007",
+      "title": "No favorability badge on domain rows of the section and the All domains modal",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-007_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-007_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "expected": "The domain table is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the domain rows of the section render",
+          "expected": "Each row shows the favicon, the domain with its external-link icon, the type chip (for example \"Journalism\", \"Social / UGC\", \"Competitor Media\") and the frequency",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no favorability badge is shown on any row",
+          "expected": "No \"Favorable\", \"Mixed\" or \"Unfavorable\" badge, chip or coloured indicator is displayed on any domain row",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the \"All domains\" modal and scrolls through the list",
+          "expected": "The modal lists the domains with the same row layout",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no favorability badge is shown on any row of the modal",
+          "expected": "No \"Favorable\", \"Mixed\" or \"Unfavorable\" badge, chip or coloured indicator is displayed on any domain row of the modal",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Section: 10 rows, favicon + domain + type chip + frequency, 0 favorability badge / class / text. Modal scrolled to the end (55 rows, same 3-cell layout with favicon), 0 Favorable / Mixed / Unfavorable."
+    },
+    {
+      "tc_id": "TC-GEO-1125-008",
+      "title": "No favorability badge in the source details panel",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-008_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-008_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-008_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-008_step3b_modal_panel.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "expected": "The domain table is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the first domain of the table",
+          "expected": "The side panel \"AI Engines Citation Source Details\" opens",
+          "status": "PASS",
+          "data": "Domain: first row of the table"
+        },
+        {
+          "title": "Then the panel shows its sections without any favorability badge",
+          "expected": "\"Related Prompts\" with the \"All related Prompts (n)\" control and \"Sources\" with the \"All sources (n)\" control are displayed, and no \"Favorable\", \"Mixed\" or \"Unfavorable\" badge is shown for the domain",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user scrolls to the end of the panel",
+          "expected": "All sections of the panel have been displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no favorability badge or label is shown anywhere in the panel",
+          "expected": "No \"Favorable\", \"Mixed\" or \"Unfavorable\" badge, chip or label is shown in the panel header, the prompt rows or the cited URL rows",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of a domain from the \"All domains\" modal",
+          "expected": "The side panel \"AI Engines Citation Source Details\" opens for that domain",
+          "status": "PASS",
+          "data": "Domain: any row of the modal"
+        },
+        {
+          "title": "Then no favorability badge is shown in that panel either",
+          "expected": "No \"Favorable\", \"Mixed\" or \"Unfavorable\" badge is shown for the domain",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Click caranddriver.com -> side panel \"AI Engines Citation Source Details\" with \"Related Prompts\" + \"All related Prompts 60\" and \"Sources\" + \"All sources 98\"; scrolled to the end: no Favorable / Mixed / Unfavorable text or attribute. From the \"All domains\" modal, motor1.com -> same panel (\"All related Prompts 31\"), no favorability badge (step3b)."
+    },
+    {
+      "tc_id": "TC-GEO-1125-009",
+      "title": "XLSX export AI Citation Sources table carries Domain Type and Frequency only",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-009_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-009_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-009_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-009_app_modal.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the overview page of the Toyota dashboard",
+          "expected": "The \"Export\" button is displayed at the top right",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in Excel (XLSX) format",
+          "expected": "An .xlsx file is downloaded",
+          "status": "PASS",
+          "data": "Format: XLSX"
+        },
+        {
+          "title": "And the runner opens the AI Citation Sources section of the workbook",
+          "expected": "The sheet holding the citation sources domain table is found",
+          "status": "PASS",
+          "data": "Sheet: the sheet holding the AI Citation Sources domain table (see the open points of the epic review)"
+        },
+        {
+          "title": "Then the header row of the domain table carries Domain, Type and Frequency only",
+          "expected": "The header row has exactly three cells: \"Domain\", \"Type\" and \"Frequency\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column or value is present in that table",
+          "expected": "No header reads \"Favorability\" and no cell of the table holds \"Favorable\", \"Mixed\" or \"Unfavorable\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the data rows match the domain table of the dashboard",
+          "expected": "The first rows list the same domains, types and frequencies as the section table on screen, with three cells per row",
+          "status": "PASS"
+        },
+        {
+          "title": "And the source types of the workbook match the types of the app",
+          "expected": "Each domain carries the same type as its chip in the app (kbb.com / cars.com = Aggregators, gouv.fr = Gov / NGO)",
+          "status": "PASS",
+          "data": "e.g. kbb.com and cars.com, a gouv.fr domain"
+        },
+        {
+          "title": "And the section is named as in the app",
+          "expected": "The block title reads \"AI Engines Citation Sources\" (no \"LLM Engines\")",
+          "status": "PASS"
+        }
+      ],
+      "notes": "XLSX Overview sheet: block \"SOURCES — AI Engines Citation Sources\", sub-block \"Domains — 55 of 1293\", header Domain | Type | Frequency (3 cells), 55 rows x 3 cells, identical (domain, type, frequency, order) to the 55 rows of the app modal; no Favorability header or value. Types match the app: kbb.com Review Sites (the CSV example \"Aggregators\" is staging data; the rule \"same type as the app chip\" holds), cars.com Aggregators, unrae.it Gov / NGO (no gouv.fr domain on prod). No \"LLM Engines\" in any sheet."
+    },
+    {
+      "tc_id": "TC-GEO-1125-010",
+      "title": "PPTX export AI Citation Sources slide table carries Domain Type and Frequency only",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-010_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-010_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the overview page of the Toyota dashboard",
+          "expected": "The \"Export\" button is displayed at the top right",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in PowerPoint (PPTX) format",
+          "expected": "A .pptx file is downloaded",
+          "status": "PASS",
+          "data": "Format: PPTX"
+        },
+        {
+          "title": "And the runner opens the AI Citation Sources slide of the deck",
+          "expected": "The slide XML holding the citation sources domain table is found",
+          "status": "PASS",
+          "data": "Slide: \"Which sources shape your AI presence\" (eyebrow \"SOURCES · OVERVIEW\")"
+        },
+        {
+          "title": "Then the domain table of the slide has exactly three columns",
+          "expected": "The domain table of the slide shows exactly three column headers, \"Domain\", \"Type\" and \"Frequency\", and each data row has three values (domain, type, frequency); the table may be drawn with text shapes instead of an a:tbl",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column or value is present on the slide",
+          "expected": "No text on the slide reads \"Favorability\", \"Favorable\", \"Mixed\" or \"Unfavorable\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PPTX slide 13 \"SOURCES · OVERVIEW\" / \"Which sources shape your AI presence\" / \"Top 10 of 55 source domains · 5,515 citations analysed\": headers Domain, Type, Frequency drawn with text shapes, 10 rows of 3 values (caranddriver.com Journalism 98 ... toyota.it Corporate 52). No Favorability / Favorable / Mixed / Unfavorable text in slide13.xml."
+    },
+    {
+      "tc_id": "TC-GEO-1125-011",
+      "title": "Lite PQL result table has no Favorability column and stays aligned with its ghost rows",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And the columns of the ghost rows are aligned with the columns of the real table\": expected no column shifted or overflowing; observed the \"Frequency\" header content (label + sort icon) is 93 px wide in an 88 px column (scrollWidth 93 > clientWidth 88): the sort icon is clipped at the right edge of the card (red frame in step3). Column edges are aligned (0 px difference). The same 5 px overflow was recorded on staging 2026-10-05 as PARTIAL and not reported; no known bug in the list (new).",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-011_step0_lite_form.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-011_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-011_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in with the PQL account on staging and a Lite analysis result is displayed",
+          "expected": "The Lite result page shows the result table and the gated ghost rows beneath it",
+          "status": "PASS",
+          "data": "Account: assiya.benramdane+geo@onclusive.com"
+        },
+        {
+          "title": "When the result table renders",
+          "expected": "The table headers and the first real rows are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the result table has exactly the columns Domain, Type and Frequency",
+          "expected": "Exactly three headers \"Domain\", \"Type\" and \"Frequency\"; no chevron column; the section is named \"AI Engines Citation Sources\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column is displayed in the result table",
+          "expected": "No header reads \"Favorability\" and no cell shows the blurred grey favorability pill",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column is displayed in the gated ghost rows",
+          "expected": "No ghost row shows a blurred grey favorability pill in a dedicated column",
+          "status": "PASS"
+        },
+        {
+          "title": "And the real table and the ghost rows table have the same column count",
+          "expected": "Both tables have the same number of col entries in their colgroup and the same number of cells per row",
+          "status": "PASS"
+        },
+        {
+          "title": "And the columns of the ghost rows are aligned with the columns of the real table",
+          "expected": "For each column, the left and right edges of the ghost row cells match the header and real row cells (within 1 px); no column is shifted or overflowing",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Separate fresh browser context with the PQL account (from .env, not printed). Lands on /geo/upsell, role READER, access_status AUTH0_ACCESS_DENIED, Lite page language en-US / English (account setting, not changed). Quota 0/3 before. \"Essential Only\" leaves the form disabled; cookie choice reset and \"Accept All\" clicked (needed to enable the form). ONE Lite analysis: Toyota (toyota.com), product \"hybrid cars\", United States / English, AI insights English, demo consent not ticked; POST /lite-analysis/run 200, result in 26 s; quota 1/3 after. Section \"AI Engines Citation Sources\" + \"See which domains AI Engines reference most often for your brand and niche\" (GEO-1200 delivered on prod). Real table: table-fixed, colgroup 3 (auto, 130px, 88px), headers Domain / Type / Frequency, 4 rows x 3 td (kbb.com Review Sites 4, cars.usnews.com Other 3, fueleconomy.gov Gov / NGO 3, prnewswire.com Press Release 2), no chevron, no Favorability. Ghost table (aria-hidden): same 3-col colgroup, 6 rows x 3 td, no favorability pill column. PQL context closed afterwards."
+    },
+    {
+      "tc_id": "TC-GEO-1125-012",
+      "title": "Citation sources API returns no favorability field for a domain",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-012_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-012_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the overview page of the Toyota dashboard",
+          "expected": "The page sends GET /geo/api/v1/reports/{id}/overview/citation-sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the citation sources response is received",
+          "expected": "The response status is 200 and it lists the domains shown in the section",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no domain object carries a favorability field",
+          "expected": "No key named favorability, favorable, mixed, unfavorable or favorabilityLabel (any case) exists at any level of the domain objects",
+          "status": "PASS"
+        },
+        {
+          "title": "And each domain object carries only the citation source fields",
+          "expected": "Every domain object has exactly these keys and no additional one",
+          "status": "PASS",
+          "data": "Expected keys (captured 2026-09-25): domain, sourceType, frequency, citedBy, visibilityGaps, competitiveLosses, sentimentIssues, llmCitations, citedUrls"
+        },
+        {
+          "title": "When the user opens the \"All domains\" modal",
+          "expected": "The modal lists the N domains",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the data loaded for the modal carries no favorability field either",
+          "expected": "No request made to load the modal returns a favorability key for a domain",
+          "status": "PASS"
+        }
+      ],
+      "notes": "GET /geo/api/v1/reports/bfbb34ce-.../overview/citation-sources?from=2026-10-01T00:00:00Z&to=2026-10-07T23:59:59Z&marketCodes=master&llms=gemini,grok,openai,perplexity -> 200; top level distribution, domains[55], totalUrls, totalDomainCount, returnedDomainCount. Every domain object has exactly domain, sourceType, frequency, citedBy, visibilityGaps, competitiveLosses, sentimentIssues, llmCitations, citedUrls; no favorab* / mixed key at any depth. Opening the \"All domains\" modal sends no new request (data reused), so no favorability field either."
+    },
+    {
+      "tc_id": "TC-GEO-1125-013",
+      "title": "Citation Sources DOM holds no hidden Favorability column",
+      "story_id": "GEO-1125",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-013_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-013_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "expected": "The domain table is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the runner inspects the DOM of the section table",
+          "expected": "The table element, its colgroup (if any), header cells and row cells are read",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table holds exactly three columns in the DOM",
+          "expected": "Each header row has three th cells, each data row has three td cells and the colgroup (if any) has three col entries",
+          "status": "PASS"
+        },
+        {
+          "title": "And no hidden favorability element exists",
+          "expected": "No element with display:none, visibility:hidden, aria-hidden or zero width carries favorability text, a favorability class or a favorability data attribute",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the \"All domains\" modal and the runner inspects its table",
+          "expected": "The modal table is read",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the modal table holds exactly three columns and no hidden favorability element",
+          "expected": "Three th per header row, three td per data row, and no hidden favorability element",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Section table: 1 header row with 3 th, every row 3 td, no colgroup; 15 hidden / zero-width nodes, none with favorability text, class or attribute. Modal: 3 th, 3 td per row (55 rows), no colgroup, 59 hidden nodes, 0 favorability. (The staging failure of 2026-10-05, 4th chevron column, is not present on prod: GEO-1198 delivered.)"
+    },
+    {
+      "tc_id": "TC-GEO-1125-014",
+      "title": "Questions Analysis favourability filter is unchanged",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-014_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-014_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-014_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-014_step4_cleared.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Questions Analysis page of the Toyota dashboard",
+          "expected": "The Questions Analysis page is displayed with its question list",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the favourability filter",
+          "expected": "The favourability filter is displayed with the same label and the same options as in the reference",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user selects one favourability option",
+          "expected": "The filter shows the selected option",
+          "status": "PASS",
+          "data": "Option: the first option of the filter"
+        },
+        {
+          "title": "Then the question list is narrowed to that favourability",
+          "expected": "Only questions with the selected favourability are listed and the count is updated",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clears the filter",
+          "expected": "The full question list is displayed again",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Prompts Analysis block of category \"Electric cars\" (CSV \"Questions Analysis\"). \"Filters\" menu: All / Favorable / Split / Not Favorable / Unranked. Favorable -> 150 rows narrowed to 44 = \"44 out of 150 prompts are favorable\", button \"Filters (1)\"; clearing -> 150 rows again. PARTIAL: no pre-GEO-1125 reference export exists to compare the label and options; the tab badges (All 150 / Visibility 50 / Competitive 50 / Perception 50) are not updated by the filter (recorded; the list count is)."
+    },
+    {
+      "tc_id": "TC-GEO-1125-015",
+      "title": "Question detail panel favourability is unchanged",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-015_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-015_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Questions Analysis page of the Toyota dashboard",
+          "expected": "The question list is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the detail panel of a question",
+          "expected": "The question detail panel opens",
+          "status": "PASS",
+          "data": "Question: the first question of the list"
+        },
+        {
+          "title": "Then the favourability information of the question is displayed as before",
+          "expected": "The favourability label or indicator shown in the panel is present, with the same wording and position as in the reference",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the rest of the panel is unchanged",
+          "expected": "The panel sections are the same as in the reference",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Question detail panel of \"¿Los coches eléctricos más asequibles?\" (Visibility, Spain): engine tabs, \"Toyota's Position - CHATGPT: Unranked\", Ranking - ChatGPT (MG4 Electric, Citroën ë-C3...), Sources + \"All sources 5\". The favourability information (Unranked) is displayed. PARTIAL: no pre-GEO-1125 reference available to compare wording / position / sections."
+    },
+    {
+      "tc_id": "TC-GEO-1125-016",
+      "title": "XLSX Corporate Reputation block of the Overview sheet keeps its favourability column",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-016_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-016_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user exports the analysis in Excel (XLSX) format",
+          "expected": "An .xlsx file is downloaded",
+          "status": "PASS",
+          "data": "Format: XLSX"
+        },
+        {
+          "title": "When the runner opens the Overview sheet and finds the Corporate Reputation block",
+          "expected": "The Corporate Reputation table is found in the Overview sheet",
+          "status": "PASS",
+          "data": "Sheet: Overview (block near the top of the sheet)"
+        },
+        {
+          "title": "Then its header row still includes the favourability column",
+          "expected": "The header row of the block includes a Favorability column next to its other columns",
+          "status": "PASS"
+        },
+        {
+          "title": "And its rows hold favourability values",
+          "expected": "Each row of the block has a favourability value (e.g. a percentage or a favourable / mixed / unfavourable value)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "XLSX Overview sheet rows 3-9: \"IDENTITY\", \"InBrief (AI summary)\", header \"Reputation dimension | Favorability | Key insights\", rows Brand Image / Employer Brand / ESG / Sustainability / Leadership each with Favorability \"Positive\". No separate Corporate Reputation sheet (as on staging)."
+    },
+    {
+      "tc_id": "TC-GEO-1125-017",
+      "title": "XLSX Raw Data sheet is unchanged",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-017_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-017_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-017_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user exports the analysis in Excel (XLSX) format",
+          "expected": "An .xlsx file is downloaded",
+          "status": "PASS",
+          "data": "Format: XLSX"
+        },
+        {
+          "title": "When the runner opens the Raw Data sheet",
+          "expected": "The sheet exists in the workbook",
+          "status": "PASS",
+          "data": "Sheet: Raw Data"
+        },
+        {
+          "title": "Then its header row is the same as in the reference export",
+          "expected": "Same column headers, same order, favourability-related columns included",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And its rows hold favourability values as before",
+          "expected": "The favourability-related columns are filled with values of the same kind as in the reference",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Sheet \"Raw Data\" exists, 1794 data rows. Header: Snapshot | Country | Category | Type | Question | Engine | Favorability | Sentiment | Themes | Response | Source URLs | Source Domains (same as the staging export of 2026-10-05). Favorability: Favorable 1080, Neutral 407, Unfavorable 295, empty 12. PARTIAL: steps 3-4 require a pre-deployment reference export, not available."
+    },
+    {
+      "tc_id": "TC-GEO-1125-018",
+      "title": "PowerPoint and PDF Sources slides show 10 rows and the app domain total",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-018_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-018_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1125-018_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of the Toyota analysis and notes the \"All domains (M)\" count",
+          "expected": "M is noted from the \"All domains\" button of \"AI Engines Citation Sources\"",
+          "status": "PASS",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e"
+        },
+        {
+          "title": "When the user exports the analysis as \"Presentation .pptx\"",
+          "expected": "A .pptx file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the AI citation sources slide shows 10 domain rows",
+          "expected": "Exactly 10 rows with Domain, Type and Frequency, in the order of the app table",
+          "status": "PASS",
+          "data": "Slide \"Which sources shape your AI presence\", eyebrow \"SOURCES · OVERVIEW\""
+        },
+        {
+          "title": "And the slide states the domain total of the app",
+          "expected": "The domain total on the slide equals M",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"PDF\"",
+          "expected": "A PDF file is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Sources page shows the same 10 rows and the same total",
+          "expected": "10 rows and a domain total equal to M, with no Favorability column",
+          "status": "PASS",
+          "data": "Page rendered and read visually"
+        }
+      ],
+      "notes": "App Overview \"All domains 55\" (M = 55). PPTX slide 13: exactly 10 rows Domain / Type / Frequency in the app order (caranddriver.com 98 ... toyota.it 52), subtitle \"Top 10 of 55 source domains\" = M. PDF page 13 (rendered): same 10 rows, \"Top 10 of 55 source domains · 5,515 citations analysed\", no Favorability column."
+    },
+    {
+      "tc_id": "TC-GEO-1169-001",
+      "title": "Top X domains by Frequency are selected and all their GROUNDED URLs sent to verification",
+      "story_id": "GEO-1169",
+      "priority": "High",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "Backend-only TC: not verifiable via the UI",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-001_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed snapshot with more than 100 GROUNDED domains after the owned and competitor exclusion",
+          "expected": "The snapshot and its reference ranking of domains by Frequency are available",
+          "status": "SKIP",
+          "data": "X = 100 (default)"
+        },
+        {
+          "title": "When the suspect selection runs over that snapshot",
+          "expected": "The selection run completes and sets its SUSPECT_SELECTION done marker",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then exactly the 100 domains with the highest Frequency are selected",
+          "expected": "The selected domain list contains 100 domains and matches the top 100 of the reference ranking",
+          "status": "SKIP"
+        },
+        {
+          "title": "And every GROUNDED cited URL of those 100 domains is sent to verification",
+          "expected": "The number of URLs sent to verification equals the number of distinct GROUNDED cited URLs of the 100 domains, with no cap applied",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no URL of a domain ranked below the top 100 and no non-GROUNDED citation is sent to verification",
+          "expected": "None of the URLs sent to verification belongs to a domain ranked 101 or lower, and none comes from a non-GROUNDED citation",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection output (selected domain list with Frequency, URLs sent to verification, SUSPECT_SELECTION marker, selection log, configuration X) is not exposed in the UI or the public API. step1 = UI context only (AI Engines Citation Sources, prod Toyota)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-002",
+      "title": "Owned and competitor domains are excluded before the top X ranking",
+      "story_id": "GEO-1169",
+      "priority": "High",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "Backend-only TC: not verifiable via the UI",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-002_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a snapshot where an owned domain and a competitor domain rank in the top 100 by Frequency before exclusion",
+          "expected": "Both domains are present in the reference ranking within the top 100",
+          "status": "SKIP",
+          "data": "Owned domain: toyota.com, competitor domain: honda.com (Toyota analysis)"
+        },
+        {
+          "title": "When the suspect selection runs over that snapshot",
+          "expected": "The selection run completes",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then neither the owned domain nor the competitor domain is selected",
+          "expected": "toyota.com and honda.com are absent from the selected domain list and none of their URLs is sent to verification",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the selection still contains 100 domains, including the domains ranked 101 and 102 before the exclusion",
+          "expected": "The selected domain list contains 100 domains and includes the two domains that ranked 101 and 102 in the ranking before exclusion",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection output (selected domain list with Frequency, URLs sent to verification, SUSPECT_SELECTION marker, selection log, configuration X) is not exposed in the UI or the public API. step1 = UI context only (AI Engines Citation Sources, prod Toyota). UI observation only (not a verdict): kia.com (#27) and hyundai.com (#13), brands that appear as competitors in the prompts, are listed as Target Sources; the competitor configuration is not visible in the UI."
+    },
+    {
+      "tc_id": "TC-GEO-1169-003",
+      "title": "Selection Frequency matches the AI Citation Sources Frequency column",
+      "story_id": "GEO-1169",
+      "priority": "High",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "Backend-only TC: not verifiable via the UI",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-003_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the selection output of the snapshot lists the selected domains with their Frequency",
+          "expected": "The Frequency of the 3 domains is recorded from the selection output",
+          "status": "SKIP",
+          "data": "Domains ranked 1, 50 and 100 in the selection"
+        },
+        {
+          "title": "When the user opens the AI Citation Sources table of the same snapshot with all markets, all engines and all question types",
+          "expected": "The table lists the domains with their Frequency column",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the Frequency of each of the 3 domains in the table equals the Frequency used by the selection",
+          "expected": "The 3 Frequency values are identical in the table and in the selection output",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the order of the selected domains matches the Frequency order of the table once owned and competitor domains are set aside",
+          "expected": "The selected domains appear in the same relative order as in the AI Citation Sources table sorted by Frequency",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection output (selected domain list with Frequency, URLs sent to verification, SUSPECT_SELECTION marker, selection log, configuration X) is not exposed in the UI or the public API. step1 = UI context only (AI Engines Citation Sources, prod Toyota)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-004",
+      "title": "Frequency counts unique URLs, not citations",
+      "story_id": "GEO-1169",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "Backend-only TC: not verifiable via the UI",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-004_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a snapshot where domain A has 1 URL cited in 30 answers and domain B has 5 distinct URLs cited once each",
+          "expected": "Both domains are present in the snapshot citations",
+          "status": "SKIP",
+          "data": "Domain A: 1 URL x 30 answers, domain B: 5 URLs x 1 answer"
+        },
+        {
+          "title": "When the suspect selection ranks the domains of the snapshot",
+          "expected": "The selection ranking is produced",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then domain A has a Frequency of 1 and domain B a Frequency of 5",
+          "expected": "The selection output shows Frequency 1 for domain A and 5 for domain B, identical to the AI Citation Sources Frequency column",
+          "status": "SKIP"
+        },
+        {
+          "title": "And domain B ranks above domain A",
+          "expected": "Domain B is placed above domain A in the selection ranking",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection output (selected domain list with Frequency, URLs sent to verification, SUSPECT_SELECTION marker, selection log, configuration X) is not exposed in the UI or the public API. step1 = UI context only (AI Engines Citation Sources, prod Toyota)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-005",
+      "title": "Source cited only in positive answers is selected and sent to verification",
+      "story_id": "GEO-1169",
+      "priority": "High",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "Backend-only TC: not verifiable via the UI",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-005_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a top 100 domain cited only in answers where the brand is visible, first and positive",
+          "expected": "The domain is in the top 100 of the reference ranking and has no gap answer",
+          "status": "SKIP",
+          "data": "Domain identified from the snapshot reference data"
+        },
+        {
+          "title": "When the suspect selection runs over that snapshot",
+          "expected": "The selection run completes",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the domain is in the selected domain list",
+          "expected": "The domain appears in the selected domain list",
+          "status": "SKIP"
+        },
+        {
+          "title": "And all its GROUNDED cited URLs are sent to verification",
+          "expected": "Every GROUNDED cited URL of the domain is in the list of URLs sent to verification",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection output (selected domain list with Frequency, URLs sent to verification, SUSPECT_SELECTION marker, selection log, configuration X) is not exposed in the UI or the public API. step1 = UI context only (AI Engines Citation Sources, prod Toyota)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-006",
+      "title": "Positive-only source with a missing article is listed in Target Sources",
+      "story_id": "GEO-1169",
+      "priority": "High",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "Reference data not available on prod: no source S cited only in answers where the brand is visible, first and positive could be identified.",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-006_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page on the ALL tab",
+          "expected": "The Target Sources list is displayed",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user locates source S in the list",
+          "expected": "Source S is listed with its count of articles where the brand is missing",
+          "status": "BLOCKED",
+          "data": "Source S from reference data"
+        },
+        {
+          "title": "And the user opens the details panel of source S",
+          "expected": "The details panel of source S opens",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then every prompt under \"Prompts associated with this source\" is a prompt where the brand is visible, first and positive",
+          "expected": "No listed prompt is a gap answer, which confirms that the source entered the pool through its Frequency and not through a failing prompt",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": "All 34 target sources present in the top-55 citation data have visibility gaps (e.g. frandroid.com 12 / 15 / 8); the other 63 target sources are outside the citation data exposed by the UI / API. See the step3 evidence."
+    },
+    {
+      "tc_id": "TC-GEO-1169-007",
+      "title": "X is changed in configuration and applies to the next selection run",
+      "story_id": "GEO-1169",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "Backend-only TC: not verifiable via the UI",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-007_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given X is set to 100 in the configuration",
+          "expected": "The configuration shows X = 100",
+          "status": "SKIP",
+          "data": "X = 100"
+        },
+        {
+          "title": "When X is set to 50 in the configuration without any deployment",
+          "expected": "The configuration shows X = 50 and no release or deployment is performed",
+          "status": "SKIP",
+          "data": "X = 50"
+        },
+        {
+          "title": "And the next selection run executes on a new snapshot",
+          "expected": "The selection run completes on the new snapshot",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the selection keeps exactly the 50 domains with the highest Frequency",
+          "expected": "The selected domain list of the new snapshot contains 50 domains, the top 50 of the reference ranking",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the selection log shows X applied = 50",
+          "expected": "The log of the run reports X = 50",
+          "status": "SKIP"
+        },
+        {
+          "title": "And X is set back to 100 in the configuration",
+          "expected": "The configuration shows X = 100 again",
+          "status": "SKIP",
+          "data": "X = 100"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection output (selected domain list with Frequency, URLs sent to verification, SUSPECT_SELECTION marker, selection log, configuration X) is not exposed in the UI or the public API. step1 = UI context only (AI Engines Citation Sources, prod Toyota)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-008",
+      "title": "Top X domain with no missing or negative article is not shown in Target Sources",
+      "story_id": "GEO-1169",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-008_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-008_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page on the ALL tab",
+          "expected": "The Target Sources list is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user browses the full Target Sources list",
+          "expected": "The whole list is loaded",
+          "status": "PASS",
+          "data": "Domain D from reference data"
+        },
+        {
+          "title": "Then domain D is not listed",
+          "expected": "Domain D does not appear in the Target Sources list",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And every listed source has at least one missing or negative article",
+          "expected": "Each listed source shows a count of at least 1 missing or negative article",
+          "status": "PASS"
+        }
+      ],
+      "notes": "D = abc.es (Journalism, Frequency 34, in the AI Engines Citation Sources top 55, not owned, not a competitor). Full list loaded (\"Show 85 more sources\" -> 97 sources, last univision.com): abc.es not listed (nor reuters.com, cnbc.com, lemonde.fr...). Every one of the 97 cards shows at least 1 \"Not visible in\" / \"Negative perception in\" count. PARTIAL: the verification verdicts of D's articles (0 missing, 0 negative) cannot be confirmed without reference data."
+    },
+    {
+      "tc_id": "TC-GEO-1169-009",
+      "title": "All-clear state when no top X domain has a missing or negative article",
+      "story_id": "GEO-1169",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-009_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-009_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of that analysis",
+          "expected": "The Action Center page loads",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Target Sources page is displayed",
+          "expected": "The Target Sources page renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the all-clear state is shown",
+          "expected": "The title \"All clear\" and the body \"Every article used by AI engines describes your brand positively.\" are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And no source list is shown under it",
+          "expected": "No source card or table row is displayed under the all-clear message",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Equivalent scope on prod: Toyota with AI Engines = Grok only (filter stored in local storage of the runner context, restored to 4 engines afterwards). Target Sources shows \"All clear\" and \"Every article used by AI engines describes your brand positively.\", 0 source card, 0 table row. Observation: target-sources API returns state ALL_CLEAR with citedSourceCount 0 for Grok."
+    },
+    {
+      "tc_id": "TC-GEO-1169-010",
+      "title": "Prompts panel lists every prompt citing the source, not only failing ones",
+      "story_id": "GEO-1169",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-010_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-010_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page on the ALL tab",
+          "expected": "The Target Sources list is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source S",
+          "expected": "The details panel of source S opens",
+          "status": "PASS",
+          "data": "Source S from reference data"
+        },
+        {
+          "title": "Then the section \"Prompts associated with this source\" is displayed below the articles",
+          "expected": "The section title \"Prompts associated with this source\" is shown below the article list",
+          "status": "PASS"
+        },
+        {
+          "title": "And the list includes at least one prompt where the brand is visible, first and positive",
+          "expected": "At least one listed prompt is a non-failing prompt from the reference data",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the number of prompts equals the number of prompts citing source S in the scope",
+          "expected": "6 prompts are shown and 6 + X of \"Show X more prompts\" equals the reference count of prompts citing S",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "S = frandroid.com (#1). Panel \"#1 · frandroid.com\"; \"Prompts associated with this source\" below the articles (top 884 px), engine sub-filter All / ChatGPT (4) / Gemini (10) / Perplexity (28). 6 prompts + \"Show 25 more prompts\" = 31 rows, all distinct. Prompts absent from every gap list of frandroid.com in the latest snapshot (citation-sources API): \"¿Por qué es conocido Toyota en el ámbito de los coches eléctricos?\", \"¿Recomendarías Toyota para coches eléctricos?\", \"Est-ce que Toyota est une bonne marque de voitures électriques ?\", \"Recommanderais-tu Toyota pour les voitures électriques ?\" -> non-failing prompts are listed (approximate: the gap lists cover the latest snapshot only). PARTIAL: no reference list of prompts citing S over the 7-day window, so the count 31 cannot be checked."
+    },
+    {
+      "tc_id": "TC-GEO-1169-011",
+      "title": "Prompt cited by several engines appears once with one icon per engine",
+      "story_id": "GEO-1169",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-011_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-011_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-011_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-011_chatgpt_subfilter.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source S is open",
+          "expected": "The section \"Prompts associated with this source\" is displayed",
+          "status": "PASS",
+          "data": "Source S, prompt P (cited by ChatGPT and Gemini)"
+        },
+        {
+          "title": "When the user locates prompt P in the list, expanding \"Show X more prompts\" if needed",
+          "expected": "Prompt P is visible in the list",
+          "status": "PASS"
+        },
+        {
+          "title": "Then prompt P appears on exactly one row",
+          "expected": "Prompt P is listed once",
+          "status": "PASS"
+        },
+        {
+          "title": "And the row of prompt P shows the ChatGPT and Gemini icons",
+          "expected": "The row shows the prompt text, its market flag and one icon for ChatGPT and one for Gemini",
+          "status": "PASS"
+        }
+      ],
+      "notes": "S = frandroid.com, P = \"Toyota contre Tesla contre Renault contre Peugeot -- le meilleur pour les voitures électriques ?\" (cited by ChatGPT, Gemini and Perplexity). After \"Show 25 more prompts\": P on exactly one row with the FR flag and one icon each for ChatGPT (svg, confirmed by the ChatGPT (4) sub-filter), Gemini and Perplexity. 31 rows, 31 distinct (case-insensitive): no case duplicate (GEO-1219 not seen here)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-012",
+      "title": "Prompts list is limited to the current scope",
+      "story_id": "GEO-1169",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-012_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-012_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source S is open with all filters at their defaults",
+          "expected": "The prompts list shows prompts cited by several engines",
+          "status": "PASS",
+          "data": "Source S"
+        },
+        {
+          "title": "When the user sets the AI Engines filter of the page to ChatGPT only",
+          "expected": "The page is recomputed in the ChatGPT scope",
+          "status": "PASS",
+          "data": "AI Engines = ChatGPT"
+        },
+        {
+          "title": "And the user opens the details panel of source S again",
+          "expected": "The details panel of source S opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the list only contains the prompts whose ChatGPT answer cites source S",
+          "expected": "The listed prompts match the reference list of prompts cited by ChatGPT, and each row shows only the ChatGPT icon",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Default scope: frandroid.com #1, 31 prompts, multi-engine rows. Page AI Engines = ChatGPT only: frandroid.com becomes #33 of 59; its panel lists exactly 4 prompts (\"Meilleures voitures électriques ?\", \"Toyota comparé à Tesla et Renault ... qui gagne ?\", \"Toyota contre Tesla contre Renault contre Peugeot ...\", \"Voitures électriques les plus recommandées ?\") = the 4 rows of the ChatGPT (4) sub-filter in the default scope, each with the ChatGPT icon only. Engines restored to 4 afterwards."
+    },
+    {
+      "tc_id": "TC-GEO-1169-013",
+      "title": "Selection is idempotent per snapshot and keeps the done marker",
+      "story_id": "GEO-1169",
+      "priority": "High",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "Backend-only TC: not verifiable via the UI",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-013_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a snapshot with the SUSPECT_SELECTION done marker and a recorded selection result",
+          "expected": "The done marker is present and the first selection result is recorded",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the selection job is triggered again for the same snapshot",
+          "expected": "The job run ends without error",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the selected domains and the URLs sent to verification are identical to the first run",
+          "expected": "No domain or URL is added or removed, and no URL is sent to verification a second time",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the SUSPECT_SELECTION done marker is still set for the snapshot",
+          "expected": "The snapshot keeps a single SUSPECT_SELECTION done marker",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection output (selected domain list with Frequency, URLs sent to verification, SUSPECT_SELECTION marker, selection log, configuration X) is not exposed in the UI or the public API. step1 = UI context only (AI Engines Citation Sources, prod Toyota)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-014",
+      "title": "Selection log shows domains considered, X applied and URLs sent",
+      "story_id": "GEO-1169",
+      "priority": "Medium",
+      "status": "SKIP",
+      "duration": 0,
+      "error": "Backend-only TC: not verifiable via the UI",
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1169-014_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed selection run for a known snapshot",
+          "expected": "The run is completed",
+          "status": "SKIP",
+          "data": "X = 100"
+        },
+        {
+          "title": "When the selection log of that run is opened",
+          "expected": "The log entries of the run are displayed",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the log shows the number of domains considered",
+          "expected": "The reported number of domains equals the reference number of domains considered",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the log shows the X applied",
+          "expected": "The log reports X = 100",
+          "status": "SKIP",
+          "data": "X = 100"
+        },
+        {
+          "title": "And the log shows the number of URLs sent to verification",
+          "expected": "The reported number of URLs equals the number of URLs in the verification list of the run",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection output (selected domain list with Frequency, URLs sent to verification, SUSPECT_SELECTION marker, selection log, configuration X) is not exposed in the UI or the public API. step1 = UI context only (AI Engines Citation Sources, prod Toyota)."
+    },
+    {
+      "tc_id": "TC-GEO-1173-001",
+      "title": "Action Center is the last slide of the PowerPoint export",
+      "story_id": "GEO-1173",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-001_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-001_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-001_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-001_step3b_deck_list.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of a completed analysis",
+          "expected": "The analysis is displayed and the left navigation lists Overview, Categories and \"Action Center\" as its last entry",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the export (download) icon button in the analysis toolbar",
+          "expected": "The \"Export analysis as\" menu opens with the options \"PDF\", \"Presentation .pptx\" and \"Spreadsheet .xls\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects \"Presentation .pptx\"",
+          "expected": "The PowerPoint export is generated and the .pptx file is downloaded",
+          "status": "PASS",
+          "data": "Option: Presentation .pptx"
+        },
+        {
+          "title": "And the user opens the downloaded deck",
+          "expected": "The deck opens and all slides are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last slide of the deck is the Action Center · Target Sources slide",
+          "expected": "The final slide shows the eyebrow \"ACTION CENTER · TARGET SOURCES\", the title \"Where PR effort pays first\" and the subtitle \"Top N of M verified target sources · every claim checked against the page itself\" with the ranked sources",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Action Center slide appears before the other analysis sections",
+          "expected": "No \"ACTION CENTER · TARGET SOURCES\" slide is found in the middle of the deck (e.g. around slide 9) and no other section slide comes after it",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Left nav: Overview, Categories (Electric cars, SUVs), Action Center last (+ Manage Scope footer link). Export icon (aria-label \"Export analysis\") -> \"EXPORT ANALYSIS AS\": PDF / Presentation .pptx / Spreadsheet .xls. Deck = 32 slides: 1 cover, 2-4 Identity, 5-12 Performance, 13 Sources, 14-22 Electric cars, 23-31 SUVs, 32 \"ACTION CENTER · TARGET SOURCES\" / \"Where PR effort pays first\" / \"Top 10 of 97 verified target sources · every claim checked against the page itself\" with ranked sources. No Action Center slide elsewhere."
+    },
+    {
+      "tc_id": "TC-GEO-1173-002",
+      "title": "Action Center is the last page of the PDF export",
+      "story_id": "GEO-1173",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-002_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-002_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-002_step3_then.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-002_step3b_last_page.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of a completed analysis",
+          "expected": "The analysis is displayed and the left navigation lists Overview, Categories and \"Action Center\" as its last entry",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the export (download) icon button in the analysis toolbar",
+          "expected": "The \"Export analysis as\" menu opens with the options \"PDF\", \"Presentation .pptx\" and \"Spreadsheet .xls\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects \"PDF\"",
+          "expected": "The PDF export is generated and the .pdf file is downloaded",
+          "status": "PASS",
+          "data": "Option: PDF"
+        },
+        {
+          "title": "And the user opens the downloaded PDF",
+          "expected": "The PDF opens and all pages are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last page of the PDF is the Action Center · Target Sources page",
+          "expected": "The final page shows the eyebrow \"ACTION CENTER · TARGET SOURCES\", the title \"Where PR effort pays first\" and the subtitle \"Top N of M verified target sources · every claim checked against the page itself\" with the ranked sources",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Action Center page appears before the other analysis sections",
+          "expected": "No \"ACTION CENTER · TARGET SOURCES\" page is found in the middle of the PDF (e.g. around page 9) and no other section page comes after it",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PDF 32 pages (rendered with pdf.js): page 32 = \"ACTION CENTER · TARGET SOURCES\", \"Where PR effort pays first\", \"Top 10 of 97 verified target sources · every claim checked against the page itself\" with ranked sources; no Action Center page before it (contact sheet)."
+    },
+    {
+      "tc_id": "TC-GEO-1173-003",
+      "title": "Export section order follows the GEO tab order",
+      "story_id": "GEO-1173",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-003_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-003_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user notes the order of the analysis navigation in GEO",
+          "expected": "The order is recorded from first to last: Overview (Identity, Performance, Sources), the categories in the left navigation order (Voitures hybrides > VUS > Voitures électriques on 2026-10-06), then \"Action Center\" as the last entry",
+          "status": "PASS",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e"
+        },
+        {
+          "title": "When the user exports the analysis with \"Presentation .pptx\" and opens the deck",
+          "expected": "The deck opens and all slides are listed",
+          "status": "PASS",
+          "data": "Option: Presentation .pptx"
+        },
+        {
+          "title": "Then the order of the sections in the deck matches the recorded GEO navigation order",
+          "expected": "Each exported section appears in the same relative order as in the GEO navigation and the \"ACTION CENTER · TARGET SOURCES\" slide closes the deck",
+          "status": "PASS"
+        },
+        {
+          "title": "And the category sections of the deck follow the left navigation order",
+          "expected": "The category section slides appear in the recorded order (e.g. Voitures hybrides, then VUS, then Voitures électriques)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis with \"PDF\" and opens the document",
+          "expected": "The PDF opens and all pages are listed",
+          "status": "PASS",
+          "data": "Option: PDF"
+        },
+        {
+          "title": "Then the order of the sections in the PDF matches the order of the PowerPoint deck",
+          "expected": "The PDF pages follow the same section order as the deck and the \"ACTION CENTER · TARGET SOURCES\" page closes the PDF",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Navigation order: Overview (Identity, Performance, Sources) > Electric cars > SUVs > Action Center. Deck: Identity 2-4, Performance 5-12, Sources 13, Electric cars 14-22, SUVs 23-31, Action Center 32 (closes the deck). PDF pages follow the same order (contact sheet), Action Center page 32 last."
+    },
+    {
+      "tc_id": "TC-GEO-1173-004",
+      "title": "All clear Target Sources slide closes the PPT and PDF exports",
+      "story_id": "GEO-1173",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-004_step1_given.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-004_step2_when.png",
+        "screenshots-GEO-152-PROD-C/TC-GEO-1173-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on a completed analysis whose Action Center has no target source",
+          "expected": "The Action Center shows no target source in its list",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis with \"Presentation .pptx\" and opens the deck",
+          "expected": "The deck opens and all slides are listed",
+          "status": "PASS",
+          "data": "Option: Presentation .pptx"
+        },
+        {
+          "title": "Then the last slide of the deck is the all-clear Target Sources slide",
+          "expected": "The final slide shows the eyebrow \"ACTION CENTER · TARGET SOURCES\", a check icon, the title \"All clear\" and the text \"Every article used by AI engines describes your brand positively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis with \"PDF\" and opens the document",
+          "expected": "The PDF opens and all pages are listed",
+          "status": "PASS",
+          "data": "Option: PDF"
+        },
+        {
+          "title": "Then the last page of the PDF is the all-clear Target Sources page",
+          "expected": "The final page shows the eyebrow \"ACTION CENTER · TARGET SOURCES\", a check icon, the title \"All clear\" and the text \"Every article used by AI engines describes your brand positively.\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Scope Toyota + AI Engines = Grok only (all-clear, see TC-GEO-1124-007). PPTX (32 slides) last slide: \"ACTION CENTER · TARGET SOURCES\", check icon, \"All clear\", \"Every article used by AI engines describes your brand positively.\". PDF (32 pages) last page rendered: same eyebrow, green check icon, \"All clear\" and the sentence."
+    }
+  ]
+}

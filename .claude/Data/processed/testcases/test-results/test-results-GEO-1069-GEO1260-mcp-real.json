@@ -1,0 +1,372 @@
+{
+ "spec": "GEO-1069-GEO1260",
+ "runDate": "2026-10-20",
+ "runMode": "mcp-playwright",
+ "mode": "structured",
+ "url": "https://staging-geo.onclusive.com/geo",
+ "story": "GEO-1260",
+ "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+ "summary": {
+  "total": 7,
+  "pass": 6,
+  "fail": 1,
+  "skip": 0,
+  "partial": 0,
+  "successRate": 85.7,
+  "successRateExecuted": 85.7,
+  "verdict": "GO"
+ },
+ "environment": {
+  "language": "en-GB (GET /geo/api/v1/auth/me language = en-GB); copy checked against the en-US validated strings, identical in en-GB for this field",
+  "organisation": "QA-GEO (already selected at login)",
+  "featureFlag": "unbranded_analysis = true (flag ON): 5-step wizard starting with Analysis Type",
+  "role": "SUPER_ADMIN",
+  "testData": "C = \"Lictorix Geo\" (Licter is a Brandfetch suggestion), N = \"Qzxwv Qkjtest\" (\"Qzxwv Geo Test\" returns Geo suggestions), W1 = licter.com, W2 = onclusive.com, S = Nike (nike.com)",
+  "analysesCreated": [],
+  "stateChanges": "No analysis created (stopped at the Categories step at most). Every wizard session left via page reload or Back to Dashboard > Exit and Discard. No back-office change."
+ },
+ "results": [
+  {
+   "tc_id": "TC-GEO-1260-001",
+   "title": "Custom brand row shows an optional website field under the selected brand card",
+   "story_id": "GEO-1260",
+   "priority": "High",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "skip_reason": null,
+   "screenshots": [
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-001_step1_given.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-001_step2_when.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-001_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Brand & Country step",
+     "expected": "\"What brand are you analysing?\" is displayed with an empty brand search",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user types a brand name in the brand search",
+     "expected": "The dropdown lists the matching suggestions, if any, and a \"Custom Brand\" row for \"Licter\"",
+     "data": "C = \"Licter\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user selects the \"Custom Brand\" row (Licter)",
+     "expected": "The custom brand card \"Licter\" is displayed as the selected brand",
+     "status": "PASS"
+    },
+    {
+     "title": "Then a website field is displayed inline right under the selected custom brand card, above \"Discover Categories\"",
+     "expected": "The field has a globe icon and the same input style as the brand search",
+     "status": "PASS"
+    },
+    {
+     "title": "And the field label reads the validated copy",
+     "expected": "\"What is your brand's website? (optional)\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the field shows the validated placeholder and hint",
+     "expected": "Placeholder \"example.com\"; hint \"We use it to show the right logo. Leave it empty to show your brand's initial.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the empty field is not flagged as required",
+     "expected": "No required marker, no red border and no error message while the field is empty",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Test data adapted at execution as the precondition allows: \"Licter\" IS a Brandfetch suggestion (Licter / licter.com), so C = \"Lictorix Geo\" (its suggestions only match the word \"Geo\"; the name itself is offered only through the \"Custom Brand\" row). Dropdown: \"Lictorix Geo — Custom Brand\" (first row, \"?\" avatar) + 5 Geo suggestions. Selected card: 32px \"L\" lettermark + \"Lictorix Geo\" + clear button. Website block right under the card (card top 250px, field 339px, \"Which countries\" 406px, \"Discover Categories\" footer 672px). <label for=\"wizard-brand-website-input\"> = \"What is your brand's website? (optional)\"; placeholder \"example.com\"; hint \"We use it to show the right logo. Leave it empty to show your brand's initial.\"; globe SVG icon; wrapper classes identical to the brand search wrapper (rounded border-slate-200 bg-white px-3 py-2.5, same focus ring). Empty field: required=false, aria-invalid=false, no \"*\", slate-200 border, no error text."
+  },
+  {
+   "tc_id": "TC-GEO-1260-002",
+   "title": "Brand search with no suggestion shows the same website field",
+   "story_id": "GEO-1260",
+   "priority": "High",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "skip_reason": null,
+   "screenshots": [
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-002_step1_given.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-002_step2_when.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-002_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Brand & Country step",
+     "expected": "The brand search is empty",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user types a brand name that returns no suggestion",
+     "expected": "The dropdown shows no suggestion, only the \"Custom Brand\" row for \"Qzxwv Geo Test\"",
+     "data": "N = \"Qzxwv Geo Test\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user selects the \"Custom Brand\" row",
+     "expected": "The custom brand card \"Qzxwv Geo Test\" is displayed as the selected brand",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the website field is displayed inline under the custom brand card",
+     "expected": "\"What is your brand's website? (optional)\" with placeholder \"example.com\" and the hint \"We use it to show the right logo. Leave it empty to show your brand's initial.\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the field is empty and optional",
+     "expected": "No required marker, no red border and no error message",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Test data adapted at execution as the precondition allows: \"Qzxwv Geo Test\" returns 5 Brandfetch suggestions (GEO / geo.fr, Geo / geo-psy.com, Geo Week...) because of the word \"Geo\". N = \"Qzxwv Qkjtest\" returns no suggestion, only \"Qzxwv Qkjtest — Custom Brand\" (\"Qzxwvbt\" also works). After selecting it: card \"Qzxwv Qkjtest\", website field with the exact label, placeholder \"example.com\" and hint; value empty, required=false, aria-invalid=false, no error."
+  },
+  {
+   "tc_id": "TC-GEO-1260-003",
+   "title": "Website left empty lets the setup continue with a lettermark and no logo lookup",
+   "story_id": "GEO-1260",
+   "priority": "High",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "skip_reason": null,
+   "screenshots": [
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-003_step1_given.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-003_step2_when.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-003_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the custom brand \"Licter\" is selected and the website field is empty",
+     "expected": "The custom brand card \"Licter\" is displayed with an empty website field",
+     "data": "C = \"Licter\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the brand card shows the neutral lettermark",
+     "expected": "The 32px avatar shows the letter \"L\" (same letter avatar as the dashboard), no logo and no domain under the brand name",
+     "status": "PASS"
+    },
+    {
+     "title": "And no logo lookup is sent for the brand",
+     "expected": "No logo lookup request (brand logo service or favicon) appears, in particular none for a domain guessed from the name (e.g. licter.com)",
+     "data": "DevTools Network",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user adds a market and clicks \"Discover Categories\"",
+     "expected": "No error is shown under the website field and the discovery loading screen is displayed",
+     "data": "Country United States, language English (EN)",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Categories step opens with the discovered categories",
+     "expected": "The setup continues normally to the Categories step",
+     "status": "PASS"
+    },
+    {
+     "title": "And still no logo lookup was sent during the setup",
+     "expected": "No logo lookup request for the brand appears in the Network log",
+     "data": "DevTools Network",
+     "status": "PASS"
+    }
+   ],
+   "notes": "C = \"Lictorix Geo\" (see TC-001). Card lettermark: same component as the dashboard letter avatar (\"kids toys\" row): span \"inline-flex h-8 w-8 rounded-full text-sm font-medium text-white\", 32x32, colour derived from the name (green-500 for \"Lictorix Geo\", amber-500 for \"kids toys\"); no <img>, no domain line under the name. Network (fresh page load, filter brandfetch|favicon|logo): only 5 cdn.brandfetch.io calls, which are exactly the logoUrl values of the 5 dropdown suggestions returned by /geo/api/v1/brands/search?q=Lictorix%20Geo (Geotab, GEODIS, Georgia Southern, Georgia Power, georgiadogs) - no request for the custom brand, nothing for lictorix/licter, no s2/favicons call. United States / English (EN) added, no error under the website field, \"Discovering Categories - Scanning how AI engines see Lictorix Geo across your markets.\" shown, then Categories step with \"Geospatial Analytics Software\", \"Location Intelligence Platforms\". POST /analysis/discover-categories body: {\"entityName\":\"Lictorix Geo\",\"entityDomain\":null,...}. No logo lookup during the whole setup."
+  },
+  {
+   "tc_id": "TC-GEO-1260-004",
+   "title": "Selecting a suggestion asks for no website and keeps today's flow",
+   "story_id": "GEO-1260",
+   "priority": "High",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "skip_reason": null,
+   "screenshots": [
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-004_step1_given.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-004_step2_when.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-004_step3_then.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-004_step3a_no_field.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Brand & Country step",
+     "expected": "The brand search is empty",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user types the name of a suggested brand",
+     "expected": "The dropdown lists Brandfetch suggestions with their logo and domain, plus a \"Custom Brand\" row for \"Nike\"",
+     "data": "S = \"Nike\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user selects the suggestion",
+     "expected": "The selected brand card shows today's card: the Nike logo, the name and the domain",
+     "data": "\"Nike\" (nike.com)",
+     "status": "PASS"
+    },
+    {
+     "title": "Then no website field is displayed",
+     "expected": "No \"What is your brand's website? (optional)\" field is shown anywhere on the step",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user adds a market and clicks \"Discover Categories\"",
+     "expected": "The discovery loading screen is displayed and the Categories step opens, as today",
+     "data": "Country United States, language English (EN)",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Dropdown for \"Nike\": \"Nike — Custom Brand\" (first row) + Nike / nike.com, Nike / nikeapp.com, Nike / nikeplus.com, Nike / nikeid.com, NIKE SB / nikesb.com, each with a cdn.brandfetch.io logo. Selected \"Nike (nike.com)\": card = Nike logo (brandfetch) + \"Nike\" + \"nike.com\" + clear button. No #wizard-brand-website-input and no \"What is your brand's website\" text anywhere on the step (also after adding United States). Discover Categories: loading \"Scanning how AI engines see Nike across your markets.\" then Categories step (Athletic Footwear, Athletic Apparel)."
+  },
+  {
+   "tc_id": "TC-GEO-1260-005",
+   "title": "Brand name typed as an address prefills the website field",
+   "story_id": "GEO-1260",
+   "priority": "Medium",
+   "status": "FAIL",
+   "duration": 0,
+   "error": "Expected: the website field contains \"www.licter.com\" and shows no error. Observed: the field is prefilled with \"licter.com\" (www. stripped), no error (aria-invalid=false). The card shows \"www.licter.com\" as the brand name with \"licter.com\" and the Licter logo under it.",
+   "skip_reason": null,
+   "screenshots": [
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-005_step1_given.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-005_step2_when.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-005_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Brand & Country step",
+     "expected": "The brand search is empty",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user types an address as brand name",
+     "expected": "The dropdown shows a \"Custom Brand\" row for \"www.licter.com\"",
+     "data": "\"www.licter.com\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user selects the \"Custom Brand\" row",
+     "expected": "The custom brand card \"www.licter.com\" is displayed with the website field under it",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the website field is prefilled with the typed address",
+     "expected": "The website field contains \"www.licter.com\" and shows no error",
+     "status": "FAIL"
+    }
+   ],
+   "notes": "Steps 1-3 OK: dropdown \"www.licter.com — Custom Brand\" + suggestion \"Licter / licter.com\"; custom card \"www.licter.com\" displayed with the website field under it. Step 4: prefilled value = \"licter.com\" instead of \"www.licter.com\" (input outlined in red on step3_then). Most likely the GEO-1261 normalization (www. removed, domain kept) applied to the prefill: functionally the prefill works, only the exact value differs. Kept FAIL per the strict exact-value rule; proposed CSV adaptation (to confirm with QA/PO): expect \"licter.com\" (normalized form of the typed address). Side observation for GEO-1262: the logo is shown at once right after the prefill."
+  },
+  {
+   "tc_id": "TC-GEO-1260-006",
+   "title": "Changing the website after category discovery clears the discovered categories",
+   "story_id": "GEO-1260",
+   "priority": "Medium",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "skip_reason": null,
+   "screenshots": [
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-006_step1_given.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-006_step2_when.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-006_step3_then.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-006_step2b_website_changed.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-006_step3a_stepper_after_change.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-006_step4_rediscover_loading.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-006_ref_brand_changed.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the custom brand \"Licter\" is selected with the website \"licter.com\" and a market",
+     "expected": "\"licter.com\" is shown under the brand name",
+     "data": "C = \"Licter\", W1 = \"licter.com\", United States / English (EN)",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user clicks \"Discover Categories\"",
+     "expected": "The Categories step opens with the discovered categories (list noted)",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user clicks Back",
+     "expected": "Brand & Country shows \"Licter\" and \"licter.com\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user changes the website and the field loses focus",
+     "expected": "\"onclusive.com\" is shown under the brand name, no error",
+     "data": "W2 = \"onclusive.com\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the categories discovered for the previous website are cleared",
+     "expected": "Same behaviour as when the brand is changed: the previously discovered categories are not kept",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user clicks \"Discover Categories\"",
+     "expected": "The discovery loading screen is displayed again and the Categories step shows the result of the new discovery",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Reference (today's behaviour, noted first in the same session): Back then Discover Categories with nothing changed -> no loading, no new /discover-categories call, the cached categories are shown again; brand changed (Lictorix Geo -> Lumorix QA) -> loading screen and a new discovery (Quality Assurance Software, Test Automation Tools). Run: C = \"Lictorix Geo\", W1 = \"licter.com\" typed then blur -> card shows \"Lictorix Geo | licter.com\" with the licter logo (www.google.com/s2/favicons?domain=licter.com&sz=64). Discover -> Social Listening Software, Audience Intelligence (body entityDomain \"licter.com\"). Back -> card \"Lictorix Geo\" + \"licter.com\", field \"licter.com\". W2 = \"onclusive.com\" + blur -> card shows \"onclusive.com\" with the Onclusive logo, no error. Discover Categories -> \"Discovering Categories\" loading shown again and a new POST /discover-categories with entityDomain \"onclusive.com\" -> Location Intelligence Platform, Geospatial Analytics Software. Same behaviour as a brand change: previous categories not kept. OP-6 timing: the reset is applied at the next \"Discover Categories\" (from Brand & Country the forward stepper steps Categories/Prompts/Review are always aria-disabled, changed or not, so no immediate visible clearing can be observed). step3_then = new categories after rediscovery."
+  },
+  {
+   "tc_id": "TC-GEO-1260-007",
+   "title": "Unbranded analysis shows no website field",
+   "story_id": "GEO-1260",
+   "priority": "Medium",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "skip_reason": null,
+   "screenshots": [
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-007_step1_given.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-007_step2_when.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-007_step3_then.png",
+    "screenshots-GEO-1069-GEO1260-mcp/TC-GEO-1260-007_step2b_switch_type_dialog.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on the Analysis Type step",
+     "expected": "The \"Brand analysis\" and \"Unbranded analysis\" cards are displayed",
+     "data": "Unbranded feature flag ON",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user selects \"Unbranded analysis\" and continues",
+     "expected": "The Topic & Country step asks \"What industry or topic are you analysing?\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user types a topic",
+     "expected": "The topic is accepted",
+     "data": "\"Electric cars\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then no website field is displayed",
+     "expected": "No \"What is your brand's website? (optional)\" field is shown on Topic & Country",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user goes back, selects \"Brand analysis\" and selects the \"Custom Brand\" row (Licter)",
+     "expected": "The custom brand card \"Licter\" is displayed on Brand & Country",
+     "data": "C = \"Licter\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the website field is displayed under the custom brand card",
+     "expected": "\"What is your brand's website? (optional)\"",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Flag ON: Analysis Type shows \"Brand analysis\" (Default) and \"Unbranded analysis\" (Advanced). Unbranded + Continue -> \"Topic & Country\", \"What industry or topic are you analysing?\", input data-testid=\"wizard-topic-input\" placeholder \"e.g. Car insurance\"; \"Electric cars\" accepted (no dropdown, no error). Only input on the step = the topic input; no website field / label. Back -> Analysis Type; selecting \"Brand analysis\" + Continue opens the dialog \"Switch the analysis type? Switching the mode clears your brand or topic, your markets, your categories and your prompts...\" (Cancel / Switch type) - not in the CSV step 5; \"Switch type\" clicked. Brand & Country -> \"Lictorix Geo — Custom Brand\" -> website field \"What is your brand's website? (optional)\" under the card. Proposed CSV adaptation: step 5 should mention the \"Switch the analysis type?\" dialog and \"Switch type\"."
+  }
+ ]
+}

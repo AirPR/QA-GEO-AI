@@ -1,0 +1,296 @@
+{
+  "epic": "99",
+  "execution_date": "2026-05-31T14:31:26.515Z",
+  "total": 19,
+  "passed": 10,
+  "failed": 3,
+  "skipped": 6,
+  "success_rate": "52.6%",
+  "duration_total_ms": 228402,
+  "results": [
+    {
+      "tc_id": "GEO-56-TC001",
+      "name": "GEO-56-TC001 - Previous and Next controls change the selected snapshot",
+      "status": "PASSED",
+      "duration": 15735,
+      "error": null,
+      "steps": [
+        "Given a report has multiple snapshots",
+        "When the Editor selects a different snapshot from the dropdown",
+        "Then the dashboard data reflects the selected snapshot and the current snapshot date is displayed"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-56-TC001_step1_given.png",
+        "screenshots-epic99/GEO-56-TC001_step2_when.png",
+        "screenshots-epic99/GEO-56-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-56-TC002",
+      "name": "GEO-56-TC002 - Filters remain consistent across snapshots",
+      "status": "FAILED",
+      "duration": 36333,
+      "error": "Error: market filter trigger must still reflect \"United States\" after snapshot switch\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('[data-testid=\"market-dropdown\"] button')\nExpected substring: \u001b[32m\"\u001b[7mUnited Stat\u001b[27mes\"\u001b[39m\nReceived string:    \u001b[31m\"\u001b[7mAll Countri\u001b[27mes\"\u001b[39m\nTimeout: 20000ms\n\nCall log:\n\u001b[2m  - market filter trigger must still reflect \"United States\" after snapshot switch with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid=\"market-dropdown\"] button')\u001b[22m\n\u001b[2m    23 × locator resolved to <button type=\"button\" aria-expanded=\"false\" aria-haspopup=\"listbox\" aria-label=\"Country filter — All countries\" class=\"flex w-[228px] items-center gap-2 rounded border border-[#E2E8F0] py-2 pr-2 pl-2.5 shadow-[0px_1px_2px_rgba(228,229,231,0.24)] transition-colors duration-150 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-600 focus-visible:ring-offset-2\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"All Countries\"\u001b[22m\n\n\n  374 |     page.locator(SEL.marketTrigger),\n  375 |     `market filter trigger must still reflect \"${marketKeyword}\" after snapshot switch`,\n> 376 |   ).toContainText(marketKeyword);\n      |     ^\n  377 |\n  378 |   await screenshot(page, 'GEO-56-TC002_step3_then');\n  379 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:376:5",
+      "steps": [
+        "Given filters are already applied on the dashboard",
+        "When the Editor switches to another snapshot",
+        "Then the filters remain unchanged across snapshot navigation"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-56-TC002_step1_given.png",
+        "screenshots-epic99/GEO-56-TC002_step2_when.png",
+        "screenshots-epic99/GEO-56-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-56-TC003",
+      "name": "GEO-56-TC003 - Previous button is disabled on the oldest snapshot",
+      "status": "PASSED",
+      "duration": 15743,
+      "error": null,
+      "steps": [],
+      "screenshots": [
+        "screenshots-epic99/GEO-56-TC003_step1_given.png",
+        "screenshots-epic99/GEO-56-TC003_step2_when.png",
+        "screenshots-epic99/GEO-56-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-56-TC004",
+      "name": "GEO-56-TC004 - Next button is disabled on the most recent snapshot",
+      "status": "PASSED",
+      "duration": 15488,
+      "error": null,
+      "steps": [],
+      "screenshots": [
+        "screenshots-epic99/GEO-56-TC004_step1_given.png",
+        "screenshots-epic99/GEO-56-TC004_step2_when.png",
+        "screenshots-epic99/GEO-56-TC004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-56-TC005",
+      "name": "GEO-56-TC005 - Snapshot controls are hidden when only one snapshot exists",
+      "status": "SKIPPED",
+      "duration": 237,
+      "error": null,
+      "steps": [],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-57-TC001",
+      "name": "GEO-57-TC001 - Snapshot is created when analysis completes",
+      "status": "PASSED",
+      "duration": 15482,
+      "error": null,
+      "steps": [
+        "Given an analysis execution has just completed",
+        "When the results are finalized",
+        "Then the snapshot contains executedAt, totalQuestions, successCount, failedCount, and resolved config data"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-57-TC001_step1_given.png",
+        "screenshots-epic99/GEO-57-TC001_step2_when.png",
+        "screenshots-epic99/GEO-57-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-57-TC002",
+      "name": "GEO-57-TC002 - Snapshot remains immutable",
+      "status": "PASSED",
+      "duration": 19639,
+      "error": null,
+      "steps": [
+        "Given a snapshot already exists",
+        "When an update to the snapshot is attempted",
+        "Then the snapshot remains unchanged"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-57-TC002_step1_given.png",
+        "screenshots-epic99/GEO-57-TC002_step2_when.png",
+        "screenshots-epic99/GEO-57-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-57-TC003",
+      "name": "GEO-57-TC003 - Snapshot retention is preserved",
+      "status": "PASSED",
+      "duration": 15627,
+      "error": null,
+      "steps": [
+        "Given snapshots have been created over time",
+        "When the retention policy is checked",
+        "Then snapshots older than the retention window are not removed before 12 months"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-57-TC003_step1_given.png",
+        "screenshots-epic99/GEO-57-TC003_step2_when.png",
+        "screenshots-epic99/GEO-57-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-57-TC004",
+      "name": "GEO-57-TC004 - Snapshot stores report and response links",
+      "status": "PASSED",
+      "duration": 16170,
+      "error": null,
+      "steps": [
+        "Given an analysis execution completes and snapshot storage runs",
+        "When the snapshot is created",
+        "Then snapshots are linked to reports, llm_responses reference snapshotId, and configSnapshot stores resolved competitors"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-57-TC004_step1_given.png",
+        "screenshots-epic99/GEO-57-TC004_step2_when.png",
+        "screenshots-epic99/GEO-57-TC004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-55-TC001",
+      "name": "GEO-55-TC001 - Guided tour starts from URL parameter",
+      "status": "SKIPPED",
+      "duration": 368,
+      "error": null,
+      "steps": [
+        "Given a user opens the product with the tour URL parameter",
+        "When the tour activates",
+        "Then the tour navigates across Overview, Actions Center, and Category views with contextual tooltips"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-55-TC002",
+      "name": "GEO-55-TC002 - Tour can be advanced or skipped",
+      "status": "SKIPPED",
+      "duration": 311,
+      "error": null,
+      "steps": [
+        "Given a guided tour is currently active",
+        "When the user clicks advance or skip",
+        "Then the tour moves to the next step or ends cleanly"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-55-TC003",
+      "name": "GEO-55-TC003 - Tour uses demo data and stays within step range",
+      "status": "SKIPPED",
+      "duration": 316,
+      "error": null,
+      "steps": [
+        "Given no real report exists for the user",
+        "When the guided tour starts",
+        "Then the tour shows demo data and the total number of steps stays between 8 and 12"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-55-TC004",
+      "name": "GEO-55-TC004 - Guided tour completion is tracked",
+      "status": "SKIPPED",
+      "duration": 257,
+      "error": null,
+      "steps": [
+        "Given a guided tour is active and analytics tracking is enabled",
+        "When the user completes or skips the tour",
+        "Then tour completion analytics are recorded"
+      ],
+      "screenshots": []
+    },
+    {
+      "tc_id": "GEO-235-TC001",
+      "name": "GEO-235-TC001 - Mention sidebar link opens the Mention application",
+      "status": "PASSED",
+      "duration": 15258,
+      "error": null,
+      "steps": [
+        "Given un utilisateur sur n'importe quelle page de l'application",
+        "When il clique sur l'item \"Mention\" dans la sidebar",
+        "Then le navigateur navigue vers l'URL Mention configurée OU vers la page de connexion auth-staging si pas de session active (même onglet)",
+        "And l'URL est lue depuis la variable d'environnement VITE_GEO_MENTION_URL"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-235-TC001_step1_given.png",
+        "screenshots-epic99/GEO-235-TC001_step2_when.png",
+        "screenshots-epic99/GEO-235-TC001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-235-TC002",
+      "name": "GEO-235-TC002 - Review sidebar link opens the Review application",
+      "status": "FAILED",
+      "duration": 18887,
+      "error": "Error: expected Review URL (\"https://test.reputation.onclusive.com/up\") or auth-staging login redirect; got \"https://test.reputation.onclusive.com/auth?accounts=false&&r=&&&returnUrl=https://test.reputation.onclusive.com/up\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  765 |     isDestination || isAuthRedirect,\n  766 |     `expected Review URL (\"${VITE_REVIEW_URL}\") or auth-staging login redirect; got \"${finalUrl}\"`,\n> 767 |   ).toBe(true);\n      |     ^\n  768 |\n  769 |   await screenshot(page, 'GEO-235-TC002_step3_then');\n  770 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:767:5",
+      "steps": [
+        "Given un utilisateur sur n'importe quelle page de l'application",
+        "When il clique sur l'item \"Review\" dans la sidebar",
+        "Then le navigateur navigue vers l'URL Review configurée OU vers la page de connexion auth-staging si pas de session active (même onglet)",
+        "And l'URL est lue depuis la variable d'environnement VITE_GEO_REVIEW_URL"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-235-TC002_step1_given.png",
+        "screenshots-epic99/GEO-235-TC002_step2_when.png",
+        "screenshots-epic99/GEO-235-TC002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-235-TC003",
+      "name": "GEO-235-TC003 - Contact sidebar link opens the Contact portal",
+      "status": "FAILED",
+      "duration": 14861,
+      "error": "Error: expected Contact URL (\"https://stgadmin.prgloo.com/Saml/SsoUnified\") or auth-staging login redirect; got \"https://stgadmin.prgloo.com/sso/auth0?iss=https:%2F%2Fauth-staging.onclusive.com%2F\"\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mtrue\u001b[39m\nReceived: \u001b[31mfalse\u001b[39m\n\n  796 |     isDestination || isAuthRedirect,\n  797 |     `expected Contact URL (\"${VITE_CONTACT_URL}\") or auth-staging login redirect; got \"${finalUrl}\"`,\n> 798 |   ).toBe(true);\n      |     ^\n  799 |\n  800 |   await screenshot(page, 'GEO-235-TC003_step3_then');\n  801 | });\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epic99.spec.js:798:5",
+      "steps": [
+        "Given un utilisateur sur n'importe quelle page de l'application",
+        "When il clique sur l'item \"Contact\" dans la sidebar",
+        "Then le navigateur navigue vers l'URL Contact configurée OU vers la page de connexion auth-staging si pas de session active (même onglet)",
+        "And l'URL est lue depuis la variable d'environnement VITE_GEO_CONTACT_URL"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-235-TC003_step1_given.png",
+        "screenshots-epic99/GEO-235-TC003_step2_when.png",
+        "screenshots-epic99/GEO-235-TC003_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-235-TC004",
+      "name": "GEO-235-TC004 - Settings sidebar link opens the internal Coming Soon page",
+      "status": "PASSED",
+      "duration": 12580,
+      "error": null,
+      "steps": [
+        "Given un utilisateur sur n'importe quelle page de l'application",
+        "When il clique sur l'item \"Settings\" en bas de la sidebar",
+        "Then la navigation interne React Router s'effectue vers la route /settings",
+        "And la navigation ne provoque pas un rechargement complet de la page",
+        "And la page /settings affiche un écran \"Coming Soon\" (la page profil utilisateur sera implémentée dans une story future)"
+      ],
+      "screenshots": [
+        "screenshots-epic99/GEO-235-TC004_step1_given.png",
+        "screenshots-epic99/GEO-235-TC004_step2_when.png",
+        "screenshots-epic99/GEO-235-TC004_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-235-TC005",
+      "name": "GEO-235-TC005 - Measure sidebar item stays active when already selected",
+      "status": "PASSED",
+      "duration": 14665,
+      "error": null,
+      "steps": [],
+      "screenshots": [
+        "screenshots-epic99/GEO-235-TC005_step1_given.png",
+        "screenshots-epic99/GEO-235-TC005_step2_when.png",
+        "screenshots-epic99/GEO-235-TC005_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "GEO-235-TC006",
+      "name": "GEO-235-TC006 - Missing module URL leaves the sidebar item inactive",
+      "status": "SKIPPED",
+      "duration": 445,
+      "error": null,
+      "steps": [],
+      "screenshots": []
+    }
+  ]
+}

@@ -1,0 +1,2072 @@
+{
+  "_meta": {
+    "version": "2.0",
+    "generated": "2026-05-22",
+    "sources": [
+      ".claude/Data/raw/playwright/global-setup.js (v2.0 — auth section added 2026-05-04)",
+      ".claude/Data/raw/playwright/test-suite-epic102.spec.js (v1.5 — updated 2026-05-02)",
+      ".claude/Data/raw/playwright/test-suite-epic174.spec.js",
+      ".claude/Data/raw/playwright/test-suite-epic103.spec.js (v1.6 — updated 2026-05-03)",
+      ".claude/Data/raw/playwright/test-suite-epic104.spec.js (v1.6 — updated 2026-05-03)",
+      ".claude/Data/raw/playwright/test-suite-epic105.spec.js (v1.7 — updated 2026-05-03)",
+      ".claude/Data/raw/playwright/test-suite-epic174.spec.js (v1.9 — updated 2026-05-04)",
+      ".claude/Data/html/dashboard.html",
+      "Playwright codegen (localhost:3000/geo)",
+      "figmaScreens/01_Step_1_Brand_Market/01_Brand_Market_1_Empty_inputs.png",
+      "figmaScreens/02_Step_2_Categories/01_Categories_3_Category_suggested_by_AI.png",
+      "figmaScreens/04_Step_4_Launch_Review/01_Review_How_it_might_look.png",
+      "figmaScreens/01_Dashboard/01_GEO-Analytics-Dashboard.png",
+      "figmaScreens/01_Dashboard/02_GEO-Analytics-Dashboard-Hover-states.png",
+      "figmaScreens/05_Step_0_Clean_State/01_First_time_User_Clean_Slate.png",
+      "cookie-consent.spec.js (GEO-200 inspection 2026-05-22)"
+    ],
+    "reference_doc": "Docs/selectors_reference.md",
+    "selector_priority": "data-testid > aria-label > role+name > heading text > CSS class",
+    "notes": [
+      "The dashboard has two <main> elements — always scope queries to [data-testid=\"dashboard-layout\"] main.",
+      "Prefer data-testid / role / aria-label over text content unless the content is dynamic test data.",
+      "For drill-in and detail dialogs, distinguish between first/last [role=\"dialog\"] when several can coexist."
+    ]
+  },
+  "layout": {
+    "dashboard_root": {
+      "selector": "[data-testid=\"dashboard-layout\"]",
+      "epic_refs": [
+        "GEO-79",
+        "GEO-77",
+        "GEO-76",
+        "GEO-78",
+        "GEO-107"
+      ]
+    },
+    "top_section": {
+      "selector": "[data-testid=\"dashboard-top-section\"]",
+      "description": "Dashboard header with filters, brand info, share/export buttons",
+      "epic_refs": [
+        "GEO-174"
+      ]
+    },
+    "sidebar": {
+      "selector": "[data-testid=\"dashboard-sidebar\"]",
+      "epic_refs": [
+        "GEO-79"
+      ]
+    },
+    "main_content": {
+      "selector": "[data-testid=\"dashboard-layout\"] main",
+      "description": "Scope content queries here to avoid matching the outer <main>"
+    }
+  },
+  "sidebar": {
+    "root": "[data-testid=\"dashboard-sidebar\"]",
+    "nav_links": {
+      "overview": {
+        "role": "link",
+        "name": "Overview",
+        "selector": "a[aria-current=\"page\"][href*=\"/dashboard/\"]",
+        "active_class": "bg-[#E0F2FE]"
+      },
+      "categories_toggle": {
+        "role": "button",
+        "name": "Categories",
+        "selector": "[data-testid=\"dashboard-sidebar\"] button:has-text(\"Categories\")",
+        "aria_expanded": "true | false",
+        "_note_toyota": "Brand Identity reports (Toyota) have NO categories toggle — categories are listed directly as <a> links. Use category_sub_items instead."
+      },
+      "manage_scope": {
+        "role": "link",
+        "name": "Manage Scope",
+        "selector": "a[href*=\"/manage-scope\"]"
+      },
+      "actions_center": {
+        "role": "link",
+        "name": "Actions Center",
+        "selector": "[data-testid=\"dashboard-sidebar\"] a:has-text(\"Actions Center\"), [data-testid=\"dashboard-sidebar\"] button:has-text(\"Actions Center\")",
+        "_note_figma": "Confirmed visible in figmaScreens/09_Reports_Navigation/02_Navigation_Layout.png — present in report sidebar",
+        "_note_toyota": "Actions Center is ABSENT on Brand Identity reports (Toyota). Do not assert its presence on that report type."
+      }
+    },
+    "categories_expand_button": {
+      "role": "button",
+      "name": "Categories"
+    },
+    "category_sub_items": "a[href*=\"/category/\"]",
+    "category_sub_item_dot": "span.size-2.rounded-full",
+    "active_link_attribute": "aria-current=\"page\"",
+    "active_link_class_fallback": "[class*=\"active\"], [class*=\"bg-\\[#E0F2FE\\]\"]",
+    "discard_changes_modal": {
+      "container": "[role=\"dialog\"]:has-text(\"Discard\")",
+      "confirm_button": "button:has-text(\"Discard changes\"), button:has-text(\"Leave\"), button:has-text(\"Discard\")",
+      "cancel_button": "button:has-text(\"Cancel\"), button:has-text(\"Stay\")",
+      "note": "GEO-79 — appears when navigating away with unsaved changes. Prefer data-testid=\"discard-dialog\" once available."
+    },
+    "note": "Actions Center confirmed present in Figma 09/02 — selector added above. Settings is utility nav, not dashboard sidebar."
+  },
+  "filters": {
+    "market_dropdown": {
+      "container": "[data-testid=\"market-dropdown\"]",
+      "trigger_primary": "[data-testid=\"market-dropdown\"] button",
+      "trigger_alt_aria": "button[aria-label=\"Market filter\"]",
+      "flag_emoji": "[data-testid=\"market-dropdown\"] button span.text-base",
+      "label_text": "[data-testid=\"market-dropdown\"] button span.flex-1",
+      "options": "[role=\"option\"]",
+      "options_alt": "[role=\"option\"], [role=\"menuitem\"]",
+      "known_values": [
+        "All Markets",
+        "United States - English",
+        "France - English",
+        "Morocco - French"
+      ],
+      "_note_known_values": "Corrected from 'France - French' → 'France - English' per Figma 09_Reports_Navigation/03. 'Morocco - French' added.",
+      "default_value_contains": "All Markets"
+    },
+    "llm_dropdown": {
+      "container": "[data-testid=\"llm-dropdown\"]",
+      "trigger_primary": "[data-testid=\"llm-dropdown\"] button",
+      "trigger_alt_aria": "button[aria-label=\"LLM engine filters\"]",
+      "dropdown_heading": "text=\"Filter by AI Engine\"",
+      "_note_dropdown_heading": "Confirmed in figmaScreens/09_Reports_Navigation/01_Navigation_-_LLM_Module.png",
+      "badge_count": "[data-testid=\"llm-dropdown\"] button span.inline-flex.min-w-\\[20px\\]",
+      "badge_count_note": "Green rounded badge showing number of active LLM engines (e.g. '5')",
+      "switch_items": "[data-testid=\"llm-dropdown\"] [role=\"switch\"]",
+      "switch_checked": "[data-testid=\"llm-dropdown\"] [role=\"switch\"][aria-checked=\"true\"]",
+      "switches_individual": {
+        "chatgpt": "[role=\"switch\"][aria-label=\"Toggle ChatGPT\"]",
+        "gemini": "[role=\"switch\"][aria-label=\"Toggle Gemini\"]",
+        "claude": "[role=\"switch\"][aria-label=\"Toggle Claude\"]",
+        "grok": "[role=\"switch\"][aria-label=\"Toggle Grok\"]",
+        "perplexity": "[role=\"switch\"][aria-label=\"Toggle Perplexity\"]"
+      },
+      "close_action": "keyboard: Escape"
+    },
+    "market_multi_select": {
+      "_epic": "GEO-263",
+      "_note": "New multi-select market filter (GEO-263). Selectors are exploratory — pending DOM inspection on staging. preferred_fix: add data-testid attributes.",
+      "trigger": "button[aria-label*=\"Market\"], [data-testid=\"market-dropdown\"] button",
+      "all_markets_option": "[role=\"option\"]:has-text(\"All markets\"), [role=\"option\"]:has-text(\"All\"), button:has-text(\"All markets\")",
+      "market_option": "[role=\"option\"]:not(:has-text(\"All markets\")):not(:has-text(\"All\"))",
+      "option_selected_attr": "[aria-selected=\"true\"], [data-state=\"checked\"]",
+      "count_label_pattern": "button:has-text(\"market\")",
+      "preferred_fix": "data-testid=\"market-multi-select-trigger\""
+    }
+  },
+  "snapshot_navigator": {
+    "container": "[data-testid=\"snapshot-navigator\"]",
+    "back_arrow": "[data-testid=\"snapshot-navigator\"] button (first)",
+    "label_pattern": "Analysis [—–-] <DD> <Mon> <YYYY>",
+    "label_regex": "Analysis\\s+[—–-]\\s+\\d+\\s+\\w+\\s+\\d{4}",
+    "current_target_example": "Analysis — 15 Apr 2026"
+  },
+  "overview_page": {
+    "tabs": {
+      "tablist": "[role=\"tablist\"]",
+      "tab": "[role=\"tab\"]",
+      "sticky_wrapper_xpath": "ancestor::*[contains(@style,\"position:sticky\") or contains(@style,\"position: sticky\") or contains(@class,\"sticky\") or contains(@class,\"fixed\")][1]",
+      "known_tabs": [
+        "Identity",
+        "Performance",
+        "Sources"
+      ],
+      "note": "Tab label is preceded by an icon ligature (badge, bar_chart, language) in textContent",
+      "_figma_tab_bar_design": {
+        "_source": "figmaScreens/13_Report_-_V0.2_-_Brand_Identity/04_Identity_-_Corporate_Reputation_Card_Hover.png",
+        "font_family": "Inter",
+        "font_size": "14px",
+        "font_weight": "500",
+        "inactive_color": "slate-500",
+        "active_color": "sky-700",
+        "underline_width": "2px",
+        "gap": "gap-8",
+        "padding_y": "py-3",
+        "transition": "transition-colors duration-150"
+      }
+    },
+    "llm_filter_dropdown": {
+      "trigger": "button:has-text(\"LLM Engines\"), [aria-label*=\"LLM Engines\"]",
+      "count_badge": "button:has-text(\"LLM Engines\") span, [aria-label*=\"LLM Engines\"] span",
+      "preferred_fix": "data-testid=\"llm-engines-filter\"",
+      "_figma_note": "figmaScreens/13_Report_-_V0.2_-_Brand_Identity/09_Identity_-_Brand_Territory_Chart.png — 'LLM Engines 3' badge visible top-right"
+    },
+    "kpi_cards": {
+      "card_by_aria_label": "div[aria-label*=\"<label>\"]",
+      "card_aria_label_examples": [
+        "Share of Voice: 3%",
+        "Visibility: 15%",
+        "Avg Position: #10",
+        "AI Choice: 13%",
+        "Sentiment: +61"
+      ],
+      "label_locator_pattern": "main p:has-text(<label>) (first)",
+      "value_text": "p.font-medium.text-\\[20px\\] (inside card)",
+      "quality_dot": "span.h-2.w-2.rounded-full (inside card)",
+      "quality_label": "span.text-\\[10px\\] (sibling of dot)",
+      "known_labels": [
+        "Share of Voice",
+        "Visibility",
+        "Avg Position",
+        "AI Choice",
+        "Sentiment"
+      ],
+      "quality_mapping": {
+        "Share of Voice": [
+          "Good",
+          "Fair",
+          "Poor"
+        ],
+        "Visibility": [
+          "Good",
+          "Fair",
+          "Poor"
+        ],
+        "Avg Position": [
+          "Good",
+          "Fair",
+          "Poor"
+        ],
+        "AI Choice": [
+          "Good",
+          "Fair",
+          "Poor"
+        ],
+        "Sentiment": [
+          "Positive",
+          "Neutral",
+          "Negative"
+        ]
+      },
+      "card_ancestor_xpath": "ancestor::*[self::article or self::section or contains(@class,\"card\")][1]"
+    },
+    "prioritization_matrix": {
+      "heading": "h3:has-text(\"Category Prioritization\")",
+      "data_points_svg": "svg circle, svg ellipse",
+      "quadrant_labels": [
+        "High visibility, High comp",
+        "Low visibility, High comp",
+        "High visibility, Low comp",
+        "Low visibility, Low comp"
+      ],
+      "tooltip": "[role=\"tooltip\"], [class*=\"tooltip\"], [class*=\"Tooltip\"]",
+      "tooltip_expected_fields": [
+        "visibility",
+        "win rate",
+        "sov",
+        "position"
+      ],
+      "cluster_bubble": "[class*=\"cluster\"], [class*=\"bubble\"], svg circle, svg ellipse",
+      "cluster_bubble_note": "GEO-77 — data points / cluster bubbles in the scatter chart. Prefer SVG circle/ellipse when no class is available."
+    },
+    "category_priority_summary": {
+      "cards_row": "div.flex.gap-4.px-6.pb-4 (below Category Prioritization chart)",
+      "card_by_label": "div.flex.flex-1.flex-col:has(span:text-is(\"<label>\"))",
+      "known_cards": [
+        "Stars",
+        "Opportunity",
+        "At Risk",
+        "Monitor"
+      ],
+      "card_count": "span.font-semibold.text-\\[14px\\] (last inside card)",
+      "card_subtitle": "p.text-\\[\\#64748b\\] (inside card)",
+      "quadrant_notes": {
+        "Stars": "High visibility, High comp",
+        "Opportunity": "Low visibility, High comp",
+        "At Risk": "High visibility, Low comp",
+        "Monitor": "Low visibility, Low comp"
+      }
+    },
+    "brand_rankings": {
+      "heading": "h3:has-text(\"Brand Rankings\")",
+      "subtitle": "p:has-text(\"Top brands by share of voice across all topics\")",
+      "table": "main table (first)",
+      "headers_ordered": [
+        "Rank",
+        "Brand",
+        "SOV %",
+        "Visibility %",
+        "Avg Position",
+        "LLM Choice %"
+      ],
+      "sov_column_nth_child": 3,
+      "rows": "tbody tr",
+      "row_by_brand": "tr[aria-label*=\"<brand>\"]",
+      "_note_codegen": "Rows confirmed as button with aria-label '{Brand}, {N} variants'. Prefer button[aria-label] locator.",
+      "row_by_button_aria": "button[aria-label=\"<brand>, <N> variants\"]",
+      "row_by_button_aria_prefix": "button[aria-label^=\"<brand>\"]",
+      "row_expand_toggle": "tr[role=\"button\"][aria-expanded]",
+      "expand_collapse_button": ".ml-0\\.5",
+      "expand_collapse_note": "FRAGILE — Tailwind class, add data-testid=\"expand-variants\" for stability",
+      "llm_cell_in_expanded_row": "div:filter({ hasText: /^<LLM>$/ })",
+      "top_rank_icon": "svg[aria-label=\"Top ranked\"]",
+      "brand_logo": "img.h-7.w-7.rounded-full",
+      "brand_variants_badge": "span.rounded-full.bg-green-100",
+      "logo_or_fallback": "img (optional) | text fallback inside td"
+    },
+    "top_concepts": {
+      "heading": "h3:has-text(\"Top Concepts Associated with Your Brand\")",
+      "subtitle": "p:has-text(\"Click on a concept to view quotes and sources\")",
+      "sentiment_bar": {
+        "positive_button": "button[aria-label*=\"Positive\"]",
+        "mixed_button": "button[aria-label*=\"Mixed\"]",
+        "negative_button": "button[aria-label*=\"Negative\"]",
+        "bar_segments": "div.flex > div.h-1"
+      },
+      "filter_buttons": {
+        "all": "button[aria-pressed]:has-text(/^All/)",
+        "positive": "button[aria-pressed]:has-text(/^Positive/)",
+        "mixed": "button[aria-pressed]:has-text(/^Mixed/)",
+        "negative": "button[aria-pressed]:has-text(/^Negative/)",
+        "active_state": "button[aria-pressed=\"true\"]"
+      },
+      "sort_button": "button:has(span:text-is(\"Sort by Frequency\"))",
+      "concept_list": "div[role=\"list\"][aria-label=\"Perception concepts\"]",
+      "concept_items": "div[role=\"listitem\"] button[aria-expanded]",
+      "concept_sentiment_bar": "div.w-1.self-stretch.rounded-full",
+      "concept_sources_count": "span:has-text(\"sources\")",
+      "concept_sentiment_score": "span:text-matches(/[+-]\\d+\\s*sentiment/)",
+      "concept_percentage": "p.font-medium.text-\\[20px\\]",
+      "concept_buttons": "button:has-text(/\\d+\\s*sources/)",
+      "sentiment_keywords": [
+        "positive",
+        "mixed",
+        "negative"
+      ],
+      "grouped_count_pattern": "All (<N>)",
+      "sort_by_impact_button": "button:has-text(\"Sort by Impact\"), button:has-text(\"Impact\")",
+      "sort_by_frequency_button": "button:has(span:text-is(\"Sort by Frequency\"))",
+      "sort_by_sentiment_button": "button:has-text(\"Sort by Sentiment\")",
+      "sort_az_button": "button:has-text(\"Sort A-Z\")",
+      "sort_buttons_all": [
+        "Sort by Frequency",
+        "Sort by Sentiment",
+        "Sort A-Z"
+      ],
+      "_note_sort_codegen": "Sort buttons confirmed via codegen 2026-05-06 on /category/:id — preferred fix: data-testid=\"sort-{frequency|sentiment|alpha}\"",
+      "sentiment_slider": "[class*=\"slider\"], [role=\"slider\"], input[type=\"range\"]",
+      "sentiment_slider_note": "GEO-75 — slider controlling threshold for concept inclusion. Prefer role=slider.",
+      "detail_panel_header_color": "[role=\"dialog\"] [class*=\"header\"], [role=\"dialog\"] h2, [role=\"dialog\"] h3",
+      "detail_panel_header_note": "GEO-75 — header bar inside the concept detail panel; color indicates sentiment.",
+      "concept_detail_panel": {
+        "_note_codegen": "Detail panel opened via clicking a concept button — confirmed 2026-05-06 on category view",
+        "container": "[role=\"dialog\"][aria-modal=\"true\"]",
+        "concept_heading": "[role=\"dialog\"] h2, [role=\"dialog\"] h3",
+        "concept_heading_by_name": "[role=\"dialog\"] :is(h2,h3):has-text(\"<concept_name>\")",
+        "tab_sentiment": "[role=\"dialog\"] [role=\"tab\"]:has-text(\"Sentiment\"), [role=\"dialog\"] button:has-text(\"Sentiment\")",
+        "tab_sources": "[role=\"dialog\"] [role=\"tab\"]:has-text(\"Sources\"), [role=\"dialog\"] button:has-text(\"Sources\")",
+        "search_input": "[role=\"dialog\"] [role=\"textbox\"][aria-label*=\"Search by title or URL\" i], [role=\"dialog\"] input[placeholder*=\"Search by title\" i]",
+        "no_results_text": "[role=\"dialog\"] :has-text(\"No sources match your search.\")",
+        "all_sources_button": "[role=\"dialog\"] button:has-text(\"All sources\")",
+        "close_button": "[role=\"dialog\"] button[aria-label=\"Close detail panel\"], [role=\"dialog\"] button[aria-label*=\"Close\" i]",
+        "close_button_fragile_alt": ".absolute.top-4",
+        "close_button_fragile_note": "FRAGILE — Tailwind class. Prefer button[aria-label=\"Close detail panel\"].",
+        "preferred_fix": "data-testid=\"concept-detail-panel\""
+      }
+    },
+    "ai_citation_sources": {
+      "heading": "h3:has-text(\"LLM Engines Citation Sources\")",
+      "subtitle": "p:has-text(\"See which domains AI tools reference most often\")",
+      "filter_button": "button[aria-label=\"Filter by source type\"]",
+      "all_source_types_button": "button[aria-label=\"All source types\"]",
+      "source_type_bar": "div.flex.h-8.w-full.overflow-hidden.rounded-lg",
+      "source_type_segments": "div.flex.h-8 > button[aria-label]",
+      "source_type_segment_by_name": "button[aria-label*=\"<source_type>\"]",
+      "_note_codegen_source_type": "aria-label includes count: 'Journalism (1213)' — use contains pattern for stability",
+      "known_source_types": [
+        "Journalism",
+        "Competitor Media",
+        "Aggregators / Encyclopedic",
+        "Social / UGC",
+        "Owned Media",
+        "Academic",
+        "Review Sites",
+        "Other",
+        "Corporate",
+        "Press Release"
+      ],
+      "domain_table": "table (inside AI Citation Sources section)",
+      "domain_table_headers_required": [
+        "Domain",
+        "Type",
+        "Frequency",
+        "Favorability"
+      ],
+      "domain_rows": "tbody tr[role=\"button\"]",
+      "domain_row_by_name": "tr[aria-label=\"<domain>\"]",
+      "_note_codegen_domain": "Domain rows confirmed as button[aria-label=\"<domain>\"] by codegen",
+      "domain_row_by_button_aria": "button[aria-label=\"<domain>\"]",
+      "domain_row_expand_icon": "svg.transition-transform (last inside tr)",
+      "favorability_badge": "td span.inline-flex:has(svg)",
+      "favorability_values": [
+        "Favorable",
+        "Unfavorable",
+        "Neutral"
+      ],
+      "all_domains_button": "button[aria-label=\"All domains\"]",
+      "all_domains_count_badge": "button[aria-label=\"All domains\"] span.rounded-full",
+      "chart_svg_scope": "section|article|div containing the heading → svg (first)",
+      "all_cited_urls_button": "button:has-text(\"All Cited URLs\"), button:has-text(\"All URLs\")",
+      "all_cited_urls_note": "GEO-74 — opens modal listing all cited URLs for the selected domain.",
+      "citation_signals_cards": "[class*=\"signal\"], :has-text(\"Missed Visibility\"), :has-text(\"Featured Citation\"), :has-text(\"Brand Mention\")",
+      "citation_signals_note": "GEO-74 — signal cards inside the domain detail drawer (Missed Visibility, Featured Citation, etc.). No data-testid yet.",
+      "source_detail_drawer": "[role=\"dialog\"][aria-modal=\"true\"]:has-text(\"Frequency\")",
+      "source_detail_drawer_note": "GEO-74 — detail drawer for a cited domain row. Distinguish from drill_in_panel by content.",
+      "type_pills": "[class*=\"type-pill\"], [class*=\"source-type\"], [class*=\"pill\"]",
+      "type_pills_note": "GEO-74 — type classification pills shown inside the domain detail drawer. Prefer aria-label or data-testid once available."
+    },
+    "executive_summary": {
+      "section_h3_headings": [
+        "Corporate Reputation"
+      ],
+      "note_h3_vs_span": "Only 'Corporate Reputation' is an h3. Brand Image / Employer Brand / ESG / Leadership are span inside cards.",
+      "error_container": "div.rounded-lg.border.border-red-200.bg-red-50",
+      "error_message": "p.text-red-700:has-text(\"Failed to generate perception summary.\")",
+      "retry_button": "div.rounded-lg.border.border-red-200 button:has-text(\"Retry\")",
+      "loading_indicator": "[class*=\"animate-pulse\"]",
+      "error_states_forbidden": [
+        "Failed to generate",
+        "Failed to generate perception summary.",
+        "No perception data"
+      ]
+    }
+  },
+  "corporate_reputation_cards": {
+    "_note_codegen": "DOM confirmed: cards are div[role=button], NOT button[aria-label]. Use :has-text() filter.",
+    "card_by_aria_label": "button[aria-label=\"<dimension> <sentiment>\"]",
+    "card_by_aria_prefix": "[role=\"button\"]:has-text(\"<dimension>\")",
+    "aria_label_pattern": "{Dimension} {Sentiment} {optional context (e.g. CEO name)}",
+    "known_aria_labels": [
+      "Brand Image Positive",
+      "Employer Brand Positive",
+      "ESG / Sustainability Positive",
+      "Leadership Positive …"
+    ],
+    "card_locator_alt": "div[role=\"button\"]:has(span:text-is(<dimension_name>))",
+    "dimension_names": [
+      "Brand Image",
+      "Employer Brand",
+      "ESG / Sustainability",
+      "Leadership"
+    ],
+    "sentiment_values": [
+      "Positive",
+      "Negative",
+      "Mixed"
+    ],
+    "sentiment_tag": "span:text-matches(/^(Positive|Negative|Mixed)$/)",
+    "icon": "svg (first inside card)",
+    "bullets": "ul li",
+    "empty_state_text_hint": "configure <dimension>"
+  },
+  "brand_territory": {
+    "heading": "h3:has-text(\"Brand Territory\")",
+    "section_subtitle_text": "Topics associated with your brand",
+    "_note_codegen": "Bubbles confirmed as role=button with aria-label '{topic}: {percentage}'. Prefer button[aria-label] over g[role=\"button\"] SVG locator.",
+    "bubble_by_button_aria": "button[aria-label^=\"<topic>:\"]",
+    "bubble_by_button_aria_pattern": "button[aria-label=\"<topic>: <percentage>%\"]",
+    "bubble_any_percentage": "button[aria-label*=\"%\"]:not([aria-label*=\" topics\"])",
+    "bubbles_svg_alt": "g[role=\"button\"]",
+    "bubble_by_aria_label_svg_alt": "g[aria-label*=\"<topic>\"]",
+    "bubble_circle": "g[role=\"button\"] > circle (first)",
+    "bubble_text_label": "g[role=\"button\"] text:first-of-type",
+    "bubble_text_percentage": "g[role=\"button\"] text:last-of-type",
+    "legend": "div.flex.flex-wrap",
+    "legend_items": "div.flex.items-center.gap-1\\.5",
+    "tooltip_hover": "div.pointer-events-none.absolute.z-10.rounded-lg",
+    "tooltip_pattern": "<topic> — <percentage>% — <count> mentions",
+    "known_bubbles": [
+      {
+        "label": "AI Research",
+        "percentage": "61.3%",
+        "selector": "button[aria-label=\"AI Research: 61.3%\"]"
+      },
+      {
+        "label": "AI Assistants",
+        "percentage": "30.3%",
+        "selector": "button[aria-label=\"AI Assistants: 30.3%\"]"
+      },
+      {
+        "label": "AI Infrastructure",
+        "percentage": "6.7%",
+        "selector": "button[aria-label=\"AI Infrastructure: 6.7%\"]"
+      },
+      {
+        "label": "Software & Technology",
+        "percentage": "1.7%",
+        "selector": "button[aria-label=\"Software & Technology: 1.7%\"]"
+      }
+    ],
+    "largest_bubble_known": "AI Research",
+    "top_concepts": {
+      "_note_figma": "figmaScreens/13_Report_-_V0.2_-_Brand_Identity/09_Identity_-_Brand_Territory_Chart.png — appears below bubble chart",
+      "heading": ":has-text(\"Top Concepts Associated with Your Brand\")",
+      "subtitle": "text=\"Click on a concept to view quotes and sources\"",
+      "preferred_fix": "data-testid=\"top-concepts-section\""
+    },
+    "_note_bubble_fix": "Exclude Top Concepts bars (aria-label=\"Positive: N topics (P%)\") — territory bubbles have format \"Topic: X.X%\""
+  },
+  "drill_in_panel": {
+    "container": "[role=\"dialog\"][aria-modal=\"true\"], [role=\"listitem\"]:has(button[aria-expanded=\"true\"])",
+    "container_first": "[role=\"dialog\"][aria-modal=\"true\"] (first)",
+    "_note_toyota": "Toyota Brand Identity uses inline accordion (aria-expanded) instead of a modal panel — fallback added",
+    "close_button": "button[aria-label=\"Close panel\"]",
+    "close_button_fragile_alt": ".rounded-full.p-1.text-slate-400",
+    "close_button_fragile_note": "FRAGILE — Tailwind class. Prefer button[aria-label=\"Close panel\"]",
+    "skeleton_loader": ".animate-pulse",
+    "llm_pills": {
+      "_note": "Preferred — confirmed by codegen. Pills are buttons with lowercase engine name as aria-label.",
+      "all": "button[aria-label=\"All\"]",
+      "chatgpt": "button[aria-label=\"chatgpt\"]",
+      "openai_alt": "button[aria-label=\"openai\"]",
+      "gemini": "button[aria-label=\"gemini\"]",
+      "claude": "button[aria-label=\"claude\"]",
+      "grok": "button[aria-label=\"grok\"]",
+      "perplexity": "button[aria-label=\"perplexity\"]"
+    },
+    "llm_tab_bar_fragile": ".inline-flex (first)",
+    "llm_tab_buttons_fragile": ".inline-flex button",
+    "llm_tab_by_engine_fragile": "button:has(img[alt=\"<engine>\"])",
+    "known_engines": [
+      "chatgpt",
+      "gemini",
+      "claude",
+      "grok",
+      "perplexity"
+    ],
+    "sections": [
+      "InBrief summary",
+      "Sources list"
+    ],
+    "source_links": "a[href^=\"http\"], a[href^=\"//\"]",
+    "all_sources_button": "button:has-text(\"All sources\"), button:has-text(\"All Sources\")",
+    "sentiment_tag": "span:text-matches(/^(Positive|Negative|Mixed)$/)",
+    "dimension_heading_h2": "h2 (first) — contains dimension name",
+    "_figma_inbrief_note": "InBrief card has gradient border, heading 'InBrief', subtitle 'powered by AI Sense', footer 'Overview generated by artificial intelligence'",
+    "inbrief_card": ":has-text(\"InBrief\"), :has-text(\"powered by AI Sense\")",
+    "_figma_per_llm_heading": "Per-LLM tab heading pattern: 'What Gemini said about you' / 'What ChatGPT said about you' etc.",
+    "per_llm_heading_pattern": ":text-matches(\"What .+ said about you\", \"i\")"
+  },
+  "all_sources_modal": {
+    "container": "[role=\"dialog\"]:has-text(\"Sources\")",
+    "search_input": "input[type=\"text\"], input[type=\"search\"], input[placeholder] (first)",
+    "source_rows": "a[href^=\"http\"]",
+    "close_button": "button[aria-label=\"Close\"]",
+    "_note_fix": "Removed invalid \" (first)\" CSS suffix"
+  },
+  "territory_detail_panel": {
+    "container": "[role=\"dialog\"][aria-modal=\"true\"]",
+    "close_button": "button[aria-label=\"Close detail panel\"], button[aria-label=\"Close\"], button[aria-label*=\"close\" i]",
+    "pie_chart": "svg",
+    "paragraphs": "p",
+    "_figma_screen10_note": "Territory detail panel (Figma screen 10): heading = topic name, stat line = 'N mentions - P% of brand territory', InBrief card ('powered by AI Sense') with 'AI context' heading + bullet narrative, 'LLM Contributions' pie chart with legend (e.g. Claude 46% Gemini 46% ChaptGPT 17%)",
+    "inbrief_card": ":has-text(\"InBrief\"), :has-text(\"powered by AI Sense\")",
+    "stat_line_pattern": "/\\d+\\s+mentions?\\s*-\\s*\\d+%\\s+of\\s+brand\\s+territory/i",
+    "llm_contributions_heading": ":text-matches(\"LLM Contributions\", \"i\")",
+    "_note_fix": "Removed invalid \" (last)\" CSS suffix — use .last() Playwright method if distinguishing from drill-in panel"
+  },
+  "top_section_actions": {
+    "root": "[data-testid=\"dashboard-top-section\"], [data-testid=\"dashboard-layout\"] header",
+    "_note_root": "data-testid=\"dashboard-top-section\" absent on Brand Identity (Toyota-type) reports — fall back to dashboard-layout header.",
+    "back_button": "button[aria-label=\"Back to Reports\"], a[aria-label=\"Back to Reports\"]",
+    "brand_avatar": "[data-testid=\"dashboard-top-section\"] div.h-8.w-8.rounded",
+    "brand_name": "[data-testid=\"dashboard-top-section\"] span.font-semibold.text-2xl, span.truncate.font-semibold, span.font-medium.text-slate-900",
+    "_note_brand_name": "Brand Identity reports (Toyota) use span.truncate.font-semibold instead of the scoped selector.",
+    "generated_date": "[data-testid=\"dashboard-top-section\"] span.text-xs, span:has-text(\"Generated\")",
+    "_note_generated_date": "Toyota: generated date is in a span containing 'Generated' text, not scoped under dashboard-top-section.",
+    "generated_date_regex": "Generated\\s+(\\w+\\s+\\d{1,2},\\s+\\d{4}|\\d{1,2}\\s+\\w+\\s+\\d{4})",
+    "toggle_buttons": "button[aria-label^=\"Toggle \"]",
+    "share_button": "[data-testid=\"dashboard-top-section\"] button:has-text(/share/i)",
+    "share_dialog": "[role=\"dialog\"], [role=\"menu\"]:has-text(/share/i) (first)",
+    "export_button": "[data-testid=\"dashboard-top-section\"] button:has-text(/export/i)",
+    "export_dialog": "[role=\"dialog\"], [role=\"menu\"]:has-text(/export/i) (first)"
+  },
+  "ai_perception_summary": {
+    "heading_text_regex": ":text-matches(\"AI Perception Summary\", \"i\") (first)",
+    "sentiment_label_text_regex": ":text-matches(\"Sentiment\", \"i\") (first)"
+  },
+  "common_patterns": {
+    "any_dialog": "[role=\"dialog\"]",
+    "any_modal": "[role=\"dialog\"][aria-modal=\"true\"]",
+    "skeleton_loader_any": "[class*=\"animate-pulse\"]",
+    "skeleton_loader_exact": ".animate-pulse",
+    "tooltip_generic": "[role=\"tooltip\"], [class*=\"tooltip\"], [class*=\"Tooltip\"]",
+    "active_nav_attr": "aria-current=\"page\"",
+    "modal_backdrop": ".fixed",
+    "modal_backdrop_note": "FRAGILE — Tailwind class. Use .fixed (first) to close overlay.",
+    "error_boundary": ":has-text(\"Something went wrong\"), :has-text(\"Unexpected error\"), [class*=\"error-boundary\"]",
+    "_error_boundary_note": "Generic React error boundary / crash indicator. Used in GEO-85-TC002 to assert page does not crash with partial competitor data. preferred_fix: data-testid=\"error-boundary\""
+  },
+  "fragile_selectors": {
+    "_note": "These selectors rely on Tailwind/CSS classes and may break on UI updates. Track for testid requests.",
+    "modal_backdrop": {
+      "selector": ".fixed",
+      "preferred_fix": "data-testid=\"modal-backdrop\""
+    },
+    "brand_rankings_expand": {
+      "selector": ".ml-0\\.5",
+      "preferred_fix": "data-testid=\"expand-variants\""
+    },
+    "drill_in_close_alt": {
+      "selector": ".rounded-full.p-1.text-slate-400",
+      "preferred_fix": "use button[aria-label=\"Close panel\"] instead"
+    },
+    "drill_in_llm_tab_bar": {
+      "selector": ".inline-flex (first)",
+      "preferred_fix": "data-testid=\"llm-tab-bar\""
+    },
+    "skeleton_loader": {
+      "selector": "[class*=\"animate-pulse\"]",
+      "preferred_fix": "acceptable — animation class is intentional"
+    }
+  },
+  "reports_list_page": {
+    "_page": "Page d'accueil — /geo — liste des rapports/brands",
+    "_note": "Page entièrement nouvelle extraite de dashboard.html (DOM rendu React)",
+    "main_sidebar": {
+      "container": "[data-testid=\"main-sidebar\"]",
+      "aria_label": "Main navigation",
+      "selector": "aside[data-testid=\"main-sidebar\"]",
+      "background_color": "bg-[#2d556e]",
+      "width": "72px",
+      "logo": "aside[data-testid=\"main-sidebar\"] img[alt=\"Onclusive logo\"]"
+    },
+    "module_navigation": {
+      "nav": "nav[aria-label=\"Module navigation\"]",
+      "buttons": "nav[aria-label=\"Module navigation\"] button",
+      "active_button": "nav[aria-label=\"Module navigation\"] button[aria-current=\"page\"]",
+      "known_modules": [
+        {
+          "label": "Mention",
+          "active": false
+        },
+        {
+          "label": "Review",
+          "active": false
+        },
+        {
+          "label": "Contact",
+          "active": false
+        },
+        {
+          "label": "Measure",
+          "active": true,
+          "aria_current": "page"
+        }
+      ],
+      "button_by_label": "nav[aria-label=\"Module navigation\"] button:has-text(\"<label>\")"
+    },
+    "utility_navigation": {
+      "nav": "nav[aria-label=\"Utility navigation\"]",
+      "settings_link": "a[href=\"/geo/settings\"]",
+      "help_button": "nav[aria-label=\"Utility navigation\"] button:has-text(\"Help\")",
+      "logout_button": "nav[aria-label=\"Utility navigation\"] button:has-text(\"Log out\")",
+      "user_menu": "div[aria-label=\"User menu\"]",
+      "user_menu_avatar": "div[aria-label=\"User menu\"].rounded-full"
+    },
+    "top_nav_bar": {
+      "nav": "nav:has(button[aria-current=\"page\"]:has-text(\"GEO Metrics\"))",
+      "active_tab": "button[aria-current=\"page\"]:has-text(\"GEO Metrics\")",
+      "tabs": [
+        {
+          "label": "GEO Metrics",
+          "active": true
+        },
+        {
+          "label": "TBD Capability",
+          "active": false
+        }
+      ]
+    },
+    "page_header": {
+      "heading": "h1:has-text(\"GEO Analytics Dashboard\")",
+      "subtitle": "p:has-text(\"Monitor your brand's presence across AI engines\")",
+      "new_analysis_button": "button:has-text(\"New Analysis\")"
+    },
+    "stats_cards": {
+      "_note_figma": "figmaScreens/01_Dashboard/01_GEO-Analytics-Dashboard.png — 6 cards: MARKETS(8), CATEGORIES(11), COMPETITORS(26), REPORTS(6), PROMPTS(180), SOURCES(8)",
+      "_note_live": "Live app uses 'questions' instead of 'prompts' in aria-label; counts are dynamic live data",
+      "container": "div:has(> button[aria-label*=\"markets\"])",
+      "card_by_aria": "button[aria-label=\"<N> <type>\"]",
+      "generic_card": "button[aria-label*=\" markets\"], button[aria-label*=\" categories\"], button[aria-label*=\" competitors\"], button[aria-label*=\" reports\"], button[aria-label*=\" questions\"], button[aria-label*=\" sources\"]",
+      "known_cards": [
+        {
+          "aria_label": "8 markets",
+          "text": "8 MARKETS",
+          "selector": "button[aria-label=\"8 markets\"]"
+        },
+        {
+          "aria_label": "10 categories",
+          "text": "10 CATEGORIES",
+          "selector": "button[aria-label=\"10 categories\"]"
+        },
+        {
+          "aria_label": "28 competitors",
+          "text": "28 COMPETITORS",
+          "selector": "button[aria-label=\"28 competitors\"]"
+        },
+        {
+          "aria_label": "6 reports",
+          "text": "6 REPORTS",
+          "selector": "button[aria-label=\"6 reports\"]"
+        },
+        {
+          "aria_label": "139 questions",
+          "text": "139 QUESTIONS",
+          "selector": "button[aria-label=\"139 questions\"]"
+        },
+        {
+          "aria_label": "602 sources",
+          "text": "602 SOURCES",
+          "selector": "button[aria-label=\"602 sources\"]"
+        }
+      ],
+      "card_count_value": "button[aria-label*=\"<type>\"] span:first-child",
+      "card_count_label": "button[aria-label*=\"<type>\"] span:last-child"
+    },
+    "reports_section": {
+      "heading": "span:has-text(\"Reports\")",
+      "count_badge": "span:has-text(\" reports\")",
+      "table": "table",
+      "table_headers": [
+        "Brand",
+        "Countries",
+        "Categories",
+        "Last update",
+        "Actions"
+      ],
+      "table_header_brand": "th:has-text(\"Brand\")",
+      "table_header_countries": "th:has-text(\"Countries\")",
+      "table_header_categories": "th:has-text(\"Categories\")",
+      "table_header_last_update": "th:has-text(\"Last update\")",
+      "table_header_actions": "th:has-text(\"Actions\")",
+      "rows": "tbody tr",
+      "brand_avatar": "td div.rounded",
+      "brand_name": "td span:first-child (inside brand cell)",
+      "brand_domain": "td span:last-child (inside brand cell)",
+      "country_flag": "span[title] img[alt]",
+      "country_flag_by_country": "span[title=\"<country>\"] img",
+      "categories_list": "ul[role=\"list\"]",
+      "category_item": "ul[role=\"list\"] li span",
+      "last_update_cell": "td:nth-child(4)",
+      "manage_scope_button": "button[aria-label=\"Manage scope for <brand>\"]",
+      "delete_button": "button[aria-label=\"Delete <brand>\"]",
+      "manage_scope_tooltip": "span:has-text(\"Manage scope\").group-hover\\/tooltip\\:block",
+      "delete_tooltip": "span:has-text(\"Delete\").group-hover\\/tooltip\\:block",
+      "known_brands": [
+        "Anthropic",
+        "Microsoft",
+        "BMW",
+        "OpenAI"
+      ],
+      "status_badges": {
+        "_note_figma": "figmaScreens/01_Dashboard/01_GEO-Analytics-Dashboard.png + 02_Hover-states.png",
+        "_figma_confirmed_texts": [
+          "In progress",
+          "Refreshing"
+        ],
+        "in_progress": "[class*='badge']:has-text('In progress'), [class*='status']:has-text('In progress'), text='In progress'",
+        "refreshing": "[class*='badge']:has-text('Refreshing'), [class*='status']:has-text('Refreshing'), text='Refreshing'",
+        "any_badge": "[class*='badge'], [class*='status'], span[class*='chip']",
+        "preferred_fix": "data-testid=\"report-status-badge\" with data-status=\"in_progress|refreshing|done\"",
+        "_colors_figma": {
+          "in_progress": "green",
+          "refreshing": "purple"
+        }
+      }
+    },
+    "empty_state": {
+      "_note_figma": "figmaScreens/05_Step_0_Clean_State/01_First_time_User_Clean_Slate.png (confirmed 2026-05-03, replaces 08_GEO_Onboarding ref)",
+      "heading": "text=\"No reports have been made for your Brand\"",
+      "subtext": "text=\"It looks like you haven't created any reports for your Brand yet.\"",
+      "cta_button": "button:has-text(\"Create your first Report\")"
+    }
+  },
+  "analysis_loading_page": {
+    "_note_figma": [
+      "figmaScreens/07_Report_Loading_Screens/01_Report_Loading_Querying_LLMs.png",
+      "figmaScreens/07_Report_Loading_Screens/02_Report_Loading_Classifying_Sources.png",
+      "figmaScreens/07_Report_Loading_Screens/03_Report_Loading_Aggregating_Results.png",
+      "figmaScreens/08_GEO_Onboarding/38_Report_Loading_-_Querying_LLMs.png"
+    ],
+    "heading": "h1:has-text(\"Analyzing\"), h2:has-text(\"Analyzing\")",
+    "subtext": "text=\"Preparing analysis...\"",
+    "spinner": "[class*=\"animate-spin\"], svg[class*=\"spin\"], [class*=\"loader\"], [data-testid=\"spinner\"]",
+    "_spinner_note": "Circular spinner visible above heading in all 3 Figma loading screens. Acts as active-state indicator. preferred_fix: data-testid=\"spinner\"",
+    "progress_bar": "div[role=\"progressbar\"], div.bg-blue-500, div[class*=\"progress\"]",
+    "_progress_bar_colors": "blue (Querying LLMs) | orange (Classifying Sources) | purple (Aggregating Results)",
+    "progress_label": ":has-text(\"Progress\")",
+    "_progress_label_note": "Static 'Progress' label left of the percentage value. Figma confirmed.",
+    "progress_percent": ":has-text(/\\d+%/)",
+    "_progress_percent_note": "Percentage value displayed to the right of the 'Progress' label (e.g. '85%'). Figma confirmed.",
+    "stage_badge": "span:has-text(\"Querying LLMs\"), span:has-text(\"Classifying Sources\"), span:has-text(\"Aggregating Results\")",
+    "stage_timer": ":has-text(/\\d+m\\s*\\d+s/)",
+    "_stage_timer_note": "Elapsed time shown next to stage badge. Examples from Figma: '5s', '6m 33s', '103m 28s'. preferred_fix: data-testid=\"stage-timer\"",
+    "stage_labels": [
+      "LLMs (0-70%)",
+      "Sources (75%)",
+      "Aggregate (85%)",
+      "Insights (95%)"
+    ],
+    "stage_labels_selector": ":has-text(\"LLMs (0-70%)\")",
+    "_stage_labels_note": "Use stage_labels_selector for Playwright locator. stage_labels is the known-values reference array.",
+    "back_button": "button[aria-label=\"Back to Reports\"], a:has-text(\"Back\")"
+  },
+  "manage_scope_page": {
+    "_page": "Manage Scope — /geo/dashboard/:uuid/manage-scope",
+    "_note": "Selectors added from epic100 spec (2026-05-02). E2E spec manage-scope.spec.js added 2026-05-07. Visual refs: figmaScreens/10_Manage_Scope/.",
+    "_epic_refs": [
+      "GEO-61",
+      "GEO-60"
+    ],
+    "page_heading": {
+      "selector": "[data-testid=\"dashboard-layout\"] main h1, [data-testid=\"dashboard-layout\"] main h2",
+      "heading_text": "Manage Scope",
+      "note": "Use getByRole('heading', { name: 'Manage Scope', exact: true }) inside main"
+    },
+    "sections": {
+      "markets": "Markets",
+      "categories": "Categories",
+      "llm_engines": "LLM Engines",
+      "analysis_information": "Analysis Information",
+      "note": "Markets and Categories are h3. LLM Engines and Analysis Information are h2. Use h2/h3 selectors directly, not getByRole('heading') without level."
+    },
+    "markets_section": {
+      "add_market_button": "button:has-text(\"Add Market\"), button:has-text(\"Add Country\")",
+      "primary_badge": "text=\"Primary\", span:has-text(\"Primary\")",
+      "remove_button": "button[aria-label^=\"Remove \"]",
+      "remove_by_country": "button[aria-label=\"Remove <country>\"], button[aria-label*=\"<country>\"]",
+      "quota_banner": ":has-text(\"You have reached the maximum number of markets\"), [role=\"alert\"]:has-text(\"market\")",
+      "quota_banner_full_text": "You have reached the maximum number of markets you can add. Please contact our sales team if you wish to add more.",
+      "rows": "li, [role=\"listitem\"]"
+    },
+    "categories_section": {
+      "add_category_button": "button:has-text(\"Add Category\"), button:has-text(\"Add Topic\")",
+      "remove_button": "button[aria-label^=\"Remove \"]",
+      "remove_by_category": "button[aria-label=\"Remove <category>\"], button[aria-label*=\"<category>\"]",
+      "quota_banner": ":has-text(\"You have reached the maximum number\"), [role=\"alert\"]:has-text(\"categor\")",
+      "rows": "li, [role=\"listitem\"]"
+    },
+    "add_market_modal": {
+      "container": "[role=\"dialog\"]:has-text(\"Add Market\")",
+      "country_dropdown": "[placeholder*=\"country\" i], [aria-label*=\"country\" i]",
+      "language_dropdown": "[placeholder*=\"language\" i], [aria-label*=\"language\" i]",
+      "next_button": "[role=\"dialog\"] button:has-text(\"Next\")",
+      "cancel_button": "[role=\"dialog\"] button:has-text(\"Cancel\")",
+      "add_country_final_button": "button:has-text(\"Add Country\")",
+      "discard_confirm": "button:has-text(\"Exit and Discard\")",
+      "wizard_steps": [
+        "Market",
+        "Brand Image",
+        "Categories"
+      ],
+      "_figma_ref": "figmaScreens/10_Manage_Scope/05_Add_Market_-_Step_01_Market.png",
+      "_figma_discard_ref": "figmaScreens/10_Manage_Scope/14_Add_Market_-_Discard_confirmation.png"
+    },
+    "add_category_modal": {
+      "container": "[role=\"dialog\"]:has-text(\"Add Category\")",
+      "name_input": "input[placeholder*=\"Electric Vehicles\" i], input[aria-label*=\"Category Name\" i], [role=\"dialog\"] input[type=\"text\"]",
+      "next_button": "[role=\"dialog\"] button:has-text(\"Next\")",
+      "cancel_button": "[role=\"dialog\"] button:has-text(\"Cancel\")",
+      "add_button": "[role=\"dialog\"] button:has-text(\"Add Category\")",
+      "wizard_steps": [
+        "Category",
+        "Prompts"
+      ],
+      "_figma_ref": "figmaScreens/10_Manage_Scope/17_Add_Category.png"
+    },
+    "llm_engines_section": {
+      "toggle": "[role=\"switch\"][aria-label=\"Toggle <engine>\"]",
+      "toggle_chatgpt": "[role=\"switch\"][aria-label=\"Toggle ChatGPT\"]",
+      "toggle_gemini": "[role=\"switch\"][aria-label=\"Toggle Gemini\"]",
+      "toggle_claude": "[role=\"switch\"][aria-label=\"Toggle Claude\"]",
+      "toggle_grok": "[role=\"switch\"][aria-label=\"Toggle Grok\"]",
+      "toggle_perplexity": "[role=\"switch\"][aria-label=\"Toggle Perplexity\"]",
+      "toggle_enabled": "[role=\"switch\"][aria-checked=\"true\"]",
+      "toggle_disabled": "[role=\"switch\"][aria-checked=\"false\"]",
+      "web_search_checkbox": "input[type=\"checkbox\"][aria-label*=\"Web search\" i]",
+      "web_search_by_role": "getByRole('checkbox', { name: /Web search/i })",
+      "active_count_badge": "span.inline-flex, span[class*=\"rounded-full\"], [data-testid*=\"count\" i]",
+      "active_count_text_pattern": "/^\\d+ of \\d+/",
+      "min_one_lock_message": "At least one AI engine must remain active",
+      "unavailable_tooltip": "This LLM engine is not included in your subscription.",
+      "_figma_ref": "figmaScreens/10_Manage_Scope/01_Manage_Scope.png, 04_Manage_Scope_-_Unavailable_LLM_Engine.png",
+      "note": "Toggles inside Manage Scope section are DISTINCT from filters.llm_dropdown.switches_individual (which are in the global filter dropdown)"
+    },
+    "analysis_information_section": {
+      "created_label": "text=\"Created\"",
+      "last_analysis_label": "text=\"Last analysis\"",
+      "note": "Static labels — values are dynamic date strings"
+    },
+    "next_run_notice": {
+      "selector": ":text-matches(\"next scheduled|next run|will be applied|scheduled execution|weekly\", \"i\")",
+      "note": "Appears after any scope change (add/remove market/category, LLM toggle). Indicates change is queued for the next weekly execution."
+    }
+  },
+  "routes": {
+    "home": "/geo",
+    "settings": "/geo/settings",
+    "dashboard_root": "/geo/dashboard/:uuid",
+    "category_view": "/geo/dashboard/:uuid/category/:id",
+    "manage_scope": "/geo/dashboard/:uuid/manage-scope",
+    "category_link_match": "a[href*=\"/category/\"]"
+  },
+  "test_id_inventory": [
+    "main-sidebar",
+    "dashboard-layout",
+    "dashboard-top-section",
+    "dashboard-sidebar",
+    "market-dropdown",
+    "llm-dropdown",
+    "snapshot-navigator"
+  ],
+  "aria_label_inventory": [
+    "Main navigation",
+    "Module navigation",
+    "Utility navigation",
+    "User menu",
+    "Back to Reports",
+    "LLM engine filters",
+    "Market filter",
+    "Dashboard navigation",
+    "Dashboard sections",
+    "Filter by source type",
+    "All source types",
+    "All domains",
+    "Perception concepts",
+    "Close panel",
+    "Close",
+    "Close detail panel",
+    "Manage scope for <brand> (prefix match)",
+    "Delete <brand> (prefix match)",
+    "Toggle ChatGPT",
+    "Toggle Gemini",
+    "Toggle Claude",
+    "Toggle Grok",
+    "Toggle Perplexity",
+    "Brand Image Positive (sentiment may vary)",
+    "Employer Brand Positive (sentiment may vary)",
+    "ESG / Sustainability Positive (sentiment may vary)",
+    "Leadership Positive … (prefix match)",
+    "AI Research: <pct>% (dynamic)",
+    "AI Assistants: <pct>% (dynamic)",
+    "AI Infrastructure: <pct>% (dynamic)",
+    "Software & Technology: <pct>% (dynamic)",
+    "All (LLM pill reset)",
+    "chatgpt (LLM pill)",
+    "gemini (LLM pill)",
+    "claude (LLM pill)",
+    "grok (LLM pill)",
+    "perplexity (LLM pill)",
+    "Top ranked",
+    "<brand>, <N> variants (dynamic — Brand Rankings row)",
+    "<domain> (dynamic — Citation Sources row)",
+    "<N> markets",
+    "<N> categories",
+    "<N> competitors",
+    "<N> reports",
+    "<N> questions",
+    "<N> sources"
+  ],
+  "role_inventory": [
+    "tablist",
+    "tab",
+    "dialog",
+    "option",
+    "menuitem",
+    "menu",
+    "switch",
+    "tooltip",
+    "button",
+    "link"
+  ],
+  "headings_h2_inventory": [
+    "Overview"
+  ],
+  "headings_h3_inventory": [
+    "Category Prioritization",
+    "Brand Rankings",
+    "Top Concepts Associated with Your Brand",
+    "AI Citation Sources",
+    "Corporate Reputation",
+    "Brand Territory"
+  ],
+  "note_headings": "Brand Image / Employer Brand / ESG / Sustainability / Leadership are <span> inside cards, NOT h3 elements.",
+  "gaps_and_todos": [
+    "No data-testid on Corporate Reputation / Brand Territory sections — rely on h3 text.",
+    "No data-testid on Brand Rankings and Citation Sources tables — identified by headers + heading proximity.",
+    "No data-testid on category_priority_summary cards (Stars/Opportunity/At Risk/Monitor) — rely on text.",
+    "Drill-in LLM pills: aria-label 'chatgpt' vs 'openai' inconsistency — test both for safety.",
+    "Drill-in LLM tab bar also uses .inline-flex class — FRAGILE, prefer llm_pills (aria-label) from v1.3.",
+    "Territory bubbles: button[aria-label] confirmed by codegen — prefer over g[role=\"button\"] SVG locator.",
+    "Brand Rankings rows: button[aria-label] confirmed by codegen — prefer over tr[aria-label] locator.",
+    "Brand Rankings expand/collapse: .ml-0\\.5 is FRAGILE — request data-testid=\"expand-variants\".",
+    "Source type filter: aria-label includes count (e.g. 'Journalism (1213)') — use contains (*=) for stability.",
+    "Share / Export actions located by case-insensitive regex — a dedicated testid would remove ambiguity.",
+    "Modal backdrop uses .fixed — FRAGILE, request data-testid=\"modal-backdrop\".",
+    "Actions Center confirmed present in Figma 09/02 — selector added in sidebar.nav_links.actions_center.",
+    "Category View selectors (epic101) are fallback patterns — validate with DOM inspection and update data-testid entries.",
+    "Progress View selectors (epic103) are fallback patterns — validate with DOM inspection and add data-testid once implemented.",
+    "Discard changes modal (GEO-79) uses text-match fallback — request data-testid=\"discard-dialog\".",
+    "Top Concepts sentiment slider uses role=slider — validate aria-valuenow/min/max exposure.",
+    "AI Citation Sources type pills use class fallback — request data-testid=\"source-type-pill\".",
+    "AI Citation Sources citation signals use text-match — request data-testid=\"citation-signal\".",
+    "AI Citation Sources All Cited URLs modal close button — add to all_sources_modal.close_button pattern.",
+    "Prioritization matrix cluster bubble uses SVG circle/ellipse — add data-testid=\"matrix-data-point\" for stability."
+  ],
+  "category_view": {
+    "_page": "Category View — /geo/dashboard/:uuid/category/:id",
+    "_note": "Selectors added from epic101 spec (2026-04-30). Fallback patterns — update with data-testid once confirmed by DOM inspection.",
+    "_epic_refs": [
+      "GEO-70",
+      "GEO-69",
+      "GEO-68",
+      "GEO-67",
+      "GEO-66",
+      "GEO-193"
+    ],
+    "kpi_section": {
+      "selector": "[class*=\"kpi\"], [data-testid*=\"kpi\"], [aria-label*=\"Share of Voice\"], [aria-label*=\"Visibility\"]",
+      "preferred_fix": "data-testid=\"kpi-section\""
+    },
+    "kpi_card": {
+      "selector": "[class*=\"kpi-card\"], [data-testid*=\"kpi-card\"], div[aria-label*=\":\"]",
+      "known_labels": [
+        "Share of Voice",
+        "Visibility",
+        "Avg Position",
+        "Win Rate",
+        "Sentiment"
+      ],
+      "card_by_aria": "[aria-label*=\"<label>\"]",
+      "preferred_fix": "data-testid=\"kpi-card\""
+    },
+    "kpi_value": {
+      "selector": "[class*=\"kpi-value\"], [class*=\"font-medium\"], p[class*=\"text-\"]",
+      "preferred_fix": "data-testid=\"kpi-value\""
+    },
+    "kpi_quality_label": {
+      "selector": "[class*=\"quality\"], [class*=\"label\"]:has-text(\"Good\"), [class*=\"label\"]:has-text(\"Fair\"), [class*=\"label\"]:has-text(\"Poor\")",
+      "known_values": [
+        "Good",
+        "Fair",
+        "Poor",
+        "Positive",
+        "Neutral",
+        "Negative"
+      ],
+      "preferred_fix": "data-testid=\"kpi-quality\""
+    },
+    "perception_summary": {
+      "selector": "[class*=\"perception-summary\"], [data-testid=\"perception-summary\"]",
+      "preferred_testid": "perception-summary"
+    },
+    "na_value": {
+      "selector": ":has-text(\"N/A\")",
+      "note": "Used when a KPI has no data — must not show 0"
+    },
+    "loading_state": {
+      "selector": "[class*=\"loading\"], [class*=\"skeleton\"], [class*=\"animate-pulse\"]",
+      "note": "Same as skeleton_loader_any in common_patterns"
+    },
+    "brand_matrix": {
+      "_note": "Category Brand Matrix (prioritization scatter chart) — GEO-69",
+      "container": "[class*=\"brand-matrix\"], [class*=\"matrix-chart\"], [data-testid*=\"brand-matrix\"]",
+      "data_point": "[class*=\"data-point\"], [class*=\"bubble\"], [class*=\"scatter-point\"]",
+      "tooltip": "[role=\"tooltip\"], [class*=\"tooltip\"], [class*=\"Tooltip\"]",
+      "quadrant_legend": "[class*=\"quadrant-legend\"], [class*=\"legend\"]",
+      "empty_state": ":has-text(\"No data available for the brand prioritization matrix\")",
+      "preferred_fix": "data-testid=\"brand-matrix\""
+    },
+    "brand_rankings_category": {
+      "_note": "Category-scoped Brand Rankings table — GEO-68. Distinct from overview_page.brand_rankings.",
+      "container": "[class*=\"brand-rankings\"], [data-testid=\"brand-rankings\"]",
+      "row": "[class*=\"ranking-row\"], tbody tr",
+      "expandable_badge": "[class*=\"expand-badge\"], [class*=\"variant-badge\"]",
+      "variant_row": "[class*=\"variant-row\"]",
+      "target_brand_row": "[class*=\"target-brand\"], [class*=\"highlighted-row\"]",
+      "empty_state": ":has-text(\"No brand ranking data available\")",
+      "error_state": "[class*=\"error-state\"], [data-testid*=\"error\"]",
+      "retry_button": "button:has-text(\"Retry\"), button:has-text(\"Try again\")",
+      "preferred_fix": "data-testid=\"brand-rankings-category\""
+    },
+    "questions_table": {
+      "_note": "Questions Table — GEO-67, GEO-193",
+      "container": "[class*=\"questions-table\"], [data-testid=\"questions-table\"]",
+      "row": "[class*=\"question-row\"], tbody tr",
+      "search_input": "input[placeholder*=\"Search\"], input[aria-label*=\"Search questions\"]",
+      "type_tab": "[role=\"tab\"]",
+      "favorability_filter": "[class*=\"favorability-filter\"], [class*=\"filter-chip\"]",
+      "expand_button": "[class*=\"expand\"], button[aria-label*=\"expand\"], button[aria-expanded]",
+      "detail_panel": "[class*=\"detail-panel\"], [class*=\"question-detail\"]",
+      "llm_badge": "[class*=\"llm-badge\"], [class*=\"rank-badge\"]",
+      "sources_list": "[class*=\"sources-list\"], [class*=\"citations\"]",
+      "ranking_list": "[class*=\"ranking-list\"], [class*=\"brand-rank\"]",
+      "sentiment_badge": "[class*=\"sentiment-badge\"], [class*=\"sentiment\"]",
+      "theme_badge": "[class*=\"theme-badge\"], [class*=\"theme\"]",
+      "empty_state": ":has-text(\"No question data available\")",
+      "error_state": "[class*=\"error-state\"]",
+      "known_tabs": [
+        "Visibility",
+        "Competitive",
+        "Perception"
+      ],
+      "preferred_fix": "data-testid=\"questions-table\""
+    },
+    "perception_topics": {
+      "container": "[class*=\"perception-topics\"], [data-testid=\"perception-topics\"]",
+      "empty_state": ":has-text(\"No perception data available\")",
+      "preferred_fix": "data-testid=\"perception-topics\""
+    },
+    "citation_sources_category": {
+      "_note": "Category-scoped citation sources — GEO-66. Distinct from overview_page.ai_citation_sources.",
+      "container": "[class*=\"citation-sources\"], [data-testid=\"citation-sources\"]",
+      "empty_state": ":has-text(\"No citation sources available\")",
+      "preferred_fix": "data-testid=\"citation-sources-category\""
+    },
+    "filters": {
+      "market_filter": "[class*=\"market-filter\"], [aria-label*=\"market\"], select[name*=\"market\"]",
+      "market_filter_preferred": "[data-testid=\"market-dropdown\"] button",
+      "llm_filter": "[class*=\"llm-filter\"], [class*=\"llm-toggle\"], [data-testid*=\"llm-filter\"]",
+      "llm_filter_preferred": "[data-testid=\"llm-dropdown\"] button",
+      "note": "Prefer data-testid selectors from filters.market_dropdown and filters.llm_dropdown if present on category view"
+    }
+  },
+  "overview_page_extended": {
+    "_page": "Dashboard Overview — /geo/dashboard/:uuid",
+    "_note": "Selectors added from epic102 spec (2026-04-30). Complement overview_page entries — covers features not yet in the main section.",
+    "_epic_refs": [
+      "GEO-79",
+      "GEO-78",
+      "GEO-107",
+      "GEO-77",
+      "GEO-76",
+      "GEO-75",
+      "GEO-74",
+      "GEO-73",
+      "GEO-72",
+      "GEO-71"
+    ],
+    "kpi_cards_by_aria": {
+      "visibility": "div[aria-label*=\"Visibility\"]",
+      "sov": "div[aria-label*=\"Share of Voice\"]",
+      "avg_position": "div[aria-label*=\"Avg Position\"]",
+      "win_rate": "div[aria-label*=\"Win Rate\"]",
+      "sentiment": "div[aria-label*=\"Sentiment\"]",
+      "note": "Used in GEO-107. Fallback — update with data-testid once confirmed."
+    },
+    "perception_summary": {
+      "container": "[class*=\"perception-summary\"], [data-testid=\"perception-summary\"]",
+      "loading_text": ":has-text(\"Generating perception summary\")",
+      "error_state": "div.rounded-lg.border.border-red-200.bg-red-50",
+      "retry_button": "div.rounded-lg.border.border-red-200 button:has-text(\"Retry\")",
+      "preferred_testid": "perception-summary",
+      "note": "GEO-73. Distinct from executive summary."
+    },
+    "executive_summary_extended": {
+      "container": "[class*=\"executive-summary\"], [data-testid=\"executive-summary\"]",
+      "loading_text": ":has-text(\"Generating executive summary\")",
+      "note": "GEO-72. container selector is a fallback — update with data-testid.",
+      "preferred_testid": "executive-summary"
+    },
+    "report_deletion": {
+      "delete_button": "button[aria-label^=\"Delete\"]",
+      "delete_dialog": "[role=\"dialog\"]:has-text(\"delete\")",
+      "confirm_button": "button:has-text(\"Delete\"), button:has-text(\"Confirm\"), button:has-text(\"Yes\")",
+      "cancel_button": "button:has-text(\"Cancel\"), button:has-text(\"No\"), button:has-text(\"Keep\")",
+      "processing_status": ":has-text(\"Processing\")",
+      "delete_blocked_msg": ":has-text(\"cannot be deleted\"), :has-text(\"in progress\")",
+      "not_found_state": ":has-text(\"not found\"), :has-text(\"Not Found\"), :has-text(\"404\")",
+      "note": "GEO-71. dialog selector uses case-insensitive text — add data-testid=\"delete-dialog\" for stability."
+    }
+  },
+  "live_analysis_progress": {
+    "_page": "Live Analysis Progress View — shown while a report analysis is running",
+    "_note": "Updated 2026-05-03 from epic103 spec + Figma 07_Report_Loading_Screens. Figma shows simplified loading card (spinner + heading + stage badge + progress bar + stage labels). Per-LLM list belongs to SseProgress component (AC6) — may not be visible in simplified view.",
+    "_epic_refs": [
+      "GEO-86",
+      "GEO-87",
+      "GEO-85",
+      "GEO-84",
+      "GEO-83",
+      "GEO-82"
+    ],
+    "_figma_refs": {
+      "01": "figmaScreens/07_Report_Loading_Screens/01_Report_Loading_Querying_LLMs.png",
+      "02": "figmaScreens/07_Report_Loading_Screens/02_Report_Loading_Classifying_Sources.png",
+      "03": "figmaScreens/07_Report_Loading_Screens/03_Report_Loading_Aggregating_Results.png",
+      "_figma_note": "Figma shows: spinner circle + h1 'Analyzing <Brand>' + 'Preparing analysis...' subtext + colored stage badge with timer + 'Progress X%' + progress bar + stage milestone labels"
+    },
+    "progress_container": {
+      "selector": "[class*=\"progress-container\"], [class*=\"progress-view\"], [data-testid=\"progress-view\"]",
+      "preferred_testid": "progress-view"
+    },
+    "heading": {
+      "selector": ":is(h1, h2)",
+      "filter": "hasText: /Analyzing/i",
+      "figma_example": "Analyzing Tesla",
+      "note": "Brand name is dynamic — filter by /Analyzing/i"
+    },
+    "subtext": {
+      "selector": ":has-text(\"Preparing analysis\")",
+      "figma_text": "Preparing analysis...",
+      "note": "Static subtitle visible in all 3 Figma loading screens"
+    },
+    "spinner": {
+      "selector": "[class*=\"animate-spin\"], svg[class*=\"spin\"], [class*=\"loader\"], [data-testid=\"spinner\"]",
+      "preferred_testid": "spinner",
+      "note": "Circular spinner visible in Figma above the heading — acts as active-state heartbeat indicator"
+    },
+    "global_progress_bar": {
+      "selector": "[role=\"progressbar\"], div[class*=\"progress-bar\"], div.bg-blue-500",
+      "aria_required": [
+        "aria-valuenow",
+        "aria-valuemin",
+        "aria-valuemax"
+      ],
+      "aria_valuenow_range": "0–100",
+      "figma_note": "Bar color changes by phase: blue (Querying LLMs), orange (Classifying Sources), purple (Aggregating Results)",
+      "note": "Must expose aria-valuenow for accessibility (GEO-86-TC007)"
+    },
+    "stage_badge": {
+      "selector": "span:has-text(\"Querying LLMs\"), span:has-text(\"Classifying Sources\"), span:has-text(\"Aggregating Results\")",
+      "known_phases": [
+        "Querying LLMs",
+        "Classifying Sources",
+        "Aggregating Results"
+      ],
+      "figma_colors": {
+        "Querying LLMs": "blue  — globe icon",
+        "Classifying Sources": "orange — magnifier icon",
+        "Aggregating Results": "purple — chart icon"
+      },
+      "preferred_testid": "stage-badge"
+    },
+    "stage_timer": {
+      "selector": ":has-text(/\\d+m\\s*\\d+s/)",
+      "figma_examples": [
+        "5s",
+        "6m 33s",
+        "103m 28s"
+      ],
+      "note": "Timer shown next to stage badge in Figma"
+    },
+    "progress_label": {
+      "selector": ":has-text(\"Progress\")",
+      "note": "Label 'Progress' with percentage on the right (e.g. '85%') — Figma confirmed"
+    },
+    "progress_percent": {
+      "selector": ":has-text(/\\d+%/)",
+      "note": "Percentage value displayed to the right of the 'Progress' label"
+    },
+    "stage_labels": {
+      "selector": ":has-text(\"LLMs (0-70%)\")",
+      "all_labels": [
+        "LLMs (0-70%)",
+        "Sources (75%)",
+        "Aggregate (85%)",
+        "Insights (95%)"
+      ],
+      "note": "Milestone labels below the progress bar — Figma confirmed in all 3 loading screens"
+    },
+    "llm_progress_list": {
+      "selector": "[data-testid=\"llm-progress-list\"], [class*=\"llm-progress\"], [class*=\"llm-list\"]",
+      "preferred_testid": "llm-progress-list",
+      "note": "Part of SseProgress component (AC6) — NOT visible in simplified Figma loading screens. Check at runtime."
+    },
+    "llm_entry": {
+      "selector": "[data-testid=\"llm-entry\"], [class*=\"llm-item\"], [class*=\"llm-row\"]",
+      "preferred_testid": "llm-entry"
+    },
+    "llm_icon": {
+      "selector": "[class*=\"llm-icon\"], img[alt*=\"llm\"], img[alt*=\"provider\"]"
+    },
+    "llm_progress_bar": {
+      "selector": "[class*=\"llm-progress-bar\"], [class*=\"llm-bar\"]",
+      "preferred_fix": "data-testid=\"llm-progress-bar\""
+    },
+    "llm_status_badge": {
+      "selector": "[class*=\"status-badge\"], [class*=\"badge\"], [data-testid*=\"badge\"]",
+      "known_states": [
+        "PROCESSING",
+        "COMPLETED",
+        "PARTIAL",
+        "FAILED"
+      ],
+      "badge_colors": {
+        "PROCESSING": "blue animated",
+        "COMPLETED": "green",
+        "PARTIAL": "orange",
+        "FAILED": "red"
+      },
+      "preferred_fix": "data-testid=\"llm-status-badge\""
+    },
+    "phase_message": {
+      "selector": "span:has-text(\"Querying LLMs\"), span:has-text(\"Classifying Sources\"), span:has-text(\"Aggregating Results\"), [class*=\"phase-message\"], [class*=\"analysis-phase\"], [data-testid=\"phase-message\"]",
+      "preferred_testid": "phase-message",
+      "known_phases": [
+        "Querying LLMs",
+        "Classifying Sources",
+        "Aggregating Results"
+      ]
+    },
+    "heartbeat": {
+      "selector": "[class*=\"heartbeat\"], [class*=\"pulse\"], [data-testid=\"heartbeat\"]",
+      "preferred_testid": "heartbeat",
+      "animation_check": "animationName !== 'none' || animation !== '' || className includes 'pulse'|'heartbeat'|'spin'",
+      "note": "CSS animation required while analysis is running (GEO-86-TC006). Fallback: use spinner selector if heartbeat not present."
+    },
+    "live_region": {
+      "selector": "[aria-live=\"polite\"]",
+      "note": "Required for accessible progress announcements (GEO-86-TC007)"
+    },
+    "final_status": {
+      "completed": "[data-status=\"COMPLETED\"], [class*=\"status\"]:has-text(\"COMPLETED\"), :has-text(\"Analysis complete\")",
+      "completed_partial": "[data-status=\"COMPLETED_PARTIAL\"], [class*=\"status\"]:has-text(\"PARTIAL\"), :has-text(\"COMPLETED_PARTIAL\")",
+      "failed": "[data-status=\"FAILED\"], [class*=\"status\"]:has-text(\"FAILED\"), :has-text(\"Analysis failed\")",
+      "note": "Status shown after analysis finishes (GEO-86-TC002/TC003/TC004, GEO-83-TC001/TC002/TC003). Prefer data-status attribute once implemented."
+    }
+  },
+  "auth": {
+    "_page": "Auth0 Universal Login — two-step form (email → Continue → password → Log In)",
+    "_note": "Selectors for global-setup.js Auth0 login automation. Standard Auth0 Universal Login v2 field names.",
+    "_epic_refs": [
+      "GEO-97"
+    ],
+    "_setup_file": ".claude/Data/raw/playwright/global-setup.js",
+    "_session_file": ".claude/Data/processed/auth/storageState.json",
+    "email_input": {
+      "selector": "input[name=\"username\"], input[type=\"email\"], #username",
+      "note": "Auth0 uses name='username' even for email addresses — primary selector"
+    },
+    "continue_button": {
+      "selector": "button[type=\"submit\"]",
+      "note": "Step 1 submit — label is 'Continue' on Auth0 Universal Login"
+    },
+    "password_input": {
+      "selector": "input[name=\"password\"], input[type=\"password\"], #password",
+      "note": "Visible only after clicking Continue on step 1"
+    },
+    "login_button": {
+      "selector": "button[type=\"submit\"]",
+      "note": "Step 2 submit — same selector as continue_button, different page"
+    },
+    "error_message": {
+      "selector": "[class*=\"error\"], [role=\"alert\"], #error-element-password, .ulp-input-error-message",
+      "note": "Auth0 inline error (wrong password, locked account, etc.)"
+    },
+    "app_post_login": {
+      "selector": "aside[data-testid=\"main-sidebar\"]",
+      "note": "Proof of successful login — sidebar visible means Auth0 redirect completed and app loaded"
+    }
+  },
+  "wizard_analysis": {
+    "_page": "GEO Analysis Creation Wizard — /geo/wizard/step/:n",
+    "_epic_refs": [
+      "GEO-94",
+      "GEO-93",
+      "GEO-92",
+      "GEO-91",
+      "GEO-90",
+      "GEO-89",
+      "GEO-88"
+    ],
+    "_figma_refs": [
+      "figmaScreens/01_Step_1_Brand_Market/01_Brand_Market_1_Empty_inputs.png",
+      "figmaScreens/02_Step_2_Categories/01_Categories_3_Category_suggested_by_AI.png",
+      "figmaScreens/04_Step_4_Launch_Review/01_Review_How_it_might_look.png"
+    ],
+    "wizard_stepper": {
+      "step1": "[data-testid*=\"step-1\"], li:has-text(\"Brand & Market\"), [class*=\"step\"]:has-text(\"Brand & Market\")",
+      "step2": "[data-testid*=\"step-2\"], li:has-text(\"Categories\"), [class*=\"step\"]:has-text(\"Categories\")",
+      "step3": "[data-testid*=\"step-3\"], li:has-text(\"Prompts\"), [class*=\"step\"]:has-text(\"Prompts\")",
+      "step4": "[data-testid*=\"step-4\"], li:has-text(\"Review\"), [class*=\"step\"]:has-text(\"Review\")",
+      "completed_step": "[class*=\"completed\"], [aria-label*=\"completed\" i], [data-state*=\"complete\"], [class*=\"check\"]",
+      "wizard_label": "text=\"CREATE NEW ANALYSIS\", [class*=\"wizard-title\"]",
+      "_figma_note": "Figma 01_Step_1: left sidebar shows 'CREATE NEW ANALYSIS' label above 4 numbered steps. Active = blue, others grey.",
+      "preferred_fix": "data-testid=\"wizard-stepper\""
+    },
+    "sticky_header": {
+      "selector": "[class*=\"sticky\"][class*=\"header\"], [class*=\"header\"]:has([class*=\"progress\"]), header[class*=\"sticky\"]",
+      "preferred_fix": "data-testid=\"wizard-sticky-header\""
+    },
+    "sticky_footer": {
+      "selector": "[class*=\"sticky\"][class*=\"footer\"], [class*=\"footer\"]:has(:is(button:has-text(\"Discover\"), button:has-text(\"Review\"), button:has-text(\"Back\"), button:has-text(\"Discard\")))",
+      "discard_btn": "button:has-text(\"Discard\")",
+      "discover_categories_btn": "button:has-text(\"Discover Categories\")",
+      "review_prompts_btn": "button:has-text(\"Review Prompt\")",
+      "_figma_note_step1": "Figma 01_Step_1: sticky footer has '← Discard' (left) + 'Discover Categories →' (right, blue CTA).",
+      "_figma_note_step2": "Figma 02_Step_2: sticky footer has '← Back' + 'Review Prompt →' (singular — NOT 'Review Prompts').",
+      "preferred_fix": "data-testid=\"wizard-sticky-footer\""
+    },
+    "discard_modal": {
+      "container": "[role=\"dialog\"]:has-text(\"Discard\")",
+      "confirm_btn": "button:has-text(\"Discard\"), button:has-text(\"Continue without saving\"), button:has-text(\"Leave\")",
+      "cancel_btn": "button:has-text(\"Cancel\"), button:has-text(\"Stay\"), button:has-text(\"Keep editing\")",
+      "preferred_fix": "data-testid=\"discard-dialog\""
+    },
+    "step1_brand_market": {
+      "brand_input": "[placeholder=\"Add your brand\"], input[aria-label*=\"brand\" i]",
+      "brand_dropdown": "[role=\"combobox\"], [role=\"listbox\"]",
+      "brand_logo_in_option": "[role=\"option\"] img, [role=\"option\"] [class*=\"logo\"]",
+      "brand_domain_in_option": "[role=\"option\"] [class*=\"domain\"], [role=\"option\"] small",
+      "custom_brand_option": "[role=\"option\"]:has-text(\"Custom Brand\"), li:has-text(\"Custom Brand\")",
+      "clear_brand_btn": "button[aria-label*=\"clear\" i], button[aria-label*=\"remove brand\" i]",
+      "brand_error_msg": "text=\"Please enter the brand name before proceeding to the next step.\"",
+      "brand_invalid_border": "[aria-invalid=\"true\"], .border-red-500, [class*=\"error\"] input",
+      "add_market_btn": "button:has-text(\"Add Market\"), button:has-text(\"Add Country\")",
+      "country_dropdown": "[placeholder=\"Select a country\"], button:has-text(\"Select a country\")",
+      "language_dropdown": "[placeholder=\"Select a language\"], button:has-text(\"Select a language\")",
+      "primary_badge": "text=\"Primary\", [class*=\"primary-badge\"]",
+      "market_row": "[data-testid*=\"market-row\"], div:has([placeholder*=\"country\" i])",
+      "market_delete_btn": "button[aria-label*=\"delete\" i], button:has(svg[class*=\"trash\"])",
+      "undo_toast": "[role=\"status\"]:has-text(\"undo\"), button:has-text(\"Undo\")",
+      "quota_toast": "text=\"You have reached the maximum number of markets you can add\"",
+      "quota_full_text": "You have reached the maximum number of markets you can add. Please contact our sales team if you wish to add more.",
+      "duplicate_error": "[aria-invalid=\"true\"], [class*=\"duplicate\"], [class*=\"border-red\"]",
+      "_figma_note": "Figma 01_Step_1: 'Which markets do you want to analyze?' section. + Add Country CTA visible. Primary badge auto-assigned to first market when second is added.",
+      "preferred_fix": "data-testid=\"brand-input\", data-testid=\"market-row\""
+    },
+    "step2_categories": {
+      "heading": "h1:has-text(\"We detected\"), h2:has-text(\"We detected\"), :has-text(\"detected these categories\")",
+      "_figma_heading": "Figma 02_Step_2: 'We detected these categories for Tesla' — brand name is dynamic",
+      "ai_generated_badge": ":has-text(\"AI Generated\"), :has-text(\"AI GENERATED\"), [class*=\"ai-generated\"]",
+      "_figma_badge": "Figma 02_Step_2: each AI-suggested category has a '+ AI Generated' badge",
+      "custom_badge": "[class*=\"badge\"]:has-text(\"CUSTOM\"), [class*=\"custom-badge\"]",
+      "add_category_btn": "button:has-text(\"Add Categori\"), button:has-text(\"Add Category\")",
+      "delete_category_btn": "button[aria-label*=\"delete category\" i], button:has(svg[class*=\"trash\"])",
+      "delete_category_modal": "[role=\"dialog\"]:has-text(\"Remove\"), [role=\"dialog\"]:has-text(\"Delete\")",
+      "empty_state_text": "text=\"No categories have been detected\"",
+      "discovery_loading": "text=\"Discovering Categories\", text=/discovering/i",
+      "discovery_progress_bar": "[role=\"progressbar\"], [class*=\"progress-bar\"]",
+      "review_prompts_btn": "button:has-text(\"Review Prompt\")",
+      "_figma_cta_note": "Figma 02_Step_2: CTA is 'Review Prompt' (SINGULAR) — NOT 'Review Prompts'. preferred_fix: data-testid=\"review-prompts-btn\"",
+      "back_btn": "button:has-text(\"Back\")",
+      "category_quota_msg": "[class*=\"notification\"], [class*=\"banner\"], [role=\"alert\"]:has-text(\"limit\")",
+      "preferred_fix": "data-testid=\"category-row\", data-testid=\"ai-badge\", data-testid=\"review-prompts-btn\""
+    },
+    "step3_prompts": {
+      "heading": "h1:has-text(\"Prompts\"), h2:has-text(\"Prompts\")",
+      "subtitle": "text=\"Questions about Brand Perception & Category Analysis\", text=/Brand Perception/i",
+      "market_tabs": "[role=\"tablist\"] [role=\"tab\"]",
+      "sub_tab_competitive": "[role=\"tab\"]:has-text(\"Competitive Analysis\")",
+      "sub_tab_brand_image": "[role=\"tab\"]:has-text(\"Brand Image\")",
+      "category_accordion": "[data-testid*=\"category\"], [class*=\"accordion\"]",
+      "question_row": "[data-testid*=\"question\"], [class*=\"question-row\"]",
+      "edit_pencil_btn": "button[aria-label*=\"edit\" i], button:has(svg[class*=\"pencil\"])",
+      "inline_edit_input": "input[placeholder*=\"question\" i], textarea[placeholder*=\"question\" i], [contenteditable=\"true\"]",
+      "question_delete_btn": "button[aria-label*=\"delete\" i]:not(:has-text(\"category\"))",
+      "question_counter": "[class*=\"badge\"]:has-text(\"Prompts\"), [class*=\"count\"]:has-text(\"Prompts\")",
+      "category_reset_btn": "button:has-text(\"Reset\")",
+      "add_prompt_btn": "button:has-text(\"Add Prompt\"), button:has-text(\"Add Question\")",
+      "undo_toast": "[role=\"status\"]:has-text(\"Undo\"), button:has-text(\"Undo\")",
+      "loading_text": "text=\"Generating questions\", text=/generating/i",
+      "invalid_error": "[class*=\"error\"]:has-text(\"invalid\"), [aria-invalid=\"true\"]",
+      "competitive_banner": ":has-text(\"Competitors will be automatically detected\")",
+      "competitor_placeholder": "text=\"Competitor 1\", [class*=\"placeholder\"]:has-text(\"Competitor\")",
+      "competitor_badge_style": "bg-slate-200 text-slate-600 text-[12px] px-1.5 py-0.5 rounded",
+      "_competitive_banner_exact": "Competitors will be automatically detected from AI visibility results during analysis. The placeholder names shown below will be replaced with the top brands discovered by AI.",
+      "preferred_fix": "data-testid=\"question-row\", data-testid=\"edit-question-btn\""
+    },
+    "step4_review": {
+      "ready_heading": "h1:has-text(\"Ready to analyze\"), h2:has-text(\"Ready to analyze\")",
+      "_figma_heading": "Figma 04_Step_4: 'Ready to analyze Tesla' — brand name is dynamic",
+      "subtitle": "text=\"Configure your multi-market brand analysis\", :has-text(\"multi-market brand analysis\")",
+      "summary_card_markets": "[class*=\"card\"]:has-text(\"Markets\"), :has-text(\"Markets\"):has(:is([class*=\"number\"],[class*=\"count\"]))",
+      "summary_card_categories": "[class*=\"card\"]:has-text(\"Categories\")",
+      "summary_card_total_prompts": "[class*=\"card\"]:has-text(\"Total Prompts\")",
+      "_figma_summary_cards": "Figma 04_Step_4: 3 summary cards — '3 Markets', '6 Categories', '381 Total Prompts'",
+      "llm_section_title": "text=\"What AI engines are you considering?\", text=\"What LLM Engines are you considering?\"",
+      "_figma_llm_section": "Figma 04_Step_4: section heading 'What LLM Engines are you considering?' with 5 cards (ChatGPT, Gemini, Grok, Claude, Preplexity)",
+      "_figma_llm_note": "Figma shows 'Preplexity' (not 'Perplexity') — use both in selector for safety",
+      "llm_toggle": "[role=\"switch\"], input[type=\"checkbox\"][aria-label*=\"LLM\" i]",
+      "web_search_checkbox": "input[type=\"checkbox\"][aria-label*=\"web\" i], [data-testid*=\"web-search\"] input, label:has-text(\"Web search\") input",
+      "_web_search_note": "Per updated GEO-89 AC2: each LLM card has a 'Web search' checkbox. Required in spec GEO-89-TC002 (UPDATE).",
+      "llm_quota_banner": "text=\"You have reached the maximum number of AI engines you can enable\"",
+      "review_launch_btn": "button:has-text(\"Review & Launch\")",
+      "back_btn": "button:has-text(\"Back\")",
+      "discard_modal": "[role=\"dialog\"]:has-text(\"Discard\")",
+      "preferred_fix": "data-testid=\"summary-card\", data-testid=\"web-search-checkbox\", data-testid=\"llm-toggle\""
+    }
+  },
+  "brand_prioritization_analysis": {
+    "_spec": ".claude/Data/raw/playwright/category-brand-prioritization-analysis.spec.js",
+    "_page": "Category View — Performance tab — Brand Prioritization Matrix",
+    "_url": "/dashboard/edfe97e0-e55f-404c-99a4-0436af8524a1/category/0ee96af2-3e87-49a6-bc0d-8b42594b8715",
+    "_story": "GEO-69",
+    "_dom_inspection_date": "2026-05-07",
+    "performance_tab": "[role=\"tab\"]:has-text(\"Performance\")",
+    "matrix_heading": "h3:has-text(\"Brand Prioritization\")",
+    "_note_heading": "Heading is 'Brand Prioritization' — NOT 'Category Prioritization' (blueprint was incorrect)",
+    "matrix_wrapper": ".recharts-wrapper",
+    "matrix_data_point": "svg circle[r]",
+    "_note_data_point": "15 circles in current dataset (includes cluster groups). Most specific: [class*=\"recharts-scatter\"] circle",
+    "matrix_scatter": "[class*=\"recharts-scatter\"]",
+    "_note_scatter_text": "Exposes accessible text: 'Brand — SOV X%, win rate Y%' — used as tooltip proxy in headless",
+    "matrix_empty_state": "p:has-text(\"No data available for the brand prioritization matrix\")",
+    "tooltip": ".recharts-tooltip-wrapper",
+    "_note_tooltip": "Recharts tooltip — may not be visible in headless mode. Use matrix_scatter textContent as proxy.",
+    "quadrant_label": "span:text-is(\"Stars\") | span:text-is(\"Opportunity\") | span:text-is(\"At Risk\") | span:text-is(\"Monitor\")",
+    "_note_quadrant_label": "Each label span count=1. Navigate to locator('../../') for the justify-between row containing count.",
+    "quadrant_card_count": "span.font-semibold (sibling of quadrant label, right side of justify-between row)",
+    "quadrant_cards_container": "div.flex.gap-4.px-6.pb-4",
+    "_note_quadrant_container": "FRAGILE — Tailwind classes. preferred_fix: data-testid=\"quadrant-legend\"",
+    "llm_filter_btn": "button[aria-label=\"LLM engine filters\"]",
+    "_note_llm_filter": "Shows 'LLM Engines 2' on staging (2 active engines). Only filter available on category view.",
+    "llm_enabled_switch": "[data-testid=\"llm-dropdown\"] button[role=\"switch\"]:not([disabled])",
+    "market_filter": null,
+    "_note_market_filter": "NOT present on category view — TC005 skipped. Market filter only available on dashboard overview.",
+    "quadrant_names": [
+      "Stars",
+      "Opportunity",
+      "At Risk",
+      "Monitor"
+    ],
+    "_note_quadrant_colors": {
+      "Stars": "green (rgb 5,150,105)",
+      "Opportunity": "amber (rgb 245,158,11)",
+      "At Risk": "red (rgb 220,38,38)",
+      "Monitor": "slate"
+    }
+  },
+  "category_question_analysis": {
+    "_spec": ".claude/Data/raw/playwright/category-question-analysis.spec.js",
+    "_page": "YSL luxury perfume category — Identity tab — Questions Analysis section",
+    "_url": "/dashboard/6dc13f88-8d0b-4e93-b892-9db064c2be41/category/1cab4f3e-2b03-4037-bf39-ca80616052dc",
+    "llm_filter_btn": "button[aria-label=\"LLM engine filters\"]",
+    "llm_active_badge": "button[aria-label=\"LLM engine filters\"] span",
+    "qa_heading": "span.font-bold:text-is(\"Questions Analysis\"), span:text-is(\"Questions Analysis\")",
+    "type_tab_all": "button:filter(hasText=/^All\\s*\\d/)",
+    "type_tab_visibility": "button:filter(hasText=/^Visibility\\s*\\d/)",
+    "type_tab_competitive": "button:filter(hasText=/^Competitive\\s*\\d/)",
+    "type_tab_perception": "button:filter(hasText=/^Perception\\s*\\d/)",
+    "table_row": "tr[role=\"button\"]",
+    "type_badge": "span.rounded-full.px-2",
+    "market_flag": "span.relative.inline-flex.h-5.w-5",
+    "lost_label": "span.text-slate-400.text-sm",
+    "theme_badge": "span.rounded-full.border.bg-white",
+    "table_footer": "text=/Showing \\d+ of \\d+ questions/",
+    "expanded_row": "tr[aria-expanded=\"true\"]",
+    "expanded_panel": "tr[aria-expanded=\"true\"] + tr",
+    "llm_panel_buttons": "tr[aria-expanded=\"true\"] + tr button",
+    "panel_response": "text=/Response|answer/i",
+    "panel_sentiment": "text=/Sentiment/i",
+    "panel_themes": "text=/Theme|Themes/i",
+    "panel_sources": "text=/Sources|source/i",
+    "panel_ranking": "text=/Rank|Position|ranking/i",
+    "preferred_fix": "data-testid=\"llm-filter-btn\", data-testid=\"question-row\", data-testid=\"question-detail-panel\", data-testid=\"type-badge\""
+  },
+  "create_analysis_markets_llms": {
+    "_spec": ".claude/Data/raw/playwright/create-analysis-markets-llms.spec.js",
+    "_description": "Wizard création Thermomix / 3 marchés (MA/FR, US/EN, FR/FR) + 4 LLMs (Perplexity, Grok, ChatGPT, Gemini)",
+    "brand_input": "[placeholder=\"Add your brand\"], input[aria-label*=\"brand\" i]",
+    "brand_option": "[role=\"option\"]",
+    "country_dropdown": "[placeholder=\"Select a country\"], button:has-text(\"Select a country\")",
+    "lang_dropdown": "[placeholder*=\"language\" i], button[aria-label*=\"language\" i], [data-testid*=\"language\"]",
+    "lang_option": "[role=\"option\"]",
+    "add_market_btn": "button:has-text(\"Add Market\")",
+    "save_market_btn": "button:has-text(\"Save\"), button[aria-label*=\"save\" i]",
+    "discover_categories_btn": "button:has-text(\"Discover Categories\")",
+    "review_prompts_btn": "button:has-text(\"Review Prompts\")",
+    "review_btn": "button:has-text(\"Review\")",
+    "final_launch_btn": "button:has-text(\"Review & Launch\")",
+    "llm_toggle": "[role=\"switch\"]",
+    "llm_toggle_claude": "[role=\"switch\"][aria-label*=\"Claude\" i]",
+    "summary_markets": "main p:text-is(\"Markets\")",
+    "preferred_fix": "data-testid=\"brand-input\", data-testid=\"country-dropdown\", data-testid=\"language-dropdown\", data-testid=\"llm-toggle-claude\""
+  },
+  "geo_dashboard_overview_e2e": {
+    "_page": "Dashboard Overview — /geo/dashboard/:uuid (Chanel dashboard d401e072)",
+    "_note": "Selectors confirmed via DOM inspection 2026-05-07. E2E spec GEO-dashboard-overview.spec.js covers GEO-79, GEO-78, GEO-72, GEO-107.",
+    "_epic_refs": [
+      "GEO-79",
+      "GEO-78",
+      "GEO-72",
+      "GEO-107"
+    ],
+    "_dom_confirmed": {
+      "brand": "Chanel",
+      "kpi_count": "3 visible (Visibility, LLM Choice, Sentiment — all N/A state)",
+      "llm_filter": "button[aria-label=\"LLM engine filters\"] — shows 'LLM Engines2' (ChatGPT + Gemini active)",
+      "market_filter": "NOT PRESENT on overview page",
+      "sidebar": "[data-testid=\"dashboard-sidebar\"] present — Overview (aria-current=page), Categories (expandable), Manage Scope",
+      "categories_sub_items": "luxury handbags, high-end perfumes (href contains /category/)",
+      "perception_heading": "h4:has-text(\"AI Perception Summary\") confirmed visible",
+      "skeletons": "0 (fully loaded)"
+    },
+    "sidebar": {
+      "root": "[data-testid=\"dashboard-sidebar\"]",
+      "overview_active": "a[aria-current=\"page\"]",
+      "categories_btn": "[data-testid=\"dashboard-sidebar\"] button:has-text(\"Categories\")",
+      "manage_scope": "a[href*=\"/manage-scope\"]",
+      "actions_center": "[data-testid=\"dashboard-sidebar\"] a:has-text(\"Actions Center\"), [data-testid=\"dashboard-sidebar\"] button:has-text(\"Actions Center\")",
+      "category_sub_items": "[data-testid=\"dashboard-sidebar\"] a[href*=\"/category/\"]"
+    },
+    "top_bar": {
+      "back_btn": "a:has-text(\"Reports\"), button:has-text(\"Reports\")",
+      "generated_label": "text=Generated",
+      "llm_filter_btn": "button[aria-label=\"LLM engine filters\"]",
+      "llm_switches": "[role=\"switch\"]"
+    },
+    "kpi_cards": {
+      "visibility": "[aria-label*=\"Visibility\"]",
+      "llm_choice": "[aria-label*=\"LLM Choice\"]",
+      "sentiment": "[aria-label*=\"Sentiment\"]",
+      "na_state": "[aria-label*=\"not available\"]",
+      "note": "All 3 KPI cards show N/A state on this dashboard (no data available). aria-labels confirmed: 'Visibility: not available', 'LLM Choice: not available', 'Sentiment: not available'."
+    },
+    "perception_summary": {
+      "heading": "h4:has-text(\"AI Perception Summary\")",
+      "note": "h4 tag confirmed (not h3). Present on overview page."
+    }
+  },
+  "sov_mention_density": {
+    "_spec": ".claude/Data/raw/playwright/test-suite-epic257.spec.js",
+    "_page": "Dashboard Overview — /geo/dashboard/:uuid",
+    "_epic": "GEO-257",
+    "_stories": [
+      "GEO-296",
+      "GEO-297",
+      "GEO-298",
+      "GEO-264",
+      "GEO-299",
+      "GEO-300"
+    ],
+    "_note": "Selectors for the SOV Mention-Density Reformulation epic. KPI card selectors use aria-label patterns. Quality pill selectors use Tailwind class patterns — preferred_fix: data-testid.",
+    "_generated": "2026-05-14",
+    "kpi_card_sov": {
+      "selector": "div[aria-label*=\"Share of Voice\"], [aria-label*=\"Share of Voice\"]",
+      "preferred_fix": "data-testid=\"kpi-card-sov\"",
+      "_note": "SOV KPI card — aria-label includes current value e.g. 'Share of Voice: 19.30%'"
+    },
+    "kpi_card_visibility": {
+      "selector": "div[aria-label*=\"Visibility\"]",
+      "preferred_fix": "data-testid=\"kpi-card-visibility\""
+    },
+    "kpi_card_avg_position": {
+      "selector": "div[aria-label*=\"Avg Position\"]",
+      "preferred_fix": "data-testid=\"kpi-card-avg-position\""
+    },
+    "kpi_card_llm_choice": {
+      "selector": "div[aria-label*=\"AI Choice\"], div[aria-label*=\"LLM Choice\"]",
+      "preferred_fix": "data-testid=\"kpi-card-llm-choice\""
+    },
+    "kpi_card_sentiment": {
+      "selector": "div[aria-label*=\"Sentiment\"]",
+      "preferred_fix": "data-testid=\"kpi-card-sentiment\""
+    },
+    "kpi_value_text": {
+      "selector": "p.font-medium.text-\\[20px\\] (inside KPI card)",
+      "_note": "Large font paragraph containing the numeric KPI value or N/A",
+      "preferred_fix": "data-testid=\"kpi-value\""
+    },
+    "quality_pill_dot": {
+      "selector": "span.h-2.w-2.rounded-full, span[class*=\"rounded-full\"][class*=\"w-2\"], span[class*=\"dot\"]",
+      "preferred_fix": "data-testid=\"quality-dot\"",
+      "_note": "FRAGILE — Tailwind classes. Color classes: green/emerald (GOOD), amber/yellow (FAIR), red/rose (POOR)."
+    },
+    "quality_pill_label": {
+      "selector": "span.text-\\[10px\\] (sibling of dot, inside KPI card)",
+      "known_values_sov": [
+        "GOOD",
+        "FAIR",
+        "POOR"
+      ],
+      "known_values_sentiment": [
+        "Positive",
+        "Neutral",
+        "Negative"
+      ],
+      "preferred_fix": "data-testid=\"quality-label\"",
+      "_note": "FRAGILE — Tailwind class. Update once data-testid added."
+    },
+    "quality_thresholds_sov": {
+      "GOOD": "> 25%",
+      "FAIR": "15% to 25% inclusive",
+      "POOR": "< 15%",
+      "NA": "no pill displayed",
+      "_note": "New thresholds from GEO-297 (was 50/25 in old formula)"
+    },
+    "sov_tooltip_trigger": {
+      "selector": "div[aria-label*=\"Share of Voice\"] button, div[aria-label*=\"Share of Voice\"] [data-testid*=\"info\"]",
+      "_note": "Info (i) button inside SOV KPI card that triggers Radix tooltip on hover",
+      "preferred_fix": "data-testid=\"kpi-info-btn-sov\""
+    },
+    "tooltip_radix": {
+      "selector": "[role=\"tooltip\"]",
+      "_note": "Radix UI tooltip — appears on hover, verify with .isVisible() + textContent assertion",
+      "expected_text_en": "Share of ranked mentions",
+      "expected_text_fr": "Part des mentions classées"
+    },
+    "brand_rankings_sov_header": {
+      "selector": "th:has-text(\"SOV\"), th:has-text(\"SOV %\")",
+      "_note": "SOV % column header in Brand Rankings table — hovering must trigger the same tooltip as the KPI card",
+      "preferred_fix": "data-testid=\"th-sov\""
+    },
+    "prioritization_matrix_heading": {
+      "selector": "h3:has-text(\"Category Prioritization\"), h3:has-text(\"Brand Prioritization\")",
+      "_note": "Either Category or Brand Prioritization Matrix. Recharts scatter chart."
+    },
+    "matrix_scatter_svg": {
+      "selector": ".recharts-wrapper svg, .recharts-scatter",
+      "_note": "Recharts SVG container for the scatter chart"
+    },
+    "matrix_x_axis_tick_25": {
+      "selector": "text=\"25\"",
+      "_note": "X-axis tick mark at 25% SOV — the vertical boundary between STARS/AT_RISK and OPPORTUNITY/MONITOR quadrants. Old formula placed this at 50%.",
+      "preferred_fix": "data-testid=\"x-axis-tick-25\""
+    },
+    "quadrant_labels": {
+      "stars": "div:has-text(\"Stars\"), div:has-text(\"STARS\"), span:text-is(\"Stars\")",
+      "opportunity": "div:has-text(\"Opportunity\"), div:has-text(\"OPPORTUNITY\"), span:text-is(\"Opportunity\")",
+      "at_risk": "div:has-text(\"At Risk\"), div:has-text(\"AT_RISK\"), span:text-is(\"At Risk\")",
+      "monitor": "div:has-text(\"Monitor\"), div:has-text(\"MONITOR\"), span:text-is(\"Monitor\")",
+      "_note": "4 quadrant legend cards — each must be visible when matrix is rendered"
+    },
+    "quadrant_description_sov_en": {
+      "selector": "text=/High SOV|Low SOV/i",
+      "_note": "EN locale — quadrant description cards must use 'High SOV'/'Low SOV' (not 'High Visibility')"
+    },
+    "quadrant_description_sov_fr": {
+      "selector": "text=/SOV.*elev|SOV.*faible|elevee.*SOV/i",
+      "_note": "FR locale — quadrant description cards must use 'SOV élevée'/'SOV faible'"
+    },
+    "executive_summary_section": {
+      "selector": "[class*=\"executive-summary\"], [data-testid=\"executive-summary\"], section:has(h2:has-text(\"Executive Summary\")), div:has(h2:has-text(\"Executive Summary\"))",
+      "_note": "Executive Summary narrative section. Must contain 'Share of Voice'/'SOV' (new formula) — not 'position-weighted'.",
+      "preferred_fix": "data-testid=\"executive-summary-section\"",
+      "_warning": "[class*='executive-summary'] is known-broken for epic102 dashboard — use data-testid or heading fallback"
+    },
+    "na_value_display": {
+      "selector": "text=/N\\/A/",
+      "_note": "N/A display for uncalculable KPI metrics — must appear without quality pill when denominator is 0"
+    }
+  },
+  "geo_analytics_dashboard": {
+    "_source": "geo-analytics-dashboard.spec.js (GEO-95)",
+    "_note": "Selectors for the GEO Analytics Dashboard reports list page (BASE_URL /geo)",
+    "pageTitle": "h1:has-text(\"GEO Analytics Dashboard\")",
+    "pageSubtitle": "p:has-text(\"Monitor your brand's presence across AI engines\"), span:has-text(\"Monitor your brand's presence across AI engines\")",
+    "newAnalysisBtn": "button:has-text(\"New Analysis\"), a:has-text(\"New Analysis\")",
+    "table": "table",
+    "tableRows": "table tbody tr",
+    "tableHead": "table thead th",
+    "statCardLabels": [
+      "COUNTRIES",
+      "CATEGORIES",
+      "COMPETITORS",
+      "Analysis",
+      "PROMPTS",
+      "SOURCES"
+    ],
+    "tableColumns": [
+      "Brand",
+      "Countries",
+      "Categories",
+      "Last update",
+      "Actions"
+    ]
+  },
+  "upsell_page": {
+    "_page": "Upsell Measure Page — PQL page for non-subscribed users",
+    "_note": "Selectors added from hubspot-upsell-pql.spec.js (2026-05-20). Story GEO-237. Fallback patterns — validate with DOM inspection and update to data-testid once available.",
+    "_story_ref": "GEO-237",
+    "speak_to_us_button": {
+      "selector": "button:has-text(\"Speak to Us\")",
+      "count_note": "5 instances on the upsell Measure page",
+      "preferred_fix": "data-testid=\"speak-to-us-btn\""
+    },
+    "see_it_in_action_modal": {
+      "modal_root": "[role=\"dialog\"]:has-text(\"See it in action\")",
+      "title": "[role=\"dialog\"] p:has-text(\"See it in action\"), [role=\"dialog\"] h2:has-text(\"See it in action\"), [role=\"dialog\"] span:has-text(\"See it in action\")",
+      "description": "[role=\"dialog\"] p:has-text(\"One of our specialists will reach out\"), [role=\"dialog\"] span:has-text(\"One of our specialists will reach out\")",
+      "checkbox": "[role=\"dialog\"] input[type=\"checkbox\"]",
+      "confirm_button": "[role=\"dialog\"] button:has-text(\"Confirm\")",
+      "close_button": "[role=\"dialog\"] button[aria-label=\"Close\"], [role=\"dialog\"] button[aria-label=\"close\"], [role=\"dialog\"] [data-testid=\"modal-close\"]",
+      "note": "SeeItInActionModal — GEO-237 AC10-AC13. Container is [role=dialog] (Radix). Cookie consent required or JitBridgeModal appears instead. Amendment 2026-05-13.",
+      "preferred_fix": "data-testid=\"see-it-in-action-modal\""
+    },
+    "jit_bridge_modal": {
+      "modal_root": "[role=\"dialog\"]:has-text(\"Ready to chat\")",
+      "enable_button": "[role=\"dialog\"] button:has-text(\"Enable support\")",
+      "private_button": "[role=\"dialog\"] button:has-text(\"I'd still like to stay private\")",
+      "note": "JitBridgeModal — appears when areFunctionalCookiesEnabled=false (cookies not accepted). Heading: 'Ready to chat?'. Requires cookie acceptance before SeeItInActionModal can appear.",
+      "preferred_fix": "data-testid=\"jit-bridge-modal\""
+    },
+    "privacy_fallback_modal": {
+      "modal_root": "[role=\"dialog\"]:has-text(\"private\"), [role=\"dialog\"]:has-text(\"Privacy\")",
+      "note": "PrivacyFallbackModal — opened when user refuses JIT consent (GEO-237 AC3).",
+      "preferred_fix": "data-testid=\"privacy-fallback-modal\""
+    },
+    "cookie_banner": {
+      "root": "[role=\"dialog\"]:has([data-testid=\"cookie-banner-title\"])",
+      "accept_all_btn": "[data-testid=\"cc-cta-accept\"]",
+      "essential_only_btn": "[data-testid=\"cc-cta-necessary\"]",
+      "manage_prefs_btn": "[data-testid=\"cc-cta-show\"]",
+      "note": "Cookie consent banner. data-testid='cookie-banner' does NOT match root — use cc-cta-accept to accept. dismissCookieBanner() helper does NOT dismiss this banner."
+    }
+  },
+  "cookie_consent": {
+    "_page": "Cookie Consent UI — Banner + Preferences Modal + Inventory (Epic GEO-200)",
+    "_note": "Sélecteurs capturés via inspection Playwright sur staging-geo.onclusive.com le 2026-05-22. Tous les sélecteurs sont des data-testid confirmés.",
+    "_story_ref": "GEO-327, GEO-328, GEO-329, GEO-330, GEO-332, GEO-333, GEO-334",
+    "banner": {
+      "root": "[data-testid=\"cookie-banner\"]",
+      "title": "[data-testid=\"cookie-banner-title\"]",
+      "subtitle": "[data-testid=\"cookie-banner-subtitle\"]",
+      "description": "[data-testid=\"cookie-banner-desc\"]",
+      "actions_container": "[data-testid=\"cookie-banner-actions\"]",
+      "accept_all_btn": "[data-testid=\"cc-cta-accept\"]",
+      "essential_only_btn": "[data-testid=\"cc-cta-necessary\"]",
+      "manage_prefs_btn": "[data-testid=\"cc-cta-show\"]",
+      "_text_confirm": {
+        "title_text": "Cookie Preferences",
+        "subtitle_text": "Your privacy matters",
+        "accept_all_text": "Accept All",
+        "essential_only_text": "Essential Only",
+        "manage_prefs_text": "Manage preferences"
+      }
+    },
+    "preferences_modal": {
+      "root": "[data-testid=\"cookie-preferences-modal\"]",
+      "overlay": "[data-testid=\"cookie-preferences-overlay\"]",
+      "close_btn": "[data-testid=\"cookie-preferences-close\"]",
+      "body": "[data-testid=\"cookie-preferences-body\"]",
+      "intro": "[data-testid=\"cookie-preferences-intro\"]",
+      "sections_container": "[data-testid=\"cookie-preferences-sections\"]",
+      "section_essential": "[data-testid=\"cookie-preferences-section-necessary\"]",
+      "badge_always_on": "[data-testid=\"cookie-preferences-badge-necessary\"]",
+      "section_functional": "[data-testid=\"cookie-preferences-section-functional-support\"]",
+      "section_analytics": "[data-testid=\"cookie-preferences-section-analytics\"]",
+      "toggle_functional": "[role=\"switch\"][aria-label=\"Toggle Functional & Support cookies\"]",
+      "toggle_analytics": "[role=\"switch\"][aria-label=\"Toggle Analytics cookies\"]",
+      "footer": "[data-testid=\"cookie-preferences-footer\"]",
+      "accept_all_btn": "[data-testid=\"cc-pref-cta-accept-all\"]",
+      "cancel_btn": "[data-testid=\"cc-pref-cta-cancel\"]",
+      "save_btn": "[data-testid=\"cc-pref-cta-save\"]",
+      "_text_confirm": {
+        "title_text": "Cookie settings",
+        "accept_all_text": "Accept all cookies",
+        "cancel_text": "Cancel",
+        "save_text": "Save Preferences",
+        "always_on_badge_text": "ALWAYS ON"
+      },
+      "_note_overlay": "Clic sur overlay ne ferme PAS la modal (PM decision — onPointerDownOutside.preventDefault())"
+    },
+    "cookie_inventory": {
+      "grid_essential": "[data-testid=\"cookie-settings-grid-necessary\"]",
+      "grid_functional": "[data-testid=\"cookie-settings-grid-functional-support\"]",
+      "grid_analytics": "[data-testid=\"cookie-settings-grid-analytics\"]",
+      "badge_inactive": "[data-testid*=\"cookie-settings-badge-inactive\"]",
+      "_essential_rows": [
+        "APP_TOKEN",
+        "GEO_OAUTH_REQ",
+        "cc_cookie"
+      ],
+      "_functional_rows": [
+        "intercom-session-*",
+        "intercom-id-*",
+        "hubspot-*"
+      ],
+      "_analytics_rows": [
+        "fs_uid"
+      ]
+    },
+    "sidebar_help": {
+      "sidebar_root": "[data-testid=\"main-sidebar\"]",
+      "help_button": "[data-testid=\"main-sidebar\"] button:has-text(\"Help\")",
+      "_note": "Le bouton Help na pas de data-testid propre. preferred_fix: data-testid=\"sidebar-help-btn\"",
+      "preferred_fix": "data-testid=\"sidebar-help-btn\""
+    }
+  },
+  "sov_card": {
+    "_meta": {
+      "epic": "GEO-640",
+      "stories": ["GEO-663", "GEO-664"],
+      "spec": "geo-640-e2e.spec.js",
+      "inspected": "2026-06-18",
+      "dashboard_url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+      "category_url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4"
+    },
+    "kpi_row": {
+      "_description": "4 KPI cards in the Performance section — no SOV KPI card after GEO-640 refactoring",
+      "kpi_card_visibility":  "[data-testid=\"kpi-card-visibility\"]",
+      "kpi_card_avg_position": "[data-testid=\"kpi-card-avgPosition\"]",
+      "kpi_card_win_rate":    "[data-testid=\"kpi-card-winRate\"]",
+      "kpi_card_sentiment":   "[data-testid=\"kpi-card-sentiment\"]",
+      "kpi_label_prefix":     "[data-testid^=\"kpi-card-label-\"]",
+      "kpi_value_prefix":     "[data-testid^=\"kpi-card-value-\"]",
+      "_note": "Pas de data-testid kpi-card-shareOfVoice — SOV retiré du KPI row dans GEO-640"
+    },
+    "sov_dedicated_card": {
+      "_description": "Dedicated SOV card below KPI row in the Performance section (both Overview and Category views)",
+      "sov_heading":  "h3:has-text(\"Share of Voice\"), h2:has-text(\"Share of Voice\")",
+      "sov_subtitle": "text=By brand, your brand is highlighted",
+      "sov_empty":    "text=No data to show",
+      "sov_error":    "text=Couldn't load this chart",
+      "sov_chart_svg": "h3:has-text(\"Share of Voice\") ~ * svg, h2:has-text(\"Share of Voice\") ~ * svg",
+      "_note": "Pas de data-testid dédié pour la SOV card — sélection par heading h3. preferred_fix: data-testid=\"sov-card\"",
+      "preferred_fix": "data-testid=\"sov-card\""
+    },
+    "brand_rankings": {
+      "rankings_empty": "[data-testid=\"dashboard-rankings-empty\"]",
+      "rankings_error": "[data-testid=\"dashboard-rankings-error\"]",
+      "rankings_retry": "[data-testid=\"dashboard-rankings-error-retry-btn\"]",
+      "_note": "Pas de colonne SoV% dans le tableau Brand Rankings après GEO-640 refactoring"
+    },
+    "filters": {
+      "llm_dropdown_trigger": "[data-testid=\"llm-dropdown-trigger\"]",
+      "llm_dropdown":         "[data-testid=\"llm-dropdown\"]",
+      "llm_switch":           "[data-testid=\"llm-dropdown\"] [role=\"switch\"]",
+      "llm_count":            5,
+      "llm_labels":           ["ChatGPT", "Gemini", "Grok", "Claude", "Perplexity"],
+      "market_dropdown_trigger": "[data-testid=\"market-dropdown-trigger\"]",
+      "market_option":        "[role=\"option\"]",
+      "market_options_staging": ["All Countries", "United States - English", "France - French", "Spain - Spanish"]
+    },
+    "navigation": {
+      "snapshot_navigator":   "[data-testid=\"snapshot-navigator\"]",
+      "snapshot_trigger":     "[data-testid=\"snapshot-navigator-trigger\"]",
+      "tab_identity":         "[data-testid=\"dashboard-section-tab-identity\"]",
+      "tab_performance":      "[data-testid=\"dashboard-section-tab-performance\"]",
+      "tab_sources":          "[data-testid=\"dashboard-section-tab-sources\"]",
+      "category_back_btn":    "[data-testid=\"views-category-back-btn\"]",
+      "category_breadcrumb":  "[data-testid=\"views-category-breadcrumb\"]"
+    }
+  },
+
+  "questions_detail_panel": {
+    "_spec": "e2e-category-questions-detail.spec.js",
+    "_validated": "2026-06-25 on staging-geo.onclusive.com (Toyota dashboard)",
+    "_feature": "EPIC-27 / GEO-716 / GEO-717 — Per-engine favorability tiers in detail panel",
+
+    "panel_close": "button[aria-label=\"Fermer le volet de détails\"], button[aria-label=\"Close detail panel\"]",
+    "_note_close": "Multi-language selector: French staging + English prod",
+
+    "llm_buttons": {
+      "_note": "LLM engine selector buttons inside the detail panel — show rank text (#1, #--) for Vis/Comp, empty for Perception",
+      "chatgpt":    "button[aria-label=\"ChatGPT\"]",
+      "gemini":     "button[aria-label=\"Gemini\"]",
+      "grok":       "button[aria-label=\"Grok\"]",
+      "perplexity": "button[aria-label=\"Perplexity\"]",
+      "claude":     "button[aria-label=\"Claude\"]"
+    },
+
+    "winner_column_badges": {
+      "_note": "Badges in the 3rd column (td[2]) of questions table rows",
+      "split_partagé": "span[class*=\"border-orange-200\"]",
+      "_note_split": "Orange bg-orange-50/text-orange-700. Text = 'Partagé' (FR) or 'Split' (EN)",
+      "absent_dash":   "span.text-slate-400",
+      "_note_absent":  "Text = '—'. Brand not ranked in any LLM for this question",
+      "brand_won":     "div.flex.items-center.gap-2 span.font-medium.text-slate-900",
+      "_note_won_row": "Brand favicon + name. No 'You' badge yet on staging (2026-06-25)"
+    },
+
+    "visibility_favorability_badges": {
+      "_note": "span inside the favorability card in the detail panel — Visibility questions only",
+      "favorable":   "span.rounded-full.px-3.py-1.font-semibold.text-sm.text-green-600",
+      "_note_fav":   "Green. Rank #1-3. Text = 'Favorable'",
+      "unfavorable": "span.rounded-full.px-3.py-1.font-semibold.text-sm.text-amber-600",
+      "_note_unfav": "Amber. Rank #4-10. Text = 'Unfavorable'. NOT validated on staging (no data).",
+      "unranked":    "span.rounded-full.px-3.py-1.font-semibold.text-sm.text-red-600",
+      "_note_unrank":"Red. Brand absent (#--). Text = 'Unranked'"
+    },
+
+    "competitive_result_cards": {
+      "_note": "Result card in the detail panel — Competitive questions only",
+      "won_card":  "div.bg-green-50.border-green-200",
+      "_note_won": "Contains p.font-bold.text-3xl.leading-tight.text-green-600 with text 'Gagné' (FR) or 'Won' (EN)",
+      "lost_card": "div.bg-red-50.border-red-200",
+      "_note_lost":"Contains p.font-bold.text-3xl with text 'Perdu' (FR) or 'Lost' (EN). NOT validated on staging (Toyota always wins).",
+      "about_section": ":text(\"À PROPOS\"), :text(\"About\")",
+      "_note_about": "Section shown when brand Won. Appears below the Won card."
+    },
+
+    "perception_sentiment_cards": {
+      "_note": "Sentiment card in the detail panel — Perception questions only. No rank badges.",
+      "positive_card":  "div.bg-emerald-50",
+      "_note_positive": "Contains span.font-semibold.text-[12px].leading-4 with text 'Positive'",
+      "neutral_card":   "div[class*=\"bg-amber-50\"]",
+      "_note_neutral":  "Contains 'Mixed' or 'Neutral' text. Unverified on staging.",
+      "negative_card":  "div.bg-red-50",
+      "_note_negative": "Contains 'Negative' or 'Négatif' text. Unverified on staging (Toyota is positive).",
+      "sentiment_heading": ":text(\"SENTIMENT\")",
+      "themes_section":    ":text(\"THEMES\"), :text(\"Thèmes\")",
+      "response_section":  ":text(\"RESPONSE\"), :text(\"RÉPONSE\")"
+    },
+
+    "preferred_fix": {
+      "_note": "Request data-testid attributes from dev team to replace class-based selectors",
+      "favorability_badge": "data-testid=\"favorability-badge\"",
+      "won_lost_card":      "data-testid=\"competitive-result-card\"",
+      "sentiment_card":     "data-testid=\"perception-sentiment-card\"",
+      "panel_close":        "data-testid=\"detail-panel-close\""
+    }
+  },
+
+  "visibility_winner_panel": {
+    "_note": "Selectors for e2e-category-question-visibility.spec.js — validated/corrected 2026-07-01 on staging",
+    "_source": ".claude/Data/raw/playwright/e2e-category-question-visibility.spec.js",
+    "_multi_category_note": "Split/Unranked/competitor rows are not guaranteed in every category. Spec searches across Hybrid → SUVs → Electric Cars in order.",
+
+    "winner_column": {
+      "_note": "Column 3 (td:nth-child(3)) of each Visibility question row — 4 possible states",
+      "brand_name":      "td:nth-child(3) span.font-medium.text-slate-900",
+      "_note_brand":     "Bold dark-slate span — shown when brand is #1 in all engines (Favorable). Actual class: 'font-medium text-slate-900 text-sm leading-5' — dot-notation still works with extra classes.",
+      "competitor_name": "td:nth-child(3) span.text-slate-700",
+      "_note_competitor":"Lighter span — shown when a competitor is #1 in all engines (brand is Unfavorable or Unranked).",
+      "unranked_badge":  "td:nth-child(3) span[class*=\"border-red-200\"]",
+      "_note_unranked":  "Red badge with text 'Unranked' / 'Non classé' (FR). No data-testid — class-based selector required. WRONG: span[data-testid='dashboard-questions-favorability-badge'].border-red-200 (testid absent in Hybrid Cars).",
+      "split_badge":     "td:nth-child(3) span[class*=\"border-orange-200\"]",
+      "_note_split":     "Orange badge with text 'Split' / 'Partagé' (FR). No data-testid — class-based selector required. WRONG: span[data-testid='dashboard-questions-favorability-badge'].border-orange-200 (testid absent)."
+    },
+
+    "panel_containers": {
+      "detail_panel":        "[data-testid=\"question-detail-panel\"]",
+      "_note_panel":         "Outer container for all panel content. Confirmed stable data-testid.",
+      "llm_responses":       "[data-testid=\"question-detail-llm-responses\"]",
+      "_note_responses":     "Section containing per-engine favorability cards. Scope badge assertions here to avoid false positives from page-level elements."
+    },
+
+    "per_engine_badges": {
+      "_note": "Scoped to [data-testid='question-detail-llm-responses'] for accuracy",
+      "favorable":   "[data-testid=\"question-detail-llm-responses\"] span.rounded-full.text-green-600",
+      "unfavorable": "[data-testid=\"question-detail-llm-responses\"] span.rounded-full.text-amber-600",
+      "unranked":    "[data-testid=\"question-detail-llm-responses\"] span.rounded-full.text-red-600"
+    },
+
+    "ranking_list": {
+      "item":        "[data-testid=\"question-detail-panel\"] li.flex.items-center.gap-2.rounded-lg",
+      "_note_item":  "Each li contains rank number + competitor name as text. First item = #1 competitor. Text format: '1\\nTesla Model Y'.",
+      "_note_parse": "Extract competitor name: item.textContent().replace(/^\\d+\\s*/, '').trim()"
+    }
+  },
+  "competitive_winner_panel": {
+      "_note": "Selectors for e2e-category-question-competitive.spec.js — validated 2026-07-01 on staging",
+      "_source": ".claude/Data/raw/playwright/e2e-category-question-competitive.spec.js",
+      "_data_map": "Brand winner: Hybrid Cars (all 40 rows). Competitor (Tesla): Electric Cars (8 rows). Lost plain: Electric Cars (31 rows). Split: SUVs (10 rows).",
+      "winner_column": {
+          "_note": "Column 3 (td:nth-child(3)) of each Competitive question row — 4 possible states. Data-testid NOT present on winner cells.",
+          "brand_name": "td:nth-child(3) span.font-medium.text-slate-900",
+          "_note_brand": "Bold dark-slate span — shown when brand won in all active LLM engines.",
+          "competitor_name": "td:nth-child(3) span.text-slate-700:not(.font-medium)",
+          "_note_competitor": "Lighter span (not bold) — shown when a specific competitor won in all active engines. Distinct from brand: no font-medium class.",
+          "lost_plain": "td:nth-child(3) span.text-slate-400.text-sm",
+          "_note_lost": "Faded grey plain text 'Lost' / 'Perdu' (FR) — no badge border. Brand lost but no single consensus competitor across all engines.",
+          "split_badge": "td:nth-child(3) span[class*=\"border-orange-200\"]",
+          "_note_split": "Orange badge with text 'Split' / 'Partagé' (FR) — mixed Won/Lost per engine. No data-testid."
+      },
+      "panel_containers": {
+          "_note": "Identical data-testids as Visibility panel — shared component.",
+          "detail_panel": "[data-testid=\"question-detail-panel\"]",
+          "llm_responses": "[data-testid=\"question-detail-llm-responses\"]",
+          "close_button": "button[aria-label=\"Close detail panel\"]",
+          "close_btn_fr": "button[aria-label=\"Fermer le volet de détails\"]",
+          "close_testid": "[data-testid=\"question-detail-close-btn\"]"
+      },
+      "per_engine_badges": {
+          "_note": "Competitive badges use colored divs with p.font-bold text, NOT span.rounded-full (which is Visibility-only)",
+          "won_div": ".rounded-lg.border.p-3.bg-green-50.border-green-200",
+          "lost_div": ".rounded-lg.border.p-3.bg-red-50.border-red-200",
+          "won_text_selector": "[data-testid=\"question-detail-llm-responses\"] .bg-green-50.border-green-200 p.font-bold",
+          "lost_text_selector": "[data-testid=\"question-detail-llm-responses\"] .bg-red-50.border-red-200 p.font-bold",
+          "engine_pills": "button[aria-label=\"ChatGPT\"], button[aria-label=\"Gemini\"], button[aria-label=\"Grok\"], button[aria-label=\"Perplexity\"]"
+      }
+  }
+}

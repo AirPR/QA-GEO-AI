@@ -1,0 +1,1190 @@
+{
+  "spec": "GEO-152-GEO1168-mcp",
+  "runDate": "2026-10-01",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "environment": "staging",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+  "csv": ".claude/Data/output/csv/GEO-R1.2/testcases-coverage-storyGEO-1168.csv",
+  "summary": {
+    "total": 29,
+    "pass": 15,
+    "fail": 3,
+    "skip": 3,
+    "partial": 8,
+    "successRate": 73.1,
+    "successRateAllTcs": 65.5,
+    "verdict": "CONDITIONAL",
+    "formula": "(pass + 0.5*partial) / (total - skip)"
+  },
+  "dataMapping": {
+    "Source B (both badges)": "frandroid.com (#1, 39 missing / 5 negative, Journalism)",
+    "Source V (visibility only)": "zonebourse.com (#2, 23 missing / 0 negative, Journalism)",
+    "Source P (perception only)": "trustpilot.com (#12, 0 missing / 10 negative, Review Sites)",
+    "Source S (1 missing / 1 negative, TC-023..025)": "consumerreports.org (#66)",
+    "Source S (2 missing / 1 negative, TC-022)": "autonext.co (#54)",
+    "Category C1": "Voitures hybrides (49 sources; frandroid.com recalculated to 2/2)",
+    "Category C2": "VUS / Voitures electriques (not needed: TC-016 not reproducible)",
+    "Type Journalism": "Journalism (155 in All; 10 in C1 + IMPROVE PERCEPTION)",
+    "Type Forum": "No \"Forum\" type on staging; closest = \"Social / UGC\"",
+    "Analysis with exactly 12 sources": "Toyota + Type \"Other (12)\"",
+    "Analysis with 20 sources": "Toyota ALL tab, 261 sources",
+    "All-clear analysis": "BYD 76aad462-a33f-4bdb-a925-2c1533e97a53 with AI Engines = Gemini only",
+    "Verifying-state analysis": "none available (all 5 QA-GEO analyses completed)"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1168-001",
+      "title": "Visibility-only source panel shows only the Lack of visibility tab",
+      "story_id": "GEO-1168",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-001_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-001_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "And source V shows only the Improve visibility badge",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source V",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only the \"Lack of visibility (N)\" tab is displayed",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Source V = zonebourse.com (#2, IMPROVE VISIBILITY only, card \"Not visible in 23 articles\"). Panel \"Details of zonebourse.com\": exactly 1 tab, \"Not visible in 23 articles\" (selected), no negative tab. 10 rows + \"Show 13 more articles\" = 23 rows. Tab label wording: CSV/AC expects \"Lack of visibility (N)\" / \"Negative perception (N)\"; the app shows \"Not visible in N articles\" / \"Negative perception in N articles\" (same strings as the card lines). The story says the tab labels follow GEO-1178 (flagged ambiguity, GEO-1178 not accessible) - label not confirmed, so the verdict is PARTIAL rather than PASS.",
+      "description": "Verify that the details panel of a source with only the Improve visibility badge shows only the \"Lack of visibility (N)\" tab. Covers AC-1."
+    },
+    {
+      "tc_id": "TC-GEO-1168-002",
+      "title": "Perception-only source panel shows only the Negative perception tab",
+      "story_id": "GEO-1168",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-002_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-002_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "And source P shows only the Improve perception badge",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source P",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only the \"Negative perception (N)\" tab is displayed",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Source P = trustpilot.com (#12, IMPROVE PERCEPTION only, card \"Negative perception in 10 articles\"). Panel: exactly 1 tab, \"Negative perception in 10 articles\" (selected), no visibility tab. Tab label wording: CSV/AC expects \"Lack of visibility (N)\" / \"Negative perception (N)\"; the app shows \"Not visible in N articles\" / \"Negative perception in N articles\" (same strings as the card lines). The story says the tab labels follow GEO-1178 (flagged ambiguity, GEO-1178 not accessible) - label not confirmed, so the verdict is PARTIAL rather than PASS.",
+      "description": "Verify that the details panel of a source with only the Improve perception badge shows only the \"Negative perception (N)\" tab. Covers AC-2."
+    },
+    {
+      "tc_id": "TC-GEO-1168-003",
+      "title": "Two-badge source panel shows both tabs with Lack of visibility first and selected",
+      "story_id": "GEO-1168",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-003_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-003_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "And source B shows both reason badges",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "status": "PASS"
+        },
+        {
+          "title": "Then both article tabs are displayed",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the \"Lack of visibility\" tab is the first tab",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"Lack of visibility\" tab is selected by default",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Source B = frandroid.com (#1, both badges, 39 missing / 5 negative). Panel tabs in order: [\"Not visible in 39 articles\" (aria-selected=true), \"Negative perception in 5 articles\" (aria-selected=false)]. Order and default selection are correct. Tab label wording: CSV/AC expects \"Lack of visibility (N)\" / \"Negative perception (N)\"; the app shows \"Not visible in N articles\" / \"Negative perception in N articles\" (same strings as the card lines). The story says the tab labels follow GEO-1178 (flagged ambiguity, GEO-1178 not accessible) - label not confirmed, so the verdict is PARTIAL rather than PASS.",
+      "description": "Verify that the details panel of a source with both badges shows both tabs, \"Lack of visibility\" first and selected by default. Covers AC-3."
+    },
+    {
+      "tc_id": "TC-GEO-1168-004",
+      "title": "Panel tab counts match the number of article rows",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-004_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-004_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user views the \"Lack of visibility\" tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the number of article rows equals the count in the tab label",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects the \"Negative perception\" tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the number of article rows equals the count in the tab label",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com: tab 1 = 39 rows after expanding every \"Show N more articles\" (39 = label count); tab 2 = 5 rows (5 = label count). No URL overlap between the two tabs. Missing-tab rows all say \"No mention of Toyota anywhere on this page\"; negative-tab rows quote negative statements. Labels observed: \"Not visible in 39 articles\" / \"Negative perception in 5 articles\" (see the GEO-1178 label note on TC-001).",
+      "description": "Verify that each panel tab shows its count and that the count matches the number of article rows listed in the tab. Covers AC-4."
+    },
+    {
+      "tc_id": "TC-GEO-1168-005",
+      "title": "No positive article is shown anywhere in the details panel",
+      "story_id": "GEO-1168",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-005_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-005_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no tab for positive articles is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"Lack of visibility\" tab does not list the positive article",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user selects the \"Negative perception\" tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the \"Negative perception\" tab does not list the positive article",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And no other section of the panel shows the positive article",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "frandroid.com panel: tabs are only \"Not visible in 39 articles\" and \"Negative perception in 5 articles\", with no Positive tab. Sections: header, \"What each page says about Toyota\", \"Prompts associated with this source\", Previous/Next footer. No text matching /positi/ anywhere in the panel. Every row is either \"No mention of Toyota\" (missing) or a negative quote. PARTIAL because there is no reference URL for a known positive article, so the exact check \"positive article URL absent\" could not be run.",
+      "description": "Verify that positive articles are no longer shown anywhere in the details panel (former Positive articles tab removed). Covers AC-5."
+    },
+    {
+      "tc_id": "TC-GEO-1168-006",
+      "title": "Panel tabs are rebuilt when navigating with Previous and Next source",
+      "story_id": "GEO-1168",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-006_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-006_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source B is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Next source",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the tabs are rebuilt for the new source",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user clicks Previous source",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the tabs are rebuilt with both reasons",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Start: #1 frandroid.com with the Negative tab manually selected. \"Next source\" opens #2 zonebourse.com (\"Source 2 of 261\") with a single tab \"Not visible in 23 articles\". \"Previous\" goes back to #1 frandroid.com with both tabs, and the first tab (\"Not visible in 39 articles\") is selected again, so the selection is reset. The footer button reads \"Previous\" (not \"Previous source\"); the next button reads \"Next source\". Tab label wording: CSV/AC expects \"Lack of visibility (N)\" / \"Negative perception (N)\"; the app shows \"Not visible in N articles\" / \"Negative perception in N articles\" (same strings as the card lines). The story says the tab labels follow GEO-1178 (flagged ambiguity, GEO-1178 not accessible) - label not confirmed, so the verdict is PARTIAL rather than PASS.",
+      "description": "Verify that the panel tabs are rebuilt with the same rules for the new source when clicking Previous or Next source. Covers AC-6."
+    },
+    {
+      "tc_id": "TC-GEO-1168-007",
+      "title": "Single-badge source shows one reason line on card and one chip in table",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-007_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-007_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card of source V shows one reason line",
+          "status": "PASS"
+        },
+        {
+          "title": "And the card of source P shows one reason line",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Articles cell of source V shows one chip",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Articles cell of source P shows one chip",
+          "status": "PASS"
+        }
+      ],
+      "notes": "V = zonebourse.com: card lines [\"Not visible in 23 articles\"] only; table chip [actions-table-missing-chip \"23\", bg rgb(219,234,254) / text rgb(29,78,216), icon visibility_off] only. P = trustpilot.com: card [\"Negative perception in 10 articles\"] only; table chip [actions-table-negative-chip \"10\", bg rgb(243,232,255) / text rgb(91,33,182), icon thumb_down] only.",
+      "description": "Verify that a source with only one badge shows a single reason line on its card and a single chip in the Articles cell of the table (chip omitted when its count is 0). Covers AC-7."
+    },
+    {
+      "tc_id": "TC-GEO-1168-008",
+      "title": "Two-badge source shows both lines and badges on card and both chips in table",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-008_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-008_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card of source B shows both reason badges",
+          "status": "PASS"
+        },
+        {
+          "title": "And the card of source B shows both reason lines",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Articles cell of source B shows both chips",
+          "status": "PASS"
+        }
+      ],
+      "notes": "B = frandroid.com: badges IMPROVE VISIBILITY + IMPROVE PERCEPTION; two separate paragraphs \"Not visible in 39 articles\" / \"Negative perception in 5 articles\" (different y positions). Table chips: blue eye-off (visibility_off) 39 + purple thumb-down (thumb_down) 5.",
+      "description": "Verify that a source with both badges shows both reason lines and both badges on its card and both chips in the table. Covers AC-8."
+    },
+    {
+      "tc_id": "TC-GEO-1168-009",
+      "title": "Counts are consistent across card, table chips and panel tabs and drive ranking",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-009_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-009_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card of source B shows its missing and negative counts",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the chips of source B show the same counts as the card",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel tabs show the same counts as the card and the chips",
+          "status": "PASS"
+        },
+        {
+          "title": "And the list is ranked by total article count missing + negative",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com: card 39/5 = chips 39/5 = panel tabs 39/5. Ranking: B total 44 (#1) > V zonebourse 23 (#2) > P trustpilot 10 (#12). Over all 261 rows, missing + negative never increases from one rank to the next (0 ranking violations). Ties exist (e.g. guideautoweb 15 #5 / ouest-france 15 #6; kbb, youtube and largus all at 11). The tie-break rule is not specified; it is noted here, not asserted.",
+      "description": "Verify that for a given source the counts on the card, the table chips and the panel tabs are identical, and that missing + negative is the total used for ranking. Covers AC-9."
+    },
+    {
+      "tc_id": "TC-GEO-1168-010",
+      "title": "Card view with 12 sources or fewer shows all cards without Show more button",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-010_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-010_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects card view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then all the sources are shown as cards",
+          "status": "PASS"
+        },
+        {
+          "title": "And no \"Show X more sources\" button is shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "No default view with exactly 12 sources (ALL = 261). The boundary was reproduced with Type filter \"Other (12)\" (All categories, ALL tab): 12 cards shown, no \"Show X more sources\" button. Note: the Type dropdown label shows the count, \"Other (12)\".",
+      "description": "Verify that with 12 sources or fewer all cards are displayed and no \"Show X more sources\" button is shown (boundary = 12). Covers AC-10."
+    },
+    {
+      "tc_id": "TC-GEO-1168-011",
+      "title": "Card view with more than 12 sources collapses behind Show X more sources",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-011_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-011_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects card view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only the first 12 sources are shown as cards",
+          "status": "PASS"
+        },
+        {
+          "title": "And the collapse button shows the number of remaining sources",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota ALL tab, default filters: 261 sources. 12 cards ranked 1-12 (frandroid.com ... trustpilot.com) + button \"Show 249 more sources\" (261 - 12 = 249). Clicking it shows all the remaining sources.",
+      "description": "Verify that with more than 12 sources only 12 cards are shown and the button reads \"Show X more sources\" with X = total - 12. Covers AC-10."
+    },
+    {
+      "tc_id": "TC-GEO-1168-012",
+      "title": "Table view shows 10 rows before the Show X more sources button",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-012_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-012_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only the first 10 sources are shown as rows",
+          "status": "PASS"
+        },
+        {
+          "title": "And a \"Show X more sources\" button is shown below the table",
+          "status": "PASS"
+        }
+      ],
+      "notes": "List view: 10 rows ranked 1-10 + button \"Show 251 more sources\" (261 - 10 = 251), which confirms the X = total - 10 assumption.",
+      "description": "Verify that the table view shows 10 rows before its \"Show X more sources\" button. X assumed = total - 10 (not stated, see ambiguity). Covers AC-11."
+    },
+    {
+      "tc_id": "TC-GEO-1168-013",
+      "title": "Category filter lists the analysis categories in left menu order with All categories default",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-013_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-013_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a Category filter is displayed next to the Type filter",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Category filter shows its default value",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Category filter",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the options are the categories of the analysis",
+          "status": "PASS"
+        },
+        {
+          "title": "And the options are in the same order as the left menu",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Category dropdown (data-testid=actions-category-filter, aria-label \"Filter by category\", no leading icon, trailing chevron only) is directly left of the Type dropdown (x=1012 vs 1220, same y). Default \"All categories\" (checked). Options: All categories, Voitures hybrides, VUS, Voitures electriques, the same order as the left menu (Voitures hybrides, VUS, Voitures electriques). Single select (menuitemradio).",
+      "description": "Verify that the new Category filter, next to the Type filter, lists the categories of the analysis in the same order as the left menu, with \"All categories\" by default. Covers AC-12."
+    },
+    {
+      "tc_id": "TC-GEO-1168-014",
+      "title": "Selecting a category keeps only impacted sources and recalculates counts",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-014_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-014_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view with \"All categories\" selected",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects category C1 in the Category filter",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only sources with at least one missing or negative article in C1 answers are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the counts of source B are recalculated for C1",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the chips of source B show the C1 counts",
+          "status": "PASS"
+        }
+      ],
+      "notes": "C1 = \"Voitures hybrides\"; B = frandroid.com; V-equivalent = ouest-france.fr (15 missing in All, no impact in C1). All categories: 261 sources, B \"Not visible in 39 articles\" / \"Negative perception in 5 articles\". After C1: 49 sources (12 cards + \"Show 37 more sources\"), ouest-france.fr no longer listed, B recalculated to \"Not visible in 2 articles\" / \"Negative perception in 2 articles\"; chips 2/2; panel tabs 2/2 with 2 and 2 rows. No source with total 0 in C1; ranking re-sorted (trustpilot #1 with 0/7). Other categories also recount (VUS 86 sources, Voitures electriques 202). There is no independent reference data; consistency was checked across card, chips and panel.",
+      "description": "Verify that selecting a category keeps only sources with at least one missing or negative article in answers of that category, and recalculates the counts for that category. Covers AC-13."
+    },
+    {
+      "tc_id": "TC-GEO-1168-015",
+      "title": "Category, Type and page tabs filters combine",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-015_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-015_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page on the ALL tab with default filters",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects category C1",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the type \"Journalism\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the IMPROVE PERCEPTION tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only sources matching the three criteria are listed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "C1 = Voitures hybrides (49) -> Type Journalism (36, all Journalism) -> IMPROVE PERCEPTION tab: 10 sources. Reference set computed from the C1 table (Journalism and negative > 0): automobile-propre.com, autonext.co, caradisiac.com, carbuzz.com, energyindemand.com, fiches-auto.fr, frandroid.com, greencarreports.com, hibridosyelectricos.com, moneydigest.com. This equals the displayed set (10/10); every card is Journalism with the IMPROVE PERCEPTION badge. The Type dropdown label became \"Journalism (10)\".",
+      "description": "Verify that the Category filter, the Type filter and the page tabs (All / Improve visibility / Improve perception) combine. Covers AC-14."
+    },
+    {
+      "tc_id": "TC-GEO-1168-016",
+      "title": "Combined filters with no matching source show the filtered empty state",
+      "story_id": "GEO-1168",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-016_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-016_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page with default filters",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user applies a combination of filters matching no source",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the filtered empty state is displayed",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the all clear state is not displayed",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: a combination that matches no source cannot be produced on this dashboard. Observed: the Type dropdown only lists types that have matches (with counts), and when the Category or tab changes so that the chosen type has no match, Type resets to \"All types\" by itself. Example: IMPROVE VISIBILITY + \"Academic (4)\", then Category \"Voitures hybrides\" -> Type resets to \"All types\", 12 cards shown. Also tried: Voitures electriques + Social / UGC (3) + IMPROVE PERCEPTION (Type reset again), and every country x category x tab combination (US/FR/ES), all non-empty. The filtered empty state could not be reached. The \"All clear\" state was not shown in any of these attempts. Ask the PO whether the auto-reset is intended, given AC14 (\"When no source matches, the filtered empty state shows\").",
+      "description": "Verify that when the combination of Category, Type and page tab matches no source, the filtered empty state is shown. Covers AC-14."
+    },
+    {
+      "tc_id": "TC-GEO-1168-017",
+      "title": "No Cited count on cards, table, details panel and export",
+      "story_id": "GEO-1168",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-017_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-017_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-017_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no card shows a \"Cited\" count",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table has no Cited column",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel shows no \"Cited\" count",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in PPT format",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the Target Sources slides show no \"Cited\" count",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "UI part verified: no visible \"Cited\" text on any of the 12 cards (innerText + aria/title), table headers are #, Source, Type, Articles and none of the 261 rows contains \"cited\", and the frandroid.com panel has no visible \"Cited\" text or count. Observation: each evidence row has an engine icon with aria-label \"Cited by {engine}\" (e.g. \"Cited by perplexity\", \"Cited by openai, perplexity\"). This is screen-reader-only, has no tooltip and is not a count. Export part (PPT slides) SKIP: export content cannot be checked through the UI (export pipeline). Export menu offers PDF / Presentation .pptx / Spreadsheet .xls.",
+      "description": "Verify that no \"Cited\" count appears on any Target Sources surface: cards, table, details panel and export. Covers AC-15."
+    },
+    {
+      "tc_id": "TC-GEO-1168-018",
+      "title": "Key Takeaways block and panel header meta line are removed",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-018_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-018_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-018_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel header shows no meta line",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Key Takeaways block is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com panel header shows only \"#1 · frandroid.com\", type chip \"Journalism\" and reason chips \"Improve visibility\" / \"Improve perception\". There is no failing/positive/cited meta line. No \"Key Takeaways\" / \"In Brief\" text in the panel or on the page.",
+      "description": "Verify that the Key Takeaways block (In Brief summary) and the panel header meta line (failing/positive/cited counts) are no longer displayed. Covers AC-16."
+    },
+    {
+      "tc_id": "TC-GEO-1168-019",
+      "title": "Verifying state shows only title and spinner",
+      "story_id": "GEO-1168",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-019_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-019_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the verification of the analysis is in progress",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens Actions Center > Target Sources",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the verifying title is displayed",
+          "status": "SKIP"
+        },
+        {
+          "title": "And a spinner is displayed",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no progress counter is displayed",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no explanatory paragraph is displayed under the title",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: the verifying state cannot be produced on demand. All 5 QA-GEO analyses (Toyota, adidas, BYD, Orange, Volkswagen) were checked and all are completed with Target Sources lists. No verifying title or spinner was observed. Screenshots show the completed state of Toyota.",
+      "description": "Verify that the verifying state shows the title and the spinner, without the progress counter and without the explanatory paragraph. Covers AC-17."
+    },
+    {
+      "tc_id": "TC-GEO-1168-020",
+      "title": "All clear state shows the new title and body copy",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-020_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-020_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-020_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an analysis where no source has a missing or negative article",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens Actions Center > Target Sources",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the all clear title is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the all clear body is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And no source list is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "All-clear analysis = BYD (76aad462-a33f-4bdb-a925-2c1533e97a53, Spain - Spanish) with the AI Engines filter set to Gemini only (default ChatGPT + Gemini shows 9 sources). Observed in en-US: title \"All clear\", body \"Every article used by AI engines describes your brand positively.\" (exact), no cards, rows, tabs or filters. The subtitle stays visible. en-GB was not checked separately; the en-US and en-GB strings are the same per the story.",
+      "description": "Verify that when no source has a missing or negative article the all clear state shows \"All clear\" and \"Every article used by AI engines describes your brand positively.\" Covers AC-18."
+    },
+    {
+      "tc_id": "TC-GEO-1168-021",
+      "title": "Table view has no Action column",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-021_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-021_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-021_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table has no Action column",
+          "status": "PASS"
+        },
+        {
+          "title": "And the table columns are #, Source, Type and Articles",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Table headers: exactly 4, in order #, Source, Type, Articles. 4 cells per row; 0 buttons, links or inputs inside the 261 rows (the row itself opens the panel); no \"Action\" text.",
+      "description": "Verify that the table has no Action column and that its columns are #, Source, Type, Articles. Covers AC-19."
+    },
+    {
+      "tc_id": "TC-GEO-1168-022",
+      "title": "PPT and PDF export use the split copy and chips with no Cited column",
+      "story_id": "GEO-1168",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-022_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-022_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-022_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in PPT format",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the top source card of source B uses the split copy",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the top source card of source S uses the singular form",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the Target Sources table uses the two-chip split in the Articles column",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the Target Sources table has no Cited column",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user exports the analysis in PDF format",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the PDF shows the same split copy and chips as the PPT with no Cited column",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (mandatory, export pipeline): PPT/PDF content cannot be checked through the UI. Export menu (\"Export analysis\") offers PDF, Presentation .pptx, Spreadsheet .xls. Real data for a manual check: B = frandroid.com (39 missing / 5 negative, expected \"Not visible in 39 articles · Negative perception in 5 articles\"); S (2 missing / 1 negative) = autonext.co (#54), app card \"Not visible in 2 articles\" / \"Negative perception in 1 article\".",
+      "description": "Verify that in the PPT and PDF export the top source cards and the table use the same split copy and chips as the app, with no Cited column. Covers AC-20."
+    },
+    {
+      "tc_id": "TC-GEO-1168-023",
+      "title": "New and changed strings in en-GB and en-US",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-023_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-023_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-023_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is en-GB and the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page subtitle is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the card lines use singular and plural forms",
+          "status": "PASS"
+        },
+        {
+          "title": "And the filter defaults are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Articles column header is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the prompts section title is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the app language to en-US and reloads Target Sources",
+          "status": "PASS"
+        },
+        {
+          "title": "Then all the strings above are identical to en-GB",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language switched with Settings > Interface Language (British English, then American English; the original setting was American English and was restored at the end). en-GB and en-US are identical: subtitle exact match; card S = consumerreports.org (#66, 1/1): \"Not visible in 1 article\" / \"Negative perception in 1 article\"; card B = frandroid.com: \"Not visible in 39 articles\" / \"Negative perception in 5 articles\"; filters \"All categories\" / \"All types\"; column header \"Articles\"; panel section \"Prompts associated with this source\". No raw keys. Side note (out of scope): left menu reads \"Actions Centre\" in en-GB vs \"Actions Center\" in en-US.",
+      "description": "Verify that the new and changed strings exist in en-GB and en-US (same strings), with singular and plural forms. Covers AC-21."
+    },
+    {
+      "tc_id": "TC-GEO-1168-024",
+      "title": "New and changed strings in fr-FR",
+      "story_id": "GEO-1168",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Page subtitle (fr-FR) does not match. Expected: \"Sources à cibler pour améliorer la façon dont les moteurs IA représentent votre marque, triées selon le nombre d'articles où votre marque est absente ou représentée négativement\". Observed: \"Sources à cibler pour améliorer la façon dont les moteurs IA représentent votre marque, triées par nombre d'articles où votre marque est absente ou représentée négativement\" (\"triées par nombre\" instead of \"triées selon le nombre\").",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-024_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-024_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-024_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is fr-FR and the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page subtitle is displayed",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the card lines use singular and plural forms",
+          "status": "PASS"
+        },
+        {
+          "title": "And the filter defaults are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Articles column header is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the prompts section title is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "All other fr-FR strings match: card S \"Non visible dans 1 article\" / \"Perception négative dans 1 article\"; card B \"Non visible dans 39 articles\" / \"Perception négative dans 5 articles\"; filters \"Toutes les catégories\" / \"Tous les types\"; header \"Articles\"; panel \"Prompts associés à cette source\". Page title \"Sources à cibler\"; tabs TOUTES / AMÉLIORER LA VISIBILITÉ / AMÉLIORER LA PERCEPTION.",
+      "description": "Verify that the new and changed strings exist in fr-FR with singular and plural forms. Covers AC-21."
+    },
+    {
+      "tc_id": "TC-GEO-1168-025",
+      "title": "New and changed strings in es-ES",
+      "story_id": "GEO-1168",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Page subtitle (es-ES) does not match. Expected: \"Fuentes en las que actuar para mejorar cómo los motores de IA representan su marca, ordenadas según el número de artículos en los que su marca está ausente o aparece de forma negativa\". Observed: \"Fuentes a las que dirigirse para mejorar cómo los motores de IA representan su marca, ordenadas por el número de artículos en los que su marca está ausente o representada de forma negativa\" (3 differences: \"a las que dirigirse\" vs \"en las que actuar\", \"por el número\" vs \"según el número\", \"representada\" vs \"aparece\").",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-025_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-025_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-025_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is es-ES and the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page subtitle is displayed",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the card lines use singular and plural forms",
+          "status": "PASS"
+        },
+        {
+          "title": "And the filter defaults are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to list view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Articles column header is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the prompts section title is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "All other es-ES strings match: card S \"No visible en 1 artículo\" / \"Percepción negativa en 1 artículo\"; card B \"No visible en 39 artículos\" / \"Percepción negativa en 5 artículos\"; filters \"Todas las categorías\" / \"Todos los tipos\"; header \"Artículos\"; panel \"Prompts asociados a esta fuente\". Page title \"Fuentes a priorizar\".",
+      "description": "Verify that the new and changed strings exist in es-ES with singular and plural forms. Covers AC-21."
+    },
+    {
+      "tc_id": "TC-GEO-1168-026",
+      "title": "All clear state strings in en-US, fr-FR and es-ES",
+      "story_id": "GEO-1168",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "All clear body (fr-FR) does not match. Expected: \"Tous les articles utilisés par les moteurs IA décrivent votre marque de façon positive.\" Observed: \"Tous les articles utilisés par les moteurs IA décrivent votre marque positivement.\" The fr-FR title \"Tout est en ordre\" matches.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-026_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-026_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-026_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is en-US and the user opens Target Sources of the all clear analysis",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the all clear title and body are displayed in en-US",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the app language to fr-FR",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the all clear title and body are displayed in fr-FR",
+          "status": "FAIL"
+        },
+        {
+          "title": "When the user switches the app language to es-ES",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the all clear title and body are displayed in es-ES",
+          "status": "PASS"
+        }
+      ],
+      "notes": "All-clear analysis = BYD with Gemini only. en-US: \"All clear\" / \"Every article used by AI engines describes your brand positively.\" (match). es-ES: \"Todo en orden\" / \"Todos los artículos utilizados por los motores de IA describen su marca de forma positiva.\" (match). Only the fr-FR body is different.",
+      "description": "Verify that the changed all clear title and body exist in en-US, fr-FR and es-ES (en-GB covered by TC-GEO-1168-020). Covers AC-21."
+    },
+    {
+      "tc_id": "TC-GEO-1168-027",
+      "title": "Spanish strings address the user with usted",
+      "story_id": "GEO-1168",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-027_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-027_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-027_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the app language is es-ES and the user is on the Target Sources page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page subtitle uses the usted form",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens Target Sources of the all clear analysis",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the all clear body uses the usted form",
+          "status": "PASS"
+        },
+        {
+          "title": "And no new or changed string uses the tú form",
+          "status": "PASS"
+        }
+      ],
+      "notes": "es-ES subtitle has \"su marca\" twice and no \"tu marca\" (its wording differs from the spec, see TC-025 FAIL, but the usted form is correct). All clear body (BYD, Gemini only): \"Todos los artículos utilizados por los motores de IA describen su marca de forma positiva.\" (exact). No \"tu marca\", \"tus\" or \"tu\" in the whole page text (subtitle, cards, filters, header, panel).",
+      "description": "Verify that the new and changed Spanish strings use \"usted\" (su marca), as in the rest of the app. Covers AC-22."
+    },
+    {
+      "tc_id": "TC-GEO-1168-028",
+      "title": "Unused translation keys are removed from the four locale files",
+      "story_id": "GEO-1168",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-028_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-028_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-028_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the four locale files of the GEO-1168 build are open",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user searches the views.targetSources namespace for the removed keys",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then none of the removed keys is found in any locale file",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no raw translation key is displayed on the Target Sources page",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Static check of the locale files SKIP: the frontend locale files of the GEO-1168 build are not available in this repo or through the UI. UI part PASS: no raw translation key (views.*, panel.*, targetSources.*) shown on cards, table, filters or panel in en-GB, en-US, fr-FR or es-ES.",
+      "description": "Verify by static review that the keys no longer used are removed from the en-GB, en-US, fr-FR and es-ES locale files. Covers AC-23."
+    },
+    {
+      "tc_id": "TC-GEO-1168-029",
+      "title": "Switching the app language updates card lines, chips, tabs, filters and export",
+      "story_id": "GEO-1168",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-029_step1_given.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-029_step2_when.png",
+        "screenshots-GEO-152-GEO1168-mcp/TC-GEO-1168-029_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page in en-GB in card view",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the app language to fr-FR",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card lines follow the new language",
+          "status": "PASS"
+        },
+        {
+          "title": "And the filters follow the new language",
+          "status": "PASS"
+        },
+        {
+          "title": "And the table chips follow the new language",
+          "status": "PASS"
+        },
+        {
+          "title": "And the panel tabs follow the new language",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user exports the analysis in PPT format",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the export follows the new language",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "en-GB card B: \"Not visible in 39 articles\" / \"Negative perception in 5 articles\". After switching to fr-FR (Settings, then reload): card \"Non visible dans 39 articles\" / \"Perception négative dans 5 articles\"; filters \"Toutes les catégories\" / \"Tous les types\"; chips 39 / 5 with aria-labels \"Non visible dans 39 articles\" / \"Perception négative dans 5 articles\" (no English); panel tabs \"Non visible dans 39 articles\" / \"Perception négative dans 5 articles\" (French, no longer English). The tabs follow the language, but the GEO-1178 French tab labels could not be confirmed, so that step is PARTIAL. No English text left on the page (scan for Not visible / Negative perception / All categories / Show N more / Previous / Next source). Export (PPT) SKIP: export pipeline.",
+      "description": "Verify that when the app language is switched, the card lines, chips, tabs, filters and export all follow it. Covers AC-24."
+    }
+  ]
+}

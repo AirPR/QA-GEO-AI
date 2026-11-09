@@ -1,0 +1,288 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\playwright.config.js",
+    "rootDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 240000
+      },
+      {
+        "outputDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright/artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "e2e-suite",
+        "name": "e2e-suite",
+        "testDir": "C:/Users/DIGIMIND/workflow-new/QA-Workflow1/.claude/Data/raw/playwright",
+        "testIgnore": [],
+        "testMatch": [
+          "**/create-default-analysis.spec.js",
+          "**/verify-analysis.spec.js",
+          "**/category-question-analysis.spec.js",
+          "**/category-kpi-cards-analysis.spec.js",
+          "**/category-brand-prioritization-analysis.spec.js",
+          "**/category-brand-rankings-analysis.spec.js",
+          "**/category-questions-table.spec.js",
+          "**/category-top-concept.spec.js",
+          "**/category-perception-citation.spec.js",
+          "**/geo-analytics-dashboard.spec.js"
+        ],
+        "timeout": 240000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json",
+        {
+          "outputFile": ".claude/Data/raw/playwright/test-results-GEO-397-raw.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 3,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "test-suite-epicGEO-397.spec.js",
+      "file": "test-suite-epicGEO-397.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-GEO-397-006 New org form: all checkboxes can be individually selected/unselected",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 101151,
+                  "error": {
+                    "message": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#organisation-modal-quotas-llm-grok')\u001b[22m\n",
+                    "stack": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#organisation-modal-quotas-llm-grok')\u001b[22m\n\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:328:30\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:318:3",
+                    "location": {
+                      "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                      "column": 30,
+                      "line": 328
+                    },
+                    "snippet": "\u001b[0m \u001b[90m 326 |\u001b[39m     \u001b[90m// Click each checkbox — should toggle\u001b[39m\n \u001b[90m 327 |\u001b[39m     \u001b[36mfor\u001b[39m (\u001b[36mconst\u001b[39m id \u001b[36mof\u001b[39m llmIds) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 328 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(id)\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 329 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 330 |\u001b[39m     }\n \u001b[90m 331 |\u001b[39m     \u001b[90m// Click each checkbox again — restore to original state\u001b[39m\u001b[0m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                        "column": 30,
+                        "line": 328
+                      },
+                      "message": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#organisation-modal-quotas-llm-grok')\u001b[22m\n\n\n  326 |     // Click each checkbox — should toggle\n  327 |     for (const id of llmIds) {\n> 328 |       await page.locator(id).click();\n      |                              ^\n  329 |       await page.waitForTimeout(200);\n  330 |     }\n  331 |     // Click each checkbox again — restore to original state\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:328:30\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:318:3"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin is on the Create Organization form with the LLM allow-list section visible",
+                      "duration": 10174
+                    },
+                    {
+                      "title": "When the super admin clicks each LLM checkbox independently",
+                      "duration": 90557,
+                      "error": {
+                        "message": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#organisation-modal-quotas-llm-grok')\u001b[22m\n",
+                        "stack": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#organisation-modal-quotas-llm-grok')\u001b[22m\n\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:328:30\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js:318:3",
+                        "location": {
+                          "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                          "column": 30,
+                          "line": 328
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 326 |\u001b[39m     \u001b[90m// Click each checkbox — should toggle\u001b[39m\n \u001b[90m 327 |\u001b[39m     \u001b[36mfor\u001b[39m (\u001b[36mconst\u001b[39m id \u001b[36mof\u001b[39m llmIds) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 328 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mlocator(id)\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                              \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 329 |\u001b[39m       \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mwaitForTimeout(\u001b[35m200\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 330 |\u001b[39m     }\n \u001b[90m 331 |\u001b[39m     \u001b[90m// Click each checkbox again — restore to original state\u001b[39m\u001b[0m"
+                      }
+                    }
+                  ],
+                  "startTime": "2026-05-21T15:08:26.954Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\artifacts\\test-suite-epicGEO-397-TC--13a9e-idually-selected-unselected-chromium\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\test-suite-epicGEO-397.spec.js",
+                    "column": 30,
+                    "line": 328
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-927a67352238168e74cc",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 308,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-011 Edit org: save changes persists new field values",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15014,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin has opened the edit form of an existing organization and modified the \"Markets\" value and the LLM allow-list",
+                      "duration": 9546
+                    },
+                    {
+                      "title": "When the super admin clicks Save",
+                      "duration": 1595
+                    },
+                    {
+                      "title": "Then the organization read view reflects the saved values and reopening the edit form shows the updated values",
+                      "duration": 3641
+                    }
+                  ],
+                  "startTime": "2026-05-21T15:10:11.454Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-6dfb2733dd807611bcb0",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 544,
+          "column": 1
+        },
+        {
+          "title": "TC-GEO-397-031 New org form: submitting with no LLM selected",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 240000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15200,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "[TC-031] Form closed after 0 LLMs submit. Org created: true\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Given a super admin has opened the Create Organization form and unchecked all LLM checkboxes",
+                      "duration": 8429
+                    },
+                    {
+                      "title": "When the super admin submits the form with zero LLMs selected",
+                      "duration": 1628
+                    },
+                    {
+                      "title": "Then the form either shows a validation error requiring at least one LLM or the organization is created with an empty allow-list (depending on product decision — verify expected behaviour)",
+                      "duration": 4956
+                    }
+                  ],
+                  "startTime": "2026-05-21T15:10:26.780Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "8bbe144634144f7d051f-1b8f24f8bc2305b3233e",
+          "file": "test-suite-epicGEO-397.spec.js",
+          "line": 1275,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-05-21T15:08:24.500Z",
+    "duration": 138614.80299999999,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

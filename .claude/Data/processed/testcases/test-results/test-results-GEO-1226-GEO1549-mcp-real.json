@@ -1,0 +1,66 @@
+{
+  "spec": "GEO-1226-GEO1549-mcp",
+  "runDate": "2026-11-04",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "filters": {
+    "story": "GEO-1549",
+    "tc": "TC-GEO-1549-022"
+  },
+  "environment": {
+    "auth_me_start": "2026-11-04 08:57 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "auth_me_end": "2026-11-04 08:58 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "guard": "context.route on **/geo/api/**: every non-GET aborted. Network log of the run: only GET requests on /geo/api/ (auth/me, reports, snapshots, citation-sources, target-sources, llm-providers, target-sources/edmunds.com).",
+    "non_get_requests": [],
+    "filters_found": "Toyota 439acd96: Last 7 days (2026-10-28 to 2026-11-03), AI Engines 4 of 5 (gemini, grok, openai, perplexity; Claude off from an earlier session), All Countries. Left as found."
+  },
+  "summary": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "successRate": 100,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1549-022",
+      "title": "[Figma] Panel header, tab subtitles and footer are unchanged",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-mcp/TC-GEO-1549-022_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-mcp/TC-GEO-1549-022_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-mcp/TC-GEO-1549-022_step3a_negative_subtitle.png",
+        "screenshots-GEO-1226-GEO1549-mcp/TC-GEO-1549-022_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Negative perception subtitle is unchanged",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Lack of visibility subtitle is unchanged",
+          "status": "PASS"
+        },
+        {
+          "title": "And the footer navigation is unchanged",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data: Toyota 439acd96 (QA-GEO, last run 2026-11-03 14:57 UTC, post-deploy), Review Sites source edmunds.com (#3, both tabs). Given: Target Sources cards shown with tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION. When: panel header \"#3 · edmunds.com\" with chips \"Review Sites\", \"Improve visibility\", \"Improve perception\"; tabs \"Lack of visibility (4)\" / \"Negative perception (9)\"; panel opens on Lack of visibility (API GET /reports/439acd96.../target-sources/edmunds.com: 13 failing, 9 positive). Then: Negative perception subtitle (data-testid actions-panel-tab-message) = \"Each of these articles mentions Toyota negatively.\" (exact, {brand}=Toyota). Lack of visibility subtitle = \"None of these articles mentions Toyota anywhere on the page.\" (exact). Footer (actions-panel-source-navigation, sticky at the bottom of the panel) = \"Previous\" · \"Source 3 of 80\" · \"Next source\", both buttons enabled. Review entries are not needed for this TC (texts only). Side observation, out of scope: the panel prompt engine filter shows All (61) + 3 engines (ChatGPT 19, Gemini 20, Perplexity 48) while 4 engines are active (Grok shown in the card filter has no prompt tab)."
+    }
+  ]
+}

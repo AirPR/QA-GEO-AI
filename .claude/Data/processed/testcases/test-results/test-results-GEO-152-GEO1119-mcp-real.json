@@ -1,0 +1,71 @@
+{
+  "spec": "GEO-152-GEO1119-mcp",
+  "runDate": "2026-09-25",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "summary": {
+    "total": 2,
+    "pass": 0,
+    "fail": 0,
+    "skip": 2,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1119-001",
+      "title": "Verifying state shown during article verification pipeline",
+      "story_id": "GEO-1119",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1119-mcp/TC-GEO-1119-001_step1_given.png",
+        "screenshots-GEO-152-GEO1119-mcp/TC-GEO-1119-001_step2_when.png",
+        "screenshots-GEO-152-GEO1119-mcp/TC-GEO-1119-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an analysis whose article verification pipeline is actively running",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the Actions Center is opened while verification is still in progress",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then a verifying sources state indicator is displayed instead of the source list",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — Backend-only precondition: requires an analysis whose article verification pipeline is actively running server-side. The current Toyota/staging dataset has already completed verification (167 sources visible in the Actions Center). This intermediate verifying state cannot be triggered or observed via UI. A dedicated test environment with a fresh, uncached analysis would be needed to observe this state."
+    },
+    {
+      "tc_id": "TC-GEO-1119-002",
+      "title": "Source list appears without reload after verification completes",
+      "story_id": "GEO-1119",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1119-mcp/TC-GEO-1119-002_step1_given.png",
+        "screenshots-GEO-152-GEO1119-mcp/TC-GEO-1119-002_step2_when.png",
+        "screenshots-GEO-152-GEO1119-mcp/TC-GEO-1119-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Actions Center is open and showing the verifying sources state",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the article verification pipeline completes",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the Target Sources list appears automatically without requiring a page reload",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — Multi-state/timing dependency: requires observing the transition from verifying state to sources list state in real time, which itself depends on TC-001 precondition (active pipeline). Additionally, this is a backend event (pipeline completion) that cannot be triggered or timed from the UI. Both the initial state and the transition event are inaccessible via MCP browser automation."
+    }
+  ]
+}

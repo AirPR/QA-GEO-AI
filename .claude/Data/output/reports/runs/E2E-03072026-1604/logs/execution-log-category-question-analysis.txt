@@ -1,0 +1,97 @@
+
+[auth-setup] Opening https://staging-geo.onclusive.com/geo …
+[auth-setup] Step 1 — email field …
+[auth-setup] Step 2 — password field …
+[auth-setup] Waiting for app to load after redirect …
+[auth-setup] Session saved → C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\processed\auth\storageState.json
+
+
+Running 7 tests using 1 worker
+
+  ✘  1 [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:345:1 › E2E-QA-TC001 Default display — LLM badge / Questions Analysis heading / All tab / 4 columns / footer (27.7s)
+  ✘  2 [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:396:1 › E2E-QA-TC002 Visibility tab — blue badge / Winner=brand or Lost / Market flag icon (29.2s)
+  ✓  3 [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:429:1 › E2E-QA-TC003 Competitive tab — amber badge / Winner=brand or Lost / Market flag icon (9.6s)
+  ✓  4 [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:460:1 › E2E-QA-TC004 Perception tab — violet badge / theme chip badges in Winner-Themes / Market flag (7.0s)
+  ✓  5 [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:498:1 › E2E-QA-TC005 Visibility panel — header / LLM logos / Ranking+SOURCES sections / LLM switch (7.0s)
+  ✓  6 [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:532:1 › E2E-QA-TC006 Competitive panel — header / LLM logos / Won|Lost+About+SOURCES sections / LLM switch (8.4s)
+  ✘  7 [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:568:1 › E2E-QA-TC007 Perception panel — header / LLM logos / SENTIMENT+THEMES+Response+SOURCES / LLM switch (9.1s)
+
+
+  1) [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:345:1 › E2E-QA-TC001 Default display — LLM badge / Questions Analysis heading / All tab / 4 columns / footer › Then: questions list is visible and no detail panel is open 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeHidden[2m([22m[2m)[22m failed
+
+    Locator:  locator('button[aria-label*="Close"], button:has-text("Close detail panel")').first()
+    Expected: hidden
+    Received: visible
+    Timeout:  20000ms
+
+    Call log:
+    [2m  - Expect "toBeHidden" with timeout 20000ms[22m
+    [2m  - waiting for locator('button[aria-label*="Close"], button:has-text("Close detail panel")').first()[22m
+    [2m    23 × locator resolved to <button type="button" aria-label="Close detail panel" class="flex h-6 w-6 shrink-0 items-center justify-center rounded text-slate-400 transition-colors duration-150 hover:bg-slate-100">…</button>[22m
+    [2m       - unexpected value "visible"[22m
+
+
+      386 |   await test.step('Then: questions list is visible and no detail panel is open', async () => {
+      387 |     await expect(page.locator(SEL.tableRow).first()).toBeVisible({ timeout: 10000 });
+    > 388 |     await expect(page.locator(SEL.panelClose).first()).toBeHidden();
+          |                                                        ^
+      389 |     await shot(page, 'E2E-QA-TC001_step4_no-panel');
+      390 |   });
+      391 | });
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\category-question-analysis.spec.js:388:56
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\category-question-analysis.spec.js:386:3
+
+    Error Context: .claude\Data\raw\playwright\artifacts\category-question-analysis-a78ab-ng-All-tab-4-columns-footer-chromium\error-context.md
+
+  2) [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:396:1 › E2E-QA-TC002 Visibility tab — blue badge / Winner=brand or Lost / Market flag icon › Then: questions list is visible and no detail panel is open 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeHidden[2m([22m[2m)[22m failed
+
+    Locator:  locator('button[aria-label*="Close"], button:has-text("Close detail panel")').first()
+    Expected: hidden
+    Received: visible
+    Timeout:  20000ms
+
+    Call log:
+    [2m  - Expect "toBeHidden" with timeout 20000ms[22m
+    [2m  - waiting for locator('button[aria-label*="Close"], button:has-text("Close detail panel")').first()[22m
+    [2m    23 × locator resolved to <button type="button" aria-label="Close detail panel" class="flex h-6 w-6 shrink-0 items-center justify-center rounded text-slate-400 transition-colors duration-150 hover:bg-slate-100">…</button>[22m
+    [2m       - unexpected value "visible"[22m
+
+
+      419 |   await test.step('Then: questions list is visible and no detail panel is open', async () => {
+      420 |     await expect(page.locator(SEL.tableRow).first()).toBeVisible({ timeout: 10000 });
+    > 421 |     await expect(page.locator(SEL.panelClose).first()).toBeHidden();
+          |                                                        ^
+      422 |     await shot(page, 'E2E-QA-TC002_step4_no-panel');
+      423 |   });
+      424 | });
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\category-question-analysis.spec.js:421:56
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\category-question-analysis.spec.js:419:3
+
+    Error Context: .claude\Data\raw\playwright\artifacts\category-question-analysis-8aae2-nd-or-Lost-Market-flag-icon-chromium\error-context.md
+
+  3) [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:568:1 › E2E-QA-TC007 Perception panel — header / LLM logos / SENTIMENT+THEMES+Response+SOURCES / LLM switch › Then: 5 LLM logo buttons visible in the panel 
+
+    Error: [BUG] Compact mode not active — 5/5 LLM text labels visible: Claude, Gemini, Grok, ChatGPT, Perplexity
+
+      208 |     await shot(page, `${tcId}_${stepName}`);
+      209 |     const list = visibleLabels.map(v => v.label).join(', ');
+    > 210 |     throw new Error(`[BUG] Compact mode not active — ${visibleLabels.length}/5 LLM text labels visible: ${list}`);
+          |           ^
+      211 |   }
+      212 |
+      213 |   await shot(page, `${tcId}_${stepName}`);
+        at assertLLMButtons (C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\category-question-analysis.spec.js:210:11)
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\category-question-analysis.spec.js:581:5
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\category-question-analysis.spec.js:580:3
+
+    Error Context: .claude\Data\raw\playwright\artifacts\category-question-analysis-a0522-Response-SOURCES-LLM-switch-chromium\error-context.md
+
+  3 failed
+    [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:345:1 › E2E-QA-TC001 Default display — LLM badge / Questions Analysis heading / All tab / 4 columns / footer 
+    [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:396:1 › E2E-QA-TC002 Visibility tab — blue badge / Winner=brand or Lost / Market flag icon 
+    [chromium] › .claude\Data\raw\playwright\category-question-analysis.spec.js:568:1 › E2E-QA-TC007 Perception panel — header / LLM logos / SENTIMENT+THEMES+Response+SOURCES / LLM switch 
+  4 passed (2.0m)

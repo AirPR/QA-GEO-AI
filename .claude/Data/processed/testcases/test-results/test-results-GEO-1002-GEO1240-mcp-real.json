@@ -1,0 +1,274 @@
+{
+  "spec": "GEO-1002-GEO1240",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1240",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "runFolder": "20102026-1046",
+  "analyses": {
+    "kids toys": "796a92e9-9033-44c4-9e07-aee1f90e7b8c",
+    "Decathlon (Articles De Sport)": "27bec573-a748-4848-a673-849754cd18e5"
+  },
+  "summary": {
+    "total": 5,
+    "pass": 1,
+    "fail": 1,
+    "skip": 3,
+    "partial": 0,
+    "successRate": 20,
+    "successRateExecuted": 50,
+    "verdict": "NO-GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me at start and end)",
+    "organisation": "QA-GEO, role SUPER_ADMIN, existing session valid (no login needed)",
+    "featureFlag": "unbranded_analysis = true",
+    "pool": "P = 1000; U = 703 at start and at end; 7 analyses both times; ring data-status \"healthy\"",
+    "stateChanges": "None. A Playwright context route aborted every non-GET call to /geo/api for the whole run (write guard, verified with a probe POST that was blocked). The app itself sent no write request (guard log contains only the probe). Manage Scope of kids toys and Decathlon 27bec573 opened read-only; no tick, no save, no analysis created/edited/deleted, no back-office access."
+  },
+  "sideFindings": [
+    "Accessibility: the Brand / Topic sort button keeps the static aria-label \"Sort by brand or topic ascending\" (views.reports.ariaSortBrandOrTopic) even when the table is sorted by Prompts or would sort descending; the Prompts button keeps \"Sort by prompts\" (views.reports.ariaSortPrompts) in every state. The labels do not describe the current/next sort (aria-sort on the th is correct).",
+    "Console: repeated 410 errors on cdn.brandfetch.io lettermark icons (4 logos) on every dashboard load; logos fall back, cosmetic only.",
+    "The ring popover uses the wizard keys (wizard.pool.title, wizard.pool.summary, wizard.pool.inUseAcross, wizard.pool.free) — consistent with \"the wizard's ring\"."
+  ],
+  "csvProposals": [
+    "TC-GEO-1240-004, step \"When the user sorts the Prompts column\": expected result \"ordered by Prompts ascending then descending\" -> observed first click descending (largest first). Proposal: \"The analyses are ordered by Prompts descending then ascending; the Brand sort is removed\" if the PO confirms descending-first is intended, or keep the CSV and raise a bug if ascending-first is required. To confirm with PO (AC4 only says \"sortable\").",
+    "TC-GEO-1240-004, test data \"Sum of the Prompts column (Show more to list every analysis)\": with 7 analyses no Show more / Show all button is shown (views.reports.showMore / showAll). Proposal: \"Sum of the Prompts column (use Show all {{total}} analyses if the list is truncated)\".",
+    "TC-GEO-1240-001, step \"Then a pool block is shown in the header of the Analysis table\": the ring sits to the left of the analyses count and reads \"703 / 1000 prompts\". Proposal: \"Next to the number of analyses (e.g. \"5 analyses\"), the ring reads \"U / P prompts\"\".",
+    "TC-GEO-1240-001, step \"When the user hovers the ring\": add the exact popover content: \"Prompt pool — U of P — In use across analyses U — Free in the pool P - U\"."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1240-001",
+      "title": "The dashboard pool block shows the kept prompts over the pool with the wizard's ring",
+      "story_id": "GEO-1240",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skipReason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1240/TC-GEO-1240-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1240/TC-GEO-1240-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1240/TC-GEO-1240-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in to organisation T",
+          "status": "PASS",
+          "testData": "",
+          "expected": "The GEO dashboard is reachable",
+          "observed": "Organisation switcher \"QA-GEO\", GEO Analytics Dashboard loaded (session still valid, no login needed)"
+        },
+        {
+          "title": "When the GEO dashboard loads",
+          "status": "PASS",
+          "testData": "",
+          "expected": "The \"Analysis\" table is displayed",
+          "observed": "Table header \"Analysis\" (views.reports.heading) with 7 rows"
+        },
+        {
+          "title": "Then a pool block is shown in the header of the Analysis table",
+          "status": "PASS",
+          "testData": "",
+          "expected": "Next to the number of analyses (e.g. \"5 analyses\"), the ring reads \"U / P\"",
+          "observed": "Header reads \"Analysis | [ring] 703 / 1000 prompts | 7 analyses\"; data-testid=\"reports-view-pool-ring\", data-status=\"healthy\", ring arc 70.3% filled (dashoffset 19.26 / 64.84), aria-label \"Prompt pool: 703 / 1000 prompts\""
+        },
+        {
+          "title": "When the user hovers the ring",
+          "status": "PASS",
+          "testData": "",
+          "expected": "The popover splits used (U) and free (P - U) slots",
+          "observed": "Popover \"Prompt pool — 703 of 1000 — In use across analyses 703 — Free in the pool 297\" (wizard.pool.title / summary / inUseAcross / free)"
+        }
+      ],
+      "notes": "U = 703, P = 1000, 7 analyses. The ring is placed to the left of \"7 analyses\". The ring is the same SVG component (two circles, sky-700 arc) as the wizard pool tracker; the wizard itself was not opened in this run to compare side by side."
+    },
+    {
+      "tc_id": "TC-GEO-1240-002",
+      "title": "A pool exactly at the limit shows an amber ring and New Analysis stays available",
+      "story_id": "GEO-1240",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skipReason": "state-changing action not allowed (user decision): the pool of QA-GEO must be set to U (703) in the back office; the live dashboard is \"healthy\" (703 / 1000), so the at-limit state cannot be observed read-only.",
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T equals its usage",
+          "status": "SKIP",
+          "testData": "Pool = U",
+          "expected": "The back office shows \"U / U\"",
+          "observed": "Not executed: back-office change not allowed"
+        },
+        {
+          "title": "When the GEO dashboard loads",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "The pool block is displayed",
+          "observed": "Not executed"
+        },
+        {
+          "title": "Then the ring is amber with a short message",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "Amber ring \"U / U\" with its at-limit message",
+          "observed": "Not executed (expected string: views.reports.pool.atLimit \"Pool full at {{used}} of {{pool}}. New Analysis stays available.\")"
+        },
+        {
+          "title": "And New Analysis stays available",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "New Analysis is enabled and opens the wizard",
+          "observed": "Not executed"
+        }
+      ],
+      "notes": "SKIP — state-changing action not allowed (user decision)."
+    },
+    {
+      "tc_id": "TC-GEO-1240-003",
+      "title": "A pool over the limit shows a red ring and a new analysis cannot be launched",
+      "story_id": "GEO-1240",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skipReason": "state-changing action not allowed (user decision): the pool of QA-GEO must be lowered to U - 5 (698) in the back office; the over-limit state cannot be observed read-only.",
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T is 5 slots below usage",
+          "status": "SKIP",
+          "testData": "Pool = U - 5",
+          "expected": "The back office shows \"U / U - 5\" in red",
+          "observed": "Not executed: back-office change not allowed"
+        },
+        {
+          "title": "When the GEO dashboard loads",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "The pool block is displayed",
+          "observed": "Not executed"
+        },
+        {
+          "title": "Then the ring is red with how many prompts are over",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "Red ring \"U / U - 5\" with a message stating 5 prompts over",
+          "observed": "Not executed (expected string: views.reports.pool.over_other \"5 prompts over the pool. Analyses can be created but not launched until the count fits.\")"
+        },
+        {
+          "title": "When the user clicks New Analysis and goes to the Prompts step",
+          "status": "SKIP",
+          "testData": "Brand \"Decathlon\", GB (EN), 1 category",
+          "expected": "The wizard opens and the Prompts step is reached",
+          "observed": "Not executed"
+        },
+        {
+          "title": "Then the new analysis cannot be launched",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "The ring is red and Review & Launch is disabled",
+          "observed": "Not executed"
+        }
+      ],
+      "notes": "SKIP — state-changing action not allowed (user decision)."
+    },
+    {
+      "tc_id": "TC-GEO-1240-004",
+      "title": "The sortable Prompts column shows the slots of each analysis and adds up to the pool block",
+      "story_id": "GEO-1240",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"When the user sorts the Prompts column\" — Expected: \"The analyses are ordered by Prompts ascending then descending; the Brand sort is removed\". Observed: 1st click = DESCENDING (174, 169, 140, 133, 80, 4, 3; aria-sort=\"descending\"), 2nd click = ASCENDING (3, 4, 80, 133, 140, 169, 174; aria-sort=\"ascending\"). The order of the two directions is the reverse of the expected result. The Brand sort is removed (Brand header aria-sort=\"none\").",
+      "skipReason": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1240/TC-GEO-1240-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1240/TC-GEO-1240-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1240/TC-GEO-1240-004_step2b_kidstoys_scope.png",
+        "screenshots-GEO-1002-GEO1240/TC-GEO-1240-004_step2c_decathlon80_scope.png",
+        "screenshots-GEO-1002-GEO1240/TC-GEO-1240-004_step3a_sort_click1.png",
+        "screenshots-GEO-1002-GEO1240/TC-GEO-1240-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the GEO dashboard of organisation T is loaded",
+          "status": "PASS",
+          "testData": "",
+          "expected": "The Analysis table is displayed",
+          "observed": "Analysis table with 7 rows, default sort Brand / Topic ascending"
+        },
+        {
+          "title": "Then a \"Prompts\" column is shown after Categories",
+          "status": "PASS",
+          "testData": "",
+          "expected": "\"Prompts\" header right after \"Categories\"",
+          "observed": "Headers: Brand / Topic | Countries | Categories | Prompts | Last update | Actions (views.reports.colPrompts); Prompts header is a sort button \"Sort by prompts\""
+        },
+        {
+          "title": "And the column adds up to the pool block",
+          "status": "PASS",
+          "testData": "Sum of the Prompts column (Show more to list every analysis)",
+          "expected": "The sum equals U of the pool block \"U / P\"",
+          "observed": "adidas 169 + BYD 4 + Decathlon (Outdoor Gear, Sporting Goods) 133 + Decathlon (Articles De Sport) 80 + kids toys 3 + Orange 140 + Toyota 174 = 703 = U of \"703 / 1000\". All 7 analyses listed; no \"Show more\" / \"Show all\" button (list not truncated)."
+        },
+        {
+          "title": "And the value of an analysis equals its kept prompts across its markets",
+          "status": "PASS",
+          "testData": "Analysis A (Manage Scope > Prompts: ticked rows)",
+          "expected": "The Prompts value of A equals its number of ticked rows",
+          "observed": "kids toys 796a92e9 (MA (FR)): 3 ticked rows, tracker \"703 / 1000 prompts · 3 selected\" = column 3. Decathlon 27bec573 (GB (EN) + FR (FR)): 80 ticked rows (40 GB + 40 FR), \"· 80 selected\" = column 80. Manage Scope opened read-only, nothing ticked or saved."
+        },
+        {
+          "title": "When the user sorts the Prompts column",
+          "status": "FAIL",
+          "testData": "Click the header twice",
+          "expected": "The analyses are ordered by Prompts ascending then descending; the Brand sort is removed",
+          "observed": "1st click: descending (174 → 3); 2nd click: ascending (3 → 174). Brand sort removed (aria-sort=\"none\")."
+        }
+      ],
+      "notes": "Row values (Brand sort): adidas 169 (IN, MA, US), BYD 4 (ES), Decathlon 133 (FR, GB), Decathlon 80 (FR, GB), kids toys 3 (MA), Orange 140 (FR, MA), Toyota 174 (ES, FR, US); sum 703 = U. The only failing point is the direction of the first click; AC4 of GEO-1240 only says \"sortable\" and does not fix the first direction, so this may be a test-design issue — see CSV proposal. Sorting sent no write request (write guard log empty). After a reload the default Brand ascending sort is back (sort not persisted)."
+    },
+    {
+      "tc_id": "TC-GEO-1240-005",
+      "title": "Dashboard counts follow an edited or deleted analysis",
+      "story_id": "GEO-1240",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skipReason": "state-changing action not allowed (user decision): unticking + saving prompts in Manage Scope of A and deleting the disposable analysis D are both state-changing; only the Given (values noted) is read-only, which is not a meaningful verification on its own.",
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the dashboard shows the pool block \"U / P\" and the Prompts column of A = a",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "Values noted",
+          "observed": "Values available from TC-004 (U = 703, P = 1000; e.g. Decathlon b6c8b664 = 133) but the TC was not executed further"
+        },
+        {
+          "title": "When the user unticks 2 kept prompts in Manage Scope of A, saves and comes back to the dashboard",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "The Prompts column of A reads a - 2 and the pool block \"U - 2 / P\"",
+          "observed": "Not executed: save not allowed"
+        },
+        {
+          "title": "And the user deletes analysis D",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "D disappears from the list",
+          "observed": "Not executed: deletion not allowed"
+        },
+        {
+          "title": "Then the counts reflect the deletion",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "The pool block reads \"U - 2 - S / P\" and the column still adds up to it",
+          "observed": "Not executed"
+        }
+      ],
+      "notes": "SKIP — state-changing action not allowed (user decision)."
+    }
+  ]
+}

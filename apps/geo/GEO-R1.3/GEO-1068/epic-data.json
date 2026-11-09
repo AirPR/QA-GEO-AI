@@ -1,0 +1,270 @@
+{
+  "epic": {
+    "id": "GEO-1068",
+    "key": "GEO-1068",
+    "title": "Simplify Key Concepts Sentiment Display",
+    "jiraSummary": "EPIC-048: Simplify Key Concepts Sentiment Display",
+    "status": "Ready for QA",
+    "assignee": "Abdenasser Aroukhsiss",
+    "created": "2026-08-05",
+    "updated": "2026-10-20",
+    "updatedAt": "2026-10-19T20:56:41.571-0400",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1068",
+    "version": "GEO-R1.3",
+    "fixVersions": [
+      "1.3"
+    ],
+    "labels": [
+      "geo-digimind"
+    ],
+    "functionalNeed": "The key concepts view currently communicates the sentiment of each concept three times: a polarity classification (positive, mixed or negative, conveyed by color), a numeric sentiment score on a -100 to +100 scale shown next to the concept, and, when the concept is expanded, a barometer gauge that visualizes the same score on a negative-to-positive axis. Combined with the frequency metric that each concept also carries, a single row stacks four numbers and indicators, and users cannot tell which one to read. The numeric score is the weakest of them: at the granularity of a single concept it is not explainable, two concepts with the same polarity but slightly different scores suggest a precision the underlying classification does not have, and the barometer repeats it a third time without adding information.\n\nThis epic simplifies the display to the two signals that matter: how often a concept appears (frequency) and whether it is perceived as positive, mixed or negative (polarity). The numeric sentiment score and the barometer disappear from every place a concept is shown, including the expanded detail view and exports. Polarity becomes an explicit label rather than a color-only cue, so the information removed from the score is not lost, it is stated more honestly. Sorting and filtering keep working on polarity. Nothing changes in how concepts are classified or how frequency is computed; this is a display simplification only.\n\nUpdated 2026-10-20 after the dev decisions on GEO-1068 (comment of 2026-10-16, D1 to D7): criteria marked (Updated 2026-10-20) changed.\n- 1.3: inside a polarity group, the sort goes by frequency, then by name (D1)\n- 1.4: the XLSX export loses the Score column (D2); a shared analysis means another user of the same organisation, as share links do not exist yet (D3); in the slide export, the frequency takes the polarity colour and the polarity is a word in the export language (D6)",
+    "scope": [
+      "Show only frequency and polarity (explicit label) on each concept of the key concepts list",
+      "Remove the numeric sentiment score and the barometer from the expanded concept view",
+      "Keep sorting and filtering working on polarity",
+      "Apply the simplified display to exports (slides, PDF, XLSX) and shared views",
+      "Display simplification only: classification and frequency computation unchanged"
+    ],
+    "outOfScope": [
+      "Any change to how concepts are classified as positive, mixed or negative, or to how frequency is computed",
+      "The sentiment distribution summary above the concepts list (share of positive, mixed and negative concepts), which stays as is",
+      "Whether the underlying numeric score continues to be computed internally; this epic only removes it from display"
+    ],
+    "stillOpen": [
+      "Whether the category-level aggregate sentiment indicator (the -100 to +100 sentiment tile shown among the category metrics) should also be removed or kept; it is a separate element from the per-concept display and is untouched by this epic until decided"
+    ],
+    "dependencies": [
+      "Relates to GEO-1209 (EPIC-046: Unbranded Analysis and Other Prompts) — Jira issue link"
+    ],
+    "notes": [
+      "Epic description lists planned stories 1.1 to 1.4 with \"Story ID: TBD\"; created in Jira as GEO-1266 to GEO-1269 (48.1 to 48.4) on 2026-10-16",
+      "No Figma for the epic (decision D0, OS-Team 2026-10-16, PM on leave)",
+      "Decisions D0 to D7 taken by OS-Team on 2026-10-16 while the PM was on leave (GEO-1068 comment 863917); validated by the PO/PM Quentin Reant in GEO-1068 comment 865134 (2026-10-19 20:56 New York time = 2026-10-20): \"OK for all your decisions.\"",
+      "Still open point (category-level sentiment tile) answered in GEO-1269 rules by decision D5 (KPI unchanged); D5 validated by the PO, epic text kept as is: \"D0, D4, D5 and D7 need no change in the epic.\" (GEO-1068 comment 865134)",
+      "Epic description updated 2026-10-20 (Quentin Reant): epic 1.3 AC1 adds the frequency then name tie-break (D1); epic 1.4 now has 3 ACs: AC1 slide export with polarity colour and polarity word in the export language (D6), AC2 XLSX without Score column (D2), AC3 another user of the same organisation, no share link (D3). Stories GEO-1266 to GEO-1269 unchanged in Jira; QA keeps the story AC numbering (GEO-1269 AC1 / AC2).",
+      "Dev note (GEO-1068 comment 863917, 2026-10-16): \"The score is still computed by the API, only its display is removed.\""
+    ],
+    "crossReferences": {
+      "GEO-1209": [
+        "Jira link GEO-1068 \"relates to\" GEO-1209 (EPIC-046: Unbranded Analysis and Other Prompts)",
+        "GEO-1209 Dependencies cite \"EPIC-044 (GEO-1068): Top Topics in story 1.3 uses the same simplified concept display\"; the Jira summary of GEO-1068 is EPIC-048, not EPIC-044",
+        "GEO-1266 (48.1) surface: TopConceptsCard is shared by brand Top Concepts and unbranded Top Topics / Other page, so 48.1-48.3 also apply to GEO-1243 (Top Topics) and GEO-1248 (Other category page)",
+        "GEO-1267 (48.2): the concept detail panel is changed in both brand and unbranded analyses",
+        "GEO-1269 (48.4): the PPTX / PDF / XLSX export changes overlap with GEO-1245 / GEO-1248 export work (Other section limited to key concepts)"
+      ],
+      "GEO-1002": [
+        "No cross-reference found between GEO-1068 and GEO-1002 (EPIC-034)"
+      ]
+    },
+    "ignoredChildren": [],
+    "stories": [
+      {
+        "id": "GEO-1266",
+        "type": "Story",
+        "title": "Show only frequency and polarity on each concept",
+        "storyNumber": "STORY-48.1",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-16",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T12:13:23.523-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1266",
+        "file": "STORY_GEO-1266_Show_only_frequency_and_polarity_on_each.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-48/48-1-show-only-frequency-and-polarity-on-each-concept.md",
+        "surface": "frontend, the key concepts list (`TopConceptsCard`), shared by brand Top Concepts and unbranded Top Topics / Other page.",
+        "userStory": {
+          "as": "a GEO user scanning key concepts",
+          "want": "each concept to show just its frequency and whether it is positive, mixed or negative",
+          "so": "I can read the list at a glance without interpreting a numeric score"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Frequency and polarity only",
+            "given": "the key concepts list",
+            "when": "a concept is displayed",
+            "then": "it shows its frequency and its polarity (positive, mixed or negative) and no numeric sentiment score"
+          },
+          {
+            "id": "AC2",
+            "title": "Explicit label",
+            "given": "a concept",
+            "when": "its polarity is displayed",
+            "then": "the polarity is stated as an explicit label and not conveyed by color alone"
+          },
+          {
+            "id": "AC3",
+            "title": "Same concepts, same frequency",
+            "given": "the simplified display",
+            "when": "the list renders",
+            "then": "which concepts appear and their frequency values are unchanged from today"
+          }
+        ],
+        "acCount": 3,
+        "technicalNotes": [
+          "Rules (for QA)",
+          "Design ACs"
+        ],
+        "relatedTo": [
+          "GEO-1243 (Top Topics, GEO-1209)",
+          "GEO-1248 (Other page, GEO-1209)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1267",
+        "type": "Story",
+        "title": "Remove the score and barometer from the expanded concept view",
+        "storyNumber": "STORY-48.2",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-16",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T12:13:28.264-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1267",
+        "file": "STORY_GEO-1267_Remove_the_score_and_barometer_from_the.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-48/48-2-remove-the-score-and-barometer-from-the-expanded-concept-view.md",
+        "surface": "frontend, the concept detail panel (opened by a click on a concept row, brand and unbranded).",
+        "userStory": {
+          "as": "a GEO user inspecting a concept",
+          "want": "the expanded view to repeat only the frequency and polarity",
+          "so": "the detail panel focuses on the sources behind the concept"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Frequency and polarity, no score",
+            "given": "a concept",
+            "when": "I expand it",
+            "then": "the detail view shows the concept's frequency and its polarity label and no -100 to +100 sentiment score"
+          },
+          {
+            "id": "AC2",
+            "title": "No barometer",
+            "given": "the expanded view",
+            "when": "it renders",
+            "then": "the barometer gauge visualizing the sentiment score is no longer shown"
+          },
+          {
+            "id": "AC3",
+            "title": "Sources unchanged",
+            "given": "the expanded view",
+            "when": "it renders",
+            "then": "the cited sources and all other existing content remain unchanged"
+          }
+        ],
+        "acCount": 3,
+        "technicalNotes": [
+          "Rules (for QA)",
+          "Design ACs"
+        ],
+        "relatedTo": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1268",
+        "type": "Story",
+        "title": "Keep sorting and filtering consistent with the simplified display",
+        "storyNumber": "STORY-48.3",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-16",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T12:13:34.282-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1268",
+        "file": "STORY_GEO-1268_Keep_sorting_and_filtering_consistent_wi.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-48/48-3-keep-sorting-and-filtering-consistent-with-the-simplified-display.md",
+        "surface": "frontend, the sort and filters of the key concepts list.",
+        "userStory": {
+          "as": "a GEO user organizing the concepts list",
+          "want": "sorting and filtering to keep working on polarity",
+          "so": "the simplification does not remove any way I navigate the list"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Sort by polarity group",
+            "given": "the sort options",
+            "when": "I sort by sentiment",
+            "then": "concepts are ordered by polarity group (positive first, then mixed, then negative) without any numeric score being exposed"
+          },
+          {
+            "id": "AC2",
+            "title": "Filters unchanged",
+            "given": "the polarity filters",
+            "when": "I filter to positive, mixed or negative",
+            "then": "filtering behaves exactly as it does today"
+          },
+          {
+            "id": "AC3",
+            "title": "Distribution summary unchanged",
+            "given": "the sentiment distribution summary above the list (share of positive, mixed and negative concepts)",
+            "when": "the view renders",
+            "then": "it is unchanged by this epic"
+          }
+        ],
+        "acCount": 3,
+        "technicalNotes": [
+          "Rules (for QA)"
+        ],
+        "relatedTo": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1269",
+        "type": "Story",
+        "title": "Apply the simplified display everywhere concepts appear",
+        "storyNumber": "STORY-48.4",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-16",
+        "updated": "2026-10-16",
+        "updatedAt": "2026-10-16T12:13:38.666-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1269",
+        "file": "STORY_GEO-1269_Apply_the_simplified_display_everywhere.md",
+        "specUrl": "https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-48/48-4-apply-the-simplified-display-everywhere-concepts-appear.md",
+        "surface": "backend, the exports (PPTX / PDF, XLSX). No frontend work for the shared view.",
+        "userStory": {
+          "as": "a user consuming the analysis outside the main view",
+          "want": "exports and shared views to match the simplified display",
+          "so": "no surface still shows the removed score"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Slide export",
+            "given": "a slide export of the analysis",
+            "when": "the key concepts section is exported",
+            "then": "each concept shows frequency and polarity only, with no numeric sentiment score and no barometer"
+          },
+          {
+            "id": "AC2",
+            "title": "Shared analysis",
+            "given": "a shared analysis",
+            "when": "a recipient opens the key concepts view",
+            "then": "the display matches the simplified main view"
+          }
+        ],
+        "acCount": 2,
+        "technicalNotes": [
+          "Rules (for QA)"
+        ],
+        "relatedTo": [
+          "GEO-1245 / GEO-1248 (exports, GEO-1209)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      }
+    ],
+    "scopeDerived": true,
+    "epicAcceptanceCriteriaUpdated20261020": {
+      "1.3 AC1": "Given the sort options, When I sort by sentiment, Then concepts are ordered by polarity group (positive first, then mixed, then negative), then by frequency (highest first) inside a group, then by name, without any numeric score being exposed (Updated 2026-10-20)",
+      "1.4 AC1": "Given a slide export of the analysis, When the key concepts section is exported, Then each concept shows frequency and polarity only, with no numeric sentiment score and no barometer; the frequency takes the polarity colour (green, amber or red) as on the dashboard, and the polarity is written as a word in the export language (Updated 2026-10-20)",
+      "1.4 AC2": "Given an XLSX export of the analysis, When the key concepts are exported, Then there is no Score column (Updated 2026-10-20)",
+      "1.4 AC3": "Given another user of the same organisation, When they open the key concepts view of the analysis, Then the display matches the simplified main view; share links do not exist yet and are not part of this epic (Updated 2026-10-20)"
+    }
+  }
+}

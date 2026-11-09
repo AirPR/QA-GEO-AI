@@ -1,0 +1,281 @@
+{
+  "spec": "GEO-152-GEO-1126-mcp",
+  "runDate": "2026-09-25",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/7afde4fe-55be-4f53-b91f-241e4c91a234",
+  "summary": {
+    "total": 14,
+    "pass": 11,
+    "fail": 0,
+    "skip": 2,
+    "partial": 1
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1126-001",
+      "title": "Panel sections order: Related Prompts first, Cited URLs second",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-001_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-001_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-001_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the user is on the adidas dashboard Sources section", "status": "PASS" },
+        { "title": "When the user clicks a source row to open the details panel", "status": "PASS" },
+        { "title": "Then the panel shows 'Prompts associés' section first, followed by 'URL citées' section, with no per-engine citation-count block", "status": "PASS" }
+      ],
+      "notes": "Panel header: 'Détails des sources de citation des moteurs IA'. Section order confirmed: 'Prompts associés' (with preview rows) appears above 'URL citées (N)'."
+    },
+    {
+      "tc_id": "TC-GEO-1126-002",
+      "title": "Related Prompts preview shows prompt texts with engine icons and 'All related Prompts (N)' control",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-002_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-002_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-002_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the source details panel is open", "status": "PASS" },
+        { "title": "When the user views the Prompts associés section", "status": "PASS" },
+        { "title": "Then up to 5 prompt preview rows appear with engine icons, and a 'Tous les prompts associés (N)' link control is shown at the bottom", "status": "PASS" }
+      ],
+      "notes": "Preview shows prompt texts (e.g. 'De bonnes chaussures de sport ?') with engine icons (Gemini, ChatGPT). 'Tous les prompts associés 26' link visible at the bottom of the prompts section."
+    },
+    {
+      "tc_id": "TC-GEO-1126-003",
+      "title": "Cited URLs section shows count heading and URL rows with 'All Cited URLs (N)' control",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-003_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-003_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-003_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the source details panel is open", "status": "PASS" },
+        { "title": "When the user scrolls to the Cited URLs section", "status": "PASS" },
+        { "title": "Then 'URL citées (27)' heading appears with URL rows showing favicon, title, address and engine icons", "status": "PASS" }
+      ],
+      "notes": "Section heading 'URL citées (27)' confirmed. URL rows show domain favicon, page title, full URL and engine icons."
+    },
+    {
+      "tc_id": "TC-GEO-1126-004",
+      "title": "'All related Prompts' modal opens with correct header, prompt count, search field, and full list",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-004_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-004_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-004_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the source details panel is open showing 'Tous les prompts associés (N)' control", "status": "PASS" },
+        { "title": "When the user clicks 'Tous les prompts associés'", "status": "PASS" },
+        { "title": "Then a modal opens with header 'Tous les prompts associés - {domain}', total prompt count, 'Rechercher des prompts' search field, and full prompt list", "status": "PASS" }
+      ],
+      "notes": "Modal header: 'Tous les prompts associés - frmf.ma' with '18 prompts'. Search field 'Rechercher des prompts' visible. Full list of prompts displayed."
+    },
+    {
+      "tc_id": "TC-GEO-1126-005",
+      "title": "Modal shows 4 tabs (ALL, Visibility, Competitive, Perception) each with count, ALL selected by default",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-005_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-005_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-005_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the 'Tous les prompts associés' modal is open", "status": "PASS" },
+        { "title": "When the modal is first displayed", "status": "PASS" },
+        { "title": "Then 4 tabs are visible: TOUS (selected by default), Visibilité N, Concurrentiel N, Perception N — each showing its count", "status": "PASS" }
+      ],
+      "notes": "For frmf.ma: TOUS (selected), Visibilité 8, Concurrentiel 10, Perception 0. For co.ma: TOUS, Visibilité 8, Concurrentiel 10, Perception 8."
+    },
+    {
+      "tc_id": "TC-GEO-1126-006",
+      "title": "Multi-engine prompts appear as single rows with all engine icons",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-006_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-006_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-006_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the 'Tous les prompts associés' modal is open showing the TOUS tab", "status": "PASS" },
+        { "title": "When the user inspects prompt rows that appear on multiple engines", "status": "PASS" },
+        { "title": "Then prompts cited by multiple engines appear as a single row with multiple engine icons displayed together", "status": "PASS" }
+      ],
+      "notes": "Confirmed: rows like 'Compare Toyota, Hyundai, Tesla and Ford for Electric Cars?' show multiple engine icons (e.g. Gemini + ChatGPT) in a single row rather than duplicate rows per engine."
+    },
+    {
+      "tc_id": "TC-GEO-1126-007",
+      "title": "'All Cited URLs' modal opens with correct header, count, search field, and URL rows",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-007_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-007_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-007_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the source details panel is open showing 'Toutes les URLs citées (N)' control", "status": "PASS" },
+        { "title": "When the user clicks the 'Toutes les URLs citées' control", "status": "PASS" },
+        { "title": "Then a modal opens with 'URLs citées - {domain}' header, URL count, search field, and URL rows with favicon, title, address and engine icons", "status": "PASS" }
+      ],
+      "notes": "Modal confirmed: header includes domain name and count. URL rows display favicon, page title, URL address, and engine icons."
+    },
+    {
+      "tc_id": "TC-GEO-1126-008",
+      "title": "Search in Visibility tab filters to Visibility tab prompts only",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-008_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-008_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-008_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the modal is open on the Visibilité tab", "status": "PASS" },
+        { "title": "When the user types a search term in 'Rechercher des prompts'", "status": "PASS" },
+        { "title": "Then results are filtered to show only Visibility-tab prompts matching the search term", "status": "PASS" }
+      ],
+      "notes": "Search field filters prompts within the active tab scope. Confirmed search narrows the Visibilité tab results independently."
+    },
+    {
+      "tc_id": "TC-GEO-1126-009",
+      "title": "Competitive tab with 0 prompts shows empty state, other tabs remain accessible",
+      "story_id": "GEO-1126",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-009_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-009_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-009_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the modal is open for a source with Perception tab count of 0 (frmf.ma: Perception 0)", "status": "PASS" },
+        { "title": "When the user clicks the Perception tab (count 0)", "status": "PASS" },
+        { "title": "Then the tab body shows an empty state message and the other tabs (TOUS, Visibilité, Concurrentiel) remain clickable and accessible", "status": "PARTIAL" }
+      ],
+      "notes": "PARTIAL: Perception tab (count 0) for frmf.ma showed an empty list area. Other tabs remained accessible. However, no specific empty-state message text (e.g. 'No prompts found') was confirmed visible in the DOM — the tab area was simply empty. Other tabs remained clickable and functional."
+    },
+    {
+      "tc_id": "TC-GEO-1126-010",
+      "title": "Prompt count in panel control matches modal header and tab sum",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-010_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-010_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-010_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the source details panel is open showing 'Tous les prompts associés (N)' control", "status": "PASS" },
+        { "title": "When the user clicks the control to open the modal", "status": "PASS" },
+        { "title": "Then the count N in the panel control equals the modal header count, and equals the sum of all tab counts (Visibilité + Concurrentiel + Perception)", "status": "PASS" }
+      ],
+      "notes": "For frmf.ma: panel control shows 18, modal header '18 prompts', tab sum Visibilité(8) + Concurrentiel(10) + Perception(0) = 18. For co.ma: panel 26, modal '26 prompts', tab sum 8+10+8 = 26. All counts agree."
+    },
+    {
+      "tc_id": "TC-GEO-1126-011",
+      "title": "Perception tab shows questions (1 row per question, not per concept), count matches unique questions displayed",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-011_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-011_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-011_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the 'Tous les prompts associés' modal is open for a source with Perception prompts (co.ma, Perception 8)", "status": "PASS" },
+        { "title": "When the user clicks the Perception tab", "status": "PASS" },
+        { "title": "Then rows represent full question strings (1 row per unique question, not per concept), and the displayed count equals the tab badge count of 8", "status": "PASS" }
+      ],
+      "notes": "Perception tab for co.ma shows 8 unique full-question rows: e.g. 'Que penses-tu d\u2019adidas pour les chaussures de sport ?', 'Quelle est la r\u00e9putation d\u2019adidas...', etc. JS count confirmed 8 lines ending with '?'. No concept-level fragmentation observed."
+    },
+    {
+      "tc_id": "TC-GEO-1126-012",
+      "title": "Panel respects active dashboard scope (France + Claude + Last 7 days)",
+      "story_id": "GEO-1126",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-012_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-012_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-012_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the dashboard with France + Claude + Last 7 days scope", "status": "SKIP" },
+        { "title": "When the user opens a source panel", "status": "SKIP" },
+        { "title": "Then the panel reflects only prompts and URLs matching the scope", "status": "SKIP" }
+      ],
+      "notes": "SKIP: Claude engine toggle is disabled/greyed-out on this dashboard (confirmed via LLM filter dropdown). The France + Claude + Last 7 days precondition cannot be configured. Screenshot shows Claude toggle in disabled state alongside active ChatGPT and Gemini."
+    },
+    {
+      "tc_id": "TC-GEO-1126-013",
+      "title": "Panel scope follows dashboard exactly, no 7-day floor (e.g. 3-day range)",
+      "story_id": "GEO-1126",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-013_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-013_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-013_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the dashboard date range is set to a sub-7-day range (e.g. 3 days)", "status": "SKIP" },
+        { "title": "When the user opens a source panel", "status": "SKIP" },
+        { "title": "Then the panel reflects the 3-day scope, not a forced 7-day minimum", "status": "SKIP" }
+      ],
+      "notes": "SKIP: No sub-7-day date range option exists in staging. The date picker minimum is '7 derniers jours' (last 7 days). Screenshot shows date picker calendar confirming no 3-day or similar short-range option is available."
+    },
+    {
+      "tc_id": "TC-GEO-1126-014",
+      "title": "Panel shows 'Related Prompts' section heading (Figma label check)",
+      "story_id": "GEO-1126",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-014_step1_given.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-014_step2_when.png",
+        "screenshots-GEO-152-GEO-1126-mcp/TC-GEO-1126-014_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the user is on the Sources section of the dashboard", "status": "PASS" },
+        { "title": "When the user opens a source detail panel", "status": "PASS" },
+        { "title": "Then the prompts section heading reads 'Prompts associ\u00e9s' (French equivalent of 'Related Prompts')", "status": "PASS" }
+      ],
+      "notes": "Section heading 'Prompts associ\u00e9s' confirmed as a <p> element with class 'mb-2 font-medium text-[14px] text-slate-500'. The panel is in French locale. Heading is present and visible in the panel for co.ma."
+    }
+  ]
+}

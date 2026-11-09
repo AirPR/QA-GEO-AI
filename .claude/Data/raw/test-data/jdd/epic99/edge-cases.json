@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "profile": "edge-cases",
+    "epic": "epic99",
+    "description": "Jeu de données edge-cases — tour guidé activé, module sidebar sans URL, URLs modules configurées",
+    "note": "Renseigner les UUIDs et URLs réels de l'env cible avant de lancer"
+  },
+
+  "reports": {
+    "multi_snapshot_uuid": "9864c210-948d-4813-aab8-6a007e9127c2",
+    "single_snapshot_uuid": "À-RENSEIGNER"
+  },
+
+  "sidebar": {
+    "missing_module_label": "Mention",
+    "_comment_missing": "Mention = module intentionnellement sans URL configurée dans cet env (GEO-235-TC006)",
+    "_comment_labels": "module_labels défini dans common.json — fusionné au chargement"
+  },
+
+  "urls": {
+    "tour_entry_url": "http://localhost:3000/geo?tour=true",
+    "_comment_tour": "URL qui déclenche le guided tour (GEO-55 TC1-TC4) — adapter à l'env",
+    "mention_url": "https://app.mention.com",
+    "_comment_mention": "À adapter — URL exacte de destination après clic Mention",
+    "review_url": "https://app.review.com",
+    "contact_url": "https://contact.portal.com"
+  },
+
+  "snapshot_navigator": {
+    "label_regex": "Analysis\\s+[—\\u2013-]\\s+\\d+\\s+\\w+\\s+\\d{4}",
+    "max_nav_clicks": 30
+  },
+
+  "guided_tour": {
+    "min_steps": 8,
+    "max_steps": 12,
+    "max_iteration_clicks": 15
+  },
+
+  "settings_page": {
+    "expected_text": "Coming Soon"
+  },
+
+  "expected_texts": {
+    "empty_state_heading": "No reports have been made for your Brand",
+    "empty_state_cta": "Create your first Report"
+  }
+}

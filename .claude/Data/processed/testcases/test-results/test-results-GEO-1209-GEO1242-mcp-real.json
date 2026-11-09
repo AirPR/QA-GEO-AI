@@ -1,0 +1,732 @@
+{
+  "spec": "GEO-1209-GEO1242-mcp",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "story_filter": "GEO-1242",
+  "environment": "staging, organisation QA-GEO, en-GB, features.unbranded_analysis=true, prompt pool 958/1000",
+  "analysis_under_test": "Electric bikes 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (UNBRANDED, COMPLETED); wizard draft \"Postal services\" GB+FR (not created)",
+  "write_guard": "context.route on **/geo/api/** blocking non-GET; allow-listed draft-building POSTs: analysis/discover-categories, analysis/translate-category, questions/adapt-batch. POSTs observed: discover-categories x1, adapt-batch x4. No analysis created (11 reports before and after). Guard removed with context.unrouteAll() at the end.",
+  "run_folder": "runs/20102026-2230",
+  "summary": {
+    "total": 14,
+    "pass": 3,
+    "fail": 2,
+    "skip": 3,
+    "partial": 6,
+    "success_rate": 42.9,
+    "verdict": "NO-GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1242-001",
+      "title": "A created unbranded analysis keeps its mode and topic with no target brand and is named after the topic",
+      "story_id": "GEO-1242",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 1 - Expected: Review shows the topic \"Postal services\", the markets and the categories. Observed: Review shows the markets and the categories only; the topic is not displayed anywhere on Review.",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-001_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-001_step1_review_no_topic.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-001_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-001_step3_dashboard.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-001_step4_sidebar.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-001_step5_manage_scope.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Review of the unbranded scope",
+          "status": "FAIL",
+          "data": "",
+          "expected": "Review shows the topic \"Postal services\", the markets and the categories",
+          "observed": "Observed: Review (Analysis Scope) shows Markets \"United Kingdom · English\", \"France · French\", Categories \"Package Delivery\", \"Mail Services\", the AI Engines and the \"Some metrics will not be produced.\" warning, but NOT the topic \"Postal services\" (no occurrence of \"Postal\" anywhere in the page DOM)."
+        },
+        {
+          "title": "When the user clicks Create Analysis",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The creation confirmation is displayed with View analysis",
+          "observed": "Not executed: Create Analysis is not authorised in this run. Known observation from the creation of UA (2026-10-20): after Create Analysis the wizard stayed on Review at /geo/new, with no redirect and no confirmation, although POST /geo/api/v1/reports returned 201 -> possible bug against \"The creation confirmation is displayed with View analysis\"."
+        },
+        {
+          "title": "And the user opens the GEO dashboard analyses list",
+          "status": "PASS",
+          "data": "",
+          "expected": "The new analysis is listed as \"Postal services\" in the \"Brand / Topic\" column",
+          "observed": "Verified on UA: dashboard table header \"Brand / Topic\"; row \"Electric bikes\" (E avatar) - Commuter Electric Bikes - 5 prompts."
+        },
+        {
+          "title": "And the user opens the analysis",
+          "status": "PASS",
+          "data": "",
+          "expected": "The sidebar block shows \"Postal services\"",
+          "observed": "Verified on UA: sidebar block shows \"Electric bikes\" (letter avatar E, no brand logo)."
+        },
+        {
+          "title": "Then no target brand is set",
+          "status": "PASS",
+          "data": "",
+          "expected": "No brand is shown as the analysis brand anywhere in the sidebar, Overview or Manage Scope",
+          "observed": "Verified on UA: no brand shown as the analysis brand in the sidebar, Overview (landscape, Share of Voice) or Manage Scope; API: analysisMode UNBRANDED, entityDomainConfirmed false, no entityDomain/logo."
+        },
+        {
+          "title": "And the analysis stays unbranded",
+          "status": "PASS",
+          "data": "Manage Scope",
+          "expected": "Manage Scope shows the topic \"Postal services\" and no brand field",
+          "observed": "Verified on UA: Manage Scope has no brand field; the topic is shown only in the sidebar header of the Manage Scope page (views-category-title, read-only). The page body does not repeat the topic - same layout as the brand analysis Nike, whose brand is also only in the sidebar header."
+        }
+      ],
+      "notes": "Wizard draft built for this run (not created): Unbranded analysis, topic \"Postal services\", markets United Kingdom - English (EN) and France - French (FR); discovery returned C1 = \"Package Delivery\" and C2 = \"Mail Services\". Pool: 958 / 1000 used, the draft generated 120 prompts (1078 / 1000, Review & Launch disabled); to reach Review only the 40 Visibility prompts were kept (998 / 1000, wizard-local selection, nothing saved). Steps 3-6 verified on the existing unbranded analysis UA = \"Electric bikes\" (42c3ab89-7dfd-4ba5-b5ec-117cec2514e4): GB (EN) only, 1 category \"Commuter Electric Bikes\" + Other, ChatGPT + Gemini, 5 kept prompts (2 Visibility, 2 Category Topics, 1 custom Other), collection of 20 Oct 2026 (topic \"Electric bikes\" instead of \"Postal services\"). PO question: should Review show the topic (it does not show the brand for a brand analysis either)? If not, align the CSV step 1 expected result."
+    },
+    {
+      "tc_id": "TC-GEO-1242-002",
+      "title": "No brand is scored, highlighted or protected as the target in an unbranded analysis",
+      "story_id": "GEO-1242",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Step 6 needs the collection logs (dev support).",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-002_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-002_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-002_step3_category_prompts.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-002_step3_sources.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Overview of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The unbranded Overview is displayed",
+          "observed": "Unbranded Overview of UA displayed (Identity / Performance / Sources; InBrief, Top Topics, Share of Voice, landscape, Citation Sources)."
+        },
+        {
+          "title": "When the user looks at the landscape table and the Share of Voice ring",
+          "status": "PASS",
+          "data": "",
+          "expected": "No row is highlighted, starred or marked as target; no slice is enlarged",
+          "observed": "Landscape \"Electric bikes landscape\": 10 rows, all bg-white with weight 400, no star/target icon or label; Share of Voice ring: 11 sectors, all with the same radii (116/76), no enlarged slice."
+        },
+        {
+          "title": "And the user opens a category and its prompts table",
+          "status": "PASS",
+          "data": "Category C1",
+          "expected": "No target brand block or target marker is shown on any row",
+          "observed": "Category \"Commuter Electric Bikes\": Prompts Analysis table (All 4: 2 Visibility \"Split\", 2 Category Topics with themes) - no target brand block, no target marker; winnerIsTarget=false on every row (API)."
+        },
+        {
+          "title": "And the user looks at the AI Citation Sources legend",
+          "status": "PASS",
+          "data": "",
+          "expected": "No \"Owned Media\" and no \"Competitor Media\" entry",
+          "observed": "AI Engines Citation Sources legend: All source types, Journalism, Corporate, Review Sites, Gov / NGO, Other - no \"Owned Media\", no \"Competitor Media\"."
+        },
+        {
+          "title": "Then every brand named by the answers is measured the same way",
+          "status": "PASS",
+          "data": "",
+          "expected": "Brand families are grouped in the rankings with no family kept apart as a target",
+          "observed": "Brand families grouped in the rankings: \"Specialized +3\" (Turbo Como 3.0, Turbo Vado SL 4.0 EQ, Creo 2 Comp E5, Turbo Vado SL 5.0 EQ), \"Cannondale +1\"; no family kept apart."
+        },
+        {
+          "title": "And the logs show the source classification input",
+          "status": "SKIP",
+          "data": "Dev support: collection logs of UA",
+          "expected": "Source classification received the topic and the brands named, with no target brand",
+          "observed": "Not executable via UI: the source classification input is only in the collection logs (dev support)."
+        }
+      ],
+      "notes": "Run on the existing unbranded analysis UA = \"Electric bikes\" (42c3ab89-7dfd-4ba5-b5ec-117cec2514e4): GB (EN) only, 1 category \"Commuter Electric Bikes\" + Other, ChatGPT + Gemini, 5 kept prompts (2 Visibility, 2 Category Topics, 1 custom Other), collection of 20 Oct 2026 instead of \"Postal services\" GB+FR with 2 categories. UI steps PASS; the log step is not verifiable via MCP."
+    },
+    {
+      "tc_id": "TC-GEO-1242-003",
+      "title": "Category discovery splits the topic into 2 consumer search areas with no brand website",
+      "story_id": "GEO-1242",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-003_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-003_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Topic & Country of an unbranded analysis",
+          "status": "PASS",
+          "data": "Topic: \"Postal services\"; market GB (EN)",
+          "expected": "Discover Categories is enabled",
+          "observed": "Topic & Country with topic \"Postal services\", United Kingdom / English (EN) (France / French (FR) also added for the next TCs of the run); Discover Categories enabled."
+        },
+        {
+          "title": "When the user clicks Discover Categories",
+          "status": "PASS",
+          "data": "",
+          "expected": "The discovery screen is displayed, then Categories opens",
+          "observed": "POST /geo/api/v1/analysis/discover-categories -> 200; Categories opened (\"We detected these categories for Postal services. Remove any, add your own.\"). The discovery screen lasted under 1.5 s and was not captured on screen."
+        },
+        {
+          "title": "Then exactly 2 categories are detected",
+          "status": "PASS",
+          "data": "",
+          "expected": "Categories lists 2 categories with the AI-generated badge",
+          "observed": "Exactly 2 categories, both with the \"AI generated\" badge."
+        },
+        {
+          "title": "And they are consumer search areas of the topic",
+          "status": "PASS",
+          "data": "",
+          "expected": "Both are areas of \"Postal services\" (e.g. \"Parcel delivery\" and \"International shipping\"), not brand names",
+          "observed": "\"Package Delivery\" (FR: Livraison de colis) and \"Mail Services\" (FR: Services de courrier): consumer search areas of postal services, no brand name."
+        },
+        {
+          "title": "And no brand website is used or asked",
+          "status": "PASS",
+          "data": "",
+          "expected": "No website field or brand domain is shown on Topic & Country or Categories",
+          "observed": "No website / domain field on Topic & Country or Categories (0 url/website/domain inputs)."
+        }
+      ],
+      "notes": "Wizard draft built for this run (not created): Unbranded analysis, topic \"Postal services\", markets United Kingdom - English (EN) and France - French (FR); discovery returned C1 = \"Package Delivery\" and C2 = \"Mail Services\". C1/C2 differ from the CSV examples (\"Parcel delivery\", \"International shipping\") but match the rule."
+    },
+    {
+      "tc_id": "TC-GEO-1242-004",
+      "title": "Visibility prompts use the 10 production templates with the category only",
+      "story_id": "GEO-1242",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 3 - Expected: each wording is a production Visibility template with the category name in the {category} slot. Observed: the 10 GB (EN) rows for C1 \"Package Delivery\" are reworded (\"Best Package Delivery service?\" instead of \"Best Package Delivery?\"; \"Which Package Delivery service should I use?\" instead of \"Which Package Delivery should I buy?\"). For C2 \"Mail Services\" GB, 9/10 are verbatim and \"Which Mail Services should I use?\" replaces \"...should I buy?\".",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-004_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-004_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The table is displayed",
+          "observed": "Prompts step of the draft displayed: 120 rows (2 categories x 2 markets x 30)."
+        },
+        {
+          "title": "When the user filters on Type Visibility, category C1 and market GB (EN)",
+          "status": "PASS",
+          "data": "",
+          "expected": "10 Visibility rows are shown",
+          "observed": "Filter Type Visibility + Category Package Delivery + Market GB (EN): 10 rows."
+        },
+        {
+          "title": "Then the 10 rows match the 10 production Visibility templates",
+          "status": "FAIL",
+          "data": "Reference: questionTemplates.ts Visibility templates with {category} = C1",
+          "expected": "Each wording is a production Visibility template with the category name in the {category} slot",
+          "observed": "Rows: \"Best Package Delivery service?\", \"Top Package Delivery service?\", \"Which Package Delivery service do you recommend?\", \"Most popular Package Delivery service?\", \"Recommended Package Delivery service?\", \"Which Package Delivery service should I use?\", \"What Package Delivery service should I get?\", \"Good Package Delivery service?\", \"Suggest Package Delivery service?\", \"Most recommended Package Delivery service?\". Production templates (frontend bundle, VISIBILITY, shared by brand and unbranded): \"Best {category}?\", \"Top {category}?\", \"Which {category} do you recommend?\", \"Most popular {category}?\", \"Recommended {category}?\", \"Which {category} should I buy?\", \"What {category} should I get?\", \"Good {category}?\", \"Suggest {category}?\", \"Most recommended {category}?\". All 10 GB rows add the word \"service\" and template 6 \"should I buy?\" became \"should I use?\"."
+        },
+        {
+          "title": "And no Visibility prompt names a brand or a competitor slot",
+          "status": "PASS",
+          "data": "",
+          "expected": "No brand name and no [Competitor N] in any Visibility wording",
+          "observed": "No brand name and no [Competitor N] in any Visibility wording."
+        }
+      ],
+      "notes": "Wizard draft built for this run (not created): Unbranded analysis, topic \"Postal services\", markets United Kingdom - English (EN) and France - French (FR); discovery returned C1 = \"Package Delivery\" and C2 = \"Mail Services\". The rewording comes from POST /questions/adapt-batch (market adaptation, AC5) applied to the GB (EN) market. Counter-check on UA (GB, \"Commuter Electric Bikes\"): the 10 stored Visibility prompts are the production templates verbatim. PO question: may the market adaptation reword the Visibility templates for the analysis language (adds \"service\", buy -> use), or must Visibility stay verbatim (AC4 \"unchanged\")? If allowed, the CSV step 3 expected result should say \"a production Visibility template, possibly adapted for the market\"."
+    },
+    {
+      "tc_id": "TC-GEO-1242-005",
+      "title": "Competitive prompts use the production templates with [Competitor 4] and compare the top 4 brands of their category and market",
+      "story_id": "GEO-1242",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Steps 3-5 need a collection with kept Competitive prompts; UA keeps none and no other unbranded analysis of QA-GEO has Competitive prompts (kids toys: 3 Category Topics only). A new creation is not authorised in this run.",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-005_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-005_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope > Prompts of analysis UA",
+          "status": "PASS",
+          "data": "Filter: Type Competitive, category C1, market GB (EN)",
+          "expected": "10 Competitive rows are shown",
+          "observed": "Manage Scope > Prompts of UA, filter Type Competitive (category Commuter Electric Bikes, GB (EN)): 10 Competitive rows, all unticked (not kept)."
+        },
+        {
+          "title": "When the user reads the Competitive wordings",
+          "status": "PASS",
+          "data": "Reference: questionTemplates.ts Competitive templates",
+          "expected": "Each is a production Competitive template where the {entity} slot reads [Competitor 4], next to [Competitor 1] to [Competitor 3]",
+          "observed": "Each wording is a production unbranded Competitive template: \"Best for Commuter Electric Bikes: [Competitor 1], [Competitor 2], [Competitor 3] or [Competitor 4]?\" ... \"Compare [Competitor 1], [Competitor 2], [Competitor 3] and [Competitor 4] for Commuter Electric Bikes?\" - the {entity} slot reads [Competitor 4] next to [Competitor 1] to [Competitor 3] (10/10 match with the bundle COMPETITIVE templates for UNBRANDED)."
+        },
+        {
+          "title": "And the user opens the C1 rankings for market GB (EN) in the latest collection",
+          "status": "SKIP",
+          "data": "Market filter: GB (EN)",
+          "expected": "The 4 brands most cited by the C1 Visibility answers are noted (B1 to B4)",
+          "observed": "Not executable: no Competitive prompt is kept in UA, so no Competitive prompt ran in the collection (category view: Competitive 0)."
+        },
+        {
+          "title": "And the user opens a Competitive prompt detail of C1 for market GB (EN)",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The detail panel shows the prompt sent and its answers",
+          "observed": "Not executable (no Competitive prompt detail)."
+        },
+        {
+          "title": "Then the Competitive prompt compares the top 4 brands of that category and market",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The sent wording names B1, B2, B3 and B4 and no other brand",
+          "observed": "Not executable (no sent Competitive wording to compare with the top 4 brands)."
+        }
+      ],
+      "notes": "Run on the existing unbranded analysis UA = \"Electric bikes\" (42c3ab89-7dfd-4ba5-b5ec-117cec2514e4): GB (EN) only, 1 category \"Commuter Electric Bikes\" + Other, ChatGPT + Gemini, 5 kept prompts (2 Visibility, 2 Category Topics, 1 custom Other), collection of 20 Oct 2026. CSV proposal: point the TC to an unbranded analysis with Competitive prompts kept, or split the template check (steps 1-2) from the collection check (steps 3-5)."
+    },
+    {
+      "tc_id": "TC-GEO-1242-006",
+      "title": "Prompts adapted for a market are built around the topic and need not contain the topic word",
+      "story_id": "GEO-1242",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Step 6 needs the generation logs (dev support).",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-006_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-006_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The table is displayed",
+          "observed": "Prompts step of the draft displayed."
+        },
+        {
+          "title": "When the user filters on market FR (FR)",
+          "status": "PASS",
+          "data": "",
+          "expected": "Only FR (FR) rows are shown",
+          "observed": "Filter market FR (FR): 60 rows, all FR (FR)."
+        },
+        {
+          "title": "Then the prompts are adapted and translated to French",
+          "status": "PASS",
+          "data": "",
+          "expected": "Every wording is in French and refers to its category",
+          "observed": "All 60 wordings are in French and refer to their category (livraison de colis / services de courrier), e.g. \"Quel est le meilleur service de livraison de colis ?\", \"Que faut-il rechercher dans les services de courrier ?\"; [Competitor N] placeholders kept as is."
+        },
+        {
+          "title": "And no prompt is built around a brand",
+          "status": "PASS",
+          "data": "",
+          "expected": "No wording names a target brand",
+          "observed": "No wording names a brand (no La Poste, Colissimo, Chronopost, DHL, UPS, FedEx, Royal Mail)."
+        },
+        {
+          "title": "And the topic word is not required in the wording",
+          "status": "PASS",
+          "data": "",
+          "expected": "Rows without the word \"postal services\" (or its translation) are accepted and listed like the others",
+          "observed": "None of the 60 FR rows contains \"postal services\" or a translation (postal / postaux / poste); they are listed and ticked like the others."
+        },
+        {
+          "title": "And the logs show the adaptation input",
+          "status": "SKIP",
+          "data": "Dev support: generation logs",
+          "expected": "QUESTION_ADAPTATION received the topic, not a brand, and no \"entity must not appear\" rule",
+          "observed": "Not executable via UI: QUESTION_ADAPTATION input is only in the generation logs (dev support)."
+        }
+      ],
+      "notes": "Wizard draft built for this run (not created): Unbranded analysis, topic \"Postal services\", markets United Kingdom - English (EN) and France - French (FR); discovery returned C1 = \"Package Delivery\" and C2 = \"Mail Services\"."
+    },
+    {
+      "tc_id": "TC-GEO-1242-007",
+      "title": "Each category gets the 10 Category Topics prompts, one per theme",
+      "story_id": "GEO-1242",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-007_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-007_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-007_step3_then.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-007_step4_c2.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The table is displayed",
+          "observed": "Prompts step of the draft displayed."
+        },
+        {
+          "title": "When the user filters on Type Category Topics, category C1 and market GB (EN)",
+          "status": "PASS",
+          "data": "",
+          "expected": "10 Category Topics rows are shown",
+          "observed": "Filter Type Category Topics + C1 Package Delivery + GB (EN): 10 rows."
+        },
+        {
+          "title": "Then the 10 rows match the 10 themes with the category name",
+          "status": "PASS",
+          "data": "C1 = e.g. \"Parcel delivery\"",
+          "expected": "\"What should I look for in {category}?\", \"What makes {category} good quality?\", \"What is good value for money in {category}?\", \"What do people like most about {category}?\", \"What are the most common problems with {category}?\", \"How do I know which {category} options I can trust?\", \"What is changing in {category} right now?\", \"What are the ethical and environmental concerns around {category}?\", \"What do experts recommend about {category}?\", \"What are the main controversies in {category}?\" with {category} = C1",
+          "observed": "The 10 rows are the 10 themes in the AC order with {category} = \"Package Delivery\" (exact string comparison, 10/10)."
+        },
+        {
+          "title": "And category C2 gets the same 10 prompts",
+          "status": "PASS",
+          "data": "Filter: category C2, market GB (EN)",
+          "expected": "10 rows with the same 10 themes and {category} = C2",
+          "observed": "C2 \"Mail Services\" GB (EN): the same 10 themes with {category} = \"Mail Services\" (exact, 10/10)."
+        }
+      ],
+      "notes": "Wizard draft built for this run (not created): Unbranded analysis, topic \"Postal services\", markets United Kingdom - English (EN) and France - French (FR); discovery returned C1 = \"Package Delivery\" and C2 = \"Mail Services\". Category Topics wordings are verbatim on GB (unlike the GB Visibility rows of TC-004)."
+    },
+    {
+      "tc_id": "TC-GEO-1242-008",
+      "title": "Category Topics prompts run as written, with answers not framed around a brand",
+      "story_id": "GEO-1242",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Step 5 needs the collection logs (dev support).",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-008_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-008_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category C1 of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The category view is displayed",
+          "observed": "Category view of \"Commuter Electric Bikes\" (UA) displayed."
+        },
+        {
+          "title": "When the user opens the \"Category Topics\" tab of the prompts table and opens \"What should I look for in {category}?\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "The detail panel opens",
+          "observed": "Category Topics tab (2) -> \"What should I look for in Commuter Electric Bikes?\" -> detail panel opens (Category Topics, United Kingdom, ChatGPT / Gemini)."
+        },
+        {
+          "title": "Then the prompt was sent as written",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt shown is the exact wording of the row, with nothing added about a brand",
+          "observed": "Prompt shown = exact row wording \"What should I look for in Commuter Electric Bikes?\", nothing added about a brand (API detail questionText identical)."
+        },
+        {
+          "title": "And the answers are about the category",
+          "status": "PASS",
+          "data": "",
+          "expected": "The response per engine discusses the category, not a target brand",
+          "observed": "ChatGPT and Gemini responses discuss the category (safety features, integrated accessories, battery capacity, motor type, legal requirements); brands only cited as examples (Bosch / Shimano motors), no target brand framing."
+        },
+        {
+          "title": "And the logs show no Perception system instruction",
+          "status": "SKIP",
+          "data": "Dev support: collection logs",
+          "expected": "The Category Topics request carries no Perception system instruction, as for Other-type prompts",
+          "observed": "Not executable via UI: the Perception system instruction is only visible in the collection logs (dev support)."
+        }
+      ],
+      "notes": "Run on the existing unbranded analysis UA = \"Electric bikes\" (42c3ab89-7dfd-4ba5-b5ec-117cec2514e4): GB (EN) only, 1 category \"Commuter Electric Bikes\" + Other, ChatGPT + Gemini, 5 kept prompts (2 Visibility, 2 Category Topics, 1 custom Other), collection of 20 Oct 2026. Side finding: in the Gemini sources of this prompt the rospa.com PDF is listed with the title \"Report title can be placed here on three lines\" (placeholder text from the source document metadata, also in the top-concepts API)."
+    },
+    {
+      "tc_id": "TC-GEO-1242-009",
+      "title": "Category Topics answers return topics with a category-wide sentiment and attached brands on the non engine-native path",
+      "story_id": "GEO-1242",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Step 5 needs the concepts storage / logs (dev support); the public API does not expose the attached brands.",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-009_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-009_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category C1 of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "Top Topics in the Category is displayed",
+          "observed": "Category \"Commuter Electric Bikes\": Top Topics in the Category displayed (75% Positive 6 topics, 13% Mixed 1, 13% Negative 1)."
+        },
+        {
+          "title": "When the user reads the topics",
+          "status": "PASS",
+          "data": "",
+          "expected": "Each topic is an aspect of the category with a sentiment (Positive / Mixed / Negative) and a frequency",
+          "observed": "Each topic is an aspect of the category with a sentiment and a frequency: integrated accessories (Positive, 100%), comfort (Positive, 100%), battery capacity (Positive, 75%), motor type, maintenance needs, safety features (Positive, 50%), battery degradation (Negative, 50%), legal requirements (Mixed, 25%)."
+        },
+        {
+          "title": "Then the sentiment describes the category as a whole",
+          "status": "PASS",
+          "data": "",
+          "expected": "Topic sentiments refer to how the aspect of the category is presented, not to a brand",
+          "observed": "Sentiments describe how the aspect of e-bikes is presented (e.g. battery degradation Negative), not a brand."
+        },
+        {
+          "title": "And no brand tag is displayed",
+          "status": "PASS",
+          "data": "",
+          "expected": "No brand tag next to any topic",
+          "observed": "No brand tag next to any topic (only quotes / sources / sentiment)."
+        },
+        {
+          "title": "And the API / logs show the attached brands and the extraction path",
+          "status": "SKIP",
+          "data": "Dev support: concepts API or logs",
+          "expected": "Each topic carries up to 3 brands as written in the answers; extraction ran on the non engine-native path",
+          "observed": "Not verifiable: GET .../categories/{id}/top-concepts returns name, frequency, sentimentScore, sentiment, sourcesCount, citationsCount, citedBy, quotes, sources - no attached brands field; the extraction path and the engine-native setting of QA-GEO are only in logs (dev support)."
+        }
+      ],
+      "notes": "Run on the existing unbranded analysis UA = \"Electric bikes\" (42c3ab89-7dfd-4ba5-b5ec-117cec2514e4): GB (EN) only, 1 category \"Commuter Electric Bikes\" + Other, ChatGPT + Gemini, 5 kept prompts (2 Visibility, 2 Category Topics, 1 custom Other), collection of 20 Oct 2026."
+    },
+    {
+      "tc_id": "TC-GEO-1242-010",
+      "title": "Top Topics keeps at most 12 topics per category",
+      "story_id": "GEO-1242",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Step 4 needs a second category; the cap of 12 is not exercised (no category with more than 12 candidate topics in UA; reference report \"scooters\" 1c58ccfb-... is not in QA-GEO: 404).",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-010_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-010_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category C1 of analysis UA",
+          "status": "PASS",
+          "data": "Optional reference (dev, GEO-1209 comment 864686): staging report \"scooters\" (1c58ccfb-ede7-4590-85a3-5edc7ba33e69), category Kick Scooters shows 12 topics",
+          "expected": "Top Topics in the Category is displayed",
+          "observed": "Top Topics in the Category of \"Commuter Electric Bikes\" displayed."
+        },
+        {
+          "title": "When the user clears every filter chip and counts the topics",
+          "status": "PASS",
+          "data": "",
+          "expected": "Topics are listed with their frequency",
+          "observed": "Filter chip \"All (8)\" selected (no Positive / Mixed / Negative filter): 8 topics listed with their frequency."
+        },
+        {
+          "title": "Then the category keeps at most 12 topics",
+          "status": "PASS",
+          "data": "",
+          "expected": "No more than 12 topics are listed for C1",
+          "observed": "C1 lists 8 topics (<= 12). The Overview lists 12 topics (\"All (12)\") and the Other category 4 (API)."
+        },
+        {
+          "title": "And the same limit applies to category C2",
+          "status": "SKIP",
+          "data": "Category C2",
+          "expected": "No more than 12 topics are listed for C2",
+          "observed": "Not executable: UA has a single category (plus Other); there is no C2."
+        }
+      ],
+      "notes": "Run on the existing unbranded analysis UA = \"Electric bikes\" (42c3ab89-7dfd-4ba5-b5ec-117cec2514e4): GB (EN) only, 1 category \"Commuter Electric Bikes\" + Other, ChatGPT + Gemini, 5 kept prompts (2 Visibility, 2 Category Topics, 1 custom Other), collection of 20 Oct 2026 (one collection, 20 Oct 2026, after the PR #801 deployment). \"At most 12\" holds but the cap itself could not be observed."
+    },
+    {
+      "tc_id": "TC-GEO-1242-011",
+      "title": "An unbranded Competitive prompt with fewer than 2 competitors is not sent and has no row",
+      "story_id": "GEO-1242",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Needs an unbranded analysis UN with Competitive prompts kept and a niche category/market with 0-1 brand, plus another category with 2+ brands. No unbranded analysis of QA-GEO keeps Competitive prompts (Electric bikes: Competitive 0; kids toys: FAILED, 3 Category Topics prompts only) -> needs analysis creation (not authorised in this run).",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-011_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-011_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category CN of analysis UN with market filter M",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The rankings of CN for market M list 0 or 1 brand",
+          "observed": ""
+        },
+        {
+          "title": "When the user opens the prompts table of CN for market M",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The prompts table is displayed",
+          "observed": ""
+        },
+        {
+          "title": "Then no Competitive prompt shows a result",
+          "status": "SKIP",
+          "data": "Competitive tab",
+          "expected": "No Competitive row is listed for CN in market M",
+          "observed": ""
+        },
+        {
+          "title": "And the Competitive prompts of a category with at least 2 competitors still run",
+          "status": "SKIP",
+          "data": "Another category of UN with 2 or more brands named",
+          "expected": "Its Competitive rows are listed with their winner or \"Split\"",
+          "observed": ""
+        }
+      ],
+      "notes": "Screenshots show the UA category view with Competitive 0 as evidence of the missing prerequisite. CSV proposal: name a dedicated UN analysis (niche topic, Competitive kept) in the precondition."
+    },
+    {
+      "tc_id": "TC-GEO-1242-012",
+      "title": "An unbranded Competitive prompt with 2 or 3 competitors runs with the missing slots removed",
+      "story_id": "GEO-1242",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Needs an unbranded analysis with Competitive prompts kept and a category/market whose Visibility answers name exactly 2 or 3 brands. UA keeps no Competitive prompt (its Visibility answers name 10+ brands) -> needs analysis creation (not authorised in this run).",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-012_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-012_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category CT of analysis UN with market filter M",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The rankings of CT for market M list 2 or 3 brands",
+          "observed": ""
+        },
+        {
+          "title": "When the user opens a Competitive prompt of CT for market M",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The detail panel opens",
+          "observed": ""
+        },
+        {
+          "title": "Then the prompt was sent with the brands found only",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The sent wording names the 2 or 3 brands and holds no empty slot and no [Competitor N]",
+          "observed": ""
+        },
+        {
+          "title": "And the prompt shows its result in the prompts table",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The row shows its winner or \"Split\"",
+          "observed": ""
+        }
+      ],
+      "notes": "Related bug GEO-1249 (Ready for QA). Screenshots show the UA category view with Competitive 0."
+    },
+    {
+      "tc_id": "TC-GEO-1242-013",
+      "title": "A brand analysis Competitive prompt with too few competitors is still sent with the empty slots removed",
+      "story_id": "GEO-1242",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "No brand analysis of QA-GEO has a category/market with 0 or 1 competitor resolved (API scan of the 9 completed brand analyses: every Competitive wording names 3 competitors, except Orange / Internet a domicile / ar-MA with 2: \"Which should I buy for ...: Orange, Maroc Telecom or INWI?\" -> Split). A new brand analysis on a niche scope would be needed (creation not authorised).",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-013_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-013_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category CB of analysis BN with market filter M",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The prompts table is displayed",
+          "observed": ""
+        },
+        {
+          "title": "When the user opens the Competitive tab",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The Competitive rows of CB for market M are listed",
+          "observed": ""
+        },
+        {
+          "title": "Then the Competitive prompts were sent",
+          "status": "SKIP",
+          "data": "",
+          "expected": "Each row shows a result (winner or \"Split\")",
+          "observed": ""
+        },
+        {
+          "title": "And their wording has the empty slots removed",
+          "status": "SKIP",
+          "data": "Open one row",
+          "expected": "The sent wording reads naturally with no empty slot and no [Competitor N]",
+          "observed": ""
+        }
+      ],
+      "notes": "Screenshots show Orange / Internet a domicile, Competitive tab filtered on \"INWI\" (closest case, 2 competitors, empty slot removed and read naturally). Related bug GEO-1249. Side observation: the ar-MA Competitive prompts of Orange are English templates with an Arabic category (legacy data, created 2026-06-30)."
+    },
+    {
+      "tc_id": "TC-GEO-1242-014",
+      "title": "The topic of an unbranded analysis cannot be changed in Manage Scope",
+      "story_id": "GEO-1242",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-014_step1_given.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-014_step2_when.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-014_step3_then.png",
+        "screenshots-GEO-1209-GEO1242/TC-GEO-1242-014_ref_brand_manage_scope.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Overview is displayed",
+          "observed": "Overview of UA displayed."
+        },
+        {
+          "title": "When the user opens Manage Scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "Manage Scope is displayed",
+          "observed": "Manage Scope displayed (Analysis Scope: Countries, Categories, AI insights language, AI Engines, Prompts)."
+        },
+        {
+          "title": "Then the topic is shown read-only",
+          "status": "PASS",
+          "data": "",
+          "expected": "\"Postal services\" is displayed with no edit control, as the brand of a brand analysis",
+          "observed": "The topic \"Electric bikes\" is shown read-only in the sidebar header of Manage Scope (span views-category-title, not editable, not a button), exactly as the brand \"Nike\" in the Manage Scope of the brand analysis Nike (reference screenshot)."
+        },
+        {
+          "title": "And the topic cannot be changed",
+          "status": "PASS",
+          "data": "",
+          "expected": "No field, button or menu lets the user change the topic or the analysis mode",
+          "observed": "No field, button or menu to change the topic or the analysis mode: visible controls are Back to Analysis, Add Country, Add Category, language, engine toggles, Version history, Add prompt, prompt filters and row actions only."
+        }
+      ],
+      "notes": "Run on the existing unbranded analysis UA = \"Electric bikes\" (42c3ab89-7dfd-4ba5-b5ec-117cec2514e4): GB (EN) only, 1 category \"Commuter Electric Bikes\" + Other, ChatGPT + Gemini, 5 kept prompts (2 Visibility, 2 Category Topics, 1 custom Other), collection of 20 Oct 2026 (topic \"Electric bikes\" instead of \"Postal services\"). CSV proposal: state where the topic is displayed (\"in the sidebar header of Manage Scope, as the brand of a brand analysis\")."
+    }
+  ]
+}

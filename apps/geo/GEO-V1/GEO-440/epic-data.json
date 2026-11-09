@@ -1,0 +1,775 @@
+{
+  "epic": {
+    "id": "GEO-440",
+    "key": "GEO-440",
+    "title": "Design Updates (fix version 0.4)",
+    "status": "In Progress",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-05-14",
+    "updated": "2026-05-18",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-440",
+    "functionalNeed": "Consolidated EPIC grouping all design-related stories, tasks, and bugs targeted for fix version 0.4. Replaces the previous Design QA - Batch #01 (GEO-337) and Design QA - Batch #02 (GEO-406) containers.",
+    "scope": [
+      "LLM ordering standardisation (ChatGPT, Gemini, Grok, Claude, Perplexity)",
+      "Onboarding wizard UX improvements (step indicator, question type explanations, AI engines message)",
+      "Category view bug fixes (LLM buttons, Citation Signal cards)",
+      "Manage Scope bug fixes (Brand Image delete, Add Market helper text)",
+      "Report list bug fixes (brand logos display and mismatch)",
+      "KPI and Brand Rankings tooltips (SOV trim, Visibility / Avg Position / LLM Choice addition)",
+      "Chart interaction fixes (quadrant blue selection box)",
+      "Corporate Reputation expand alignment with Questions table",
+      "Report structural refactor (layout / visual)",
+      "Last analysis screen design (replace loading stage)",
+      "Category suggestion delete UX improvement",
+      "Primary market hover tooltip",
+      "Homepage and empty state terminology rename: Reports -> Analysis",
+      "Scrollbar visibility accessibility fix",
+      "Top Concepts panel source items clickability and LLM logo display",
+      "Citation Sources scroll and resize fix"
+    ],
+    "outOfScope": [
+      "Data fetching or component contract changes (structural refactor story)",
+      "Rewriting non-applicable body copy in empty state beyond Report/Reports -> Analysis/Analyses rename"
+    ],
+    "stories": [
+      {
+        "id": "GEO-355",
+        "title": "[LLM order] Reorder LLM list to ChatGPT, Gemini, Grok, Claude, Perplexity (everywhere)",
+        "storyId": "Story 1",
+        "type": "Story",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-08",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-355",
+        "userStory": {
+          "as": "a user",
+          "want": "the LLM list to be displayed in the canonical order ChatGPT, Gemini, Grok, Claude, Perplexity everywhere",
+          "so": "I have a consistent reference point across all surfaces"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Question detail panel LLM order",
+            "given": "I open the question detail panel",
+            "when": "the panel renders the per-LLM responses",
+            "then": "the order is ChatGPT, Gemini, Grok, Claude, Perplexity"
+          },
+          {
+            "id": "AC2",
+            "title": "LLM Engine filter dropdown order",
+            "given": "I open the LLM Engine filter dropdown in the report header",
+            "when": "the toggles render",
+            "then": "they appear in the same order"
+          },
+          {
+            "id": "AC3",
+            "title": "All other LLM surfaces",
+            "given": "I view any other surface that lists LLMs (Brand Rankings, AI Citation Sources, Settings)",
+            "when": "LLMs are displayed",
+            "then": "they follow the same ChatGPT-first order"
+          }
+        ],
+        "technicalNotes": [
+          "Constant: LLM_PROVIDER_ORDER in /frontend/src/config/llmConfig.js",
+          "Current value: ['gemini', 'openai', 'grok', 'claude', 'perplexity']",
+          "New value: ['openai', 'gemini', 'grok', 'claude', 'perplexity']",
+          "Single edit propagates to all consumers (UnifiedQuestionsTable, LLM Engine filter, BrandRankingTable, UnifiedCitationSources, SettingsViewV2)"
+        ],
+        "blockedBy": [],
+        "blocks": ["GEO-395"]
+      },
+      {
+        "id": "GEO-358",
+        "title": "[Onboarding step 3] Surface explanations of the 4 question types (Brand Image, Reputation, Visibility, Competitive) — leverage step to teach scope of insights",
+        "storyId": "Story 2",
+        "type": "Story",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-08",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-358",
+        "userStory": {
+          "as": "a new user on the question-templates step of the onboarding wizard",
+          "want": "to see a clear explanation of each of the four question-type sections",
+          "so": "I can make informed decisions about which prompts to keep, edit, remove, or add"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Four section explanations visible",
+            "given": "I am on the question-templates step of the onboarding wizard",
+            "when": "I look at each of the four sections (Brand Image, Reputation, Visibility Analysis, Competitive Analysis)",
+            "then": "each surfaces an explanation containing the approved copy"
+          },
+          {
+            "id": "AC2",
+            "title": "Explanation includes description and example",
+            "given": "the explanation is surfaced",
+            "when": "I read it",
+            "then": "it includes both the description and the example prompt for that question type"
+          },
+          {
+            "id": "AC3",
+            "title": "Consistency across wizard variants",
+            "given": "the onboarding has multiple variants of the wizard step (PromptsStep vs CategoryPromptsStep)",
+            "when": "the same section appears in either variant",
+            "then": "the same explanation is surfaced consistently"
+          },
+          {
+            "id": "AC4",
+            "title": "User understands full coverage",
+            "given": "a user new to the tool reaches this step",
+            "when": "they finish reading the four explanations",
+            "then": "they understand the full coverage of insights the tool will produce and can make informed decisions about which prompts to keep, edit, remove, or add"
+          },
+          {
+            "id": "AC5",
+            "title": "Visual consistency with wizard",
+            "given": "the chosen form factor (tooltip, inline subtitle, accordion, side panel, etc.)",
+            "when": "the page renders",
+            "then": "it remains visually consistent with the rest of the wizard"
+          }
+        ],
+        "technicalNotes": [
+          "Form factor is up to design: tooltip on info icon, inline subtitle, expandable accordion, side panel, or illustrated card",
+          "Copy per section: Brand Image, Reputation, Visibility Analysis, Competitive Analysis — see story description for full copy"
+        ],
+        "blockedBy": ["GEO-399"],
+        "blocks": []
+      },
+      {
+        "id": "GEO-367",
+        "title": "[GEO-Category] 5 LLM logo buttons not visible correctly in question analysis panel after expanding a row",
+        "storyId": "Bug 1",
+        "type": "Bug",
+        "status": "Abandoned",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-08",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-367",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "LLM buttons visible in Perception panel",
+            "given": "I am on the Perception side panel of the category page and expand a row with theme data",
+            "when": "the panel header renders",
+            "then": "5 LLM logo buttons are visible (ChatGPT, Gemini, Grok, Claude, Perplexity)"
+          }
+        ],
+        "technicalNotes": [
+          "Test blocked by staging URL unavailability (net::ERR_NAME_NOT_RESOLVED)",
+          "Status Abandoned — retesting recommended on stable environment"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-368",
+        "title": "[GEO-Category] Multiple Citation Signal cards stay expanded simultaneously in AI Citation Source Details panel",
+        "storyId": "Bug 2",
+        "type": "Bug",
+        "status": "Passed QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-08",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-368",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Only one Citation Signal expanded at a time",
+            "given": "I am in the AI Citation Source Details side panel (Sources tab) and one Citation Signal is already expanded",
+            "when": "I click on a different Citation Signal card",
+            "then": "only the newly selected card is expanded and the previously expanded card collapses"
+          }
+        ],
+        "technicalNotes": [
+          "Parent Epic: GEO-101",
+          "Environment: staging — URL: staging-geo.onclusive.com"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-378",
+        "title": "[GEO-Manage-scope] Brand Image questions retain empty entries and lack a proper delete option",
+        "storyId": "Bug 3",
+        "type": "Bug",
+        "status": "Passed QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-08",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-378",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Delete affordance exists for Brand Image questions",
+            "given": "I am on step 2 (Brand Image) of the Add Market modal",
+            "when": "I view the Brand Image questions list",
+            "then": "each question row has a proper delete option (icon, button, or context menu)"
+          },
+          {
+            "id": "AC2",
+            "title": "Empty entries do not persist",
+            "given": "there are no questions to fill a row",
+            "when": "the form is saved or navigated",
+            "then": "no empty question rows are present in the list"
+          }
+        ],
+        "technicalNotes": [
+          "Parent Epic: GEO-100 (EPIC-006: Manage Scope)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-385",
+        "title": "[GEO-Report-list] Brand logos display letter placeholders instead of actual logos in Reports list",
+        "storyId": "Bug 4",
+        "type": "Bug",
+        "status": "Passed QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-08",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-385",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Actual brand logos displayed in Reports list",
+            "given": "I open GEO Analytics and navigate to the CATEGORIES tab",
+            "when": "I view the Reports table Brand column for Chanel, Deloitte, Dior, and Dyson",
+            "then": "actual brand logos are displayed, not letter placeholders on light-blue circles"
+          },
+          {
+            "id": "AC2",
+            "title": "Letter placeholder only used as fallback",
+            "given": "a brand logo cannot be retrieved",
+            "when": "the row renders",
+            "then": "the letter placeholder is used as a fallback only in that case"
+          }
+        ],
+        "technicalNotes": [
+          "Parent Epic: GEO-174",
+          "ALDO Shoes renders correctly — confirms other rows are incorrect, not legitimate no-logo fallbacks"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-386",
+        "title": "[GEO-Report-list] Brand logo mismatch between Reports list and report Overview header (ALDO Shoes)",
+        "storyId": "Bug 5",
+        "type": "Bug",
+        "status": "Passed QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-08",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-386",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Consistent logo between list and report header",
+            "given": "I click on the ALDO Shoes row in the Reports list which shows the black ALDO circular logo",
+            "when": "the report opens to the Overview header",
+            "then": "the same black ALDO circular logo is displayed in the header"
+          }
+        ],
+        "technicalNotes": [
+          "Parent Epic: GEO-174"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-389",
+        "title": "Trim SOV tooltip and add Visibility / Avg Position / LLM Choice tooltips to Brand Rankings table",
+        "storyId": "Task 1",
+        "type": "Task",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-10",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-389",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "SOV tooltip trimmed on Overview KPI card",
+            "given": "I hover the Share of Voice KPI card label on Overview",
+            "when": "the tooltip renders",
+            "then": "it does not contain the sentence \"Recommendations where AI engines pick your brand first also count. Range 0-100%.\""
+          },
+          {
+            "id": "AC2",
+            "title": "SOV tooltip trimmed on Category view",
+            "given": "I hover the Share of Voice KPI card label on any Category view",
+            "when": "the tooltip renders",
+            "then": "the same sentence is absent"
+          },
+          {
+            "id": "AC3",
+            "title": "SOV column tooltip in Brand Rankings table",
+            "given": "I view the Brand Rankings table on Overview or Category view",
+            "when": "I look at the Share of Voice column header",
+            "then": "it shows an info icon with the trimmed SOV tooltip copy"
+          },
+          {
+            "id": "AC4",
+            "title": "Visibility tooltip in Brand Rankings",
+            "given": "I view the Brand Rankings table",
+            "when": "I hover the Visibility column header",
+            "then": "a tooltip appears with the GEO-357 Visibility copy"
+          },
+          {
+            "id": "AC5",
+            "title": "Avg Position tooltip in Brand Rankings",
+            "given": "I view the Brand Rankings table",
+            "when": "I hover the Avg Position column header",
+            "then": "a tooltip appears with the GEO-357 Avg Position copy"
+          },
+          {
+            "id": "AC6",
+            "title": "LLM Choice tooltip in Brand Rankings",
+            "given": "I view the Brand Rankings table",
+            "when": "I hover the LLM Choice column header",
+            "then": "a tooltip appears with the GEO-357 LLM Choice copy"
+          },
+          {
+            "id": "AC7",
+            "title": "Table tooltip visual consistency",
+            "given": "the table tooltips are added",
+            "when": "I compare to the KPI card tooltips",
+            "then": "the icon style, position, and hover/focus behaviour match exactly"
+          }
+        ],
+        "technicalNotes": [
+          "Extends and revises tooltip copy approved in GEO-357",
+          "SOV: remove trailing sentence about recommendations/Range",
+          "Reuse exact copy from GEO-357 for Visibility, Avg Position, LLM Choice columns"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-391",
+        "title": "Misleading \"max AI engines reached — contact sales\" message shown when all 5 available LLMs are selected",
+        "storyId": "Bug 6",
+        "type": "Bug",
+        "status": "Passed QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-05-10",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-391",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "No quota message when all available engines selected",
+            "given": "I am on the AI Engines step of the wizard",
+            "when": "I have selected all engines that the platform currently exposes",
+            "then": "no message implying a quota limit or sales contact is displayed"
+          },
+          {
+            "id": "AC2",
+            "title": "Quota message shown only when plan-based cap is hit",
+            "given": "there is a legitimate plan-based cap below the total number of available engines",
+            "when": "I reach that cap",
+            "then": "a clear message is shown explaining the cap and the upgrade path; otherwise the message is suppressed"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-392",
+        "title": "Clicking either the quadrant fills or the graph plot area draws an unintended blue selection box",
+        "storyId": "Bug 7",
+        "type": "Bug",
+        "status": "Passed QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-11",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-392",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "No blue box on quadrant fill click (Overview)",
+            "given": "I view the Category Prioritization quadrant on Overview",
+            "when": "I click on any of the four quadrant fills",
+            "then": "no blue box or selection outline appears"
+          },
+          {
+            "id": "AC2",
+            "title": "No blue box on graph plot area click (Overview)",
+            "given": "I view the Category Prioritization quadrant on Overview",
+            "when": "I click on the graph plot area outside the fills",
+            "then": "no blue box or selection outline appears"
+          },
+          {
+            "id": "AC3",
+            "title": "No blue box on Category view quadrant",
+            "given": "I view the Brand Prioritization quadrant on a Category view",
+            "when": "I click on either region",
+            "then": "no visual feedback appears"
+          },
+          {
+            "id": "AC4",
+            "title": "Existing dot/cluster behaviour preserved",
+            "given": "I click a dot or cluster bubble",
+            "when": "the click is registered",
+            "then": "the existing tooltip / expand behaviour continues to work (no regression)"
+          }
+        ],
+        "technicalNotes": [
+          "Likely a default focus outline or canvas selection rectangle leaking from Highcharts or a parent container"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-395",
+        "title": "Corporate Reputation expand — LLM tabs missing name tooltip, divergent color/design from Questions table, and wrong LLM order",
+        "storyId": "Bug 8",
+        "type": "Bug",
+        "status": "Abandoned",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-11",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-395",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "LLM name tooltip on hover in Corporate Reputation",
+            "given": "I expand a Corporate Reputation card on the Overview Identity tab",
+            "when": "I hover an LLM engine icon",
+            "then": "a tooltip appears showing the engine display name"
+          },
+          {
+            "id": "AC2",
+            "title": "Visual alignment with Questions table",
+            "given": "I view the LLM tabs in an expanded Corporate Reputation card",
+            "when": "I compare them to the LLM tabs in the Questions table detail panel",
+            "then": "they match on color (per-provider palette), layout, active state, hover treatment, and spacing"
+          },
+          {
+            "id": "AC3",
+            "title": "LLM order matches canonical GEO-355 order",
+            "given": "I view the LLM tabs in an expanded Corporate Reputation card",
+            "when": "I read them left to right",
+            "then": "the order is ChatGPT, Gemini, Grok, Claude, Perplexity"
+          },
+          {
+            "id": "AC4",
+            "title": "Consistent across all four cards",
+            "given": "I view any of the four Corporate Reputation cards (Brand Image, Employer Brand, ESG / Sustainability, Leadership)",
+            "when": "any of them is expanded",
+            "then": "the tooltip, aligned design, and LLM order are applied consistently"
+          }
+        ],
+        "technicalNotes": [
+          "Depends on canonical LLM order defined in GEO-355",
+          "Status Abandoned"
+        ],
+        "blockedBy": ["GEO-355"],
+        "blocks": []
+      },
+      {
+        "id": "GEO-399",
+        "title": "Design - [Onboarding step 3] Surface explanations of the 4 question types",
+        "storyId": "Design Task 1",
+        "type": "Design Task",
+        "status": "Done",
+        "assignee": "Moulay AbdelJalal Aitelharch",
+        "created": "2026-05-11",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-399",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Added info toast under the Questions Category segmented control",
+          "Segmented control now fills full width of container with equal-width segments",
+          "Reduced form container padding from 180px to 100px across all steps"
+        ],
+        "blockedBy": [],
+        "blocks": ["GEO-358"]
+      },
+      {
+        "id": "GEO-405",
+        "title": "[GEO-Manage-scope] Add Market modal helper text mentions a non-existent 'edit icon' for changing the language",
+        "storyId": "Bug 9",
+        "type": "Bug",
+        "status": "Passed QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-11",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-405",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Helper text updated to reflect actual UI interaction",
+            "given": "I open the Add Market modal (step 1 Market) in Manage Scope",
+            "when": "I read the helper text under the title",
+            "then": "the text does not reference an edit icon and accurately describes the dropdown interaction (e.g. \"Language is auto-detected — click the dropdown to change it\")"
+          }
+        ],
+        "technicalNotes": [
+          "Parent Epic: GEO-100 (EPIC-006: Manage Scope)",
+          "Language field is a standard dropdown with a chevron — not an edit icon"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-415",
+        "title": "Onboarding step indicator highlights Step 1 and Step 2 simultaneously on the first step",
+        "storyId": "Bug 10",
+        "type": "Bug",
+        "status": "Passed QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-05-11",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-415",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Only current step highlighted on Step 1",
+            "given": "I am on Step 1 of the onboarding wizard",
+            "when": "the step indicator renders",
+            "then": "only Step 1 is visually highlighted as the active step; Steps 2, 3, ... render in the inactive / upcoming state"
+          },
+          {
+            "id": "AC2",
+            "title": "Forward navigation updates indicator correctly",
+            "given": "I navigate forward to Step 2",
+            "when": "the step indicator updates",
+            "then": "Step 1 shows as completed, Step 2 as active, and remaining steps as inactive"
+          },
+          {
+            "id": "AC3",
+            "title": "Backward navigation updates indicator correctly",
+            "given": "I navigate backward to a previous step",
+            "when": "the indicator updates",
+            "then": "only the current step is highlighted and forward steps return to inactive"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-442",
+        "title": "Issue #10: LLM Engines Citation Sources — expanding one Citation Signal card resizes all others and creates unnecessary scroll",
+        "storyId": "Story 3",
+        "type": "Story",
+        "status": "Action Needed",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-442",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Proposed: show only 2-3 questions/topics at a time when expanding '+N more'; user scrolls inside the card",
+          "On hover, external link icon appears on each source row; click target spans the whole row",
+          "Figma: https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=5405-9357"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-443",
+        "title": "Issue #9: Top Concepts Associated with Your Brand Sources in details Panel",
+        "storyId": "Story 4",
+        "type": "Story",
+        "status": "Passed QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-443",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Each source list item should be clickable as a full row; external link icon appears on hover",
+          "LLMs shown as logos instead of plain text names",
+          "Same applies for the Sources - Topic modal triggered by 'All sources'",
+          "Figma: https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=5233-6896"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-444",
+        "title": "Issue #11: Scroll bar visibility",
+        "storyId": "Story 5",
+        "type": "Story",
+        "status": "Passed QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-444",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Change scrollbar color to slate-400 (#94A3B8) for better contrast",
+          "Make scrollbar reappear on hover over the right side of the container"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-445",
+        "title": "GEO Analytics report — structural refactor (layout / visual)",
+        "storyId": "Story 6",
+        "type": "Story",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-445",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "1. Remove horizontal 'Top Section' bar (back-arrow + brand logo + brand name + generated date + filter dropdowns)",
+          "2. Relocate brand block into left sidebar (top, height ~69px, sidebar width 240px -> 254px)",
+          "3. Merge filter dropdowns into section-tab row (tabs left, filters right, single row, no wrap >= 1280px)",
+          "4. Delete in-content 'Overview' H1 heading",
+          "5. Drop named section containers (remove Corporate Reputation wrapper card and heading)",
+          "6. Add uppercase section anchors: IDENTITY, PERFORMANCE, SOURCES (Inter 700 16px uppercase letter-spacing 0.04em)",
+          "7. Apply new spacing rhythm: 16px gap within section, 24px gap between sections",
+          "Constraints: no data fetching or component contract changes; verify at 1280, 1440, 1920px",
+          "Figma: https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=6368-78934"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-446",
+        "title": "Design \"Last analysis\" screen to replace loading stage",
+        "storyId": "Story 7",
+        "type": "Story",
+        "status": "Requirements Needed",
+        "assignee": "Unassigned",
+        "created": "2026-05-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-446",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Goal: show previous report state (cards, charts, citations) with running status banner instead of spinner",
+          "Design: https://www.figma.com/file/xctSRqtM653zRS7QY3KMm0?node-id=6426%3A70128&mode=dev",
+          "Cover empty case (first-ever analysis), error case (last analysis failed), and auto-refresh on completion"
+        ],
+        "blockedBy": ["GEO-449"],
+        "blocks": []
+      },
+      {
+        "id": "GEO-447",
+        "title": "Category suggestion - more visible delete + review confirmation dialog",
+        "storyId": "Story 8",
+        "type": "Story",
+        "status": "Backlog",
+        "assignee": "Moulay AbdelJalal Aitelharch",
+        "created": "2026-05-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-447",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Goal: make delete button visible by default for suggested categories in wizard / Manage Scope",
+          "Design: https://www.figma.com/file/xctSRqtM653zRS7QY3KMm0?node-id=4251%3A23488&mode=dev"
+        ],
+        "blockedBy": ["GEO-451"],
+        "blocks": []
+      },
+      {
+        "id": "GEO-448",
+        "title": "Add hover tooltip explaining \"Primary market\"",
+        "storyId": "Story 9",
+        "type": "Story",
+        "status": "Ready for Release",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-448",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Tooltip copy: \"Reference market for category names displayed in the analysis.\"",
+          "Tooltip on hover only — no badge, no visual marker, no help drawer",
+          "Apply wherever 'Primary market' label appears (wizard, Manage Scope)"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-449",
+        "title": "Design \"Last analysis\" screen to replace loading stage",
+        "storyId": "Design Task 2",
+        "type": "Design Task",
+        "status": "In Progress",
+        "assignee": "Moulay AbdelJalal Aitelharch",
+        "created": "2026-05-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-449",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Design task counterpart to GEO-446",
+          "Design: https://www.figma.com/file/xctSRqtM653zRS7QY3KMm0?node-id=6426%3A70128&mode=dev"
+        ],
+        "blockedBy": [],
+        "blocks": ["GEO-446"]
+      },
+      {
+        "id": "GEO-451",
+        "title": "Design - Category suggestion — more visible delete + review confirmation dialog",
+        "storyId": "Design Task 3",
+        "type": "Design Task",
+        "status": "In Progress",
+        "assignee": "Moulay AbdelJalal Aitelharch",
+        "created": "2026-05-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-451",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Design task counterpart to GEO-447",
+          "Current delete button is hard to find — propose more prominent icon / hover state",
+          "Consider replacing confirmation dialog with undo toast (suggested categories are low-risk to remove)"
+        ],
+        "blockedBy": [],
+        "blocks": ["GEO-447"]
+      },
+      {
+        "id": "GEO-460",
+        "title": "Rename homepage \"Reports\" header to \"Analysis\" to match the \"New analysis\" button",
+        "storyId": "Story 10",
+        "type": "Story",
+        "status": "Passed QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-18",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-460",
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "Header copy change only — no layout, navigation, or functional changes",
+          "Update any matching page title / breadcrumb using 'Reports' wording on this screen"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-482",
+        "title": "Empty state for \"no analyses\" uses \"Reports\" instead of \"Analysis\"",
+        "storyId": "Bug 11",
+        "type": "Bug",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-19",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-482",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Empty state title uses 'analyses'",
+            "given": "an instance/Brand with no analyses",
+            "when": "the empty state renders",
+            "then": "the title reads \"No analyses have been made for your Brand\""
+          },
+          {
+            "id": "AC2",
+            "title": "Empty state body uses 'analyses'",
+            "given": "the same empty state",
+            "when": "it renders",
+            "then": "the body reads \"It looks like you haven't created any analyses for your Brand yet. Start by using a keyword or Boolean query to find mentions or revisit your saved searches!\""
+          },
+          {
+            "id": "AC3",
+            "title": "CTA button uses 'analysis'",
+            "given": "the same empty state",
+            "when": "it renders",
+            "then": "the call-to-action button label reads \"Create your first analysis\" (lowercase)"
+          },
+          {
+            "id": "AC4",
+            "title": "No remaining occurrences of Report/Reports",
+            "given": "the word change",
+            "when": "any user-facing string in this empty state is reviewed",
+            "then": "no occurrence of \"Report\" or \"Reports\" remains"
+          }
+        ],
+        "technicalNotes": [
+          "Fix may live in the platform integration layer rather than the GEO frontend repository",
+          "Developer should confirm where this string is owned before implementing",
+          "Out of scope: rewriting non-applicable body copy about keyword/Boolean query/mentions/saved searches"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      }
+    ]
+  }
+}

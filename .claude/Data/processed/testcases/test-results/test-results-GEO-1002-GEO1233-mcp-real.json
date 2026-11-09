@@ -1,0 +1,317 @@
+{
+  "spec": "GEO-1002-GEO1233",
+  "runDate": "2026-10-19",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1233",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "summary": {
+    "total": 7,
+    "pass": 6,
+    "fail": 0,
+    "skip": 1,
+    "partial": 0,
+    "successRate": 85.7,
+    "successRateExecuted": 100,
+    "verdict": "GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me, before and after the run)",
+    "organisation": "QA-GEO (org_name from /auth/me and the header switcher; no switch needed)",
+    "featureFlag": "unbranded_analysis = true: 5-step wizard (Analysis Type, Brand & Country, Categories, Prompts, Review); Brand analysis card + Continue used every time",
+    "role": "SUPER_ADMIN",
+    "pool": "P = 1000; U = 570 at start and at end (dashboard \"570 / 1000 prompts\", 6 analyses)",
+    "analysesCreated": [],
+    "stateChanges": "None. Three wizard sessions (A: TC-001/004/005/006, B: TC-002, C: TC-007), each exited with Back to Dashboard > Exit and Discard. No back-office change, no deletion of analyses, no change to a saved analysis.",
+    "consoleErrors": "Only brandfetch.io logo 410 errors (unrelated)"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1233-001",
+      "title": "Each category in each market gets 10 ticked prompts per question type",
+      "story_id": "GEO-1233",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step with category C1",
+          "expected": "Generate Prompts is enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Generate Prompts and generation ends",
+          "expected": "The Prompts step shows one table with every prompt",
+          "status": "PASS"
+        },
+        {
+          "title": "Then category C1 gets 10 prompts per question type in market GB (EN)",
+          "expected": "10 Visibility, 10 Competitive and 10 Reputation prompts for C1 in GB (EN)",
+          "data": "Filter Category = C1, then Type = Visibility / Competitive / Reputation",
+          "status": "PASS"
+        },
+        {
+          "title": "And every suggestion is ticked",
+          "expected": "\"40 selected\" (30 for C1 + 10 Brand Image); no greyed row",
+          "status": "PASS"
+        },
+        {
+          "title": "And each prompt carries the category and type that produced it",
+          "expected": "Each C1 row shows Category C1 and its type badge",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Brand Decathlon (decathlon.com), 1 market United Kingdom - English (EN) shown as GB (EN), AI Insights English (EN). Discovery returned \"Sporting Goods\" and \"Outdoor Gear\"; \"Outdoor Gear\" removed (with confirmation), C1 = \"Sporting Goods\". Generate Prompts enabled; generation ended in about 1 s. Prompts step = one table, intro \"We generated and preselected the most relevant prompts for you. Review, edit or add more.\" (wizard.promptTable.intro). Ring \"610 / 1000 prompts · 40 selected\" (U 570 + 40). UI filter Category = Sporting Goods (menu count 30), then Type = Visibility / Competitive / Reputation: 10 rows each, all Sporting Goods, GB (EN). 40 rows, 40 ticked, no greyed row (all prompt texts #1e293b). Every C1 row shows the category badge \"Sporting Goods\" and its type badge; the 10 Brand Image rows show \"Overview\". Observation: the Category and Type menus also list a value \"Other\" with count 0 (wizard.promptTable.categoryOther / typeOther), see side findings."
+    },
+    {
+      "tc_id": "TC-GEO-1233-002",
+      "title": "Each market gets 10 Brand Image prompts: 2 markets x 3 categories = 200 prompts",
+      "story_id": "GEO-1233",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-002_step3_then.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-002_step3b_total.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step with exactly 3 categories and 2 markets",
+          "expected": "Generate Prompts is enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Generate Prompts and generation ends",
+          "expected": "The Prompts step is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each market gets 10 Brand Image prompts",
+          "expected": "10 Brand Image prompts per market, with category \"Overview\"",
+          "data": "Filter Type = Brand Image, then Market = GB (EN) / FR (FR)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the table holds 200 prompts in total",
+          "expected": "\"200 selected\" and the ring reads \"U + 200 / P\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Brand Decathlon, markets GB (EN) + FR (FR), AI Insights English. Discovery returned \"Sporting Goods\" and \"Outdoor Gear\"; third category \"Camping\" added with Add category (FR translation \"Camping\"); exactly 3 categories, Generate Prompts enabled. Generation ended in about 7 s. Filter Type = Brand Image: 20 rows; then Market = GB (EN): 10 rows \"Overview\" (e.g. \"What do you think of Decathlon?\"), Market = FR (FR): 10 rows \"Overview\" (e.g. \"Que pensez-vous de Decathlon ?\"). Filters cleared: 200 rows = 2 x (10 Brand Image + 3 x 30), every combination category x type x market = 10, all ticked. Ring \"770 / 1000 prompts · 200 selected\" = U (570) + 200 / P (1000)."
+    },
+    {
+      "tc_id": "TC-GEO-1233-003",
+      "title": "Suggestions above the free pool open Prompts in the over-pool state",
+      "story_id": "GEO-1233",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "state-changing action not allowed (user decision): the TC needs the pool of QA-GEO set to U + 30 in the back office.",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-003_pool_evidence.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the free pool is 30 slots and the analysis will generate 40 suggestions",
+          "expected": "The user is on the Categories step with C1",
+          "data": "Pool = U + 30",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user clicks Generate Prompts and generation ends",
+          "expected": "The Prompts step opens",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the Prompts step is in the over-pool state",
+          "expected": "The ring reads \"U + 40 / U + 30\" in red, the message states 10 prompts over, Review & Launch is disabled",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no prompt was unticked automatically",
+          "expected": "\"40 selected\"; no greyed row",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user unticks 10 prompts",
+          "expected": "The ring reads \"U + 30 / U + 30\" and Review & Launch is enabled",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Not executed. Dashboard pool \"570 / 1000 prompts\" (430 free slots) is far above the 40 suggestions of the minimal scope, so the over-pool state cannot be reached without the back-office pool change. Not attempted with a larger scope either (430+ suggestions would mean changing the TC scope; ask QA first)."
+    },
+    {
+      "tc_id": "TC-GEO-1233-004",
+      "title": "Re-ticking a muted row keeps it again without regenerating it",
+      "story_id": "GEO-1233",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "expected": "Every prompt is ticked",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user unticks a prompt and notes its wording",
+          "expected": "The row is greyed (muted) and the ring decreases by 1",
+          "data": "Any Visibility prompt of C1",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user ticks the same row again",
+          "expected": "The row is no longer greyed and the ring increases by 1",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the prompt is kept again without being regenerated",
+          "expected": "The row shows exactly the same wording, category, type and market as before",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same wizard session as TC-001 (40 prompts, all ticked, \"610 / 1000 · 40 selected\"). Unticked the Sporting Goods / Visibility / GB (EN) prompt \"Best Sporting Goods?\": checkbox off, text greyed (#94a3b8 instead of #1e293b), ring \"609 / 1000 prompts · 39 selected\". Ticked it again: text back to #1e293b, ring \"610 / 1000 prompts · 40 selected\". Same row (same position, still 40 rows, one single \"Best Sporting Goods?\"), same wording, category Sporting Goods, type Visibility, market GB (EN). No network request at all during the re-tick (nothing regenerated)."
+    },
+    {
+      "tc_id": "TC-GEO-1233-005",
+      "title": "The trash icon deletes a kept prompt, which is not the same as unticking",
+      "story_id": "GEO-1233",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with 40 prompts",
+          "expected": "\"40 selected\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user unticks prompt A",
+          "expected": "Prompt A stays in the table, greyed; \"39 selected\"",
+          "data": "Prompt A = any C1 row",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the trash icon of kept prompt B",
+          "expected": "Prompt B disappears from the table and an Undo toast is shown",
+          "data": "Prompt B = another C1 row",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the trash deletes and the untick mutes",
+          "expected": "The table holds 39 rows: A is still listed greyed, B is gone; \"38 selected\"",
+          "data": "Show prompts = All",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session, start \"610 / 1000 · 40 selected\", 40 rows. A = \"Top Sporting Goods?\" (C1 Visibility GB) unticked: still listed, greyed, \"609 / 1000 · 39 selected\". B = \"Which Sporting Goods do you recommend?\" (C1 Visibility GB, kept): trash icon (aria \"Delete prompt\") removes it at once, no confirmation dialog, toast \"Prompt deleted. | Undo\" (wizard.common.questionDeleted / wizard.common.undo, role=status, data-testid wizard-undo-delete-toast). Show prompts = All (menu All / Selected only / Unselected only): 39 rows, A listed unticked and greyed, B gone, \"608 / 1000 prompts · 38 selected\". A outlined in blue on step3_then for readability (not a defect marker)."
+    },
+    {
+      "tc_id": "TC-GEO-1233-006",
+      "title": "The trash icon deletes a muted prompt, with Undo for 5 seconds",
+      "story_id": "GEO-1233",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-006_step1_given.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-006_step2_when.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-006_step2b_undo.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with a muted prompt A",
+          "expected": "Prompt A is greyed",
+          "data": "Untick prompt A first",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the trash icon of prompt A",
+          "expected": "Prompt A disappears and an Undo toast is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks Undo within 5 seconds",
+          "expected": "Prompt A is back in the table, still unticked",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the trash icon of prompt A again and waits more than 5 seconds",
+          "expected": "The toast disappears and prompt A stays deleted",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session. Prompt A = \"Most popular Sporting Goods?\" (C1 Visibility GB) unticked first: greyed, \"607 / 1000 · 37 selected\", 38 rows. Trash of A: row gone (37 rows), toast \"Prompt deleted. | Undo\"; ring unchanged (A was not counted). Undo clicked about 0.3 s later: A back at the same position, still unticked and greyed, 38 rows. Trash of A again, no Undo: the toast disappeared after about 5.1 s (measured 5069 ms), A stays deleted (37 rows, still absent 1 s later). Run note: a first attempt on another muted prompt (\"Top Sporting Goods?\") timed out on a wrong toast selector and that prompt stayed deleted after the toast expired; it confirms the no-Undo path too."
+    },
+    {
+      "tc_id": "TC-GEO-1233-007",
+      "title": "Coming back from Categories with a new category keeps the work on Prompts",
+      "story_id": "GEO-1233",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-007_step1_given.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-007_step2_when.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-007_step2b_categories.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-007_step3_then.png",
+        "screenshots-GEO-1002-GEO1233/TC-GEO-1233-007_step3b_previous_work.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "expected": "Prompts of C1, C2 and Brand Image in GB (EN) and FR (FR) are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user unticks prompt A, edits the wording of prompt B and adds a custom prompt D",
+          "expected": "A is greyed, B shows the new wording, D is listed with the CUSTOM badge",
+          "data": "B new wording: \"Which brand offers the best value hiking boots?\"; D: \"Is Decathlon good for camping gear?\" - C1 - Reputation - GB (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user goes Back to Categories and adds a category",
+          "expected": "\"Cycling\" is listed",
+          "data": "Category: \"Cycling\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user returns to the Prompts step",
+          "expected": "The Prompts step is displayed after generation for the new category",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the previous work is kept",
+          "expected": "A is still unticked, B keeps its edited wording, D is still listed with CUSTOM; C1, C2 and Brand Image counts are unchanged",
+          "status": "PASS"
+        },
+        {
+          "title": "And only the new category gets its suggestions",
+          "expected": "10 Visibility, 10 Competitive and 10 Reputation prompts per market for \"Cycling\" (60), all ticked",
+          "data": "Filter Category = Cycling",
+          "status": "PASS"
+        }
+      ],
+      "notes": "New session: Decathlon, GB (EN) + FR (FR), C1 = \"Sporting Goods\", C2 = \"Outdoor Gear\" (the 2 detected categories, nothing to remove) = 140 prompts, \"710 / 1000 · 140 selected\". A = \"Top Sporting Goods?\" (C1 Visibility GB) unticked; B = \"Best Sporting Goods?\" (C1 Visibility GB) edited inline (pencil, Enter) to \"Which brand offers the best value hiking boots?\"; D added with Add prompt: \"Is Decathlon good for camping gear?\" - Sporting Goods - Reputation - GB (EN) (category select listed only Sporting Goods / Outdoor Gear; market prefilled GB (EN)); toast \"Prompt added. It uses one pool slot.\" (wizard.promptTable.promptAdded); D at the top, highlighted, CUSTOM badge. Back: Categories step, no dialog. \"Cycling\" added (FR translation \"Cyclisme\"). Generate Prompts: back on Prompts after about 4.6 s. Comparison by row id of all 141 previous rows: 0 changed (A still unticked, B keeps its edited wording, D still listed with CUSTOM; per category/market counts unchanged: Sporting Goods GB 31 incl. D, FR 30; Outdoor Gear 30/30; Overview 10/10). 60 new rows, all Cycling: 10 Visibility, 10 Competitive, 10 Reputation per market, all ticked. Filter Category = Cycling: 60 rows. Ring \"770 / 1000 prompts · 200 selected\"."
+    }
+  ]
+}

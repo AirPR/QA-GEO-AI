@@ -1,0 +1,432 @@
+{
+  "spec": "GEO-1113-GEO1172-mcp",
+  "runDate": "2026-10-13",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo/backoffice/organisations",
+  "environment": "staging",
+  "frontBundle": "index-DMxnYayu.js",
+  "authMeLanguage": "en-GB (main account)",
+  "qaGeoFinalFrequency": "DAILY (verified list + modal + API after reload)",
+  "summary": {
+    "total": 7,
+    "pass": 4,
+    "fail": 0,
+    "skip": 1,
+    "partial": 2,
+    "successRate": 83.3,
+    "successRateFormula": "(PASS + 0.5 x PARTIAL) / (Total - SKIP)",
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1172-001",
+      "title": "Frequency column is displayed after User quota with Daily or One time",
+      "story_id": "GEO-1172",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-001_step1_given.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-001_step2_when.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is logged in to the back office",
+          "data": "",
+          "expected": "The back office home page is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin opens Administration > Organizations",
+          "data": "",
+          "expected": "The Organizations list loads without error",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the list header shows a Frequency column placed right after the User quota column",
+          "data": "",
+          "expected": "Header order: Name, Customer number, User quota, Frequency, US org, Status, Created at, Actions",
+          "status": "PASS"
+        },
+        {
+          "title": "And every row with a quota shows \"Daily\" or \"One time\" in the Frequency column",
+          "data": "",
+          "expected": "No other value (e.g. DAILY, ONE_TIME, blank) is shown for organizations that have a quota",
+          "status": "PASS"
+        },
+        {
+          "title": "And the row of the DAILY organization shows \"Daily\"",
+          "data": "Org D = QA-GEO",
+          "expected": "The Frequency cell of org D reads \"Daily\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the row of the ONE_TIME organization shows \"One time\"",
+          "data": "Org O = Onclusive",
+          "expected": "The Frequency cell of org O reads \"One time\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Organisations list (default Status = active, 8 orgs). Header order observed: NAME, CUSTOMER NUMBER, USER QUOTA, FREQUENCY, US, STATUS, CREATED AT, ACTIONS -> Frequency is right after User quota. All 8 rows (all have a quota) show \"Daily\" or \"One time\" (no DAILY/ONE_TIME/blank). QA-GEO = \"Daily\", Onclusive = \"One time\". Cross-check with Status = all statuses (26 orgs): every row with a quota (11) shows Daily/One time. Wording note: the CSV expected header lists \"US org\"; the existing column label is \"US\" (pre-existing column, order is as expected)."
+    },
+    {
+      "tc_id": "TC-GEO-1172-002",
+      "title": "Organization without a quota row shows the empty marker and the list does not fail",
+      "story_id": "GEO-1172",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-002_step1_given.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-002_step2_when.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an organization without a quota row exists",
+          "data": "Org N (QA to provide)",
+          "expected": "Org N is present without an active quota row",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the super admin opens Administration > Organizations",
+          "data": "",
+          "expected": "The Organizations list loads with no error message and no blank page",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the super admin locates the row of the organization without a quota row",
+          "data": "Org N",
+          "expected": "The row of org N is displayed with its other columns filled",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the Frequency cell of that row shows the same empty marker as the other optional columns",
+          "data": "",
+          "expected": "The Frequency cell shows the same marker as an empty optional cell (e.g. empty Customer number), not \"Daily\", \"One time\", \"null\" or an error",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the other rows of the list are still displayed with their Frequency value",
+          "data": "",
+          "expected": "Rows of other organizations show \"Daily\" or \"One time\" as usual",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIPPED by user decision: no organization without a quota row available (org N not provided). Informational only (not a verdict): with Status = all statuses, 15 soft-deleted orgs are returned by the API with frequency = null and their Frequency cell shows \"—\", the same marker as an empty Customer number; the list loads without error (screenshots attached are informational)."
+    },
+    {
+      "tc_id": "TC-GEO-1172-003",
+      "title": "Frequency column header sorts ascending then descending then back to no sort",
+      "story_id": "GEO-1172",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Expected: \"The Frequency header shows the ascending sort indicator\" / \"descending sort indicator\". Observed: same double-arrow icon in all states (no direction indicator; only text colour changes), identical to the Name reference column.",
+      "screenshots": [
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-003_step1_given.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-003_step2_when.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-003_step3_then.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-003_step2b_descending.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the Organizations list with no sort applied",
+          "data": "",
+          "expected": "The rows are in the default order and no sort indicator is shown on the Frequency header",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin clicks the Frequency column header once",
+          "data": "",
+          "expected": "The Frequency header shows the ascending sort indicator",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then the rows are sorted by frequency in ascending order",
+          "data": "",
+          "expected": "All \"Daily\" rows are listed before all \"One time\" rows",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin clicks the Frequency column header a second time",
+          "data": "",
+          "expected": "The Frequency header shows the descending sort indicator",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then the rows are sorted by frequency in descending order",
+          "data": "",
+          "expected": "All \"One time\" rows are listed before all \"Daily\" rows",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin clicks the Frequency column header a third time",
+          "data": "",
+          "expected": "The sort indicator is removed from the Frequency header",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the rows are back in the default order",
+          "data": "",
+          "expected": "The row order is the same as before the first click",
+          "status": "PASS"
+        },
+        {
+          "title": "And the click cycle and indicators match the other sortable columns",
+          "data": "Reference column: Name",
+          "expected": "Same three-state cycle and same indicator icons as the reference column",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Sort cycle verified on the active list (8 rows). Click 1: Daily x3 then One time x5 (ascending). Click 2: One time x5 then Daily x3 (descending). Click 3: back to the exact default order. Reference column Name: same 3-state cycle (asc, desc, default) and same indicator behaviour. Sort indicator: the header icon is the same up/down double-arrow in all 3 states for every column (Name included); only the header text darkens (text-slate-600 -> text-slate-900) when a sort is active; no aria-sort attribute. The CSV expects \"the ascending sort indicator\" / \"the descending sort indicator\": no direction-specific indicator exists anywhere in the table, so these 2 expected results cannot be literally confirmed -> PARTIAL. The AC3 part \"exactly like the other sortable columns\" is met. To decide with PO/QA: CSV wording vs UX gap (pre-existing, not specific to GEO-1172)."
+    },
+    {
+      "tc_id": "TC-GEO-1172-004",
+      "title": "Frequency filter Daily shows only Daily organizations across all pages and resets to page 1",
+      "story_id": "GEO-1172",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Expected: filtered Daily list spans several pages and every page shows only Daily. Observed: only 6 Daily orgs exist on staging (page size 20) -> single filtered page; multi-page behaviour not exercisable.",
+      "screenshots": [
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-004_step1_given.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-004_step2_when.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on page 2 of the Organizations list",
+          "data": "",
+          "expected": "Page 2 is displayed and the result count shows the total number of organizations",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Frequency filter is displayed next to the Status filter",
+          "data": "",
+          "expected": "The Frequency filter offers the values All, Daily and One time, and All is selected",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin selects Daily in the Frequency filter",
+          "data": "Frequency = Daily",
+          "expected": "The list refreshes",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the list returns to page 1",
+          "data": "",
+          "expected": "The pagination shows page 1 as the current page",
+          "status": "PASS"
+        },
+        {
+          "title": "And every row on page 1 shows \"Daily\" in the Frequency column",
+          "data": "",
+          "expected": "No \"One time\" row and no row with the empty marker is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And the result count reflects the filter",
+          "data": "Expected count = number of DAILY organizations (QA to provide)",
+          "expected": "The result count equals the number of DAILY organizations and is lower than the unfiltered count",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin goes to the next pages of the filtered list",
+          "data": "",
+          "expected": "Each following page loads",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then every row on every page shows \"Daily\" in the Frequency column",
+          "data": "",
+          "expected": "No \"One time\" organization appears on any page",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Default Status = active only shows 8 orgs (1 page), so page 2 was reached with Status = all statuses (26 orgs, \"Page 2 / 2 — 26 organisations\", page size 20). Frequency filter sits right of the Status filter, options \"all frequencies\" / \"daily\" / \"one time\", \"all frequencies\" selected (lower-case labels, same style as the Status filter). Selecting daily from page 2: request page=0&size=20&frequency=DAILY (server-side), list shows 6 rows all \"Daily\" (NEW-ORG-2109, test 003, QA-NoLLM-Test-Org, QA-GEO, QA-ORG-1, Deloitte), result count \"6 organisations\" < 26. Reference count established independently BEFORE filtering by scanning both unfiltered pages (all statuses): 6 Daily, 5 One time, 15 \"—\" = 26 -> count matches. Not verifiable: the filtered result fits on one page (6 < 20), so \"next pages of the filtered list\" could not be exercised (CSV precondition \"more DAILY organisations than one page holds\" not met on staging) -> PARTIAL."
+    },
+    {
+      "tc_id": "TC-GEO-1172-005",
+      "title": "Frequency filter One time then All restores the full list",
+      "story_id": "GEO-1172",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-005_step1_given.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-005_step2_when.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the Organizations list with the Frequency filter set to All",
+          "data": "",
+          "expected": "The result count shows the total number of organizations",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin selects One time in the Frequency filter",
+          "data": "Frequency = One time",
+          "expected": "The list refreshes and page 1 is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every row on every page shows \"One time\" in the Frequency column",
+          "data": "",
+          "expected": "No \"Daily\" row is shown on any page",
+          "status": "PASS"
+        },
+        {
+          "title": "And the result count reflects the filter",
+          "data": "Expected count = number of ONE_TIME organizations (QA to provide)",
+          "expected": "The result count equals the number of ONE_TIME organizations",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin selects All in the Frequency filter",
+          "data": "Frequency = All",
+          "expected": "The list refreshes and page 1 is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the full list is displayed again",
+          "data": "",
+          "expected": "The result count is back to the unfiltered total and both \"Daily\" and \"One time\" rows are shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Status = all statuses. Given: \"26 organisations\", Page 1 / 2. one time -> page 1, 5 rows all \"One time\" (GEO Stress Test 2026-10, test 001, New org intercom test, R&D-Test-Master, Onclusive), \"5 organisations\" = independent reference (unfiltered 2-page scan: 5 One time). Filtered result is a single page (no other page exists). all frequencies -> \"26 organisations\", Page 1 / 2, both Daily and One time rows displayed."
+    },
+    {
+      "tc_id": "TC-GEO-1172-006",
+      "title": "Frequency changed in the organization modal is shown in the list without reload",
+      "story_id": "GEO-1172",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-006_step1_given.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-006_step2_when.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-006_step3_then.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-006_modal_open_daily.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-006_modal_set_onetime.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-006_save1_toast.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-006_modal_set_daily.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-006_final_state_list.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-006_final_state_modal.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the Organizations list",
+          "data": "Org T = QA-GEO",
+          "expected": "The row of org T shows \"Daily\" in the Frequency column",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin opens the organization modal of org T",
+          "data": "",
+          "expected": "The modal shows the frequency value Daily",
+          "status": "PASS"
+        },
+        {
+          "title": "And the super admin changes the frequency to One time and saves",
+          "data": "Frequency = One time",
+          "expected": "The save is confirmed and the modal closes",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Frequency column of org T shows \"One time\" without a manual page reload",
+          "data": "",
+          "expected": "The row of org T reads \"One time\"; the page was not reloaded by the tester",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin reopens the modal of org T, sets the frequency back to Daily and saves",
+          "data": "Frequency = Daily",
+          "expected": "The save is confirmed and the modal closes",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Frequency column of org T shows \"Daily\" without a manual page reload",
+          "data": "",
+          "expected": "The row of org T reads \"Daily\", the same value as in the modal",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Org T = QA-GEO. Modal opened via Actions > Edit (\"Edit Organisation — QA-GEO\"), Collection frequency = Daily. Set to One time, Save -> PATCH /admin/organisations/dcea498b-.../quotas {\"frequency\":\"ONE_TIME\"} (only field sent), toast \"Quotas updated\", modal closed, QA-GEO row reads \"One time\"; a window marker set before the save was still present -> no page reload. Reopened modal showed One time; set back to Daily, Save -> PATCH {\"frequency\":\"DAILY\"}, toast \"Quotas updated\", row reads \"Daily\", marker still present. RESTORE VERIFIED after a fresh reload: list = Daily, modal = Daily, API frequency = DAILY; all other modal fields identical to the baseline (name QA-GEO, MCN empty, US org false, all quotas 20, user quota 20, 5 LLM toggles on)."
+    },
+    {
+      "tc_id": "TC-GEO-1172-007",
+      "title": "Front office editor and reader do not see the collection frequency",
+      "story_id": "GEO-1172",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_step1_given.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_step2_when.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_step3_then.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_editor_settings_preferences.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_editor_settings_user_admin.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_editor_org_switcher.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_editor_user_menu.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_editor_time_evolution_daily.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_editor_dashboard_full.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_reader_step1_given.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_reader_step2_when.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_reader_step3_then.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_reader_settings_preferences.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_reader_settings_user_admin.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_reader_org_switcher.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_reader_user_menu.png",
+        "screenshots-GEO-1113-GEO1172-mcp/TC-GEO-1172-007_reader_dashboard_full.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an editor user is logged in to the front office",
+          "data": "Editor account: assiya.benramdane@onclusive.com",
+          "expected": "The front office home page is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the editor browses the analyses list, a dashboard and the organization and account settings pages",
+          "data": "",
+          "expected": "Each page loads normally",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no screen shows a frequency value or a Frequency column, filter or label",
+          "data": "",
+          "expected": "No \"Frequency\", \"Daily\" or \"One time\" collection frequency element is visible",
+          "status": "PASS"
+        },
+        {
+          "title": "And no new menu entry or page related to the collection frequency is available",
+          "data": "",
+          "expected": "The navigation menu is unchanged compared with the previous release",
+          "status": "PASS"
+        },
+        {
+          "title": "Given a reader user is logged in to the front office",
+          "data": "Reader account: assiya.benramdane+os@onclusive.com",
+          "expected": "The front office home page is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the reader browses the analyses list, a dashboard and the account settings pages",
+          "data": "",
+          "expected": "Each page loads normally",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no screen shows a frequency value or a Frequency column, filter or label",
+          "data": "",
+          "expected": "No \"Frequency\", \"Daily\" or \"One time\" collection frequency element is visible",
+          "status": "PASS"
+        }
+      ],
+      "notes": "RE-RUN 2026-10-13 15:06-15:12 after the user updated both accounts (fresh isolated context per account, password = GEO_USER_PASSWORD, both logins OK, both land in the GEO app, not /upsell). EDITOR part = assiya.benramdane+geo@onclusive.com: /auth/me role EDITOR, org QA-GEO (DAILY), quota_status OK, granted_applications [unified, geo], no access_status, language en-US. READER part = assiya.benramdane+os@onclusive.com: /auth/me role READER, org Onclusive (ONE_TIME, MCN 9999), quota_status OK, granted_applications [geo, digi, unified], no access_status, language en-US (New Analysis button disabled, consistent with READER). For each role: analyses list (/geo), a dashboard (editor: adidas 7afde4fe-..., Identity/Performance/Sources; reader: Apple 2c233346-...), Settings > Preferences and Settings > User admin, organisation switcher opened, user menu opened -> each page loads; text + aria-label/title/placeholder scan for 'frequency', 'daily', 'one time': no collection frequency value, column, filter or label. Navigation (both roles): Mention, Review, Contact, Measure, Settings, Help, Log out -> no frequency-related entry. Back office /geo/backoffice/organisations (both roles): redirected to /geo with toast 'Access denied: this page is restricted to administrators' (data-testid backoffice-route-toast, visible, framed in step3 screenshots), admin API 403. Matches found and judged NOT collection frequency (pre-existing dashboard analytics): 'Sort by Frequency' (topic sort) and the 'Frequency' column of the cited-domains table (both roles); for the editor on a DAILY org, the Time Evolution chart subtitle 'Your metrics over time - one line per category plus all categories daily, from 07/10/2026 to 13/10/2026' (chart granularity over the selected 'Last 7 days' range, not the organisation frequency) - flagged for PO confirmation, screenshot TC-GEO-1172-007_editor_time_evolution_daily.png. 'Navigation menu unchanged compared with the previous release' is checked as 'no frequency-related entry' (no previous-release baseline captured in this run). Earlier attempts in this run (superseded): +os was EDITOR at 14:5x; +geo landed on /geo/upsell (READER, no org, AUTH0_ACCESS_DENIED) at 15:02 before the user fixed the accounts. Main account logged back in at the end: SUPER_ADMIN, org QA-GEO, en-GB."
+    }
+  ]
+}

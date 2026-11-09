@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "epic": "257",
+    "title": "SOV Reformulation — Mention-Density Model",
+    "brand": "Chanel",
+    "generated": "2026-05-14",
+    "description": "JDD for epic GEO-257 — SOV mention-density formula, quality labels (GOOD/FAIR/POOR) and thresholds (>25%/>15%), prioritization matrix axis at 25%, tooltip 'Share of ranked mentions', KPI pill uniformity."
+  },
+
+  "dashboard": {
+    "dashboard_uuid": "086b49a6-9367-41c3-a681-00754d9e5c4a",
+    "brand": "Toyota",
+    "url_comment": "Full URL: https://staging-geo.onclusive.com/geo/dashboard/086b49a6-9367-41c3-a681-00754d9e5c4a"
+  },
+
+  "snapshot": {
+    "target": null,
+    "_comment": "Toyota n'a pas de snapshot — H.ensureSnapshot() sera ignoré."
+  },
+
+  "sov": {
+    "formula": "mention-density",
+    "expected_value_example": "19.30%",
+    "numerator_example": 162,
+    "denominator_example": 840,
+    "thresholds": {
+      "good_above": 25,
+      "fair_above_or_equal": 15,
+      "fair_below_or_equal": 25,
+      "poor_below": 15
+    },
+    "quality_labels": ["GOOD", "FAIR", "POOR"],
+    "na_label": "N/A"
+  },
+
+  "matrix": {
+    "sov_threshold_x_axis": 25,
+    "win_rate_threshold_y_axis": 50,
+    "quadrants": {
+      "stars":       { "sov": ">25", "win_rate": ">=50" },
+      "opportunity": { "sov": "<=25", "win_rate": ">=50" },
+      "at_risk":     { "sov": ">25", "win_rate": "<50" },
+      "monitor":     { "sov": "<=25", "win_rate": "<50" }
+    }
+  },
+
+  "tooltips": {
+    "sov_kpi_card_en": "Share of ranked mentions",
+    "sov_kpi_card_fr": "Part des mentions classées",
+    "sov_brand_rankings_header_en": "Share of ranked mentions",
+    "sov_brand_rankings_header_fr": "Part des mentions classées"
+  },
+
+  "email": {
+    "expected_sov_value": "",
+    "_comment": "Empty — email notification environment not available. TC-GEO-299-002 is skipped."
+  }
+}

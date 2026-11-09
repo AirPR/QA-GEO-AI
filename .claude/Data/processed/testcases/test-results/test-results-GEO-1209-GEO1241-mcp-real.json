@@ -1,0 +1,857 @@
+{
+  "spec": "GEO-1209-GEO1241-mcp",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "story_filter": "GEO-1241",
+  "environment": "staging, organisation QA-GEO, en-GB, features.unbranded_analysis=true, prompt pool 953/1000",
+  "write_guard": "context.route on **/geo/api/** blocking non-GET; allow-listed draft-building POSTs: analysis/discover-categories, analysis/translate-category, questions/adapt-batch. No analysis created. Guard removed with context.unrouteAll() at the end.",
+  "summary": {
+    "total": 17,
+    "pass": 14,
+    "fail": 2,
+    "skip": 1,
+    "partial": 0,
+    "success_rate": 82.4,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1241-001",
+      "title": "New Analysis opens Analysis Type with two cards and nothing selected",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-001_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-001_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard of organisation T",
+          "status": "PASS",
+          "data": "",
+          "expected": "The dashboard is displayed with New Analysis available"
+        },
+        {
+          "title": "When the user clicks New Analysis",
+          "status": "PASS",
+          "data": "",
+          "expected": "The wizard opens on step 1 \"Analysis Type\"; the stepper lists 5 steps: Analysis Type, Brand & Country, Categories, Prompts, Review"
+        },
+        {
+          "title": "Then two cards \"Brand analysis\" and \"Unbranded analysis\" are displayed",
+          "status": "PASS",
+          "data": "",
+          "expected": "Both cards are shown, each with a description of what it measures"
+        },
+        {
+          "title": "And no card is selected",
+          "status": "PASS",
+          "data": "",
+          "expected": "Neither card is selected and the primary action (Continue) is disabled"
+        }
+      ],
+      "notes": "Wizard opens on step 1 'Analysis Type' with 5 steps (Analysis Type, Brand & Country, Categories, Prompts, Review). Cards 'Brand analysis' (Default, 'Track how AI engines present your brand against its field.' + 3 points) and 'Unbranded analysis' (Advanced, 'Measure an industry or topic instead of a brand. Football, car insurance, frozen food.' + 3 points). Both radios unchecked, Continue disabled, no mode pill in the product bar."
+    },
+    {
+      "tc_id": "TC-GEO-1241-002",
+      "title": "Flag OFF: the wizard keeps four steps with no Analysis Type step and no mode pill",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "SKIP while the unbranded flag is ON on staging: run only with the flag OFF (GEO-1241 AC1b). GET /geo/api/v1/auth/me returned features.unbranded_analysis = true on 2026-10-20; the screenshots show the flag ON wizard as evidence.",
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-002_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-002_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard of organisation T",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The dashboard is displayed with New Analysis available"
+        },
+        {
+          "title": "When the user clicks New Analysis",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The wizard opens directly on Brand & Country"
+        },
+        {
+          "title": "Then the stepper lists four steps",
+          "status": "SKIP",
+          "data": "",
+          "expected": "Brand & Country, Categories, Prompts, Review; no \"Analysis Type\" step"
+        },
+        {
+          "title": "And no mode pill is shown in the product bar",
+          "status": "SKIP",
+          "data": "",
+          "expected": "Neither \"Brand analysis\" nor \"Unbranded analysis\" is shown in the product bar"
+        },
+        {
+          "title": "And Brand & Country asks for a brand as today",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The brand search field is displayed; no topic field"
+        }
+      ],
+      "notes": "Not executed: flag ON."
+    },
+    {
+      "tc_id": "TC-GEO-1241-003",
+      "title": "Selecting a card enables Continue and the mode pill shows the mode",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-003_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-003_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Analysis Type step with nothing selected",
+          "status": "PASS",
+          "data": "",
+          "expected": "Continue is disabled"
+        },
+        {
+          "title": "When the user selects the \"Brand analysis\" card",
+          "status": "PASS",
+          "data": "",
+          "expected": "The card is shown selected"
+        },
+        {
+          "title": "Then the primary action is enabled",
+          "status": "PASS",
+          "data": "",
+          "expected": "Continue is enabled"
+        },
+        {
+          "title": "And the mode pill shows the mode",
+          "status": "PASS",
+          "data": "",
+          "expected": "The product bar pill reads \"Brand analysis\""
+        },
+        {
+          "title": "When the user selects the \"Unbranded analysis\" card instead",
+          "status": "PASS",
+          "data": "",
+          "expected": "Only the Unbranded analysis card is selected; Continue stays enabled"
+        },
+        {
+          "title": "Then the mode pill shows the new mode",
+          "status": "PASS",
+          "data": "",
+          "expected": "The product bar pill reads \"Unbranded analysis\""
+        }
+      ],
+      "notes": "Nothing selected: Continue disabled. Brand analysis clicked: radio BRAND checked, Continue enabled, product bar pill 'Brand analysis'. Unbranded analysis clicked: only UNBRANDED checked, Continue enabled, pill 'Unbranded analysis'."
+    },
+    {
+      "tc_id": "TC-GEO-1241-004",
+      "title": "The mode pill stays the same on every later step",
+      "story_id": "GEO-1241",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-004_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-004_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-004_step3_prompts.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user selected \"Unbranded analysis\" on Analysis Type and continued",
+          "status": "PASS",
+          "data": "",
+          "expected": "Topic & Country is displayed and the pill reads \"Unbranded analysis\""
+        },
+        {
+          "title": "When the user fills Topic & Country and continues to Categories",
+          "status": "PASS",
+          "data": "Topic: \"Postal services\"; markets GB (EN), FR (FR)",
+          "expected": "Categories is displayed and the pill still reads \"Unbranded analysis\""
+        },
+        {
+          "title": "And the user continues to Prompts and then Review",
+          "status": "PASS",
+          "data": "",
+          "expected": "The pill reads \"Unbranded analysis\" on Prompts and on Review"
+        },
+        {
+          "title": "Then the pill never changed without a mode switch",
+          "status": "PASS",
+          "data": "",
+          "expected": "The pill text is identical on every step from step 1 to Review"
+        }
+      ],
+      "notes": "Pill read 'Unbranded analysis' on Topic & Country, Categories (topic 'Postal services', GB (EN) + FR (FR)), Prompts and Review. Identical text on every step."
+    },
+    {
+      "tc_id": "TC-GEO-1241-005",
+      "title": "Unbranded analysis turns step 2 into Topic & Country asking for an industry or topic",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-005_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-005_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Analysis Type step",
+          "status": "PASS",
+          "data": "",
+          "expected": "The two cards are displayed"
+        },
+        {
+          "title": "When the user selects \"Unbranded analysis\" and continues",
+          "status": "PASS",
+          "data": "",
+          "expected": "Step 2 opens"
+        },
+        {
+          "title": "Then step 2 is labelled \"Topic & Country\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "The stepper and the step title read \"Topic & Country\", not \"Brand & Country\""
+        },
+        {
+          "title": "And the step asks for an industry or topic instead of a brand",
+          "status": "PASS",
+          "data": "",
+          "expected": "A topic text field is displayed; there is no brand search, no brand logo and no brand website field"
+        },
+        {
+          "title": "And the markets block and Language for AI Insights are displayed as in a brand analysis",
+          "status": "PASS",
+          "data": "",
+          "expected": "The markets block (country, language) and Language for AI Insights are shown below the topic field"
+        }
+      ],
+      "notes": "Stepper step 2 and h1 read 'Topic & Country'. Only input: #wizard-topic-input (placeholder 'e.g. Car insurance'); no brand search, no logo image, no website field. Markets block ('Which countries do you want to analyse?') and 'Language for AI Insights' shown below the topic field."
+    },
+    {
+      "tc_id": "TC-GEO-1241-006",
+      "title": "Topic & Country asks \"What industry or topic are you analysing?\" with the topic helper",
+      "story_id": "GEO-1241",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-006_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-006_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user selected \"Unbranded analysis\" on Analysis Type",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Unbranded analysis card is selected"
+        },
+        {
+          "title": "When the user continues to Topic & Country",
+          "status": "PASS",
+          "data": "",
+          "expected": "Topic & Country is displayed"
+        },
+        {
+          "title": "Then the field asks the topic question",
+          "status": "PASS",
+          "data": "",
+          "expected": "\"What industry or topic are you analysing?\" is displayed as the field question"
+        },
+        {
+          "title": "And a helper states that the topic frames the analysis and is never measured",
+          "status": "PASS",
+          "data": "",
+          "expected": "The helper is shown under the field (design copy: \"The topic frames the analysis. It is never measured. What gets measured is whichever brands the AI answers name.\")"
+        }
+      ],
+      "notes": "Field label 'What industry or topic are you analysing?'; helper 'The topic frames the analysis. It is never measured. What gets measured is whichever brands the AI answers name.' (matches the design copy and en-gb topic.helper)."
+    },
+    {
+      "tc_id": "TC-GEO-1241-007",
+      "title": "An empty topic shows a red border and a message naming the field",
+      "story_id": "GEO-1241",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-007_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-007_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-007_step3_then.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-007_step4_typed.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Topic & Country of an unbranded analysis with the topic empty",
+          "status": "PASS",
+          "data": "Markets: GB (EN)",
+          "expected": "The topic field is empty"
+        },
+        {
+          "title": "When the user tries to continue",
+          "status": "PASS",
+          "data": "",
+          "expected": "The click on \"Discover Categories\" does not leave the step"
+        },
+        {
+          "title": "Then the topic field shows a red border",
+          "status": "PASS",
+          "data": "",
+          "expected": "The topic field border is red"
+        },
+        {
+          "title": "And a message naming the field is displayed",
+          "status": "PASS",
+          "data": "",
+          "expected": "A message under the field names the topic (industry or topic) field"
+        },
+        {
+          "title": "When the user types a topic",
+          "status": "PASS",
+          "data": "Topic: \"Postal services\"",
+          "expected": "The red border and the message disappear and the user can continue"
+        }
+      ],
+      "notes": "Market GB (EN), topic empty, click 'Discover Categories': stays on Topic & Country, input border red (border-red-500), aria-invalid=true, message 'Enter the industry or topic you want to analyse.' shown below the field (after the helper). After typing 'Postal services': red border and message gone, aria-invalid=false, Discover Categories enabled."
+    },
+    {
+      "tc_id": "TC-GEO-1241-008",
+      "title": "Switching from Unbranded to Brand after step 1 asks for a confirmation and clears the later steps",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-008_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-008_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-008_step3_confirm.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-008_step3_then.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-008_step4_switched.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-008_step6_categories.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-008_step6_prompts.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user created an unbranded scope up to the Categories step",
+          "status": "PASS",
+          "data": "Topic: \"Postal services\"; markets GB (EN), FR (FR); categories C1, C2 discovered",
+          "expected": "Categories shows C1 and C2 and the pill reads \"Unbranded analysis\""
+        },
+        {
+          "title": "When the user goes back to Analysis Type",
+          "status": "PASS",
+          "data": "Click step \"Analysis Type\" in the stepper",
+          "expected": "Analysis Type shows Unbranded analysis selected"
+        },
+        {
+          "title": "And the user selects \"Brand analysis\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "A confirmation opens"
+        },
+        {
+          "title": "Then the confirmation states what is cleared",
+          "status": "PASS",
+          "data": "",
+          "expected": "The text states that the brand or topic, the markets, the categories and the prompts are cleared"
+        },
+        {
+          "title": "When the user confirms",
+          "status": "PASS",
+          "data": "",
+          "expected": "The pill reads \"Brand analysis\" and the user continues to Brand & Country"
+        },
+        {
+          "title": "Then the later steps are cleared",
+          "status": "PASS",
+          "data": "",
+          "expected": "Brand & Country has no brand and none of the previous markets; Categories and Prompts hold none of the previous categories and prompts"
+        }
+      ],
+      "notes": "From Categories (topic 'Postal services', GB + FR, Package Delivery + Mail Services, plus Courier Services added by TC-013), stepper Analysis Type shows Unbranded selected; selecting Brand opens 'Switch the analysis type?' - 'Switching the mode clears your brand or topic, your markets, your categories and your prompts. Nothing is saved: this cannot be undone. Cancel to keep your current setup.' Switch type: pill 'Brand analysis'; Brand & Country has an empty brand search and no market; Categories/Prompts/Review steps locked (aria-disabled). After brand Decathlon discovery, Categories show only Outdoor Gear / Sports Apparel and Prompts 70 Decathlon prompts, none of the previous categories or prompts."
+    },
+    {
+      "tc_id": "TC-GEO-1241-009",
+      "title": "Cancelling the mode switch keeps the mode and every choice",
+      "story_id": "GEO-1241",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-009_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-009_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-009_step3_then.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-009_step4_topic.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-009_step5_categories.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-009_step5_prompts.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user created an unbranded scope up to the Prompts step",
+          "status": "PASS",
+          "data": "Topic: \"Postal services\"; markets GB (EN), FR (FR); categories C1, C2",
+          "expected": "Prompts shows the suggested prompts and the pill reads \"Unbranded analysis\""
+        },
+        {
+          "title": "When the user goes back to Analysis Type and selects \"Brand analysis\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "The confirmation opens"
+        },
+        {
+          "title": "And the user cancels the confirmation",
+          "status": "PASS",
+          "data": "",
+          "expected": "The confirmation closes"
+        },
+        {
+          "title": "Then the mode is unchanged",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Unbranded analysis card is selected and the pill reads \"Unbranded analysis\""
+        },
+        {
+          "title": "And every choice is kept",
+          "status": "PASS",
+          "data": "",
+          "expected": "Topic & Country still shows \"Postal services\" and both markets; Categories shows C1 and C2; Prompts shows the same prompts and the same ticks"
+        }
+      ],
+      "notes": "From Prompts (120 rows, 41 ticked after the TC-015/016/017 manipulations of the same session), Analysis Type -> Brand analysis opens the confirmation; Cancel closes it. Unbranded still selected, pill 'Unbranded analysis'. Topic & Country: 'Postal services', United Kingdom English (EN) and France French (FR). Categories: Package Delivery, Mail Services. Prompts: same 120 rows with exactly the same ticks (row-by-row comparison)."
+    },
+    {
+      "tc_id": "TC-GEO-1241-010",
+      "title": "Switching from Brand to Unbranded after the Prompts step clears the brand, markets, categories and prompts",
+      "story_id": "GEO-1241",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-010_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-010_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-010_step3_confirmed.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-010_step3_then.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-010_step5_categories.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-010_step5_prompts.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user created a brand scope up to the Prompts step",
+          "status": "PASS",
+          "data": "Brand: \"Decathlon\"; market GB (EN); detected categories kept",
+          "expected": "Prompts shows the suggestions and the pill reads \"Brand analysis\""
+        },
+        {
+          "title": "When the user goes back to Analysis Type and selects \"Unbranded analysis\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "The confirmation opens and states that the brand or topic, the markets, the categories and the prompts are cleared"
+        },
+        {
+          "title": "And the user confirms",
+          "status": "PASS",
+          "data": "",
+          "expected": "The pill reads \"Unbranded analysis\""
+        },
+        {
+          "title": "Then Topic & Country starts empty",
+          "status": "PASS",
+          "data": "",
+          "expected": "The topic field is empty, no brand is shown and none of the previous markets is listed"
+        },
+        {
+          "title": "And no previous category or prompt is kept",
+          "status": "PASS",
+          "data": "",
+          "expected": "After entering a topic and discovering, Categories and Prompts show only the new topic results"
+        }
+      ],
+      "notes": "Brand scope Decathlon (decathlon.com), GB (EN), detected categories Outdoor Gear + Sports Apparel (+ Overview), 70 prompts, pill 'Brand analysis'. Analysis Type -> Unbranded opens the confirmation with the clear text; Switch type -> pill 'Unbranded analysis'. Topic & Country: empty topic, no brand, no market; later steps locked. After topic 'Postal services' + GB (EN) + discovery: categories Package Delivery / Mail Services, 60 prompts (20/20/20), none referring to Decathlon or its categories."
+    },
+    {
+      "tc_id": "TC-GEO-1241-011",
+      "title": "Continuing from a valid Topic & Country shows the topic version of the discovery screen",
+      "story_id": "GEO-1241",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-011_brand_discovery_reference.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-011_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-011_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-011_step3_then.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-011_step4_categories.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Topic & Country with a valid topic and market",
+          "status": "PASS",
+          "data": "Topic: \"Postal services\"; market GB (EN)",
+          "expected": "\"Discover Categories\" is enabled"
+        },
+        {
+          "title": "When the user clicks \"Discover Categories\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "The category discovery screen is displayed"
+        },
+        {
+          "title": "Then the screen keeps the brand version layout",
+          "status": "PASS",
+          "data": "",
+          "expected": "Same layout as the brand discovery screen (loader and two text lines)"
+        },
+        {
+          "title": "And its text is the topic version",
+          "status": "PASS",
+          "data": "",
+          "expected": "The text refers to the topic \"Postal services\" and does not use the brand text (\"Scanning how AI engines see {brand}...\" / \"We look at your brand...\")"
+        },
+        {
+          "title": "And discovery ends on Categories",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Categories step opens with the discovered categories"
+        }
+      ],
+      "notes": "Discovery screen: 'Discovering Categories', 'Scanning how AI engines see Postal services across your markets.', 'This usually takes about 20 seconds. We look at your topic, your markets and their languages.' Same structure as the brand screen observed for Decathlon ('...see Decathlon...', '...We look at your brand, ...'; reference screenshot attached). Ends on Categories with Package Delivery and Mail Services. The discover-categories POST was allow-listed (it does not create an analysis)."
+    },
+    {
+      "tc_id": "TC-GEO-1241-012",
+      "title": "Unbranded prompts have no Brand Image, Category Topics instead of Reputation and Competitive with four competitors",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-012_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-012_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompt table is displayed with every suggestion ticked"
+        },
+        {
+          "title": "When the user opens the Type column filter",
+          "status": "PASS",
+          "data": "",
+          "expected": "The filter lists Visibility, Competitive and Category Topics with their counts"
+        },
+        {
+          "title": "Then there is no Brand Image and no Reputation prompt",
+          "status": "PASS",
+          "data": "",
+          "expected": "Neither \"Brand Image\" nor \"Reputation\" is listed in the filter or shown on a badge"
+        },
+        {
+          "title": "When the user filters on Competitive",
+          "status": "PASS",
+          "data": "",
+          "expected": "Only Competitive rows are shown"
+        },
+        {
+          "title": "Then each Competitive prompt holds four competitor slots and no brand",
+          "status": "PASS",
+          "data": "",
+          "expected": "Each wording has 4 competitor slots ([Competitor 1] to [Competitor 4]) and names no target brand"
+        }
+      ],
+      "notes": "Type filter lists Visibility 40, Category Topics 40, Competitive 40, Other 0. No Brand Image, no Reputation anywhere. Competitive filter: 40 rows, each with [Competitor 1] to [Competitor 4] and no brand (e.g. 'Best for Package Delivery: [Competitor 1], [Competitor 2], [Competitor 3] or [Competitor 4]?')."
+    },
+    {
+      "tc_id": "TC-GEO-1241-013",
+      "title": "Each category in each market gets 30 prompts: 2 markets x 3 categories = 180 prompts",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-013_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-013_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-013_step3_then.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-013_step4_C1_GB.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Categories with C1, C2 and C3",
+          "status": "PASS",
+          "data": "C3: \"Courier services\"",
+          "expected": "Three categories are listed"
+        },
+        {
+          "title": "When the user generates the prompts",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Prompts step opens with every suggestion ticked"
+        },
+        {
+          "title": "Then the table holds 180 prompts",
+          "status": "PASS",
+          "data": "",
+          "expected": "\"180 selected\" is shown and the ring reads \"U + 180 / P\""
+        },
+        {
+          "title": "And each category in each market gets 30 prompts",
+          "status": "PASS",
+          "data": "Filter: category C1, market GB (EN)",
+          "expected": "30 rows: 10 Visibility, 10 Competitive, 10 Category Topics"
+        },
+        {
+          "title": "And the same split applies to every category and market pair",
+          "status": "PASS",
+          "data": "C2 / C3 with GB (EN) and FR (FR)",
+          "expected": "Each of the 6 pairs shows 30 rows with the 10 / 10 / 10 split; no Brand Image row"
+        }
+      ],
+      "notes": "C3 'Courier services' added (displayed 'Courier Services', FR 'Services de messagerie'). Generate Prompts: 180 rows; the 60 new C3 rows ticked, the 120 earlier rows kept the ticks of the previous TCs (101 selected), so all rows were re-ticked with the header checkbox before the check: '180 selected', ring 1133 / 1000 (U=953 + 180). C1 x GB (EN): 30 rows = 10 Visibility, 10 Competitive, 10 Category Topics. All 6 category x market pairs: 30 rows with 10/10/10, no Brand Image."
+    },
+    {
+      "tc_id": "TC-GEO-1241-014",
+      "title": "Type badges and type selects of an unbranded analysis show Visibility, Competitive, Category Topics or Other",
+      "story_id": "GEO-1241",
+      "priority": "Medium",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 'And the user opens the type select of a row' - Expected: 'The select lists Visibility, Competitive, Category Topics and Other only'. Observed: the type select of an existing (generated) row lists only 'Visibility', 'Category Topics', 'Competitive' - no 'Other'.",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-014_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-014_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-014_step3_row_select.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-014_step3_row_select_bug.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-014_step3_then.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-014_step4_add_select.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-014_step5_before_add.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The table is displayed"
+        },
+        {
+          "title": "When the user looks at the type badges",
+          "status": "PASS",
+          "data": "",
+          "expected": "Each badge reads Visibility, Competitive or Category Topics"
+        },
+        {
+          "title": "And the user opens the type select of a row",
+          "status": "FAIL",
+          "data": "",
+          "expected": "The select lists Visibility, Competitive, Category Topics and Other only"
+        },
+        {
+          "title": "And the user clicks Add prompt and opens the type select of the new row",
+          "status": "PASS",
+          "data": "",
+          "expected": "The select lists Visibility, Competitive, Category Topics and Other only; no Reputation, no Brand Image"
+        },
+        {
+          "title": "When the user confirms the new row with the type empty",
+          "status": "PASS",
+          "data": "Prompt: \"Which parcel lockers are easiest to use?\" - Category C1 - Market GB (EN) - Type empty",
+          "expected": "The new row badge reads \"Other\""
+        }
+      ],
+      "notes": "Badges: Visibility / Competitive / Category Topics only. Row type select (edit mode, Type combobox): Visibility, Category Topics, Competitive, no Other -> FAIL, framed in red in TC-GEO-1241-014_step3_row_select_bug.png. Add prompt row type select: Visibility, Category Topics, Competitive, Other (PASS). New row 'Which parcel lockers are easiest to use?' - Package Delivery - GB (EN) with the type left at its default: badge 'Other' (PASS; the default is already 'Other', not empty). PO question: should 'Other' be selectable on an existing row?"
+    },
+    {
+      "tc_id": "TC-GEO-1241-015",
+      "title": "Each kept prompt of an unbranded analysis costs one slot per market",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-015_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-015_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-015_step3_add_gb.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "\"120 selected\" is shown and the ring reads \"U + 120 / P\""
+        },
+        {
+          "title": "When the user unticks 2 prompts",
+          "status": "PASS",
+          "data": "Any 2 rows",
+          "expected": "The ring reads \"U + 118 / P\""
+        },
+        {
+          "title": "And the user adds a custom prompt in market GB (EN)",
+          "status": "PASS",
+          "data": "Prompt: \"Which parcel delivery service is the fastest?\" - Category C1 - Type Visibility - Market GB (EN)",
+          "expected": "The ring reads \"U + 119 / P\""
+        },
+        {
+          "title": "And the user adds the same prompt in market FR (FR)",
+          "status": "PASS",
+          "data": "Same text, Category C1, Type Visibility, Market FR (FR)",
+          "expected": "The ring reads \"U + 120 / P\""
+        },
+        {
+          "title": "Then each kept prompt costs one slot per market",
+          "status": "PASS",
+          "data": "",
+          "expected": "The ring and \"N selected\" moved by exactly 1 per ticked prompt per market"
+        }
+      ],
+      "notes": "U=953, P=1000. Start: 1073 / 1000, 120 selected. 2 rows unticked: 1071, 118. Custom 'Which parcel delivery service is the fastest?' Package Delivery / Visibility / GB (EN): 1072, 119. Same in FR (FR): 1073, 120. Exactly 1 slot per ticked prompt per market."
+    },
+    {
+      "tc_id": "TC-GEO-1241-016",
+      "title": "Review warns that InBrief and Top Topics will not be produced without Category Topics or Other prompts",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 'And no prompt is in Other' - Expected: 'The Type and Category filters list no \"Other\" value'. Observed: both filters list 'Other' with count 0 (Type: Visibility 40, Category Topics 40, Competitive 40, Other 0; Category: Package Delivery 20, Mail Services 20, Other 0).",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-016_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-016_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-016_step3_category_filter.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-016_step3_then.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-016_step3_type_filter.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-016_step4_review.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The table is displayed with every suggestion ticked"
+        },
+        {
+          "title": "When the user filters on Type Category Topics and unticks every Category Topics prompt",
+          "status": "PASS",
+          "data": "Type filter: Category Topics",
+          "expected": "Every Category Topics row is unticked"
+        },
+        {
+          "title": "And no prompt is in Other",
+          "status": "FAIL",
+          "data": "",
+          "expected": "The Type and Category filters list no \"Other\" value"
+        },
+        {
+          "title": "And the user goes to Review",
+          "status": "PASS",
+          "data": "Review & Launch",
+          "expected": "The Review step is displayed"
+        },
+        {
+          "title": "Then the warning names InBrief and Top Topics as metrics the analysis will not produce",
+          "status": "PASS",
+          "data": "",
+          "expected": "The warning names \"InBrief\" and \"Top Topics\""
+        }
+      ],
+      "notes": "All 40 Category Topics rows unticked (1033 / 1000, 80 selected). Review & Launch is disabled while the pool is over, so the 40 FR rows were also unticked to reach Review (adaptation: 993 / 1000, 40 kept = GB Visibility 20 + Competitive 20; the condition 'no Category Topics, no Other' is unchanged). Review: 'No Category Topics prompts are kept, so InBrief and Top Topics will not be produced.' -> names InBrief and Top Topics (PASS, matches en-gb). The step 3 FAIL is literal: 'Other' is listed with 0, likely by design; CSV correction proposed."
+    },
+    {
+      "tc_id": "TC-GEO-1241-017",
+      "title": "The InBrief and Top Topics warning is not shown when a Category Topics or Other prompt is kept",
+      "story_id": "GEO-1241",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-017_step1_given.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-017_step2_when.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-017_step3_then.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-017_step4_prompts.png",
+        "screenshots-GEO-1209-GEO1241/TC-GEO-1241-017_step5_review.png"
+      ],
+      "steps": [
+        {
+          "title": "Given every Category Topics prompt of the unbranded scope is unticked",
+          "status": "PASS",
+          "data": "",
+          "expected": "Review shows the InBrief / Top Topics warning"
+        },
+        {
+          "title": "When the user goes back to Prompts and adds a kept prompt with the type empty",
+          "status": "PASS",
+          "data": "Prompt: \"What do people say about parcel lockers?\" - Category C1 - Market GB (EN) - Type empty",
+          "expected": "The row is added ticked with the type \"Other\""
+        },
+        {
+          "title": "And the user goes to Review",
+          "status": "PASS",
+          "data": "",
+          "expected": "Review is displayed"
+        },
+        {
+          "title": "Then the InBrief / Top Topics warning is not shown",
+          "status": "PASS",
+          "data": "",
+          "expected": "No warning names InBrief or Top Topics"
+        },
+        {
+          "title": "When the user deletes the Other prompt, ticks one Category Topics prompt and goes to Review",
+          "status": "PASS",
+          "data": "",
+          "expected": "The InBrief / Top Topics warning is still not shown"
+        }
+      ],
+      "notes": "Given: Review shows the InBrief / Top Topics warning (TC-016 state, FR rows unticked for the pool). Added 'What do people say about parcel lockers?' Package Delivery / GB (EN), type default -> row ticked, type 'Other' (994 / 1000, 41). Review: no InBrief / Top Topics warning; an 'Other prompts' block lists the row. Deleted the Other prompt and ticked one GB Category Topics prompt ('What should I look for in Package Delivery?'): Review still without the warning."
+    }
+  ]
+}

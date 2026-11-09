@@ -1,0 +1,1500 @@
+{
+  "epic": {
+    "id": "GEO-152",
+    "key": "GEO-152",
+    "title": "EPIC-010: Actions Center - Target Sources",
+    "status": "QA In Progress",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-04-06",
+    "updated": "2026-09-25",
+    "updatedAt": "2026-09-25T09:11:35.567-0400",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-152",
+    "functionalNeed": "PR professionals using GEO need to act on what the analysis finds, not only watch it. Prospects say this directly: the tool must help identify which media sources are a priority for influencing a brand's reputation on LLMs.\n\nThe Actions Center is a source-first view titled \"Target Sources\": a ranked list of the third-party sources most worth influencing, where every listed source has been verified against its actual pages. The funnel has four steps.\n\n1. Answers where the brand is absent (visibility questions), not chosen (competitive questions), or associated with negative concepts designate suspect sources and the specific articles they were cited on.\n2. Every one of those articles is fetched.\n3. Each fetched page is checked: does it name the brand family (parent brand, variations, products), and if named, is the depiction negative? Pages that cover the brand without negativity are false positives: they never enter the failing article count, the ranking or the badges, but the check keeps them and the explanation panel shows them as positive articles.\n4. Only sources with at least one confirmed failing article remain, ranked by how many failing articles they have. The result is a to-do list where every claim is provable from the page itself: \"this source has N checked articles that AI engines rely on, and none of them mention the brand\" is a pitch a PR person can send as-is.\n\nBecause the verdict comes from the page and not from the answer that led to it, a source carries only the two labels the page check can prove: \"Improve visibility\" when the brand is absent from the page, and \"Improve perception\" when the page names the brand negatively. A source can carry both.\n\nThe two verdicts also give the list its navigation. Three tabs scope the target list: \"All\", \"Improve visibility\", and \"Improve perception\". A PR professional pitching an absent brand and a PR professional answering a negative page do different work, so each tab ranks the sources by the article count of that verdict alone.\n\nThis inversion also settles how AI Citation Sources and the Actions Center relate: AI Citation Sources is the monitoring surface and the Actions Center is the actionability surface.\n\nTwo changes to AI Citation Sources make that split honest, and both belong to this epic because they are the monitoring half of the same rework:\n\n- The per-source favourability label is removed from the AI Citation Sources table. Favourability there was inferred from the outcomes of the answers a source was cited in, not from anything the source actually says, so it asserted about a source a judgement the monitoring view has not verified. Any judgement about whether a source helps or hurts the brand now lives only in the Actions Center, where the underlying pages are checked.\n- In a source's expanded detail, the citation-count signal is replaced by a plain list of the tracked questions the source was used to answer, shown under the section heading \"Related Prompts\". The monitoring view then shows where a source actually appears across the analysis, rather than an opaque count.\n\n---\n\n#### User Story 1.1: Select suspect sources from gap answers\n\nStory ID: TBD\n\n> As a PR professional, I want the analysis to identify the sources cited in answers where my brand underperforms, so that the sources most involved in my visibility problems become candidates for action.\n\nAcceptance Criteria:\n\n- Given a completed analysis, When suspect sources are selected, Then a source qualifies as suspect only if it is cited in at least one visibility question answer where the brand is entirely absent, one competitive question answer where the brand is not the chosen winner, or one negative concept\n- Given a visibility answer where the brand is present but not ranked first, When suspect selection runs, Then that answer does not qualify any source on the visibility leg\n- Given a suspect source, When it is recorded, Then the specific articles it was cited on in qualifying answers are recorded with it\n- Given a domain owned by the analyzed brand or by a competitor, When suspect selection runs, Then that domain is excluded from the suspect list regardless of the answers citing it\n- Given the sources cited in qualifying answers, When the suspect set is built, Then it covers every source cited in those answers, and it is never limited to the capped list of domains that AI Citation Sources displays\n- Given a cited URL that the model wrote from memory rather than opened during web search (a model-declared URL, see GEO-1107), When suspect selection runs, Then that URL never qualifies a source and never enters the suspect article set\n\n#### User Story 1.2: Verify every suspect article against its page\n\nStory ID: TBD\n\n> As a PR professional, I want each suspect article checked for what it actually says about my brand, so that the target list only contains sources with a confirmed problem I can act on.\n\nAcceptance Criteria:\n\n- Given the suspect articles of an analysis, When verification runs, Then every suspect article is fetched and checked, with no cap on the number of articles\n- Given a fetched article, When it is checked, Then the check determines whether the brand family (parent brand, brand variations, and products) is named anywhere on the page, and if named, whether the depiction is negative, neutral, or positive\n- Given a page that names a brand-family entity that never appeared in any LLM answer (typically a product of the brand), When the check runs, Then that naming counts as the brand family being named; the brand variations from the brand matching step and the products already resolved to the parent brand in visibility rankings seed the check, but they do not bound it\n- Given a verification verdict for an article, When it is produced, Then the verdict is persisted with the article, and every later read (ranking, briefs, filters) uses the persisted verdict; an article is never re-judged within the same analysis\n- Given a fetched article that names the brand family with a neutral or positive depiction, When verification concludes, Then the article is a false positive on every qualification leg including negative concepts: it never counts towards the failing article count, the ranking, or the badges of its source\n- Given a false positive article, When it is recorded, Then its verdict and its supporting passage are persisted with it in the same way as a failing article\n- Given a fetched article where the brand family is not named, or is named negatively, Then the article is kept as a failing article, and for negative mentions the exact passage is extracted for display, limited to a maximum of 140 characters including spaces\n- Given an article that could not be fetched, When verification concludes, Then that article contributes nothing to any source's failing article count or rank\n- Given a source whose failing article count reaches zero after verification, When the target list is built, Then that source does not appear in it\n- Given a fetched article that names the brand family, When the depiction is judged, Then it is negative only when the page states or implies a criticism, a failure, a risk, or a harm attributable to the brand or to one of its products; a favourable statement about a competitor is not negative; a factual report of unfavourable news (a recall, a lawsuit, a poor result) is negative; a weak or incidental criticism inside an otherwise neutral article is not negative; and when the depiction is ambiguous the verdict is neutral, never negative\n- Given an article whose check could not be completed (the verification service is unavailable, the language is unsupported, or the content is unusable), When verification concludes, Then the article is treated like an unfetchable article and contributes nothing to any source's failing article count or rank\n\n#### User Story 1.3: Ranked Target Sources list with verdict tabs\n\nStory ID: TBD\n\n> As a PR professional, I want a ranked list of the verified sources most worth influencing, so that I know where to start without interpreting analytics.\n\nAcceptance Criteria:\n\n- Given verified sources with failing articles, When the Actions Center is opened, Then a list titled \"Target Sources\" shows the sources ordered by failing article count, with ties broken first by number of reason badges and then by the citation count defined in this story [CHANGED 2026-09-17]\n- Given the target list, When the user is on the Actions Center, Then a source type filter is available beside the tabs, it offers only the source types present in the current scope, each with its source count, preceded by an \"All source types\" entry which is the default, exactly as AI Citation Sources does today\n- Given the target list, When the user is on the Actions Center, Then a card view and a table view are both available, switchable by an explicit control, and both show the sources in the same fixed order with no user-triggered re-sorting\n- Given a target source card, When it is displayed, Then it shows the rank, the source name with its icon, the source type, the applicable reason badges among \"Improve visibility\" and \"Improve perception\", the failing article count, and the citation count defined below, labelled so that the two numbers cannot be read as the same measure [CHANGED 2026-09-17]\n- Given a target source, When its citation count is computed, Then it counts the distinct combinations of one failing article, one question, and one AI engine across the qualifying answers of the pooled window: the same failing article cited for the same question by the same engine on several pooled days counts once, the same failing article cited for the same question by three engines counts three, and two failing articles of the source cited in the same answer count two; a false positive article never contributes to this count [NEW 2026-09-17]\n- Given a target source, When its reason badges are computed, Then they come from the persisted verdicts of its failing articles only: \"Improve visibility\" when at least one failing article does not name the brand family, and \"Improve perception\" when at least one failing article names the brand family negatively; a source carrying both verdicts shows both badges, and no badge is derived from the outcome of an answer\n- Given the target list, When the Actions Center is opened, Then three tabs scope the list: \"All\", \"Improve visibility\", and \"Improve perception\", and \"All\" is the tab selected by default\n- Given the \"All\" tab, When the list renders, Then each source shows its total failing article count across both verdicts, and the order follows the rules of the first acceptance criterion of this story\n- Given the \"Improve visibility\" or the \"Improve perception\" tab, When the list renders, Then each source shows the failing article count of that verdict alone, and the sources are ordered by that count, with ties broken by the citation count defined in this story, recomputed over the failing articles of that verdict alone [CHANGED 2026-09-17]\n- Given a source with no failing article of the selected verdict, When the \"Improve visibility\" or the \"Improve perception\" tab renders, Then that source does not appear in the tab\n- Given a verdict tab, When it renders, Then the badges of a listed source stay the same as in the \"All\" tab\n- Given a tab holding no source, When it renders, Then it states that no source carries that verdict in the current scope, and the other tabs stay reachable\n- Given a target source, When it is displayed in the card view, in the table view, or in the explanation panel, Then the domain logo is shown next to the source name, retrieved the same way as in AI Citation Sources, and a neutral placeholder is shown when no logo is returned\n- Given more than ten qualifying sources, When the list renders, Then the top ten are visible and the remainder are revealed by an explicit control\n\n#### User Story 1.4: Explanation panel for each target source\n\nStory ID: TBD\n\n> As a PR professional, I want to open a target source and see the full evidence in plain language, so that I can build my pitch directly from what the pages say.\n\nAcceptance Criteria:\n\n- Given the target sources list, When I select a card, Then a panel opens beside the list showing a plain-language brief, the failing articles, and the failing prompts, and selecting the same card again closes the panel\n- Given a verdict tab is selected, When I open a card from that tab, Then the panel shows every failing article of the source across both verdicts, and the brief states the full split; the card count and the brief count therefore differ when the source carries both verdicts\n- Given the brief, When it is generated, Then it is one deterministic sentence with no AI generation, built as a failing part plus a positive part that is added only when the source has positive articles and that replaces the full stop:\n\n| Case | Sentence |\n| --- | --- |\n| Failing part, one verdict, brand absent | This source has {n} unfavorable articles where the brand is entirely absent. |\n| Failing part, one verdict, negative depiction | This source has {n} unfavorable articles where the brand is depicted negatively. |\n| Failing part, both verdicts | This source has {n} unfavorable articles: {a} where the brand is entirely absent and {b} where the brand is depicted negatively. |\n| Positive part | , and {p} articles that cover the brand positively. |\n\n- Given a source with no positive article, When the brief is generated, Then the positive part is omitted and no zero count is stated\n- Given any count in the sentence equals one, When the brief is generated, Then the noun of that count takes its singular form (\"1 unfavorable article\", \"1 article that covers the brand positively\")\n- Given the brief, When it is displayed, Then it uses the In-Brief visual treatment of the platform; the treatment governs the presentation only, and the text stays deterministic\n- Given a failing article where the brand is not named, When it is displayed, Then it carries an explicit \"no mention of the brand anywhere on this page\" indication, and no passage from the page is shown\n- Given a failing article with a negative mention, When it is displayed, Then the extracted passage is shown verbatim with the brand name highlighted, and the passage never exceeds 140 characters including spaces\n- Given each failing article, When it is displayed, Then the AI engines that cited it are shown alongside it\n- Given the panel of a source that has positive articles, When it opens, Then two tabs separate the evidence, \"Failing articles\" and \"Positive articles\", each carrying its own count, and \"Failing articles\" is the tab selected by default\n- Given the \"Positive articles\" tab, When it renders, Then each entry shows the article title, its address, the passage that supports the verdict, and the AI engines that cited it, and no verdict label is shown [CHANGED 2026-09-17]\n- Given a source that has no positive article, When the panel opens, Then the \"Positive articles\" tab is not shown\n- Given the panel header, When it renders, Then it states the failing article count, the positive article count, and the citation count defined in User Story 1.3 [CHANGED 2026-09-17]\n- Given the positive articles of a source, When any count outside the panel is computed, Then they change nothing: the rank, the badges, the card counts, the table counts, and the tab membership stay built from failing articles alone\n- Given the failing prompts section, When it is displayed, Then each entry shows the question, the engine and the country, and no outcome is shown; the three outcome values (brand absent, competitor chosen, unfavorable) still decide which prompts qualify as failing, and they are rendered on no surface [CHANGED 2026-09-17]\n\n#### User Story 1.5: Verification progress state\n\nStory ID: TBD\n\n> As a user opening the Actions Center before verification has finished, I want a clear in-progress state, so that I never mistake an incomplete list for the final one.\n\nAcceptance Criteria:\n\n- Given an analysis whose article verification is still running, When the Actions Center is opened, Then the view shows a \"verifying sources\" state instead of a partial target list\n- Given verification completes, When the user is on the Actions Center, Then the target list becomes available without requiring a full page reload\n\n#### User Story 1.6: Filters re-rank within scope\n\nStory ID: TBD\n\n> As a user analyzing several countries, categories, AI engines, and date ranges, I want the target list scoped to my current filters, so that the priorities reflect the market and period I am looking at.\n\nAcceptance Criteria:\n\n- Given country, category, AI engine, date range, and source type filters, When a filter is applied, Then failing article counts, citation counts, reason badges, and the resulting order are recomputed within the selected scope rather than globally computed and then filtered, and the displayed ranks are renumbered 1…N with no gaps [CHANGED 2026-09-17]\n- Given the source type filter, When a source type is selected, Then only the sources of that type remain, and the ranks, the counts, and the tab membership are recomputed inside that selection under the same rules as every other filter\n- Given the source type filter, When it is displayed, Then it lists only the source types present in the current scope\n- Given a date range filter, When it is applied, Then a failing article counts only if at least one of its qualifying answers falls inside the selected range\n- Given a failing article whose qualifying answers span several scopes, When a single scope is selected, Then the article counts in that scope only if at least one of its qualifying answers belongs to it\n- Given a source with no failing articles in the selected scope, When the filtered list renders, Then that source does not appear\n- Given a filter and a verdict tab are both active, When the list renders, Then the filters define the scope first and the tab then selects the verdict inside that scope, so the counts, the badges, and the order of the tab are computed from the filtered failing articles only\n- Given the source type filter, When the analysis export is generated, Then the filter has no effect on the exported section, like the category filter of User Story 1.9\n- Given any selected date range, When the target list is built, Then the sources are pooled over a window of at least 7 days ending on the most recent snapshot in scope; a selected range longer than 7 days is used in full, and a report holding fewer than 7 days of history uses every day it has. This window applies to the Actions Center only. AI Citation Sources keeps the selected range unchanged, so on a range shorter than 7 days the two views deliberately cover different periods and their source sets do not tie\n\n#### User Story 1.7: Empty state with PR value\n\nStory ID: TBD\n\n> As a user whose brand shows no verified source problems, I want the Actions Center to remain useful, so that a clean result reads as an achievement rather than an empty page.\n\nAcceptance Criteria:\n\n- Given no source survives the verification funnel, When the Actions Center is opened, Then an all-clear message is shown instead of an empty list\n- Given the all-clear state, When it renders, Then it carries the all-clear message alone, and no source list is shown under it\n\n#### User Story 1.8: Scope additions keep the target list current\n\nStory ID: TBD\n\n> As a user extending an existing analysis, I want newly added scope to go through the same verification funnel, so that the target list stays trustworthy after changes.\n\nAcceptance Criteria:\n\n- Given an existing analysis, When any Manage Scope dimension changes (country, topic, AI engine, or question), Then the change takes effect on the next scheduled execution, which produces a new snapshot with a complete re-analysis\n- Given the new snapshot's qualifying answers, When their suspect articles are selected, Then they are verified under exactly the same rules as any other article\n- Given an article already verified in a previous snapshot, When it reappears in a new snapshot, Then the page is re-checked with a conditional request on every run; an unchanged page reuses the stored verdict and is neither re-fetched in full nor re-judged, and a changed page is re-fetched and re-judged\n- Given a stored verdict, When it reaches the staleness window, Then the article is re-fetched and re-judged regardless of the conditional response\n- Given the execution completes, When the Actions Center is opened, Then the target list covers the full scope of that run, ordered under the same rules\n\n#### User Story 1.9: Target Sources in the analysis export\n\nStory ID: TBD\n\n> As a PR professional, I want the analysis export to carry the Target Sources list and its evidence, so that the priorities I act on, and the pitch I send, stand on their own outside the product.\n\nThe exported section reuses the rules of User Stories 1.3, 1.4, 1.6 and 1.7 for its content, its per-source fields, its briefs, its evidence and its ordering. The criteria below state only what the export does differently.\n\nAcceptance Criteria:\n\n- Given an analysis export in PowerPoint, PDF, or Excel, When it is generated, Then it carries a Target Sources section built from the \"All\" tab, with the total failing article count per source, whatever tab and view the user stands on\n- Given the export scope (markets, AI engines, and date range), When the section is built, Then the counts, the badges and the order are recomputed inside that scope under the rules of User Story 1.6\n- Given the category and source type dimensions, When the section is built, Then all categories and all source types are always covered, and the on-screen category and source type filters have no effect on the section\n- Given the Excel workbook, When it is generated, Then the Target Sources tab carries the full evidence of the panel of User Story 1.4: the ranked list, the brief, each failing article with its verdict and citing engines, each positive article with its passage and citing engines, and the failing prompts; the tab holds four stacked tables, specified on GEO-1124 [CHANGED 2026-09-17]\n- Given the PowerPoint deck, When it is generated, Then it carries the brief for the top three sources only and the failing article count for every other displayed source, and when the sources exceed what a slide holds, the top sources are shown and the full totals are stated, following the capping convention of the other slides; this cap applies to the deck alone, and the Excel tab keeps the brief for every source under the previous criterion [CHANGED 2026-09-17]\n- ~~Given article verification is still running, When an export is requested, Then the section carries the verifying state instead of a partial list~~ [DELETED 2026-09-17]\n- Given no source survives verification in the exported scope, When the section is built, Then it carries the all-clear message alone\n- Given the export scope, When the Target Sources section is built, Then the source window rule of User Story 1.6 applies unchanged: at least 7 days, the full range when it is longer, and every available day on a report younger than 7 days\n\nAccepted consequences of the export decisions [NEW 2026-09-17]\n\n- An export started while verification runs can carry the all-clear message, because production has no completed-snapshot concept. Detail on GEO-1124.\n- The screen and the file disagree while verification runs: User Story 1.5 keeps its on-screen state, the export has no equivalent.\n- The deck states no scope for this section, so a three-day export can show sources drawn from the seven-day floor with no indication.\n\n#### User Story 1.10: Remove the favourability label from AI Citation Sources\n\nStory ID: GEO-1125\n\n> As a user reading AI Citation Sources, I want the favourability label gone, so that the monitoring view states what it can measure and stops asserting a judgement it has not verified.\n\nAcceptance Criteria:\n\n- Given the AI Citation Sources section and the \"All domains\" modal, When either renders, Then it carries Domain, Type and Frequency only, and no Favorability column\n- Given either table, When the sortable headers render, Then Favorability is not offered as a sort key\n- Given the section, the modal, or the source details panel, When any of them renders, Then no favorable, mixed or unfavorable badge is shown for a domain\n- Given the XLSX workbook and the PowerPoint deck, When the AI Citation Sources section is generated, Then the domain table carries Domain, Type and Frequency only\n- Given the Lite (PQL) result table, When it renders, Then it carries no Favorability column either\n- Given the removal, When it is implemented, Then the backend computation is removed with the column, not hidden\n- Given the Questions Analysis favourability filter, the question detail panel, the Corporate Reputation sheet and the Raw Data sheet, When this story ships, Then they are unchanged: the removal covers the source-level label only\n\n#### User Story 1.11: A source's detail panel lists the prompts it was used in\n\nStory ID: GEO-1126\n\n> As a user inspecting a cited domain, I want the prompts that cite it and the URLs it was cited on, so that I see where a domain actually appears instead of reading an opaque count.\n\nAcceptance Criteria:\n\n- Given a domain is selected in AI Citation Sources, When the details panel opens, Then it shows \"Related Prompts\" first and \"Cited URLs\" second, and the per-engine citation-count block is gone\n- Given the Related Prompts section, When it renders, Then it lists the first prompts, each with its text and the icons of the AI engines that produced it, followed by an \"All related Prompts\" control carrying the total count\n- Given the Cited URLs section, When it renders, Then its heading carries the total count, it lists the first URLs with their title, their address and the citing engine icons, followed by an \"All Cited URLs\" control carrying the same total\n- Given the All related Prompts control, When it is activated, Then a modal opens headed \"All related Prompts - {domain}\" with the prompt count, a search field over prompt text, and the full list\n- Given the prompts modal, When it renders, Then four tabs scope the list, All, Visibility, Competitive and Perception, each carrying its own count, and All is selected by default\n- Given one prompt produced by several AI engines, When it is listed, Then it appears once, carrying every citing engine's icon\n- Given the Perception tab, When it renders, Then it lists questions, not concepts: one perception answer that surfaced several negative concepts produces one row, and the negative concept names no longer appear in AI Citation Sources\n- Given a tab is selected and a search term entered, When the list renders, Then it shows the prompts of that tab matching the term\n- Given the panel control, the modal header, and the sum of the tab counts, When they render for the same domain, Then they state the same total\n- Given a tab holding no prompt, When it renders, Then it says so and the other tabs stay reachable\n- Given the market, AI engine and date filters of the dashboard, When the panel opens, Then its prompts and URLs are those of the current scope; the 7-day source window of User Story 1.6 does not apply here",
+    "scope": [
+      "User Story 1.1: Select suspect sources from gap answers",
+      "User Story 1.2: Verify every suspect article against its page",
+      "User Story 1.3: Ranked Target Sources list with verdict tabs",
+      "User Story 1.4: Explanation panel for each target source",
+      "User Story 1.5: Verification progress state",
+      "User Story 1.6: Filters re-rank within scope",
+      "User Story 1.7: Empty state with PR value",
+      "User Story 1.8: Scope additions keep the target list current",
+      "User Story 1.9: Target Sources in the analysis export",
+      "User Story 1.10: Remove the favourability label from AI Citation Sources",
+      "User Story 1.11: A source's detail panel lists the prompts it was used in"
+    ],
+    "outOfScope": [
+      "AI-generated briefs (deterministic templates only); this exclusion covers the brief text only. It does not constrain how the page depiction check is implemented, and it does not constrain the presentation: the brief uses the In-Brief visual treatment of the platform while its text stays deterministic",
+      "Judging the prominence or quality of a brand mention; presence is binary, and a page naming the brand without negativity is discarded even if the mention is weak",
+      "Outreach workflow features (contact information, export to a pitch list, status tracking)",
+      "Any change to anomaly detection logic, thresholds, or the section views where anomalies keep appearing",
+      "Anomaly information inside the Target Sources view (no anomaly chips or thresholds in cards or panels)",
+      "A second in-product placement of the target list outside the Actions Center tab (the analysis export section of User Story 1.9 is in scope)",
+      "Evolution across analyses: whether target sources carry lifecycle information (new, improving, resolved), how the list is stabilized between runs, and which trend baseline applies"
+    ],
+    "stories": [
+      {
+        "id": "GEO-1116",
+        "type": "Story",
+        "title": "[Target Sources] 10.1 — Select suspect sources from gap answers",
+        "status": "QA In Progress",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-09-24",
+        "updatedAt": "2026-09-24T11:38:16.522-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1116",
+        "userStory": {
+          "as": "a PR professional",
+          "want": "the analysis to identify the sources cited in answers where my brand underperforms",
+          "so": "the sources most involved in my visibility problems become candidates for action."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Three qualifying legs",
+            "given": "a completed analysis",
+            "when": "suspect sources are selected",
+            "then": "a source qualifies as suspect only if it is cited in at least one visibility question answer where the brand is entirely absent, one competitive question answer where the brand is not the chosen winner, or one negative concept"
+          },
+          {
+            "id": "AC2",
+            "title": "Being ranked low does not qualify",
+            "given": "a visibility answer where the brand is present but not ranked first",
+            "when": "suspect selection runs",
+            "then": "that answer does not qualify any source on the visibility leg"
+          },
+          {
+            "id": "AC3",
+            "title": "Articles are recorded with the source",
+            "given": "a suspect source",
+            "when": "it is recorded",
+            "then": "the specific articles it was cited on in qualifying answers are recorded with it"
+          },
+          {
+            "id": "AC4",
+            "title": "Owned and competitor domains excluded",
+            "given": "a domain owned by the analyzed brand or by a competitor",
+            "when": "suspect selection runs",
+            "then": "that domain is excluded from the suspect list regardless of the answers citing it"
+          },
+          {
+            "id": "AC5",
+            "title": "Not bounded by the AI Citation Sources cap",
+            "given": "the sources cited in qualifying answers",
+            "when": "the suspect set is built",
+            "then": "it covers every source cited in those answers, and it is never limited to the capped list of domains that AI Citation Sources displays"
+          },
+          {
+            "id": "AC6",
+            "title": "Model-declared URLs never qualify a source",
+            "given": "a source URL the model wrote from memory rather than opened during web search",
+            "when": "suspect selection runs",
+            "then": "it never qualifies a source, and it is **excluded at selection** rather than left to fail at fetch"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1117",
+        "type": "Story",
+        "title": "[Target Sources] 10.2 — Verify every suspect article against its page",
+        "status": "QA In Progress",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-09-25",
+        "updatedAt": "2026-09-25T02:12:58.790-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1117",
+        "userStory": {
+          "as": "a PR professional",
+          "want": "each suspect article checked for what it actually says about my brand",
+          "so": "the target list only contains sources with a confirmed problem I can act on."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Every article, no cap",
+            "given": "the suspect articles of an analysis",
+            "when": "verification runs",
+            "then": "every suspect article is fetched and checked, with no cap on the number of articles"
+          },
+          {
+            "id": "AC2",
+            "title": "What the check determines",
+            "given": "a fetched article",
+            "when": "it is checked",
+            "then": "the check determines whether the brand family (parent brand, brand variations, and products) is named anywhere on the page, and if named, whether the depiction is negative, neutral, or positive"
+          },
+          {
+            "id": "AC3",
+            "title": "Extended scope: products discovered on the page",
+            "given": "a page that names a brand-family entity that never appeared in any LLM answer (typically a product of the brand)",
+            "when": "the check runs",
+            "then": "that naming counts as the brand family being named; the brand variations and the products already resolved to the parent brand seed the check, but they do not bound it"
+          },
+          {
+            "id": "AC4",
+            "title": "Verdicts are persisted and never re-judged",
+            "given": "a verification verdict for an article",
+            "when": "it is produced",
+            "then": "the verdict is persisted with the article, and every later read uses the persisted verdict; an article is never re-judged within the same analysis",
+            "notes": [
+              "_\"Never re-judged\" applies_ **_inside one analysis_**_. Across snapshots the page is re-checked — that rule lives in story 1.8._"
+            ]
+          },
+          {
+            "id": "AC5",
+            "title": "False positives are kept, but never counted",
+            "given": "a fetched article that names the brand family with a neutral or positive depiction",
+            "when": "verification concludes",
+            "then": "it **never counts towards the failing article count, the ranking, or the badges**; the panel of story 1.4 shows it as a positive article"
+          },
+          {
+            "id": "AC6",
+            "title": "False positives are persisted like failing articles",
+            "given": "a false positive article",
+            "when": "it is recorded",
+            "then": "its verdict **and its supporting passage** are persisted with it in the same way as a failing article"
+          },
+          {
+            "id": "AC7",
+            "title": "What is kept, and the passage",
+            "given": "a fetched article where the brand family is not named, or is named negatively",
+            "when": "",
+            "then": "the article is kept as a failing article, and for negative mentions the exact passage is extracted, limited to **140 characters** including spaces"
+          },
+          {
+            "id": "AC8",
+            "title": "Unfetchable articles count for nothing",
+            "given": "an article that could not be fetched",
+            "when": "verification concludes",
+            "then": "it contributes nothing to any source's failing article count or rank"
+          },
+          {
+            "id": "AC9",
+            "title": "A source with zero failing articles disappears",
+            "given": "a source whose failing article count reaches zero after verification",
+            "when": "the target list is built",
+            "then": "that source does not appear in it"
+          },
+          {
+            "id": "AC10",
+            "title": "What counts as negative",
+            "given": "a page where the brand family is named",
+            "when": "the depiction is judged",
+            "then": "it is negative when the page **states or implies a criticism, a failure, a risk, or a harm attributable to the brand or to one of its products**, with these boundaries:",
+            "notes": [
+              "a favourable statement about a **competitor** is not negative",
+              "a **factual report of unfavourable news** — a recall, a lawsuit, a poor result — **is** negative",
+              "a **weak or incidental criticism** inside an otherwise neutral article is **not** negative",
+              "**when the depiction is ambiguous, the verdict is neutral, never negative**"
+            ]
+          },
+          {
+            "id": "AC11",
+            "title": "A check that could not be completed",
+            "given": "a check that cannot conclude — engine unavailable, unsupported language, unusable content",
+            "when": "verification concludes",
+            "then": "the article carries that outcome and contributes nothing to any count or rank"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1118",
+        "type": "Story",
+        "title": "[Target Sources] 10.3 — Ranked Target Sources list with verdict tabs",
+        "status": "QA In Progress",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-09-25",
+        "updatedAt": "2026-09-25T11:11:46.144-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1118",
+        "userStory": {
+          "as": "a PR professional",
+          "want": "a ranked list of the verified sources most worth influencing",
+          "so": "I know where to start without interpreting analytics."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Order and tie-break",
+            "given": "verified sources with failing articles",
+            "when": "the Actions Center is opened",
+            "then": "a list titled \"Target Sources\" shows the sources ordered by failing article count, with ties broken first by number of reason badges and then by citations in qualifying answers"
+          },
+          {
+            "id": "AC2",
+            "title": "Source type filter",
+            "given": "the target list",
+            "when": "the user is on the Actions Center",
+            "then": "a source type filter is available beside the tabs, and it offers **only the source types present in the current scope, each with its source count**, preceded by an **\"All source types\"** entry which is the default — **exactly as AI Citation Sources does today**"
+          },
+          {
+            "id": "AC3",
+            "title": "Two views, one fixed order",
+            "given": "the target list",
+            "when": "the user is on the Actions Center",
+            "then": "a card view and a table view are both available, switchable by an explicit control, and both show the sources in the same fixed order with no user-triggered re-sorting"
+          },
+          {
+            "id": "AC4",
+            "title": "What a card shows",
+            "given": "a target source card",
+            "when": "it is displayed",
+            "then": "it shows the rank, the source name with its icon, the source type, the applicable reason badges among \"Improve visibility\" and \"Improve perception\", the failing article count, and the citation count in qualifying answers"
+          },
+          {
+            "id": "AC5",
+            "title": "Where the badges come from",
+            "given": "a target source",
+            "when": "its reason badges are computed",
+            "then": "they come from the **persisted verdicts of its failing articles only**: \"Improve visibility\" when at least one failing article does not name the brand family, and \"Improve perception\" when at least one failing article names the brand family negatively; a source carrying both verdicts shows both badges, and **no badge is derived from the outcome of an answer**"
+          },
+          {
+            "id": "AC6",
+            "title": "Three verdict tabs",
+            "given": "the target list",
+            "when": "the Actions Center is opened",
+            "then": "three tabs scope the list: \"All\", \"Improve visibility\", and \"Improve perception\", and \"All\" is the tab selected by default"
+          },
+          {
+            "id": "AC7",
+            "title": "The \"All\" tab",
+            "given": "the \"All\" tab",
+            "when": "the list renders",
+            "then": "each source shows its total failing article count across both verdicts, and the order follows the rules of AC1"
+          },
+          {
+            "id": "AC8",
+            "title": "A verdict tab ranks on that verdict alone",
+            "given": "the \"Improve visibility\" or the \"Improve perception\" tab",
+            "when": "the list renders",
+            "then": "each source shows the failing article count of that verdict alone, and the sources are ordered by that count, with ties broken by citations in qualifying answers"
+          },
+          {
+            "id": "AC9",
+            "title": "Tab membership",
+            "given": "a source with no failing article of the selected verdict",
+            "when": "the \"Improve visibility\" or the \"Improve perception\" tab renders",
+            "then": "that source does not appear in the tab"
+          },
+          {
+            "id": "AC10",
+            "title": "Badges do not change per tab",
+            "given": "a verdict tab",
+            "when": "it renders",
+            "then": "the badges of a listed source stay the same as in the \"All\" tab"
+          },
+          {
+            "id": "AC11",
+            "title": "Empty tab",
+            "given": "a tab holding no source",
+            "when": "it renders",
+            "then": "it states that no source carries that verdict in the current scope, and the other tabs stay reachable"
+          },
+          {
+            "id": "AC12",
+            "title": "Logo and neutral placeholder",
+            "given": "a target source",
+            "when": "it is displayed in the card view, in the table view, or in the explanation panel",
+            "then": "the domain logo is shown next to the source name, retrieved the same way as in AI Citation Sources, and a neutral placeholder is shown when no logo is returned"
+          },
+          {
+            "id": "AC13",
+            "title": "Top ten, then an explicit control",
+            "given": "more than ten qualifying sources",
+            "when": "the list renders",
+            "then": "the top ten are visible and the remainder are revealed by an explicit control"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1119",
+        "type": "Story",
+        "title": "[Target Sources] 10.5 — Verification progress state",
+        "status": "QA In Progress",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-09-25",
+        "updatedAt": "2026-09-25T11:12:01.805-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1119",
+        "userStory": {
+          "as": "a user opening the Actions Center before verification has finished",
+          "want": "a clear in-progress state",
+          "so": "I never mistake an incomplete list for the final one."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "No partial list, ever",
+            "given": "an analysis whose article verification is still running",
+            "when": "the Actions Center is opened",
+            "then": "the view shows a \"verifying sources\" state instead of a partial target list"
+          },
+          {
+            "id": "AC2",
+            "title": "Transition without a page reload",
+            "given": "verification completes",
+            "when": "the user is on the Actions Center",
+            "then": "the target list becomes available without requiring a full page reload"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1120",
+        "type": "Story",
+        "title": "[Target Sources] 10.6 — Filters re-rank within scope",
+        "status": "QA In Progress",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-10-02",
+        "updatedAt": "2026-10-02T05:32:10.828-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1120",
+        "userStory": {
+          "as": "a user analyzing several countries, categories, AI engines, and date ranges",
+          "want": "the target list scoped to my current filters",
+          "so": "the priorities reflect the market and period I am looking at."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Recompute, do not filter — and the displayed ranks are renumbered",
+            "given": "country, category, AI engine, date range, **and source type** filters",
+            "when": "a filter is applied",
+            "then": "failing article counts, citation counts, reason badges, and the resulting order are **recomputed within the selected scope** rather than globally computed and then filtered, and the **displayed ranks are renumbered 1…N with no gaps**",
+            "notes": [
+              "_The PM, 2026-09-17: \"The rank is_ **_a position, not a stable identifier_**_.\" The design frame_ `13862:447428` _kept the ranks of the unfiltered list, 1, 4, 7, 9, and is corrected to 1, 2, 3, 4._"
+            ]
+          },
+          {
+            "id": "AC2",
+            "title": "Source type filter",
+            "given": "the source type filter",
+            "when": "a source type is selected",
+            "then": "only the sources of that type remain, and the ranks, the counts, and the **tab membership** are recomputed inside that selection under the same rules as every other filter"
+          },
+          {
+            "id": "AC3",
+            "title": "The filter lists only what is present",
+            "given": "the source type filter",
+            "when": "it is displayed",
+            "then": "it lists only the source types present in the current scope"
+          },
+          {
+            "id": "AC4",
+            "title": "Date range membership",
+            "given": "a date range filter",
+            "when": "it is applied",
+            "then": "a failing article counts only if at least one of its qualifying answers falls inside the selected range",
+            "notes": [
+              "⚠️ _Since AC9, \"the selected range\" means the_ **_effective_** _window — the selected range widened to the 7-day floor. AC4 is the membership test; AC9 is what it tests against._"
+            ]
+          },
+          {
+            "id": "AC5",
+            "title": "Multi-scope articles",
+            "given": "a failing article whose qualifying answers span several scopes",
+            "when": "a single scope is selected",
+            "then": "the article counts in that scope only if at least one of its qualifying answers belongs to it"
+          },
+          {
+            "id": "AC6",
+            "title": "Empty sources disappear",
+            "given": "a source with no failing articles in the selected scope",
+            "when": "the filtered list renders",
+            "then": "that source does not appear"
+          },
+          {
+            "id": "AC7",
+            "title": "Filters first, then the tab",
+            "given": "a filter and a verdict tab are both active",
+            "when": "the list renders",
+            "then": "the filters define the scope first and the tab then selects the verdict inside that scope, so the counts, the badges, and the order of the tab are computed from the **filtered** failing articles only"
+          },
+          {
+            "id": "AC8",
+            "title": "No effect on the export",
+            "given": "the source type filter",
+            "when": "the analysis export is generated",
+            "then": "the filter has no effect on the exported section, like the category filter of User Story 1.9"
+          },
+          {
+            "id": "AC9",
+            "title": "The source window has a 7-day floor",
+            "given": "any selected date range",
+            "when": "the target list is built",
+            "then": "the sources are pooled over a window of **at least 7 days ending on the most recent snapshot in scope**; a selected range **longer** than 7 days is used in full, and a report holding **fewer** than 7 days of history uses every day it has. This window applies to the **Actions Center only**. AI Citation Sources keeps the selected range unchanged, so on a range shorter than 7 days the two views deliberately cover different periods and their source sets do not tie"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1121",
+        "type": "Story",
+        "title": "[Target Sources] 10.7 — Empty state with PR value",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-09-24",
+        "updatedAt": "2026-09-24T09:37:19.514-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1121",
+        "userStory": {
+          "as": "a user whose brand shows no verified source problems",
+          "want": "the Actions Center to remain useful",
+          "so": "a clean result reads as an achievement rather than an empty page."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "All-clear instead of an empty list",
+            "given": "no source survives the verification funnel",
+            "when": "the Actions Center is opened",
+            "then": "an all-clear message is shown instead of an empty list"
+          },
+          {
+            "id": "AC2",
+            "title": "The message alone",
+            "given": "the all-clear state",
+            "when": "it renders",
+            "then": "it carries the all-clear message alone, and no source list is shown under it"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1122",
+        "type": "Story",
+        "title": "[Target Sources] 10.8 — Scope additions keep the target list current",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-09-24",
+        "updatedAt": "2026-09-24T09:37:31.502-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1122",
+        "userStory": {
+          "as": "a user extending an existing analysis",
+          "want": "newly added scope to go through the same verification funnel",
+          "so": "the target list stays trustworthy after changes."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Any scope change, next scheduled execution",
+            "given": "an existing analysis",
+            "when": "any Manage Scope dimension changes (country, topic, AI engine, or question)",
+            "then": "the change takes effect on the next scheduled execution, which produces a new snapshot with a complete re-analysis"
+          },
+          {
+            "id": "AC2",
+            "title": "The new scope is verified under the same rules",
+            "given": "the new snapshot's qualifying answers",
+            "when": "their suspect articles are selected",
+            "then": "they are verified under exactly the same rules as any other article"
+          },
+          {
+            "id": "AC3",
+            "title": "The page is re-checked on every run",
+            "given": "an article already verified in a previous snapshot",
+            "when": "it reappears in a new snapshot",
+            "then": "the page is re-checked with a **conditional request on every run**; an unchanged page reuses the stored verdict and is neither re-fetched **in full** nor re-judged, and a changed page is re-fetched and re-judged",
+            "notes": [
+              "⚠️ _Implementation note, 2026-09-16: the \"conditional request\" is satisfied by the acquisition provider's_ **_own change detection_**_, not by HTTP validators. The behaviour this AC describes is unchanged; only the mechanism is._"
+            ]
+          },
+          {
+            "id": "AC4",
+            "title": "The staleness window overrides the conditional response",
+            "given": "a stored verdict",
+            "when": "it reaches the **staleness window**",
+            "then": "the article is re-fetched and re-judged regardless of the conditional response"
+          },
+          {
+            "id": "AC5",
+            "title": "The list covers the full scope of the run",
+            "given": "the execution completes",
+            "when": "the Actions Center is opened",
+            "then": "the target list covers the full scope of that run, ordered under the same rules"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1123",
+        "type": "Story",
+        "title": "[Target Sources] 10.4 — Explanation panel for each target source",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-10-02",
+        "updatedAt": "2026-10-02T05:13:26.900-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1123",
+        "userStory": {
+          "as": "a PR professional",
+          "want": "to open a target source and see the full evidence in plain language",
+          "so": "I can build my pitch directly from what the pages say."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Panel open and close",
+            "given": "the target sources list",
+            "when": "I select a card",
+            "then": "a panel opens beside the list showing a plain-language brief, the failing articles, and the failing prompts, and selecting the same card again closes the panel"
+          },
+          {
+            "id": "AC2",
+            "title": "The panel ignores the active verdict tab",
+            "given": "a verdict tab is selected",
+            "when": "I open a card from that tab",
+            "then": "the panel shows **every** failing article of the source across both verdicts, and the brief states the full split; **the card count and the brief count therefore differ** when the source carries both verdicts"
+          },
+          {
+            "id": "AC3",
+            "title": "The brief is one deterministic sentence",
+            "given": "the brief",
+            "when": "it is generated",
+            "then": "it is one deterministic sentence with no AI generation, built as a **failing part** plus a **positive part** that is added only when the source has positive articles and that **replaces the full stop**:"
+          },
+          {
+            "id": "AC4",
+            "title": "No zero counts",
+            "given": "a source with no positive article",
+            "when": "the brief is generated",
+            "then": "the positive part is omitted and no zero count is stated"
+          },
+          {
+            "id": "AC5",
+            "title": "Singular forms",
+            "given": "any count in the sentence equals one",
+            "when": "the brief is generated",
+            "then": "the noun of that count takes its singular form (\"1 unfavorable article\", \"1 article that covers the brand positively\")"
+          },
+          {
+            "id": "AC6",
+            "title": "In-Brief visual treatment",
+            "given": "the brief",
+            "when": "it is displayed",
+            "then": "it uses the In-Brief visual treatment of the platform; the treatment governs the presentation only, and the text stays deterministic"
+          },
+          {
+            "id": "AC7",
+            "title": "Not-named articles show no passage",
+            "given": "a failing article where the brand is not named",
+            "when": "it is displayed",
+            "then": "it carries an explicit \"no mention of the brand anywhere on this page\" indication, **and no passage from the page is shown**"
+          },
+          {
+            "id": "AC8",
+            "title": "The verbatim passage",
+            "given": "a failing article with a negative mention",
+            "when": "it is displayed",
+            "then": "the extracted passage is shown verbatim with the brand name highlighted, and the passage never exceeds 140 characters including spaces"
+          },
+          {
+            "id": "AC9",
+            "title": "Citing engines per article",
+            "given": "each failing article",
+            "when": "it is displayed",
+            "then": "the AI engines that cited it are shown alongside it"
+          },
+          {
+            "id": "AC10",
+            "title": "Two evidence tabs",
+            "given": "the panel of a source that has positive articles",
+            "when": "it opens",
+            "then": "two tabs separate the evidence, \"Failing articles\" and \"Positive articles\", each carrying its own count, and \"Failing articles\" is the tab selected by default"
+          },
+          {
+            "id": "AC11",
+            "title": "What a positive article shows, and what it must not claim",
+            "given": "the \"Positive articles\" tab",
+            "when": "it renders",
+            "then": "each entry shows the article title, its address, **the passage that supports the verdict**, and the AI engines that cited it, and **no verdict label is shown**"
+          },
+          {
+            "id": "AC12",
+            "title": "No positive articles, no tab",
+            "given": "a source that has no positive article",
+            "when": "the panel opens",
+            "then": "the \"Positive articles\" tab is not shown"
+          },
+          {
+            "id": "AC13",
+            "title": "Panel header counts",
+            "given": "the panel header",
+            "when": "it renders",
+            "then": "it states the failing article count, the positive article count, and the citation count in qualifying answers"
+          },
+          {
+            "id": "AC14",
+            "title": "Positive articles change nothing outside the panel",
+            "given": "the positive articles of a source",
+            "when": "any count outside the panel is computed",
+            "then": "they change nothing: the rank, the badges, the card counts, the table counts, and the tab membership stay built from failing articles alone"
+          },
+          {
+            "id": "AC15",
+            "title": "Failing prompts carry no outcome",
+            "given": "the failing prompts section",
+            "when": "it is displayed",
+            "then": "each entry shows the question, the engine and the country, and **no outcome is shown**; the three outcome values (brand absent, competitor chosen, unfavorable) **still decide which prompts qualify as failing**, and they are rendered on no surface"
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [
+          "GEO-1128"
+        ],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1124",
+        "type": "Story",
+        "title": "[Target Sources] 10.9 — Target Sources in the analysis export",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-09-24",
+        "updatedAt": "2026-09-24T09:38:51.240-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1124",
+        "userStory": {
+          "as": "a PR professional",
+          "want": "the analysis export to carry the Target Sources list and its evidence",
+          "so": "the priorities I act on, and the pitch I send, stand up outside the product."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Always the \"All\" tab, whatever the user is looking at",
+            "given": "an analysis export in PowerPoint, PDF, or Excel",
+            "when": "it is generated",
+            "then": "it carries a Target Sources section built from the **\"All\" tab**, with the total failing article count per source, **whatever tab and view the user stands on**"
+          },
+          {
+            "id": "AC2",
+            "title": "Recomputed inside the export scope",
+            "given": "the export scope (markets, AI engines, and date range)",
+            "when": "the section is built",
+            "then": "the counts, the badges and the order are recomputed inside that scope under the rules of User Story 1.6"
+          },
+          {
+            "id": "AC3",
+            "title": "All categories and all source types, always",
+            "given": "the category and source type dimensions",
+            "when": "the section is built",
+            "then": "all categories and all source types are always covered, and the on-screen category and source type filters have **no effect** on the section"
+          },
+          {
+            "id": "AC4",
+            "title": "Excel carries the full evidence of the panel, in four stacked tables",
+            "given": "the Excel workbook",
+            "when": "it is generated",
+            "then": "the Target Sources tab carries the full evidence of the panel of User Story 1.4: the ranked list, the brief, each failing article with its verdict and citing engines, **each positive article with its passage and citing engines**, and the failing prompts; the tab holds **four stacked tables**, in this order:",
+            "notes": [
+              "The sheet header follows the house style of `buildOverviewSheet`: **one title line**, `{entity} - {sheet}  ({markets} · {engines} · snapshot {date})`. No key/value block, and the all-categories / all-source-types coverage of AC3 is **not printed** — covering everything is the default, not a statement the file has to make, and no other sheet announces it either",
+              "The **Passage** cell is empty for a brand-absent article: the Verdict cell already carries _\"No mention of {brand} anywhere on this page\"_",
+              "Block 3 carries **no Verdict column** and block 4 carries **no Outcome column** — see GEO-1123",
+              "The two article blocks **stay separate**, and that is a correctness rule rather than a layout preference: AC14 of story 1.4 says positive articles never enter a count, and a single merged table invites a reader to total every row and **be wrong by the positive count**",
+              "A sample workbook is attached to this story as `target-sources-excel-sample.xlsx`, carrying the populated tab and the all-clear state"
+            ]
+          },
+          {
+            "id": "AC5",
+            "title": "PowerPoint carries the brief for the top three sources only",
+            "given": "the PowerPoint deck",
+            "when": "it is generated",
+            "then": "it carries the brief for the **top three sources** and the failing article count for every other displayed source, and when the sources exceed what a slide holds, the top sources are shown and the full totals are stated, following the capping convention of the other slides",
+            "notes": [
+              "_This cap applies to the deck alone._ The Excel tab keeps the brief for **every** source under AC4, so the split for ranks 4 to 10 stays readable there",
+              "The export keeps the snapshot resolution of today and carries **no verifying state**. The decision rests on production evidence gathered before it was taken: `Snapshot` has no status column, `ReportStatus` sits on `Report`, there is no `findLatestCompleted` anywhere, `OverviewQueryHelper.getLatestSnapshot()` is a plain `ORDER BY created_at DESC LIMIT 1`, `ReportProcessingService.processReport()` writes the snapshot row **before** the first LLM call, and `ExportMenu.tsx` does not disable the button while a report is `PROCESSING`"
+            ]
+          },
+          {
+            "id": "AC7",
+            "title": "All-clear state",
+            "given": "no source survives verification in the exported scope",
+            "when": "the section is built",
+            "then": "it carries the all-clear message alone"
+          },
+          {
+            "id": "AC8",
+            "title": "The 7-day source window applies to the export",
+            "given": "the export scope",
+            "when": "the Target Sources section is built",
+            "then": "the source window rule of User Story 1.6 applies unchanged: **at least 7 days**, the full range when it is longer, and every available day on a report younger than 7 days",
+            "notes": [
+              "_Scoped to this section only: \"the AI Citation Sources section of the export keeps the export scope unchanged.\"_"
+            ]
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1125",
+        "type": "Story",
+        "title": "[Citation Sources] 10.10 — Remove the Favorability column from AI Citation Sources",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-09-24",
+        "updatedAt": "2026-09-24T09:37:56.696-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1125",
+        "userStory": {
+          "as": "a user reading AI Citation Sources",
+          "want": "the Favorability label gone",
+          "so": "the monitoring view states what it can measure and stops asserting a judgement it has not verified."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "The section and the modal carry three columns",
+            "given": "the AI Citation Sources section and the \"All domains\" modal",
+            "when": "either renders",
+            "then": "it carries **Domain, Type and Frequency only**, and no Favorability column"
+          },
+          {
+            "id": "AC2",
+            "title": "Favorability is not a sort key",
+            "given": "either table",
+            "when": "the sortable headers render",
+            "then": "Favorability is **not offered** as a sort key"
+          },
+          {
+            "id": "AC3",
+            "title": "No favorability badge anywhere on the surface",
+            "given": "the section, the modal, or the source details panel",
+            "when": "any of them renders",
+            "then": "no favorable, mixed or unfavorable badge is shown for a domain"
+          },
+          {
+            "id": "AC4",
+            "title": "The exports drop it too",
+            "given": "the XLSX workbook and the PowerPoint deck",
+            "when": "the AI Citation Sources section is generated",
+            "then": "the domain table carries **Domain, Type and Frequency only**"
+          },
+          {
+            "id": "AC5",
+            "title": "The Lite (PQL) result table too",
+            "given": "the Lite (PQL) result table",
+            "when": "it renders",
+            "then": "it carries **no Favorability column either**"
+          },
+          {
+            "id": "AC6",
+            "title": "Removed, not hidden",
+            "given": "the removal",
+            "when": "it is implemented",
+            "then": "the **backend computation is removed with the column**, not hidden"
+          },
+          {
+            "id": "AC7",
+            "title": "Everything else is untouched",
+            "given": "the Questions Analysis favourability filter, the question detail panel, the Corporate Reputation sheet and the Raw Data sheet",
+            "when": "this story ships",
+            "then": "they are unchanged: the removal covers the **source-level label only**",
+            "notes": [
+              "⚠️ _Note what is no longer on this list: the Lite result table used to sit here as a protected surface while the scope question was open. It moved to AC5. A reader working from an older copy would test the opposite of the decision._"
+            ]
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1126",
+        "type": "Story",
+        "title": "[Citation Sources] 10.11 — Replace the citation-count signal with the list of questions a source was used in",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-15",
+        "updated": "2026-09-24",
+        "updatedAt": "2026-09-24T09:38:29.960-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1126",
+        "userStory": {
+          "as": "a user inspecting a cited domain",
+          "want": "the prompts that cite it and the URLs it was cited on",
+          "so": "I see where a domain actually appears instead of reading an opaque count."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Two sections, in order, and the count block is gone",
+            "given": "a domain is selected in AI Citation Sources",
+            "when": "the details panel opens",
+            "then": "it shows **\"Related Prompts\" first and \"Cited URLs\" second**, and the per-engine citation-count block is gone"
+          },
+          {
+            "id": "AC2",
+            "title": "What the panel previews",
+            "given": "the Related Prompts section",
+            "when": "it renders",
+            "then": "it lists the first prompts, each with its text and the icons of the AI engines that produced it, followed by an **\"All related Prompts\"** control carrying the total count"
+          },
+          {
+            "id": "AC3",
+            "title": "Cited URLs preview",
+            "given": "the Cited URLs section",
+            "when": "it renders",
+            "then": "its heading carries the total count, it lists the first URLs with their title, their address and the citing engine icons, followed by an **\"All Cited URLs\"** control carrying the same total"
+          },
+          {
+            "id": "AC4",
+            "title": "The prompts modal",
+            "given": "the All related Prompts control",
+            "when": "it is activated",
+            "then": "a modal opens headed **\"All related Prompts - {domain}\"** with the prompt count, a search field over prompt text, and the full list"
+          },
+          {
+            "id": "AC5",
+            "title": "The prompts modal is tabbed by question type",
+            "given": "the prompts modal",
+            "when": "it renders",
+            "then": "four tabs scope the list — **All, Visibility, Competitive and Perception** — each carrying its own count, and All is selected by default"
+          },
+          {
+            "id": "AC6",
+            "title": "A prompt appears once, whatever its engines",
+            "given": "one prompt produced by several AI engines",
+            "when": "it is listed",
+            "then": "it appears **once**, carrying every citing engine's icon",
+            "notes": [
+              "⚠️ _This holds on_ **_both_** _surfaces — the panel preview of AC2 and the modal of AC4. The API returns one row per (question × engine), so the grouping is a real transform rather than a rename; it is the only genuine transformation in this story._"
+            ]
+          },
+          {
+            "id": "AC7",
+            "title": "The Perception tab lists questions, not concepts",
+            "given": "the Perception tab",
+            "when": "it renders",
+            "then": "it lists **questions, not concepts**: one perception answer that surfaced several negative concepts produces **one row**, and the negative concept names **no longer appear in AI Citation Sources**"
+          },
+          {
+            "id": "AC8",
+            "title": "Search is additive to the tab, not a replacement",
+            "given": "a tab is selected and a search term entered",
+            "when": "the list renders",
+            "then": "it shows the prompts of that tab matching the term"
+          },
+          {
+            "id": "AC9",
+            "title": "Counts agree",
+            "given": "the panel control, the modal header, and the sum of the tab counts",
+            "when": "they render for the same domain",
+            "then": "they state the **same total**"
+          },
+          {
+            "id": "AC10",
+            "title": "Empty tab",
+            "given": "a tab holding no prompt",
+            "when": "it renders",
+            "then": "it says so and the other tabs stay reachable"
+          },
+          {
+            "id": "AC11",
+            "title": "The panel respects the active scope, and the 7-day floor does not reach it",
+            "given": "the market, AI engine and date filters of the dashboard",
+            "when": "the panel opens",
+            "then": "its prompts and URLs are those of the current scope; **the 7-day source window of User Story 1.6 does not apply here**",
+            "notes": [
+              "⚠️ _Consequence stated and accepted by the PM: on a range shorter than 7 days this panel and the Actions Center cover different periods and their source sets do not tie. \"Expect the two views to disagree on a range shorter than 7 days, and_ **_do not reconcile them_**_.\"_"
+            ]
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1144",
+        "type": "Story",
+        "title": "Localize the deterministic Target Source brief (FR/ES) — currently English-only",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-22",
+        "updated": "2026-09-24",
+        "updatedAt": "2026-09-24T09:38:11.919-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1144",
+        "userStory": {
+          "as": "",
+          "want": "",
+          "so": ""
+        },
+        "acceptanceCriteria": [],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1166",
+        "type": "Task",
+        "title": "Actions Center — Previous/Next source navigation in details panel",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-28",
+        "updated": "2026-09-28",
+        "updatedAt": "2026-09-28T12:34:03.706-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1166",
+        "userStory": {
+          "as": "",
+          "want": "",
+          "so": ""
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Footer is sticky and visible at all panel scroll positions.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC2",
+            "title": "Next/Previous swaps panel data in place and syncs the selected card/row behind the panel.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC3",
+            "title": "Counter shows position within the current filtered scope.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC4",
+            "title": "First/last items disable the corresponding button.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC5",
+            "title": "Works in both card view and list view overlays.",
+            "given": "",
+            "when": "",
+            "then": ""
+          }
+        ],
+        "technicalNotes": [
+          "Render a sticky footer inside the panel (always visible, content scrolls under it): `Previous` button (left), `Source {index + 1} of {total}` counter (center), `Next source` button (right). Use the existing DS Button component (Neutral / Stroke / Small), icons `arrow_back_ios_new` / `arrow_forward_ios`.",
+          "Navigation operates on the list as rendered at panel-open time — reason tab, source-type filter, and country/engine/date scope already applied. Index = position in that filtered, ranked order, not the global rank.",
+          "On navigate: swap panel content to the adjacent source (no close/reopen), update the selected state on the corresponding card/row in the background, reset panel scroll to top, reset the article tab to Failing.",
+          "Disable `Previous` on index 0 and `Next source` on the last index (disabled state from DS button, no wrap-around).",
+          "Keyboard: bind ArrowLeft/ArrowRight to Previous/Next while the panel has focus; buttons must be reachable by Tab and announce disabled state (aria-disabled).",
+          "Analytics: fire an event per navigation (`action_center.source_nav`, direction + source rank) so we can validate the triage-flow hypothesis."
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1168",
+        "type": "Task",
+        "title": "Actions Center — Target Sources updates (copy, category filter, missing/negative split, panel simplification)",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-28",
+        "updated": "2026-10-01",
+        "updatedAt": "2026-10-01T12:04:02.384-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1168",
+        "userStory": {
+          "as": "",
+          "want": "",
+          "so": ""
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "",
+            "given": "a source with only the Improve visibility badge (missing > 0, negative = 0)",
+            "when": "I open its details panel",
+            "then": "I only see the \"Lack of visibility (N)\" tab."
+          },
+          {
+            "id": "AC2",
+            "title": "",
+            "given": "a source with only the Improve perception badge (missing = 0, negative > 0)",
+            "when": "I open its details panel",
+            "then": "I only see the \"Negative perception (N)\" tab."
+          },
+          {
+            "id": "AC3",
+            "title": "",
+            "given": "a source with both badges",
+            "when": "I open its details panel",
+            "then": "I see both tabs, the \"Lack of visibility\" tab first and selected by default."
+          },
+          {
+            "id": "AC4",
+            "title": "Each tab shows its count, and the count matches the number of article rows in the tab.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC5",
+            "title": "No positive article is shown anywhere in the panel.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC6",
+            "title": "When I click Previous or Next source, the tabs are rebuilt for the new source with the same rules.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC7",
+            "title": "Given a source with only one badge, the card shows one reason line and the table shows one chip.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC8",
+            "title": "Given a source with both badges, the card shows both lines and both badges, and the table shows both chips.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC9",
+            "title": "For a given source, the counts on the card, the table chips and the panel tabs are the same, and missing + negative is the total used for ranking.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC10",
+            "title": "With 12 sources or fewer, all cards show and there is no \"Show X more sources\" button. With more than 12, the button shows X = total - 12.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC11",
+            "title": "The table shows 10 rows before its \"Show X more sources\" button. The prompts list rules are in GEO-1178.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC12",
+            "title": "The Category filter lists the categories of the analysis, in the same order as the left menu, with \"All categories\" by default.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC13",
+            "title": "When I select a category, the list only keeps the sources with at least one missing or negative article in answers of that category, and the counts are recalculated for that category.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC14",
+            "title": "Category, Type and the page tabs (All / Improve visibility / Improve perception) combine. When no source matches, the filtered empty state shows.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC15",
+            "title": "No \"Cited\" count appears on any Target Sources surface: cards, table, details panel and export.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC16",
+            "title": "The Key Takeaways block (In Brief summary) and the panel header meta line are gone.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC17",
+            "title": "The verifying state shows the title and the spinner, without the progress counter and without the paragraph.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC18",
+            "title": "When no source has a missing or negative article, the all clear state shows \"All clear\" and \"Every article used by AI engines describes your brand positively.\"",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC19",
+            "title": "The table has no Action column.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC20",
+            "title": "The top source cards and the table use the same split copy and chips as the app, with no Cited column.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC21",
+            "title": "Every new and changed string below exists in en-GB, en-US, fr-FR and es-ES, with singular and plural forms where there is a count.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC22",
+            "title": "The Spanish strings use \"usted\" (su marca), as in the rest of the app.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC23",
+            "title": "The keys that are no longer used are removed from the four locale files.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC24",
+            "title": "When I switch the app language, the card lines, chips, tabs, filters and export all follow it.",
+            "given": "",
+            "when": "",
+            "then": ""
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1169",
+        "type": "Task",
+        "title": "Actions Center - Target Sources: select the top 100 domains by citation frequency instead of failing prompts",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-29",
+        "updated": "2026-09-30",
+        "updatedAt": "2026-09-30T21:24:30.606-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1169",
+        "userStory": {
+          "as": "",
+          "want": "",
+          "so": ""
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Given a snapshot, the selection keeps the X domains (100 by default) with the highest Frequency after the owned and competitor exclusion, and sends every GROUNDED cited URL of those domains to verification.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC2",
+            "title": "The Frequency used for the ranking is computed the same way as the AI Citation Sources Frequency column (unique URLs per domain).",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC3",
+            "title": "A source cited only in answers where the brand is visible, first and positive can now be selected.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC4",
+            "title": "Changing X in the configuration applies to the next selection run without a release.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC5",
+            "title": "A domain of the top X with 0 missing and 0 negative articles does not appear in Target Sources. If no domain of the top X has one, the page shows the all-clear state.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC6",
+            "title": "The prompts listed for a source in the details panel are all the prompts whose answer cites it in the scope, one row per prompt with the icons of the citing engines (see GEO-1178).",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC7",
+            "title": "The selection stays idempotent per snapshot and keeps the SUSPECT_SELECTION done marker.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC8",
+            "title": "The selection log shows the number of domains considered, the X applied and the number of URLs sent to verification.",
+            "given": "",
+            "when": "",
+            "then": ""
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1173",
+        "type": "Task",
+        "title": "[GEO-Export] Put the Action Center as last slide in PPT and PDF export",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-30",
+        "updated": "2026-09-30",
+        "updatedAt": "2026-09-30T06:26:20.795-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1173",
+        "userStory": {
+          "as": "",
+          "want": "",
+          "so": ""
+        },
+        "acceptanceCriteria": [],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1178",
+        "type": "Task",
+        "title": "Action Center - Target Sources: details panel tabs and prompts list from the new design (engine filter, one row per prompt)",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-09-30",
+        "updated": "2026-10-01",
+        "updatedAt": "2026-10-01T12:04:10.070-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1178",
+        "userStory": {
+          "as": "",
+          "want": "",
+          "so": ""
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "",
+            "given": "a source with only missing articles",
+            "when": "I open its panel",
+            "then": "I only see the \"Lack of visibility (N)\" tab and its explanation line."
+          },
+          {
+            "id": "AC2",
+            "title": "",
+            "given": "a source with only negative articles",
+            "when": "I open its panel",
+            "then": "I only see the \"Negative perception (N)\" tab and its explanation line."
+          },
+          {
+            "id": "AC3",
+            "title": "Given a source with both, I see both tabs, \"Lack of visibility\" selected by default, and switching tab does not change the prompts section.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC4",
+            "title": "The count of each tab matches the number of articles in the tab and the card line of the source.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC5",
+            "title": "The explanation line uses the brand name of the analysis.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC6",
+            "title": "A prompt cited by several engines appears once, with one icon per engine.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC7",
+            "title": "When I select an engine tab, the list only keeps the prompts cited by that engine, and the \"Show X more prompts\" count is recalculated.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC8",
+            "title": "The engine tabs only list the engines in the current scope (AI Engines filter of the page).",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC9",
+            "title": "The list shows 6 prompts before the \"Show X more prompts\" button.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC10",
+            "title": "Previous / Next source rebuilds the tabs and the engine filter for the new source with the same rules.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC11",
+            "title": "All the new strings exist in en-GB, en-US, fr-FR and es-ES.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC12",
+            "title": "The page name shows \"Action Center\" in en-US and \"Action Centre\" in en-GB, and the French and Spanish names stay the same.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC13",
+            "title": "The English PPT and PDF slide header reads \"ACTION CENTER · TARGET SOURCES\", and none of the exports (PPT, PDF, Excel) shows \"Actions Center\" or \"Actions Centre\".",
+            "given": "",
+            "when": "",
+            "then": ""
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1183",
+        "type": "Story",
+        "title": "[Target Sources] The passage must always include the brand or product name",
+        "status": "Code Review",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-02",
+        "updated": "2026-10-02",
+        "updatedAt": "2026-10-02T06:25:07.211-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1183",
+        "userStory": {
+          "as": "",
+          "want": "",
+          "so": ""
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "On the caranddriver.com article above, the passage contains \"Tesla\" or \"Cybertruck\" and the name is highlighted in the panel.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC2",
+            "title": "No passage in the Target Sources panel of the Tesla, Nike and Lidl Nederland analyses on staging is missing the brand or product name.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC3",
+            "title": "Passages stay verbatim (apart from the \"…\" joins) and at most 140 characters.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC4",
+            "title": "The verdicts themselves do not change after the re-judge.",
+            "given": "",
+            "when": "",
+            "then": ""
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1184",
+        "type": "Story",
+        "title": "[Target Sources] Sort the cards by the number of prompts that use each source",
+        "status": "Backlog",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-02",
+        "updated": "2026-10-02",
+        "updatedAt": "2026-10-02T06:46:59.151-0400",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1184",
+        "userStory": {
+          "as": "",
+          "want": "",
+          "so": ""
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "With \"Most prompts\" selected, the cards are in descending order of the prompt count shown on them.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC2",
+            "title": "The count on a card equals the number of prompts listed in its panel.",
+            "given": "",
+            "when": "",
+            "then": ""
+          },
+          {
+            "id": "AC3",
+            "title": "The default sort and the export are unchanged when the option is not selected.",
+            "given": "",
+            "when": "",
+            "then": ""
+          }
+        ],
+        "technicalNotes": [],
+        "blockedBy": [],
+        "blocks": []
+      }
+    ]
+  }
+}

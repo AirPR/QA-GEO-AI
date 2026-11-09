@@ -1,0 +1,142 @@
+
+[auth-setup] Opening https://staging-geo.onclusive.com/geo …
+[auth-setup] Step 1 — email field …
+[auth-setup] Step 2 — password field …
+[auth-setup] Waiting for app to load after redirect …
+[auth-setup] Session saved → C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\processed\auth\storageState.json
+
+
+Running 13 tests using 2 workers
+
+  ✓   2 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:138:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-663-003 - Overview: Brand Rankings table has no SoV% column (16.7s)
+  ✘   1 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:93:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-663-001 - Overview: KPI row shows exactly 4 cards without SOV (16.3s)
+  ✘   3 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:169:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-663-005 - Brand Rankings default sort is Visibility% descending with correct Rank order (15.7s)
+  ✓   4 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:224:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-663-006 - No SOV-related tooltips or i18n keys are visible after removal (17.4s)
+  ✘   6 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:303:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-003 - Doughnut shows top 10 brands + Others slice with callouts and legend (14.3s)
+  ✘   5 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:253:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-001 - SOV dedicated card renders below KPI row on Overview (18.7s)
+  -   8 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:401:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-005 - Target brand not in top 10: center label still shows brand SOV from KPI
+  -   9 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:406:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-006 - Empty state displayed when scope has no responses
+  -  10 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:411:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-007 - Error state shows reload button that re-fetches inline
+  -  11 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:416:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-008 - Loading skeleton occupies chart area while data is fetching
+  ✘   7 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:360:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-004 - Target brand in top 10: arc emphasized and center label shows brand SOV (15.6s)
+  -  13 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:460:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-010 - Doughnut with 10 or fewer brands shows no Others slice
+  ✓  12 [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:421:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-009 - Filter changes recompute doughnut callouts legend and center label (17.6s)
+
+
+  1) [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:93:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-663-001 - Overview: KPI row shows exactly 4 cards without SOV › Then exactly 4 KPI cards are displayed in order: Visibility, Avg Position, AI Choice, Sentiment 
+
+    Error: Exactly 4 KPI cards must be rendered
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m4[39m
+    Received: [31m12[39m
+
+      117 |       const kpiCards = await page.locator('[data-testid^="kpi-card-"]').count();
+      118 |       await shotAt(page, page.locator(SEL.kpiCardVisibility).first(), `${TC}_step3_then`);
+    > 119 |       expect(kpiCards, 'Exactly 4 KPI cards must be rendered').toBe(4);
+          |                                                                ^
+      120 |     });
+      121 |
+      122 |     await test.step('And no "Share of Voice" KPI card is rendered', async () => {
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:119:64
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:107:5
+
+    Error Context: .claude\Data\raw\playwright\artifacts\e2e-brand-SOV-GEO-640-—-SO-4f100-exactly-4-cards-without-SOV-chromium\error-context.md
+
+  2) [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:169:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-663-005 - Brand Rankings default sort is Visibility% descending with correct Rank order › When no explicit user sort is applied 
+
+    Error: locator.scrollIntoViewIfNeeded: Error: strict mode violation: locator('table').first().or(locator('[data-testid="kpi-card-visibility"]').first()) resolved to 2 elements:
+        1) <div aria-label="Visibility: 66%" data-testid="kpi-card-visibility" class="flex min-w-[160px] flex-1 flex-col gap-2.5 rounded-lg border border-[#E2E8F0] bg-white p-[13px]">…</div> aka getByTestId('kpi-card-visibility')
+        2) <table class="w-full text-sm" data-testid="dashboard-rankings-table">…</table> aka getByTestId('dashboard-rankings-table')
+
+    Call log:
+    [2m  - waiting for locator('table').first().or(locator('[data-testid="kpi-card-visibility"]').first())[22m
+
+
+       at e2e-helpers.js:53
+
+      51 | function makeShotAt(screenshotsDir) {
+      52 |   return async (page, locator, name) => {
+    > 53 |     await locator.scrollIntoViewIfNeeded();
+         |                   ^
+      54 |     // One paint frame after scroll so layout is settled
+      55 |     await page.evaluate(() => new Promise(r => requestAnimationFrame(r)));
+      56 |     await page.screenshot({ path: path.join(screenshotsDir, `${name}.png`), fullPage: false });
+        at shotAt (C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-helpers.js:53:19)
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:183:13
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:177:5
+
+    Error Context: .claude\Data\raw\playwright\artifacts\e2e-brand-SOV-GEO-640-—-SO-9807e-ing-with-correct-Rank-order-chromium\error-context.md
+
+  3) [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:253:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-001 - SOV dedicated card renders below KPI row on Overview › Then a full-width "Share of Voice" card is visible directly below the KPI card row 
+
+    Error: SOV card must render either a chart, an empty state, or an error state
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      282 |       await shotAt(page, sovHeading, `${TC}_step3_then`);
+      283 |       expect(hasEmptyState || hasErrorState || hasSvgChart,
+    > 284 |         'SOV card must render either a chart, an empty state, or an error state').toBe(true);
+          |                                                                                   ^
+      285 |     });
+      286 |
+      287 |     await test.step('And the card displays the title "Share of Voice" and the subtitle "By brand, your brand is highlighted"', async () => {
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:284:83
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:267:5
+
+    Error Context: .claude\Data\raw\playwright\artifacts\e2e-brand-SOV-GEO-640-—-SO-3fcfa-s-below-KPI-row-on-Overview-chromium\error-context.md
+
+  4) [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:303:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-003 - Doughnut shows top 10 brands + Others slice with callouts and legend › Then the doughnut shows exactly the top 10 brands by SOV descending plus one "Others" slice aggregating all remaining share 
+
+    Error: SOV doughnut SVG must be visible
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      328 |       // Vérifier la présence du SVG chart (proxy pour doughnut rendu)
+      329 |       const hasSvg = await page.locator(SEL.sovChartSvg).first().isVisible({ timeout: 5000 }).catch(() => false);
+    > 330 |       expect(hasSvg, 'SOV doughnut SVG must be visible').toBe(true);
+          |                                                          ^
+      331 |     });
+      332 |
+      333 |     await test.step('And each arc >= ~2% displays an outside percentage callout', async () => {
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:330:58
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:320:5
+
+    Error Context: .claude\Data\raw\playwright\artifacts\e2e-brand-SOV-GEO-640-—-SO-e4fc2-ce-with-callouts-and-legend-chromium\error-context.md
+
+  5) [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:360:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-004 - Target brand in top 10: arc emphasized and center label shows brand SOV › Then the target brand's arc is structurally emphasized (e.g. larger radius) relative to competitor arcs 
+
+    Error: Doughnut SVG must be rendered to verify arc emphasis
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      385 |       // Vérifier que le SVG est rendu (proxy pour arc emphasis)
+      386 |       const hasSvg = await page.locator(SEL.sovChartSvg).first().isVisible({ timeout: 5000 }).catch(() => false);
+    > 387 |       expect(hasSvg, 'Doughnut SVG must be rendered to verify arc emphasis').toBe(true);
+          |                                                                              ^
+      388 |     });
+      389 |
+      390 |     await test.step('And the persistent center label shows the target brand\'s name, SOV value, and "Share of Voice" — even when it is not the largest slice', async () => {
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:387:78
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\e2e-brand-SOV.spec.js:377:5
+
+    Error Context: .claude\Data\raw\playwright\artifacts\e2e-brand-SOV-GEO-640-—-SO-c851a-enter-label-shows-brand-SOV-chromium\error-context.md
+
+  5 failed
+    [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:93:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-663-001 - Overview: KPI row shows exactly 4 cards without SOV 
+    [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:169:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-663-005 - Brand Rankings default sort is Visibility% descending with correct Rank order 
+    [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:253:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-001 - SOV dedicated card renders below KPI row on Overview 
+    [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:303:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-003 - Doughnut shows top 10 brands + Others slice with callouts and legend 
+    [chromium] › .claude\Data\raw\playwright\e2e-brand-SOV.spec.js:360:3 › GEO-640 — SOV : Overview / Brand › TC-GEO-664-004 - Target brand in top 10: arc emphasized and center label shows brand SOV 
+  5 skipped
+  3 passed (1.6m)

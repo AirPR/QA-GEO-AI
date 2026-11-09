@@ -1,0 +1,439 @@
+{
+  "spec": "GEO-1513-GEO1184-mcp",
+  "runDate": "2026-10-23",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1513.csv",
+  "story": "GEO-1184",
+  "runTs": "23102026-2205",
+  "environment": "staging, org QA-GEO, en-GB (GET /geo/api/v1/auth/me), Toyota 439acd96 Action Center, Last 7 days (window 2026-10-16T15:03Z..2026-10-23T15:03Z, 8 snapshots), 4 AI engines, All Countries, read-only route (non-GET /geo/api/** aborted except export pptx/xlsx/pdf)",
+  "summary": {
+    "total": 9,
+    "pass": 5,
+    "fail": 4,
+    "skip": 0,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1184-001",
+      "title": "TC-GEO-1184-001 - Most prompts sort orders the cards by descending prompt count",
+      "status": "FAIL",
+      "error": "Wording only (D-2): expected \"Sort by\" to show \"Failing articles\" by default and \"Most prompts\" after selection; observed \"Coverage\" (default, description \"Articles where your brand is not visible or perceived negatively\") and \"Prompts\" (description \"Prompts whose answers cite this source\"). The sort itself is correct.",
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the chosen analysis",
+          "status": "FAIL",
+          "observed": "\"Sort by\" control (aria-label/title \"Sort by\", data-testid actions-sort-dropdown) is in the page header left of the Card view / List view switch (sort x=983-1163, switch x=1179, same row) but shows \"Coverage\", not \"Failing articles\". Cards sorted by failing articles (42, 32, 32, 32, 22, 19, 19, 18, 17, 17, 17, 16) and each card shows \"Used in N prompts\"."
+        },
+        {
+          "title": "When the user opens \"Sort by\" and selects \"Most prompts\"",
+          "status": "FAIL",
+          "observed": "Menu options are \"Coverage\" and \"Prompts\" (no \"Most prompts\"). After selecting \"Prompts\" the list is re-sorted (API call sort=PROMPTS) and \"Sort by\" shows \"Prompts\". First attempt hit a transient 401 on target-sources?sort=PROMPTS (token refresh) and the UI silently stayed on Coverage; second attempt OK."
+        },
+        {
+          "title": "Then the cards are in descending order of their prompt count",
+          "status": "PASS",
+          "observed": "All 139 cards loaded (Show 127 more sources): prompt counts 156, 149, 135, 118, 107, 102, 98, 97, 92, 91, 90, 81 ... 2, 1, 1, 1, 1, 1; never increase. UI order = API target-sources?tab=ALL&sort=PROMPTS (139 sources, identical domain:promptCount sequence)."
+        },
+        {
+          "title": "And the ranks are renumbered from 1",
+          "status": "PASS",
+          "observed": "Ranks 1..139 with no gap; rank 1 = largus.fr (156 prompts) instead of lefigaro.fr in Coverage order."
+        }
+      ],
+      "notes": "Functional behaviour of AC-1 is correct; the FAIL is wording only (D-2 \"Failing articles\" / \"Most prompts\" vs UI \"Coverage\" / \"Prompts\"). Q-1: no \"cited N× in gap answers\" line on any of the 139 cards (only \"Not visible in N articles\", \"Negative perception in N articles\", \"Used in N prompts\"). D-3: subtitle shortened to \"Sources to target to improve how AI engines represent your brand.\" (sort sentence removed).",
+      "screenshots": [
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-001_step1_given.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-001_step2_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-001_step3_then.png"
+      ],
+      "story_id": "GEO-1184",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1184-002",
+      "title": "TC-GEO-1184-002 - Card prompt count equals the prompts listed in the panel",
+      "status": "PASS",
+      "error": null,
+      "steps": [
+        {
+          "title": "Given the user notes the prompt count of the card ranked #1",
+          "status": "PASS",
+          "observed": "Default sort (\"Coverage\"), card #1 = lefigaro.fr, \"Used in 39 prompts\" (API list promptCount 39)."
+        },
+        {
+          "title": "When the user opens its details panel and clicks \"Show X more prompts\" on the \"All\" tab of \"Prompts associated with this source\"",
+          "status": "PASS",
+          "observed": "Panel \"#1 · lefigaro.fr\" opened; \"Prompts associated with this source\" has tabs \"All (39)\" (selected), ChatGPT (2), Gemini (6), Perplexity (31). \"Show 33 more prompts\" clicked; no more button afterwards."
+        },
+        {
+          "title": "Then the number of prompt rows equals N",
+          "status": "PASS",
+          "observed": "39 prompt rows listed (39 distinct texts) = All (39) = card 39. API target-sources/lefigaro.fr: failingPrompts 66 entries (= qualifyingAnswerCitations 66), 39 distinct questions."
+        }
+      ],
+      "notes": "API cross-check card promptCount vs distinct questions of target-sources/{domain}.failingPrompts on 15 sources (top 10 + bottom 5 of the Prompts order): all equal (largus.fr 156, caranddriver.com 149, autohero.com 135, kbb.com 118, guideautoweb.com 107, consumerreports.org 102, carwow.es 98, autojournal.fr 97, autoplus.fr 92, automobile-magazine.fr 91, oliquide.com/elperiodico.com/valleytimes.news/autocyl.es/automoto-gp.com 1). Q-3 answered by data: a prompt cited by several engines counts once in the card/All count (largus.fr 156 vs engine sum 303 = openai 114 + perplexity 87 + gemini 102; elperiodico.com 1 vs openai 1 + perplexity 1). No Grok tab in the panel (Grok has no citations for lefigaro.fr).",
+      "screenshots": [
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-002_step1_given.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-002_step2_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-002_step3_then.png"
+      ],
+      "story_id": "GEO-1184",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1184-003",
+      "title": "TC-GEO-1184-003 - Default sort \"Failing articles\" and export are unchanged when \"Most prompts\" is not selected",
+      "status": "FAIL",
+      "error": "Wording only (D-2): expected \"Sort by\" to show \"Failing articles\" by default; observed \"Coverage\". The default order and the export are unchanged (PASS on steps 2-3).",
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center with the default sort",
+          "status": "FAIL",
+          "observed": "\"Sort by\" shows \"Coverage\" (not \"Failing articles\"). Cards ordered by failing article total (missing + negative), highest first: lefigaro.fr 42, largus.fr 32, guideautoweb.com 32, autoplus.fr 32, kbb.com 22, caranddriver.com 19, ouest-france.fr 19, rpmweb.ca 18, usnews.com 17, headtopics.com 17, investing.com 17, edmunds.com 16."
+        },
+        {
+          "title": "When the user exports the analysis as \"Presentation .pptx\"",
+          "status": "PASS",
+          "observed": "Export icon > \"EXPORT ANALYSIS AS\" > \"Presentation .pptx\": Toyota_AI_Visibility_Report.pptx downloaded (32 slides). Request POST .../export/pptx?marketCodes=master&llms=openai,gemini,grok,perplexity&from=2026-10-17&to=2026-10-23&periodPreset=last7&lang=en-GB (no sort parameter)."
+        },
+        {
+          "title": "Then the Target Sources slide follows the default order",
+          "status": "PASS",
+          "observed": "Slide 32/32 \"ACTION CENTER · TARGET SOURCES\" (\"Top 10 of 139 verified target sources\"): top 3 cards #1 lefigaro.fr, #2 largus.fr, #3 guideautoweb.com; table #4 autoplus.fr, #5 kbb.com, #6 caranddriver.com, #7 ouest-france.fr, #8 rpmweb.ca, #9 usnews.com, #10 headtopics.com = ALL tab order. No prompt count in the slide (columns #, Source, Type, Articles)."
+        }
+      ],
+      "notes": "Extra check: XLSX export (Spreadsheet .xls) sheet \"Target Sources\" > \"Ranked sources\": 139 rows, order identical to API target-sources?sort=COVERAGE (139/139), columns Rank, Domain, Source type, Badges, Failing articles, Brand absent, Depicted negatively, Positive articles, Brief (no prompt count column). Evidence in step3 = UI top 10 framed + overlay of the order read from ppt/slides/slide32.xml.",
+      "screenshots": [
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-003_step1_given.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-003_step2_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-003_step3_then.png"
+      ],
+      "story_id": "GEO-1184",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1184-004",
+      "title": "TC-GEO-1184-004 - Most prompts sort applies inside the current tab and scope",
+      "status": "PASS",
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-004_step1_given.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-004_step2_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-004_step3_then.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-004_step4_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-004_step5_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given \"Most prompts\" is selected in \"Sort by\" on the ALL tab",
+          "status": "PASS",
+          "observed": "Option labelled \"Prompts\" (no \"Most prompts\" label, see TC-001) selected on ALL: cards sorted by prompt count (largus.fr 156, caranddriver.com 149, autohero.com 135, kbb.com 118 ...)."
+        },
+        {
+          "title": "When the user selects the \"IMPROVE PERCEPTION\" tab",
+          "status": "PASS",
+          "observed": "IMPROVE PERCEPTION tab selected (API tab=PERCEPTION&sort=PROMPTS); 70 sources after Show more, all with the IMPROVE PERCEPTION badge (autohero.com, visibility-only, gone)."
+        },
+        {
+          "title": "Then the perception sources are in descending order of their prompt count",
+          "status": "PASS",
+          "observed": "70 cards: 156, 149, 118, 107, 102, 98, 97, 92, 91, 90, 81, 81, 80, 80, 80 ... 3, 2, 2, 2; never increases; ranks restart at 1 (1..70, largus.fr rank 1)."
+        },
+        {
+          "title": "When the user keeps a single country in the countries filter",
+          "status": "PASS",
+          "observed": "Countries filter: France only (\"1 selected\", button shows \"France\"); list recomputed (API marketCodes=fr-FR&tab=PERCEPTION&sort=PROMPTS), 38 perception sources."
+        },
+        {
+          "title": "Then the prompt counts and the order are recomputed in that scope",
+          "status": "PASS",
+          "observed": "Each France count <= its All Countries count (30 lower, 8 equal, 0 higher; e.g. largus.fr 141 vs 156, autojournal.fr 95 vs 97, guideautoweb.com 89 vs 107); order descending, ranks 1..38; \"Sort by\" still \"Prompts\"."
+        }
+      ],
+      "notes": "Q-2 answered in the UI/API: the prompt count follows the country filter (counts recomputed with marketCodes=fr-FR, 30 of 38 sources lower than All Countries). The AI engine filter is checked in TC-008.",
+      "story_id": "GEO-1184",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1184-005",
+      "title": "TC-GEO-1184-005 - Ties of the Most prompts sort are broken by failing articles then domain",
+      "status": "PASS",
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-005_step1_given.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-005_step2_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-005_step3_then.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-005_step4_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given \"Most prompts\" is selected in \"Sort by\"",
+          "status": "PASS",
+          "observed": "Option \"Prompts\" selected (label differs, see TC-001); 139 cards loaded, sorted by prompt count."
+        },
+        {
+          "title": "When the user locates two cards with the same \"Used in N prompts\" value",
+          "status": "PASS",
+          "observed": "31 tie groups found, e.g. ranks 14-16 usnews.com, autoblog.com, cars.com all \"Used in 80 prompts\"."
+        },
+        {
+          "title": "Then the card with more failing articles comes first",
+          "status": "PASS",
+          "observed": "80 prompts: usnews.com 17 (15 not visible + 2 negative) > autoblog.com 9 > cars.com 7. Over the 31 groups, 51 adjacent tied pairs with different failing totals are all in descending failing order (0 violations)."
+        },
+        {
+          "title": "And cards tied on both counts are sorted by domain",
+          "status": "PASS",
+          "observed": "8 prompts + 1 failing article: best-selling-cars.com < bestsellingcarsblog.com < businessam.be < businessday.ng < ground.news (ranks 104-108). 25 adjacent pairs tied on both counts, all alphabetical (0 violations)."
+        }
+      ],
+      "notes": "Full list read in the UI (139 cards), failing = Not visible + Negative perception per card. Side observation (out of scope): a source domain displayed as \"com.cn\" (rank 117, 4 prompts, 3 failing articles) looks like a mis-parsed registrable domain.",
+      "story_id": "GEO-1184",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1184-006",
+      "title": "TC-GEO-1184-006 - A source used in a single prompt shows the singular \"Used in 1 prompt\"",
+      "status": "PASS",
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-006_step1_given.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-006_step2_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-006_step3_then.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-006_step4_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given \"Most prompts\" is selected in \"Sort by\" and all the cards are displayed",
+          "status": "PASS",
+          "observed": "Analysis used: Toyota 439acd96 (no fallback needed). \"Prompts\" selected, 139 cards displayed, no \"Show X more sources\" button left; the last cards show the lowest counts (ranks 130-134: 2 prompts, ranks 135-139: 1 prompt)."
+        },
+        {
+          "title": "When the user locates a card whose source is used in a single prompt",
+          "status": "PASS",
+          "observed": "5 cards with a prompt count of 1: oliquide.com, elperiodico.com, valleytimes.news, autocyl.es, automoto-gp.com (API promptCount 1 for all 5)."
+        },
+        {
+          "title": "Then the card shows the singular wording",
+          "status": "PASS",
+          "observed": "All 5 read \"Used in 1 prompt\"; the string \"Used in 1 prompts\" is absent from the page."
+        },
+        {
+          "title": "And its details panel lists exactly one prompt",
+          "status": "PASS",
+          "observed": "Panel \"#136 · elperiodico.com\": tab \"All (1)\" (selected), ChatGPT (1), Perplexity (1); one prompt row \"¿Cuáles son los coches híbridos más populares?\" (ES)."
+        }
+      ],
+      "notes": "Q-3 visible in the UI: the single elperiodico.com prompt is cited by ChatGPT and Perplexity, so the engine tabs sum to 2 while \"All (1)\" counts it once (design assumption confirmed). Panel header rank (#136) follows the on-screen Prompts order.",
+      "story_id": "GEO-1184",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1184-007",
+      "title": "TC-GEO-1184-007 - List view shows a \"Prompts\" column after \"Articles\" with a descending indicator while Most prompts is active",
+      "status": "FAIL",
+      "error": "Wording only (D-2): step 2 expects \"Sort by\" to still show \"Most prompts\" in List view; observed \"Prompts\". Column placement, indicator, values and order are as designed.",
+      "screenshots": [
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-007_step1_given.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-007_step2_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-007_step3_then.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-007_step4_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-007_step5_then.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-007_extra_header_click_in_coverage.png"
+      ],
+      "steps": [
+        {
+          "title": "Given \"Most prompts\" is selected in \"Sort by\" in Card view",
+          "status": "PASS",
+          "observed": "Card view (pressed), \"Prompts\" selected: cards sorted by prompt count (largus.fr 156, caranddriver.com 149, autohero.com 135 ...), 139 cards loaded."
+        },
+        {
+          "title": "When the user switches to List view",
+          "status": "FAIL",
+          "observed": "List view: 139 table rows in exactly the same order and with the same counts as the cards; \"Sort by\" shows \"Prompts\" (CSV expects \"Most prompts\")."
+        },
+        {
+          "title": "Then the table shows a \"Prompts\" column right after \"Articles\"",
+          "status": "PASS",
+          "observed": "Headers: #, Source, Type, Articles, Prompts (Prompts immediately after Articles)."
+        },
+        {
+          "title": "And the \"Prompts\" header shows a descending indicator",
+          "status": "PASS",
+          "observed": "\"Prompts\" header shows a down-arrow icon and aria-sort=\"descending\"; no other header has aria-sort or an icon."
+        },
+        {
+          "title": "And the \"Prompts\" values match the card counts and never increase from one row to the next",
+          "status": "PASS",
+          "observed": "Row 1 largus.fr 156 = card 1 \"Used in 156 prompts\"; 139/139 row values = card values; never increasing."
+        },
+        {
+          "title": "When the user clicks the \"Prompts\" column header",
+          "status": "PASS",
+          "observed": "Header is a button (data-testid actions-table-prompts-sort-btn). Click in Prompts mode: no new API call, row order unchanged (top 10 identical) but the list is re-paginated to 10 rows (\"Show 129 more sources\"); aria-sort stays descending."
+        },
+        {
+          "title": "And the user selects \"Failing articles\" in \"Sort by\"",
+          "status": "PASS",
+          "observed": "Option \"Coverage\" selected (no \"Failing articles\" label): rows follow the failing article order (lefigaro.fr 42, largus.fr 32, guideautoweb.com 32, autoplus.fr 32, kbb.com 22 ...); no indicator on \"Prompts\" (aria-sort null, no icon). Recorded (OP-7): the \"Prompts\" column stays displayed with the Coverage sort."
+        }
+      ],
+      "notes": "Extra (not in the CSV): clicking the \"Prompts\" header while \"Sort by\" = Coverage switches the sort to \"Prompts\" (Sort by now shows \"Prompts\", aria-sort descending, order by prompt count) - header-click sorting exists as a one-way shortcut, while GEO-1208 D-6 says header-click sorting is not part of this ticket (design not followed / scope question). List view page size is 10 rows vs 12 cards in Card view.",
+      "story_id": "GEO-1184",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1184-008",
+      "title": "TC-GEO-1184-008 - Sort choice is kept across tabs, views, filters and Show more, and resets to Failing articles on the next visit",
+      "status": "FAIL",
+      "error": "Wording only (D-2): steps 2-5 expect \"Sort by\" to still show \"Most prompts\" (observed \"Prompts\") and steps 6-7 expect \"Failing articles\" after the reset (observed \"Coverage\"). Persistence and reset behaviour (D-7) are as designed.",
+      "screenshots": [
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-008_step1_given.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-008_step2_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-008_step2b_showmore.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-008_step2c_engine.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-008_step2d_listview.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-008_step3a_reload.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given \"Most prompts\" is selected in \"Sort by\" on the ALL tab in Card view",
+          "status": "PASS",
+          "observed": "ALL tab, Card view, \"Prompts\" selected: cards sorted by prompt count (largus.fr 156, caranddriver.com 149, autohero.com 135, kbb.com 118 ...)."
+        },
+        {
+          "title": "When the user selects the \"IMPROVE VISIBILITY\" tab",
+          "status": "FAIL",
+          "observed": "\"Sort by\" still shows \"Prompts\" (CSV: \"Most prompts\"); 12 visibility cards in descending prompt order (156 ... 81), ranks start at 1 (largus.fr #1). First attempt: a 401 on target-sources (session refresh) made the app reload and reset to Coverage/ALL; redone, not counted as a product behaviour."
+        },
+        {
+          "title": "And the user clicks \"Show X more sources\" if the button is displayed",
+          "status": "FAIL",
+          "observed": "\"Show 97 more sources\" clicked: 109 cards, first 12 unchanged, new cards continue the descending order (12th edmunds.com 81, 13th quechoisir.org 81, 14th usnews.com 80); ranks 1..109; \"Sort by\" still \"Prompts\" (CSV: \"Most prompts\")."
+        },
+        {
+          "title": "And the user keeps a single AI engine in the AI Engines filter",
+          "status": "FAIL",
+          "observed": "AI Engines: Perplexity only (\"AI Engines 1\", API llms=perplexity&tab=VISIBILITY&sort=PROMPTS): \"Sort by\" still \"Prompts\" (CSV: \"Most prompts\"), 90 cards in descending prompt order, ranks 1..90."
+        },
+        {
+          "title": "And the user switches to List view",
+          "status": "FAIL",
+          "observed": "List view: \"Sort by\" still \"Prompts\" (CSV: \"Most prompts\"); 90 rows in descending prompt order, same order as the cards; Prompts header aria-sort=descending."
+        },
+        {
+          "title": "When the user reloads the page",
+          "status": "FAIL",
+          "observed": "After reload: \"Sort by\" shows \"Coverage\" (CSV: \"Failing articles\"); cards ordered by failing articles (lefigaro.fr 42, guideautoweb.com 25, autoplus.fr 23 ... with Perplexity only); tab back to ALL and view back to Card view; the AI engine filter (Perplexity only) is kept."
+        },
+        {
+          "title": "And the user selects \"Most prompts\", opens another page of the analysis and comes back to the Action Center",
+          "status": "FAIL",
+          "observed": "\"Prompts\" selected (label confirmed), Overview opened from the analysis navigation, then Action Center: \"Sort by\" shows \"Coverage\" (CSV: \"Failing articles\") and the order is by failing articles."
+        }
+      ],
+      "notes": "Functional D-7 behaviour all as designed: the choice is kept across tab, Show more, AI engine filter and view switches, and resets to the default on reload and on leaving/returning. Q-2 (AI engine): the count follows the engine filter (Perplexity only: largus.fr 87 vs 156 all engines, caranddriver.com 123 vs 149, autohero.com 125 vs 135); country: see TC-004. Filters (country, AI engines) persist across reload while sort/tab/view reset. Filters restored to 4 engines / All Countries after the TC.",
+      "story_id": "GEO-1184",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1184-009",
+      "title": "TC-GEO-1184-009 - Export does not follow the Most prompts sort",
+      "status": "PASS",
+      "error": null,
+      "steps": [
+        {
+          "title": "Given the user has exported the analysis as \"Presentation .pptx\" with \"Failing articles\" selected in \"Sort by\"",
+          "status": "PASS",
+          "observed": "Default sort (label \"Coverage\"): Toyota_AI_Visibility_Report.pptx downloaded (32 slides). Slide 32 \"ACTION CENTER · TARGET SOURCES\": top 3 lefigaro.fr, largus.fr, guideautoweb.com; table #4-#10 autoplus.fr, kbb.com, caranddriver.com, ouest-france.fr, rpmweb.ca, usnews.com, headtopics.com."
+        },
+        {
+          "title": "When the user selects \"Most prompts\" in \"Sort by\"",
+          "status": "PASS",
+          "observed": "Option \"Prompts\" selected: cards re-sorted by prompt count (largus.fr 156, caranddriver.com 149, autohero.com 135, kbb.com 118 ...)."
+        },
+        {
+          "title": "And the user exports the analysis again as \"Presentation .pptx\"",
+          "status": "PASS",
+          "observed": "Second .pptx downloaded (32 slides). Both export requests are identical (POST .../export/pptx?marketCodes=master&llms=perplexity,openai,gemini,grok&from=2026-10-17&to=2026-10-23&periodPreset=last7&lang=en-GB, no sort parameter)."
+        },
+        {
+          "title": "Then the exported order is not affected by the on-screen sort",
+          "status": "PASS",
+          "observed": "Slide 32 text of export 2 is byte-identical to export 1 (same top 3 and table order, failing-article order), while the screen shows largus.fr, caranddriver.com, autohero.com ... (assumed, open question to the PO)."
+        }
+      ],
+      "notes": "Q-4 (assumption) observed: the export never follows the sort. Extra: XLSX exported with \"Prompts\" selected - sheet \"Target Sources\" > \"Ranked sources\" 139 rows identical to the XLSX exported with Coverage and to API sort=COVERAGE. Note: the llms parameter order in the export URL changed after the AI engine filter was toggled in TC-008 (perplexity,openai,gemini,grok) - same set of 4 engines.",
+      "screenshots": [
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-009_step1_given.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-009_step2_when.png",
+        "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-009_step3_then.png"
+      ],
+      "story_id": "GEO-1184",
+      "duration": 0
+    }
+  ],
+  "readOnly": {
+    "route": "context.route(**/geo/api/**): non-GET aborted except /reports/{id}/export/(pptx|xlsx|pdf); unrouteAll at the end",
+    "aborted": [],
+    "allowed": [
+      "POST export/pptx 22:10:26 (TC-003)",
+      "POST export/xlsx 22:11:08 (TC-003 extra)",
+      "POST export/pptx 22:22:06 (TC-009 Coverage)",
+      "POST export/pptx 22:22:21 (TC-009 Prompts)",
+      "POST export/xlsx 22:22:30 (TC-009 extra)"
+    ],
+    "note": "0 request aborted. The route was re-installed at 22:06 (logging fix); before that only the initial navigation and GET calls ran."
+  },
+  "environmentChecks": {
+    "authMe": "en-GB, org QA-GEO (start and end)",
+    "filtersAtEnd": "Last 7 days, AI Engines 4, All Countries, sort Coverage (default)",
+    "transient401": "target-sources returned 401 three times (22:06, 22:11, 22:19) on token refresh: once the UI silently kept Coverage after selecting Prompts, once the app reloaded and reset sort/tab; both redone, no impact on verdicts"
+  },
+  "findings": [
+    {
+      "id": "F-1",
+      "type": "Design wording not followed (D-2) / CSV label",
+      "evidence": "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-001_step1_given.png, TC-GEO-1184-001_step2_when.png",
+      "text": "Sort values are \"Coverage\" (default, description \"Articles where your brand is not visible or perceived negatively\") and \"Prompts\" (\"Prompts whose answers cite this source\") instead of \"Failing articles\" / \"Most prompts\" (GEO-1208 D-2; description of the default also differs from \"Articles missing or negative about your brand\"). Only cause of the 4 FAILs (001, 003, 007, 008)."
+    },
+    {
+      "id": "F-2",
+      "type": "Design not followed / scope (D-6)",
+      "evidence": "screenshots-GEO-1513-GEO1184-mcp/TC-GEO-1184-007_extra_header_click_in_coverage.png",
+      "text": "List view \"Prompts\" header is a button (actions-table-prompts-sort-btn): clicking it while Sort by = Coverage switches the sort to Prompts; clicking it in Prompts mode keeps the order but resets the list to 10 rows. D-6 says header-click sorting is not part of this ticket."
+    },
+    {
+      "id": "F-3",
+      "type": "Open point answered (Q-1)",
+      "text": "No \"cited N× in gap answers\" line on any card; card lines = Not visible in N articles / Negative perception in N articles / Used in N prompts."
+    },
+    {
+      "id": "F-4",
+      "type": "Open point answered (Q-2)",
+      "evidence": "TC-GEO-1184-004_step5_then.png, TC-GEO-1184-008_step2c_engine.png",
+      "text": "Prompt count follows both filters: country (France: 30/38 perception sources lower than All Countries) and AI engine (Perplexity only: largus.fr 87 vs 156)."
+    },
+    {
+      "id": "F-5",
+      "type": "Open point answered (Q-3)",
+      "evidence": "TC-GEO-1184-006_step4_then.png",
+      "text": "A prompt cited by several engines counts once: elperiodico.com All (1) with ChatGPT (1) + Perplexity (1); API largus.fr 156 distinct vs 303 engine sum."
+    },
+    {
+      "id": "F-6",
+      "type": "Open point observed (Q-4, OP-7, D-3)",
+      "text": "Q-4: export never follows the sort (PPTX slide 32 identical, XLSX 139 rows identical). OP-7: Prompts column stays in List view with Coverage. D-3: subtitle shortened to \"Sources to target to improve how AI engines represent your brand.\""
+    },
+    {
+      "id": "F-7",
+      "type": "Side observation (out of scope)",
+      "evidence": "TC-GEO-1184-005 notes",
+      "text": "Source domain displayed as \"com.cn\" (rank 117 in Prompts order, 4 prompts) - mis-parsed registrable domain."
+    }
+  ]
+}

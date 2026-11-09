@@ -1,0 +1,96 @@
+{
+  "spec": "GEO-1069-rerun-brandfetch-mcp",
+  "runDate": "2026-10-21",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1262",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1069.csv",
+  "runFolder": ".claude/Data/output/reports/runs/21102026-1536/",
+  "rerunOf": {
+    "context": "Rerun requested after the user reported the Brandfetch quota restored on staging (2026-10-21). Pre-check: quota NOT restored (brands/logo still returns only {\"domain\":...}), so execution stopped after the verification, as instructed.",
+    "previousRun": "runs/20102026-1518/ (test-results-GEO-1069-GEO1262-mcp-real.json)",
+    "TC-GEO-1262-001": "Was SKIP in run 20102026-1518 (Brandfetch quota exhausted).",
+    "TC-GEO-1262-003": "Was PASS in run 20102026-1518, but non-discriminating (every domain fell back to the favicon)."
+  },
+  "quotaCheck": {
+    "verdict": "NOT RESTORED",
+    "checkedAt": "2026-10-21T15:36Z",
+    "wizardResponses": {
+      "nike.com": "GET /geo/api/v1/brands/logo?domain=nike.com -> 200 {\"domain\":\"nike.com\"}; avatar img = https://www.google.com/s2/favicons?domain=nike.com&sz=64",
+      "licter.com": "GET /geo/api/v1/brands/logo?domain=licter.com -> 200 {\"domain\":\"licter.com\"}; avatar img = https://www.google.com/s2/favicons?domain=licter.com&sz=64",
+      "sqlite.org": "GET /geo/api/v1/brands/logo?domain=sqlite.org -> 200 {\"domain\":\"sqlite.org\"}; avatar img = https://www.google.com/s2/favicons?domain=sqlite.org&sz=64 (natural 16x16)"
+    },
+    "directFetch": {
+      "apple.com": "200 {\"domain\":\"apple.com\"}"
+    },
+    "sideObservation": "The brand search suggestions (Geotab, GEODIS, ...) load their icons from cdn.brandfetch.io with HTTP 200 in this session (earlier dashboard requests to cdn.brandfetch.io returned 410). The Brandfetch logo CDN / search works, but the backend logo lookup /geo/api/v1/brands/logo still returns no logo URL for any domain tested, including nike.com and apple.com."
+  },
+  "summary": {
+    "total": 2,
+    "pass": 0,
+    "fail": 0,
+    "skip": 2,
+    "partial": 0,
+    "successRate": 0,
+    "verdict": "NO-GO (no TC executed: prerequisite missing)"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me)",
+    "organisation": "QA-GEO",
+    "featureFlag": "unbranded_analysis = true (Analysis Type step first, \"Brand analysis\" chosen)",
+    "testData": "C = \"Lictorix Geo\" (via the \"Custom Brand\" row); W1 = \"licter.com\"; W3 = \"sqlite.org\"; extra check nike.com",
+    "analysesCreated": [],
+    "stateChanges": "No analysis created. Wizard left via Back to Dashboard > Exit and Discard. The brands/logo response was delayed 2.5 s with a Playwright route (response unchanged) to capture the ~200 ms placeholder; page and context unrouteAll at the end, verified (brands/logo answered in ~200 ms afterwards)."
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1262-001",
+      "title": "TC-GEO-1262-001 - Confirmed domain shows the logo preview in the brand card within moments",
+      "story_id": "GEO-1262",
+      "priority": "High",
+      "status": "SKIP",
+      "previousStatus": "SKIP (run 20102026-1518)",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Brandfetch quota still exhausted on staging on 2026-10-21 15:36: GET /geo/api/v1/brands/logo?domain=licter.com returned 200 {\"domain\":\"licter.com\"} (no logo URL) and the avatar shows the Google favicon (www.google.com/s2/favicons?domain=licter.com&sz=64). AC-1 (logo of the brand logo service) cannot be verified; the CSV SKIP marker still applies.",
+      "screenshots": [
+        "screenshots-GEO-1069-rerun-brandfetch-mcp/TC-GEO-1262-001_step1_given.png",
+        "screenshots-GEO-1069-rerun-brandfetch-mcp/TC-GEO-1262-001_step2_when.png",
+        "screenshots-GEO-1069-rerun-brandfetch-mcp/TC-GEO-1262-001_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field", "data": "C = \"Lictorix Geo\"", "expected": "The 32px avatar shows the letter \"L\"", "status": "PASS" },
+        { "title": "When the user types a valid domain in the website field", "data": "W1 = \"licter.com\"", "expected": "The avatar is unchanged while typing", "status": "PASS" },
+        { "title": "And the field loses focus", "data": "Click outside the field", "expected": "A grey pulsing placeholder of the same size replaces the avatar, with no text and no layout shift", "status": "PASS" },
+        { "title": "Then the logo retrieved for the domain is displayed within moments", "expected": "The 32px avatar shows the logo of licter.com, same place and size as the logo of a selected suggestion", "status": "SKIP" },
+        { "title": "And the domain is shown under the brand name", "expected": "\"licter.com\"", "status": "PASS" },
+        { "title": "And the logo lookup requests are recorded", "data": "DevTools Network", "expected": "One logo lookup for licter.com is visible (request names noted for the other TCs)", "status": "PASS" }
+      ],
+      "notes": "Evidence only (quota pre-check). Given: span[aria-hidden] \"L\" (h-8 w-8), website field empty. While typing licter.com: avatar still \"L\", no img. On blur (click on \"Which countries do you want to analyse?\"): [data-testid=wizard-brand-logo-placeholder] h-8 w-8 animate-pulse rounded-full bg-slate-200, 32x32, no text (response delayed 2.5 s by a test route, unchanged). One lookup GET /geo/api/v1/brands/logo?domain=licter.com -> 200 {\"domain\":\"licter.com\"}. Result: img src=https://www.google.com/s2/favicons?domain=licter.com&sz=64 (32x32 rendered, natural 64x64) - the favicon fallback, not a brand logo service logo. \"licter.com\" under \"Lictorix Geo\". Extra card crop: TC-GEO-1262-001_card_then.png."
+    },
+    {
+      "tc_id": "TC-GEO-1262-003",
+      "title": "TC-GEO-1262-003 - Favicon is used when the brand logo service has no logo for the domain",
+      "story_id": "GEO-1262",
+      "priority": "Medium",
+      "status": "SKIP",
+      "previousStatus": "PASS, non-discriminating (run 20102026-1518)",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Not rerun as a verdict: the Brandfetch quota is still exhausted, so every domain falls back to the favicon and the TC still cannot discriminate between AC-1 and AC-2 (CSV note still applies). The previous PASS (20102026-1518) stands. sqlite.org evidence captured for the quota check.",
+      "screenshots": [
+        "screenshots-GEO-1069-rerun-brandfetch-mcp/TC-GEO-1262-003_step1_given.png",
+        "screenshots-GEO-1069-rerun-brandfetch-mcp/TC-GEO-1262-003_step2_when.png",
+        "screenshots-GEO-1069-rerun-brandfetch-mcp/TC-GEO-1262-003_step3_then.png"
+      ],
+      "steps": [
+        { "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field", "data": "C = \"Lictorix Geo\"", "expected": "The avatar shows the letter \"L\"", "status": "PASS" },
+        { "title": "When the user enters a domain unknown to the brand logo service and the field loses focus", "data": "W3 = \"sqlite.org\"", "expected": "The grey pulsing placeholder is shown", "status": "PASS" },
+        { "title": "Then the site's favicon is shown as the brand visual", "expected": "The 32px avatar shows the favicon of W3, not the letter \"L\"", "status": "SKIP" },
+        { "title": "And the domain is shown under the brand name", "expected": "The W3 domain", "status": "PASS" }
+      ],
+      "notes": "Evidence only. GET /geo/api/v1/brands/logo?domain=sqlite.org -> 200 {\"domain\":\"sqlite.org\"} (no logo). Placeholder shown on blur (response delayed 2.5 s by a test route). Avatar img src=https://www.google.com/s2/favicons?domain=sqlite.org&sz=64 (32x32, natural 16x16), \"sqlite.org\" under the brand name. The observed UI matches the CSV expectations, but it cannot be told apart from the quota fallback because nike.com / licter.com / apple.com also return no logo. Whether Brandfetch has a logo for sqlite.org cannot be determined until the quota is restored, so the W3 choice cannot be challenged yet."
+    }
+  ]
+}

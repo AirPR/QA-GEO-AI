@@ -1,0 +1,62 @@
+{
+  "_meta": {
+    "kind": "base",
+    "epic": "epic102",
+    "description": "Données partagées entre TOUS les profils epic102 (GEO Dashboard Overview). Fusionnées avec common.json + le profil sélectionné via deep merge.",
+    "merge_pattern": "const JDD = deepMerge(JDD_COMMON, JDD_EPIC_BASE, JDD_PROFILE);",
+    "stories": ["GEO-79", "GEO-78", "GEO-107", "GEO-77", "GEO-76", "GEO-75", "GEO-74", "GEO-73", "GEO-72", "GEO-71"],
+    "note": "Ne mettre ici QUE les valeurs identiques sur tous les profils. Toute valeur qui varie reste en delta dans le fichier profil correspondant."
+  },
+
+  "dashboard": {
+    "url_path": "/dashboard/{{dashboard_uuid}}",
+    "_comment": "URL complète = `${base_url}/dashboard/${dashboard_uuid}` — dashboard_uuid vient du profil"
+  },
+
+  "snapshot": {
+    "default_label": "Analysis — 12 mai 2026",
+    "_comment_label": "Format affiché dans le selector de snapshots (header dashboard)"
+  },
+
+  "expected_texts": {
+    "loading_dashboard": "Loading dashboard",
+    "loading_executive_summary": "Generating executive summary",
+    "loading_perception_summary": "Generating perception summary",
+    "error_load_report": "Unable to load report. Please try again.",
+    "empty_no_data": "No data available",
+    "empty_no_perception": "No perception data available",
+    "empty_no_citations": "No citation sources available",
+    "section_top_concepts_heading": "Top Concepts",
+    "section_brand_rankings_heading": "Brand Rankings",
+    "section_matrix_heading": "Category Prioritization Matrix",
+    "section_citations_heading": "AI Citation Sources",
+    "section_perception_heading": "Perception Summary",
+    "section_executive_heading": "Executive Summary",
+    "section_kpis_heading": "Key Metrics"
+  },
+
+  "filters": {
+    "default_market_label": "All markets",
+    "default_llm_label": "All LLMs",
+    "_comment": "Labels par défaut quand aucun filtre n'est appliqué"
+  },
+
+  "matrix": {
+    "quadrant_labels": ["Stars", "Opportunity", "At Risk", "Monitor"],
+    "_comment": "Quadrants de la Category Prioritization Matrix (GEO-77) — labels confirmés depuis le spec test-suite-epic102.spec.js:954"
+  },
+
+  "kpi_cards": {
+    "labels": ["Total Mentions", "Sentiment Score", "Visibility Rank", "Share of Voice"],
+    "_comment": "Labels des KPI Cards (GEO-107) — peuvent varier selon les rapports"
+  },
+
+  "sidebar": {
+    "nav_labels": ["Overview", "Categories", "Manage Scope", "Actions Center"]
+  },
+
+  "drill_in_panel": {
+    "title_pattern": "{{concept_name}} — Sources",
+    "_comment_title": "Le panel d'analyse détaillée d'un concept affiche son nom + 'Sources'"
+  }
+}

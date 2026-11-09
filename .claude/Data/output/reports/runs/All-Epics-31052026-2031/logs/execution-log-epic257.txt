@@ -1,0 +1,117 @@
+[auth-setup] Session réutilisée (16min) → C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\processed\auth\storageState.json
+
+Running 22 tests using 3 workers
+
+  ✓   1 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:174:1 › TC-GEO-296-002 — Comptage multi-produit visibility (7.1s)
+  ✓   3 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:201:1 › TC-GEO-296-003 — Competitive target #1 (7.7s)
+  ✓   2 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:141:1 › TC-GEO-296-001 — Calcul SOV mention-density (8.2s)
+  ✓   5 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:256:1 › TC-GEO-296-005 — Resolution brand family (5.6s)
+  ✓   4 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:229:1 › TC-GEO-296-004 — Competitive target #2 (6.3s)
+  ✘   6 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:284:1 › TC-GEO-296-006 — SOV N/A sans responses (8.3s)
+  ✓   7 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:320:1 › TC-GEO-296-007 — SOV scope partiel (6.3s)
+  ✓   8 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:347:1 › TC-GEO-296-008 — Visibility list courte (6.7s)
+  ✓  10 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:456:1 › TC-GEO-297-002 — Couleurs quality pill SOV (5.9s)
+  ✓   9 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:406:1 › TC-GEO-297-001 — Mapping qualite SOV (6.4s)
+  ✓  11 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:375:1 › TC-GEO-296-009 — Exclusion des responses FAILED (7.2s)
+  ✘  13 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:557:1 › TC-GEO-298-001 — Ligne X-axis a 25 (6.2s)
+  ✓  12 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:508:1 › TC-GEO-297-003 — Quadrants seuil SOV 25 (13.0s)
+  ✓  14 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:600:1 › TC-GEO-298-002 — Descriptions quadrants SOV (16.6s)
+  ✓  16 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:699:1 › TC-GEO-298-004 — Tooltip limite a SOV (9.4s)
+  ✘  15 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:642:1 › TC-GEO-298-003 — Tooltip KPI Share of Voice (16.5s)
+  ✓  18 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:834:1 › TC-GEO-264-001 — KPI pills uniformes (6.0s)
+  -  19 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:961:1 › TC-GEO-299-001 — Narrative Executive Summary SOV
+  -  21 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:1015:6 › TC-GEO-299-002 — Email SOV mis a jour
+  -  22 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:1023:6 › TC-GEO-300-001 — Documentation SOV mise a jour
+  ✘  17 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:781:1 › TC-GEO-298-005 — Tooltip colonne SOV Brand Rankings (20.3s)
+  -  20 [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:902:1 › TC-GEO-264-002 — Etat N/A uniforme KPI
+
+
+  1) [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:284:1 › TC-GEO-296-006 — SOV N/A sans responses › Then la valeur Share of Voice affiche N/A sans erreur de division par zero 
+
+    Error: SOV must show N/A when scope has 0 responses — got: "28%"
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      309 |       ['N/A', 'n/a', 'NA'].some(v => valueText.toUpperCase().includes('N/A') || valueText.toUpperCase() === 'NA'),
+      310 |       `SOV must show N/A when scope has 0 responses — got: "${valueText}"`
+    > 311 |     ).toBe(true);
+          |       ^
+      312 |
+      313 |     // Assert no error dialog / toast
+      314 |     const errorAlert = page.locator('[role="alert"]:has-text("error"), [role="alert"]:has-text("Error")').first();
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic257.spec.js:311:7
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic257.spec.js:299:3
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic257-TC-GEO-296-006-—-SOV-N-A-sans-responses-chromium\error-context.md
+
+  2) [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:557:1 › TC-GEO-298-001 — Ligne X-axis a 25 › Then la frontiere verticale entre quadrants est affichee a 25 % et pas a 50 % 
+
+    Error: Matrix scatter chart SVG must be rendered (showing the 25% threshold axis)
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      594 |     const svgElement = page.locator(SEL.matrixHeading).locator('xpath=following::svg[1]').first();
+      595 |     const svgVisible = await svgElement.isVisible({ timeout: 8000 }).catch(() => false);
+    > 596 |     expect(svgVisible || tick25Visible, 'Matrix scatter chart SVG must be rendered (showing the 25% threshold axis)').toBe(true);
+          |                                                                                                                       ^
+      597 |   });
+      598 | });
+      599 |
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic257.spec.js:596:119
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic257.spec.js:572:3
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic257-TC-GEO-298-001-—-Ligne-X-axis-a-25-chromium\error-context.md
+
+  3) [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:642:1 › TC-GEO-298-003 — Tooltip KPI Share of Voice › Then un tooltip affiche Share of ranked mentions en EN ou Part des mentions classees en FR 
+
+    Error: SOV tooltip must say "Share of ranked mentions" (EN) or "Part des mentions classees" (FR) — got: "Your overall brand presence across AI responses. Each mention of your brand or its product variants counts separately. If Nike Air Max and Nike Pegasus both appear in the same answer, that's 2 mentions."
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoMatch[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected pattern: [32m/Share of ranked mentions|Part des mentions class[eé]es/i[39m
+    Received string:  [31m"Your overall brand presence across AI responses. Each mention of your brand or its product variants counts separately. If Nike Air Max and Nike Pegasus both appear in the same answer, that's 2 mentions."[39m
+
+      693 |       tooltipText,
+      694 |       `SOV tooltip must say "Share of ranked mentions" (EN) or "Part des mentions classees" (FR) — got: "${tooltipText}"`
+    > 695 |     ).toMatch(/Share of ranked mentions|Part des mentions class[eé]es/i);
+          |       ^
+      696 |   });
+      697 | });
+      698 |
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic257.spec.js:695:7
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic257.spec.js:666:3
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic257-TC-GEO--78905--Tooltip-KPI-Share-of-Voice-chromium\error-context.md
+
+  4) [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:781:1 › TC-GEO-298-005 — Tooltip colonne SOV Brand Rankings › When l Editor survole l entete SOV % 
+
+    TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.
+    Call log:
+    [2m  - waiting for locator('th:has-text("SOV"), th:has-text("SOV %")') to be visible[22m
+
+
+      794 |
+      795 |     // Find SOV % column header and hover
+    > 796 |     await page.waitForSelector(SEL.brandRankingsSOVHeader, { timeout: 15000 });
+          |                ^
+      797 |     const sovHeader = page.locator(SEL.brandRankingsSOVHeader).first();
+      798 |     await sovHeader.scrollIntoViewIfNeeded();
+      799 |     await sovHeader.hover();
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic257.spec.js:796:16
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic257.spec.js:787:3
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic257-TC-GEO--981e7--colonne-SOV-Brand-Rankings-chromium\error-context.md
+
+  4 failed
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:284:1 › TC-GEO-296-006 — SOV N/A sans responses 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:557:1 › TC-GEO-298-001 — Ligne X-axis a 25 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:642:1 › TC-GEO-298-003 — Tooltip KPI Share of Voice 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic257.spec.js:781:1 › TC-GEO-298-005 — Tooltip colonne SOV Brand Rankings 
+  4 skipped
+  14 passed (3.6m)

@@ -1,0 +1,428 @@
+{
+  "spec": "GEO-1002-GEO1235",
+  "runDate": "2026-10-19",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1235",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "summary": {
+    "total": 10,
+    "pass": 9,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1,
+    "successRate": 95,
+    "successRateExecuted": 95,
+    "verdict": "GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me, before and after the run)",
+    "organisation": "QA-GEO (org_name from /auth/me and the header switcher; existing session, no login or switch needed)",
+    "featureFlag": "unbranded_analysis = true: 5-step wizard (Analysis Type, Brand & Country, Categories, Prompts, Review); Brand analysis card + Continue used",
+    "role": "SUPER_ADMIN",
+    "pool": "P = 1000; U = 570 at start and at end (dashboard \"570 / 1000 prompts\", 6 analyses)",
+    "analysesCreated": [],
+    "stateChanges": "None. Session A (GB (EN) + FR (FR), 140 prompts: TC-001 to TC-005, TC-007 to TC-010) and session B (GB (EN), 1 category, 40 prompts: TC-006) both exited with Back to Dashboard > Exit and Discard. Edits, type changes and deletions only inside the unsaved wizard. No back-office change, no saved analysis touched.",
+    "consoleErrors": "Only brandfetch.io logo errors (unrelated)"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1235-001",
+      "title": "The prompt table shows the columns Prompt, Category, Type, Market and Actions",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has generated prompts",
+          "expected": "The Prompts step is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the table renders",
+          "expected": "All prompts of all markets are in one table, with no market or type tabs",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table shows its five columns",
+          "expected": "\"Prompt\", \"Category\", \"Type\", \"Market\", \"Actions\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session A: Decathlon (decathlon.com), markets United Kingdom - English (EN) + France - French (FR), AI Insights English (EN). Discovery (about 2 s) returned \"Sporting Goods\" (C1) and \"Outdoor Gear\" (C2), nothing removed. Generate Prompts (about 5 s): 140 rows, ring \"710 / 1000 prompts · 140 selected\". One single table (1 <table>, no role=tab / tablist element), rows of both markets GB (EN) and FR (FR) in it. Header cells: keep column (select-all checkbox \"Tick or untick every prompt\", wizard.promptTable.ariaSelectAll, plus the Show prompts menu, no text label), then \"Prompt\", \"Category\", \"Type\", \"Market\", \"Actions\" (textContent; rendered in upper case by CSS text-transform: PROMPT, CATEGORY, TYPE, MARKET, ACTIONS)."
+    },
+    {
+      "tc_id": "TC-GEO-1235-002",
+      "title": "Each prompt shows its category and one of the four type badges",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "expected": "The table renders",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user looks at the type badges",
+          "expected": "Every row carries a type badge",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each prompt shows one of the four types",
+          "expected": "Only \"Visibility\", \"Competitive\", \"Reputation\" or \"Brand Image\" badges",
+          "status": "PASS"
+        },
+        {
+          "title": "And each prompt shows its category",
+          "expected": "C1 or C2 for Visibility, Competitive and Reputation rows; \"Overview\" for Brand Image rows",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session, 140 rows. Every row has a pill badge in the Type column (0 rows without badge). Distinct types: Brand Image, Reputation, Visibility, Competitive only (no other value). Brand Image rows (20): category \"Overview\" for all 20. Visibility, Competitive and Reputation rows (120): category Sporting Goods (C1) or Outdoor Gear (C2) only. Per market x category x type: 10 prompts each."
+    },
+    {
+      "tc_id": "TC-GEO-1235-003",
+      "title": "Category header menu: sort, value checkboxes with live counts and Clear filter",
+      "story_id": "GEO-1235",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-003_step3a_c1_sorted.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-003_step3b_header_count.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "expected": "The Category header has a sort trigger",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the sort trigger of the Category header",
+          "expected": "A menu opens with \"Sort ascending\", \"Sort descending\", a checkbox list and \"Clear filter\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the checkbox list shows each value with its live count",
+          "expected": "C1 (60), C2 (60), Overview (20)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user checks C1 and chooses Sort ascending",
+          "expected": "Only C1 prompts are listed and the header shows the number 2 (1 value + 1 sort)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Clear filter",
+          "expected": "All prompts are listed again, the sort is removed and the header shows no number",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session, no filter. Category header has the trigger \"Sort and filter Category\" (data-testid wizard-prompt-col-menu-category). Menu: \"Sort ascending\", \"Sort descending\" (menuitemradio), checkbox list (menuitemcheckbox), \"Clear filter\" (wizard.promptTable.sortAscending / clearFilter). Checkbox list observed: Sporting Goods 60, Outdoor Gear 60, Other 0, Overview 20. The CSV expects C1 (60), C2 (60), Overview (20): the three expected values and counts match, but an extra value \"Other\" (0) is listed (wizard.promptTable.categoryOther, value id OTHER_CATEGORY), flag ON behaviour (GEO-1247), so PARTIAL: QA decision needed. C1 ticked + Sort ascending: 60 rows, all Sporting Goods, header reads \"CATEGORY 2\". Clear filter: 140 rows, first rows back to the original order (Overview / Brand Image GB (EN) first, so the sort is removed), header \"CATEGORY\" with no number, Sort ascending unchecked on reopen."
+    },
+    {
+      "tc_id": "TC-GEO-1235-004",
+      "title": "Type and Market menus: sort order, one sort at a time, counts follow the other filters",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-004_step2b_market_sort.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "expected": "No filter or sort is applied",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Type header menu and chooses Sort ascending",
+          "expected": "Rows are ordered Visibility, Reputation, Competitive, Brand Image",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the Market header menu and chooses Sort ascending",
+          "expected": "Rows are ordered on the market label (FR (FR) before GB (EN)); the Type sort is replaced and the Type header loses its number",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user checks C2 in the Category menu and opens the Type menu",
+          "expected": "Visibility (20), Competitive (20), Reputation (20), Brand Image (0) still listed",
+          "data": "Category = C2",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session, no filter or sort. Type menu: Sort ascending, Sort descending, Visibility 40, Reputation 40, Competitive 40, Brand Image 20, Other 0, Clear filter. Type Sort ascending: rows ordered Visibility (40), Reputation (40), Competitive (40), Brand Image (20); header \"TYPE 1\". Market menu: GB (EN) 70, FR (FR) 70. Market Sort ascending: all FR (FR) rows (70) then all GB (EN) rows (70); header \"MARKET 1\", Type header back to \"TYPE\" with no number and Type Sort ascending unchecked (one sort at a time). Category = Outdoor Gear (C2) ticked: 60 rows; Type menu: Visibility 20, Reputation 20, Competitive 20, Brand Image 0, Other 0 (Brand Image stays listed with 0). Extra value \"Other 0\" also listed (flag ON, wizard.promptTable.typeOther). Filters cleared afterwards."
+    },
+    {
+      "tc_id": "TC-GEO-1235-005",
+      "title": "Combined filters matching nothing show a no-results card while launch stays enabled",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-005_step3a_no_results.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "expected": "Review & Launch is enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user filters Category = C1 and Type = Brand Image",
+          "expected": "No prompt matches",
+          "data": "Category: C1; Type: Brand Image",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a no-results card names the filters in conflict",
+          "expected": "The card names Category C1 and Type Brand Image and offers \"Clear all filters\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And launch stays enabled",
+          "expected": "Review & Launch is enabled; \"N selected\" is unchanged",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Clear all filters",
+          "expected": "All prompts are listed and no header shows a number",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same session, 140 rows, \"710 / 1000 prompts · 140 selected\", Review & Launch enabled. Category = Sporting Goods (C1) + Type = Brand Image: 0 rows; card data-testid wizard-prompt-no-results: title \"No prompts match these filters\" (wizard.promptTable.noResultsTitle), body \"Category Sporting Goods and type Brand Image have no prompts in common. Widen one of the two, or clear the filters.\" (wizard.promptTable.noResultsTwo), button \"Clear all filters\" (wizard.promptTable.clearAllFilters). Headers \"CATEGORY 1\" and \"TYPE 1\". Review & Launch enabled, ring still \"710 / 1000 prompts · 140 selected\". Clear all filters: 140 rows, card gone, no header number."
+    },
+    {
+      "tc_id": "TC-GEO-1235-006",
+      "title": "An empty table keeps the filters and the pool tracker and shows its own Add prompt",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-006_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-006_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-006_step2b_empty_card.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given every prompt of the analysis was deleted",
+          "expected": "The table has no row",
+          "data": "40 trash clicks",
+          "status": "PASS"
+        },
+        {
+          "title": "When the table renders",
+          "expected": "An empty-state card is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the filters and the pool tracker stay",
+          "expected": "Header filters and the ring \"U / P\" are still displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the empty-state card carries its own Add prompt",
+          "expected": "The card shows an Add prompt button; Review & Launch is disabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Add prompt in the card",
+          "expected": "The editable new row opens",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session B (minimal scope): Decathlon, 1 market United Kingdom - English (EN); discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed (dialog Remove). Generate Prompts: 40 rows (10 Brand Image Overview, 10 Visibility, 10 Competitive, 10 Reputation for Sporting Goods, GB (EN)), ring \"610 / 1000 prompts · 40 selected\". 40 trash clicks (no confirm dialog; toast \"Prompt deleted.\" + Undo, wizard.common.questionDeleted). Empty table: 0 rows, header row still displayed with its 4 filter triggers enabled (Show prompts, Category, Type, Market; Category menu lists Sporting Goods 0, Other 0, Overview 0); ring \"570 / 1000 prompts · 0 selected\" still displayed. Empty-state card data-testid wizard-prompt-empty: \"No prompts yet\" (wizard.promptTable.emptyTitle) / \"Add your first prompt, or adjust the filters above. Suggested prompts appear at the end of the table when there are any.\" (wizard.promptTable.emptyBody) with its own \"Add prompt\" button (wizard-prompt-empty-add-btn); the toolbar Add prompt stays too. Review & Launch disabled. Add prompt in the card: the editable new row opens (wizard-prompt-draft-row, text input focused, Category, Type, Market selects, confirm and Cancel), card gone. Draft cancelled, wizard exited with Exit and Discard."
+    },
+    {
+      "tc_id": "TC-GEO-1235-007",
+      "title": "The pool tracker line and the table header stay pinned while the body scrolls",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-007_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-007_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with 140 prompts",
+          "expected": "The pool tracker line and the table header are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user scrolls down until the pool tracker line reaches the top",
+          "expected": "The tracker line stops at the top",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the tracker line and the table header stay pinned",
+          "expected": "The ring and the column headers stay visible",
+          "data": "Keep scrolling to the last row",
+          "status": "PASS"
+        },
+        {
+          "title": "And only the table body scrolls",
+          "expected": "The rows move under the pinned header; the footer stays fixed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session A, 140 rows. Scroll container data-testid wizard-layout-content (top 113 px, padding-top 28 px). scrollTop 0: tracker line (\"710 / 1000 prompts · 140 selected\" + Add prompt, sticky top-0) at 183 px, header at 232 px. From scrollTop 100 to the end (6368): tracker line stays at 141 px, column header at 189 px, footer (Back / Review & Launch) fixed at 672 px; only the rows move (first visible row index 1 to 131), last row reached. Side finding (visual, already seen on GEO-1233): the 28 px gap between the container top and the pinned tracker line lets scrolled rows show above the tracker line (see step3_then)."
+    },
+    {
+      "tc_id": "TC-GEO-1235-008",
+      "title": "Editing a prompt changes only its wording",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-008_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-008_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a prompt of C1, Reputation, GB (EN)",
+          "expected": "R shows its wording, C1, Reputation, GB (EN)",
+          "data": "Prompt R",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user edits the wording of R without \"?\"",
+          "expected": "The edit field shows the new text",
+          "data": "New wording: \"Is Decathlon a trusted brand for running gear\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user saves",
+          "expected": "R shows \"Is Decathlon a trusted brand for running gear?\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only the wording changed",
+          "expected": "Category C1, type Reputation, market GB (EN) and the ticked state of R are unchanged",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session A. R = \"What is Decathlon known for in Sporting Goods?\" - Sporting Goods (C1) - Reputation - GB (EN), ticked. Edit prompt (pencil) turns the wording into a text input (wizard-prompt-row-input-<id>); Category and Type stay as they are. New wording \"Is Decathlon a trusted brand for running gear\" typed, input shows it. Saved with Enter (no separate Save button is displayed in edit mode). Row: \"Is Decathlon a trusted brand for running gear?\" (\"?\" added), Sporting Goods, Reputation, GB (EN), still ticked (data-kept=true); ring unchanged \"705 / 1000 prompts · 135 selected\" (5 rows unticked earlier for TC-010)."
+    },
+    {
+      "tc_id": "TC-GEO-1235-009",
+      "title": "Row selects change category and type with the Brand Image and placeholder rules",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-009_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-009_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-009_step2b_type_back_visibility.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-009_step2c_c1_visibility.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-009_step3a_competitive_hover.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-009_step3b_competitive_click.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user hovers a Visibility row of C1",
+          "expected": "Category and Type show as selects; Market is not editable",
+          "data": "Prompt V",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user sets its type to Brand Image",
+          "expected": "The category becomes \"Overview\"",
+          "data": "Type: Brand Image",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sets its type back to Visibility",
+          "expected": "A category is asked first; after picking C1 the row reads C1 - Visibility",
+          "data": "Type: Visibility",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user tries to change the type of a Competitive prompt containing [Competitor N]",
+          "expected": "The change is refused with a message asking to remove the placeholders first",
+          "data": "Competitive prompt with \"[Competitor 1]\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session A. V = \"Top Sporting Goods?\" - Sporting Goods - Visibility - GB (EN). On hover: Category and Type become comboboxes (aria-label \"Category\" / \"Type\"); the Market cell has no control (plain text GB (EN)). Type options on an existing row: Visibility, Reputation, Competitive, Brand Image (no \"Other\" option, unlike the Add prompt draft row). Type = Brand Image: category becomes \"Overview\", category select disabled. Type back to Visibility: category shows the placeholder \"Category\" and its select opens by itself (Sporting Goods, Outdoor Gear); Sporting Goods picked: row reads Sporting Goods - Visibility, still ticked. Competitive prompt \"Best for Sporting Goods: Decathlon, [Competitor 1], [Competitor 2] or [Competitor 3]?\": Type select opens, Visibility picked: refused, inline alert \"Remove the competitor placeholders first.\" (wizard.promptTable.competitorPlaceholders, role=alert), type stays Competitive."
+    },
+    {
+      "tc_id": "TC-GEO-1235-010",
+      "title": "Show prompts menu filters All, Selected only or Unselected only",
+      "story_id": "GEO-1235",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-010_step1_given.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-010_step2_when.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-010_step2b_unselected.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-010_step2c_selected_scrolled.png",
+        "screenshots-GEO-1002-GEO1235/TC-GEO-1235-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given 135 prompts are ticked and 5 unticked",
+          "expected": "\"135 selected\" is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Show prompts menu of the Prompt header",
+          "expected": "\"All\", \"Selected only\" and \"Unselected only\" are offered",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user chooses Unselected only",
+          "expected": "Only the 5 greyed rows are listed; \"135 selected\" stays in view",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user chooses Selected only",
+          "expected": "Only the 135 ticked rows are listed; \"135 selected\" stays in view",
+          "status": "PASS"
+        },
+        {
+          "title": "Then choosing All lists every prompt",
+          "expected": "140 rows are listed",
+          "data": "All",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Session A. 5 prompts unticked (2 Brand Image, 1 Reputation C1, 1 Visibility C1, 1 Reputation C2): ring \"705 / 1000 prompts · 135 selected\", unticked rows greyed. Show prompts menu (wizard-prompt-show-menu, aria \"Show prompts\"): \"All\" (checked), \"Selected only\", \"Unselected only\" (wizard.promptTable.showSelected / showUnselected). Unselected only: 5 rows, all unticked, \"135 selected\" in view. Selected only: 135 rows, all ticked, \"135 selected\" still in view after scrolling down. Keep header shows \"1\" while a view other than All is active. All: 140 rows, header number gone. Extra: with Category = Sporting Goods only, 60 rows and still \"135 selected\" (count of the whole analysis)."
+    }
+  ]
+}

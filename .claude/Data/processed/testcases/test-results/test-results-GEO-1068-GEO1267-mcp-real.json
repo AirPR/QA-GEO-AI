@@ -1,0 +1,387 @@
+{
+  "spec": "GEO-1068-GEO1267",
+  "runDate": "2026-10-21",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1068.csv",
+  "story": "GEO-1267",
+  "environment": "staging",
+  "notes": [
+    "Pre-run 2026-10-21 ~12:07: Auth0 login performed in the isolated MCP context (credentials not logged). GET /geo/api/v1/auth/me -> language en-GB, org_name QA-GEO, features.unbranded_analysis=true. No organisation switch performed. Write guard installed on the context before the first navigation (GET only + /reports/{id}/export/(pptx|xlsx|pdf)). Cookie banner dismissed with 'Essential Only' (browser-side cookie only).",
+    "RUN INTERRUPTED 2026-10-21 ~12:15: another MCP client is driving the SAME shared browser page (MCP snapshots 12:14:37-12:15:25 not issued by this run; viewport changed 1280x720 -> 1440x900; page navigated from the Toyota dashboard to /geo/new 'Create new analysis' - Unbranded wizard, Topic & Country step, while TC-GEO-1267-006 was in progress). Execution stopped to avoid acting on another session's page. Org still QA-GEO, en-GB at 12:15. The write guard (route **/geo/api/**) is still installed on the shared context; context.unrouteAll() NOT called because it would also remove routes of the other session.",
+    "(Superseded - TC-006 re-run in full after resume) TC-GEO-1267-006 partial observations before interruption (not recorded as a result): filters 28 Sept - 4 Oct 2026, All Countries (= US, FR, ES, the only 3 markets), AI engines ChatGPT+Gemini+Perplexity (Grok and Claude toggles disabled). Fiabilité panel: green header rgb(5,150,105), name + close button, '13% frequency • Positive' (baseline Overview 9%), Sources section with 4 items + 'All sources 23'; 'Sources - Fiabilité' modal lists 23 unique sources (= baseline 23); no quote section/text in panel or modal. Category-level frequency check and close-button step not executed.",
+    "Resumed 2026-10-21 ~12:27 after the coordinator confirmed the other MCP session (GEO-1509 rerun) finished and removed its routes. Guard re-installed (GET only on **/geo/api/** + export allowlist), viewport reset to 1280x720, single tab. GET /auth/me -> QA-GEO, en-GB, unbranded_analysis=true. TC-GEO-1267-006 re-run from the start.",
+    "End of run 2026-10-21 ~12:34: GET /auth/me -> org QA-GEO, en-GB (no organisation change during the resumed run). context.unrouteAll() done. No POST/PUT/DELETE sent; one extra read-only GET (category top-concepts with llms incl. grok) for the TC-006 control; no export used."
+  ],
+  "summary": {
+    "total": 8,
+    "pass": 7,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1,
+    "successRate": 93.75,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1267-001",
+      "title": "TC-GEO-1267-001 - Concept detail panel shows frequency and the polarity label with no sentiment score",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS",
+          "expected": "The Top Concepts list is displayed",
+          "observed": "B = Toyota (439acd96), Overview, default filters. Card \"Top Topics Associated with Your Brand\" displayed with 31 rows (28 Positive, 1 Mixed, 2 Negative)."
+        },
+        {
+          "title": "When the user clicks the row of a Positive concept",
+          "status": "PASS",
+          "expected": "The concept detail panel opens with a coloured header showing the concept name and the close button",
+          "observed": "Panel closed first (0 panel), then click on row \"fiabilité\" (Positive) -> panel opens: green header rgb(5,150,105) with h4 \"fiabilité\" and button aria-label \"Close detail panel\"."
+        },
+        {
+          "title": "Then the header shows the frequency and the polarity label",
+          "status": "PASS",
+          "expected": "The header reads \"{f}% frequency • Positive\", \"Positive\" in a white pill (e.g. \"90% frequency • Positive\")",
+          "observed": "Header reads \"45% frequency • Positive\"; \"Positive\" is a rounded-full pill, background rgb(255,255,255), text emerald-700."
+        },
+        {
+          "title": "And no sentiment score is shown in the panel",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown anywhere in the panel",
+          "observed": "Panel text: 0 signed number, 0 occurrence of \"sentiment\"."
+        },
+        {
+          "title": "And the panel frequency matches the clicked row",
+          "status": "PASS",
+          "expected": "The frequency % in the header equals the frequency % of the row of P",
+          "observed": "Row \"fiabilité | 88 sources • Positive | 45%\" = header \"45% frequency\"."
+        }
+      ],
+      "notes": "Panel = inline detail panel to the right of the list (testids dashboard-concept-detail-polarity-label, dashboard-concept-sources-section). Sources section shows 4 items + \"All sources 88\" (= row 88 sources).",
+      "story_id": "GEO-1267",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-001_step1_given.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-001_step2_when.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-001_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1267-002",
+      "title": "TC-GEO-1267-002 - Panel header keeps its polarity colour with a readable white label for Mixed and Negative",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS",
+          "expected": "The Top Concepts list is displayed",
+          "observed": "Toyota (439acd96) Overview, \"Top Topics Associated with Your Brand\" with All (31), Mixed (1), Negative (2)."
+        },
+        {
+          "title": "When the user clicks the row of a Mixed concept",
+          "status": "PASS",
+          "expected": "The panel opens with the header in the Mixed (amber) colour and reads \"{f}% frequency • Mixed\", \"Mixed\" in a white pill readable on the header",
+          "observed": "Row \"prix élevé | 12 sources • Mixed | 6%\" -> header background rgb(245,158,11) (amber-500), text \"6% frequency • Mixed\", \"Mixed\" in a white pill (bg rgb(255,255,255), text amber-700) - readable."
+        },
+        {
+          "title": "And the user closes the panel and clicks the row of a Negative concept",
+          "status": "PASS",
+          "expected": "The panel opens with the header in the Negative (red) colour and reads \"{f}% frequency • Negative\", \"Negative\" in a white pill readable on the header",
+          "observed": "Panel closed (0 panel), then row \"bruit à l'accélération | 14 sources • Negative | 7%\" -> header rgb(220,38,38) (red-600), \"7% frequency • Negative\", \"Negative\" in a white pill (text red-600) - readable (see step3 screenshot)."
+        },
+        {
+          "title": "Then neither panel shows a sentiment score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown anywhere in the panel for M and N",
+          "observed": "M and N panels: 0 signed number, 0 \"sentiment\" text."
+        }
+      ],
+      "notes": "Positive reference (TC-001): header rgb(5,150,105) emerald-600. Side observation: the card subtitle still reads \"Click on a topic to view quotes and sources\" although the brand panel shows sources only (no quotes) - wording question for PO.",
+      "story_id": "GEO-1267",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-002_step1_given.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-002_step2_when.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-002_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1267-003",
+      "title": "TC-GEO-1267-003 - Unbranded concept detail panel shows frequency and the polarity label with no score",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of unbranded analysis U",
+          "status": "PASS",
+          "expected": "\"Top Topics in the Category\" is displayed",
+          "observed": "Electric bikes (42c3ab89) Overview, default filters (20 Oct 2026, AI Engines 2, United Kingdom). \"Top Topics in the Category\" with All (12): Positive (9), Mixed (1), Negative (2); rows \"{q} quotes • {n} sources • {label}\"."
+        },
+        {
+          "title": "When the user clicks the row of a topic",
+          "status": "PASS",
+          "expected": "The detail panel opens with a coloured header showing the topic name and the close button",
+          "observed": "Row \"integrated accessories | 3 quotes • 16 sources • Positive | 67%\" -> panel with green header rgb(5,150,105), h4 \"integrated accessories\", button \"Close detail panel\"."
+        },
+        {
+          "title": "Then the header shows the frequency and the polarity label with no score",
+          "status": "PASS",
+          "expected": "The header reads \"{f}% frequency • Positive\" with a white pill; No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown anywhere in the panel",
+          "observed": "Header \"67% frequency • Positive\" (= row 67%), \"Positive\" in a white pill (bg rgb(255,255,255), text emerald-700); 0 signed number, 0 \"sentiment\" text."
+        },
+        {
+          "title": "When the user opens the Other category page of U and clicks a concept row",
+          "status": "PASS",
+          "expected": "The panel header reads \"{f}% frequency • {Positive | Mixed | Negative}\" with a white pill and shows no sentiment score",
+          "observed": "Category Other (003f836d): 4 topics (3 Positive, 1 Negative, no Mixed). Row \"commuting suitability\" -> \"commuting suitability 100% frequency • Positive\", white pill, 0 signed number, 0 \"sentiment\"."
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-003_step1_given.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-003_step2_when.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-003_step3_then.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-003_step4_other.png"
+      ],
+      "notes": "Other category has no Mixed concept (known test data).",
+      "story_id": "GEO-1267",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1267-004",
+      "title": "TC-GEO-1267-004 - Concept detail panel shows no barometer gauge",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of brand analysis B",
+          "status": "PASS",
+          "expected": "The Top Concepts list is displayed",
+          "observed": "Toyota (439acd96) Overview, \"Top Topics Associated with Your Brand\" displayed (31 rows)."
+        },
+        {
+          "title": "When the user clicks the row of a Positive concept",
+          "status": "PASS",
+          "expected": "The concept detail panel opens",
+          "observed": "Row \"fiabilité\" -> panel opens: \"fiabilité 45% frequency • Positive\"."
+        },
+        {
+          "title": "Then the barometer gauge is not shown",
+          "status": "PASS",
+          "expected": "No Negative-to-Positive gauge bar and no cursor are displayed in the panel",
+          "observed": "Panel DOM: 0 element with gauge/barometer/cursor/slider/meter/progressbar class, role or testid, 0 gradient background, 0 input; only svg = close icon; no Negative...Positive scale text. Panel = header + Sources section only."
+        },
+        {
+          "title": "When the user opens the panel of a Mixed and then of a Negative concept",
+          "status": "PASS",
+          "expected": "Neither panel shows the gauge bar or its cursor",
+          "observed": "\"prix élevé 6% frequency • Mixed\" and \"bruit à l'accélération 7% frequency • Negative\": same checks, 0 gauge element, 0 gradient, 0 cursor."
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-004_step1_given.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-004_step2_when.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-004_step3_then_mixed.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-004_step3_then.png"
+      ],
+      "notes": "Gauge absence verified by DOM inspection plus visual check of the screenshots (Positive, Mixed, Negative).",
+      "story_id": "GEO-1267",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1267-005",
+      "title": "TC-GEO-1267-005 - Unbranded concept detail panel shows no barometer gauge",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of unbranded analysis U",
+          "status": "PASS",
+          "expected": "\"Top Topics in the Category\" is displayed",
+          "observed": "Electric bikes (42c3ab89) Overview, \"Top Topics in the Category\" All (12)."
+        },
+        {
+          "title": "When the user clicks the row of a topic",
+          "status": "PASS",
+          "expected": "The detail panel opens",
+          "observed": "Negative topic \"battery degradation | 3 quotes • 10 sources • Negative | 33%\" -> panel \"battery degradation 33% frequency • Negative\", red header rgb(220,38,38)."
+        },
+        {
+          "title": "Then the barometer gauge is not shown",
+          "status": "PASS",
+          "expected": "No Negative-to-Positive gauge bar and no cursor are displayed in the panel",
+          "observed": "0 gauge/barometer/cursor/slider/meter element, 0 gradient, only svg = close icon; panel content = header + Sources."
+        },
+        {
+          "title": "When the user opens the Other category page of U and clicks a concept row",
+          "status": "PASS",
+          "expected": "The panel shows no gauge bar and no cursor",
+          "observed": "Other (003f836d), row \"servicing networks | 1 quote • 5 sources • Negative | 50%\" -> \"servicing networks 50% frequency • Negative\", 0 gauge element, 0 cursor, 0 score."
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-005_step1_given.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-005_step2_when.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-005_step3_then.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-005_step4_other.png"
+      ],
+      "notes": "Gauge absence verified by DOM inspection and screenshots.",
+      "story_id": "GEO-1267",
+      "duration": 0,
+      "error": null
+    },
+    {
+      "tc_id": "TC-GEO-1267-006",
+      "title": "TC-GEO-1267-006 - Concept detail panel keeps its sources and existing content, with no quotes added",
+      "status": "PARTIAL",
+      "error": "Header frequency 13% vs baseline 9% (Overview). Baseline filters cannot be fully reproduced: Grok is turned off for O (toggle disabled) and category \"Voitures électriques\" was removed after the 2026-10-05 baseline, which shrinks the Overview denominator. Category-level control (Voitures hybrides): UI 27% with 3 engines, read-only GET incl. grok = 28% = baseline category sheet. Frequency cannot be validated as written; all other checks pass.",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PARTIAL",
+          "expected": "The Top Concepts list is displayed",
+          "observed": "Toyota (439acd96) Overview, custom period 28 Sept 2026 – 4 Oct 2026, All Countries (= United States, France, Spain, the only 3 markets of O), AI engines ChatGPT, Gemini, Perplexity. Grok cannot be selected (toggle disabled) -> baseline filters not fully applicable. List displayed: All (7), Positive (5), Mixed (1), Negative (1)."
+        },
+        {
+          "title": "When the user clicks the row of concept Fiabilité",
+          "status": "PASS",
+          "expected": "The concept detail panel opens",
+          "observed": "Row \"Fiabilité | 23 sources • Positive | 13%\" -> panel opens."
+        },
+        {
+          "title": "Then the header keeps the concept name, its polarity colour and the close button",
+          "status": "PASS",
+          "expected": "The header shows \"Fiabilité\" on the Positive (green) colour, with the close button",
+          "observed": "Header h4 \"Fiabilité\" on rgb(5,150,105) (green), button \"Close detail panel\" present."
+        },
+        {
+          "title": "And the frequency is still shown",
+          "status": "PARTIAL",
+          "expected": "The header shows \"9% frequency\"",
+          "observed": "Header shows \"13% frequency\" (red frame on step3_then). Overview value distorted by the scope change of O (no Grok, category Voitures électriques removed). Control at category level, Voitures hybrides: panel header \"27% frequency\" (3 engines); read-only GET categories/Voitures hybrides/top-concepts with llms incl. grok -> Fiabilité frequency 0.28, sourcesCount 23, quotes [] = baseline \"Voitures hybrides\" sheet (28%, 23 sources). Frequency still shown, value per category unchanged; the 9% Overview value cannot be reproduced."
+        },
+        {
+          "title": "And the sources section lists as many cited sources as before",
+          "status": "PASS",
+          "expected": "The sources section is displayed and lists 23 sources",
+          "observed": "Sources section displayed (4 preview items + \"All sources 23\"); the \"Sources - Fiabilité\" pop-up reads \"23 sources\" and lists 23 unique source URLs = baseline 23."
+        },
+        {
+          "title": "And no quote is shown in the panel",
+          "status": "PASS",
+          "expected": "The panel has no quotes section and no quote text",
+          "observed": "Panel and sources pop-up: no quotes section, no \"quote\" text, no quote element (API quotes: [])."
+        },
+        {
+          "title": "When the user clicks the close button",
+          "status": "PASS",
+          "expected": "The panel closes and the Top Concepts list is displayed",
+          "observed": "Click \"Close detail panel\" -> panel removed (0 panel), list \"Perception topics\" visible, URL unchanged."
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-006_step1_given.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-006_step2_when.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-006_step3_then.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-006_step3_all_sources.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-006_step3_category_control.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-006_step4_close.png"
+      ],
+      "notes": "Same test-data limitation as TC-GEO-1266-007. CSV/test-data change recommended: compare the frequency on the Voitures hybrides category (baseline sheet 28%) or take a new baseline of O. Re-run from the start after the session collision (first attempt interrupted at 12:15).",
+      "story_id": "GEO-1267",
+      "duration": 0
+    },
+    {
+      "tc_id": "TC-GEO-1267-007",
+      "title": "TC-GEO-1267-007 - An analysis created before the release shows no score and no barometer in the concept panel",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O created before the release",
+          "status": "PASS",
+          "expected": "The Top Concepts list is displayed",
+          "observed": "Toyota (439acd96, created before GEO-R1.3) Overview, 28 Sept – 4 Oct 2026, All Countries (US, FR, ES), ChatGPT + Gemini + Perplexity (Grok disabled for O, cannot be selected). List displayed: All (7)."
+        },
+        {
+          "title": "When the user clicks the row of a Negative concept",
+          "status": "PASS",
+          "expected": "The concept detail panel opens with its frequency and the \"Negative\" label in the header",
+          "observed": "Row \"Bruit à l'accélération | 7 sources • Negative | 4%\" -> red header rgb(220,38,38) \"Bruit à l'accélération 4% frequency • Negative\", \"Negative\" in a white pill."
+        },
+        {
+          "title": "Then no sentiment score is shown in the panel",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-43 sentiment\") is shown anywhere in the panel",
+          "observed": "0 signed number, 0 \"sentiment\" text in the panel (baseline had \"-43\")."
+        },
+        {
+          "title": "And the barometer gauge is not shown",
+          "status": "PASS",
+          "expected": "No Negative-to-Positive gauge bar and no cursor are displayed",
+          "observed": "0 gauge/barometer/cursor/slider/meter element, 0 gradient, only svg = close icon; panel = header + Sources (All sources 7)."
+        }
+      ],
+      "notes": "Grok not selectable on O (turned off after the baseline); it does not affect the absence checks of this TC. Frequency not compared with the baseline (not in scope of this TC).",
+      "story_id": "GEO-1267",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-007_step1_given.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-007_step2_when.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-007_step3_then.png"
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1267-008",
+      "title": "TC-GEO-1267-008 - Unbranded concept detail panel keeps its sources and content, with no quotes added",
+      "status": "PASS",
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of unbranded analysis U",
+          "status": "PASS",
+          "expected": "\"Top Topics in the Category\" is displayed",
+          "observed": "Electric bikes (42c3ab89) Overview, \"Top Topics in the Category\" All (12)."
+        },
+        {
+          "title": "When the user clicks the row of a topic",
+          "status": "PASS",
+          "expected": "The detail panel opens with a coloured header showing the topic name, the frequency and the close button",
+          "observed": "Mixed topic \"legal requirements | 1 quote • 5 sources • Mixed | 17%\" -> amber header rgb(245,158,11), \"legal requirements\", \"17% frequency • Mixed\" (white pill), button \"Close detail panel\"."
+        },
+        {
+          "title": "Then the sources section lists the cited sources of the topic",
+          "status": "PASS",
+          "expected": "The sources section is displayed with at least one source",
+          "observed": "\"Sources\" section with 4 preview items + \"All sources 5\"; pop-up \"Sources - legal requirements | 5 sources\"."
+        },
+        {
+          "title": "And no quote is shown in the panel",
+          "status": "PASS",
+          "expected": "The panel has no quotes section and no quote text",
+          "observed": "Panel and sources pop-up: 0 quote element, 0 \"quote\" word, no quote text (the row itself still shows \"1 quote\" in its meta line, by design)."
+        },
+        {
+          "title": "When the user clicks the close button",
+          "status": "PASS",
+          "expected": "The panel closes and Top Topics is displayed",
+          "observed": "Panel removed, \"Top Topics in the Category\" list visible, URL unchanged."
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-008_step1_given.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-008_step2_when.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-008_step3_all_sources.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-008_step3_then.png",
+        "screenshots-GEO-1068-GEO1267/TC-GEO-1267-008_step4_close.png"
+      ],
+      "notes": "Side observation: the card subtitle reads \"Click on a topic to view quotes and sources\" but the panel shows sources only (no quotes, AC-3/D4). One source title reads \"Report title can be placed here on three lines\" (rospa.com PDF) - source metadata, not GEO-1267.",
+      "story_id": "GEO-1267",
+      "duration": 0,
+      "error": null
+    }
+  ],
+  "runFolder": ".claude/Data/output/reports/runs/21102026-1234/"
+}

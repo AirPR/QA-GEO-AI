@@ -1,0 +1,611 @@
+{
+  "spec": "GEO-1035-mcp",
+  "runDate": "2026-09-24",
+  "runMode": "mcp-playwright",
+  "url": "https://geo.onclusive.com/geo",
+  "summary": {
+    "total": 22,
+    "pass": 13,
+    "fail": 0,
+    "skip": 5,
+    "partial": 4
+  },
+  "results": [
+    {
+      "tc_id": "SC01",
+      "title": "Switcher Placement and Anatomy",
+      "story_id": "GEO-1129",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC01_step1_given.png",
+        "screenshots-GEO-1035-mcp/SC01_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC01_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user on GEO dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When observing the top bar",
+          "status": "PASS"
+        },
+        {
+          "title": "Then switcher right of logo with avatar label name chevron",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Logo x=20-114 switcher x=126. app-topbar-org-switcher-trigger-btn. avatar+Organisation label+Onclusive+chevron."
+    },
+    {
+      "tc_id": "SC02",
+      "title": "Switcher Behaviour Mirrors UP",
+      "story_id": "GEO-1129",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC02_step1_given.png",
+        "screenshots-GEO-1035-mcp/SC02_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC02_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user opens org switcher",
+          "status": "PASS"
+        },
+        {
+          "title": "When dropdown is open",
+          "status": "PASS"
+        },
+        {
+          "title": "Then search field role tags active org highlighted suspended org access-denied",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Search input present. Onclusive active bg-sky-50. QA-GEO suspended: clicking shows access denied."
+    },
+    {
+      "tc_id": "SC03",
+      "title": "Organisation Switch Context Refresh",
+      "story_id": "GEO-1129",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC03_step1_given.png",
+        "screenshots-GEO-1035-mcp/SC03_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC03_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user on dashboard Onclusive active",
+          "status": "PASS"
+        },
+        {
+          "title": "When selecting QA-GEO from switcher",
+          "status": "PASS"
+        },
+        {
+          "title": "Then transition screen and previous org data cleared",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "QA-GEO click triggers inline access denied. Full transition not verifiable. Onclusive data preserved."
+    },
+    {
+      "tc_id": "SC04",
+      "title": "Switcher Present on All Three Pages",
+      "story_id": "GEO-1129",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC04_step1_given.png",
+        "screenshots-GEO-1035-mcp/SC04_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC04_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user navigates GEO pages",
+          "status": "PASS"
+        },
+        {
+          "title": "When visiting Dashboard Settings Administration",
+          "status": "PASS"
+        },
+        {
+          "title": "Then org switcher present on all three",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Confirmed on /geo /geo/settings /geo/backoffice/users."
+    },
+    {
+      "tc_id": "SC05",
+      "title": "Switcher Absent Without Org Assignment",
+      "story_id": "GEO-1129",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given user with no org assigned",
+          "status": "SKIP"
+        },
+        {
+          "title": "When viewing GEO top bar",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then no org switcher visible",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: Requires user account with no organisation assigned."
+    },
+    {
+      "tc_id": "SC06",
+      "title": "UP Top Bar Unaffected",
+      "story_id": "GEO-1129",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given UP user opens GEO",
+          "status": "SKIP"
+        },
+        {
+          "title": "When viewing org switcher",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then placement and behaviour unchanged",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: Requires UP-mode access. Not available."
+    },
+    {
+      "tc_id": "SC07",
+      "title": "Logo Identity in OS Mode",
+      "story_id": "GEO-1129",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC07_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC07_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC07_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user opens GEO",
+          "status": "PASS"
+        },
+        {
+          "title": "When observing top-left corner",
+          "status": "PASS"
+        },
+        {
+          "title": "Then logo reads Onclusive GEO not Onclusive Social",
+          "status": "PASS"
+        }
+      ],
+      "notes": "img alt=Onclusive GEO at x=20 y=5. No Onclusive Social logo in DOM."
+    },
+    {
+      "tc_id": "SC08",
+      "title": "Home Tab on Settings Page",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC04_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC08_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC08_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user navigates to Settings",
+          "status": "PASS"
+        },
+        {
+          "title": "When viewing sub-navigation bar",
+          "status": "PASS"
+        },
+        {
+          "title": "Then Accueil link and Parametres active shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "subnav-social: a[subnav-link-home]=Accueil + span[subnav-link-settings][aria-current=page]=Parametres with bg green underline."
+    },
+    {
+      "tc_id": "SC09",
+      "title": "Home Tab on Administration Page",
+      "story_id": "GEO-1130",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC04_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC09_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC09_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given super admin OS user navigates to Administration",
+          "status": "PASS"
+        },
+        {
+          "title": "When viewing sub-navigation bar",
+          "status": "PASS"
+        },
+        {
+          "title": "Then Accueil link and Administration active shown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "subnav-social on /geo/backoffice/users: a=Accueil + span[subnav-link-backoffice][aria-current=page]=Administration."
+    },
+    {
+      "tc_id": "SC10",
+      "title": "Home Tab Navigation",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC10_step1_given.png",
+        "screenshots-GEO-1035-mcp/SC10_step1_given.png",
+        "screenshots-GEO-1035-mcp/SC10_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user is on Settings page",
+          "status": "PASS"
+        },
+        {
+          "title": "When clicking Accueil tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then lands on /geo homepage without full page reload",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Click subnav-link-home from /geo/settings -> URL became /geo. SPA React router navigation."
+    },
+    {
+      "tc_id": "SC11",
+      "title": "No Sub-Nav on GEO Homepage",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC11_step1_given.png",
+        "screenshots-GEO-1035-mcp/SC11_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC11_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user is on GEO homepage",
+          "status": "PASS"
+        },
+        {
+          "title": "When observing below top bar",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no sub-navigation bar displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "No subnav-social in DOM on /geo. Dashboard content directly below top bar."
+    },
+    {
+      "tc_id": "SC12",
+      "title": "Active Tab Click Is a No-Op",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC09_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC09_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC09_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user on Settings or Administration",
+          "status": "PASS"
+        },
+        {
+          "title": "When clicking already-active tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no navigation and no page reload",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Active tab is span not a. JS click on subnav-link-backoffice: urlChanged=false confirmed."
+    },
+    {
+      "tc_id": "SC13",
+      "title": "Sub-Navigation Tab Labels Translated",
+      "story_id": "GEO-1131",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC13_step1_given.png",
+        "screenshots-GEO-1035-mcp/SC13_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC13_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user with interface language set",
+          "status": "PASS"
+        },
+        {
+          "title": "When viewing sub-nav",
+          "status": "PASS"
+        },
+        {
+          "title": "Then labels in active language for all 4 locales",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "FR confirmed: Accueil Parametres Administration. en-US en-GB es-ES not tested."
+    },
+    {
+      "tc_id": "SC14",
+      "title": "UP Sub-Navigation Unchanged",
+      "story_id": "GEO-1131",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given UP user navigates to Settings",
+          "status": "SKIP"
+        },
+        {
+          "title": "When viewing sub-nav",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then single non-clickable label",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: Requires UP mode access."
+    },
+    {
+      "tc_id": "SC15",
+      "title": "Settings Entry Opens Settings Page",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC04_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC04_step2_when.png",
+        "screenshots-GEO-1035-mcp/SC15_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user opens avatar menu",
+          "status": "PASS"
+        },
+        {
+          "title": "When clicking Parametres",
+          "status": "PASS"
+        },
+        {
+          "title": "Then navigated to /geo/settings and menu closes",
+          "status": "PASS"
+        }
+      ],
+      "notes": "app-topbar-user-menu-settings-btn click -> /geo/settings. Menu auto-closed."
+    },
+    {
+      "tc_id": "SC16",
+      "title": "Settings Entry Visible for All Roles",
+      "story_id": "GEO-1131",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS users with all roles",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When opening avatar menu",
+          "status": "PASS"
+        },
+        {
+          "title": "Then Parametres visible for all roles",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Super Admin verified. Reader/Editor/Admin require separate test accounts."
+    },
+    {
+      "tc_id": "SC17",
+      "title": "Avatar Menu Order per Role",
+      "story_id": "GEO-1131",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given Super Admin OS user opens avatar menu",
+          "status": "PASS"
+        },
+        {
+          "title": "When observing menu entries",
+          "status": "PASS"
+        },
+        {
+          "title": "Then Super Admin and Reader/Editor order verified",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Super Admin: Administration Parametres Parametres-des-cookies Log-out. No Help no timezone."
+    },
+    {
+      "tc_id": "SC18",
+      "title": "UP Avatar Menu Unaffected",
+      "story_id": "GEO-1131",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given UP user opens avatar menu",
+          "status": "SKIP"
+        },
+        {
+          "title": "When viewing Administration entry",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then has tinted bg icon role badge",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: Requires UP mode access."
+    },
+    {
+      "tc_id": "SC19",
+      "title": "Settings Page Behaviour Identical to UP Path",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC15_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC15_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC19_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user reaches Settings via avatar menu",
+          "status": "PASS"
+        },
+        {
+          "title": "When viewing the Settings page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then language change and user management functional",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language selector Francais + Preferences nav + Administration-des-utilisateurs + save/cancel buttons on /geo/settings."
+    },
+    {
+      "tc_id": "SC20",
+      "title": "Settings Entry Translation",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user interface in French",
+          "status": "PASS"
+        },
+        {
+          "title": "When opening avatar menu",
+          "status": "PASS"
+        },
+        {
+          "title": "Then Settings entry reads Parametres",
+          "status": "PASS"
+        }
+      ],
+      "notes": "app-topbar-user-menu-settings-btn text=Parametres. Interface fr-FR confirmed."
+    },
+    {
+      "tc_id": "SC21",
+      "title": "Settings Entry Disabled on Upsell Page",
+      "story_id": "GEO-1131",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given OS user on upsell page",
+          "status": "SKIP"
+        },
+        {
+          "title": "When opening avatar menu",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then Parametres visible but disabled",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: Super Admin redirected from /geo/upsell. Requires upsell account."
+    },
+    {
+      "tc_id": "SC22",
+      "title": "Administration Entry Flattened in OS Mode",
+      "story_id": "GEO-1131",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1035-mcp/SC17_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC22_step3_then.png",
+        "screenshots-GEO-1035-mcp/SC22_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given OS user opens avatar menu",
+          "status": "PASS"
+        },
+        {
+          "title": "When viewing Administration entry",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no tinted bg no icon no role badge",
+          "status": "PASS"
+        }
+      ],
+      "notes": "class=text-slate-700 only. No colored bg no svg/img no badge. Same style as Parametres."
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "spec": "GEO-1002-prod-smoke-p2-mcp",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://geo.onclusive.com/geo/",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "context": "PROD smoke phase 2 (controlled creation, approved). Org QA-GEO, SUPER_ADMIN, en-GB, unbranded flag ON. Quota before: 259/24400 (3 analyses). Analysis A \"Licter\" 62be61d8-444b-4d7f-9366-092e75211be5 created 2026-10-29T11:35:06Z -> 264/24400. Analysis B \"Postal services\" 49e2640d-b614-4f0e-a3b3-0ed8ee41a3e2 created 2026-10-29T11:36:48Z -> 269/24400.",
+  "summary": {
+    "total": 4,
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1
+  },
+  "results": [
+    {
+      "duration": 0,
+      "tc_id": "TC-GEO-1229-001",
+      "title": "Keeping prompts across brands, categories and markets only decreases the shared pool",
+      "story_id": "GEO-1229",
+      "status": "PARTIAL",
+      "error": null,
+      "notes": "PROD, analysis A wizard (approved creation). Scope reduced on purpose by the smoke instructions (1 country GB (EN), 1 category, 5 prompts kept) instead of 4 markets and >= 6 categories: the \"4 markets\" and \"6 categories\" steps were not executed, so the absence of a country / language / category cap beyond the old max quotas is NOT proven in prod. What was verified: new brand \"Licter\" (custom, not used in QA-GEO) accepted with no quota message; Categories copy \"Edit them, remove them or add your own, there is no limit.\"; Prompts ring = U + S / P = 299 / 24400 with 40 ticked (U = 259); only limit shown = the pool ring; Review & Launch enabled; no \"quota/limit/maximum/cap\" text in the wizard.",
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard of organisation T",
+          "status": "PASS",
+          "observed": "Dashboard pool block \"259 / 24400 prompts\" (aria-label \"Prompt pool: 259 / 24400 prompts\")"
+        },
+        {
+          "title": "When the user starts a new analysis for a brand that no analysis of the organisation uses yet",
+          "status": "PASS",
+          "testData": "Brand: \"Licter\" (CSV example \"Decathlon\")",
+          "observed": "Custom brand \"Licter\" (Custom Brand row, not the Brandfetch suggestion) accepted, no brand quota message"
+        },
+        {
+          "title": "And the user adds 4 markets including one country in two languages",
+          "status": "SKIP",
+          "testData": "United Kingdom - English (EN), France - French (FR), United States - English (EN), United States - Spanish (ES)",
+          "observed": "Not executed - prod smoke scope limited to United Kingdom - English (EN) only (5-prompt budget)"
+        },
+        {
+          "title": "And the user keeps every detected category and adds categories until there are at least 6",
+          "status": "SKIP",
+          "testData": "Extra categories: \"Running shoes\", \"Cycling\", \"Camping\"",
+          "observed": "Not executed - 1 category kept (Social Listening Tools; Audience Intelligence Platforms removed in the wizard). Copy shown: \"there is no limit\""
+        },
+        {
+          "title": "And the user opens the Prompts step",
+          "status": "PASS",
+          "observed": "Ring \"299 / 24400 prompts · 40 selected\" = U (259) + S (40) / P"
+        },
+        {
+          "title": "Then no per-brand, per-category, per-country or per-language cap blocks the selection",
+          "status": "PARTIAL",
+          "observed": "Only the pool ring is shown, Review & Launch enabled; not proven beyond the old quotas because the multi-market / 6-category scope was not built in prod"
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1229-001_step1_given.png",
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1229-001_step2_when.png",
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1229-001_step3_then.png"
+      ]
+    },
+    {
+      "duration": 0,
+      "tc_id": "TC-GEO-1236-001",
+      "title": "The toolbar ring reads the slots used after creation and its popover splits them",
+      "story_id": "GEO-1236",
+      "status": "PASS",
+      "error": null,
+      "notes": "PROD, analysis A wizard: brand \"Licter\" (CSV \"Decathlon\"), GB (EN), 1 category = exactly 40 suggested prompts (10 Brand Image, 10 Visibility, 10 Competitive, 10 Reputation) - the minimal scope of the TC. Popover data-testid wizard-pool-popover (role tooltip): \"Prompt pool / 299 of 24400 after creation / In use by other analyses 259 / Kept in this analysis 40 / Free in the pool 24101\". After unticking 2: ring \"297 / 24400 prompts · 38 selected\", popover 259 / 38 / 24103. Keyboard: Tab from \"Back to Dashboard\" focuses the ring button (wizard-pool-ring) and opens the same popover (screenshot step4_keyboard).",
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with 40 ticked prompts",
+          "status": "PASS",
+          "observed": "Ring \"299 / 24400\" = U + 40 / P"
+        },
+        {
+          "title": "When the user hovers the ring",
+          "status": "PASS",
+          "observed": "Popover opens"
+        },
+        {
+          "title": "Then the popover splits other analyses, this analysis and free slots",
+          "status": "PASS",
+          "observed": "Other analyses 259 = U, Kept in this analysis 40, Free 24101 = P - U - 40"
+        },
+        {
+          "title": "When the user unticks 2 prompts",
+          "status": "PASS",
+          "observed": "Ring \"297 / 24400 prompts · 38 selected\"; popover \"Kept in this analysis 38\", Free 24103"
+        },
+        {
+          "title": "And the user reaches the ring with the keyboard",
+          "status": "PASS",
+          "testData": "Tab key",
+          "observed": "Tab focus on wizard-pool-ring opens the popover (same content)"
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1236-001_step1_given.png",
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1236-001_step2_when.png",
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1236-001_step3_then.png",
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1236-001_step4_keyboard.png"
+      ]
+    },
+    {
+      "duration": 0,
+      "tc_id": "TC-GEO-1251-001",
+      "title": "Competitors are resolved in the background when no Visibility prompt is kept",
+      "story_id": "GEO-1251",
+      "status": "PASS",
+      "error": null,
+      "notes": "PROD, analysis A 62be61d8-444b-4d7f-9366-092e75211be5 (\"Licter\", CSV \"Decathlon\"): GB (EN) x Social Listening Tools kept 0 Visibility, 3 Competitive, 1 Reputation + 1 Brand Image (Overview) = 5 prompts. Wizard steps: Analysis Type, Brand & Country, Categories, Prompts, Summary - no competitor step. Summary warns \"Some metrics will not be produced. No Visibility prompts are kept, so Visibility %, Average Position and Brand Rankings stay empty, and Share of Voice counts Competitive answers only.\" Status COMPLETED (lastCompletedAt 11:35:09Z, ~3 s after creation). Category view Prompts Analysis: the 3 Competitive prompts read \"Best / Top / Which Social Listening tool do you recommend: Licter, Brandwatch, Talkwalker or Meltwater?\" (placeholders [Competitor 1..3] resolved), winner Brandwatch. None of Brandwatch / Talkwalker / Meltwater belongs to Licter. Observation: Manage Scope still lists these prompts with the literal placeholders \"[Competitor 1], [Competitor 2] or [Competitor 3]\" (as authored in the wizard) while results show resolved names.",
+      "steps": [
+        {
+          "title": "Given the user creates an analysis whose market and category keep Competitive prompts but no Visibility prompt",
+          "status": "PASS",
+          "testData": "GB (EN) x C1: 0 Visibility, 3 Competitive kept (CSV: 10)",
+          "observed": "No competitor step, no visible competitor call; 0 Visibility, 3 Competitive kept"
+        },
+        {
+          "title": "When the analysis runs",
+          "status": "PASS",
+          "testData": "First collection",
+          "observed": "GET /reports: COMPLETED, lastCompletedAt 2026-10-29T11:35:09Z"
+        },
+        {
+          "title": "Then the Competitive results of GB (EN) x C1 name competitors",
+          "status": "PASS",
+          "observed": "Brandwatch, Talkwalker, Meltwater named in the 3 Competitive prompts; winner Brandwatch"
+        },
+        {
+          "title": "And the analysed brand's own sub-brands are not used as competitors",
+          "status": "PASS",
+          "testData": "Brand \"Licter\" (CSV \"Decathlon\")",
+          "observed": "No Licter-owned brand among the competitors"
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1251-001_step1_given.png",
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1251-001_step2_when.png",
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1251-001_step3_then.png"
+      ]
+    },
+    {
+      "duration": 0,
+      "tc_id": "TC-GEO-1239-001",
+      "title": "Manage Scope Prompts shows the wizard's table, filters and pool tracker",
+      "story_id": "GEO-1239",
+      "status": "PASS",
+      "error": null,
+      "notes": "PROD, analysis A 62be61d8-444b-4d7f-9366-092e75211be5 (new wizard, 1 collection; data adapted: 1 market GB (EN) and 1 category instead of GB+FR and >= 2 categories; 35 suggestions left unticked). VIEW ONLY: nothing ticked, unticked or added; only GET calls to /geo/api during the check. One table (40 rows, 5 ticked), headers: Show prompts menu, \"Prompt\", \"Category\", \"Type\", \"Country\", \"Actions\" (CSV may say \"Market\" - GEO-1514 wording, label only); no role=tab / tablist; no Reset button; header menus \"Sort and filter Category / Type / Country\" + \"Show prompts\". Ring manage-prompt-pool-ring \"269 / 24400 prompts · 5 selected\"; popover \"269 of 24400 / In use by other analyses 264 / Kept in this analysis 5 / Free in the pool 24131\".",
+      "steps": [
+        {
+          "title": "Given the user is on the dashboard of analysis A",
+          "status": "PASS",
+          "observed": "Manage Scope link visible in the sidebar"
+        },
+        {
+          "title": "When the user opens Manage Scope > Prompts",
+          "status": "PASS",
+          "observed": "/manage-scope, Prompts section displayed"
+        },
+        {
+          "title": "Then the wizard's table is shown",
+          "status": "PASS",
+          "observed": "Prompt, Category, Type, Country, Actions in one table; no tabs; no Reset"
+        },
+        {
+          "title": "And the wizard's filters are shown",
+          "status": "PASS",
+          "observed": "Category, Type and Country header menus + Show prompts menu"
+        },
+        {
+          "title": "And the pool tracker is shown",
+          "status": "PASS",
+          "observed": "Ring \"269 / 24400\" with its popover"
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1239-001_step1_given.png",
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1239-001_step2_when.png",
+        "screenshots-GEO-1002-prod-smoke-p2-mcp/TC-GEO-1239-001_step3_then.png"
+      ]
+    }
+  ]
+}

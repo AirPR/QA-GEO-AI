@@ -1,0 +1,68 @@
+{
+  "spec": "GEO-1514-prod-smoke-mcp",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "environment": "production (read-only smoke, GEO-R1.3 go-live)",
+  "url": "https://geo.onclusive.com/geo/",
+  "summary": {
+    "total": 1,
+    "pass": 0,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1514-002",
+      "title": "TC-GEO-1514-002 - Wizard prompt table says Country in the column, the duplicate message and the no-result filter",
+      "story_id": "GEO-1514",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "fr-FR and es-ES steps not executed: the interface language is a saved account setting and the production smoke is read-only (no language change). en-GB part fully PASS.",
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "status": "PASS",
+          "note": "Brand Decathlon (decathlon.com), countries United Kingdom - English (EN) + France - French (FR), 1 category kept (Outdoor Gear; Sports Apparel removed from the wizard draft). Column header textContent = \"Country\" (displayed upper-case by CSS); sort/filter button aria-label \"Sort and filter Country\"."
+        },
+        {
+          "title": "When the user adds a prompt that already exists for the same country, language, category and type",
+          "status": "PASS",
+          "note": "Draft row \"Best Outdoor Gear?\" / Outdoor Gear / Visibility / GB (EN): \"This prompt already exists for this country, language, category and type.\" shown, \"Add this prompt\" disabled. Draft row cancelled."
+        },
+        {
+          "title": "And the user filters the table so that no row matches with a country selected",
+          "status": "PASS",
+          "note": "The wizard prompt table has no search box (same as the staging run): empty result produced with Type filter \"Other\" (0) + Country filter GB (EN). Text: \"No prompts match these filters - Type Other and country GB (EN) have no prompts in common. Widen one of the two, or clear the filters.\""
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and replays steps 1 to 3",
+          "status": "SKIP",
+          "note": "Not executed: production read-only (no account language change)."
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and replays steps 1 to 3",
+          "status": "SKIP",
+          "note": "Not executed: production read-only (no account language change)."
+        },
+        {
+          "title": "Then no prompt table text says market",
+          "status": "PARTIAL",
+          "note": "en-GB only: no \"market\" in the visible table texts nor in the table aria-labels. fr-FR / es-ES not checked."
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS",
+          "note": "Language never changed; GET /geo/api/v1/auth/me -> language en-GB at start and end."
+        }
+      ],
+      "notes": "Production read-only smoke, 29/10/2026. Wizard left with Back to Dashboard > Exit and Discard (\"There is no draft: nothing is saved yet\"); Create Analysis never clicked; dashboard still 3 analyses, pool 259 / 24400. Side observation (out of TC scope): 20 of the 80 generated prompts (Competitive type, both countries) contain the literal placeholders \"[Competitor 1], [Competitor 2] or [Competitor 3]\" (e.g. \"Best for Outdoor Gear: Decathlon, [Competitor 1], [Competitor 2] or [Competitor 3]?\") - to check whether placeholders are replaced by the competitors at creation time or whether this is a prod defect.",
+      "screenshots": [
+        "screenshots-GEO-1514-prod-smoke-mcp/TC-GEO-1514-002_step1_given.png",
+        "screenshots-GEO-1514-prod-smoke-mcp/TC-GEO-1514-002_step2_when.png",
+        "screenshots-GEO-1514-prod-smoke-mcp/TC-GEO-1514-002_step3_then.png"
+      ]
+    }
+  ]
+}

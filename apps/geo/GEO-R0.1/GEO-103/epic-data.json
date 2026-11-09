@@ -1,0 +1,337 @@
+{
+  "epic": {
+    "id": "GEO-103",
+    "key": "GEO-103",
+    "title": "EPIC-003: Pipeline d'Analyse (Batch Execution)",
+    "status": "In Progress",
+    "assignee": "Abdenasser Aroukhsiss",
+    "description": "Le système exécute l'analyse sur tous les LLMs en parallèle via Kafka+Flink, enrichit les résultats, notifie en temps réel et par email. Inclut l'exécution hebdomadaire planifiée.",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-103",
+    "stories": [
+      {
+        "id": "GEO-87",
+        "title": "[Story 3.1] First Analysis Execution (End-to-End Pipeline)",
+        "storyId": "Story 3.1",
+        "status": "Done",
+        "assignee": "Abdenasser Aroukhsiss",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-87",
+        "userStory": {
+          "as": "Editor",
+          "want": "my report to start analyzing automatically after first-time configuration",
+          "so_that": "I get results without manual intervention"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Flink polls every 90s with SKIP LOCKED, questions dispatched to Kafka topics per enabled LLM"
+          },
+          {
+            "id": 2,
+            "criterion": "LLM dispatchers send to Prompt API at calibrated rates, responses persisted to PostgreSQL then published to kafka-responses"
+          },
+          {
+            "id": 3,
+            "criterion": "LLM call fails after 3 retries: response saved with status=FAILED, published to Kafka, pipeline continues"
+          },
+          {
+            "id": 4,
+            "criterion": "Circuit Breaker opens for one LLM (>5% errors): only that dispatcher pauses 30s"
+          }
+        ],
+        "technicalDetails": {
+          "newModule": {
+            "name": "geo-flink-jobs",
+            "framework": "Flink 1.20",
+            "language": "Java 21",
+            "stateBackend": "RocksDB"
+          },
+          "configuration": {
+            "flinkCheckpoints": "every 30s",
+            "pollingInterval": "90s with SKIP LOCKED"
+          },
+          "errorHandling": {
+            "promptApiTimeout": "60s",
+            "resilience": "@Retry + Circuit Breaker per LLM"
+          },
+          "retryBackoff": {
+            "openaiGrok": "500ms → 1s → 2s",
+            "claudeGeminiPerplexity": "5s → 10s → 20s"
+          },
+          "llmRates": {
+            "openai": "~6ms",
+            "claude": "~15ms",
+            "gemini": "~40ms",
+            "grok": "~100ms",
+            "perplexity": "~120ms"
+          },
+          "kafkaTopics": {
+            "input": ["kafka-questions-openai", "kafka-questions-gemini", "kafka-questions-claude", "kafka-questions-grok", "kafka-questions-perplexity"],
+            "output": "kafka-responses"
+          },
+          "database": {
+            "migrations": "llm_responses table with nullable snapshot_id column"
+          }
+        }
+      },
+      {
+        "id": "GEO-86",
+        "title": "[Story 3.2] Real-Time Analysis Progress",
+        "storyId": "Story 3.2",
+        "status": "Done",
+        "assignee": "Abdenasser Aroukhsiss",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-86",
+        "userStory": {
+          "as": "Editor",
+          "want": "to see my analysis progressing in real-time",
+          "so_that": "I know the execution is advancing and which LLMs have completed"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "SSE endpoint returns progress events with progress 0-100, completedModels, pendingModels"
+          },
+          {
+            "id": 2,
+            "criterion": "Flink counts responses via keyBy(reportId) + RocksDB, every ~10 responses publishes progress to kafka-report-status"
+          },
+          {
+            "id": 3,
+            "criterion": "Analysis completes: Editor receives status COMPLETED/COMPLETED_PARTIAL/FAILED"
+          },
+          {
+            "id": 4,
+            "criterion": "SSE reconnection: current state immediately, heartbeat 30s, max 5 connections/key, TTL 30min"
+          }
+        ],
+        "technicalDetails": {
+          "api": {
+            "endpoint": "GET /api/v1/reports/{id}/progress",
+            "requiredRole": "READER"
+          },
+          "flinkState": {
+            "backend": "RocksDB",
+            "stateFields": [
+              "visibility_count",
+              "perception_count",
+              "phase2_count",
+              "processedIds (for idempotence)"
+            ]
+          },
+          "frontend": "SseProgress component with per-LLM progress bars"
+        }
+      },
+      {
+        "id": "GEO-85",
+        "title": "[Story 3.3] Visibility Enrichment & Competitor Discovery",
+        "storyId": "Story 3.3",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-85",
+        "userStory": {
+          "as": "Editor",
+          "want": "the system to identify my top competitors from AI visibility results",
+          "so_that": "competitive analysis uses real market data instead of placeholders"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Consume VISIBILITY_COMPLETE trigger from geo-enrichment-trigger Kafka topic"
+          },
+          {
+            "id": 2,
+            "criterion": "Enrich visibility with target_rank, is_mentioned, is_first, total_entities, mentioned_entities (JSONB)"
+          },
+          {
+            "id": 3,
+            "criterion": "Brand matching via Gemini AI (2-step: text similarity + AI grouping)"
+          },
+          {
+            "id": 4,
+            "criterion": "Extract top 5 competitors per market × category (mention count desc, avg position asc)"
+          },
+          {
+            "id": 5,
+            "criterion": "Replace [Competitor 1-5] placeholders in memory, dispatch Phase 2 to Kafka"
+          },
+          {
+            "id": 6,
+            "criterion": "Emit progress events 40→50% via geo-report-status"
+          },
+          {
+            "id": 7,
+            "criterion": "Edge cases: zero visibility questions, target absent, <5 competitors, Gemini failure (fallback)"
+          }
+        ],
+        "technicalDetails": {
+          "dataAccess": "Entity name from reports table (authorized cross-service read)",
+          "storage": "In-memory placeholder replacement, text stored in llm_responses.question_text",
+          "competitors": "Extracted in memory (recoverable from enriched llm_responses)"
+        }
+      },
+      {
+        "id": "GEO-84",
+        "title": "[Story 3.4] Perception Analysis & Reputation Insights",
+        "storyId": "Story 3.4",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-84",
+        "userStory": {
+          "as": "Editor",
+          "want": "AI-generated reputation insights (concepts, sentiment) per category and market",
+          "so_that": "I understand how AI engines perceive my brand"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Consume PERCEPTION_COMPLETE trigger, call PerceptionEnrichmentService"
+          },
+          {
+            "id": 2,
+            "criterion": "1 Gemini call per market × category (name, response_ids, quotes with sentiment_score)"
+          },
+          {
+            "id": 3,
+            "criterion": "Distribute concepts to responses via response_ids, store in perception_concepts JSONB"
+          },
+          {
+            "id": 4,
+            "criterion": "Store concept.name, sentiment_score, quotes[] (NOT frequency/sentiment label)"
+          },
+          {
+            "id": 5,
+            "criterion": "No progress events (parallel enrichment)"
+          },
+          {
+            "id": 6,
+            "criterion": "Edge cases: zero perception, Gemini failure (1 retry then skip), idempotent"
+          }
+        ],
+        "technicalDetails": {
+          "aiModel": "gemini-internal (gemini-2.5-flash-lite)",
+          "retryLogic": "1 retry per scope, then skip",
+          "reusableComponents": [
+            "EnrichmentConsumer",
+            "LlmResponseRepository",
+            "ReportRefRepository"
+          ]
+        },
+        "pmDecisionsRequired": [
+          "concept.sentiment_score derivation formula",
+          "Exact Gemini prompt for concept extraction",
+          "Sentiment label thresholds (Positive/Negative/Neutral)"
+        ]
+      },
+      {
+        "id": "GEO-83",
+        "title": "[Story 3.5] Competitive Execution & Source Classification",
+        "storyId": "Story 3.5",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-83",
+        "userStory": {
+          "as": "Editor",
+          "want": "competitive analysis completed and all citation sources classified",
+          "so_that": "I can see my brand vs competitors and know which publications to target"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Flink extends ResponseCounter for Phase 2 (50→80% progress)"
+          },
+          {
+            "id": 2,
+            "criterion": "Emit CLASSIFY_SOURCES when all 3 counts at 100%"
+          },
+          {
+            "id": 3,
+            "criterion": "Competitive enrichment (target_rank, is_first) - 100% local"
+          },
+          {
+            "id": 4,
+            "criterion": "Extract sources from ALL responses, create response_sources rows"
+          },
+          {
+            "id": 5,
+            "criterion": "3-level classification (regex → cache → Gemini) with 11 categories"
+          },
+          {
+            "id": 6,
+            "criterion": "11 source categories with priority rules"
+          },
+          {
+            "id": 7,
+            "criterion": "Report finalization with PIPELINE_COMPLETE"
+          },
+          {
+            "id": 8,
+            "criterion": "Progress events 50→100%"
+          }
+        ],
+        "technicalDetails": {
+          "phase2Counting": "Flink extends ResponseCounter",
+          "competitiveEnrichment": "100% local, no LLM",
+          "sourceClassification": "Regex fallback: .edu→Academic, .gov→Gov, else→Other",
+          "domainNormalization": "lowercase, strip www, root domain",
+          "sharedCache": "domain_classifications (cross-tenant)"
+        }
+      },
+      {
+        "id": "GEO-82",
+        "title": "[Story 3.5b] Improvement Areas & Priority Source Targets Pre-Computation",
+        "storyId": "Story 3.5b",
+        "status": "Abandoned",
+        "assignee": "Abdenasser Aroukhsiss",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-82",
+        "userStory": {
+          "as": "Editor",
+          "want": "improvement areas and priority source targets calculated during the analysis pipeline",
+          "so_that": "the Actions Center loads instantly with pre-computed results"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "8 improvement types: Visibility (4), Competitive (3), Reputation (1)"
+          },
+          {
+            "id": 2,
+            "criterion": "Global favorability >= 95%: clear all competitive improvements"
+          },
+          {
+            "id": 3,
+            "criterion": "Max 3 reputation items per category (highest severity first)"
+          },
+          {
+            "id": 4,
+            "criterion": "Results persisted to PostgreSQL"
+          },
+          {
+            "id": 5,
+            "criterion": "Runs after classification, before COMPLETED status"
+          }
+        ],
+        "improvementTypes": {
+          "visibility": [
+            "low_visibility",
+            "poor_position",
+            "category_market_low",
+            "owned_media_gap"
+          ],
+          "competitive": [
+            "low_favorability",
+            "category_market_losing",
+            "low_source_favorability"
+          ],
+          "reputation": [
+            "negative_sentiment"
+          ]
+        },
+        "severity": {
+          "critical": "< 25%",
+          "warning": "< 40%",
+          "info": "< 50%"
+        },
+        "status": "Abandoned"
+      }
+    ]
+  }
+}

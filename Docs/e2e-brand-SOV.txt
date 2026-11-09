@@ -1,0 +1,157 @@
+================================================================================
+Feature: Share of Voice — Overview / Brand level (GEO-663 / GEO-664)
+================================================================================
+Spec file : e2e-brand-SOV.spec.js
+Validated : Staging and Production — Toyota dashboard (Overview page)
+--------------------------------------------------------------------------------
+
+  Background:
+    Given the user is authenticated
+    And the user navigates to the Overview dashboard
+
+
+  # ----------------------------------------------------------------------------
+  # Context — Share of Voice feature (GEO-640)
+  # ----------------------------------------------------------------------------
+  #
+  # GEO-663 : SOV removal from KPI row and Brand Rankings table
+  #   → The "Share of Voice" metric is no longer displayed inline in the
+  #     KPI row or as a column in the Brand Rankings table.
+  #
+  # GEO-664 : SOV dedicated card
+  #   → A dedicated full-width "Share of Voice" card is rendered below the
+  #     KPI row, containing a doughnut chart comparing the target brand
+  #     against its top competitors by SOV percentage.
+  #
+  # Skipped scenarios (require dedicated test data or simulated conditions):
+  #   TC-GEO-664-005 — Target brand not in top 10 (needs specific scope)
+  #   TC-GEO-664-006 — Empty state (needs zero-response scope)
+  #   TC-GEO-664-007 — Error state (needs simulated network error)
+  #   TC-GEO-664-008 — Loading skeleton (race condition)
+  #   TC-GEO-664-010 — No Others slice (needs scope with ≤ 10 brands)
+  # ----------------------------------------------------------------------------
+
+
+================================================================================
+Scenario: TC-GEO-663-001 — Overview: KPI row shows exactly 4 cards without SOV
+================================================================================
+
+  Given the user is on the Overview dashboard
+
+  When the Performance KPI row renders
+
+  Then exactly 4 KPI cards are displayed in order:
+       Visibility | Avg Position | AI Choice | Sentiment
+    And no "Share of Voice" KPI card is rendered in the KPI row
+    And no SOV quality pill (Good / Fair / Poor) is visible
+
+
+================================================================================
+Scenario: TC-GEO-663-003 — Overview: Brand Rankings table has no SoV% column
+================================================================================
+
+  Given the user is on the Overview dashboard
+
+  When the Brand Rankings table renders
+
+  Then the table columns are exactly: Rank | Brand | Visibility% | Avg Position | LLM Choice%
+    And no "SoV%" column header is present
+    And no "SoV%" cell exists anywhere in the table (headers or data cells)
+
+
+================================================================================
+Scenario: TC-GEO-663-005 — Brand Rankings default sort is Visibility% descending
+================================================================================
+
+  Given the user is on the Overview dashboard
+    And no explicit sort has been applied by the user
+
+  When the Brand Rankings table renders
+
+  Then the rows are ordered by Visibility% descending
+       (each row's Visibility% >= the next row's Visibility%)
+    And the Rank column reflects that order:
+        rank 1 is assigned to the brand with the highest Visibility%
+        (displayed as "1" or a trophy icon for the target brand)
+    And the target brand highlight (trophy icon / "YOU" badge + amber row)
+        is still rendered correctly
+
+
+================================================================================
+Scenario: TC-GEO-663-006 — No SOV-related tooltips or i18n keys visible
+================================================================================
+
+  Given the user is on the Overview dashboard
+
+  When the KPI row and Brand Rankings table are rendered
+
+  Then no untranslated i18n SOV key is visible in the page text
+       (patterns like "kpi.sov.*" or "shareOfVoice.*" must not appear)
+    And no "Share of Voice" tooltip is visible in the KPI row
+
+
+================================================================================
+Scenario: TC-GEO-664-001 — SOV dedicated card renders below KPI row on Overview
+================================================================================
+
+  Given the user is on the Overview dashboard with data available
+
+  When the page finishes loading (skeleton gone)
+
+  Then a full-width "Share of Voice" card is visible directly below the KPI row
+    And the card heading "Share of Voice" is visible
+    And the subtitle "By brand, your brand is highlighted" is visible
+    And the card displays one of:
+        - a doughnut SVG chart (when data is available)
+        - an empty state ("No data to show")
+        - an error state ("Couldn't load this chart")
+
+
+================================================================================
+Scenario: TC-GEO-664-003 — Doughnut shows top 10 brands + Others slice
+================================================================================
+
+  Given the SOV doughnut chart is rendered with more than 10 brands
+
+  When the chart finishes rendering
+
+  Then the doughnut displays the top 10 brands by SOV descending
+    And one "Others" slice aggregates the remaining share
+    And each arc >= ~2% displays an outside percentage callout
+    And a bottom legend lists each brand with color dot, name, and bold SOV%
+        ordered by SOV descending with "Others" last
+
+  # Note: auto-skipped if the SOV card shows empty state on the current scope.
+
+
+================================================================================
+Scenario: TC-GEO-664-004 — Target brand in top 10: arc emphasized + center label
+================================================================================
+
+  Given the SOV doughnut renders and the target brand is among the top 10
+
+  When the doughnut finishes rendering
+
+  Then the target brand's arc is structurally emphasized (larger radius)
+       relative to competitor arcs
+    And the center label persistently shows the target brand's name,
+        SOV value, and "Share of Voice" label —
+        even when the target brand is not the largest slice
+
+  # Note: auto-skipped if the SOV card shows empty state on the current scope.
+
+
+================================================================================
+Scenario: TC-GEO-664-009 — Filter changes recompute doughnut
+================================================================================
+
+  Given the SOV doughnut chart is rendered with a given scope
+        (market, category, LLM engine, or period)
+
+  When the user updates any filter (e.g. toggles an LLM engine)
+
+  Then the "Share of Voice" card remains visible after the filter change
+    And the doughnut arcs, callouts, legend entries, and center label
+        all recompute and refresh to reflect the new scope
+
+================================================================================

@@ -1,0 +1,56 @@
+{
+  "epic": {
+    "id": "GEO-99",
+    "key": "GEO-99",
+    "title": "EPIC-007: Snapshots & Guided Tour",
+    "status": "Backlog",
+    "assignee": "Youssef.AitLaydi",
+    "description": "L'utilisateur navigue entre les snapshots historiques et découvre le produit via un tour guidé. Story 7.1: Immutable Snapshot Storage. Story 7.2: Snapshot Navigation. Story 7.3: Guided Tour.",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-99",
+    "stories": [
+      {
+        "id": "GEO-57",
+        "title": "[Story 7.1] Immutable Snapshot Storage",
+        "storyId": "Story 7.1",
+        "status": "Backlog",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-57",
+        "description": "As the system, I want to store each analysis run as an immutable snapshot, So that historical results are preserved and comparable.",
+        "acceptanceCriteria": [
+          "Given an analysis execution completes, When results are finalized, Then a new snapshot is created with: executedAt, totalQuestions, successCount, failedCount, configSnapshot (resolved config including real competitor names), the snapshot is immutable (never modified after creation), snapshots are retained for at least 12 months",
+          "snapshots table linked to reports (1:N)",
+          "llm_responses linked to snapshots via snapshotId",
+          "configSnapshot JSON stores resolved competitive questions (placeholders replaced)"
+        ],
+        "dependencies": []
+      },
+      {
+        "id": "GEO-56",
+        "title": "[Story 7.2] Snapshot Navigation",
+        "storyId": "Story 7.2",
+        "status": "Backlog",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-56",
+        "description": "As an Editor I want to navigate between analysis snapshots So that I can compare results over time.",
+        "acceptanceCriteria": [
+          "Given an Editor viewing a report with multiple snapshots, When they use previous/next controls, Then all dashboard data reflects the selected snapshot's results, the current snapshot date is displayed"
+        ],
+        "dependencies": [
+          "Story 7.1"
+        ]
+      },
+      {
+        "id": "GEO-55",
+        "title": "[Story 7.3] Guided Tour",
+        "storyId": "Story 7.3",
+        "status": "Backlog",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-55",
+        "description": "As a new user I want a guided tour of the product So that I can understand the key features quickly.",
+        "acceptanceCriteria": [
+          "Given a user accessing the product with a tour URL parameter, When the tour activates, Then it navigates automatically across views (Overview, Actions Center, Category) with contextual tooltips, the user can advance or skip steps, the tour has 8-12 steps total, demo data is used if no real report exists"
+        ],
+        "dependencies": [
+          "Story 7.1"
+        ]
+      }
+    ]
+  }
+}

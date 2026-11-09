@@ -1,0 +1,209 @@
+{
+  "spec_name": "hubspot-upsell-pql",
+  "profile_meta": {
+    "profile": "default",
+    "description": "GEO-237 — Hubspot PQL Feedback (SeeItInActionModal + JIT consent flow)"
+  },
+  "generated": "2026-07-03T15:04:17.747Z",
+  "total": 12,
+  "passed": 0,
+  "failed": 8,
+  "skipped": 4,
+  "duration_ms": 36154,
+  "testcases": [
+    {
+      "tc_id": "TC-GEO-237-001",
+      "title": "TC-GEO-237-001 — Modal See it in action affichée au clic",
+      "status": "failed",
+      "duration_ms": 21818,
+      "steps": [
+        "Given l'user est sur la page upsell Measure",
+        "When il clique sur un bouton \"Speak to Us\"",
+        "Then la modal s'ouvre avec le titre \"See it in action\", la description, la checkbox décochée et le bouton Confirm désactivé"
+      ],
+      "screenshots": [
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-001_step1_given.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-001_step2_when.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-001_step3_then.png"
+      ],
+      "error": "Error: \"Speak to Us\" button must be visible after page load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Speak to Us\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - \"Speak to Us\" button must be visible after page load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Speak to Us\")').first()\u001b[22m\n\n\n  74 |     page.locator(SEL.speakToUsBtn).first(),\n  75 |     '\"Speak to Us\" button must be visible after page load'\n> 76 |   ).toBeVisible({ timeout: 20000 });\n     |     ^\n  77 | }\n  78 |\n  79 | // ── Helper: accept cookies and reload ─────────────────────────────────────\n    at gotoUpsell (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:76:5)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:119:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:118:3"
+    },
+    {
+      "tc_id": "TC-GEO-237-002",
+      "title": "TC-GEO-237-002 — Confirm activé après coche de la checkbox",
+      "status": "failed",
+      "duration_ms": 21889,
+      "steps": [
+        "Given la modal SeeItInActionModal est ouverte",
+        "When l'user coche la checkbox \"I'm happy to be contacted for a demo\"",
+        "Then le bouton \"Confirm\" devient actif (clickable)"
+      ],
+      "screenshots": [
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-002_step1_given.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-002_step2_when.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-002_step3_then.png"
+      ],
+      "error": "Error: \"Speak to Us\" button must be visible after page load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Speak to Us\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - \"Speak to Us\" button must be visible after page load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Speak to Us\")').first()\u001b[22m\n\n\n  74 |     page.locator(SEL.speakToUsBtn).first(),\n  75 |     '\"Speak to Us\" button must be visible after page load'\n> 76 |   ).toBeVisible({ timeout: 20000 });\n     |     ^\n  77 | }\n  78 |\n  79 | // ── Helper: accept cookies and reload ─────────────────────────────────────\n    at gotoUpsell (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:76:5)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:159:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:158:3"
+    },
+    {
+      "tc_id": "TC-GEO-237-003",
+      "title": "TC-GEO-237-003 — Fermeture modal sans confirmation -> aucun appel backend",
+      "status": "failed",
+      "duration_ms": 21671,
+      "steps": [
+        "Given la modal SeeItInActionModal est ouverte",
+        "When l'user ferme la modal (croix / backdrop / touche Escape)",
+        "Then la modal se ferme et aucun appel POST /api/v1/upsell/hubspot n'est effectué"
+      ],
+      "screenshots": [
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-003_step1_given.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-003_step2_when.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-003_step3_then.png"
+      ],
+      "error": "Error: \"Speak to Us\" button must be visible after page load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Speak to Us\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - \"Speak to Us\" button must be visible after page load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Speak to Us\")').first()\u001b[22m\n\u001b[2m    - waiting for\" https://geo.onclusive.com/geo/\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"https://geo.onclusive.com/geo/\"\u001b[22m\n\n\n  74 |     page.locator(SEL.speakToUsBtn).first(),\n  75 |     '\"Speak to Us\" button must be visible after page load'\n> 76 |   ).toBeVisible({ timeout: 20000 });\n     |     ^\n  77 | }\n  78 |\n  79 | // ── Helper: accept cookies and reload ─────────────────────────────────────\n    at gotoUpsell (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:76:5)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:193:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:192:3"
+    },
+    {
+      "tc_id": "TC-GEO-237-004",
+      "title": "TC-GEO-237-004 — Confirmation + cookies absents -> JitBridgeModal",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [
+        "Given l'user est sur la page upsell Measure et les cookies Functional ne sont pas acceptés",
+        "And la modal SeeItInActionModal est ouverte et la checkbox est cochée",
+        "When l'user clique \"Confirm\"",
+        "Then la modal SeeItInActionModal se ferme",
+        "And la JitBridgeModal s'ouvre",
+        "And aucun appel POST /api/v1/upsell/hubspot n'est effectué"
+      ],
+      "screenshots": [],
+      "error": "SKIPPED — Requiert un contexte sans cc_cookie (areFunctionalCookiesEnabled=false). Activer via profil JDD \"no-consent\"."
+    },
+    {
+      "tc_id": "TC-GEO-237-005",
+      "title": "TC-GEO-237-005 — Acceptation dans JIT -> événement HubSpot envoyé",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [
+        "Given la JitBridgeModal est ouverte depuis le contexte upsell",
+        "When l'user clique \"Enable support\"",
+        "Then areFunctionalCookiesEnabled passe à true",
+        "And POST /api/v1/upsell/hubspot est appelé automatiquement avec la réponse 200 OK"
+      ],
+      "screenshots": [],
+      "error": "SKIPPED — Dépend de TC-004 (JitBridgeModal accessible uniquement sans cc_cookie)."
+    },
+    {
+      "tc_id": "TC-GEO-237-006",
+      "title": "TC-GEO-237-006 — Refus dans JIT -> PrivacyFallbackModal - aucun appel",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [
+        "Given la JitBridgeModal est ouverte depuis le contexte upsell",
+        "When l'user clique \"I'd still like to stay private\"",
+        "Then la PrivacyFallbackModal s'ouvre",
+        "And aucun appel POST /api/v1/upsell/hubspot n'est effectué"
+      ],
+      "screenshots": [],
+      "error": "SKIPPED — Dépend de TC-004 (JitBridgeModal accessible uniquement sans cc_cookie)."
+    },
+    {
+      "tc_id": "TC-GEO-237-007",
+      "title": "TC-GEO-237-007 — Confirmation + cookies accordés -> appel direct sans JitBridgeModal",
+      "status": "failed",
+      "duration_ms": 22662,
+      "steps": [
+        "Given areFunctionalCookiesEnabled est true (consentement accordé) et la page upsell est chargée",
+        "When l'user ouvre la modal, coche la checkbox et clique \"Confirm\"",
+        "Then POST /api/v1/upsell/hubspot est appelé directement sans ouvrir la JitBridgeModal"
+      ],
+      "screenshots": [
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-007_step1_given.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-007_step2_when.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-007_step3_then.png"
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Speak to Us\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Speak to Us\")').first()\u001b[22m\n\u001b[2m    - waiting for\" https://geo.onclusive.com/geo/\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"https://geo.onclusive.com/geo/\"\u001b[22m\n\n\n  87 |   }\n  88 |   await page.goto(UPSELL_URL, { waitUntil: 'load' });\n> 89 |   await expect(page.locator(SEL.speakToUsBtn).first()).toBeVisible({ timeout: 20000 });\n     |                                                        ^\n  90 | }\n  91 |\n  92 | // ── Helper: open SeeItInActionModal ───────────────────────────────────────\n    at acceptCookiesAndReload (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:89:56)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:229:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:228:3"
+    },
+    {
+      "tc_id": "TC-GEO-237-008",
+      "title": "TC-GEO-237-008 — Idempotence - un seul appel HubSpot par session",
+      "status": "failed",
+      "duration_ms": 22615,
+      "steps": [
+        "Given l'user a déjà cliqué \"Speak to Us\" et confirmé - l'événement a été envoyé",
+        "When il clique à nouveau sur un autre \"Speak to Us\" de la page et confirme",
+        "Then aucun deuxième appel POST /api/v1/upsell/hubspot n'est effectué"
+      ],
+      "screenshots": [
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-008_step1_given.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-008_step2_when.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-008_step3_then.png"
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Speak to Us\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Speak to Us\")').first()\u001b[22m\n\u001b[2m    - waiting for\" https://geo.onclusive.com/geo/\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"https://geo.onclusive.com/geo/\"\u001b[22m\n\n\n  87 |   }\n  88 |   await page.goto(UPSELL_URL, { waitUntil: 'load' });\n> 89 |   await expect(page.locator(SEL.speakToUsBtn).first()).toBeVisible({ timeout: 20000 });\n     |                                                        ^\n  90 | }\n  91 |\n  92 | // ── Helper: open SeeItInActionModal ───────────────────────────────────────\n    at acceptCookiesAndReload (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:89:56)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:259:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:258:3"
+    },
+    {
+      "tc_id": "TC-GEO-237-009",
+      "title": "TC-GEO-237-009 — Utilisateur @onclusive.com exclu du tracking HubSpot",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [
+        "Given le JWT contient un email @onclusive.com",
+        "When POST /api/v1/upsell/hubspot est appelé",
+        "Then aucun événement n'est enregistré dans la timeline HubSpot du contact",
+        "And la réponse de l'endpoint est 200 OK"
+      ],
+      "screenshots": [],
+      "error": "SKIPPED — Requiert un compte test avec email @onclusive.com (profil JDD \"internal-user\")."
+    },
+    {
+      "tc_id": "TC-GEO-237-010",
+      "title": "TC-GEO-237-010 — Erreur HubSpot non-bloquante pour l'utilisateur",
+      "status": "failed",
+      "duration_ms": 22729,
+      "steps": [
+        "Given HubSpot API retourne une erreur (503) - simulée via page.route()",
+        "When l'user ouvre la modal, coche la checkbox et clique \"Confirm\"",
+        "Then le frontend reçoit 200 OK et aucune UI d'erreur n'est affichée à l'user"
+      ],
+      "screenshots": [
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-010_step1_given.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-010_step2_when.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-010_step3_then.png"
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Speak to Us\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Speak to Us\")').first()\u001b[22m\n\u001b[2m    - waiting for\" https://geo.onclusive.com/geo/\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"https://geo.onclusive.com/geo/\"\u001b[22m\n\n\n  87 |   }\n  88 |   await page.goto(UPSELL_URL, { waitUntil: 'load' });\n> 89 |   await expect(page.locator(SEL.speakToUsBtn).first()).toBeVisible({ timeout: 20000 });\n     |                                                        ^\n  90 | }\n  91 |\n  92 | // ── Helper: open SeeItInActionModal ───────────────────────────────────────\n    at acceptCookiesAndReload (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:89:56)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:306:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:305:3"
+    },
+    {
+      "tc_id": "TC-GEO-237-011",
+      "title": "TC-GEO-237-011 — Les 5 boutons \"Speak to Us\" déclenchent la même logique",
+      "status": "failed",
+      "duration_ms": 22154,
+      "steps": [
+        "Given les 5 instances du bouton \"Speak to Us\" sont présentes sur la page upsell Measure",
+        "When l'user clique sur n'importe laquelle des 5 instances",
+        "Then la modal SeeItInActionModal s'ouvre à chaque fois et la même logique s'applique quel que soit le bouton"
+      ],
+      "screenshots": [
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-011_step1_given.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-011_step2_when.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-011_step3_then.png"
+      ],
+      "error": "Error: \"Speak to Us\" button must be visible after page load\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Speak to Us\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - \"Speak to Us\" button must be visible after page load with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Speak to Us\")').first()\u001b[22m\n\n\n  74 |     page.locator(SEL.speakToUsBtn).first(),\n  75 |     '\"Speak to Us\" button must be visible after page load'\n> 76 |   ).toBeVisible({ timeout: 20000 });\n     |     ^\n  77 | }\n  78 |\n  79 | // ── Helper: accept cookies and reload ─────────────────────────────────────\n    at gotoUpsell (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:76:5)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:334:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:333:3"
+    },
+    {
+      "tc_id": "TC-GEO-237-012",
+      "title": "TC-GEO-237-012 — Réponse 401 ne déclenche pas de redirection Auth0",
+      "status": "failed",
+      "duration_ms": 22754,
+      "steps": [
+        "Given POST /api/v1/upsell/hubspot retourne 401 - simulé via page.route()",
+        "When l'user ouvre la modal, coche la checkbox et clique \"Confirm\"",
+        "Then aucune redirection vers Auth0 n'est déclenchée et l'user reste sur la page upsell"
+      ],
+      "screenshots": [
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-012_step1_given.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-012_step2_when.png",
+        "screenshots-hubspot-upsell-pql/TC-GEO-237-012_step3_then.png"
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has-text(\"Speak to Us\")').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has-text(\"Speak to Us\")').first()\u001b[22m\n\u001b[2m    - waiting for\" https://geo.onclusive.com/geo/\" navigation to finish...\u001b[22m\n\u001b[2m    - navigated to \"https://geo.onclusive.com/geo/\"\u001b[22m\n\n\n  87 |   }\n  88 |   await page.goto(UPSELL_URL, { waitUntil: 'load' });\n> 89 |   await expect(page.locator(SEL.speakToUsBtn).first()).toBeVisible({ timeout: 20000 });\n     |                                                        ^\n  90 | }\n  91 |\n  92 | // ── Helper: open SeeItInActionModal ───────────────────────────────────────\n    at acceptCookiesAndReload (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:89:56)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:387:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\hubspot-upsell-pql.spec.js:386:3"
+    }
+  ]
+}

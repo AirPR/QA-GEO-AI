@@ -1,0 +1,268 @@
+{
+  "spec": "GEO-152-GEO1120-mcp",
+  "runDate": "2026-09-25",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "summary": {
+    "total": 9,
+    "pass": 7,
+    "fail": 0,
+    "skip": 2,
+    "partial": 0
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1120-001",
+      "title": "Filters recompute counts not just filter",
+      "story_id": "GEO-1120",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-001_step1_given.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-001_step2_when.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with sources spanning multiple countries",
+          "status": "PASS"
+        },
+        {
+          "title": "When the country filter is applied to France only",
+          "status": "PASS"
+        },
+        {
+          "title": "Then source count becomes France-only count and rank is recomputed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com: 26 articles global -> 17 France-only. Rank changed: automobile-propre.com rose from #3 to #2, largus.fr (French site) appeared in top 3. Total sources: 167 global -> 71 France-only."
+    },
+    {
+      "tc_id": "TC-GEO-1120-002",
+      "title": "Source type filter recomputes ranks and tab membership",
+      "story_id": "GEO-1120",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-002_step1_given.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-002_step2_when.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with Journalism and other source types visible",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects Journalisme from the source type filter",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only Journalism sources remain, ranks renumbered sequentially from 1, counts recomputed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Journalisme filter applied in France+Spain scope: 61 Journalisme sources shown (was 113 total). All visible cards type=Journalisme. Ranks 1-6 sequential, no gaps. Non-Journalism sources (kbb.com Agregateurs) correctly excluded."
+    },
+    {
+      "tc_id": "TC-GEO-1120-003",
+      "title": "Filter lists only types present in scope",
+      "story_id": "GEO-1120",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-003_step1_given.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-003_step2_when.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given Actions Center is open in France+Spain scope",
+          "status": "PASS"
+        },
+        {
+          "title": "When the source type filter dropdown is opened",
+          "status": "PASS"
+        },
+        {
+          "title": "Then it lists only types present in scope with accurate counts",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Dropdown showed exactly 7 types: Agregateurs(8)+Entreprise(25)+Gouvernement-ONG(3)+Journalisme(61)+Autre(8)+Sites d avis(6)+Reseaux sociaux-UGC(2)=113 total. No phantom types with 0 count. All counts sum to the exact total sources in scope."
+    },
+    {
+      "tc_id": "TC-GEO-1120-004",
+      "title": "Date range filter counts articles with answers in range",
+      "story_id": "GEO-1120",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-004_step1_given.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-004_step2_when.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a source has 4 failing articles but only 2 within Last 7 days",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user applies Last 7 days date range filter",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then source shows 2 articles and rank recomputed",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: Dataset entirely within the 7-day window. Identical results for 7 derniers jours and Toutes les analyses (same sources, same counts, same total 113). Given condition (source with articles outside 7-day range) not present in current dataset. Date picker requires explicit Appliquer button to confirm selection."
+    },
+    {
+      "tc_id": "TC-GEO-1120-005",
+      "title": "Multi-scope article counts if one answer in scope",
+      "story_id": "GEO-1120",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-005_step1_given.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-005_step2_when.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a failing article has qualifying answers from both France and USA-Spain",
+          "status": "PASS"
+        },
+        {
+          "title": "When the country filter is set to France",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the failing article is counted in the France scope",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com: 26 articles global, 17 France-only, 14 USA+Spain-only. 17+14=31>26 confirms 5 articles are counted in BOTH France and USA+Spain scopes (each has at least one qualifying answer in each scope). Multi-scope counting is correct."
+    },
+    {
+      "tc_id": "TC-GEO-1120-006",
+      "title": "Source with no failing articles in scope disappears",
+      "story_id": "GEO-1120",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-006_step1_given.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-006_step2_when.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given largus.fr visible at rank 6 in France+Spain scope with 5 articles",
+          "status": "PASS"
+        },
+        {
+          "title": "When Spain-only country filter applied",
+          "status": "PASS"
+        },
+        {
+          "title": "Then largus.fr does not appear in Target Sources list",
+          "status": "PASS"
+        }
+      ],
+      "notes": "largus.fr (French automotive site) was rank 6 in France+Spain scope (5 articles). After applying Spain-only filter (46 sources total), largus.fr is completely absent from all 46 sources. Confirms: sources with no qualifying articles in the selected scope are removed from the list."
+    },
+    {
+      "tc_id": "TC-GEO-1120-007",
+      "title": "Filters apply before verdict tab scoping",
+      "story_id": "GEO-1120",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-007_step1_given.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-007_step2_when.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given source type=Journalisme filter and AMELIORER LA VISIBILITE tab active simultaneously",
+          "status": "PASS"
+        },
+        {
+          "title": "When list renders with both filters active",
+          "status": "PASS"
+        },
+        {
+          "title": "Then only Journalism sources with VISIBILITE articles appear with Journalism-scoped counts",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Spain-only scope + Journalisme filter + AMELIORER LA VISIBILITE tab: 29 sources shown. All 10 visible cards type=Journalisme (0 non-Journalism). Tab scoping applied within already-filtered Journalisme scope. Sources: elpais.com(9), autobild.es(7), caranddriver.com(6), autonomiacocheselectricos.es(4), autopista.es(3) — all Spanish journalism with VISIBILITE verdicts."
+    },
+    {
+      "tc_id": "TC-GEO-1120-008",
+      "title": "Source type filter has no effect on export",
+      "story_id": "GEO-1120",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-008_step1_given.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-008_step2_when.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-008_step3_then.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-008_step3_then_export_ok.png"
+      ],
+      "steps": [
+        {
+          "title": "Given Journalisme source type filter active",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user generates the analysis export",
+          "status": "PASS"
+        },
+        {
+          "title": "Then exported Target Sources covers all source types not only Journalism",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PASS: Filtre Journalisme actif en UI. Clic sur export .xls -> telechargement Toyota_AI_Visibility_Report.xlsx confirme. Requete reseau: POST /export/xlsx?marketCodes=es-ES&llms=openai,gemini,perplexity&periodPreset=last7 - AUCUN parametre sourceType dans URL. Le filtre source type est absent de la requete export, confirmant qu'il n'a pas d'effet sur le contenu exporte."
+    },
+    {
+      "tc_id": "TC-GEO-1120-009",
+      "title": "Long source type name truncated with ellipsis and tooltip",
+      "story_id": "GEO-1120",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-009_step1_given.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-009_step2_when.png",
+        "screenshots-GEO-152-GEO1120-mcp/TC-GEO-1120-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given Aggregator-Encyclopedic source type present in current scope",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user selects Aggregator-Encyclopedic from filter",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then input truncated with ellipsis and tooltip shows full name",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: Given condition not met. Aggregator-Encyclopedic source type absent from current dataset. Available types in Spain scope: Journalisme(29), Entreprise(10), Autre(2), Reseaux sociaux-UGC(2), Sites d avis(1). In France+Spain scope: also Agregateurs(8), Gouvernement-ONG(3). None long enough to trigger 200px truncation behavior."
+    }
+  ]
+}

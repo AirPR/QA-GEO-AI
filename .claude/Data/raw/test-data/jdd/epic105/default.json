@@ -1,0 +1,30 @@
+{
+  "_meta": {
+    "profile": "default",
+    "epic": "epic105",
+    "description": "Jeu de données nominal — Report List, Module Access Gate, Auth0 & RBAC",
+    "note": "base_url non inclus ici — fourni via env var BASE_URL ou common.json"
+  },
+
+  "reports": {
+    "known_report_uuid": "086b49a6-9367-41c3-a681-00754d9e5c4a",
+    "_comment": "Rapport staging — utilisé pour les tests de navigation"
+  },
+
+  "rbac": {
+    "reader_session": false,
+    "_comment_reader": "Vide = TC004/005/006/008 skippés — fournir READER_SESSION=true + compte Reader"
+  },
+
+  "module_gate": {
+    "unactivated_base_url": "",
+    "_comment_unactivated": "Vide = GEO-96-TC001 skippé — URL d'un compte sans module Mesure activé",
+    "empty_org_base_url": "",
+    "_comment_empty": "Vide = GEO-96-TC002 skippé — URL d'un compte avec Mesure activé mais 0 rapports"
+  },
+
+  "api": {
+    "reports_endpoint": "/api/reports",
+    "_comment": "Endpoint protégé pour GEO-97-TC002/003 — ajuster si différent sur staging"
+  }
+}

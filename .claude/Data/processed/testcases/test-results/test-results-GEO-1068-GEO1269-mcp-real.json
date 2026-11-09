@@ -1,0 +1,564 @@
+{
+ "spec": "GEO-1068-GEO1269",
+ "runDate": "2026-10-21",
+ "runMode": "mcp-playwright",
+ "mode": "structured",
+ "url": "https://staging-geo.onclusive.com/geo",
+ "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1068.csv",
+ "story": "GEO-1269",
+ "environment": "staging",
+ "notes": [
+  "Pre-run 2026-10-21 12:47: MCP context already authenticated (single tab, no other MCP client). GET /geo/api/v1/auth/me -> 200, language en-GB, org_name QA-GEO, features.unbranded_analysis=true. READ-ONLY guard installed on the context before the first navigation (GET + POST /reports/{id}/export/(pptx|xlsx|pdf) only on **/geo/api/**). Viewport 1280x720. No organisation switch.",
+  "Exports produced (all EN, the UI sends lang=en-GB; the export menu has no language option): B default filters PPTX; O baseline period (28 Sept - 4 Oct 2026, US+FR+ES, ChatGPT+Gemini+Perplexity; Grok not selectable) PPTX, PDF, XLSX. Files under screenshots-GEO-1068-GEO1269/exports/. PPTX read from the slide XML (jszip), XLSX with xlsx, PDF rendered with pdf.js (no text layer).",
+  "Read-only GET cross-checks: overview/top-concepts and categories/{Voitures hybrides}/top-concepts + kpis for 28 Sept - 4 Oct with and without grok; sov-distribution of Voitures hybrides.",
+  "End of run 2026-10-21 12:59: GET /auth/me -> org QA-GEO, en-GB (unchanged). context.unrouteAll() done; helper tab (local evidence rendering) closed. No interface language change, nothing saved."
+ ],
+ "summary": {
+  "total": 11,
+  "pass": 4,
+  "fail": 0,
+  "skip": 1,
+  "partial": 6,
+  "successRate": 70,
+  "verdict": "CONDITIONAL"
+ },
+ "results": [
+  {
+   "tc_id": "TC-GEO-1269-001",
+   "title": "TC-GEO-1269-001 - PowerPoint export in English shows concepts with frequency and polarity only",
+   "story_id": "GEO-1269",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Overview of brand analysis B",
+     "status": "PASS",
+     "test_data": "Analysis B",
+     "expected": "The export action is available",
+     "observed": "Overview of B displayed with the export button. First pass with default filters (Last 7 days 14–20 Oct 2026): Overview top concepts are 28 Positive / 1 Mixed / 2 Negative. Final check on Toyota 439acd96 (B = O), Overview, filters 28 Sept – 4 Oct 2026, All Countries (= United States, France, Spain, all three ticked), AI engines ChatGPT + Gemini + Perplexity (Grok and Claude turned off on the analysis, toggles disabled — Grok of the baseline filters not selectable). — 7 concepts: 5 Positive, Bruit à l'accélération Negative, Coût d'achat Mixed."
+    },
+    {
+     "title": "When the user exports the analysis as PowerPoint in English",
+     "status": "PASS",
+     "test_data": "Format: PPTX; export language: English (EN)",
+     "expected": "A .pptx file is downloaded",
+     "observed": "Export button \"Export analysis\" opens \"EXPORT ANALYSIS AS\": PDF · Presentation .pptx · Spreadsheet .xls. No language option; the click starts the export directly (toast \"Your export has started. It will be ready soon\"); the request carries lang=en-GB (interface language). Presentation .pptx downloaded: exports/O_baseline_EN_Toyota_AI_Visibility_Report.pptx (24 slides) and, for the default filters, exports/B_Toyota_EN_Toyota_AI_Visibility_Report.pptx (32 slides)."
+    },
+    {
+     "title": "And the user opens the key concepts slides",
+     "status": "PASS",
+     "expected": "The key concepts section lists the concepts of B",
+     "observed": "Key concepts slides \"The concepts shaping how you’re seen\": slide 4 (Overview, \"Top 10 concepts by frequency\"), slide 17 (Voitures hybrides), slide 22 (VUS, empty for this period)."
+    },
+    {
+     "title": "Then each concept shows its source count, its polarity and its frequency %",
+     "status": "PASS",
+     "test_data": "Concepts P, M, N",
+     "expected": "Each concept row reads \"{n} sources • {label}\" with its frequency %: \"Positive\" for P, \"Mixed\" for M, \"Negative\" for N",
+     "observed": "Slide 4: Fiabilité \"23 sources • Positive\" 13%, Efficacité énergétique \"29 sources • Positive\" 13%, Usage urbain \"19 sources • Positive\" 6%, Leadership hybride \"17 sources • Positive\" 6%, Coûts d'entretien \"10 sources • Positive\" 4%, Bruit à l'accélération \"7 sources • Negative\" 4%, Coût d'achat \"8 sources • Mixed\" 3% — same concepts, labels and % as the dashboard."
+    },
+    {
+     "title": "And no numeric sentiment score and no barometer are shown",
+     "status": "PASS",
+     "expected": "No \"+80 sentiment\" / \"-80 sentiment\" text, no -100 to +100 value and no gauge on any key concepts slide",
+     "observed": "All concept slides of both decks scanned: 0 \"{n} sentiment\" text, 0 signed -100..+100 value, 0 arc/gauge shape, 0 chart, 0 picture. Rendered PDF of the same deck shows no gauge."
+    }
+   ],
+   "notes": "Evidence = slide XML extraction (step3) + the same deck rendered from the PDF export (slide 4). With the default filters (Last 7 days) the Overview top 10 holds only Positive concepts (Mixed \"prix élevé\" 6% is rank 14), so P/M/N were verified on the baseline period where all three are in the top 10. Side note (default-filter deck, slide 4): the narrow Mixed 3% / Negative 6% segments of the distribution bar show the % without their \"Mixed · 1 topics\" / \"Negative · 2 topics\" label (labels present when the segment is wide enough).",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-001_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-001_step1b_given_baseline_filters.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-001_step2a_export_menu.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-001_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-001_step3_then.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-001_step3b_rendered_slide4.png",
+    "screenshots-GEO-1068-GEO1269/EVIDENCE_pptx_B_last7_extract.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-002",
+   "title": "TC-GEO-1269-002 - PDF export in English shows concepts with frequency and polarity only",
+   "story_id": "GEO-1269",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Overview of brand analysis B",
+     "status": "PASS",
+     "test_data": "Analysis B",
+     "expected": "The export action is available",
+     "observed": "Toyota 439acd96 (B = O), Overview, filters 28 Sept – 4 Oct 2026, All Countries (= United States, France, Spain, all three ticked), AI engines ChatGPT + Gemini + Perplexity (Grok and Claude turned off on the analysis, toggles disabled — Grok of the baseline filters not selectable)."
+    },
+    {
+     "title": "When the user exports the analysis as PDF in English",
+     "status": "PASS",
+     "test_data": "Format: PDF; export language: English (EN)",
+     "expected": "A .pdf file is downloaded",
+     "observed": "Export button \"Export analysis\" opens \"EXPORT ANALYSIS AS\": PDF · Presentation .pptx · Spreadsheet .xls. No language option; the click starts the export directly (toast \"Your export has started. It will be ready soon\"); the request carries lang=en-GB (interface language). PDF downloaded: exports/O_baseline_EN_Toyota_AI_Visibility_Report.pdf (24 pages, same layout as the PPTX)."
+    },
+    {
+     "title": "And the user opens the key concepts pages",
+     "status": "PASS",
+     "expected": "The key concepts section lists the same concepts as the PowerPoint export",
+     "observed": "Pages 4 (Overview) and 17 (Voitures hybrides) \"The concepts shaping how you’re seen\" list the same 7 concepts, in the same order and with the same % as PPTX slides 4 and 17."
+    },
+    {
+     "title": "Then each concept shows its source count, its polarity and its frequency %",
+     "status": "PASS",
+     "test_data": "Concepts P, M, N",
+     "expected": "Each concept row reads \"{n} sources • {label}\" with its frequency % (\"Positive\", \"Mixed\" or \"Negative\")",
+     "observed": "Page 4: \"23 sources • Positive\" 13% … \"7 sources • Negative\" 4%, \"8 sources • Mixed\" 3%; page 17: Fiabilité 27%, Efficacité énergétique 26%, Leadership hybride 12%, Usage urbain 11%, Coûts d'entretien 9%, Bruit à l'accélération \"7 sources • Negative\" 8%, Coût d'achat \"8 sources • Mixed\" 6%."
+    },
+    {
+     "title": "And no numeric sentiment score and no barometer are shown",
+     "status": "PASS",
+     "expected": "No \"+80 sentiment\" / \"-80 sentiment\" text, no -100 to +100 value and no gauge on any key concepts page",
+     "observed": "No \"+80 sentiment\" / \"-80 sentiment\" text, no -100..+100 value and no gauge on pages 4 and 17 (visual check of the rendered pages)."
+    }
+   ],
+   "notes": "The PDF has no text layer (text drawn as vector outlines: pdf-parse and pdf.js return 0 text items on all 24 pages), so the check is visual: pages rendered with pdf.js at 1280 px and read. Side observation: the PDF is not text-searchable / selectable (accessibility, copy-paste) — PO question, not a GEO-1269 criterion.",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-002_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-002_step2a_export_menu.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-002_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-002_step3_then.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-002_step3b_then_page17.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-003",
+   "title": "TC-GEO-1269-003 - PowerPoint and PDF exports in French show the polarity labels in French",
+   "story_id": "GEO-1269",
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Overview of brand analysis B",
+     "status": "PASS",
+     "test_data": "Analysis B",
+     "expected": "The export action is available",
+     "observed": "Toyota 439acd96 (B = O), Overview, filters 28 Sept – 4 Oct 2026, All Countries (= United States, France, Spain, all three ticked), AI engines ChatGPT + Gemini + Perplexity (Grok and Claude turned off on the analysis, toggles disabled — Grok of the baseline filters not selectable)."
+    },
+    {
+     "title": "When the user exports the analysis as PowerPoint in French",
+     "status": "PARTIAL",
+     "test_data": "Format: PPTX; export language: French (FR)",
+     "expected": "A .pptx file is downloaded",
+     "observed": "Not executable as written: the export menu has no language option and the export uses the saved interface language (request lang=en-GB). Changing the account interface language is not allowed for this run, so no French PPTX was produced."
+    },
+    {
+     "title": "Then each concept row shows the polarity label and the word \"sources\" in French",
+     "status": "PARTIAL",
+     "test_data": "Concepts P, M, N",
+     "expected": "The positive, mixed and negative labels and \"sources\" are the French strings of the strings sheet; no English \"Positive\", \"Mixed\", \"Negative\" left",
+     "observed": "Not verified (no FR file). Expected strings sheet values: Positif / Mitigé / Négatif, \"{{count}} sources\" (same word in FR)."
+    },
+    {
+     "title": "And no numeric sentiment score and no barometer are shown",
+     "status": "PARTIAL",
+     "expected": "No \"+80 sentiment\" / \"-80 sentiment\" text, no -100 to +100 value and no gauge on any key concepts slide",
+     "observed": "Not verified for FR. In the EN deck: 0 score text, 0 gauge on the concept slides (see TC-001)."
+    },
+    {
+     "title": "When the user exports the analysis as PDF in French",
+     "status": "PARTIAL",
+     "test_data": "Format: PDF; export language: French (FR)",
+     "expected": "The key concepts pages show the same French labels as the PowerPoint, with no score and no gauge",
+     "observed": "Not executable (same reason): no French PDF produced."
+    }
+   ],
+   "notes": "PARTIAL: only the language-independent part (no score, no gauge) is covered by the EN exports of TC-001/002. To finish: run with a QA account whose saved interface language is French, or confirm with the PO how the export language is meant to be chosen (A5).",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-003_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-003_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-003_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-004",
+   "title": "TC-GEO-1269-004 - PowerPoint and PDF exports in Spanish show the polarity labels in Spanish",
+   "story_id": "GEO-1269",
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Overview of brand analysis B",
+     "status": "PASS",
+     "test_data": "Analysis B",
+     "expected": "The export action is available",
+     "observed": "Toyota 439acd96 (B = O), Overview, filters 28 Sept – 4 Oct 2026, All Countries (= United States, France, Spain, all three ticked), AI engines ChatGPT + Gemini + Perplexity (Grok and Claude turned off on the analysis, toggles disabled — Grok of the baseline filters not selectable)."
+    },
+    {
+     "title": "When the user exports the analysis as PowerPoint in Spanish",
+     "status": "PARTIAL",
+     "test_data": "Format: PPTX; export language: Spanish (ES)",
+     "expected": "A .pptx file is downloaded",
+     "observed": "Not executable as written: no language option in the export menu, export lang = interface language en-GB. No Spanish PPTX produced (interface language not changed)."
+    },
+    {
+     "title": "Then each concept row shows the polarity label and the word \"sources\" in Spanish",
+     "status": "PARTIAL",
+     "test_data": "Concepts P, M, N",
+     "expected": "The positive, mixed and negative labels and \"sources\" are the Spanish strings of the strings sheet; no English \"Positive\", \"Mixed\", \"Negative\" left",
+     "observed": "Not verified (no ES file). Expected strings sheet values: Positivo / Mixto / Negativo, \"{{count}} fuentes\"."
+    },
+    {
+     "title": "And no numeric sentiment score and no barometer are shown",
+     "status": "PARTIAL",
+     "expected": "No \"+80 sentiment\" / \"-80 sentiment\" text, no -100 to +100 value and no gauge on any key concepts slide",
+     "observed": "Not verified for ES. EN deck: 0 score text, 0 gauge (TC-001)."
+    },
+    {
+     "title": "When the user exports the analysis as PDF in Spanish",
+     "status": "PARTIAL",
+     "test_data": "Format: PDF; export language: Spanish (ES)",
+     "expected": "The key concepts pages show the same Spanish labels as the PowerPoint, with no score and no gauge",
+     "observed": "Not executable (same reason): no Spanish PDF produced."
+    }
+   ],
+   "notes": "PARTIAL for the same reason as TC-003 (A5).",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-004_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-004_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-004_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-005",
+   "title": "TC-GEO-1269-005 - In slide exports the frequency % takes the polarity colour",
+   "story_id": "GEO-1269",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user has exported brand analysis B as PowerPoint in English",
+     "status": "PASS",
+     "test_data": "Format: PPTX; export language: English (EN)",
+     "expected": "The .pptx file is open on the key concepts slides",
+     "observed": "EN PPTX of B/O (baseline period) open on slides 4 and 17 (rendered from the PDF export of the same deck)."
+    },
+    {
+     "title": "When the user looks at the frequency % of a Positive, a Mixed and a Negative concept",
+     "status": "PASS",
+     "test_data": "Concepts P, M, N",
+     "expected": "The frequency % of P is green, of M amber and of N red",
+     "observed": "Frequency % colours in the slide XML: Positive rows #059669 (green), Coût d'achat Mixed #F59E0B (amber), Bruit à l'accélération Negative #E7000B (red). The polarity label of each row has the same colour."
+    },
+    {
+     "title": "Then each frequency % has the colour of its row accent bar",
+     "status": "PASS",
+     "expected": "For every concept row the % colour matches its accent bar and the dashboard colour of the same concept",
+     "observed": "Every concept row on slides 4 and 17: % colour = accent bar colour (#059669/#059669, #F59E0B/#F59E0B, #E7000B/#E7000B). Dashboard, same concepts: Positive % #059669, Mixed % #F59E0B, Negative % #DC2626 with accent bar #E7000B — same polarity colour (green / amber / red)."
+    }
+   ],
+   "notes": "Exact hex of the Negative % differs between the dashboard text (#DC2626) and the slide (#E7000B, which is the dashboard accent bar colour): both are the red polarity colour, accepted as matching. D6 validated by PO 2026-10-20.",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-005_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-005_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-005_step3_then.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-005_step3b_rendered_slide17.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-006",
+   "title": "TC-GEO-1269-006 - XLSX export in English has no Score column in the concepts tables",
+   "story_id": "GEO-1269",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Overview of brand analysis B",
+     "status": "PASS",
+     "test_data": "Analysis B",
+     "expected": "The export action is available",
+     "observed": "Toyota 439acd96 (B = O), Overview, filters 28 Sept – 4 Oct 2026, All Countries (= United States, France, Spain, all three ticked), AI engines ChatGPT + Gemini + Perplexity (Grok and Claude turned off on the analysis, toggles disabled — Grok of the baseline filters not selectable)."
+    },
+    {
+     "title": "When the user exports the analysis as Excel in English",
+     "status": "PASS",
+     "test_data": "Format: XLSX; export language: English (EN)",
+     "expected": "A .xlsx file is downloaded",
+     "observed": "Export button \"Export analysis\" opens \"EXPORT ANALYSIS AS\": PDF · Presentation .pptx · Spreadsheet .xls. No language option; the click starts the export directly (toast \"Your export has started. It will be ready soon\"); the request carries lang=en-GB (interface language). Spreadsheet downloaded: exports/O_baseline_EN_Toyota_AI_Visibility_Report.xlsx (sheets Overview · Time Evolution · Target Sources · Brand Pillars · Voitures hybrides · Voitures hybrides - Time Evolut · VUS · VUS - Time Evolution · Raw Data). No size-limit dialog was shown."
+    },
+    {
+     "title": "And the user opens every concepts table of the workbook",
+     "status": "PASS",
+     "expected": "The concepts tables are present",
+     "observed": "Concepts tables found under \"Top Concepts\" on sheets Overview (row 36), Voitures hybrides (row 7) and VUS (row 7, header only — no concept for this period, as in the baseline)."
+    },
+    {
+     "title": "Then each concepts table has the columns Concept, Sentiment, Sources, Frequency and Cited by",
+     "status": "PASS",
+     "expected": "The header row reads \"Concept\", \"Sentiment\", \"Sources\", \"Frequency\", \"Cited by\" in this order; there is no \"Score\" column",
+     "observed": "Header row of the 3 tables = \"Concept\", \"Sentiment\", \"Sources\", \"Frequency\", \"Cited by\", in this order. No \"Score\" column (baseline 2026-10-05: Concept · Sentiment · Score · Sources · Frequency · Cited by)."
+    },
+    {
+     "title": "And the Sentiment column holds the polarity label of each concept",
+     "status": "PASS",
+     "test_data": "Concepts P, M, N",
+     "expected": "\"Positive\" for P, \"Mixed\" for M, \"Negative\" for N; no numeric score in any cell",
+     "observed": "Sentiment column: \"Positive\" for the 5 Positive concepts, \"Mixed\" for Coût d'achat, \"Negative\" for Bruit à l'accélération. No numeric score in any cell of the tables."
+    },
+    {
+     "title": "And the concepts and frequencies match the dashboard",
+     "status": "PASS",
+     "expected": "Same concepts and same frequency values as the Top Concepts list of B",
+     "observed": "Overview: Fiabilité 13%, Efficacité énergétique 13%, Usage urbain 6%, Leadership hybride 6%, Coûts d'entretien 4%, Bruit à l'accélération 4%, Coût d'achat 3% = dashboard Overview. Voitures hybrides: 27 / 26 / 12 / 11 / 9 / 8 / 6 % = dashboard category page."
+    }
+   ],
+   "notes": "Sources counts are identical to the baseline (23, 29, 17, 19, 10, 7, 8). The \"Cited by\" column no longer lists grok (Grok turned off on the analysis).",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-006_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-006_step2a_export_menu.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-006_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-006_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-007",
+   "title": "TC-GEO-1269-007 - XLSX export in French shows the polarity labels in French with no Score column",
+   "story_id": "GEO-1269",
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Overview of brand analysis B",
+     "status": "PASS",
+     "test_data": "Analysis B",
+     "expected": "The export action is available",
+     "observed": "Toyota 439acd96 (B = O), Overview, filters 28 Sept – 4 Oct 2026, All Countries (= United States, France, Spain, all three ticked), AI engines ChatGPT + Gemini + Perplexity (Grok and Claude turned off on the analysis, toggles disabled — Grok of the baseline filters not selectable)."
+    },
+    {
+     "title": "When the user exports the analysis as Excel in French",
+     "status": "PARTIAL",
+     "test_data": "Format: XLSX; export language: French (FR)",
+     "expected": "A .xlsx file is downloaded",
+     "observed": "Not executable as written: no language option in the export menu (export lang = interface language en-GB). No French XLSX produced."
+    },
+    {
+     "title": "Then the concepts tables have five columns and no Score column",
+     "status": "PARTIAL",
+     "expected": "The header row has the French equivalents of Concept, Sentiment, Sources, Frequency and Cited by, in this order; no Score column",
+     "observed": "Not verified for FR. EN workbook: 5 columns, no Score column (TC-006). Whether the headers are translated in FR is unknown (A4): the strings sheet has no key for the XLSX headers."
+    },
+    {
+     "title": "And the Sentiment column holds the French polarity labels",
+     "status": "PARTIAL",
+     "test_data": "Concepts P, M, N",
+     "expected": "The positive, mixed and negative labels are the French strings of the strings sheet; no English label and no numeric score",
+     "observed": "Not verified (no FR file). Expected strings sheet values: Positif / Mitigé / Négatif."
+    }
+   ],
+   "notes": "PARTIAL (A4/A5 open).",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-007_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-007_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-007_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-008",
+   "title": "TC-GEO-1269-008 - XLSX export in Spanish shows the polarity labels in Spanish with no Score column",
+   "story_id": "GEO-1269",
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Overview of brand analysis B",
+     "status": "PASS",
+     "test_data": "Analysis B",
+     "expected": "The export action is available",
+     "observed": "Toyota 439acd96 (B = O), Overview, filters 28 Sept – 4 Oct 2026, All Countries (= United States, France, Spain, all three ticked), AI engines ChatGPT + Gemini + Perplexity (Grok and Claude turned off on the analysis, toggles disabled — Grok of the baseline filters not selectable)."
+    },
+    {
+     "title": "When the user exports the analysis as Excel in Spanish",
+     "status": "PARTIAL",
+     "test_data": "Format: XLSX; export language: Spanish (ES)",
+     "expected": "A .xlsx file is downloaded",
+     "observed": "Not executable as written: no language option in the export menu (export lang = interface language en-GB). No Spanish XLSX produced."
+    },
+    {
+     "title": "Then the concepts tables have five columns and no Score column",
+     "status": "PARTIAL",
+     "expected": "The header row has the Spanish equivalents of Concept, Sentiment, Sources, Frequency and Cited by, in this order; no Score column",
+     "observed": "Not verified for ES. EN workbook: 5 columns, no Score column (TC-006). Header translation in ES unknown (A4)."
+    },
+    {
+     "title": "And the Sentiment column holds the Spanish polarity labels",
+     "status": "PARTIAL",
+     "test_data": "Concepts P, M, N",
+     "expected": "The positive, mixed and negative labels are the Spanish strings of the strings sheet; no English label and no numeric score",
+     "observed": "Not verified (no ES file). Expected strings sheet values: Positivo / Mixto / Negativo."
+    }
+   ],
+   "notes": "PARTIAL (A4/A5 open).",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-008_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-008_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-008_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-009",
+   "title": "TC-GEO-1269-009 - Another user of the organisation sees the simplified key concepts view",
+   "story_id": "GEO-1269",
+   "status": "SKIP",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given user U2 of the same organisation opens brand analysis B",
+     "status": "SKIP",
+     "test_data": "User U2, analysis B",
+     "expected": "The Overview of B is displayed with the Top Concepts list",
+     "observed": "SKIP for U2: no second user account of QA-GEO and no separate session available. Checked as the current QA user instead: Overview of B (baseline period) shows the Top Topics list."
+    },
+    {
+     "title": "When U2 looks at the rows of the Top Concepts list",
+     "status": "SKIP",
+     "expected": "Each row shows its frequency % and \"{n} sources • {Positive | Mixed | Negative}\"; No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-80 sentiment\", \"+80 sentiment\") is shown",
+     "observed": "Current user: 7 rows, each \"{n} sources • {Positive | Mixed | Negative}\" + frequency %. 0 \"{score} sentiment\" text, 0 signed value in the card."
+    },
+    {
+     "title": "And U2 clicks the row of a concept",
+     "status": "SKIP",
+     "test_data": "Concept P",
+     "expected": "The panel header reads \"{f}% frequency • Positive\" with a white pill; no score and no gauge",
+     "observed": "Current user: click on Fiabilité → panel header \"13% frequency • Positive\", pill with white background (rgb 255,255,255) and green text; no score, no gauge in the panel."
+    },
+    {
+     "title": "And U2 sorts the list by Sentiment and selects the Negative filter",
+     "status": "SKIP",
+     "test_data": "Sort: Sentiment; Filter: Negative",
+     "expected": "The list is grouped Positive, Mixed, Negative, then only Negative concepts are listed",
+     "observed": "Current user: Sort by Sentiment → Efficacité énergétique, Fiabilité, Leadership hybride, Usage urbain, Coûts d'entretien (Positive), Coût d'achat (Mixed), Bruit à l'accélération (Negative); Negative (1) filter → only Bruit à l'accélération 4%."
+    },
+    {
+     "title": "Then the display matches the main view of the QA account",
+     "status": "SKIP",
+     "test_data": "Same analysis B open with the QA account",
+     "expected": "Same concepts, frequency %, labels, panel content, sort and filter results",
+     "observed": "Not verifiable: no U2 view to compare with."
+    }
+   ],
+   "notes": "SKIP (multi-context: requires a second user of the same organisation in a separate session). The current-user part matches the expected simplified view; it does not prove what U2 sees.",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-009_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-009_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-009_step3_then.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-010",
+   "title": "TC-GEO-1269-010 - The category-level Sentiment KPI tile is kept unchanged",
+   "story_id": "GEO-1269",
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user is on the category page C1 of brand analysis B",
+     "status": "PASS",
+     "test_data": "Analysis B, category C1",
+     "expected": "The category metrics are displayed",
+     "observed": "Category page Voitures hybrides of B (= O), filters 28 Sept – 4 Oct 2026, All Countries, ChatGPT + Gemini + Perplexity. PERFORMANCE metrics displayed: Visibility, Avg Position, AI Choice, Sentiment."
+    },
+    {
+     "title": "Then the Sentiment KPI tile is shown with its -100 to +100 value",
+     "status": "PASS",
+     "expected": "The Sentiment tile is displayed among the category metrics with its aggregate value, as before the release",
+     "observed": "Sentiment tile shown among the category metrics: \"Sentiment · Sentiment score · +74 · Good · 3.5% vs previous period\", info tooltip \"scored –100 (negative) to +100 (positive)\"."
+    },
+    {
+     "title": "When the user opens the category page \"Voitures hybrides\" of analysis O with the baseline filters",
+     "status": "PASS",
+     "test_data": "Analysis O (Toyota), baseline filters (Sep 28 – Oct 4, 2026; United States, Spain, France; ChatGPT, Perplexity, Gemini, Grok), category Voitures hybrides",
+     "expected": "The category metrics are displayed",
+     "observed": "Baseline filters applied except Grok (turned off on the analysis, toggle disabled). Category metrics displayed."
+    },
+    {
+     "title": "Then the Sentiment KPI tile shows the baseline value",
+     "status": "PARTIAL",
+     "test_data": "Baseline XLSX, sheet \"Voitures hybrides\", Gauge \"Sentiment\" (PPTX slide 14)",
+     "expected": "The Sentiment tile is shown with the value +75 and the band \"Good\", as in the baseline",
+     "observed": "Observed +74, band \"Good\" (expected +75 \"Good\"). XLSX export of the same view: gauge Sentiment +74 Good. Read-only cross-check GET categories/{Voitures hybrides}/kpis with llms incl. grok → sentiment displayValue \"+75\", qualityLabel GOOD = baseline. The 1-point gap comes from Grok being unavailable, not from a change of the tile."
+    },
+    {
+     "title": "And the concept rows of the page show no per-concept score",
+     "status": "PASS",
+     "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"+86 sentiment\") is shown on the Top Concepts rows",
+     "observed": "Top Concepts rows of the page: \"{n} sources • {label}\" + %, 0 \"{score} sentiment\" text, 0 -100..+100 value (e.g. Bruit à l'accélération \"7 sources • Negative\" 8%)."
+    }
+   ],
+   "notes": "PARTIAL: the Then \"+75 Good as in the baseline\" cannot be reproduced in the UI because Grok cannot be selected; the API with Grok gives exactly +75 Good. CSV change proposed: baseline filters without Grok and expected value +74 \"Good\" (or re-enable Grok on the analysis).",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-010_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-010_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-010_step3_then_O_hybrides_tile.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-010_step3_then.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-010_step3b_then_xlsx_gauge.png"
+   ]
+  },
+  {
+   "tc_id": "TC-GEO-1269-011",
+   "title": "TC-GEO-1269-011 - Slide export of an analysis created before the release shows the simplified concepts",
+   "story_id": "GEO-1269",
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": null,
+   "steps": [
+    {
+     "title": "Given the user is on the Overview of analysis O with the baseline filters",
+     "status": "PASS",
+     "test_data": "Analysis O (Toyota), baseline filters (Sep 28 – Oct 4, 2026; United States, Spain, France; ChatGPT, Perplexity, Gemini, Grok)",
+     "expected": "The export action is available",
+     "observed": "Toyota 439acd96 (B = O), Overview, filters 28 Sept – 4 Oct 2026, All Countries (= United States, France, Spain, all three ticked), AI engines ChatGPT + Gemini + Perplexity (Grok and Claude turned off on the analysis, toggles disabled — Grok of the baseline filters not selectable)."
+    },
+    {
+     "title": "When the user exports the analysis as PowerPoint in English",
+     "status": "PASS",
+     "test_data": "Format: PPTX; export language: English (EN)",
+     "expected": "A .pptx file is downloaded",
+     "observed": "Export button \"Export analysis\" opens \"EXPORT ANALYSIS AS\": PDF · Presentation .pptx · Spreadsheet .xls. No language option; the click starts the export directly (toast \"Your export has started. It will be ready soon\"); the request carries lang=en-GB (interface language). exports/O_baseline_EN_Toyota_AI_Visibility_Report.pptx downloaded (24 slides; baseline had 29 because of the removed category)."
+    },
+    {
+     "title": "Then the key concepts slides list the same concepts and frequencies as the baseline",
+     "status": "PARTIAL",
+     "test_data": "Baseline PPTX slide 4 (Overview) and slide 17 (Voitures hybrides)",
+     "expected": "Overview: Fiabilité 9%, Efficacité énergétique 9%, Leadership hybride 5%, Usage urbain 3%, Coûts d'entretien 2%, Coût d'achat 2%, Bruit à l'accélération 2%. Voitures hybrides: Fiabilité 28%, Efficacité énergétique 28%, Leadership hybride 16%, Usage urbain 8%, Coûts d'entretien 7%, Bruit à l'accélération 6%, Coût d'achat 5%",
+     "observed": "Overview (slide 4) not comparable: baseline 9/9/5/3/2/2/2 % included the removed category \"Voitures électriques\" and Grok; new 13/13/6/6/4/4/3 %. Compared at category level (slide 17 Voitures hybrides): same 7 concepts, same order, same source counts and polarity; % = 27 / 26 / 12 / 11 / 9 / 8 / 6 vs baseline 28 / 28 / 16 / 8 / 7 / 6 / 5. Read-only GET of the category top-concepts with Grok returns exactly the baseline % (28/28/16/8/7/6/5)."
+    },
+    {
+     "title": "And each concept row reads \"{n} sources • {label}\" with its frequency %",
+     "status": "PASS",
+     "expected": "e.g. \"23 sources • Positive\" for Fiabilité, \"8 sources • Mixed\" for Coût d'achat, \"7 sources • Negative\" for Bruit à l'accélération",
+     "observed": "Fiabilité \"23 sources • Positive\", Coût d'achat \"8 sources • Mixed\", Bruit à l'accélération \"7 sources • Negative\" (slides 4 and 17)."
+    },
+    {
+     "title": "And no numeric sentiment score and no barometer are shown",
+     "status": "PASS",
+     "expected": "No \"{score} sentiment\" text (baseline: \"+86 sentiment\", \"-43 sentiment\"), no -100 to +100 value and no gauge on any key concepts slide",
+     "observed": "No \"{score} sentiment\" text (baseline had \"+86 sentiment\", \"-43 sentiment\"), no -100..+100 value, no gauge shape on slides 4, 17 and 22."
+    }
+   ],
+   "notes": "PARTIAL: frequencies cannot match the baseline as written because Grok is turned off on the analysis (and the Overview is distorted by the removed category). Names, order, sources and polarity match; the frequency gap is fully explained by Grok (API cross-check). CSV change proposed: rebaseline the expected % without Grok (Overview 13/13/6/6/4/4/3, Voitures hybrides 27/26/12/11/9/8/6).",
+   "screenshots": [
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-011_step1_given.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-011_step2a_export_menu.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-011_step2_when.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-011_step3_then.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-011_step3b_rendered_slide17.png",
+    "screenshots-GEO-1068-GEO1269/TC-GEO-1269-011_step3c_pptx_extract.png"
+   ]
+  }
+ ],
+ "runFolder": ".claude/Data/output/reports/runs/21102026-1300/"
+}

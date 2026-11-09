@@ -1,0 +1,286 @@
+{
+  "spec": "GEO-1209-rerun-create-20261023",
+  "runDate": "2026-10-23",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 4,
+    "pass": 2,
+    "fail": 0,
+    "skip": 0,
+    "partial": 2
+  },
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "environment": "staging, organisation QA-GEO (dcea498b-a5cc-4c2a-b078-82530de16998), /v1/auth/me language en-GB, features.unbranded_analysis true, role SUPER_ADMIN",
+  "analysisD": {
+    "uuid": "714f2985-aa63-4694-8044-a817f0066b60",
+    "name": "Postal services (unbranded)",
+    "mode": "UNBRANDED",
+    "markets": [
+      "FR (FR) - primary",
+      "GB (EN)"
+    ],
+    "category": "Package Delivery Services (FR: Services de livraison de colis); discovery also proposed Mail Forwarding Services, removed in the wizard",
+    "prompts": "5 kept: GB Visibility x2 (Best / Top Package Delivery Services?), GB Competitive x1, FR Visibility x1, FR Competitive x1; 0 Category Topics, 0 Other (topicFeedPromptCounts.overview = 0); 55 suggestions left unticked",
+    "engines": "ChatGPT + Gemini (wizard defaults)",
+    "createdAt": "2026-10-23T19:40:27Z browser clock (POST /v1/reports 201; server createdAt 19:41:30Z)",
+    "firstCollection": "COMPLETED at about 19:41:20Z browser clock (about 1 minute after creation)",
+    "deletedAt": "2026-10-23T19:49:03Z (dashboard Delete Postal services > Delete; DELETE /v1/reports/{D} allowed by the guard; GET /v1/reports/{D} 404 afterwards)"
+  },
+  "poolBaseline": {
+    "org": "QA-GEO",
+    "orgId": "dcea498b-a5cc-4c2a-b078-82530de16998",
+    "U": 998,
+    "P": 1000,
+    "readAt": "2026-10-23T19:36Z",
+    "source": "dashboard '998 / 1000 prompts, 11 analyses', GET /v1/quota and GET /v1/admin/organisations promptPool 1000 promptsUsed 998",
+    "note": "Expected 996 / 1000 per the dispatch; found 998 (the Decathlon analysis with category Articles De Sport, 80 prompts, was updated 9 minutes before the run by another session). Restore target therefore P = 1000 with U = 998."
+  },
+  "poolTimeline": [
+    {
+      "utc": "19:37:25",
+      "event": "Pool 1000 -> 1050 (room for D), PATCH quotas {\"promptPool\":1050} 200 (promptsUsed 998)"
+    },
+    {
+      "utc": "19:40:27",
+      "event": "D created (5 prompts): usage 998 -> 1003, dashboard '1003 / 1050 prompts, 12 analyses'"
+    },
+    {
+      "utc": "19:45:00",
+      "event": "TC-GEO-1246-001 Add Category draft: dialog ring 1063 / 1050 (60 selected, 13 over), discarded - no change"
+    },
+    {
+      "utc": "19:48:00",
+      "event": "TC-GEO-1246-002 Add Country draft: dialog ring 1033 / 1050 (30 selected), discarded - no change"
+    },
+    {
+      "utc": "19:49:03",
+      "event": "D deleted: usage 1003 -> 998, stats competitors 105 -> 96, 11 analyses"
+    },
+    {
+      "utc": "19:49:17",
+      "event": "RESTORE: pool 1050 -> 1000, PATCH {\"promptPool\":1000} 200 (promptsUsed 998); back office row 'QA-GEO 19 / 20 998 / 1000 Daily active'; dashboard '998 / 1000 prompts, 11 analyses'; /v1/auth/me en-GB, org QA-GEO; no wizard / dialog draft open; routes removed (unrouteAll)"
+    }
+  ],
+  "writeGuard": "context.route on **/geo/api/**: GET always continue; non-GET allowed only for discover-categories / translate-category / questions/adapt-batch, the single POST /v1/reports (creation, once), any URL or body containing D's UUID, and PATCH /admin/organisations/{QA-GEO}/quotas; everything else aborted and logged. The guard was re-registered right after the creation (v2, D's UUID hard-coded, further creations blocked) because the first closure state could not be updated across MCP calls.",
+  "writeGuardLog": "14 non-GET requests, 0 aborted: 2 x PATCH QA-GEO quotas (1050, 1000); wizard drafts (discover-categories x1, questions/adapt-batch x4); 1 x POST /v1/reports 201 (creation of D, further creations blocked); Manage Scope drafts on D (translate-category x2, adapt-batch x3); 1 x DELETE /v1/reports/{D}. No save in Manage Scope, no write on any other analysis.",
+  "poolRestored": {
+    "value": 1000,
+    "used": 998,
+    "verifiedAt": "2026-10-23T19:49:30Z",
+    "backoffice": "QA-GEO 19 / 20 998 / 1000 Daily active",
+    "dashboard": "998 / 1000 prompts, 11 analyses",
+    "language": "en-GB",
+    "note": "U = 998 (not 996): baseline found at 998 before the run, unchanged by this run",
+    "screenshots": [
+      "screenshots-GEO-1209-rerun-create-20261023/restore_ok.png",
+      "screenshots-GEO-1209-rerun-create-20261023/restore_ok_backoffice.png"
+    ]
+  },
+  "restoreScreenshot": "screenshots-GEO-1209-rerun-create-20261023/restore_ok.png",
+  "restoreNote": "D deleted (404), QA-GEO pool back to 1000, dashboard and back office read 998 / 1000 (baseline U was 998), language en-GB, no draft open, write guard removed.",
+  "sideFindings": [
+    "TC-GEO-1243-015 (possible bug, to qualify): Competitors card 96 -> 105 (+9) with D (20 detected brands, none found among the brands exposed for the other analyses) and back to 96 after D was deleted; C0 + N expected. The card (96) is also lower than the totalBrands of a single brand analysis (229), so what the card counts must be confirmed by dev / PO. Screenshots TC-GEO-1243-015_step1_given.png, TC-GEO-1243-015_step3_then.png",
+    "Competitive prompts of an unbranded analysis are stored with '[Competitor 1] ... [Competitor 4]' (GET /scope) and shown filled on the category Prompts Analysis (FR: Mondial Relay, Chronopost, La Poste, DPD; GB: Amazon Logistics, DPD, Royal Mail, FedEx) - information only",
+    "Wording (minor): FR Visibility suggestions keep the title-cased category label ('Quels sont les meilleurs Services De Messagerie ?', wizard: 'Quels sont les meilleurs Services de livraison de colis ?'). Screenshot TC-GEO-1246-001_step4_fr_split.png",
+    "Baseline drift: QA-GEO used 998 / 1000 at the start (996 expected) - not caused by this run"
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1243-007",
+      "title": "InBrief and Top Topics are hidden when no Category Topics or Other prompt exists",
+      "story_id": "GEO-1243",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1243-007_step1_given.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1243-007_step2_when.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1243-007_step3_then.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1243-007_step4_when_category.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1243-007_step5_then_category.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens analysis UZ",
+          "testData": "UZ = D Postal services (unbranded, FR (FR) + GB (EN), 1 category, 5 prompts Visibility / Competitive only, first collection completed)",
+          "expected": "The Overview is displayed",
+          "observed": "/geo/dashboard/714f2985-aa63-4694-8044-a817f0066b60 Overview, Performance tab, date 23 Oct 2026, AI Engines 2, All Countries",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Overview renders",
+          "testData": "",
+          "expected": "Share of Voice and the landscape table are shown",
+          "observed": "Sections: 'Share of Voice' (DHL 9%, DPD 9%, UPS 9%, Amazon Logistics 8%, Royal Mail 8% ... Others 29%) and 'Postal services landscape' (10 rows: DHL, UPS, DPD, Royal Mail, Amazon Logistics, Evri, Yodel, FedEx +1, Parcelforce +1, Mondial Relay), then AI Engines Citation Sources",
+          "status": "PASS"
+        },
+        {
+          "title": "Then InBrief and Top Topics are hidden",
+          "testData": "",
+          "expected": "Neither InBrief nor Top Topics in the Category is on the Overview (no empty state either)",
+          "observed": "No InBrief block (no 'InBrief powered by AI Sense' image, no '... generated by artificial intelligence' footer), no Top Topics block, no empty state: the PERFORMANCE label is directly followed by Share of Voice (red frame). Headings on the page: Share of Voice, Postal services landscape, AI Engines Citation Sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens a category of UZ",
+          "testData": "Category Package Delivery Services",
+          "expected": "The category view is displayed",
+          "observed": "/category/bfb68153-... Identity tab: Prompts Analysis 'Visibility 3 · Competitive 2 · Category Topics 0', 5 of 5 prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "Then InBrief and Top Topics are hidden at category scope too",
+          "testData": "",
+          "expected": "Neither widget is shown",
+          "observed": "Headings: Share of Voice, Brand Prioritization, Package Delivery Services landscape, AI Engines Citation Sources; no InBrief, no Top Topics, no empty state for them (red frame on the performance blocks)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adapted (dispatch authorisation): UZ = disposable D 'Postal services' (FR (FR) + GB (EN)) instead of 'Car insurance' GB only; the rule under test (no Category Topics and no Other prompt -> no InBrief / Top Topics) holds: GET /v1/reports/{D} topicFeedPromptCounts {overview: 0, byCategoryId: {}}. The wizard Summary had already warned: 'No Category Topics prompts are kept, so InBrief and Top Topics will not be produced.' Previous runs: SKIP (no such analysis in QA-GEO)."
+    },
+    {
+      "tc_id": "TC-GEO-1243-015",
+      "title": "The Competitors card also counts the brands detected in unbranded analyses",
+      "story_id": "GEO-1243",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Then not fully verified: the card rose from C0 = 96 to 105 (+9) after D's first collection, while D detects 20 brands (totalBrands) of which 19 could be named via the API and none appears among the 699 brand / variant names exposed for the 11 other analyses. Expected C0 + N; N cannot be established exactly (the API only exposes the top 10 brands per analysis x market x engine), but the visible data point to N close to 20, not 9. Possible bug to qualify.",
+      "screenshots": [
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1243-015_step1_given.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1243-015_step2_when.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1243-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Competitors card of organisation T reads C0",
+          "testData": "T = QA-GEO, read before D was created",
+          "expected": "The card is displayed on the GEO dashboard",
+          "observed": "Card '96 COMPETITORS' at 19:36Z (GET /v1/reports/stats competitors 96, 11 reports)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the first collection of unbranded analysis UN2 completes",
+          "testData": "UN2 = D Postal services (FR (FR) + GB (EN), 5 prompts, ChatGPT + Gemini)",
+          "expected": "UN2 rankings list its detected brands",
+          "observed": "D COMPLETED at about 19:41Z; Postal services landscape lists DHL, UPS, DPD, Royal Mail, Amazon Logistics, Evri, Yodel, FedEx, Parcelforce, Mondial Relay; brand-rankings totalBrands 20; union of the per-market / per-engine top 10 lists = 19 names (DHL, DPD, UPS, Amazon Logistics, Parcelforce, Mondial Relay, Royal Mail, Evri, Yodel, APC Overnight, InPost, Chronopost, FedEx, Sendcloud, Colissimo, La Poste, TSE, Relais Colis, Colis Privé)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user reloads the GEO dashboard",
+          "testData": "",
+          "expected": "The Competitors card is displayed",
+          "observed": "Dashboard reloaded 19:43Z: '105 COMPETITORS', 12 analyses, '1003 / 1050 prompts'",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card counts the brands detected in the unbranded analysis",
+          "testData": "",
+          "expected": "The card reads C0 + N",
+          "observed": "Card 105 = C0 + 9. The 11 other analyses were unchanged between the two reads (same totalBrands and top 10 lists), so the +9 comes from D. N (brands of D not named by any other analysis) could not be computed exactly; none of the 19 named brands of D appears among the 699 names exposed for the other analyses, so N is expected close to 20, not 9. Red frame on the card.",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "C0 read before creating D (the condition the previous runs lacked). Card semantics question: the card (96) is lower than the totalBrands of a single brand analysis (229 for one of them), so it does not count all detected brands; the +9 does not match D's 7 distinct Competitive placeholder brands either (FR: Mondial Relay, Chronopost, La Poste, DPD; GB: Amazon Logistics, DPD, Royal Mail, FedEx). Dev / PO to confirm what the card counts. Side note: the stored Competitive prompts keep '[Competitor 1] ... [Competitor 4]' in GET /scope, while the category Prompts Analysis shows them filled with brand names."
+    },
+    {
+      "tc_id": "TC-GEO-1246-001",
+      "title": "Adding a category in Manage Scope suggests 10 Visibility, 10 Competitive and 10 Category Topics per market",
+      "story_id": "GEO-1246",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1246-001_step1_given.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1246-001_step2_when.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1246-001_step3_then.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1246-001_step4_fr_split.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1246-001_step5_no_reputation.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope of analysis UA",
+          "testData": "UA = D Postal services (FR (FR) + GB (EN), 1 category Package Delivery Services, 5 kept / 60 rows, first collection completed)",
+          "expected": "Manage Scope is displayed",
+          "observed": "Manage Scope: Countries 'France - French', 'United Kingdom - English'; Categories 'Package Delivery Services'; pool '1003 / 1050 prompts · 5 selected'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a category",
+          "testData": "Category: \"Courier services\"",
+          "expected": "Fresh suggestions for the new category are shown, all ticked, with the pool in view",
+          "observed": "Add Category > 'Courier services' > Add Category: name normalised to 'Courier Services', translations FR 'Services De Messagerie', GB 'Courier Services' > Next: 60 rows, 60/60 ticked, all category Courier Services; pool block in view '1063 / 1050 prompts · 60 selected · 13 prompts over. Untick prompts or contact your account manager.' (red frame)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each market gets 30 suggestions for the new category",
+          "testData": "Filter: new category, market GB (EN)",
+          "expected": "10 Visibility, 10 Competitive and 10 Category Topics rows",
+          "observed": "Market filter 'GB (EN) 30' only: 30 rows Courier Services x GB (EN) = 10 Category Topics + 10 Visibility + 10 Competitive, all ticked (e.g. 'What should I look for in Courier Services?', 'Best Courier Services?', 'Best for Courier Services: [Competitor 1], [Competitor 2], [Competitor 3] or [Competitor 4]?')",
+          "status": "PASS"
+        },
+        {
+          "title": "And FR (FR) gets the same split",
+          "testData": "Filter: new category, market FR (FR)",
+          "expected": "10 / 10 / 10, in French",
+          "observed": "Market filter 'FR (FR) 30' only: 10 Category Topics + 10 Visibility + 10 Competitive, all in French (e.g. 'Quels sont les critères à considérer pour les services de messagerie ?', 'Quels sont les meilleurs Services De Messagerie ?', 'Comparez [Competitor 1], [Competitor 2], [Competitor 3] et [Competitor 4] pour les services de messagerie ?'); no English sentence found",
+          "status": "PASS"
+        },
+        {
+          "title": "And there is no Reputation or Brand Image suggestion",
+          "testData": "",
+          "expected": "No \"Reputation\" or \"Brand Image\" row or filter value",
+          "observed": "Type filter values: 'Visibility 20 · Category Topics 20 · Competitive 20'; no Reputation / Brand Image row or value in the dialog (red frame on the Type menu)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adapted (dispatch authorisation): UA = disposable D (FR (FR) + GB (EN), 1 category instead of 2, no custom Other prompts) - the Add Category rule under test does not depend on these. First time the FR (FR) step could run (previous runs PARTIAL: no unbranded analysis with FR). Final 'Add Category' never clicked: Cancel > 'Discard Category' > 'Exit and Discard'; D still 1 category, 5 kept / 60 rows, pool '1003 / 1050 · 5 selected'. Non-GET requests: translate-category + 2 x adapt-batch (200), nothing aborted. Minor wording note: FR Visibility suggestions keep the title-cased category label inside the sentence ('Quels sont les meilleurs Services De Messagerie ?'), the AI translation of the category is title-cased ('Services De Messagerie')."
+    },
+    {
+      "tc_id": "TC-GEO-1246-002",
+      "title": "Adding a market in Manage Scope suggests the unbranded mix and no Brand Image",
+      "story_id": "GEO-1246",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Not fully verifiable (data): D has 1 category, so the Then \"10 Visibility, 10 Competitive and 10 Category Topics per category = 60 suggestions\" (category C1 then C2) could only be checked for C1 (30 suggestions). Everything observed matches the expected behaviour.",
+      "screenshots": [
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1246-002_step1_given.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1246-002_step2_when.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1246-002_step3_then.png",
+        "screenshots-GEO-1209-rerun-create-20261023/TC-GEO-1246-002_step4_no_brand_image.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens Manage Scope of analysis UA",
+          "testData": "UA = D Postal services",
+          "expected": "Manage Scope shows the markets GB (EN) and FR (FR)",
+          "observed": "Countries: 'France - French', 'United Kingdom - English' (red frame)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a market",
+          "testData": "Market: Spain - Spanish (ES)",
+          "expected": "Fresh suggestions for ES (ES) are shown, all ticked",
+          "observed": "Add Country > Spain, language auto-detected 'Spanish (ES)' > Next: 30 rows, 30/30 ticked, market ES (ES); pool '1033 / 1050 prompts · 30 selected'",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each category gets 30 suggestions in the new market",
+          "testData": "Filter: market ES (ES), category C1 then C2",
+          "expected": "10 Visibility, 10 Competitive and 10 Category Topics per category = 60 suggestions, in Spanish",
+          "observed": "Category filter 'Package Delivery Services 30' (only category of D): 10 Category Topics + 10 Visibility + 10 Competitive, all in Spanish with the category translated in the sentence ('¿Cuáles son los mejores servicios de entrega de paquetes?', '¿Qué debo tener en cuenta al elegir un servicio de entrega de paquetes?', '¿Cuál es el mejor servicio de entrega de paquetes: [Competitor 1], [Competitor 2], [Competitor 3] o [Competitor 4]?'). C2 not available -> 30 instead of 60",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And no Brand Image or Reputation suggestion is created",
+          "testData": "",
+          "expected": "No \"Brand Image\" or \"Reputation\" row",
+          "observed": "Type filter values 'Visibility 10 · Category Topics 10 · Competitive 10'; no Brand Image / Reputation row or value (red frame on the Type menu)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Data adapted (dispatch authorisation): UA = disposable D (FR (FR) + GB (EN) as the CSV Given, but 1 category). Previous run's possible bug (ES Visibility keeping the English category name, e.g. '¿Cuáles son las mejores Mountain Bikes?') NOT reproduced on D: all 10 ES Visibility rows say 'servicios de entrega de paquetes'. Final 'Add Country' never clicked: Cancel / Escape > 'Discard Country' > 'Exit and Discard'; D still FR + GB, 5 kept / 60 rows. Non-GET requests: adapt-batch only (200), nothing aborted."
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "spec": "GEO-152-GEO1116-mcp",
+  "runDate": "2026-09-28",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+  "summary": {
+    "total": 6,
+    "pass": 2,
+    "fail": 0,
+    "skip": 2,
+    "partial": 2
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1116-001",
+      "title": "Sources qualifying on three legs",
+      "story_id": "GEO-1116",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-001_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-001_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with visibility, competitive, and negative concept answers each citing at least one source",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Actions Center is opened and the Target Sources list renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then sources cited in visibility gap answers appear in the list (AMELIORER LA VISIBILITE tab: 192 sources confirmed)",
+          "status": "PASS"
+        },
+        {
+          "title": "And sources cited in competitive/negative concept answers appear in the list (AMELIORER LA PERCEPTION tab: 29 sources confirmed)",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "VISIBILITE tab: 192 sources (10 visible + 182 more). PERCEPTION tab: 29 sources (10 visible + 19 more). Sources with both badges (frandroid.com, kbb.com, caranddriver.com, evupdatemedia.us, cargurus.com, numerama.com). PARTIAL: UI does not distinguish between 'competitive loss' (leg 2) and 'negative concept' (leg 3) — both map to single AMELIORER LA PERCEPTION badge. Three separate qualifying legs cannot be individually verified via UI."
+    },
+    {
+      "tc_id": "TC-GEO-1116-002",
+      "title": "Brand ranked but not first does not qualify",
+      "story_id": "GEO-1116",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-002_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-002_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where a source is cited only in visibility answers where the brand is present but ranked 2nd or lower",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the Actions Center is opened and Target Sources list renders",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the source cited only in those non-qualifying visibility answers does not appear in the Target Sources list",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — Backend-only precondition. Requires specific data state where a source is cited EXCLUSIVELY in visibility answers where Toyota appears ranked 2nd or lower. This precondition cannot be controlled or verified via UI. The qualifying/exclusion logic is applied server-side at query time; the UI provides no visibility into per-answer rank data per source."
+    },
+    {
+      "tc_id": "TC-GEO-1116-003",
+      "title": "Articles recorded with the source",
+      "story_id": "GEO-1116",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-003_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-003_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis exists and frandroid.com (#1 source) appears in the Target Sources list",
+          "status": "PASS"
+        },
+        {
+          "title": "When the explanation panel is opened for frandroid.com",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the failing articles displayed in the panel include specific article URLs matching the qualifying answers for this source",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Panel opened for frandroid.com (#1 in TOUTES tab). Panel shows: 28 articles problematiques, 8 positif(s), cited 116 times in unfavorable answers. 10 articles visible with full specific URLs (e.g. frandroid.com/produits/voitures, frandroid.com/survoltes/voitures-electriques/3254001_..., frandroid.com/guide-dachat/...). Each annotated with 'Aucune mention de Toyota sur cette page'. 'Afficher 18 articles de plus' = 28 total matching the card badge count. Prompts section present. Article URLs are specific and match the source's qualifying answers."
+    },
+    {
+      "tc_id": "TC-GEO-1116-004",
+      "title": "Owned and competitor domains excluded",
+      "story_id": "GEO-1116",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-004_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-004_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where brand-owned domains (toyota.com, toyota.fr, toyota.es) appear in AI Citation Sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Actions Center Target Sources list renders (all 208 sources expanded)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then brand-owned domains (toyota.com, toyota.fr, toyota.es) do NOT appear in Target Sources list",
+          "status": "PASS"
+        },
+        {
+          "title": "And key competitor domains (tesla.com, bmw.com, volkswagen.com) do NOT appear in Target Sources list",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Brand-owned domains confirmed absent: toyota.com, toyota.fr, toyota.es (all appear in AI Citation Sources but correctly excluded from 208-source Target Sources list). tesla.com absent. bmw.com, volkswagen.com, honda.com, hyundai.com, kia.com absent. HOWEVER: stellantis.com (Stellantis corporate — automotive competitor group owning Peugeot, Citroen, Fiat, Opel) IS present at position #145 as type 'Entreprise' with 1 article problematique. Cannot confirm via UI whether stellantis.com is registered as a competitor domain in system config — causal exclusion reason not exposed in UI."
+    },
+    {
+      "tc_id": "TC-GEO-1116-005",
+      "title": "No cap from AI Citation Sources",
+      "story_id": "GEO-1116",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-005_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-005_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with more domains than the AI Citation Sources display limit cited in qualifying answers",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Actions Center Target Sources list renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then all domains appear in the list (total exceeds the AI Citation Sources display cap of 10)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "AI Citation Sources section (dashboard overview) displays 10 domains with 'Tous les domaines: 53' total. Target Sources (Actions Center TOUTES tab) shows 208 total sources after expanding 'Afficher 198 sources de plus'. 208 >> 53 AI Citation total and >> 10 display cap. The Actions Center list is not capped at the AI Citation Sources display limit. Confirmed: show-more expanded from 10 visible to 208 fully rendered sources."
+    },
+    {
+      "tc_id": "TC-GEO-1116-006",
+      "title": "Model-declared URLs excluded at selection",
+      "story_id": "GEO-1116",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-006_step1_given.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-006_step2_when.png",
+        "screenshots-GEO-152-GEO1116-mcp/TC-GEO-1116-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where at least one answer cites a model-declared URL (non-grounded, from model memory)",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the Actions Center Target Sources list renders",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then no source cited exclusively via model-declared URLs appears in the list (provenance=GROUNDED predicate applied)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — Backend-only verification. The provenance=GROUNDED predicate is applied server-side at selection time. No UI indicator distinguishes grounded vs. model-declared URLs in the Target Sources list or the explanation panel. Verifying this AC requires access to API/backend logs or internal data pipeline — not achievable via UI inspection."
+    }
+  ]
+}

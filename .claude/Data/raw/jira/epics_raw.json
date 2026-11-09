@@ -1,0 +1,145 @@
+{
+  "_comment": "Extracted from Jira Onclusive - GEO_Module",
+  "_description": "Raw Epics data from Jira API",
+  "_date": "2026-04-08",
+  "_filter": "labels = GEO_Module AND issuetype = Epic (filter 35994)",
+  "total": 8,
+  "epics": [
+    {
+      "epic_id": "338688",
+      "id": "338688",
+      "key": "GEO-106",
+      "summary": "EPIC-000: Foundation Infrastructure",
+      "description": "Setup des composants d'infrastructure partagés nécessaires à tous les Epics.\n\nStories:\n\nStory 0.1: Shared Infrastructure Setup (GEO-98)\nAs a developer, I want the shared infrastructure components configured and ready, So that all subsequent stories can build on a solid foundation.\n\nAcceptance Criteria:\n\n- Given the project structure (Sprint 0 complete) When this story is implemented Then the following are configured and tested: PromptApiClient bean, PromptTemplateRegistrar, EmailService interface + SendGrid implementation skeleton, KafkaConfig with all 8 topic definitions, RedisConfig for wizard rate limiting, Resilience4j CircuitBreaker configuration per LLM provider, Flyway baseline configuration, geo-flink-jobs Maven module created with Flink 1.20 dependencies\n- [UPDATED post-spike 2026-03-18] No custom SecurityConfig or CORS — onclusive-auth-spring-boot-starter auto-configures SecurityFilterChain. CORS handled by Vite proxy (dev) / API Gateway (prod).\n- This is the ONLY technical-only story. All subsequent stories deliver user value.\n- No database tables created here — tables created just-in-time in each story.\n\nStory 0.2: Database Forward Migrations + Seed Data (GEO-108)\nAs the development team, I want all remaining database tables created and a complete BMW report seeded, So that Epic 3 (Pipeline) can start in parallel with Epic 2 (Wizard) without waiting for the wizard UI to produce data.\n\nAcceptance Criteria:\n\n- AC1: Config-manager migrations — 4 new Flyway migrations (category_translations, questions, llm_configurations, report_job_queue)\n- AC2: Analysis-processor migrations — 4 new Flyway migrations (snapshots, llm_responses, response_sources, domain_classifications)\n- AC3-AC4: JPA entities for both services with correct inheritance and @SQLRestriction\n- AC5-AC6: Spring Data repositories for all new entities\n- AC7: All missing enums (JobStatus, ResponseStatus, QuestionType, SourceType, SourceCategory, SummaryScope)\n- AC8: Seed migration with complete BMW report configuration\n- AC9: Both services start successfully\n- AC10: Existing tests pass with zero regressions",
+      "priority": "Not Prioritized",
+      "status": "Done",
+      "labels": [
+        "GEO_Module",
+        "need-design",
+        "need-qa"
+      ],
+      "components": [
+        "GEO Module"
+      ]
+    },
+    {
+      "epic_id": "338687",
+      "id": "338687",
+      "key": "GEO-105",
+      "summary": "EPIC-001: Authentification & Accès Module",
+      "description": "L'utilisateur peut se connecter via Auth0, accéder à son organisation et voir l'état d'activation du module Mesure. Inclut la liste de rapports de base.\nStory 1.1: Auth0 Login & Organization Context\nAs an Editor or Reader, I want to log in via Auth0 SSO and have my organization automatically resolved, So that I can securely access only my organization's data.\n\nStory 1.2: Module Activation Gate\nAs a user, I want the system to check if the Mesure module is activated for my organization, So that I'm redirected to the sales page if not activated, or shown the module if activated.\n\nStory 1.3: Report List (Basic)\nAs an Editor, I want to view a list of all reports for my organization with status and date, So that I can see what's been configured and its current state.",
+      "priority": "Not Prioritized",
+      "status": "Done",
+      "labels": [
+        "GEO_Module",
+        "need-design",
+        "need-qa"
+      ],
+      "components": [
+        "GEO Module"
+      ]
+    },
+    {
+      "epic_id": "338660",
+      "id": "338660",
+      "key": "GEO-104",
+      "summary": "EPIC-002: Configuration de Rapport (Wizard 4 étapes)",
+      "description": "L'éditeur peut configurer un rapport complet via le wizard : marque (Brandfetch), pays avec langue auto-détectée, catégories IA, questions (perception/visibility/competitive), sélection des LLMs. Sauvegarde atomique avec validation de quotas.\nStory 2.1: Wizard Layout & Navigation\nAs an Editor, I want a 4-step wizard layout with navigation controls, So that I can progress through report configuration in a structured flow.\n\nStory 2.1b: Brand Search (Brandfetch)\nAs an Editor, I want to search and select a brand with auto-complete suggestions, So that I can identify my brand with its logo and domain.\n\nStory 2.1c: Market Configuration (Country + Language)\nAs an Editor, I want to add countries with auto-detected language and designate a primary market, So that I can define the geographic scope of my analysis.\n\nStory 2.2: Step 2 — AI Category Discovery\nAs an Editor, I want AI to detect relevant categories for my brand across my selected countries, So that I don't have to manually research what categories apply.\n\nStory 2.3: Step 3 — Prompts Review (Sentiment, Visibility, Competitive)\nAs an Editor, I want to review and customize the auto-generated questions for each category and market, So that the analysis asks exactly what matters to my brand.\n\nStory 2.4: Step 4 — Review & Submit Configuration\nAs an Editor, I want to review a summary of my configuration and select AI engines before submitting, So that I can verify everything is correct before the analysis runs.\n\nStory 2.5: Quota Validation & Warning System\nAs an Editor, I want the system to validate quotas at each step and show clear warnings, So that I don't exceed my organization's limits.",
+      "priority": "Not Prioritized",
+      "status": "Done",
+      "labels": [
+        "GEO_Module",
+        "need-design",
+        "need-qa"
+      ],
+      "components": [
+        "GEO Module"
+      ]
+    },
+    {
+      "epic_id": "338677",
+      "id": "338677",
+      "key": "GEO-103",
+      "summary": "EPIC-003: Pipeline d'Analyse (Batch Execution)",
+      "description": "Le système exécute l'analyse sur tous les LLMs en parallèle via Kafka+Flink, enrichit les résultats, notifie en temps réel et par email. Inclut l'exécution hebdomadaire planifiée.\nStory 3.1: First Analysis Execution (End-to-End Pipeline)\nAs an Editor, I want my report to start analyzing automatically after first-time configuration, So that I get results without manual intervention.\n\nStory 3.2: Real-Time Analysis Progress\nAs an Editor, I want to see my analysis progressing in real-time, So that I know the execution is advancing and which LLMs have completed.\n\nStory 3.3: Visibility Enrichment & Competitor Discovery\nAs an Editor, I want the system to identify my top competitors from AI visibility results, So that competitive analysis uses real market data instead of placeholders.\n\nStory 3.4: Perception Analysis & Reputation Insights\nAs an Editor, I want AI-generated reputation insights (concepts, sentiment) per category and market, So that I understand how AI engines perceive my brand.\n\nStory 3.5: Competitive Execution & Source Classification\nAs an Editor, I want competitive analysis completed and all citation sources classified, So that I can see my brand vs competitors and know which publications to target.\n\nStory 3.5b: Improvement Areas & Priority Source Targets Pre-Computation\nAs an Editor, I want improvement areas and priority source targets calculated during the analysis pipeline, So that the Actions Center loads instantly with pre-computed results.\n\nStory 3.6: Email Notifications\nAs an Editor, I want to receive an email when my analysis completes or my quota runs low, So that I'm informed without checking the app.\n\nStory 3.7: Scheduled Weekly Execution\nAs an Editor, I want my reports to automatically refresh every week, So that I get fresh data without manual intervention.",
+      "priority": "Not Prioritized",
+      "status": "Done",
+      "labels": [
+        "GEO_Module",
+        "need-design",
+        "need-qa"
+      ],
+      "components": [
+        "GEO Module"
+      ]
+    },
+    {
+      "epic_id": "338659",
+      "id": "338659",
+      "key": "GEO-102",
+      "summary": "EPIC-004: Dashboard — Overview & Navigation",
+      "description": "L'utilisateur consulte les KPIs agrégés, la matrice de priorisation, les Brand Rankings, Top Concepts, AI Citation Sources. Filtrage par marché et LLM. Perception Summary et Executive Summary générés à la demande.\nStory 4.1: Dashboard Layout & Sidebar Navigation\nAs an Editor, I want to navigate between report views via a sidebar, So that I can easily access Overview, Actions Center, Category Views, and Settings.\n\nStory 4.2: Market & LLM Filters\nAs an Editor, I want to filter all dashboard data by market and LLM engine, So that I can focus on specific geographic or engine-specific insights.\n\nStory 4.3: Overview — 5 KPI Cards\nAs an Editor, I want to see 5 key performance indicators for my brand, So that I get an instant snapshot of my brand's AI presence.\n\nStory 4.4: Overview — Category Prioritization Matrix\nAs an Editor, I want to see a visual matrix of my categories plotted by SOV vs Win Rate, So that I can identify which categories are stars, opportunities, at risk, or need monitoring.\n\nStory 4.5: Overview — Brand Rankings\nAs an Editor, I want to see how brands rank in my categories, So that I understand my competitive position.\n\nStory 4.5b: Overview — Top Concepts\nAs an Editor, I want to see what key reputation concepts emerge from AI perception, So that I understand the themes AI associates with my brand.\n\nStory 4.6: Overview — AI Citation Sources\nAs an Editor, I want to see which sources AI engines cite in my category, So that I can identify key publications for PR outreach.\n\nStory 4.7: AI Perception Summary (On-Demand)\nAs an Editor, I want AI-generated perception summaries that are scoped to my current filters, So that I get a quick narrative of how AI sees my brand.\n\nStory 4.8: Executive Summary\nAs an Editor, I want an executive summary of my brand's AI presence, So that I can get high-level insights at a glance.\n\nStory 4.9: Report Deletion\nAs an Editor, I want to delete a report I no longer need, So that I can manage my report inventory.",
+      "priority": "Not Prioritized",
+      "status": "Done",
+      "labels": [
+        "GEO_Module",
+        "need-design",
+        "need-qa"
+      ],
+      "components": [
+        "GEO Module"
+      ]
+    },
+    {
+      "epic_id": "338676",
+      "id": "338676",
+      "key": "GEO-101",
+      "summary": "EPIC-005: Dashboard — Category Views & Actions Center",
+      "description": "L'utilisateur analyse chaque catégorie en détail et voit les zones d'amélioration avec Priority Source Targets.\nStory 5.1: Category View — Perception Summary & KPI Cards\nAs an Editor, I want to see category-specific perception summary and KPIs, So that I can assess performance within each category.\n\nStory 5.1b: Category View — Brand Prioritization Matrix\nAs an Editor, I want to see a brand matrix scoped to a category, So that I can identify brand positioning within the category.\n\nStory 5.1c: Category View — Brand Rankings\nAs an Editor, I want to see brand rankings scoped to a category, So that I can see who leads in this category.\n\nStory 5.2: Category View — Unified Questions Table\nAs an Editor, I want to see all questions for a category with per-LLM responses and favorability, So that I can understand exactly how each AI engine answers.\n\nStory 5.3: Category View — Perception Topics & Citation Sources\nAs an Editor, I want to see perception topics and citation sources per category, So that I can understand reputation themes and source landscape for each category.\n\nStory 5.4: Actions Center — Visibility Improvements Display\nAs an Editor, I want to see visibility-related improvement areas, So that I know where my brand is underperforming in AI search.\n\nStory 5.4b: Actions Center — Competitive Improvements Display\nAs an Editor, I want to see competitive improvement areas, So that I know where competitors are winning.\n\nStory 5.4c: Actions Center — Reputation Improvements Display\nAs an Editor, I want to see reputation improvement areas, So that I know where sentiment is negative.\n\nStory 5.5: Actions Center — Priority Source Targets & Detail Panel\nAs an Editor, I want to expand improvement areas and see priority source targets, So that I have a concrete outreach plan for PR actions.",
+      "priority": "Not Prioritized",
+      "status": "Done",
+      "labels": [
+        "GEO_Module",
+        "need-design",
+        "need-qa"
+      ],
+      "components": [
+        "GEO Module"
+      ]
+    },
+    {
+      "epic_id": "338675",
+      "id": "338675",
+      "key": "GEO-100",
+      "summary": "EPIC-006: Manage Scope",
+      "description": "L'utilisateur modifie le périmètre d'un rapport existant (marchés, catégories, configuration LLM).\n\nStory 6.1: Manage Scope — Markets & Categories\nAs an Editor, I want to add/remove markets and categories on an existing report, So that I can adjust my analysis scope without creating a new report.\nAcceptance Criteria: Given an Editor on the Settings/Manage Scope page When they view the current scope Then they see: list of countries (with Primary indicator), list of categories, enabled LLM engines, question counts per category/market, analysis metadata (creation date, last analysis, execution time)\n\nStory 6.2: Manage Scope — LLM Configuration\nAs an Editor, I want to enable or disable LLM engines for an existing report, So that I can adjust which AI engines are included in future analyses.\nAcceptance Criteria: Given an Editor on Manage Scope When they toggle an LLM engine Then the change is saved and applied on the next scheduled execution And min 1 LLM must remain enabled",
+      "priority": "Not Prioritized",
+      "status": "Done",
+      "labels": [
+        "GEO_Module",
+        "need-design",
+        "need-qa"
+      ],
+      "components": [
+        "GEO Module"
+      ]
+    },
+    {
+      "epic_id": "338674",
+      "id": "338674",
+      "key": "GEO-99",
+      "summary": "EPIC-007: Snapshots & Guided Tour",
+      "description": "L'utilisateur navigue entre les snapshots historiques et découvre le produit via un tour guidé.\nStory 7.1: Immutable Snapshot Storage\nAs the system, I want to store each analysis run as an immutable snapshot, So that historical results are preserved and comparable.\nAcceptance Criteria: Given an analysis execution completes When results are finalized Then a new snapshot is created with: executedAt, totalQuestions, successCount, failedCount, configSnapshot (resolved config including real competitor names) And the snapshot is immutable (never modified after creation) And snapshots are retained for at least 12 months\n\nStory 7.2: Snapshot Navigation\nAs an Editor, I want to navigate between analysis snapshots, So that I can compare results over time.\nAcceptance Criteria: Given an Editor viewing a report with multiple snapshots When they use previous/next controls Then all dashboard data reflects the selected snapshot's results And the current snapshot date is displayed\n\nStory 7.3: Guided Tour\nAs a new user, I want a guided tour of the product, So that I can understand the key features quickly.\nAcceptance Criteria: Given a user accessing the product with a tour URL parameter When the tour activates Then it navigates automatically across views (Overview, Actions Center, Category) with contextual tooltips And the user can advance or skip steps And the tour has 8-12 steps total And demo data is used if no real report exists",
+      "priority": "Not Prioritized",
+      "status": "Backlog",
+      "labels": [
+        "GEO_Module",
+        "need-design",
+        "need-qa"
+      ],
+      "components": [
+        "GEO Module"
+      ]
+    }
+  ]
+}

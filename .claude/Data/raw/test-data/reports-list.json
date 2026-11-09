@@ -1,0 +1,32 @@
+{
+  "page": "reports-list",
+  "route": "/geo/reports",
+  "description": "Report Progress / Reports list — displays report status entries (PENDING, IN_PROGRESS, COMPLETED, COMPLETED_PARTIAL, FAILED) and the Create Report CTA. Route may redirect to /geo home on current build.",
+  "scenarios": {
+    "complete": {
+      "status_filter": "COMPLETED",
+      "search_query": "Anthropic",
+      "open_report_id": "9864c210-948d-4813-aab8-6a007e9127c2",
+      "trigger_create_report": false
+    },
+    "empty": {
+      "status_filter": null,
+      "search_query": "",
+      "open_report_id": null,
+      "trigger_create_report": false
+    },
+    "invalid": {
+      "status_filter_unknown": "ARCHIVED",
+      "status_filter_empty": "",
+      "search_query_too_long": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "search_query_xss": "<script>alert('xss')</script>",
+      "search_query_sql": "'; DROP TABLE report; --",
+      "open_report_id_malformed": "not-a-uuid",
+      "open_report_id_not_found": "00000000-0000-0000-0000-000000000000"
+    }
+  },
+  "options": {
+    "statuses": ["PENDING", "IN_PROGRESS", "COMPLETED", "COMPLETED_PARTIAL", "FAILED"],
+    "action_buttons": ["Create Report"]
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "spec": "GEO-1002-rerun-1231-003-1237-008",
+  "runDate": "2026-10-23",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "tcs": [
+    "TC-GEO-1231-003",
+    "TC-GEO-1237-008"
+  ],
+  "rerun_of": [
+    "test-results-GEO-1002-GEO1231-mcp-real.json (TC-GEO-1231-003, FAIL 2026-10-19/20)",
+    "test-results-GEO-1002-GEO1237-mcp-real.json (TC-GEO-1237-008, FAIL 2026-10-20)"
+  ],
+  "reason": "CSV fixed: TC-GEO-1231-003 expected texts aligned on British spelling (analysing / analyse); TC-GEO-1237-008 aligned 2026-10-23 (pool checked on the Prompts ring after toggling an engine on Summary, Summary shows no pool figures, no analysis created).",
+  "summary": {
+    "total": 2,
+    "pass": 2,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "successRate": 100,
+    "verdict": "GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me at start and end)",
+    "organisation": "QA-GEO (org_id dcea498b-a5cc-4c2a-b078-82530de16998), role SUPER_ADMIN, existing session; unchanged at end",
+    "featureFlag": "unbranded_analysis = true (5-step wizard)",
+    "pool": "Dashboard pool block 996 / 1000 prompts at start and at end (11 analyses); U = 996, P = 1000",
+    "guard": "context.route on **/geo/api/**: only GET + discover-categories / translate-category / questions/adapt-batch allowed, all other requests aborted",
+    "stateChanges": "None: wizard draft only, closed with Exit and Discard, Create Analysis never clicked; context.unrouteAll() at the end"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1231-003",
+      "title": "Brand & Country asks for the brand and the countries",
+      "story_id": "GEO-1231",
+      "previous_status": "FAIL",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-1231-003-1237-008/TC-GEO-1231-003_step1_given.png",
+        "screenshots-GEO-1002-rerun-1231-003-1237-008/TC-GEO-1231-003_step2_when.png",
+        "screenshots-GEO-1002-rerun-1231-003-1237-008/TC-GEO-1231-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard",
+          "expected": "The New Analysis button is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks New Analysis",
+          "expected": "Brand & Country is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the brand question is displayed",
+          "expected": "\"What brand are you analysing?\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the countries question is displayed",
+          "expected": "\"Which countries do you want to analyse?\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "New Analysis (/geo/new) > Brand analysis card > Continue: stepper aria-current = \"2 Brand & Country\". Exact leaf texts found once each: \"What brand are you analysing?\" and \"Which countries do you want to analyse?\" (outlined in green on step3_then). Previous FAIL was CSV spelling only (-ize); CSV now matches the en-GB UI.",
+      "description": "Verify that Brand & Country asks \"What brand are you analysing?\" and \"Which countries do you want to analyse?\". Covers AC-1."
+    },
+    {
+      "tc_id": "TC-GEO-1237-008",
+      "title": "Engines never consume slots",
+      "story_id": "GEO-1237",
+      "previous_status": "FAIL",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "data_substitution": "S = 4 instead of S = 40 (pool U = 996 / P = 1000: only 4 free slots; with 40 kept the ring read \"1036 / 1000 prompts · 40 selected\" + \"36 prompts over. Untick prompts or contact your account manager.\" and Review & Launch was disabled)",
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-1231-003-1237-008/TC-GEO-1237-008_step0_prompts_40_over_pool.png",
+        "screenshots-GEO-1002-rerun-1231-003-1237-008/TC-GEO-1237-008_step1_given.png",
+        "screenshots-GEO-1002-rerun-1231-003-1237-008/TC-GEO-1237-008_step2_when.png",
+        "screenshots-GEO-1002-rerun-1231-003-1237-008/TC-GEO-1237-008_step3_back_to_prompts_engine_off.png",
+        "screenshots-GEO-1002-rerun-1231-003-1237-008/TC-GEO-1237-008_step4_summary_engine_back_on.png",
+        "screenshots-GEO-1002-rerun-1231-003-1237-008/TC-GEO-1237-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with S kept prompts",
+          "data": "S = 40 (run: S = 4, pool limit)",
+          "expected": "The pool ring reads \"U + 40 / P\"",
+          "observed": "\"1000 / 1000 prompts · 4 selected\" = U (996) + 4 / P (1000)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user goes to Summary and turns one engine off",
+          "expected": "The engine toggle is off; Summary shows no pool figures",
+          "observed": "Review & Launch > \"5 Summary\": Toggle Gemini true -> false (ChatGPT stays on); no \"x / y\", pool or slot text on Summary",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user goes back to Prompts",
+          "expected": "The pool ring still reads \"U + 40 / P\"",
+          "observed": "Stepper \"4 Prompts\": \"1000 / 1000 prompts · 4 selected\", 4 rows still ticked",
+          "status": "PASS"
+        },
+        {
+          "title": "Then turning the engine back on does not change the pool either",
+          "data": "Back on Summary, turn the engine on, then return to Prompts",
+          "expected": "The pool ring still reads \"U + 40 / P\"; engines never consume slots (on an existing analysis, its Prompts column does not depend on its number of engines)",
+          "observed": "Summary: Gemini still off on return (choice kept), turned back on (true); stepper \"4 Prompts\": \"1000 / 1000 prompts · 4 selected\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Wizard draft only, never Create Analysis; API write guard on. Brand analysis > Decathlon (decathlon.com) > United Kingdom - English (EN), AI Insights English (EN) > discovery returned Outdoor Gear + Sports Apparel, Sports Apparel removed (confirm \"Remove\") = 40 prompts GB (EN). Dashboard pool 996 / 1000 at start, so S = 40 could not be kept: 36 unticked, 4 kept (the 4 first rows, all Brand Image / Overview) -> \"1000 / 1000 prompts · 4 selected\" + \"Pool full. Any prompt you add must be balanced by an untick before launch.\". Ring identical (1000 / 1000 · 4 selected) before, after Gemini off and after Gemini on. The Summary stepper is aria-disabled from Prompts, so Summary was re-entered with Review & Launch. The parenthetical \"(on an existing analysis, its Prompts column does not depend on its number of engines)\" was not re-checked (no creation allowed); supporting evidence from the 20/10 run TC-GEO-1237-010 (133 prompts x 3 engines -> pool +133, Prompts column 133). Side observation (not part of this TC): with the 4 kept prompts all in Brand Image, Summary showed \"Categories: Outdoor Gear dropped\" and \"At least one category needs a kept prompt. Go back to Prompts and tick at least one prompt in a category. Create Analysis stays disabled until then.\" - consistent with the category-drop rule. Wizard closed with Back to Dashboard > \"Exit setup?\" > Exit and Discard; dashboard pool still 996 / 1000.",
+      "description": "Verify that changing the engine toggles never changes the pool count, on Summary and after creation. Covers AC-4. [QA 2026-10-23: the pool figures are only shown on the Prompts step (Summary has none), so the slots are checked on the Prompts ring after toggling an engine on Summary; no analysis is created]"
+    }
+  ]
+}

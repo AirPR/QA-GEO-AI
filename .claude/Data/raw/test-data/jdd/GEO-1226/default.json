@@ -1,0 +1,160 @@
+{
+  "_meta": {
+    "description": "JDD of epic GEO-1226 (EPIC-049 Target Sources Improvements for Review Pages), merged over common.json. Empty string = skipped on purpose.",
+    "source_csv": ".claude/Data/output/csv/GEO-R1.4/testcases-coverage-epicGEO-1226.csv",
+    "prepared_by": "GEO-jdd-preparer-agent (phase 5 of /senior-qa-campaign GEO-1226 GEO-R1.4)",
+    "method": "Read-only: GET calls made by the app pages (headless session, non-GET calls blocked by a route guard). No analysis created, no setting changed, no organisation switch."
+  },
+  "epic": "GEO-1226",
+  "version": "GEO-R1.4",
+  "prepared": "2026-11-03",
+
+  "environment": {
+    "url": "https://staging-geo.onclusive.com/geo",
+    "organisation": "QA-GEO",
+    "organisation_id": "dcea498b-a5cc-4c2a-b078-82530de16998",
+    "organisation_frequency": "DAILY",
+    "role": "SUPER_ADMIN",
+    "language": "en-GB",
+    "features": { "unbranded_analysis": true },
+    "auth_me_start": "2026-11-03 ~16:55 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "auth_me_end": "2026-11-03 17:03 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+    "front_bundle": "index-Bt5hp1LM.js (holds negativeReviews / negativeReviews_one / showMoreReviews / showMoreReviews_one EN strings)",
+    "deploy_reference": "GEO-1547 / 1548 / 1549 / epic GEO-1226 moved Code Review -> Ready for QA on 2026-11-02 ~11:58 UTC; an analysis is 'post-deploy' when it ran after that time",
+    "organisations_visible": ["Onclusive (ONE_TIME)", "GEO Stress Test 2026-10 (ONE_TIME)", "NEW-ORG-2109 (ONE_TIME)", "QA-GEO (DAILY)"]
+  },
+
+  "accounts": {
+    "main": "GEO_USER_EMAIL",
+    "editor": "GEO_USER_EDITOR_EMAIL",
+    "reader": "GEO_USER_READER_EMAIL",
+    "pql": "GEO_USER_PQL_EMAIL"
+  },
+
+  "api": {
+    "target_sources_list": "GET /geo/api/v1/reports/{uuid}/target-sources?from=...",
+    "target_source_panel": "GET /geo/api/v1/reports/{uuid}/target-sources/{domain}?from=...&to=...&marketCodes=master&llms=...&lang=en-GB",
+    "review_mode_marker": "Panel response failing[] (and positive[]) article fields: grouped (bool), reviewCount (int), pages[] = { url, pageNumber, reviewCount, reviews[] }; classic articles keep passage + matchedEntity. Card fields: failingArticles, failingArticlesByVerdict { BRAND_NOT_NAMED, NAMED_NEGATIVELY }, promptCount.",
+    "review_mode_state_2026-11-03": "In the 5 post-deploy QA-GEO analyses (1 054 failing articles read): grouped=true on 9 trustpilot articles, reviewCount=0 everywhere, reviews[] empty everywhere; grouped articles have pages=[] and no passage (panel shows title + URL line only, no chip, no page block, no quote). Lack of visibility articles have pages=[{pageNumber, reviewCount:0, reviews:[]}]."
+  },
+
+  "analyses": {
+    "orange_review_sites": {
+      "uuid": "16cdf040-35aa-42b9-b4e2-e9f6300d50dc",
+      "brand": "Orange",
+      "organisation": "QA-GEO",
+      "countries": ["FR", "MA"],
+      "llms": ["grok", "claude", "perplexity", "openai", "gemini"],
+      "last_run": "2026-11-03T14:57:03Z",
+      "post_deploy": true,
+      "export_button": "Export analysis (data-testid dashboard-export-trigger-btn)",
+      "review_sites": {
+        "trustpilot.com": {
+          "rank": 3,
+          "card": "Negative perception in 6 articles (Last 7 days)",
+          "grouped_articles": [
+            "fr.trustpilot.com/review/www.orange.ma (title 'Avis de Orange Maroc')",
+            "www.trustpilot.com/review/www.orange.ma",
+            "ie.trustpilot.com/review/www.orange.ma (30-day window)",
+            "www.trustpilot.com/review/www.orange.fr (30-day window)"
+          ],
+          "subdomains_same_review_page": ["fr", "www", "ie", "fr-be"],
+          "same_host_other_path": ["fr.trustpilot.com/review/www.orange.fr", "fr.trustpilot.com/review/www.orange.ma", "fr.trustpilot.com/review/www.orange.com?page=2"],
+          "page_param_pages": ["fr.trustpilot.com/review/www.orange.com?page=2 (not grouped, classic passage)", "ie.trustpilot.com/review/www.orange.ma?page=2 (not grouped, classic passage)"],
+          "lack_of_visibility_review_page": "www.trustpilot.com/review/www.prixtel.com?page=2 (competitor, 30-day window)",
+          "engines": "ChatGPT + Gemini"
+        },
+        "comparison_pages": ["choisir.com/forfait-mobile/operateurs (Negative perception, classic passage)", "degrouptest.com/actualite/... (11 negative, long URLs up to 179 chars)", "selectra.info/telecom/fournisseurs/orange/avis"],
+        "store_pages": "play.google.com 'Orange et moi Maroc' (classified AGGREGATOR, not Review Sites)"
+      },
+      "used_by": ["TC-GEO-1547-012", "TC-GEO-1547-013", "TC-GEO-1548-002", "TC-GEO-1548-003", "TC-GEO-1548-008", "TC-GEO-1548-009", "TC-GEO-1548-010", "TC-GEO-1548-011", "TC-GEO-1548-012", "TC-GEO-1548-018", "TC-GEO-1548-025", "TC-GEO-1549-022"]
+    },
+    "toyota_non_review": {
+      "uuid": "439acd96-0b1b-4da4-9e07-612d38e9783e",
+      "brand": "Toyota",
+      "organisation": "QA-GEO",
+      "countries": ["US", "FR", "ES"],
+      "llms": ["perplexity", "openai", "gemini", "claude", "grok"],
+      "last_run": "2026-11-03T14:57:03Z",
+      "post_deploy": true,
+      "total_sources_last_7_days": 80,
+      "journalism_sources": ["guideautoweb.com (#1, 12 LoV / 7 negative)", "autobild.es", "automobile-magazine.fr", "largus.fr", "autoplus.fr", "caradisiac.com", "lefigaro.fr (?page=N URLs stay separate articles)"],
+      "review_sites": {
+        "edmunds.com": "rank 3, REVIEW_SITES (not Journalism), 4 LoV / 9 negative; single-company consumer-reviews pages (e.g. /toyota/4runner/2026/consumer-reviews/) still show a classic passage, reviewCount 0",
+        "trustpilot.com": "grouped: fr.trustpilot.com/review/toyota.fr, fr-be.trustpilot.com/review/toyota.fr, es.trustpilot.com/review/toyota.es (pages=[], no reviews)"
+      },
+      "not_in_window": ["alvolante.it", "frandroid.com"],
+      "used_by": ["TC-GEO-1547-005", "TC-GEO-1547-011", "TC-GEO-1547-024", "TC-GEO-1547-025", "TC-GEO-1547-026", "TC-GEO-1548-017", "TC-GEO-1548-026", "TC-GEO-1549-022"]
+    },
+    "decathlon_review_sites": {
+      "uuid": "b6c8b664-e146-464a-bbd7-78d9deb99926",
+      "brand": "Decathlon",
+      "organisation": "QA-GEO",
+      "countries": ["DZ", "FR", "GB"],
+      "llms": ["openai", "gemini", "grok", "claude", "perplexity"],
+      "last_run": "2026-11-03T09:27:03Z",
+      "post_deploy": true,
+      "review_sites": {
+        "trustpilot.com": "grouped: www.trustpilot.com/review/www.decathlon.fr, www.trustpilot.com/review/www.decathlon.co.uk (pages=[]); classic: fr / fr-be decathlon.fr, uk decathlon.co.uk",
+        "which.co.uk": "2 Lack of visibility comparison / news articles"
+      },
+      "used_by": ["TC-GEO-1548-003", "TC-GEO-1547-012"]
+    },
+    "lictorix_lack_of_visibility": {
+      "uuid": "f228f1fe-9363-4f3c-97e6-e7275bd383e8",
+      "brand": "Lictorix Geo",
+      "organisation": "QA-GEO",
+      "countries": ["US"],
+      "llms": ["openai", "gemini", "grok", "claude", "perplexity"],
+      "last_run": "2026-11-02T21:40:09Z",
+      "post_deploy": true,
+      "status": "COMPLETED_PARTIAL",
+      "review_sites": "Lack of visibility only: g2.com (11), trustradius.com (8), capterra.com (7, incl. /location-intelligence-software/?page=2), trustpilot.com (geotargetly.com, quickmetrix.com) - none grouped",
+      "used_by": []
+    },
+    "adidas_one_page_trustpilot": {
+      "uuid": "7afde4fe-55be-4f53-b91f-241e4c91a234",
+      "brand": "adidas",
+      "organisation": "QA-GEO",
+      "last_run": "2026-11-03T14:57:03Z",
+      "post_deploy": true,
+      "review_sites": "trustpilot.com: 5 single-company pages on www / ca / nz subdomains, classic passages, none grouped",
+      "used_by": []
+    },
+    "stale_other_org": {
+      "_note": "Org 'GEO Stress Test 2026-10' is ONE_TIME: these analyses ran in early October (pre-deploy) and are not reachable from QA-GEO (GET /reports/{uuid} = 404 without switching org).",
+      "msc": "dc801726-99e5-4e53-bf72-87b469ed5098",
+      "victorias_secret": "0bd0b48c-e78a-4e43-b607-f0318b48f6ba",
+      "verisure": "183bdb00-e80a-4d98-8866-e3dc5645900c",
+      "great_eastern": "595928ee-4314-457a-95fc-03b423d1ee5b",
+      "usps": ""
+    }
+  },
+
+  "domains": {
+    "review_site_single_company": ["trustpilot.com (Orange, Toyota, Decathlon, adidas)", "edmunds.com consumer-reviews (Toyota)", "selectra.info /orange/avis (Orange)"],
+    "review_site_comparison": ["choisir.com", "degrouptest.com", "which.co.uk"],
+    "journalism_page_param": ["lefigaro.fr ?page=", "tvmag.lefigaro.fr ?page=", "guideautoweb.com ?page="],
+    "journalism_p_param": ""
+  },
+
+  "other": {
+    "os_native_shell": "",
+    "strings_sheet_fr_es": "",
+    "cnp_assurances_prod": ""
+  },
+
+  "missing": [
+    { "need": "Review pages with stored negative reviews (reviewCount > 0, pages[] with reviews) in a post-deploy analysis", "tcs": ["TC-GEO-1547-001","TC-GEO-1547-002","TC-GEO-1547-003","TC-GEO-1547-004","TC-GEO-1547-006","TC-GEO-1547-007","TC-GEO-1547-008","TC-GEO-1547-009","TC-GEO-1547-010","TC-GEO-1547-014","TC-GEO-1547-015","TC-GEO-1547-016","TC-GEO-1548-004","TC-GEO-1548-005","TC-GEO-1548-007","TC-GEO-1548-013","TC-GEO-1548-014","TC-GEO-1548-015","TC-GEO-1548-016","TC-GEO-1548-019","TC-GEO-1549-001","TC-GEO-1549-003","TC-GEO-1549-007","TC-GEO-1549-017","TC-GEO-1549-018","TC-GEO-1549-019","TC-GEO-1549-020","TC-GEO-1549-021"], "proposal": "Ask the dev (Abdenasser) why the 2026-11-03 runs of Orange 16cdf040 / Toyota 439acd96 / Decathlon b6c8b664 return grouped=true with pages=[] and reviewCount=0 on every trustpilot page (review-v1 not run, judge returned nothing, or capture missing). Recommended first step; nothing to create before the answer." },
+    { "need": "Paginated review page with > 10 / exactly 11 / 17 / > 20 / exactly 10 / 1 negative reviews, 10th review inside a page, ?page=N pages on 2 subdomains (CNP-like)", "tcs": ["TC-GEO-1548-001","TC-GEO-1548-006","TC-GEO-1549-002","TC-GEO-1549-004","TC-GEO-1549-005","TC-GEO-1549-006","TC-GEO-1549-008","TC-GEO-1549-009","TC-GEO-1549-010","TC-GEO-1549-011","TC-GEO-1549-012","TC-GEO-1549-013","TC-GEO-1549-014","TC-GEO-1549-015","TC-GEO-1549-016","TC-GEO-1549-023","TC-GEO-1549-026","TC-GEO-1549-027"], "proposal": "After point 1 is solved: re-check Orange trustpilot (orange.ma on 4 subdomains) at the next daily run. If still not enough, create a disposable 'CNP Assurances' analysis in QA-GEO (FR, 5 prompts on insurer reviews, delete after the run) with user approval, or read-only check of production CNP Assurances with user approval." },
+    { "need": "GEO-1204 / GEO-1192 regression analyses (MSC, Victoria's Secret, Verisure, Great Eastern, USPS) run after the deploy", "tcs": ["TC-GEO-1547-019","TC-GEO-1547-020","TC-GEO-1547-021","TC-GEO-1547-022","TC-GEO-1547-023"], "proposal": "Org 'GEO Stress Test 2026-10' is ONE_TIME: switching org alone gives pre-deploy data. Ask the dev to force a re-run of the 4 analyses (and give the USPS uuid); then, with user approval, switch the main account to 'GEO Stress Test 2026-10' for the run and switch back to QA-GEO after (check /auth/me)." },
+    { "need": "Journalism source with ?p= URLs", "tcs": ["TC-GEO-1548-020"], "proposal": "None in the 5 QA-GEO analyses: rely on the dev unit test of articleKey (Needs dev evidence) or SKIP." },
+    { "need": "Review page cited with two URL variants (http/https, www, trailing slash)", "tcs": ["TC-GEO-1548-023"], "proposal": "Not found; look again at execution, else SKIP (D7: variants never merged = expected)." },
+    { "need": "Grouped article containing a page without stored reviews", "tcs": ["TC-GEO-1548-024"], "proposal": "Every grouped article today has pages=[]: wait for point 1 and the PO answer to P1; dev to name such a group." },
+    { "need": "NOT_FETCHED / CHECK_FAILED groups, optional contract, older API, re-judge logs", "tcs": ["TC-GEO-1547-017","TC-GEO-1547-018","TC-GEO-1548-021","TC-GEO-1548-022","TC-GEO-1549-025"], "proposal": "Dev evidence (logs / DB / unit tests): include in the same dev request as point 1." },
+    { "need": "OS native (Onclusive Social) shell on staging", "tcs": ["TC-GEO-1549-024"], "proposal": "P8: ask the dev / PO for the OS native URL and access; SKIP until then." },
+    { "need": "FR / ES expected strings (strings sheet tab 'GEO-1226 Review pages')", "tcs": ["TC-GEO-1549-026","TC-GEO-1549-027"], "proposal": "P7: ask for read access; language switch fr-FR / es-ES then en-GB needs user approval at run time." }
+  ],
+
+  "cleanup": []
+}

@@ -1,0 +1,219 @@
+{
+  "spec": "GEO-1069-prod-smoke-mcp",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "environment": "production (read-only smoke, GEO-R1.3 go-live)",
+  "url": "https://geo.onclusive.com/geo/",
+  "runFolder": "29102026-1039",
+  "summary": {
+    "total": 5,
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "partial": 2
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1260-001",
+      "title": "Custom brand row shows an optional website field under the selected brand card",
+      "story_id": "GEO-1260",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1260-001_step1_given.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1260-001_step2_when.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1260-001_step3_then.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1260-001_step3_then_field.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Brand & Country step",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types a brand name in the brand search",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the \"Custom Brand\" row (Lictorix Geo)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a website field is displayed inline right under the selected custom brand card, above \"Discover Categories\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field label reads the validated copy",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field shows the validated placeholder and hint",
+          "status": "PASS"
+        },
+        {
+          "title": "And the empty field is not flagged as required",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PROD. Dropdown for \"Lictorix Geo\": \"Lictorix Geo — Custom Brand\" row + 5 Brandfetch suggestions (GET /geo/api/v1/brands/search 200; suggestion logos cdn.brandfetch.io 200). Card \"L | Lictorix Geo\" selected. Field data-testid=wizard-brand-website-input placed under the card (card bottom 271px, field top 339px, Discover Categories 672px). Label \"What is your brand's website? (optional)\", placeholder \"example.com\", hint \"We use it to show the right logo. Leave it empty to show your brand's initial.\" = exact validated copy. Globe icon (svg in the field wrapper); wrapper/input classes identical to the brand search input (only the transition-duration class differs). required=false, aria-invalid=false, no asterisk, no error text."
+    },
+    {
+      "tc_id": "TC-GEO-1260-004",
+      "title": "Selecting a suggestion asks for no website and keeps today's flow",
+      "story_id": "GEO-1260",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1260-004_step1_given.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1260-004_step2_when.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1260-004_step3_then.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1260-004_step3_loading.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Brand & Country step",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types the name of a suggested brand",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects the suggestion",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no website field is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a market and clicks \"Discover Categories\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PROD. \"Nike\": Custom Brand row + 5 suggestions with logo and domain (nike.com, nikeapp.com, nikeplus.com, nikeid.com, nikesb.com; all Brandfetch icons loaded, HTTP 200). Selected card = Nike logo (cdn.brandfetch.io, loaded) + \"Nike\" + \"nike.com\"; no website field in the DOM and no \"What is your brand's website\" text. Country United States / English (EN) added (label \"Add country\" = GEO-1514 wording, label difference only). Discover Categories: POST /geo/api/v1/analysis/discover-categories 200 (1.2 s); loading screen \"Discovering Categories — Scanning how AI engines see Nike across your countries. This usually takes about 20 seconds.\" captured in the DOM (MutationObserver), then the Categories step \"We detected these categories for Nike\" (Athletic Shoes, Athletic Apparel). The loading screen was too short for a screenshot (step3_loading shows the Categories step). Wizard left with Back to Dashboard > Exit and Discard (\"There is no draft: nothing is saved yet\"), nothing created."
+    },
+    {
+      "tc_id": "TC-GEO-1261-001",
+      "title": "Full URL with protocol, www, path and query gives the root domain",
+      "story_id": "GEO-1261",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1261-001_step1_given.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1261-001_step2_when.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1261-001_step3_then.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1261-001_step3_then_card.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user enters a full URL in the website field",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field loses focus",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the derived root domain is shown under the brand name",
+          "status": "PASS"
+        },
+        {
+          "title": "And the logo preview is retrieved for that domain",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PROD. Data per the prod smoke instructions: custom brand \"Licter\" (Custom Brand row; a Brandfetch suggestion \"Licter licter.com\" also exists, not used) and URL \"https://www.licter.com/en/page?x=1\" (CSV: \"Lictorix Geo\" / \".../fr/about?x=1\", same check). Given: avatar \"L\", field empty. No error while typing nor after blur (aria-invalid=false, only the hint text). After blur: \"licter.com\" shown under \"Licter\"; GET /geo/api/v1/brands/logo?domain=licter.com 200 {\"logoUrl\":\"https://cdn.brandfetch.io/domain/licter.com/w/64/h/64/fallback/404/icon.png?c=...\"}; the avatar shows a licter.com logo instead of \"L\" (32x32). The image displayed is the Google favicon fallback, because the Brandfetch CDN answered 302 x-bf-error: automated_traffic to the headless browser (see TC-GEO-1262-001)."
+    },
+    {
+      "tc_id": "TC-GEO-1262-001",
+      "title": "Confirmed domain shows the logo preview in the brand card within moments",
+      "story_id": "GEO-1262",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1262-001_step1_given.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1262-001_step2_when.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1262-001_step3_then.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/licter_brandfetch_realUA.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the custom brand \"Lictorix Geo\" is selected with an empty website field",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types a valid domain in the website field",
+          "status": "PASS"
+        },
+        {
+          "title": "And the field loses focus",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the logo retrieved for the domain is displayed within moments",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the domain is shown under the brand name",
+          "status": "PASS"
+        },
+        {
+          "title": "And the logo lookup requests are recorded",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PROD, custom brand \"Licter\", W1 \"licter.com\". Avatar unchanged while typing (\"L\"). On blur: grey pulsing placeholder (h-8 w-8 animate-pulse rounded-full bg-slate-200, 32x32, no text) for ~125 ms, then the image at 32x32 (same size as a suggestion logo). The card grows 54 -> 61 px at the same moment because the domain line \"licter.com\" appears under the name (expected by design, not caused by the placeholder). Requests: GET /geo/api/v1/brands/logo?domain=licter.com 200 (one per blur) -> cdn.brandfetch.io/domain/licter.com/w/64/h/64/fallback/404/icon.png 302 to docs.brandfetch.com/docs/logo-link/guidelines#2-hotlinking with x-bf-error: automated_traffic -> app falls back to www.google.com/s2/favicons?domain=licter.com (301 -> gstatic 200), so the avatar shows the licter.com favicon, not the Brandfetch logo. Cause = the MCP browser is HeadlessChrome: the same Brandfetch URL fetched with a desktop Chrome user agent returns 200 image/png 64x64 (purple licter logo, licter_brandfetch_realUA.png) and with the HeadlessChrome user agent the same 302 automated_traffic. PARTIAL: the Brandfetch logo display must be confirmed once in a real (non-headless) browser."
+    },
+    {
+      "tc_id": "TC-GEO-1263-001",
+      "title": "Captured domain logo is shown on every brand surface of the app",
+      "story_id": "GEO-1263",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1263-001_step1_given.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1263-001_step2_when.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1263-001_step3_then.png",
+        "screenshots-GEO-1069-prod-smoke-mcp/TC-GEO-1263-001_step4_category.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis A1 exists with a captured domain",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the report list",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user opens the Overview of A1",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then the target brand row of the brand rankings in Overview shows logo L1",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user opens a Category view",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user opens a competitive view",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "creation not allowed in prod smoke phase 1 — logo surfaces checked on pre-release analyses. Toyota (afcdc69f) and Bosch (b1600449), both pre-release: GET /reports returns entityLogoUrl = cdn.brandfetch.io/idR0dj2M6E/... (Toyota) and /idlS72krr0/... (Bosch); both answer 410 Gone with x-bf-error: client_id_expired (also 410 with a desktop Chrome user agent, so not a headless effect). Every surface falls back to the Google favicon of the brand's own domain, consistently: report list (Bosch, Toyota), dashboard sidebar block (Toyota), Overview Brand Rankings row 4 \"Toyota\" (favicon toyota.com, not a cited-source favicon), Category view Hybrid Cars Brand Rankings row 1 \"Toyota\" (favicon toyota.com) and the Visibility / Competitive prompt rows of the category (favicon toyota.com). No separate brand logo seen in the page header. Car insurance (unbranded) shows the letter \"C\". All /geo/api calls 200; the only console errors are the Brandfetch 410s."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "page": "home",
+  "route": "/geo",
+  "description": "GEO Analytics Dashboard — brand cards list. Entry point to create a new analysis or open an existing brand scope.",
+  "scenarios": {
+    "complete": {
+      "search_brand": "Microsoft",
+      "click_brand": "Anthropic",
+      "action": "open",
+      "manage_scope_for": "OpenAI",
+      "delete_brand": "BMW",
+      "trigger_new_analysis": true
+    },
+    "empty": {
+      "search_brand": "",
+      "click_brand": null,
+      "action": null,
+      "manage_scope_for": null,
+      "delete_brand": null,
+      "trigger_new_analysis": false
+    },
+    "invalid": {
+      "search_brand": "ZZZ_NonExistingBrand_!@#$%",
+      "click_brand": "NotARealBrand",
+      "delete_brand": "NotARealBrand",
+      "manage_scope_for": "NotARealBrand",
+      "very_long_query": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sql_injection_attempt": "'; DROP TABLE brands; --",
+      "xss_attempt": "<script>alert(1)</script>"
+    }
+  },
+  "options": {
+    "expected_brands_on_fixture": ["Microsoft", "BMW", "Anthropic", "OpenAI"],
+    "action_buttons": ["New Analysis"],
+    "per_brand_actions": ["Manage scope for {brand}", "Delete {brand}"],
+    "main_sidebar_items": ["Mention", "Review", "Contact", "Measure", "Settings", "Help", "Log out"],
+    "top_capabilities": ["GEO Metrics", "TBD Capability", "TBD Capability"]
+  }
+}

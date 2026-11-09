@@ -1,0 +1,186 @@
+{
+  "epic": {
+    "id": "GEO-105",
+    "key": "GEO-105",
+    "title": "EPIC-001: Authentification & Accès Module",
+    "status": "Done",
+    "assignee": "Abdenasser Aroukhsiss",
+    "description": "L'utilisateur peut se connecter via Auth0, accéder à son organisation et voir l'état d'activation du module Mesure. Inclut la liste de rapports de base.",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-105",
+    "stories": [
+      {
+        "id": "GEO-97",
+        "title": "[Story 1.1] Auth0 Login & Organization Context",
+        "storyId": "Story 1.1",
+        "status": "Done",
+        "assignee": "Abdenasser Aroukhsiss",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-97",
+        "userStory": {
+          "as": "Editor or Reader",
+          "want": "log in via Auth0 SSO and have my organization automatically resolved",
+          "so_that": "I can securely access only my organization's data"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Given a user with valid Auth0 credentials, When they authenticate via Auth0, Then the system extracts organisationId from the JWT token and sets TenantContext, all subsequent API requests are scoped to that organization, Auth0 tokens are validated on every API request"
+          },
+          {
+            "id": 2,
+            "criterion": "Given an unauthenticated user accessing a protected endpoint, When the request has no valid token, Then the system returns 401 Unauthorized"
+          },
+          {
+            "id": 3,
+            "criterion": "Given an authenticated Reader, When they attempt to access Editor-only actions (create/edit/delete report), Then the system returns 403 Forbidden"
+          }
+        ],
+        "technicalDetails": {
+          "dependencies": {
+            "library": "onclusive-auth-spring-boot-starter v1.4.0"
+          },
+          "implementation": [
+            "@PreAuthorize on controllers",
+            "TenantContext.set(organisationId) from SecurityContext"
+          ],
+          "database": {
+            "migration": "Flyway migration",
+            "table": "reports",
+            "schema": [
+              "entityName",
+              "entityDomain",
+              "entityLogoUrl",
+              "status",
+              "organisationId",
+              "createdAt",
+              "updatedAt",
+              "isDeleted"
+            ]
+          },
+          "frontend": {
+            "auth0Sdk": "2.10",
+            "components": [
+              "ProtectedRoute",
+              "Zustand auth store"
+            ],
+            "note": "Already implemented in Sprint 0, no frontend work needed"
+          }
+        },
+        "definitionOfDone": [
+          "All acceptance criteria met",
+          "Unit tests written and passing",
+          "Code reviewed and approved",
+          "Tested in staging environment"
+        ]
+      },
+      {
+        "id": "GEO-96",
+        "title": "[Story 1.2] Module Activation Gate",
+        "storyId": "Story 1.2",
+        "status": "Done",
+        "assignee": "Abdenasser Aroukhsiss",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-96",
+        "userStory": {
+          "as": "user",
+          "want": "the system to check if the Mesure module is activated for my organization",
+          "so_that": "I'm redirected to the sales page if not activated, or shown the module if activated"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Given an authenticated user whose organization does NOT have the Mesure module activated, When they navigate to the Mesure module, Then the system redirects them to the sales/upgrade page"
+          },
+          {
+            "id": 2,
+            "criterion": "Given an authenticated user whose organization HAS the module activated but no reports exist, When they navigate to the Mesure module, Then the system displays an empty state with illustration and \"Create Report\" CTA button"
+          },
+          {
+            "id": 3,
+            "criterion": "Given an authenticated user whose organization HAS the module activated and reports exist, When they navigate to the Mesure module, Then the system displays the report list (Story 1.3)"
+          }
+        ],
+        "technicalDetails": {
+          "featureLogic": [
+            "Check module activation status in organization context",
+            "Conditional routing based on activation status",
+            "Integration with Story 1.1 (Auth0 & Organization Context)"
+          ],
+          "uiStates": [
+            "Module not activated → Redirect to sales/upgrade page",
+            "Module activated, no reports → Empty state with CTA",
+            "Module activated, reports exist → Display report list"
+          ]
+        },
+        "definitionOfDone": [
+          "All acceptance criteria met",
+          "Unit tests written and passing",
+          "Code reviewed and approved",
+          "Tested in staging environment"
+        ],
+        "dependencies": {
+          "dependsOn": ["GEO-97"],
+          "blocks": ["GEO-95"]
+        }
+      },
+      {
+        "id": "GEO-95",
+        "title": "[Story 1.3] Report List (Basic)",
+        "storyId": "Story 1.3",
+        "status": "Done",
+        "assignee": "Abdenasser Aroukhsiss",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-95",
+        "userStory": {
+          "as": "Editor",
+          "want": "view a list of all reports for my organization with status and date",
+          "so_that": "I can see what's been configured and its current state"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Given an authenticated Editor with existing reports, When they view the report list, Then the system displays report name, status badge (PENDING/CONFIGURED), creation date, number of markets, number of categories; results sorted by most recent first; list supports sorting and filtering; list is paginated (limit/offset); list loads within 1 second"
+          },
+          {
+            "id": 2,
+            "criterion": "Given an authenticated Reader, When they view the report list, Then they see the same list in read-only mode (no create/edit/delete actions)"
+          },
+          {
+            "id": 3,
+            "criterion": "Given an authenticated user from organization A, When they view the report list, Then they only see reports belonging to organization A (zero cross-tenant data)"
+          }
+        ],
+        "technicalDetails": {
+          "api": {
+            "endpoint": "GET /api/v1/reports",
+            "requiredRole": "READER",
+            "pagination": "?limit=20&offset=0"
+          },
+          "database": {
+            "table": "reports",
+            "note": "Created in Story 1.1",
+            "multiTenancy": "Query filters by organizationId"
+          },
+          "displayInformation": [
+            "Report name",
+            "Status badge (PENDING/CONFIGURED)",
+            "Creation date",
+            "Number of markets",
+            "Number of categories"
+          ],
+          "performanceRequirements": [
+            "Page load within 1 second",
+            "Pagination support for large datasets",
+            "Sorting and filtering capabilities"
+          ]
+        },
+        "definitionOfDone": [
+          "All acceptance criteria met",
+          "Unit tests written and passing",
+          "Code reviewed and approved",
+          "Tested in staging environment"
+        ],
+        "dependencies": {
+          "dependsOn": ["GEO-97", "GEO-96"]
+        }
+      }
+    ]
+  }
+}

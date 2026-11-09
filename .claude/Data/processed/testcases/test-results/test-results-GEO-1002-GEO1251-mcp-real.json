@@ -1,0 +1,274 @@
+{
+  "spec": "GEO-1002-GEO1251",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1251",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "runFolder": "20102026-1102",
+  "analyses": {
+    "Nike (created, W/F scope)": "cce7a7dc-7519-446f-b6d9-d6dc60598835",
+    "Decathlon (read-only, V)": "b6c8b664-e146-464a-bbd7-78d9deb99926"
+  },
+  "analysisCreated": {
+    "name": "Nike (nike.com)",
+    "uuid": "cce7a7dc-7519-446f-b6d9-d6dc60598835",
+    "scope": "Brand analysis, 1 market United Kingdom - English (EN), 1 category Running Shoes (Athletic Apparel removed), 10 Competitive prompts kept (10 Visibility, 10 Reputation, 10 Brand Image unticked), ChatGPT + Gemini",
+    "createdAt": "2026-10-20T10:58:12Z",
+    "collection": "COMPLETED at first poll 10:59:13Z (latestSnapshotAt 10:58:17Z) — about 1 minute"
+  },
+  "summary": {
+    "total": 5,
+    "pass": 2,
+    "fail": 1,
+    "skip": 1,
+    "partial": 1,
+    "successRate": 50,
+    "successRateExecuted": 63,
+    "verdict": "NO-GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me at start and end)",
+    "organisation": "QA-GEO, role SUPER_ADMIN, existing session valid (no login needed)",
+    "featureFlag": "unbranded_analysis = true",
+    "pool": "P = 1000; U = 703 at start (7 analyses), U = 713 at end (8 analyses, +10 slots of the Nike analysis)",
+    "stateChanges": "One analysis created in QA-GEO (Nike, cce7a7dc-7519-446f-b6d9-d6dc60598835). Nothing deleted, nothing saved on existing analyses, no back-office access. Decathlon b6c8b664 opened read-only (only the country filter of the view was changed, not saved)."
+  },
+  "sideFindings": [
+    "Tooling (not an app bug): the first two \"Discover Categories\" calls failed with net::ERR_FAILED (\"Category discovery failed. Please add categories manually.\" — wizard.category.discoveryFailed). Cause: the write-guard context route installed by the previous MCP run (GEO-1240, abort every non-GET /geo/api call) was still active in the shared MCP browser. Cleared with context.unrouteAll(); discovery then succeeded. Future runs that use a write guard should remove it at the end.",
+    "en-GB typography: the wizard delete-category dialog reads \"Are you sure you want to remove Athletic Apparel ? This action cannot be undone.\" — space before \"?\" (wizard.deleteCategory.description = \"... remove {{name}} ? ...\"). The Manage Scope equivalent (views.manageScope.confirmRemoveDescription) is correct.",
+    "The Competitive templates carry 3 placeholders ([Competitor 1..3]) in the wizard, so at most 3 competitors are resolved per prompt; the AC says \"up to 5\". Consistent with the AC upper bound but 4–5 competitors can never be observed with the current templates.",
+    "Share of Voice of the Competitive-only analysis lists only Nike 95% and \"Brooks\" 5% (label \"Brooks\" vs \"Brooks Running\" in the prompts); Adidas and Hoka, named in every prompt, are absent. Looks like SoV counts winners only — to confirm with the PO against wizard.review.missing.visibility (\"Share of Voice counts Competitive answers only\").",
+    "Overview of the Competitive-only analysis: \"No brand identity data — add Brand Image prompts in Settings to enable this section.\" (views.overview.noIdentityHint) points to Settings, while prompts are added in Manage Scope.",
+    "The Identity summary (\"AI consistently identifies Nike as a winner in competitive scenarios...\") is generated even though no Reputation prompt is kept; the Review step said the AI Perception Summary stays empty (that is a different block, \"No perception data available.\" is shown) — consistent, noted only."
+  ],
+  "csvProposals": [
+    "TC-GEO-1251-002, step \"And the results appear like any other Competitive result\": expected \"Competitive charts and rankings of C1 are filled\" -> proposal \"AI Choice, Share of Voice and the Winner column of C1 are filled; Brand Rankings and Brand Prioritization stay empty as announced at Review (no Visibility prompt)\" if the PO confirms the wizard.review.missing.visibility behaviour.",
+    "TC-GEO-1251-001 / -005, QA Precondition and step 4 Test data: brand \"Decathlon\" is already used twice in QA-GEO; proposal: \"a brand with clear competitors not yet used in organisation T (e.g. Nike)\" and step 4 expected \"No brand owned by the analysed brand (same website group) is listed as a competitor\".",
+    "TC-GEO-1251-002, step \"Then each prompt names up to 5 competitors...\": the templates have 3 placeholders; proposal \"between 1 and 3 competitor names (one per [Competitor N] placeholder of the template)\" or keep \"up to 5\" if templates may change.",
+    "TC-GEO-1251-005, step \"Then the analysis completes instead of staying in progress\" (Dashboard list): the list has no status label; proposal \"The analysis row no longer shows an in-progress state and its dashboard opens with results\"."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1251-001",
+      "title": "Competitors are resolved in the background when no Visibility prompt is kept",
+      "story_id": "GEO-1251",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-001_step3_then.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-001_step4_and.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user creates an analysis whose market and category keep Competitive prompts but no Visibility prompt",
+          "status": "PASS",
+          "testData": "GB (EN) x C1: 0 Visibility, 10 Competitive kept",
+          "expected": "The wizard shows no competitor step and no visible competitor call",
+          "observed": "Wizard has 5 steps (Analysis Type, Brand & Country, Categories, Prompts, Review), no competitor step. Prompts step: Running Shoes x GB (EN), 10 Competitive ticked with [Competitor 1..3] placeholders, 0 Visibility / 0 Reputation / 0 Brand Image ticked (\"10 selected\", ring 713 / 1000). Wizard network calls: discover-categories, questions/adapt-batch, quota, llm-providers, POST reports only, no competitor call."
+        },
+        {
+          "title": "When the analysis runs",
+          "status": "PASS",
+          "testData": "First collection",
+          "expected": "The collection completes",
+          "observed": "Created 10:58:12Z, status COMPLETED at the first poll at 10:59:13Z (GET /reports). Dashboard row \"Nike nike.com, Running Shoes, 10, 2 minutes ago\"."
+        },
+        {
+          "title": "Then the Competitive results of GB (EN) x C1 name competitors",
+          "status": "PASS",
+          "testData": "Competitive results / prompt details",
+          "expected": "Competitor brands are named in the Competitive prompts and answers of C1",
+          "observed": "The 10 Competitive prompts read e.g. \"Best for Running Shoes: Nike, Adidas, Brooks Running or Hoka?\" (no placeholder left). Answers name competitors: Gemini on \"Most recommended for Running Shoes...\" -> \"Lost, Brooks Running was chosen\"; Share of Voice Nike 95% / Brooks 5%."
+        },
+        {
+          "title": "And the analysed brand's own sub-brands are not used as competitors",
+          "status": "PASS",
+          "testData": "Brand \"Decathlon\" (run on brand \"Nike\", see notes)",
+          "expected": "No brand whose website belongs to Decathlon is listed as a competitor",
+          "observed": "Competitors used: Adidas, Brooks Running, Hoka. No Nike-owned brand (Jordan, Converse, Nike SB) is used."
+        }
+      ],
+      "notes": "Run on brand Nike (nike.com) instead of Decathlon, as planned with the user (Decathlon already used in QA-GEO). Analysis cce7a7dc-7519-446f-b6d9-d6dc60598835, GB (EN) x Running Shoes, ChatGPT + Gemini. The background call itself is not visible in the UI; verified through its output (competitors named in prompts and answers). The Competitive templates carry 3 placeholders, so 3 competitors were resolved."
+    },
+    {
+      "tc_id": "TC-GEO-1251-002",
+      "title": "Competitive prompts run with up to 5 competitors when there is no Visibility",
+      "story_id": "GEO-1251",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And the results appear like any other Competitive result\": expected \"Competitive charts and rankings of C1 are filled\"; observed Brand Rankings \"No brand ranking data available.\" (dashboard.rankings.noData) and Brand Prioritization \"No data available for the brand prioritization matrix.\" (dashboard.matrix.noData). AI Choice (95%), Share of Voice and the Winner column are filled. The Review step warned this by design (wizard.review.missing.visibility: \"... Visibility %, Average Position and Brand Rankings stay empty ...\"), so this is most likely a CSV wording issue — PO/QA decision needed.",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-002_step3_then.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-002_step4_and.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis W has been collected once",
+          "status": "PASS",
+          "testData": "Analysis W",
+          "expected": "The dashboard of W is available",
+          "observed": "W = Nike cce7a7dc (collected 20 Oct 2026); dashboard opens with Identity summary, AI Choice 95%, Share of Voice and sources."
+        },
+        {
+          "title": "When the user opens the Competitive results of GB (EN) x C1",
+          "status": "PASS",
+          "testData": "",
+          "expected": "The Competitive prompts and answers are listed",
+          "observed": "Category Running Shoes, United Kingdom: Prompts Analysis \"Visibility 0, Competitive 10, Perception 0\", 10 Competitive prompts listed with winner, answer detail per engine on row click."
+        },
+        {
+          "title": "Then each prompt names up to 5 competitors in place of the placeholders",
+          "status": "PASS",
+          "testData": "",
+          "expected": "No \"[Competitor N]\" placeholder left; between 1 and 5 competitor names; the prompt reads naturally",
+          "observed": "All 10 prompts name 3 competitors (Adidas, Brooks Running, Hoka), no \"[Competitor N]\" left, natural reading (e.g. \"Nike vs Adidas vs Brooks Running vs Hoka for Running Shoes?\")."
+        },
+        {
+          "title": "And the results appear like any other Competitive result",
+          "status": "FAIL",
+          "testData": "",
+          "expected": "Competitive charts and rankings of C1 are filled",
+          "observed": "AI Choice 95% \"Good\", Share of Voice donut (Nike 95%, Brooks 5%) and Winner column filled; Brand Rankings empty (\"No brand ranking data available.\") and Brand Prioritization empty (\"No data available for the brand prioritization matrix.\")."
+        }
+      ],
+      "notes": "Rankings and matrix are Visibility-based; the wizard Review step states they stay empty without Visibility prompts. Literal CSV expectation not met -> FAIL kept (strict rule); see CSV proposal."
+    },
+    {
+      "tc_id": "TC-GEO-1251-003",
+      "title": "Competitors come from the Visibility answers when they exist",
+      "story_id": "GEO-1251",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given analysis V keeps Visibility and Competitive prompts for GB (EN) x C1 and has been collected",
+          "status": "PASS",
+          "testData": "Analysis V",
+          "expected": "The Visibility answers name competitor brands",
+          "observed": "V = Decathlon b6c8b664 (read-only), Sporting Goods x United Kingdom: 10 Visibility, 10 Competitive, 10 Perception; Visibility answer \"Best Sporting Goods?\" ChatGPT ranking: 1 Nike, 2 Adidas, 3 JD Sports, 4 PUMA, 5 Sports Direct."
+        },
+        {
+          "title": "When the user compares the competitors named in the Competitive prompts with those of the Visibility answers",
+          "status": "PASS",
+          "testData": "",
+          "expected": "Both lists are displayed",
+          "observed": "Competitive prompts: \"Best for Sporting Goods: Decathlon, Nike, Adidas or Puma?\" (all 10 GB prompts use Nike, Adidas, Puma). Brand Rankings (Visibility answers): 1 Nike, 2 Adidas, 3 Puma, 4 Under Armour..."
+        },
+        {
+          "title": "Then the Competitive prompts use the competitors from the Visibility answers",
+          "status": "PASS",
+          "testData": "",
+          "expected": "The named competitors come from the Visibility answers",
+          "observed": "Nike, Adidas, Puma = top 3 brands of the Visibility answers (Visibility 100% each, positions 1.0 / 2.0 / 3.7)."
+        },
+        {
+          "title": "And no background competitor call is made for GB (EN) x C1",
+          "status": "PARTIAL",
+          "testData": "Collection logs",
+          "expected": "The logs show no background competitor resolution for that market and category",
+          "observed": "Not verifiable: needs log access to the collection job (dev support). Not executed in the UI."
+        }
+      ],
+      "notes": "Decathlon b6c8b664 is collected daily with Visibility prompts; only the competitor source was checked in the UI. FR market also shows \"Salomon\" in French Competitive prompts (not in scope)."
+    },
+    {
+      "tc_id": "TC-GEO-1251-004",
+      "title": "A failed competitor resolution never fails the analysis",
+      "story_id": "GEO-1251",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skipReason": "needs dev support (forced failure of the background competitor call)",
+      "screenshots": [],
+      "steps": [
+        {
+          "title": "Given the background competitor call is forced to fail for analysis F",
+          "status": "SKIP",
+          "testData": "",
+          "expected": "The failure is in place",
+          "observed": "Not executed: needs dev support"
+        },
+        {
+          "title": "When the analysis runs",
+          "status": "SKIP",
+          "testData": "Next collection",
+          "expected": "The collection is not left in progress",
+          "observed": "Not executed"
+        },
+        {
+          "title": "Then the Competitive prompts still run with the competitor names left out",
+          "status": "SKIP",
+          "testData": "Competitive results of GB (EN) x C1",
+          "expected": "The Competitive prompts were sent without competitor names, reading naturally",
+          "observed": "Not executed"
+        },
+        {
+          "title": "And the analysis completes",
+          "status": "SKIP",
+          "testData": "Dashboard list",
+          "expected": "Analysis F is completed with its results",
+          "observed": "Not executed"
+        }
+      ],
+      "notes": "SKIP — needs dev support (forced failure of the background competitor call)."
+    },
+    {
+      "tc_id": "TC-GEO-1251-005",
+      "title": "An analysis with only Competitive prompts completes",
+      "story_id": "GEO-1251",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-005_step3_then.png",
+        "screenshots-GEO-1002-GEO1251/TC-GEO-1251-005_step4_and.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user creates an analysis keeping only Competitive prompts",
+          "status": "PASS",
+          "testData": "10 Competitive prompts kept, 30 unticked",
+          "expected": "The analysis is created with 10 prompts",
+          "observed": "Dialog \"Analysis created\": \"Nike is scheduled.\" / \"10 prompts across 1 market and 1 category run on ChatGPT and Gemini.\" / \"30 suggested prompts you did not keep stay on the analysis. Activate them any time.\"; promptSlots = 10."
+        },
+        {
+          "title": "When the analysis runs",
+          "status": "PASS",
+          "testData": "First collection",
+          "expected": "The collection runs",
+          "observed": "Status PROCESSING right after creation (GET /reports), dashboard shows 8 analyses, 713 / 1000."
+        },
+        {
+          "title": "Then the analysis completes instead of staying in progress",
+          "status": "PASS",
+          "testData": "Dashboard list",
+          "expected": "The analysis is completed",
+          "observed": "Status COMPLETED about 1 minute after creation; dashboard row Nike \"Running Shoes, 10, 2 minutes ago\" with no in-progress state; dashboard opens with results."
+        },
+        {
+          "title": "And it shows its Competitive results",
+          "status": "PASS",
+          "testData": "Dashboard of the analysis",
+          "expected": "Competitive results are displayed, with competitors found in the background",
+          "observed": "10 Competitive prompts with winners, competitors Adidas, Brooks Running, Hoka resolved in the background; AI Choice 95%, Share of Voice filled."
+        }
+      ],
+      "notes": "Same analysis as TC-001/002 (Nike cce7a7dc). The dashboard list has no explicit status label; completion read from GET /geo/api/v1/reports (status COMPLETED) plus the populated dashboard. Sentiment AC term read as Reputation (flagged in the CSV)."
+    }
+  ]
+}

@@ -1,0 +1,404 @@
+{
+  "spec": "GEO-1002-rerun-pool-20261023",
+  "runDate": "2026-10-23",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 7,
+    "pass": 3,
+    "fail": 1,
+    "skip": 0,
+    "partial": 3
+  },
+  "poolBaseline": {
+    "org": "QA-GEO",
+    "orgId": "dcea498b-a5cc-4c2a-b078-82530de16998",
+    "U": 996,
+    "P": 1000,
+    "readAt": "2026-10-23T11:57Z",
+    "source": "back office list 996 / 1000, edit form hint '996 of 1000 prompts in use.', dashboard pool block '996 / 1000' (11 analyses: adidas 169, bike 42, Decathlon b6c8b664 203, Decathlon 27bec573 80, Electric bikes 5, kids toys 3, Licter 70, Lictorix Geo 70, Nike 40, Orange 140, Toyota 174)"
+  },
+  "poolTimeline": [
+    {
+      "utc": "12:00:22",
+      "event": "Pool 1000 -> 1046 (U+50), PATCH quotas {\"promptPool\":1046} 200"
+    },
+    {
+      "utc": "12:00:50",
+      "event": "Pool 1046 -> 1 (lowest accepted value), PATCH {\"promptPool\":1} 200"
+    },
+    {
+      "utc": "12:01:07",
+      "event": "Pool 1 -> 996 (= U), PATCH {\"promptPool\":996} 200"
+    },
+    {
+      "utc": "12:03:05",
+      "event": "Pool 996 -> 986 (U-10), PATCH {\"promptPool\":986} 200, toast \"Quotas updated\""
+    },
+    {
+      "utc": "12:04:36",
+      "event": "Pool 986 -> 994 (U-2) for TC-GEO-1229-006, PATCH {\"promptPool\":994} 200"
+    },
+    {
+      "utc": "12:05:29",
+      "event": "Pool 994 -> 1046 so that the 40-prompt wizard fits (TC-GEO-1237-009 Given), PATCH {\"promptPool\":1046} 200"
+    },
+    {
+      "utc": "12:08:14",
+      "event": "Pool 1046 -> 1026 (U+30) from the second back-office tab while the wizard is on Summary, PATCH {\"promptPool\":1026} 200"
+    },
+    {
+      "utc": "12:09:56",
+      "event": "RESTORE: pool 1026 -> 1000, PATCH {\"promptPool\":1000} 200; reopened form 1000, hint \"996 of 1000 prompts in use.\" (slate), list \"996 / 1000\" text-slate-600; /auth/me language en-GB; routes removed (unrouteAll)"
+    }
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1230-004",
+      "title": "Prompt pool accepts a whole number of at least 1 with a usage hint",
+      "story_id": "GEO-1230",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-004_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-004_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-004_step3a_hint.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-004_step3b_saved_reopen.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-004_step3c_pool1_warning.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the edit form of organisation T",
+          "testData": "Organisation T",
+          "expected": "The \"Prompt pool\" field shows its value with a usage hint",
+          "observed": "Edit Organisation — QA-GEO: Prompt pool * = 1000 (input type=number, min=1, step=1), hint \"996 of 1000 prompts in use.\" (slate grey)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin enters a new whole number",
+          "testData": "Prompt pool: U + 50",
+          "expected": "The value is accepted in the field",
+          "observed": "1046 typed and kept in the field, Save enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the usage hint states the prompts in use over the entered pool",
+          "testData": "",
+          "expected": "\"U of U + 50 prompts in use.\" (same pattern as \"138 of 150 prompts in use.\")",
+          "observed": "\"996 of 1046 prompts in use.\" (oklch(0.554 0.046 257.417), text-slate-500)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin saves and reopens organisation T",
+          "testData": "",
+          "expected": "The saved pool is U + 50 and the hint is still shown",
+          "observed": "PATCH .../quotas {\"promptPool\":1046} -> 200; list row \"996 / 1046\"; after page reload and reopening Edit: field 1046, hint \"996 of 1046 prompts in use.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the super admin sets the pool to 1, the lowest accepted value, and saves",
+          "testData": "Prompt pool: 1 (restore the previous value afterwards)",
+          "expected": "The value 1 is accepted (with the below-usage warning when U > 1)",
+          "observed": "Field 1 shows red text \"996 of 1 prompts in use. Existing prompts and running analyses are untouched; adding prompts is blocked until the count fits.\" (oklch(0.577 0.245 27.325)); Save enabled; PATCH {\"promptPool\":1} -> 200; list row \"996 / 1\" in red (text-red-600). Pool then set to 996 for the next TCs and restored to 1000 at the end.",
+          "status": "PASS"
+        }
+      ],
+      "notes": "All 5 steps verified with real saves (authorised 2026-10-23). The save request carries only {\"promptPool\":N}. Values 0 / decimals not tried (not in the TC; input has min=1 step=1)."
+    },
+    {
+      "tc_id": "TC-GEO-1236-004",
+      "title": "In Manage Scope ticking or adding a prompt still needs room in the pool",
+      "story_id": "GEO-1236",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1236-004_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1236-004_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1236-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A with no free slot",
+          "testData": "Pool = U",
+          "expected": "The ring reads \"U / U\" (amber)",
+          "observed": "Pool 996 = U. Analysis A = Decathlon b6c8b664 (GB (EN), FR (FR), Algeria; Sporting Goods + Outdoor Gear; 203 kept, 7 unticked suggestions). Ring \"996 / 996\" (aria \"Prompt pool: 996 / 996 prompts\"), stroke rgb(245,158,11) amber, number oklch(0.769 0.188 70.08) amber",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user tries to tick a suggested prompt",
+          "testData": "A row under Suggested Prompts",
+          "expected": "The suggested prompt checkboxes are disabled: the prompt cannot be ticked",
+          "observed": "Row \"What do you think of Decathlon?\" (Overview, Brand Image, GB (EN)): checkbox \"Keep this prompt\" disabled, normal click times out (not enabled), forced click leaves it unticked; 7/7 unticked suggestions disabled; ring unchanged; 0 write request",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user tries to add a prompt",
+          "testData": "Prompt: \"Which brand sells the best climbing ropes?\" - category of A - Visibility - GB (EN)",
+          "expected": "Add prompt is disabled: no prompt can be added",
+          "observed": "Add prompt disabled (also Add Country, Add Category); forced click opens no dialog and no input row, so the prompt text cannot be entered; 0 write request",
+          "status": "PASS"
+        },
+        {
+          "title": "Then unticking a kept prompt frees a slot",
+          "testData": "Untick 1 kept prompt and save",
+          "expected": "The ring reads \"U - 1 / U\" and ticking one suggested prompt is now accepted",
+          "observed": "Not executed: an untick is saved at once (PATCH .../prompts/kept) on the analysis, outside the authorisation of this run (only the QA-GEO prompt pool may be saved)",
+          "status": "NOT RUN"
+        }
+      ],
+      "notes": "PARTIAL: Given/When/And verified at pool = U = 996; Then not executed (requires saving an untick on the analysis). No \"Suggested Prompts\" heading: suggestions are the unticked rows at the end of the table."
+    },
+    {
+      "tc_id": "TC-GEO-1230-007",
+      "title": "Lowering the pool below usage warns and still saves",
+      "story_id": "GEO-1230",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-007_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-007_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-007_step2b_after_save.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-007_step3a_list_red.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on the edit form of organisation T",
+          "testData": "",
+          "expected": "The hint reads \"U of P prompts in use.\"",
+          "observed": "Pool 996 (P = U, P >= U precondition), hint \"996 of 996 prompts in use.\" in slate grey",
+          "status": "PASS"
+        },
+        {
+          "title": "When the super admin lowers the pool below usage",
+          "testData": "Prompt pool: U - 10",
+          "expected": "The hint reads \"U of U - 10 prompts in use.\"",
+          "observed": "Field 986: \"996 of 986 prompts in use.\" followed in the same red line by the warning (oklch(0.577 0.245 27.325), text-red-600)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the super admin saves",
+          "testData": "",
+          "expected": "A warning states that existing prompts and running analyses are untouched and that adding prompts stays blocked until the count fits",
+          "observed": "Warning shown in the form when Save is clicked: \"Existing prompts and running analyses are untouched; adding prompts is blocked until the count fits.\" After save only the toast \"Quotas updated\"; the same warning is shown again when the form is reopened",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the save is not blocked",
+          "testData": "",
+          "expected": "The pool U - 10 is saved and the list shows \"U / U - 10\" in red for organisation T",
+          "observed": "Save enabled; PATCH .../quotas {\"promptPool\":986} -> 200; list after reload \"996 / 986\" in red (text-red-600, oklch(0.577 0.245 27.325)); reopened form keeps 986",
+          "status": "PASS"
+        }
+      ],
+      "notes": "The warning is displayed inline as soon as the value is below usage (before the click on Save) and persists after save/reopen; no separate save-time message (only the toast \"Quotas updated\"). Wording matches the AC meaning."
+    },
+    {
+      "tc_id": "TC-GEO-1230-010",
+      "title": "The Prompts value is red only when the prompts in use are above the pool",
+      "story_id": "GEO-1230",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-010_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-010_step2_when_E_at_pool.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-010_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1230-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the super admin is on Administration > Organizations",
+          "testData": "Organisations E, O and T",
+          "expected": "The three rows are visible",
+          "observed": "Organisations list (8 active). E = QA-GEO with pool set to U (996 / 996, 12:01); O = QA-GEO with pool set to U - 10 (996 / 986, 12:03); T = Onclusive (702 / 1000). E and O are the same organisation at two pool values (no second organisation may be changed)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Prompts value of organisation T is not red",
+          "testData": "",
+          "expected": "\"U / P\" with U < P in the default colour",
+          "observed": "Onclusive \"702 / 1000\": text-slate-600, oklch(0.446 0.043 257.281) (also R&D-Test-Master \"246 / 250\" slate)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Prompts value of organisation E is not red",
+          "testData": "",
+          "expected": "e.g. \"150 / 150\" in the default colour",
+          "observed": "QA-GEO \"996 / 996\": text-slate-600, oklch(0.446 0.043 257.281), same as T",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Prompts value of organisation O is red",
+          "testData": "",
+          "expected": "e.g. \"160 / 150\" in red",
+          "observed": "QA-GEO \"996 / 986\": text-red-600, oklch(0.577 0.245 27.325). Also \"996 / 1\" red at pool 1 (TC-GEO-1230-004)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "E and O observed on QA-GEO at two successive pool values (996 then 986), each cell framed in its screenshot; computed colours read with getComputedStyle."
+    },
+    {
+      "tc_id": "TC-GEO-1229-005",
+      "title": "A pool lowered below usage leaves existing prompts and running analyses untouched",
+      "story_id": "GEO-1229",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1229-005_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1229-005_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1229-005_step2b_managescope.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1229-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T was lowered below usage in the back office",
+          "testData": "Pool: U - 10",
+          "expected": "The back office saves the new pool with the below-usage warning",
+          "observed": "Pool 986 saved at 12:03 (PATCH 200, toast \"Quotas updated\") with the warning \"996 of 986 prompts in use. Existing prompts and running analyses are untouched; adding prompts is blocked until the count fits.\" (see TC-GEO-1230-007)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the GEO dashboard of organisation T",
+          "testData": "",
+          "expected": "Every analysis is still listed with the same Prompts column values; the pool block reads \"U / U - 10\" in red",
+          "observed": "11 analyses, Prompts column identical to the baseline read at 11:58 with pool 1000 (adidas 169, bike 42, Decathlon 203, Decathlon 80, Electric bikes 5, kids toys 3, Licter 70, Lictorix Geo 70, Nike 40, Orange 140, Toyota 174). Pool block \"996 / 986\" text-red-600 (oklch(0.577 0.245 27.325)), ring stroke rgb(220,38,38); message \"10 prompts over the pool. Analyses can be created but not launched until the count fits.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens Manage Scope > Prompts of analysis R",
+          "testData": "",
+          "expected": "Every kept prompt is still listed and ticked; none was removed or unticked",
+          "observed": "R = Decathlon b6c8b664 (daily organisation): 210 rows, 203 kept and ticked (\"· 203 selected\", same as baseline 203 / 7 unticked suggestions), kept checkboxes enabled 203/203; ring \"996 / 986\" red; message \"10 prompts over. Untick prompts or contact your account manager.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then analysis R keeps collecting",
+          "testData": "Next daily collection after the change",
+          "expected": "The next run of R is collected with the same prompts and its results are updated",
+          "observed": "Not observable in this run: the pool is restored to 1000 at the end of the run, before the next daily collection",
+          "status": "NOT RUN"
+        }
+      ],
+      "notes": "PARTIAL: dashboard and Manage Scope parts verified with the pool really saved below usage (986 < 996); the later-collection part cannot be observed."
+    },
+    {
+      "tc_id": "TC-GEO-1229-006",
+      "title": "Over a lowered pool only adding prompts is blocked until the count fits",
+      "story_id": "GEO-1229",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1229-006_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1229-006_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1229-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T is 2 slots below usage",
+          "testData": "Pool: U - 2",
+          "expected": "The Manage Scope ring of analysis R reads \"U / U - 2\" in red",
+          "observed": "Pool 994 saved (12:04). R = Decathlon b6c8b664: ring \"996 / 994\" (aria \"Prompt pool: 996 / 994 prompts\"), stroke rgb(220,38,38), number oklch(0.577 0.245 27.325) red; message \"2 prompts over. Untick prompts or contact your account manager.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user tries to tick a suggested prompt or add a prompt in Manage Scope > Prompts of analysis R",
+          "testData": "",
+          "expected": "Add prompt, Add country and Add category are disabled and suggested prompts cannot be ticked",
+          "observed": "Add prompt, Add Country, Add Category disabled; 7/7 unticked suggestions disabled, normal click on \"What do you think of Decathlon?\" times out, forced click leaves it unticked; ring unchanged; 0 write request. Kept prompts untouched: 203/203 ticked and enabled, Edit enabled 210/210",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user edits the wording of a kept prompt and saves",
+          "testData": "New wording: existing wording + \" in 2026\"",
+          "expected": "The edit is saved",
+          "observed": "Not executed: saving in Manage Scope is outside the authorisation of this run. Edit controls enabled 210/210",
+          "status": "NOT RUN"
+        },
+        {
+          "title": "And the user unticks 3 kept prompts and saves",
+          "testData": "",
+          "expected": "The unticks are saved and the ring reads \"U - 3 / U - 2\"",
+          "observed": "Not executed (an untick is saved at once on the analysis). Kept checkboxes enabled 203/203",
+          "status": "NOT RUN"
+        },
+        {
+          "title": "Then adding prompts is possible again once the count fits",
+          "testData": "",
+          "expected": "Add prompt, Add country and Add category are enabled again; ticking one suggested prompt is accepted and the ring reads \"U - 2 / U - 2\"",
+          "observed": "Not executed: depends on the saved unticks. Indirect evidence: at pool 1000 (baseline 11:59) the three add buttons were enabled on the same analysis",
+          "status": "NOT RUN"
+        }
+      ],
+      "notes": "PARTIAL: blocking of adding verified with the pool really saved at U - 2 = 994; edit/untick/re-add steps need saves on the analysis (not authorised)."
+    },
+    {
+      "tc_id": "TC-GEO-1237-009",
+      "title": "Create Analysis is disabled when Summary loads over the pool",
+      "story_id": "GEO-1237",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: after Back to Prompts, Summary can be opened again from the stepper and loads with the current pool, showing a red banner \"10 prompts to untick\" and a disabled Create Analysis. Observed: back on Prompts the wizard re-reads the pool (ring \"1036 / 1026\", red \"10 prompts over. Untick prompts or contact your account manager.\"), and the stepper Summary step is aria-disabled=\"true\" (data-testid wizard-stepper-step-review) and Review & Launch is disabled: Summary cannot be reopened, so the Summary red banner and the disabled Create Analysis are never displayed.",
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1237-009_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1237-009_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool-20261023/TC-GEO-1237-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Summary with 40 kept prompts within the pool",
+          "testData": "",
+          "expected": "Create Analysis is enabled",
+          "observed": "Pool 1046 (996 used). Unsaved wizard: Brand analysis, Decathlon (decathlon.com), United Kingdom - English (EN); discovery returned Outdoor Recreation Equipment + Athletic Apparel, Athletic Apparel removed = 40 prompts (Prompts ring \"1036 / 1046\", \"· 40 selected\"). Review & Launch -> Summary (Markets United Kingdom · English, Categories Outdoor Recreation Equipment, 5 engines): Create Analysis enabled (never clicked)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the pool of organisation T is lowered to U + 30 from the back office tab",
+          "testData": "Pool: U + 30",
+          "expected": "The back office saves the pool",
+          "observed": "Second tab, Edit Organisation — QA-GEO: 1026, hint \"996 of 1026 prompts in use.\"; PATCH .../quotas {\"promptPool\":1026} -> 200; list \"996 / 1026\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user goes Back to Prompts and then opens Summary again from the stepper",
+          "testData": "",
+          "expected": "Summary loads with the current pool",
+          "observed": "Back to Prompts: ring \"1036 / 1026\" red, message \"10 prompts over. Untick prompts or contact your account manager.\" (oklch(0.577 0.245 27.325)). Stepper \"5 Summary\" aria-disabled=\"true\" (click times out, forced click does nothing) and Review & Launch disabled: Summary cannot be opened again",
+          "status": "FAIL"
+        },
+        {
+          "title": "Then a red banner says how many prompts to untick",
+          "testData": "",
+          "expected": "The red banner states 10 prompts to untick",
+          "observed": "Not reachable on Summary. On the Prompts step the red message says \"10 prompts over. Untick prompts or contact your account manager.\" (right count, but not the Summary banner)",
+          "status": "FAIL"
+        },
+        {
+          "title": "And Create Analysis is disabled",
+          "testData": "",
+          "expected": "Create Analysis cannot be clicked",
+          "observed": "Create Analysis is not reachable (Summary blocked); the creation is effectively prevented, but the disabled button on Summary cannot be observed",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Same behaviour as the in-wizard attempt of 2026-10-20 (TC SKIP then): over the pool the wizard keeps the user on Prompts and blocks Summary, so the Summary over-pool banner (wizard.review.over.*) is never shown through the path in the CSV. The business outcome (no creation over the pool) holds. To qualify: bug (Summary should be reachable and show the banner) or CSV/AC adaptation (the block happens on Prompts). Side observation: on the wizard Prompts step over the pool, Add prompt stays enabled (no TC expects otherwise in the wizard). Wizard exited with Back to Dashboard > Exit and Discard (\"There is no draft: nothing is saved yet\")."
+    }
+  ],
+  "orgUpdateEndpoint": "PATCH /geo/api/v1/admin/organisations/dcea498b-a5cc-4c2a-b078-82530de16998/quotas, body {\"promptPool\":N} only",
+  "writeGuard": "context.route on **/geo/api/**: GET allowed; non-GET allowed only for discover-categories / translate-category / questions/adapt-batch and PUT/PATCH on /admin/organisations/{QA-GEO id}; everything else aborted",
+  "poolRestored": {
+    "value": 1000,
+    "verifiedAt": "2026-10-23T12:10Z",
+    "form": "1000 / hint \"996 of 1000 prompts in use.\"",
+    "list": "996 / 1000 default colour (text-slate-600)",
+    "screenshot": "screenshots-GEO-1002-rerun-pool-20261023/restore_pool_ok.png"
+  },
+  "writeGuardLog": "9 allowed writes: 8 x PATCH .../organisations/dcea498b.../quotas (body {\"promptPool\":N} only: 1046, 1, 996, 986, 994, 1046, 1026, 1000), 1 x POST discover-categories, 1 x POST questions/adapt-batch; 0 aborted. No analysis created, nothing saved in Manage Scope, Create Analysis never clicked, wizard exited with Exit and Discard"
+}

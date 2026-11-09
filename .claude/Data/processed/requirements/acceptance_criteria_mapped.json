@@ -1,0 +1,1571 @@
+{
+  "_metadata": {
+    "source": "Jira Onclusive - GEO_Module (Stories - functional AC only)",
+    "filter": "labels = GEO_Module AND issuetype = Story (from filter 35994)",
+    "generated_at": "2026-04-08T00:00:00Z",
+    "pipeline_step": "STEP 2 - /fetch-jira → jira-reader-agent",
+    "stats": {
+      "total_stories": 43,
+      "total_epics": 10,
+      "total_ac_raw": 191,
+      "total_ac_functional": 112,
+      "total_ac_technical_excluded": 79,
+      "gwt_format": 100,
+      "raw_format": 12
+    }
+  },
+  "epics": [
+    {
+      "key": "GEO-99",
+      "summary": "EPIC-007: Snapshots & Guided Tour",
+      "status": "Backlog",
+      "story_count": 3
+    },
+    {
+      "key": "GEO-100",
+      "summary": "EPIC-006: Manage Scope",
+      "status": "Done",
+      "story_count": 2
+    },
+    {
+      "key": "GEO-101",
+      "summary": "EPIC-005: Dashboard — Category Views & Actions Center",
+      "status": "Done",
+      "story_count": 9
+    },
+    {
+      "key": "GEO-102",
+      "summary": "EPIC-004: Dashboard — Overview & Navigation",
+      "status": "Done",
+      "story_count": 9
+    },
+    {
+      "key": "GEO-103",
+      "summary": "EPIC-003: Pipeline d'Analyse (Batch Execution)",
+      "status": "Done",
+      "story_count": 5
+    },
+    {
+      "key": "GEO-104",
+      "summary": "EPIC-002: Configuration de Rapport (Wizard 4 étapes)",
+      "status": "Done",
+      "story_count": 7
+    },
+    {
+      "key": "GEO-105",
+      "summary": "EPIC-001: Authentification & Accès Module",
+      "status": "Done",
+      "story_count": 3
+    },
+    {
+      "key": "GEO-106",
+      "summary": "EPIC-000: Foundation Infrastructure",
+      "status": "Done",
+      "story_count": 1
+    },
+    {
+      "key": "GEO-118",
+      "summary": "EPIC-008: Scheduling & Notifications",
+      "status": "Done",
+      "story_count": 2
+    },
+    {
+      "key": "GEO-156",
+      "summary": "EPIC-011: Sharing & Export",
+      "status": "Backlog",
+      "story_count": 2
+    }
+  ],
+  "mapping": [
+    {
+      "story_key": "GEO-98",
+      "story_summary": "[Story 0.1] Shared Infrastructure Setup",
+      "epic_key": "GEO-106",
+      "status": "Done",
+      "user_story": "As a developer I want the shared infrastructure components configured and ready So that all subsequent stories can build on a solid foundation.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-98-001",
+          "text": "Given the project structure (Sprint 0 complete), When this story is implemented, Then the following are configured and tested: PromptApiClient bean (WebClient, 40s timeout for wizard, 60s for processor) in both services, PromptTemplateRegistrar for registering prompt templates on startup, EmailService interface + SendGrid implementation skeleton, KafkaConfig with all 8 topic definitions, RedisConfig for wizard rate limiting, Resilience4j CircuitBreaker configuration per LLM provider, SecurityConfig with Auth0 integration and CORS whitelist, Flyway baseline configuration, geo-flink-jobs Maven module created with Flink 1.20 dependencies",
+          "format": "gwt",
+          "gwt": {
+            "given": "the project structure (Sprint 0 complete)",
+            "when": "this story is implemented",
+            "then": "the following are configured and tested: PromptApiClient bean (WebClient, 40s timeout for wizard, 60s for processor) in both services, PromptTemplateRegistrar for registering prompt templates on startup, EmailService interface + SendGrid implementation skeleton, KafkaConfig with all 8 topic definitions, RedisConfig for wizard rate limiting, Resilience4j CircuitBreaker configuration per LLM provider, SecurityConfig with Auth0 integration and CORS whitelist, Flyway baseline configuration, geo-flink-jobs Maven module created with Flink 1.20 dependencies"
+          }
+        }
+      ],
+      "excluded_technical_count": 2
+    },
+    {
+      "story_key": "GEO-97",
+      "story_summary": "[Story 1.1] Auth0 Login & Organization Context",
+      "epic_key": "GEO-105",
+      "status": "Done",
+      "user_story": "As an Editor or Reader I want to log in via Auth0 SSO and have my organization automatically resolved So that I can securely access only my organization's data.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-97-001",
+          "text": "Given a user with valid Auth0 credentials, When they authenticate via Auth0, Then the system extracts organisationId from the JWT token and sets TenantContext, all subsequent API requests are scoped to that organization, Auth0 tokens are validated on every API request",
+          "format": "gwt",
+          "gwt": {
+            "given": "a user with valid Auth0 credentials",
+            "when": "they authenticate via Auth0",
+            "then": "the system extracts organisationId from the JWT token and sets TenantContext, all subsequent API requests are scoped to that organization, Auth0 tokens are validated on every API request"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-97-002",
+          "text": "Given an unauthenticated user accessing a protected endpoint, When the request has no valid token, Then the system returns 401 Unauthorized",
+          "format": "gwt",
+          "gwt": {
+            "given": "an unauthenticated user accessing a protected endpoint",
+            "when": "the request has no valid token",
+            "then": "the system returns 401 Unauthorized"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-97-003",
+          "text": "Given an authenticated Reader, When they attempt to access Editor-only actions (create/edit/delete report), Then the system returns 403 Forbidden",
+          "format": "gwt",
+          "gwt": {
+            "given": "an authenticated Reader",
+            "when": "they attempt to access Editor-only actions (create/edit/delete report)",
+            "then": "the system returns 403 Forbidden"
+          }
+        }
+      ],
+      "excluded_technical_count": 4
+    },
+    {
+      "story_key": "GEO-96",
+      "story_summary": "[Story 1.2] Module Activation Gate",
+      "epic_key": "GEO-105",
+      "status": "Done",
+      "user_story": "As a user I want the system to check if the Mesure module is activated for my organization So that I'm redirected to the sales page if not activated, or shown the module if activated.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-96-001",
+          "text": "Given an authenticated user whose organization does NOT have the Mesure module activated, When they navigate to the Mesure module, Then the system redirects them to the sales/upgrade page",
+          "format": "gwt",
+          "gwt": {
+            "given": "an authenticated user whose organization does NOT have the Mesure module activated",
+            "when": "they navigate to the Mesure module",
+            "then": "the system redirects them to the sales/upgrade page"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-96-002",
+          "text": "Given an authenticated user whose organization HAS the module activated but no reports exist, When they navigate to the Mesure module, Then the system displays an empty state with illustration and \"Create Report\" CTA button",
+          "format": "gwt",
+          "gwt": {
+            "given": "an authenticated user whose organization HAS the module activated but no reports exist",
+            "when": "they navigate to the Mesure module",
+            "then": "the system displays an empty state with illustration and \"Create Report\" CTA button"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-96-003",
+          "text": "Given an authenticated user whose organization HAS the module activated and reports exist, When they navigate to the Mesure module, Then the system displays the report list (Story 1.3)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an authenticated user whose organization HAS the module activated and reports exist",
+            "when": "they navigate to the Mesure module",
+            "then": "the system displays the report list (Story 1.3)"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-95",
+      "story_summary": "[Story 1.3] Report List (Basic)",
+      "epic_key": "GEO-105",
+      "status": "Done",
+      "user_story": "As an Editor I want to view a list of all reports for my organization with status and date So that I can see what's been configured and its current state.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-95-001",
+          "text": "Given an authenticated Editor with existing reports, When they view the report list, Then the system displays report name, status badge (PENDING/CONFIGURED), creation date, number of markets, and number of categories, results are sorted by most recent first, the list supports sorting and filtering, the list is paginated (limit/offset), the list loads within 1 second",
+          "format": "gwt",
+          "gwt": {
+            "given": "an authenticated Editor with existing reports",
+            "when": "they view the report list",
+            "then": "the system displays report name, status badge (PENDING/CONFIGURED), creation date, number of markets, and number of categories, results are sorted by most recent first, the list supports sorting and filtering, the list is paginated (limit/offset), the list loads within 1 second"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-95-002",
+          "text": "Given an authenticated Reader, When they view the report list, Then they see the same list in read-only mode (no create/edit/delete actions)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an authenticated Reader",
+            "when": "they view the report list",
+            "then": "they see the same list in read-only mode (no create/edit/delete actions)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-95-003",
+          "text": "Given an authenticated user from organization A, When they view the report list, Then they only see reports belonging to organization A (zero cross-tenant data)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an authenticated user from organization A",
+            "when": "they view the report list",
+            "then": "they only see reports belonging to organization A (zero cross-tenant data)"
+          }
+        }
+      ],
+      "excluded_technical_count": 3
+    },
+    {
+      "story_key": "GEO-94",
+      "story_summary": "[Story 2.1] Wizard Layout & Navigation",
+      "epic_key": "GEO-104",
+      "status": "Done",
+      "user_story": "As an Editor I want a 4-step wizard layout with navigation controls So that I can progress through report configuration in a structured flow.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-94-001",
+          "text": "Given an Editor creating a new report, When the wizard loads, Then a 4-step stepper is displayed (Brand & Country, Categories, Prompts, Review), steps are navigable via Next/Back buttons, a sticky header shows current step title + progress bar, a sticky footer shows the CTA button",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor creating a new report",
+            "when": "the wizard loads",
+            "then": "a 4-step stepper is displayed (Brand & Country, Categories, Prompts, Review), steps are navigable via Next/Back buttons, a sticky header shows current step title + progress bar, a sticky footer shows the CTA button"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-94-002",
+          "text": "Given an Editor navigating back with unsaved changes, When isPristine is false, Then a \"Discard Changes\" modal is shown (462x222px)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor navigating back with unsaved changes",
+            "when": "isPristine is false",
+            "then": "a \"Discard Changes\" modal is shown (462x222px)"
+          }
+        }
+      ],
+      "excluded_technical_count": 3
+    },
+    {
+      "story_key": "GEO-93",
+      "story_summary": "[Story 2.1b] Brand Search (Brandfetch)",
+      "epic_key": "GEO-104",
+      "status": "Done",
+      "user_story": "As an Editor I want to search and select a brand with auto-complete suggestions So that I can identify my brand with its logo and domain.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-93-001",
+          "text": "Given an Editor on wizard Step 1, When they type a brand name, Then auto-complete suggestions appear with logo + domain from Brandfetch (debounce 300ms), a \"Custom Brand\" option is available if no match",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on wizard Step 1",
+            "when": "they type a brand name",
+            "then": "auto-complete suggestions appear with logo + domain from Brandfetch (debounce 300ms), a \"Custom Brand\" option is available if no match"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-93-002",
+          "text": "Given an Editor with no brand entered, When they click \"Discover Categories\", Then the brand input shows a red border error",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor with no brand entered",
+            "when": "they click \"Discover Categories\"",
+            "then": "the brand input shows a red border error"
+          }
+        }
+      ],
+      "excluded_technical_count": 4
+    },
+    {
+      "story_key": "GEO-92",
+      "story_summary": "[Story 2.1c] Market Configuration (Country + Language)",
+      "epic_key": "GEO-104",
+      "status": "Done",
+      "user_story": "As an Editor I want to add countries with auto-detected language and designate a primary market So that I can define the geographic scope of my analysis.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-92-001",
+          "text": "Given an Editor with a brand selected, When they add a country, Then the language is auto-detected (e.g., France -> French), the language can be overridden via the edit icon, the first country is auto-marked as Primary when a second is added",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor with a brand selected",
+            "when": "they add a country",
+            "then": "the language is auto-detected (e.g., France -> French), the language can be overridden via the edit icon, the first country is auto-marked as Primary when a second is added"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-92-002",
+          "text": "Given an Editor adding a duplicate country+language combination, When they click \"Discover Categories\", Then the system shows an error on the duplicate rows",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor adding a duplicate country+language combination",
+            "when": "they click \"Discover Categories\"",
+            "then": "the system shows an error on the duplicate rows"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-92-003",
+          "text": "Given an Editor at the country quota limit, When they click \"+ Add Country\", Then the button is disabled and a warning banner is shown",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor at the country quota limit",
+            "when": "they click \"+ Add Country\"",
+            "then": "the button is disabled and a warning banner is shown"
+          }
+        }
+      ],
+      "excluded_technical_count": 3
+    },
+    {
+      "story_key": "GEO-91",
+      "story_summary": "[Story 2.2] Step 2 — AI Category Discovery",
+      "epic_key": "GEO-104",
+      "status": "Done",
+      "user_story": "As an Editor I want AI to detect relevant categories for my brand across my selected countries So that I don't have to manually research what categories apply.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-91-001",
+          "text": "Given an Editor transitioning from Step 1 to Step 2, When the system starts category discovery, Then an intermediate \"Discovering Categories\" screen is shown with progress bar, country status list, and note \"This typically takes 15-20 seconds\"",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor transitioning from Step 1 to Step 2",
+            "when": "the system starts category discovery",
+            "then": "an intermediate \"Discovering Categories\" screen is shown with progress bar, country status list, and note \"This typically takes 15-20 seconds\""
+          }
+        },
+        {
+          "ac_id": "AC-GEO-91-002",
+          "text": "Given category discovery completes successfully, When results are displayed, Then each detected category shows an \"AI GENERATED\" badge, categories are displayed in the primary market's language, the subtitle reads \"We detected these categories for {Brand}\"",
+          "format": "gwt",
+          "gwt": {
+            "given": "category discovery completes successfully",
+            "when": "results are displayed",
+            "then": "each detected category shows an \"AI GENERATED\" badge, categories are displayed in the primary market's language, the subtitle reads \"We detected these categories for {Brand}\""
+          }
+        },
+        {
+          "ac_id": "AC-GEO-91-003",
+          "text": "Given the Editor on the categories result page, When they click \"+ Add Category\", Then they can enter a custom category name which is auto-translated for all markets, the custom category shows a \"CUSTOM\" badge",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor on the categories result page",
+            "when": "they click \"+ Add Category\"",
+            "then": "they can enter a custom category name which is auto-translated for all markets, the custom category shows a \"CUSTOM\" badge"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-91-004",
+          "text": "Given the Editor wants to remove a category, When they click the × icon on a category, Then a confirmation modal (\"Removal\") is shown, if only 1 category remains, the delete icon is hidden (Last One Rule)",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor wants to remove a category",
+            "when": "they click the × icon on a category",
+            "then": "a confirmation modal (\"Removal\") is shown, if only 1 category remains, the delete icon is hidden (Last One Rule)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-91-005",
+          "text": "Given category discovery returns 0 results, When the empty state is displayed, Then it shows an illustration + \"Add Custom Category\" CTA",
+          "format": "gwt",
+          "gwt": {
+            "given": "category discovery returns 0 results",
+            "when": "the empty state is displayed",
+            "then": "it shows an illustration + \"Add Custom Category\" CTA"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-91-006",
+          "text": "Given the Editor with at least 1 category, When they click \"Review Prompts\", Then the system proceeds to Step 3",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor with at least 1 category",
+            "when": "they click \"Review Prompts\"",
+            "then": "the system proceeds to Step 3"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-91-007",
+          "text": "Edit Category modal (640x592px) with \"Auto-translate\" button",
+          "format": "raw"
+        }
+      ],
+      "excluded_technical_count": 5
+    },
+    {
+      "story_key": "GEO-90",
+      "story_summary": "[Story 2.3] Step 3 — Prompts Review (Sentiment, Visibility, Competitive)",
+      "epic_key": "GEO-104",
+      "status": "Done",
+      "user_story": "As an Editor I want to review and customize the auto-generated questions for each category and market So that the analysis asks exactly what matters to my brand.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-90-001",
+          "text": "Given an Editor entering Step 3, When questions are being generated, Then a loading state \"Generating questions...\" with spinner is shown",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor entering Step 3",
+            "when": "questions are being generated",
+            "then": "a loading state \"Generating questions...\" with spinner is shown"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-90-002",
+          "text": "Given questions are loaded, When the Editor views Step 3, Then market tabs are shown at the top (flag + country name + language abbreviation), 3 sub-tabs are available: Sentiment | Visibility Analysis | Competitive Analysis, questions are grouped by category with \"X QUESTIONS\" counter and \"Reset\" button",
+          "format": "gwt",
+          "gwt": {
+            "given": "questions are loaded",
+            "when": "the Editor views Step 3",
+            "then": "market tabs are shown at the top (flag + country name + language abbreviation), 3 sub-tabs are available: Sentiment | Visibility Analysis | Competitive Analysis, questions are grouped by category with \"X QUESTIONS\" counter and \"Reset\" button"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-90-003",
+          "text": "Given the Editor hovers over a question, When hover actions appear (pencil + trash icons), Then they can edit inline (Enter to save, Escape to cancel) or delete (with undo toast 5s)",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor hovers over a question",
+            "when": "hover actions appear (pencil + trash icons)",
+            "then": "they can edit inline (Enter to save, Escape to cancel) or delete (with undo toast 5s)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-90-004",
+          "text": "Given the Editor submits a question without \"?\", When the question is saved, Then \"?\" is auto-appended",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor submits a question without \"?\"",
+            "when": "the question is saved",
+            "then": "\"?\" is auto-appended"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-90-005",
+          "text": "Given the Editor clears a question text and submits, When they press Enter/Apply, Then the system rejects the empty input and restores the last saved version",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor clears a question text and submits",
+            "when": "they press Enter/Apply",
+            "then": "the system rejects the empty input and restores the last saved version"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-90-006",
+          "text": "Given the Editor types invalid characters (e.g., \"!!!\", single letter \"A\"), When they submit, Then the input shows error state (59px height) with \"Please enter a valid question.\"",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor types invalid characters (e.g., \"!!!\", single letter \"A\")",
+            "when": "they submit",
+            "then": "the input shows error state (59px height) with \"Please enter a valid question.\""
+          }
+        },
+        {
+          "ac_id": "AC-GEO-90-007",
+          "text": "Given the Editor clicks \"+ Add Question\" beyond the quota limit, When the quota is reached, Then a blocking toast notification is shown",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor clicks \"+ Add Question\" beyond the quota limit",
+            "when": "the quota is reached",
+            "then": "a blocking toast notification is shown"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-90-008",
+          "text": "Given the Competitive Analysis sub-tab, When the Editor views competitive questions, Then an info banner explains \"Competitors will be automatically detected from AI visibility results...\", placeholder badges [Competitor 1] through [Competitor 5] are shown in grey",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Competitive Analysis sub-tab",
+            "when": "the Editor views competitive questions",
+            "then": "an info banner explains \"Competitors will be automatically detected from AI visibility results...\", placeholder badges [Competitor 1] through [Competitor 5] are shown in grey"
+          }
+        }
+      ],
+      "excluded_technical_count": 4
+    },
+    {
+      "story_key": "GEO-89",
+      "story_summary": "[Story 2.4] Step 4 — Review & Submit Configuration",
+      "epic_key": "GEO-104",
+      "status": "Done",
+      "user_story": "As an Editor I want to review a summary of my configuration and select AI engines before submitting So that I can verify everything is correct before the analysis runs.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-89-001",
+          "text": "Given an Editor on Step 4, When the review page loads, Then it displays \"Ready to analyze {Brand}\" with subtitle \"Configure your multi-country brand analysis\", 3 summary cards: Countries count, Categories count, Total Questions count, a section \"What AI engines are you considering?\" with LLM toggle cards",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on Step 4",
+            "when": "the review page loads",
+            "then": "it displays \"Ready to analyze {Brand}\" with subtitle \"Configure your multi-country brand analysis\", 3 summary cards: Countries count, Categories count, Total Questions count, a section \"What AI engines are you considering?\" with LLM toggle cards"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-89-002",
+          "text": "Given each LLM card, When displayed, Then it shows: logo, name, description, \"Web search\" checkbox, and ON/OFF toggle, default: Gemini ON, ChatGPT ON, others OFF",
+          "format": "gwt",
+          "gwt": {
+            "given": "each LLM card",
+            "when": "displayed",
+            "then": "it shows: logo, name, description, \"Web search\" checkbox, and ON/OFF toggle, default: Gemini ON, ChatGPT ON, others OFF"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-89-003",
+          "text": "Given an Editor disabling ALL LLMs, When all toggles are OFF, Then the system auto-reactivates all LLMs (Smart-Select: never 0 active)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor disabling ALL LLMs",
+            "when": "all toggles are OFF",
+            "then": "the system auto-reactivates all LLMs (Smart-Select: never 0 active)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-89-004",
+          "text": "Given an Editor clicking \"Review & Launch\", When the configuration is submitted, Then the system performs double quota validation (frontend + backend re-check), saves atomically: report + markets + categories + questions + LLM config, inserts report_job_queue entry with status PENDING, increments brand_markets_used in quota, returns 201 Created",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor clicking \"Review & Launch\"",
+            "when": "the configuration is submitted",
+            "then": "the system performs double quota validation (frontend + backend re-check), saves atomically: report + markets + categories + questions + LLM config, inserts report_job_queue entry with status PENDING, increments brand_markets_used in quota, returns 201 Created"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-89-005",
+          "text": "Given the backend quota re-validation fails, When concurrent overcommit detected, Then the system returns 403 QUOTA_EXCEEDED with used/max/resetDate",
+          "format": "gwt",
+          "gwt": {
+            "given": "the backend quota re-validation fails",
+            "when": "concurrent overcommit detected",
+            "then": "the system returns 403 QUOTA_EXCEEDED with used/max/resetDate"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-89-006",
+          "text": "Given a first-time configuration (no prior report), When saved successfully, Then the user is redirected to the report page (analysis starts automatically in V2)",
+          "format": "gwt",
+          "gwt": {
+            "given": "a first-time configuration (no prior report)",
+            "when": "saved successfully",
+            "then": "the user is redirected to the report page (analysis starts automatically in V2)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-89-007",
+          "text": "Given a subsequent edit of an existing report, When saved successfully, Then changes are saved immediately; results produced at next scheduled weekly execution",
+          "format": "gwt",
+          "gwt": {
+            "given": "a subsequent edit of an existing report",
+            "when": "saved successfully",
+            "then": "changes are saved immediately; results produced at next scheduled weekly execution"
+          }
+        }
+      ],
+      "excluded_technical_count": 5
+    },
+    {
+      "story_key": "GEO-88",
+      "story_summary": "[Story 2.5] Quota Validation & Warning System",
+      "epic_key": "GEO-104",
+      "status": "Done",
+      "user_story": "As an Editor I want the system to validate quotas at each step and show clear warnings So that I don't exceed my organization's limits.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-88-001",
+          "text": "Given an Editor at any wizard step, When a quota limit is reached (markets, categories, questions per type, LLMs), Then the corresponding \"+ Add\" button is disabled, a yellow warning banner is shown with the specific limit message",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor at any wizard step",
+            "when": "a quota limit is reached (markets, categories, questions per type, LLMs)",
+            "then": "the corresponding \"+ Add\" button is disabled, a yellow warning banner is shown with the specific limit message"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-88-002",
+          "text": "Given the brand_markets quota is about to be exceeded, When the Editor tries to add more markets than allowed, Then the system shows \"You have reached the maximum number of markets you can add. Please contact our sales team if you wish to add more.\"",
+          "format": "gwt",
+          "gwt": {
+            "given": "the brand_markets quota is about to be exceeded",
+            "when": "the Editor tries to add more markets than allowed",
+            "then": "the system shows \"You have reached the maximum number of markets you can add. Please contact our sales team if you wish to add more.\""
+          }
+        },
+        {
+          "ac_id": "AC-GEO-88-003",
+          "text": "Given the Editor submits the configuration, When backend validates quotas, Then it checks: brand_markets_used + new_markets <= max_brand_markets, categories <= max_categories, questions per type <= max_q_{type}, enabled LLMs <= max_llms, returns 400 for structural limits, 403 for brand_market quota exceeded",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor submits the configuration",
+            "when": "backend validates quotas",
+            "then": "it checks: brand_markets_used + new_markets <= max_brand_markets, categories <= max_categories, questions per type <= max_q_{type}, enabled LLMs <= max_llms, returns 400 for structural limits, 403 for brand_market quota exceeded"
+          }
+        }
+      ],
+      "excluded_technical_count": 4
+    },
+    {
+      "story_key": "GEO-87",
+      "story_summary": "[Story 3.1] First Analysis Execution (End-to-End Pipeline)",
+      "epic_key": "GEO-103",
+      "status": "Done",
+      "user_story": "As an Editor I want my report to start analyzing automatically after first-time configuration So that I get results without manual intervention.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-87-001",
+          "text": "Given a report just submitted (status PENDING), When Flink polls every 90s with SKIP LOCKED, Then questions are dispatched to Kafka topics per enabled LLM",
+          "format": "gwt",
+          "gwt": {
+            "given": "a report just submitted (status PENDING)",
+            "when": "Flink polls every 90s with SKIP LOCKED",
+            "then": "questions are dispatched to Kafka topics per enabled LLM"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-87-002",
+          "text": "Given questions dispatched, When LLM dispatchers send to Prompt API at calibrated rates (OpenAI ~6ms, Claude ~15ms, Gemini ~40ms, Grok ~100ms, Perplexity ~120ms), Then responses are persisted to PostgreSQL first, then published to kafka-responses",
+          "format": "gwt",
+          "gwt": {
+            "given": "questions dispatched",
+            "when": "LLM dispatchers send to Prompt API at calibrated rates (OpenAI ~6ms, Claude ~15ms, Gemini ~40ms, Grok ~100ms, Perplexity ~120ms)",
+            "then": "responses are persisted to PostgreSQL first, then published to kafka-responses"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-87-003",
+          "text": "Given an LLM call fails after 3 retries, Then response saved with status=FAILED, published to Kafka with status=FAILED, pipeline continues (never blocked)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an LLM call fails after 3 retries",
+            "when": "(implicit)",
+            "then": "response saved with status=FAILED, published to Kafka with status=FAILED, pipeline continues (never blocked)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-87-004",
+          "text": "Given a Circuit Breaker opens for one LLM (>5% errors), Then only that dispatcher pauses 30s, others continue",
+          "format": "gwt",
+          "gwt": {
+            "given": "a Circuit Breaker opens for one LLM (>5% errors)",
+            "when": "(implicit)",
+            "then": "only that dispatcher pauses 30s, others continue"
+          }
+        }
+      ],
+      "excluded_technical_count": 6
+    },
+    {
+      "story_key": "GEO-86",
+      "story_summary": "[Story 3.2] Real-Time Analysis Progress",
+      "epic_key": "GEO-103",
+      "status": "Done",
+      "user_story": "As an Editor I want to see my analysis progressing in real-time So that I know the execution is advancing and which LLMs have completed.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-86-001",
+          "text": "Given an Editor viewing a report during analysis, When they connect to SSE endpoint, Then they receive progress events {type: \"progress\", progress: 0-100, completedModels, pendingModels}",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor viewing a report during analysis",
+            "when": "they connect to SSE endpoint",
+            "then": "they receive progress events {type: \"progress\", progress: 0-100, completedModels, pendingModels}"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-86-002",
+          "text": "Given Flink counting responses via keyBy(reportId) + RocksDB, When every ~10 responses, Then progress event published to kafka-report-status",
+          "format": "gwt",
+          "gwt": {
+            "given": "Flink counting responses via keyBy(reportId) + RocksDB",
+            "when": "every ~10 responses",
+            "then": "progress event published to kafka-report-status"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-86-003",
+          "text": "Given analysis completes, Then Editor receives {type: \"complete\", status: \"COMPLETED\"/\"COMPLETED_PARTIAL\"/\"FAILED\"}",
+          "format": "gwt",
+          "gwt": {
+            "given": "analysis completes",
+            "when": "(implicit)",
+            "then": "Editor receives {type: \"complete\", status: \"COMPLETED\"/\"COMPLETED_PARTIAL\"/\"FAILED\"}"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-86-004",
+          "text": "Given SSE connection drops, When client reconnects, Then current state received immediately, heartbeat every 30s, max 5 connections/key, TTL 30min",
+          "format": "gwt",
+          "gwt": {
+            "given": "SSE connection drops",
+            "when": "client reconnects",
+            "then": "current state received immediately, heartbeat every 30s, max 5 connections/key, TTL 30min"
+          }
+        }
+      ],
+      "excluded_technical_count": 4
+    },
+    {
+      "story_key": "GEO-85",
+      "story_summary": "[Story 3.3] Visibility Enrichment & Competitor Discovery",
+      "epic_key": "GEO-103",
+      "status": "Done",
+      "user_story": "As an Editor I want the system to identify my top competitors from AI visibility results So that competitive analysis uses real market data instead of placeholders.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-85-001",
+          "text": "Brand matching via Gemini AI (2-step: text similarity + AI grouping → normalized_name)",
+          "format": "raw"
+        },
+        {
+          "ac_id": "AC-GEO-85-002",
+          "text": "Extract top 5 competitors per market × category (by mention count desc, avg position asc, penalty rank 11 for absent)",
+          "format": "raw"
+        },
+        {
+          "ac_id": "AC-GEO-85-003",
+          "text": "Replace [Competitor 1-5] placeholders in memory (original templates preserved), dispatch Phase 2 competitive questions to Kafka",
+          "format": "raw"
+        },
+        {
+          "ac_id": "AC-GEO-85-004",
+          "text": "Emit progress events 40→50% via geo-report-status",
+          "format": "raw"
+        },
+        {
+          "ac_id": "AC-GEO-85-005",
+          "text": "Edge cases — zero visibility questions (skip), target brand absent, fewer than 5 competitors, Gemini failure (fallback to text similarity)",
+          "format": "raw"
+        }
+      ],
+      "excluded_technical_count": 2
+    },
+    {
+      "story_key": "GEO-84",
+      "story_summary": "[Story 3.4] Perception Analysis & Reputation Insights",
+      "epic_key": "GEO-103",
+      "status": "Done",
+      "user_story": "As an Editor I want AI-generated reputation insights (concepts, sentiment) per category and market So that I understand how AI engines perceive my brand.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-84-001",
+          "text": "Edge cases — zero perception responses (skip), Gemini failure (1 retry then skip scope), idempotent on duplicate trigger",
+          "format": "raw"
+        }
+      ],
+      "excluded_technical_count": 5
+    },
+    {
+      "story_key": "GEO-83",
+      "story_summary": "[Story 3.5] Competitive Execution & Source Classification",
+      "epic_key": "GEO-103",
+      "status": "Done",
+      "user_story": "As an Editor I want competitive analysis completed and all citation sources classified So that I can see my brand vs competitors and know which publications to target.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-83-001",
+          "text": "Extract sources from ALL responses (visibility + perception + competitive), create response_sources rows",
+          "format": "raw"
+        },
+        {
+          "ac_id": "AC-GEO-83-002",
+          "text": "3-level source classification (regex → shared cache → Gemini) with 11 categories",
+          "format": "raw"
+        },
+        {
+          "ac_id": "AC-GEO-83-003",
+          "text": "11 source categories with priority rules (Brand → Owned, Competitor → Competitor Media)",
+          "format": "raw"
+        },
+        {
+          "ac_id": "AC-GEO-83-004",
+          "text": "Report finalization — Processor publishes PIPELINE_COMPLETE, ReportStatusService evaluates COMPLETED/COMPLETED_PARTIAL/FAILED",
+          "format": "raw"
+        },
+        {
+          "ac_id": "AC-GEO-83-005",
+          "text": "Progress events 50→100% (Phase 2 counting + enrichment + classification + finalization)",
+          "format": "raw"
+        }
+      ],
+      "excluded_technical_count": 4
+    },
+    {
+      "story_key": "GEO-81",
+      "story_summary": "[Story 8.1] Email Notifications",
+      "epic_key": "GEO-118",
+      "status": "In Progress",
+      "user_story": "As an Editor I want to receive an email when my analysis completes or my quota runs low So that I'm informed without checking the app.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-81-001",
+          "text": "Given analysis completes, Then email sent within 5 minutes with: 4 KPI values, AI perception summary snippet, direct link to report",
+          "format": "gwt",
+          "gwt": {
+            "given": "analysis completes",
+            "when": "(implicit)",
+            "then": "email sent within 5 minutes with: 4 KPI values, AI perception summary snippet, direct link to report"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-81-002",
+          "text": "Given organization quota reaches 80%, Then quota warning email sent",
+          "format": "gwt",
+          "gwt": {
+            "given": "organization quota reaches 80%",
+            "when": "(implicit)",
+            "then": "quota warning email sent"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-81-003",
+          "text": "Given organization quota reaches 100%, Then quota exhaustion email sent",
+          "format": "gwt",
+          "gwt": {
+            "given": "organization quota reaches 100%",
+            "when": "(implicit)",
+            "then": "quota exhaustion email sent"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-81-004",
+          "text": "Given email service fails, Then failure logged and retried, does not affect analysis",
+          "format": "gwt",
+          "gwt": {
+            "given": "email service fails",
+            "when": "(implicit)",
+            "then": "failure logged and retried, does not affect analysis"
+          }
+        }
+      ],
+      "excluded_technical_count": 1
+    },
+    {
+      "story_key": "GEO-80",
+      "story_summary": "[Story 8.2] Scheduled Weekly Execution",
+      "epic_key": "GEO-118",
+      "status": "Done",
+      "user_story": "As an Editor I want my reports to automatically refresh every week So that I get fresh data without manual intervention.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-80-001",
+          "text": "Given active reports with next_execution_at in the past, When hourly scheduler runs, Then PENDING entries inserted in report_job_queue for due reports",
+          "format": "gwt",
+          "gwt": {
+            "given": "active reports with next_execution_at in the past",
+            "when": "hourly scheduler runs",
+            "then": "PENDING entries inserted in report_job_queue for due reports"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-80-002",
+          "text": "Given duplicate prevention, Then no duplicate PENDING entries for same report",
+          "format": "gwt",
+          "gwt": {
+            "given": "duplicate prevention",
+            "when": "(implicit)",
+            "then": "no duplicate PENDING entries for same report"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-80-003",
+          "text": "Given execution complete, Then next_execution_at incremented by 7 days",
+          "format": "gwt",
+          "gwt": {
+            "given": "execution complete",
+            "when": "(implicit)",
+            "then": "next_execution_at incremented by 7 days"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-80-004",
+          "text": "Given multiple reports due simultaneously, Then staggered to respect LLM rate limits",
+          "format": "gwt",
+          "gwt": {
+            "given": "multiple reports due simultaneously",
+            "when": "(implicit)",
+            "then": "staggered to respect LLM rate limits"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-80-005",
+          "text": "Given a scheduled execution fails, Then automatically retried once before alerting",
+          "format": "gwt",
+          "gwt": {
+            "given": "a scheduled execution fails",
+            "when": "(implicit)",
+            "then": "automatically retried once before alerting"
+          }
+        }
+      ],
+      "excluded_technical_count": 2
+    },
+    {
+      "story_key": "GEO-79",
+      "story_summary": "[Story 4.1] Dashboard Layout & Sidebar Navigation",
+      "epic_key": "GEO-102",
+      "status": "Done",
+      "user_story": "As an Editor I want to navigate between report views via a sidebar So that I can easily access Overview, Actions Center, Category Views, and Settings.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-79-001",
+          "text": "Given an Editor viewing a completed report, When the dashboard loads, Then a sidebar shows: Overview, Actions Center, Category Views (expandable with sub-items per category), Settings, the active view is highlighted, navigation does not reload the page (SPA), pages load within 2 seconds",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor viewing a completed report",
+            "when": "the dashboard loads",
+            "then": "a sidebar shows: Overview, Actions Center, Category Views (expandable with sub-items per category), Settings, the active view is highlighted, navigation does not reload the page (SPA), pages load within 2 seconds"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-79-002",
+          "text": "Given the Editor switches views, When they click a sidebar item, Then the content area updates and market/LLM filter state persists",
+          "format": "gwt",
+          "gwt": {
+            "given": "the Editor switches views",
+            "when": "they click a sidebar item",
+            "then": "the content area updates and market/LLM filter state persists"
+          }
+        }
+      ],
+      "excluded_technical_count": 3
+    },
+    {
+      "story_key": "GEO-78",
+      "story_summary": "[Story 4.2] Market & LLM Filters",
+      "epic_key": "GEO-102",
+      "status": "Done",
+      "user_story": "As an Editor I want to filter all dashboard data by market and LLM engine So that I can focus on specific geographic or engine-specific insights.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-78-001",
+          "text": "Given an Editor on any dashboard view, When they select a market filter, Then default is \"Master (All Markets)\" which aggregates across all markets, selecting a specific market scopes all KPIs, tables, and charts to that market, filter state persists across view navigation",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on any dashboard view",
+            "when": "they select a market filter",
+            "then": "default is \"Master (All Markets)\" which aggregates across all markets, selecting a specific market scopes all KPIs, tables, and charts to that market, filter state persists across view navigation"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-78-002",
+          "text": "Given an Editor selecting LLM filter, When they deselect an LLM, Then all metrics are recalculated excluding that LLM's data, perception summaries are regenerated with filtered source attribution, min 1 LLM must remain selected",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor selecting LLM filter",
+            "when": "they deselect an LLM",
+            "then": "all metrics are recalculated excluding that LLM's data, perception summaries are regenerated with filtered source attribution, min 1 LLM must remain selected"
+          }
+        }
+      ],
+      "excluded_technical_count": 3
+    },
+    {
+      "story_key": "GEO-77",
+      "story_summary": "[Story 4.4] Overview — Category Prioritization Matrix",
+      "epic_key": "GEO-102",
+      "status": "Done",
+      "user_story": "As an Editor I want to see a visual matrix of my categories plotted by SOV vs Win Rate So that I can identify which categories are stars, opportunities, at risk, or need monitoring.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-77-001",
+          "text": "Given an Editor on the Overview page, When the matrix loads, Then SOV is on X-axis, Win Rate on Y-axis, each data point = one category * market pair, with market flag, 4 quadrants: Stars (high SOV + high win rate), Opportunity (low SOV + high win rate), At Risk (high SOV + low win rate), Monitor (low SOV + low win rate), threshold: SOV 50%, Win Rate 50%",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on the Overview page",
+            "when": "the matrix loads",
+            "then": "SOV is on X-axis, Win Rate on Y-axis, each data point = one category * market pair, with market flag, 4 quadrants: Stars (high SOV + high win rate), Opportunity (low SOV + high win rate), At Risk (high SOV + low win rate), Monitor (low SOV + low win rate), threshold: SOV 50%, Win Rate 50%"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-76",
+      "story_summary": "[Story 4.5] Overview — Brand Rankings",
+      "epic_key": "GEO-102",
+      "status": "Done",
+      "user_story": "As an Editor I want to see how brands rank in my categories So that I understand my competitive position.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-76-001",
+          "text": "Given an Editor on the Overview page, When Brand Rankings loads, Then it shows a table with: rank, brand (with logo), SOV%, Visibility%, Avg Position, LLM Choice%, brands are grouped by normalized brand family, sorted by SOV desc",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on the Overview page",
+            "when": "Brand Rankings loads",
+            "then": "it shows a table with: rank, brand (with logo), SOV%, Visibility%, Avg Position, LLM Choice%, brands are grouped by normalized brand family, sorted by SOV desc"
+          }
+        }
+      ],
+      "excluded_technical_count": 1
+    },
+    {
+      "story_key": "GEO-75",
+      "story_summary": "[Story 4.5b] Overview — Top Concepts",
+      "epic_key": "GEO-102",
+      "status": "Done",
+      "user_story": "As an Editor I want to see what key reputation concepts emerge from AI perception So that I understand the themes AI associates with my brand.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-75-001",
+          "text": "Given an Editor on the Overview page, When Top Concepts loads, Then it shows concept name, sentiment distribution (positive/mixed/negative), frequency (proportion of responses), and LLM attribution badges",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on the Overview page",
+            "when": "Top Concepts loads",
+            "then": "it shows concept name, sentiment distribution (positive/mixed/negative), frequency (proportion of responses), and LLM attribution badges"
+          }
+        }
+      ],
+      "excluded_technical_count": 1
+    },
+    {
+      "story_key": "GEO-74",
+      "story_summary": "[Story 4.6] Overview — AI Citation Sources",
+      "epic_key": "GEO-102",
+      "status": "Done",
+      "user_story": "As an Editor I want to see which sources AI engines cite in my category So that I can identify key publications for PR outreach.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-74-001",
+          "text": "Given an Editor on the Overview page, When AI Citation Sources loads, Then it shows a stacked bar chart of source types (11 categories), a domain table with: domain name, source type, favorability (Favorable/Neutral/Unfavorable), citation count, favorability based on brand's performance in responses citing that domain",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on the Overview page",
+            "when": "AI Citation Sources loads",
+            "then": "it shows a stacked bar chart of source types (11 categories), a domain table with: domain name, source type, favorability (Favorable/Neutral/Unfavorable), citation count, favorability based on brand's performance in responses citing that domain"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-73",
+      "story_summary": "[Story 4.7] AI Perception Summary (On-Demand)",
+      "epic_key": "GEO-102",
+      "status": "Done",
+      "user_story": "As an Editor I want AI-generated perception summaries that are scoped to my current filters So that I get a quick narrative of how AI sees my brand.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-73-001",
+          "text": "Given an Editor viewing any scope, When they access the perception summary for the first time with a specific filter combination, Then the system generates a summary via Gemini (3 bullet points, 150 chars max each), caches the result for subsequent access, shows loading state during generation",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor viewing any scope",
+            "when": "they access the perception summary for the first time with a specific filter combination",
+            "then": "the system generates a summary via Gemini (3 bullet points, 150 chars max each), caches the result for subsequent access, shows loading state during generation"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-73-002",
+          "text": "Given the same filter combination is accessed again, When the cached result exists, Then it's served instantly without re-generation",
+          "format": "gwt",
+          "gwt": {
+            "given": "the same filter combination is accessed again",
+            "when": "the cached result exists",
+            "then": "it's served instantly without re-generation"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-73-003",
+          "text": "Given 4 hierarchical levels, Then summaries are available at: Global, Global per market, Per category, Per category * market",
+          "format": "gwt",
+          "gwt": {
+            "given": "4 hierarchical levels",
+            "when": "(implicit)",
+            "then": "summaries are available at: Global, Global per market, Per category, Per category * market"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-73-004",
+          "text": "Given a new scheduled execution completes, When cache invalidation runs, Then all cached summaries are invalidated (regenerated on next access)",
+          "format": "gwt",
+          "gwt": {
+            "given": "a new scheduled execution completes",
+            "when": "cache invalidation runs",
+            "then": "all cached summaries are invalidated (regenerated on next access)"
+          }
+        }
+      ],
+      "excluded_technical_count": 2
+    },
+    {
+      "story_key": "GEO-72",
+      "story_summary": "[Story 4.8] Executive Summary",
+      "epic_key": "GEO-102",
+      "status": "Done",
+      "user_story": "As an Editor I want an executive summary of my brand's AI presence So that I can get high-level insights at a glance.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-72-001",
+          "text": "Given an Editor on the Overview page, When the executive summary loads, Then it shows a structured summary with key findings, top anomalies, and recommended domains per improvement area, is generated once per analysis run (not on-demand)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on the Overview page",
+            "when": "the executive summary loads",
+            "then": "it shows a structured summary with key findings, top anomalies, and recommended domains per improvement area, is generated once per analysis run (not on-demand)"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-71",
+      "story_summary": "[Story 4.9] Report Deletion",
+      "epic_key": "GEO-102",
+      "status": "Done",
+      "user_story": "As an Editor I want to delete a report I no longer need So that I can manage my report inventory.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-71-001",
+          "text": "Given an Editor wanting to delete a report, When they confirm the deletion dialog, Then the report is soft-deleted, no longer visible in the list, shared links for the deleted report return 404",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor wanting to delete a report",
+            "when": "they confirm the deletion dialog",
+            "then": "the report is soft-deleted, no longer visible in the list, shared links for the deleted report return 404"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-70",
+      "story_summary": "[Story 5.1] Category View — Perception Summary & KPI Cards",
+      "epic_key": "GEO-101",
+      "status": "Done",
+      "user_story": "As an Editor I want to see category-specific perception summary and KPIs So that I can assess performance within each category.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-70-001",
+          "text": "Given an Editor navigating to a category view, When the view loads, Then it shows: per-category AI Perception Summary with key insight, 5 KPI cards (same metrics scoped to category), all respect market/LLM filters",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor navigating to a category view",
+            "when": "the view loads",
+            "then": "it shows: per-category AI Perception Summary with key insight, 5 KPI cards (same metrics scoped to category), all respect market/LLM filters"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-69",
+      "story_summary": "[Story 5.1b] Category View — Brand Prioritization Matrix",
+      "epic_key": "GEO-101",
+      "status": "To Do",
+      "user_story": "As an Editor I want to see a brand matrix scoped to a category So that I can identify brand positioning within the category.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-69-001",
+          "text": "Given an Editor on a category view, When the matrix loads, Then it shows Brand Prioritization Matrix (brands as data points, scoped to category), respects market/LLM filters",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on a category view",
+            "when": "the matrix loads",
+            "then": "it shows Brand Prioritization Matrix (brands as data points, scoped to category), respects market/LLM filters"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-68",
+      "story_summary": "[Story 5.1c] Category View — Brand Rankings",
+      "epic_key": "GEO-101",
+      "status": "To Do",
+      "user_story": "As an Editor I want to see brand rankings scoped to a category So that I can see who leads in this category.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-68-001",
+          "text": "Given an Editor on a category view, When rankings load, Then it shows Brand Rankings table scoped to category, respects market/LLM filters",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on a category view",
+            "when": "rankings load",
+            "then": "it shows Brand Rankings table scoped to category, respects market/LLM filters"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-67",
+      "story_summary": "[Story 5.2] Category View — Unified Questions Table",
+      "epic_key": "GEO-101",
+      "status": "Done",
+      "user_story": "As an Editor I want to see all questions for a category with per-LLM responses and favorability So that I can understand exactly how each AI engine answers.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-67-001",
+          "text": "Given an Editor on a category view, When the questions table loads, Then it shows all questions grouped by type (Visibility/Competitive/Perception), each row shows: question text, winner/themes, market flag, per-LLM rank badges, favorability rules: Visibility (Won=Favorable, Split=Neutral, Not Named=Unfavorable), Competitive (Won=Favorable, Split=Neutral, Lost=Unfavorable), Perception (Positive=Favorable, Mixed=Neutral, Negative=Unfavorable)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on a category view",
+            "when": "the questions table loads",
+            "then": "it shows all questions grouped by type (Visibility/Competitive/Perception), each row shows: question text, winner/themes, market flag, per-LLM rank badges, favorability rules: Visibility (Won=Favorable, Split=Neutral, Not Named=Unfavorable), Competitive (Won=Favorable, Split=Neutral, Lost=Unfavorable), Perception (Positive=Favorable, Mixed=Neutral, Negative=Unfavorable)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-67-002",
+          "text": "Given an Editor filtering by favorability, When they select Favorable/Split/Not Favorable, Then the table filters accordingly, combinable with question type filter",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor filtering by favorability",
+            "when": "they select Favorable/Split/Not Favorable",
+            "then": "the table filters accordingly, combinable with question type filter"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-67-003",
+          "text": "Given an Editor expanding a question row, When they click to expand, Then for visibility: full brand ranking list; for competitive: win/loss per LLM; for all: cited sources + full LLM response text per engine",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor expanding a question row",
+            "when": "they click to expand",
+            "then": "for visibility: full brand ranking list; for competitive: win/loss per LLM; for all: cited sources + full LLM response text per engine"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-66",
+      "story_summary": "[Story 5.3] Category View — Perception Topics & Citation Sources",
+      "epic_key": "GEO-101",
+      "status": "To Do",
+      "user_story": "As an Editor I want to see perception topics and citation sources per category So that I can understand reputation themes and source landscape for each category.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-66-001",
+          "text": "Given an Editor on a category view, When perception topics load, Then they show topic clustering with sentiment filtering (All/Positive/Mixed/Negative) and LLM attribution badges per concept",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on a category view",
+            "when": "perception topics load",
+            "then": "they show topic clustering with sentiment filtering (All/Positive/Mixed/Negative) and LLM attribution badges per concept"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-66-002",
+          "text": "Given an Editor viewing citation sources per category, When the sources load, Then they include perception-related sources and highlight reputation gaps (domains cited by competitors but not by the brand)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor viewing citation sources per category",
+            "when": "the sources load",
+            "then": "they include perception-related sources and highlight reputation gaps (domains cited by competitors but not by the brand)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-66-003",
+          "text": "Given an Editor clicking on any source, When the source detail opens, Then it shows full URL, page title, normalized domain, and which LLM(s) cited the source",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor clicking on any source",
+            "when": "the source detail opens",
+            "then": "it shows full URL, page title, normalized domain, and which LLM(s) cited the source"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-65",
+      "story_summary": "[Story 5.4] Actions Center — Visibility Improvements Display",
+      "epic_key": "GEO-101",
+      "status": "Done",
+      "user_story": "As an Editor I want to see visibility-related improvement areas So that I know where my brand is underperforming in AI search.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-65-001",
+          "text": "Given pre-computed visibility improvements from the pipeline, When the Actions Center loads, Then it displays: low_visibility, poor_position, category_market_low, owned_media_gap, each shows: type badge, severity indicator (Critical/Warning/Info), category name, LLM, target domain count, sorted by severity",
+          "format": "gwt",
+          "gwt": {
+            "given": "pre-computed visibility improvements from the pipeline",
+            "when": "the Actions Center loads",
+            "then": "it displays: low_visibility, poor_position, category_market_low, owned_media_gap, each shows: type badge, severity indicator (Critical/Warning/Info), category name, LLM, target domain count, sorted by severity"
+          }
+        }
+      ],
+      "excluded_technical_count": 1
+    },
+    {
+      "story_key": "GEO-64",
+      "story_summary": "[Story 5.4b] Actions Center — Competitive Improvements Display",
+      "epic_key": "GEO-101",
+      "status": "To Do",
+      "user_story": "As an Editor I want to see competitive improvement areas So that I know where competitors are winning.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-64-001",
+          "text": "Given pre-computed competitive improvements from the pipeline, When the Actions Center loads, Then it displays: low_favorability, category_market_losing, low_source_favorability",
+          "format": "gwt",
+          "gwt": {
+            "given": "pre-computed competitive improvements from the pipeline",
+            "when": "the Actions Center loads",
+            "then": "it displays: low_favorability, category_market_losing, low_source_favorability"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-64-002",
+          "text": "Given market filter applied, Then improvements scoped to that market",
+          "format": "gwt",
+          "gwt": {
+            "given": "market filter applied",
+            "when": "(implicit)",
+            "then": "improvements scoped to that market"
+          }
+        }
+      ],
+      "excluded_technical_count": 1
+    },
+    {
+      "story_key": "GEO-63",
+      "story_summary": "[Story 5.4c] Actions Center — Reputation Improvements Display",
+      "epic_key": "GEO-101",
+      "status": "Done",
+      "user_story": "As an Editor I want to see reputation improvement areas So that I know where sentiment is negative.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-63-001",
+          "text": "Given pre-computed reputation improvements from the pipeline, When the Actions Center loads, Then it displays: negative_sentiment items (max 3 per category, highest severity first)",
+          "format": "gwt",
+          "gwt": {
+            "given": "pre-computed reputation improvements from the pipeline",
+            "when": "the Actions Center loads",
+            "then": "it displays: negative_sentiment items (max 3 per category, highest severity first)"
+          }
+        }
+      ],
+      "excluded_technical_count": 1
+    },
+    {
+      "story_key": "GEO-62",
+      "story_summary": "[Story 5.5] Actions Center — Priority Source Targets & Detail Panel",
+      "epic_key": "GEO-101",
+      "status": "Backlog",
+      "user_story": "As an Editor I want to expand improvement areas and see priority source targets So that I have a concrete outreach plan for PR actions.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-62-001",
+          "text": "Given an Editor expanding an improvement area, When the detail panel opens, Then it shows: Quick Stats (relevant KPIs for the issue), Priority Source Targets (third-party domains with favorability, citation count, gap count), Owned Media (brand-owned domains), Competitor Media (competitor-owned domains)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor expanding an improvement area",
+            "when": "the detail panel opens",
+            "then": "it shows: Quick Stats (relevant KPIs for the issue), Priority Source Targets (third-party domains with favorability, citation count, gap count), Owned Media (brand-owned domains), Competitor Media (competitor-owned domains)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-62-002",
+          "text": "Given Priority Source Targets listed, When displayed, Then each domain shows: favorability (Favorable/Neutral/Unfavorable), total citation count, gaps count (questions where brand underperforms and domain is cited), per-LLM logo badges, sorted by impact potential",
+          "format": "gwt",
+          "gwt": {
+            "given": "Priority Source Targets listed",
+            "when": "displayed",
+            "then": "each domain shows: favorability (Favorable/Neutral/Unfavorable), total citation count, gaps count (questions where brand underperforms and domain is cited), per-LLM logo badges, sorted by impact potential"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-61",
+      "story_summary": "[Story 6.1] Manage Scope — Markets & Categories",
+      "epic_key": "GEO-100",
+      "status": "Done",
+      "user_story": "As an Editor I want to add/remove markets and categories on an existing report So that I can adjust my analysis scope without creating a new report.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-61-001",
+          "text": "Given an Editor on the Settings/Manage Scope page, When they view the current scope, Then they see: list of countries (with Primary indicator), list of categories, enabled LLM engines, question counts per category/market, analysis metadata (creation date, last analysis, execution time)",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on the Settings/Manage Scope page",
+            "when": "they view the current scope",
+            "then": "they see: list of countries (with Primary indicator), list of categories, enabled LLM engines, question counts per category/market, analysis metadata (creation date, last analysis, execution time)"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-61-002",
+          "text": "Given an Editor adding a new market, When they save the change, Then quota is consumed (brand_markets_used + 1), the change is included in the next scheduled execution, UI shows \"Changes will take effect on next scheduled execution\"",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor adding a new market",
+            "when": "they save the change",
+            "then": "quota is consumed (brand_markets_used + 1), the change is included in the next scheduled execution, UI shows \"Changes will take effect on next scheduled execution\""
+          }
+        },
+        {
+          "ac_id": "AC-GEO-61-003",
+          "text": "Given an Editor adding a new category, When they save, Then no additional brand_market quota consumed, included in next scheduled execution",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor adding a new category",
+            "when": "they save",
+            "then": "no additional brand_market quota consumed, included in next scheduled execution"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-61-004",
+          "text": "Given an Editor modifying questions or adding competitors, When they save, Then changes persisted and applied on next run",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor modifying questions or adding competitors",
+            "when": "they save",
+            "then": "changes persisted and applied on next run"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-60",
+      "story_summary": "[Story 6.2] Manage Scope — LLM Configuration",
+      "epic_key": "GEO-100",
+      "status": "Done",
+      "user_story": "As an Editor I want to enable or disable LLM engines for an existing report So that I can adjust which AI engines are included in future analyses.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-60-001",
+          "text": "Given an Editor on Manage Scope, When they toggle an LLM engine, Then the change is saved and applied on the next scheduled execution, min 1 LLM must remain enabled",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor on Manage Scope",
+            "when": "they toggle an LLM engine",
+            "then": "the change is saved and applied on the next scheduled execution, min 1 LLM must remain enabled"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-59",
+      "story_summary": "[Story 11.1] Shared Reports (Token-Based)",
+      "epic_key": "GEO-156",
+      "status": "Backlog",
+      "user_story": "As an Editor I want to generate a shareable link for my report So that external stakeholders can view results without logging in.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-59-001",
+          "text": "Given an Editor generating a shareable link, When they click the share button, Then the system generates a cryptographically random token (min 32 chars via SecureRandom), returns a URL: /api/v1/reports/shared/{token}",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor generating a shareable link",
+            "when": "they click the share button",
+            "then": "the system generates a cryptographically random token (min 32 chars via SecureRandom), returns a URL: /api/v1/reports/shared/{token}"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-59-002",
+          "text": "Given an unauthenticated user with a valid token, When they access the shared link, Then they see full read-only access to Overview, Actions Center, and Category Views, market and LLM filters work, the page loads within 5 seconds",
+          "format": "gwt",
+          "gwt": {
+            "given": "an unauthenticated user with a valid token",
+            "when": "they access the shared link",
+            "then": "they see full read-only access to Overview, Actions Center, and Category Views, market and LLM filters work, the page loads within 5 seconds"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-59-003",
+          "text": "Given a shared link for a deleted report, When accessed, Then returns 404",
+          "format": "gwt",
+          "gwt": {
+            "given": "a shared link for a deleted report",
+            "when": "accessed",
+            "then": "returns 404"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-58",
+      "story_summary": "[Story 11.2] Export — PPTX & PDF",
+      "epic_key": "GEO-156",
+      "status": "Backlog",
+      "user_story": "As an Editor I want to export my report as PPTX or PDF So that I can share findings in presentations and offline.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-58-001",
+          "text": "Given an Editor triggering PPTX export, When they select sections to include (Overview, Actions Center, each Category), Then the system generates a branded slide deck with screenshots, completes within 30 seconds, at least one section must be selected",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor triggering PPTX export",
+            "when": "they select sections to include (Overview, Actions Center, each Category)",
+            "then": "the system generates a branded slide deck with screenshots, completes within 30 seconds, at least one section must be selected"
+          }
+        },
+        {
+          "ac_id": "AC-GEO-58-002",
+          "text": "Given an Editor triggering PDF export, When they click export, Then the browser print dialog opens for PDF generation",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor triggering PDF export",
+            "when": "they click export",
+            "then": "the browser print dialog opens for PDF generation"
+          }
+        }
+      ],
+      "excluded_technical_count": 2
+    },
+    {
+      "story_key": "GEO-57",
+      "story_summary": "[Story 7.1] Immutable Snapshot Storage",
+      "epic_key": "GEO-99",
+      "status": "Backlog",
+      "user_story": "I want to store each analysis run as an immutable snapshot So that historical results are preserved and comparable.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-57-001",
+          "text": "Given an analysis execution completes, When results are finalized, Then a new snapshot is created with: executedAt, totalQuestions, successCount, failedCount, configSnapshot (resolved config including real competitor names), the snapshot is immutable (never modified after creation), snapshots are retained for at least 12 months",
+          "format": "gwt",
+          "gwt": {
+            "given": "an analysis execution completes",
+            "when": "results are finalized",
+            "then": "a new snapshot is created with: executedAt, totalQuestions, successCount, failedCount, configSnapshot (resolved config including real competitor names), the snapshot is immutable (never modified after creation), snapshots are retained for at least 12 months"
+          }
+        }
+      ],
+      "excluded_technical_count": 3
+    },
+    {
+      "story_key": "GEO-56",
+      "story_summary": "[Story 7.2] Snapshot Navigation",
+      "epic_key": "GEO-99",
+      "status": "Backlog",
+      "user_story": "As an Editor I want to navigate between analysis snapshots So that I can compare results over time.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-56-001",
+          "text": "Given an Editor viewing a report with multiple snapshots, When they use previous/next controls, Then all dashboard data reflects the selected snapshot's results, the current snapshot date is displayed",
+          "format": "gwt",
+          "gwt": {
+            "given": "an Editor viewing a report with multiple snapshots",
+            "when": "they use previous/next controls",
+            "then": "all dashboard data reflects the selected snapshot's results, the current snapshot date is displayed"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    },
+    {
+      "story_key": "GEO-55",
+      "story_summary": "[Story 7.3] Guided Tour",
+      "epic_key": "GEO-99",
+      "status": "Backlog",
+      "user_story": "As a new user I want a guided tour of the product So that I can understand the key features quickly.",
+      "acceptance_criteria": [
+        {
+          "ac_id": "AC-GEO-55-001",
+          "text": "Given a user accessing the product with a tour URL parameter, When the tour activates, Then it navigates automatically across views (Overview, Actions Center, Category) with contextual tooltips, the user can advance or skip steps, the tour has 8-12 steps total, demo data is used if no real report exists",
+          "format": "gwt",
+          "gwt": {
+            "given": "a user accessing the product with a tour URL parameter",
+            "when": "the tour activates",
+            "then": "it navigates automatically across views (Overview, Actions Center, Category) with contextual tooltips, the user can advance or skip steps, the tour has 8-12 steps total, demo data is used if no real report exists"
+          }
+        }
+      ],
+      "excluded_technical_count": 0
+    }
+  ]
+}

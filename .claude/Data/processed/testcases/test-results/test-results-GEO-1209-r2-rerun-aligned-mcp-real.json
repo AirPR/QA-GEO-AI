@@ -1,0 +1,350 @@
+{
+  "spec": "GEO-1209-r2-rerun-aligned-mcp",
+  "runDate": "2026-10-22",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "tc_filter": "TC-GEO-1241-016,TC-GEO-1242-004,TC-GEO-1244-005,TC-GEO-1244-007,TC-GEO-1244-008,TC-GEO-1244-010",
+  "rerun_of": [
+    "test-results-GEO-1209-r2-GEO1241-mcp-real.json (TC-GEO-1241-016)",
+    "test-results-GEO-1209-r2-GEO1242-mcp-real.json (TC-GEO-1242-004)",
+    "test-results-GEO-1209-r2-GEO1244-mcp-real.json (TC-GEO-1244-005, -007, -008, -010)"
+  ],
+  "reason": "CSV aligned 2026-10-22: 1241-016 Other (0) kept; 1242-004 market adaptation rewords Visibility (PO 859152); 1244-005 Time Evolution hidden under 7 collections; 1244-007 2-engine Split accepted; 1244-008 prompts table stays on the latest collection; 1244-010 Other tab hidden at 0",
+  "environment": "staging, organisation QA-GEO, en-GB, features.unbranded_analysis=true, role SUPER_ADMIN, viewport 1280x720",
+  "analysis_under_test": "UA = Electric bikes 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4 (UNBRANDED, GB, Commuter Electric Bikes + Other, ChatGPT + Gemini, collections 20 and 21 Oct 2026); UA2 = bike d3fd1b30-7d39-4132-83a0-70e2121df2ff (UNBRANDED, US, Mountain Bikes + Road Bikes, Competitive, ChatGPT + Gemini, collections 21 and 22 Oct 2026); wizard draft Postal services GB (EN) + FR (FR) (never created)",
+  "write_guard": "context.route on **/geo/api/** aborting every non-GET request except analysis/discover-categories, analysis/translate-category, questions/adapt-batch (draft building). Existing analyses only, no analysis created (user decision 2026-10-22). Guard removed with context.unrouteAll() at the end.",
+  "summary": {
+    "total": 6,
+    "pass": 5,
+    "fail": 0,
+    "skip": 0,
+    "partial": 1,
+    "success_rate": 91.7,
+    "verdict": "GO"
+  },
+  "run_folder": ".claude/Data/output/reports/runs/22102026-1750/",
+  "end_checks": {
+    "auth_me_start": "QA-GEO, en-GB, unbranded_analysis=true, SUPER_ADMIN",
+    "auth_me_end": "QA-GEO, en-GB, unbranded_analysis=true, SUPER_ADMIN",
+    "pool": "992 / 1000 at start and end on the dashboard (r2 read 996; change made outside this run, no analysis created here); no 'Postal services' analysis in the list after Exit and Discard",
+    "non_get_calls": "analysis/discover-categories x1, questions/adapt-batch x4 (allow-listed, draft building); auth/hubspot/login-event x2 aborted by the guard",
+    "guard": "context.unrouteAll() done; wizard left with Exit and Discard ('There is no draft: nothing is saved yet')"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1241-016",
+      "title": "Summary warns that InBrief and Top Topics will not be produced without Category Topics or Other prompts",
+      "story_id": "GEO-1241",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "previous_status": "FAIL",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1241-016_step1_given.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1241-016_step2_when.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1241-016_step3_type_filter.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1241-016_step3_then.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1241-016_step4_summary.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1241-016_step5_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The table is displayed with every suggestion ticked",
+          "observed": "Same wizard draft (Postal services, GB (EN) + FR (FR), Package Delivery + Mail Services), filters cleared: 120 rows, 120 ticked (1112 / 1000, 120 selected)"
+        },
+        {
+          "title": "When the user filters on Type Category Topics and unticks every Category Topics prompt",
+          "status": "PASS",
+          "data": "Type filter: Category Topics",
+          "expected": "Every Category Topics row is unticked",
+          "observed": "Type filter Category Topics: 40 rows, all unticked with the header checkbox (0 ticked; 1072 / 1000, 80 selected)"
+        },
+        {
+          "title": "And no prompt is in Other",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Type and Category filters list \"Other\" with a count of 0 (no prompt is in Other)",
+          "observed": "Type filter: Visibility 40, Category Topics 40, Competitive 40, Other 0; Category filter: Package Delivery 20, Mail Services 20, Other 0"
+        },
+        {
+          "title": "And the user goes to Summary",
+          "status": "PASS",
+          "data": "Review & Launch",
+          "expected": "The Summary step is displayed",
+          "observed": "Draft reduced to 4 kept prompts to fit the pool (GB: 2 Visibility + 2 Competitive, 996 / 1000, 4 selected), Review & Launch -> Summary displayed (Analysis Scope, Markets, Categories, AI Engines)"
+        },
+        {
+          "title": "Then the warning names InBrief and Top Topics as metrics the analysis will not produce",
+          "status": "PASS",
+          "data": "",
+          "expected": "The warning names \"InBrief\" and \"Top Topics\"",
+          "observed": "Summary warning: 'No Category Topics prompts are kept, so InBrief and Top Topics will not be produced.' (also '1 market will be dropped: France. 1 category will be dropped: Mail Services.')"
+        }
+      ],
+      "notes": "Data: wizard draft only (never created, guard active; Create Analysis never clicked; wizard closed with Exit and Discard). Pool adaptation: prompt pool read at 992 / 1000 on the dashboard (r2: 996; changed outside this run), so FR rows and the other GB rows were unticked wizard-local to reach Summary. Same observation as r2; the CSV aligned on 2026-10-22 ('Other (0)' kept by design) now matches step 3.",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1242-004",
+      "title": "Visibility prompts use the 10 production templates with the category only",
+      "story_id": "GEO-1242",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "previous_status": "FAIL",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1242-004_step1_given.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1242-004_step2_when.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1242-004_step3_then.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1242-004_step4_no_brand.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step of the unbranded scope",
+          "status": "PASS",
+          "data": "",
+          "expected": "The table is displayed",
+          "observed": "Wizard draft (never created): Unbranded analysis, topic 'Postal services', GB (EN) + FR (FR), categories C1 Package Delivery and C2 Mail Services kept; Prompts step displayed, 1112 / 1000 prompts, 120 selected"
+        },
+        {
+          "title": "When the user filters on Type Visibility, category C1 and market GB (EN)",
+          "status": "PASS",
+          "data": "",
+          "expected": "10 Visibility rows are shown",
+          "observed": "Type filter Visibility (40), Category filter Package Delivery (20), Market filter GB (EN): 10 rows, all Visibility / Package Delivery / GB (EN)"
+        },
+        {
+          "title": "Then the 10 rows come from the 10 production Visibility templates",
+          "status": "PASS",
+          "data": "Reference: questionTemplates.ts Visibility templates with {category} = C1",
+          "expected": "Each wording is a production Visibility template with the category name in the {category} slot, possibly reworded by the market adaptation (e.g. \"Best Package Delivery service?\", \"Which Package Delivery service should I use?\")",
+          "observed": "10/10 rows map one-to-one to the 10 production templates (Best / Top / Which X do you recommend / Most popular / Recommended / Which X should I buy / What X should I get / Good / Suggest / Most recommended X?) with {category} = 'Package Delivery', reworded by the market adaptation only: ' service' appended (10/10) and buy -> use (1/10). 10 distinct templates, none missing or duplicated"
+        },
+        {
+          "title": "And no Visibility prompt names a brand or a competitor slot",
+          "status": "PASS",
+          "data": "",
+          "expected": "No brand name and no [Competitor N] in any Visibility wording",
+          "observed": "No brand name and no [Competitor N] in the 10 wordings (only the category name)"
+        }
+      ],
+      "notes": "Data: wizard draft Postal services GB (EN) + FR (FR), nothing saved (guard; non-GET calls sent = discover-categories x1, adapt-batch x4, both allow-listed; hubspot login-event aborted). Reference wording = production Visibility templates (frontend bundle, as recorded in the first run; questionTemplates.ts source not in the repo). Same observation as r2 (FAIL); the CSV aligned on PO comment 859152 (market adaptation rewords the vocabulary by design) now accepts it.",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1244-005",
+      "title": "Time Evolution still needs 7 collections in the window",
+      "story_id": "GEO-1244",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "previous_status": "PARTIAL",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-005_step1_given.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-005_step2_when.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-005_step3_then.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-005_step3_then_landscape_no_time_evolution.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category C1 of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The category view is displayed",
+          "observed": "UA Electric bikes, C1 Commuter Electric Bikes category view displayed (date 21 Oct 2026, latest report): Identity (InBrief, Top Topics), Performance, Sources"
+        },
+        {
+          "title": "When the user selects a window with fewer than 7 collections",
+          "status": "PASS",
+          "data": "",
+          "expected": "The Time Evolution widget is no longer shown",
+          "observed": "Date picker: All reports + Apply (client-side filter, nothing saved). The calendar enables only 20 and 21 Oct 2026 = 2 collections in the window. No Time Evolution widget in the page"
+        },
+        {
+          "title": "Then the Time Evolution widget is hidden",
+          "status": "PASS",
+          "data": "",
+          "expected": "Nothing is shown for Time Evolution: the widget is hidden, as on brand analyses (no \"not enough data\" message)",
+          "observed": "Performance section lists Share of Voice, Brand Prioritization, Commuter Electric Bikes landscape only; 'Time Evolution', 'Not enough data' and 'At least 7' are absent from the page text"
+        }
+      ],
+      "notes": "Analysis used: UA = Electric bikes (42c3ab89), C1 = Commuter Electric Bikes, window All reports = 2 collections (20 and 21 Oct 2026). The CSV now expects the widget hidden (QA 2026-10-22), which matches the observation. Limit kept from r2 (not blocking the aligned expectation): UA never reaches 7 collections, so the positive side (widget shown with 7+ collections on an unbranded category) is still not observable on existing data.",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1244-007",
+      "title": "A prompt shows \"Split\" when engines disagree or an engine has an empty ranking",
+      "story_id": "GEO-1244",
+      "priority": "Medium",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "previous_status": "PARTIAL",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-007_step1_given.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-007_step2_when_chatgpt.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-007_step2_when.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category C1 of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompts table is displayed",
+          "observed": "UA2 bike, C1 Mountain Bikes, 22 Oct 2026 (latest): Prompts Analysis table displayed, 27 of 27 prompts (Visibility 10, Competitive 7, Category Topics 10)"
+        },
+        {
+          "title": "When the user opens a prompt where the engines rank different brands first (2 engines on A and 1 on B, or 1 vs 1 when the analysis has 2 engines)",
+          "status": "PASS",
+          "data": "",
+          "expected": "The detail panel shows the different first brands",
+          "observed": "'Which Mountain Bikes should I buy?' detail panel: ChatGPT 'Trek Fuel EXe was chosen', Gemini 'Specialized Stumpjumper was chosen' (1 vs 1, analysis with 2 engines)"
+        },
+        {
+          "title": "Then its row shows \"Split\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "Winner / Themes shows the \"Split\" chip",
+          "observed": "Row 'Visibility Which Mountain Bikes should I buy?' shows the 'Split' chip (API winnerDisplay = Split)"
+        },
+        {
+          "title": "When the user opens a prompt where one engine returned an empty ranking",
+          "status": "SKIP",
+          "data": "",
+          "expected": "The detail panel shows the engine with no ranking",
+          "observed": "No such prompt: GET scan of the detail of every Visibility / Competitive prompt, both engines, latest collection - UA2 Mountain Bikes (17) and Road Bikes (5), UA Commuter Electric Bikes (2): every engine returned a ranking (4, 9 or 10 items)"
+        },
+        {
+          "title": "Then its row also shows \"Split\"",
+          "status": "PARTIAL",
+          "data": "",
+          "expected": "\"Split\" is shown; \"No ranking returned\" never appears in the prompts table",
+          "observed": "Empty-ranking row not available (step 4). Second half verified: 'No ranking returned' appears 0 times in the page; 13 'Split' chips in the Mountain Bikes table"
+        }
+      ],
+      "notes": "Analysis used: UA2 = bike (d3fd1b30), C1 = Mountain Bikes, latest collection 22 Oct 2026, ChatGPT + Gemini; UA Electric bikes scanned via GET. The aligned CSV accepts the 1-vs-1 disagreement of a 2-engine analysis: that part now PASSES. Still PARTIAL because the empty-ranking case cannot be built on existing data (no engine returned an empty ranking in any existing unbranded analysis) and no analysis may be created. Consistency: every 'Split' row has different chosen items per engine; every single-winner row (Specialized x4 in Mountain Bikes, 1 in Road Bikes) has the same family for both engines.",
+      "gap_type": "missing data (no prompt with an empty engine ranking in existing unbranded analyses)"
+    },
+    {
+      "tc_id": "TC-GEO-1244-008",
+      "title": "The prompts table stays on the latest collection when the date changes",
+      "story_id": "GEO-1244",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "previous_status": "SKIP",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-008_step1_given.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-008_step2_when.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-008_step3_then.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-008_step5_then_range.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category C1 of analysis UA on the latest collection",
+          "status": "PASS",
+          "data": "",
+          "expected": "Prompt R shows winner W1",
+          "observed": "UA2 bike, Mountain Bikes, date 22 Oct 2026 (latest): prompt R = 'Most popular Mountain Bikes?' shows W1 = 'Specialized'. Every prompt row was tagged in the DOM (data-qa-mark) and its text stored before the date change"
+        },
+        {
+          "title": "When the user selects the earlier collection",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompts table is not reloaded",
+          "observed": "Calendar 21 Oct 2026 + Apply: 7 GET calls re-sent with from/to (citation-sources, perception-summary, brand-matrix, brand-rankings, sov-distribution, top-concepts, category citation-sources) and NO categories/{id}/questions call; the 27 prompt rows are the same DOM nodes (all still tagged) with identical content"
+        },
+        {
+          "title": "Then prompt R still shows the winner of the latest collection",
+          "status": "PASS",
+          "data": "",
+          "expected": "Prompt R still shows winner W1 of the latest collection",
+          "observed": "Date shows 21 Oct 2026; prompt R still shows 'Specialized' (W1)"
+        },
+        {
+          "title": "When the user selects a date range covering both collections",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompts table is not reloaded",
+          "observed": "Preset All reports = range 21 Oct 2026 - 22 Oct 2026 + Apply: 7 GET calls with from=2026-10-21 to=2026-10-22, no questions call; the 27 prompt rows are the same DOM nodes with identical content"
+        },
+        {
+          "title": "Then the winner is not aggregated over the range",
+          "status": "PASS",
+          "data": "",
+          "expected": "Prompt R still shows the winner of the latest collection (W1)",
+          "observed": "Prompt R still shows 'Specialized' (W1); all 13 'Split' / 4 single-winner rows unchanged"
+        }
+      ],
+      "notes": "Analysis used: UA2 = bike (d3fd1b30), C1 = Mountain Bikes, collections 21 and 22 Oct 2026 (user instruction for this rerun). Date filters changed client-side only, nothing saved. Precondition 'prompt R has a different winner in the two collections' is still not available (GET questions with from/to per day: 0 of 17 Visibility / Competitive prompts differ between 21 and 22 Oct; r2 scan of UA gave the same). PASS rests on the aligned expected results: the table is provably not reloaded (no questions request, same DOM nodes, identical rows) so it can only show the latest-collection winner. Residual limit: the visible winner of R is the same on both days, so the screenshot alone cannot show a W1 vs W2 difference.",
+      "gap_type": null
+    },
+    {
+      "tc_id": "TC-GEO-1244-010",
+      "title": "Prompts table tabs and the detail panel label Category Topics prompts \"Category Topics\"",
+      "story_id": "GEO-1244",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "previous_status": "PARTIAL",
+      "screenshots": [
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-010_step1_given.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-010_step2_when.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-010_step2_tabs_no_other.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-010_step3_then.png",
+        "screenshots-GEO-1209-r2-rerun-aligned/TC-GEO-1244-010_ref_UA_other_category_other_tab_shown.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens category C1 of analysis UA",
+          "status": "PASS",
+          "data": "",
+          "expected": "The prompts table is displayed",
+          "observed": "UA2 bike, C1 Mountain Bikes, 22 Oct 2026: Prompts Analysis table displayed, 'Showing 27 of 27 prompts'"
+        },
+        {
+          "title": "When the user looks at the tabs",
+          "status": "PASS",
+          "data": "",
+          "expected": "Tabs ALL, Visibility, Competitive and Category Topics are shown, plus Other when its count is above 0 (hidden at 0); no \"Perception\" tab",
+          "observed": "Tabs: All 27, Visibility 10, Competitive 7, Category Topics 10; API otherCount = 0 and no Other tab (hidden at 0); no 'Perception' tab or text. Reference above 0: UA Other category shows All 1, Visibility 0, Competitive 0, Category Topics 0, Other 1"
+        },
+        {
+          "title": "And the user opens the \"Category Topics\" tab and a prompt",
+          "status": "PASS",
+          "data": "",
+          "expected": "Category Topics rows show their themes in Winner / Themes; the detail panel opens",
+          "observed": "Category Topics tab: 10 rows; 8 show their themes (e.g. 'suspension systems', 'wheel size' +4); 2 rows ('What is good value for money in Mountain Bikes?', 'How do I know which Mountain Bikes options I can trust?') have no theme in the API (themes = []) and show an empty cell. 'What makes Mountain Bikes good quality?' opened: detail panel displayed"
+        },
+        {
+          "title": "Then the detail panel labels it \"Category Topics\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "The panel type label reads \"Category Topics\", never \"Perception\"",
+          "observed": "Panel label 'Category Topics' + United States, ChatGPT / Gemini, SENTIMENT - CHATGPT Positive, THEMES, RESPONSE; no visible 'Perception' text and no aria-label containing 'perception' in the page"
+        }
+      ],
+      "notes": "Analysis used: UA2 = bike (d3fd1b30), C1 = Mountain Bikes (main run); UA = Electric bikes Other category (reference for the Other tab above 0). The aligned CSV (epic 1.8 AC3: Other tab hidden at 0) matches the observation. Change since r2: the aria-label of the Top Topics list now reads 'Category Topics' (r2: 'Perception topics') - no 'perception' aria-label left. Open PO question kept from r2 (not blocking): empty Winner / Themes cell with no placeholder when a Category Topics prompt has no theme.",
+      "gap_type": null
+    }
+  ],
+  "html_report": ".claude/Data/output/reports/runs/22102026-1750/MCP-Report-GEO-1209-r2-rerun-aligned.html",
+  "run_window": "2026-10-22 17:34 - 17:51 (about 17 min of execution)"
+}

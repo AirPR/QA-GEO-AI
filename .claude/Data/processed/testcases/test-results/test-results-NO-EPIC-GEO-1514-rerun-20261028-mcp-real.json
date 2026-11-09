@@ -1,0 +1,273 @@
+{
+  "spec": "NO-EPIC-GEO-1514-rerun-20261028-mcp",
+  "runDate": "2026-10-28",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "rerunOf": "test-results-NO-EPIC-GEO-1514-mcp-real.json (runs/28102026-1427)",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-storyGEO-1514.csv",
+  "story": "GEO-1514",
+  "environment": "staging",
+  "accounts": {
+    "main": "assiya.benramdane@onclusive.com (QA-GEO, final language en-GB)",
+    "pql": "assiya.benramdane+pql@onclusive.com (language en-US, unchanged)"
+  },
+  "disposableAnalysis": {
+    "id": "d3fd9ff4-74b4-4f37-b58e-093743fd9000",
+    "name": "Decathlon",
+    "createdAt": "2026-10-28T15:28:08Z",
+    "deleted": true,
+    "analysesBefore": 13,
+    "analysesAfterCreate": 14,
+    "analysesAfterDelete": 13,
+    "poolBefore": "1040 / 1100",
+    "poolAfterCreate": "1045 / 1100",
+    "poolAfterDelete": "1040 / 1100"
+  },
+  "summary": {
+    "total": 4,
+    "pass": 1,
+    "fail": 1,
+    "skip": 0,
+    "partial": 2,
+    "success_rate": 50,
+    "verdict": "NO-GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1514-005",
+      "title": "Add category modal and delete category dialog say country and language in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step3_add-category-typed.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step4_remove-C1.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step5_remove-C2.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step6_fr_modal.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step6_fr_modal-typed.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step6_fr_remove-one.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step6_fr_remove.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step7_es_modal.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step7_es_modal-typed.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step7_es_remove-one.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step7_es_remove.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-005_step8_language-restored-en-GB.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step with 2 countries",
+          "status": "PASS",
+          "note": "Decathlon (decathlon.com), United Kingdom - English (EN) + France - French (FR), detected C1 Outdoor Gear and C2 Sports Apparel."
+        },
+        {
+          "title": "When the user opens the Add category modal",
+          "status": "PASS",
+          "note": "Observed: \"Translated for each country and language by AI Sense\"."
+        },
+        {
+          "title": "And the user types a category name",
+          "status": "PASS",
+          "note": "Name \"Running shoes\". Observed: \"AI Sense translates the category for each country and language. Use the edit icon to adjust any translation.\""
+        },
+        {
+          "title": "When the user deletes every prompt of category C1 but one, goes back to Categories and removes C1",
+          "status": "PASS",
+          "note": "Trash icon on 59 of the 60 Outdoor Gear prompts (1 left: FR Competitive). Observed: \"1 prompt across your countries will be deleted with it.\" (Cancel)."
+        },
+        {
+          "title": "And the user removes category C2 with N prompts kept",
+          "status": "PASS",
+          "note": "Observed: \"60 prompts across your countries will be deleted with it.\" (Sports Apparel, real N = 60, Cancel)."
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and replays steps 1 to 5 in a new wizard",
+          "status": "PASS",
+          "note": "fr-FR (/auth/me). Exactly 2 countries (Royaume-Uni anglais (EN), France français (FR)). Observed: \"Traduite pour chaque pays et chaque langue par AI Sense\"; \"AI Sense traduit la catégorie pour chaque pays et chaque langue. Utilisez l'icône de modification pour ajuster une traduction.\"; \"1 prompt de vos pays sera supprimé avec elle.\" (Équipement De Plein Air, 59 of 60 prompts deleted); \"60 prompts de vos pays seront supprimés avec elle.\" (Vêtements De Sport)."
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and replays steps 1 to 5 in a new wizard",
+          "status": "PASS",
+          "note": "es-ES (/auth/me). Exactly 2 countries (Reino Unido inglés (EN), Francia francés (FR)). Observed: \"Traducida para cada país e idioma por AI Sense\"; \"AI Sense traduce la categoría para cada país e idioma. Use el icono de edición para ajustar cualquier traducción.\"; \"1 prompt de sus países se eliminará con ella.\" (Equipo Para Actividades Al Aire Libre); \"60 prompts de sus países se eliminarán con ella.\" (Ropa Deportiva)."
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS",
+          "note": "Settings > Interface Language > British English, /auth/me language = en-GB."
+        }
+      ],
+      "notes": "Rerun after the CSV alignment of step 4 (delete with the trash icon instead of unticking): the step 4 FAIL of run 28102026-1427 is gone, the _one wording is shown in EN, FR and ES. FR / ES replays used exactly 2 countries this time. Nothing created, nothing saved (wizard left with the leave-page dialog; pool stayed 1040 / 1100). Language switch path: Settings > Interface Language (the CSV says \"User menu > language\"; the user menu has no language entry - wording to align). Side observations (not GEO-1514 keys): in FR / ES the Add category modal translation rows still read \"United Kingdom · English\" / \"France · French\"; the \"Interface language updated\" toast is shown in the previous language (e.g. \"Idioma de la interfaz actualizado\" after switching to British English)."
+    },
+    {
+      "tc_id": "TC-GEO-1514-004",
+      "title": "Analysis created screen counts countries in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Steps 1-2 and 4-6: only one disposable analysis approved by the user (2026-10-28).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-004_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-004_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-004_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-004_before_dashboard.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-004_delete-dialog.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-004_after-delete_dashboard.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Summary step of an analysis with 1 country",
+          "status": "SKIP",
+          "note": "Only one disposable analysis approved by the user."
+        },
+        {
+          "title": "When the user creates the analysis",
+          "status": "SKIP",
+          "note": "Only one disposable analysis approved by the user (\"1 country\" not checked)."
+        },
+        {
+          "title": "And the user creates a second disposable analysis with 2 countries",
+          "status": "PASS",
+          "note": "en-GB, Decathlon (decathlon.com), GB (EN) + FR (FR), 1 category (Outdoor Gear, Sports Apparel removed in the wizard), exactly 5 prompts ticked (3 GB + 2 FR Outdoor Gear Reputation, 75 others unticked). Observed on the Analysis created screen: \"5 prompts across 2 countries and 1 category run on ChatGPT and Gemini.\" -> \"2 countries\" exact (framed in red)."
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and creates a disposable analysis with 2 countries",
+          "status": "SKIP",
+          "note": "Only one disposable analysis approved by the user."
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and creates a disposable analysis with 1 country",
+          "status": "SKIP",
+          "note": "Only one disposable analysis approved by the user."
+        },
+        {
+          "title": "And the user creates a disposable analysis with 2 countries in Spanish",
+          "status": "SKIP",
+          "note": "Only one disposable analysis approved by the user."
+        },
+        {
+          "title": "Then the user deletes the 5 disposable analyses",
+          "status": "PASS",
+          "note": "Only ONE analysis to delete: d3fd9ff4-74b4-4f37-b58e-093743fd9000 (Decathlon, created 2026-10-28T15:28:08Z, GB+FR, Outdoor Gear, 5 slots). Deleted from the GEO dashboard Analysis table (row data-testid reports-view-row-d3fd9ff4-..., dialog \"Are you sure you want to delete the analysis \\\"Decathlon\\\"? This action cannot be undone.\" -> Delete; request DELETE /geo/api/v1/reports/d3fd9ff4-74b4-4f37-b58e-093743fd9000). Before: 13 analyses, pool 1040 / 1100. After create: 14, 1045 / 1100. After delete: 13 analyses, pool 1040 / 1100, GET /reports/d3fd9ff4-... = 404; the two other Decathlon analyses (Outdoor Gear + Sporting Goods 203 prompts, Articles De Sport 80 prompts) untouched."
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS",
+          "note": "Language never left en-GB in this TC; /auth/me = en-GB."
+        }
+      ],
+      "notes": "PARTIAL: the one checked step passes (\"2 countries\" exact); \"1 country\", \"2 pays\", \"1 país\" and \"2 países\" not checked on screen (one disposable analysis only). For information only (not a verdict): bundle values wizard.analysisCreated.markets_one / _other = \"{{count}} country\" / \"{{count}} countries\", fr \"{{count}} pays\", es \"{{count}} país\" / \"{{count}} países\" (run 28102026-1427). Side note: the created screen says the prompts \"run on ChatGPT and Gemini\" (default engines of the Summary step)."
+    },
+    {
+      "tc_id": "TC-GEO-1514-007",
+      "title": "Upsell page and lite result say Country in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Steps 3-7: the PQL account cannot change its interface language (/geo/settings redirects to /geo/upsell, no language entry in the user menu, PATCH /geo/api/v1/auth/me/ui-language returns 401 OAUTH2_INVALID_TOKEN).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-007_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-007_step1_showcase_en-US.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-007_step2_form-filled.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-007_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-007_step2_prompts-competitive-country.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the PQL user is on the upsell page in en-GB",
+          "status": "PARTIAL",
+          "note": "PQL account assiya.benramdane+pql@onclusive.com lands on /geo/upsell. Its saved language is en-US (not en-GB; /auth/me). Observed in en-US: \"Track brand presence in any country and language\"; lite form field label \"Country\". en-GB not shown on screen; the en-GB bundle block (views.upsell) holds the same values (showcase1Bullet2, marketLabel \"Country\")."
+        },
+        {
+          "title": "When the user runs a lite analysis",
+          "status": "PARTIAL",
+          "note": "No previous lite result in this browser context (result is stored in localStorage only), quota 1 / 3 -> one lite run launched: Decathlon (decathlon.com), France, French (FR), product \"sports equipment\", consent not ticked; quota after = 2 / 3. Prerequisite found: the lite form is disabled until Functional cookies are accepted (Cookie Settings > Functional & Support ON, browser consent only). Taste block observed exactly: \"The full GEO Analytics platform tracks every country, category and competitor across all major AI engines — with sources, sentiment and an action plan. See it on your real data.\" Prompts table: the \"Country\" column is NOT in the All / Visibility / Perception tables (Type, Prompts, Winner / Themes, Engine, Action); it is only in the Competitive tab header, which is a blurred upgrade-gated placeholder table (\"Upgrade to see how your brand performed in competitive prompts\") - in the DOM but not legible. Observed in en-US."
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and reopens the upsell page",
+          "status": "SKIP",
+          "note": "PQL account cannot switch language (Settings redirects to upsell, PATCH ui-language 401)."
+        },
+        {
+          "title": "And the user opens the lite result in French",
+          "status": "SKIP",
+          "note": "Same reason."
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and reopens the upsell page",
+          "status": "SKIP",
+          "note": "Same reason."
+        },
+        {
+          "title": "Then the lite result says País in Spanish",
+          "status": "SKIP",
+          "note": "Same reason."
+        },
+        {
+          "title": "And the PQL user sets the language back to British English (en-GB)",
+          "status": "SKIP",
+          "note": "No language changed; the PQL account stays on its own language en-US (checked with /auth/me)."
+        }
+      ],
+      "notes": "For information only (bundle, not a verdict): fr \"Suivez la présence de votre marque dans tout pays et toute langue\", marketLabel \"Pays\", colMarket \"Pays\", taste \"La plateforme GEO Analytics complète suit chaque pays, catégorie et concurrent sur tous les principaux moteurs IA — avec les sources, le sentiment et un plan d'action. Voyez-la avec vos vraies données.\"; es \"Realice un seguimiento de la presencia de su marca en cualquier país e idioma\", \"País\", \"País\", \"La plataforma GEO Analytics completa rastrea cada país, categoría y competidor en todos los principales motores de IA — con fuentes, sentimiento y un plan de acción. Véala con sus datos reales.\" -> all equal to the CSV. To triage: (1) PQL language switch impossible -> FR / ES steps need another way (PO / dev question or TC alignment); (2) the Country column only exists in the gated Competitive placeholder table -> align the TC (\"Competitive tab header, blurred\") or ask. CSV account +pql confirmed working."
+    },
+    {
+      "tc_id": "TC-GEO-1514-010",
+      "title": "No visible text says market in en-GB on the web app and the exports",
+      "story_id": "GEO-1514",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Not rerun: step 5 FAIL of run 28102026-1427 stands (Manage Scope Delete prompt / Untick dialog: \"For this category and market, AI Choice, competitive losses and the Competitive part of Share of Voice stop updating.\"). This rerun covers step 6 only.",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-010_step6_upsell-en-US.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-20261028-mcp/TC-GEO-1514-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the wizard Add category modal first",
+          "status": "PASS",
+          "note": "Not rerun - result of run 28102026-1427 (PASS). TC-005 of this rerun confirms 0 \"market\" in the en-GB Add category modal."
+        },
+        {
+          "title": "When the user goes through every wizard step and dialog",
+          "status": "PASS",
+          "note": "Not rerun - result of run 28102026-1427."
+        },
+        {
+          "title": "And the user checks the GEO dashboard",
+          "status": "PASS",
+          "note": "Not rerun - result of run 28102026-1427."
+        },
+        {
+          "title": "And the user checks the analysis pages",
+          "status": "PASS",
+          "note": "Not rerun - result of run 28102026-1427."
+        },
+        {
+          "title": "And the user checks Manage Scope",
+          "status": "FAIL",
+          "note": "Not rerun - FAIL of run 28102026-1427 (views.manageScope.prompts.stopWarning.* say \"market\")."
+        },
+        {
+          "title": "And the user checks the upsell page and the lite result",
+          "status": "PARTIAL",
+          "note": "PQL account, upsell page + lite result (Decathlon, France), tabs All / Visibility / Competitive / Perception: 0 hit for \"market\" in visible text, title, placeholder, aria-label and alt. Observed in en-US (PQL saved language, cannot be switched). en-GB bundle block views.upsell: 0 value containing \"market\"."
+        },
+        {
+          "title": "Then the exports say country only",
+          "status": "PARTIAL",
+          "note": "Not rerun - PARTIAL of run 28102026-1427 (PDF image-only)."
+        }
+      ],
+      "notes": "Rerun scope = step 6 only (the other steps are the results of run 28102026-1427, unchanged). Step 6: 0 \"market\" on the upsell page and the lite result (en-US on screen, en-GB bundle clean). TC verdict stays FAIL because of step 5."
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "created": "2026-11-05",
+  "source": "GEO-1226 campaign — PO answer 873111 (2026-11-04) to open point P1; evidence of the rerun 04112026-1255 (TC-GEO-1548-024)",
+  "bugs": [
+    {
+      "bug_id": "BUG-GEO-1226-006",
+      "finding": "B-6",
+      "status": "created",
+      "summary": "[Target Sources] A grouped review article with no stored review still counts as negative (tab, card, export)",
+      "priority": "Medium",
+      "parent": "GEO-1226",
+      "links": [
+        {
+          "type": "Relates",
+          "key": "GEO-1548"
+        },
+        {
+          "type": "Relates",
+          "key": "GEO-1547"
+        }
+      ],
+      "description": {
+        "description": "A grouped review-page article whose pages hold no stored review is shown in the Negative perception tab as an empty row (title + URL line, no page block, no review, no passage) and is counted as a negative article in the tab, on the source card and in the export. The epic rule is that a page is negative only when it holds at least one negative review, so such an article must not count as negative (PO answer in GEO-1226, comment 873111).",
+        "steps_to_reproduce": [
+          "Open staging, organisation QA-GEO, analysis Orange (16cdf040) > Action Center > Target Sources, period Last 30 days, LLMs ChatGPT + Gemini.",
+          "Open the panel of trustpilot.com (#5) and select the Negative perception tab.",
+          "Find the article ie.trustpilot.com/review/www.orange.ma (panel API: grouped = true, reviewCount = 0, pages = []).",
+          "Compare with the tab count, the source card and the XLSX export (Target Sources sheet, Failing articles)."
+        ],
+        "expected_result": "PO answer (GEO-1226 comment 873111): \"If none of the pages of a grouped review article has a stored review, the article should NOT count as negative: not in the Negative perception tab, not on the card count and not in the export. [...] with no review there is no negative page and no negative article. We should not show the classic passage of a merged page either.\"",
+        "actual_result": [
+          "The article ie.trustpilot.com/review/www.orange.ma is listed in the Negative perception tab with no page block, no review and no passage.",
+          "It is counted in \"Negative perception (9)\" and in the card count (9); the PDF / PPTX last page also shows \"Negative perception in 9 articles\" for trustpilot.com.",
+          "The XLSX export lists it in Failing articles with \"Negative reviews\" = 0 (row 193).",
+          "Same case for the grouped www.trustpilot.com/review/www.orange.fr article (\"Read Customer Service Reviews of www.orange.fr\") and for Toyota es.trustpilot.com/review/toyota.es."
+        ],
+        "environment": {
+          "url": "[Staging GEO](https://staging-geo.onclusive.com/geo) — analysis Orange 16cdf040 > Action Center > Target Sources",
+          "environment": "staging, organisation QA-GEO, en-GB",
+          "browser": "Chromium (MCP Playwright)",
+          "component": "GEO Module",
+          "parent_epic": "GEO-1226",
+          "found_by": "TC-GEO-1548-024 (rerun 2026-11-04, requalified FAIL after the PO answer of 2026-11-04)"
+        }
+      },
+      "evidence": [
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1226/bug_GEO-1226_empty_group_counted.png",
+          "caption": "Orange / trustpilot.com, Last 30 days — the grouped ie.trustpilot.com article has no review, no page block and no passage, but is counted in Negative perception (9)",
+          "jira_attachment_id": "775722"
+        }
+      ],
+      "jira_key": "GEO-1585",
+      "jira_id": "402180",
+      "jira_url": "https://onclusive.atlassian.net/browse/GEO-1585",
+      "verification": {
+        "status": "To Do",
+        "sprint_ok": true,
+        "fixVersion": "1.4",
+        "parent": "GEO-1226",
+        "links": [
+          "GEO-1548",
+          "GEO-1547"
+        ],
+        "links_ok": true,
+        "media_nodes": 1,
+        "images_expected": 1,
+        "attachments": 1,
+        "priority": "Medium",
+        "assignee": "Abdenasser Aroukhsiss",
+        "components": "GEO Module",
+        "capacity": "Roadmap Work",
+        "labels": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "created": "2026-10-28",
+  "mode": "statique-bugs",
+  "source": "apps/geo/GEO-R1.3/FIGMA-VS-TESTED-GEO-R1.3.md FT-U-01",
+  "bugs": [
+    {
+      "bug_id": "BUG-GEO-1241-001",
+      "status": "created",
+      "summary": "[Wizard] \"Switch the analysis type?\" dialog has no close (X) icon",
+      "priority": "Low",
+      "parent": "GEO-1209",
+      "link": {
+        "type": "Relates",
+        "key": "GEO-1241"
+      },
+      "story_key": "wizard",
+      "assignee": {
+        "name": "Abdenasser Aroukhsiss",
+        "accountId": "712020:c3b70d4b-ff45-4f0b-9feb-9cd412e1d06a"
+      },
+      "fixVersion": "1.3",
+      "exists_in_production": "Does not exist in Production",
+      "component": "GEO Module",
+      "bug_found_by": "Automated QA",
+      "capacity": "Roadmap Work",
+      "sprint": 14578,
+      "labels": [],
+      "description": "The confirmation dialog shown when the user changes the analysis type in the wizard has no close (X) icon. The Figma design of this dialog (frame 0.3, GEO-1209 page) shows a close icon at the top right, next to the title.",
+      "steps": [
+        "Open the GEO dashboard and click New Analysis.",
+        "On the Analysis Type step, select a type and continue, then fill the next step (topic or brand, country).",
+        "Go back to the Analysis Type step and select the other type.",
+        "Observe the \"Switch the analysis type?\" dialog."
+      ],
+      "expected": "The dialog shows a close (X) icon at the top right, as in Figma frame 0.3 (https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0/Measure---GEO-Module?node-id=16737-11); closing it keeps the current setup, like Cancel. (Source: Figma design, to confirm.)",
+      "actual": "The dialog only has Cancel and Switch type; there is no close (X) icon.",
+      "url": "https://staging-geo.onclusive.com/geo",
+      "environment": "staging, organisation QA-GEO, en-GB, observed in run 22102026-1134 (TC-GEO-1241-008)",
+      "attachments": [
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1241/bug_GEO-1241_no-close-icon.png",
+          "kind": "image",
+          "caption": "Staging: no close icon where Figma has one (framed area)",
+          "jira_attachment_id": "772908"
+        },
+        {
+          "path": ".claude/Data/output/reports/screenshots-GEO-1241/bug_GEO-1241_no-close-icon_reference.png",
+          "kind": "image",
+          "caption": "Figma frame 0.3 (reference): close icon framed",
+          "jira_attachment_id": "772909"
+        }
+      ],
+      "jira_key": "GEO-1563",
+      "jira_id": "401029",
+      "jira_url": "https://onclusive.atlassian.net/browse/GEO-1563"
+    }
+  ]
+}

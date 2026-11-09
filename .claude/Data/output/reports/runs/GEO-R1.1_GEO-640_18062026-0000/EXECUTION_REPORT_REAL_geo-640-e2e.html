@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E2E Report — GEO-640 SOV Refactoring — 2026-06-18</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f8fafc; color: #1e293b; }
+  /* ── Section 1 : Summary ── */
+  .summary { background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%); color: white; padding: 32px 40px; }
+  .summary h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .summary .sub { font-size: 13px; opacity: 0.75; margin-bottom: 20px; }
+  .verdict { display: inline-block; padding: 6px 18px; border-radius: 20px; font-weight: 700; font-size: 14px; margin-bottom: 20px; }
+  .verdict.go { background: #16a34a; }
+  .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .stat-box { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 14px 16px; }
+  .stat-box .val { font-size: 28px; font-weight: 700; }
+  .stat-box .lbl { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+  .stat-box.passed .val { color: #86efac; }
+  .stat-box.failed .val { color: #fca5a5; }
+  .stat-box.skipped .val { color: #fde68a; }
+  /* ── Section 2 : Stats ── */
+  .stats { background: white; border-bottom: 1px solid #e2e8f0; padding: 20px 40px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .stats-item { text-align: center; }
+  .stats-item .val { font-size: 20px; font-weight: 700; color: #1d4ed8; }
+  .stats-item .lbl { font-size: 11px; color: #64748b; }
+  /* ── Section 3 : TCs ── */
+  .content { padding: 24px 40px; max-width: 1400px; }
+  .tc-card { background: white; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .tc-header { padding: 14px 18px; display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+  .tc-header:hover { background: #f8fafc; }
+  .badge { padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+  .badge.passed { background: #dcfce7; color: #15803d; }
+  .badge.failed { background: #fee2e2; color: #b91c1c; }
+  .badge.skip   { background: #fef3c7; color: #b45309; }
+  .tc-id { font-family: monospace; font-size: 13px; color: #64748b; }
+  .tc-title { font-weight: 600; font-size: 14px; flex: 1; }
+  .tc-dur { font-size: 12px; color: #94a3b8; }
+  .tc-body { padding: 16px 18px; border-top: 1px solid #f1f5f9; display: none; }
+  .tc-body.open { display: block; }
+  .steps { list-style: none; margin-bottom: 16px; }
+  .steps li { padding: 6px 0; font-size: 13px; color: #475569; border-bottom: 1px solid #f8fafc; display: flex; align-items: flex-start; gap: 8px; }
+  .steps li:last-child { border-bottom: none; }
+  .step-icon { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+  .step-icon.ok { background: #16a34a; }
+  .screenshots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .shot-wrap { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+  .shot-wrap img { width: 100%; display: block; }
+  .shot-label { font-size: 10px; color: #94a3b8; padding: 4px 8px; background: #f8fafc; text-align: center; }
+  /* Accordion toggle */
+  .chevron { transition: transform 0.2s; color: #94a3b8; }
+  .tc-header.open .chevron { transform: rotate(90deg); }
+  /* Traceability */
+  .traceability { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 20px; font-size: 13px; }
+  .traceability h3 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .traceability table { width: 100%; border-collapse: collapse; }
+  .traceability td, .traceability th { padding: 6px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+  .traceability th { font-weight: 600; color: #64748b; font-size: 11px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+
+<!-- Section 1 : Summary -->
+<div class="summary">
+  <h1>E2E Execution Report — GEO-640 Share of Voice Refactoring</h1>
+  <div class="sub">Run: GEO-640-18062026 &nbsp;|&nbsp; Date: 2026-06-18 &nbsp;|&nbsp; Env: staging-geo.onclusive.com &nbsp;|&nbsp; Dashboard: Toyota (439acd96)</div>
+  <span class="verdict go">GO</span>
+  <div class="summary-grid">
+    <div class="stat-box"><div class="val">3</div><div class="lbl">Total TCs</div></div>
+    <div class="stat-box passed"><div class="val">3</div><div class="lbl">Passed</div></div>
+    <div class="stat-box failed"><div class="val">0</div><div class="lbl">Failed</div></div>
+    <div class="stat-box skipped"><div class="val">0</div><div class="lbl">Skipped</div></div>
+  </div>
+</div>
+
+<!-- Section 2 : Stats -->
+<div class="stats">
+  <div class="stats-item"><div class="val">100%</div><div class="lbl">Pass Rate</div></div>
+  <div class="stats-item"><div class="val">32.3s</div><div class="lbl">Total Duration</div></div>
+  <div class="stats-item"><div class="val">2</div><div class="lbl">Workers</div></div>
+  <div class="stats-item"><div class="val">3</div><div class="lbl">E2E Scenarios</div></div>
+  <div class="stats-item"><div class="val">6</div><div class="lbl">TCs Skipped (hors scope)</div></div>
+  <div class="stats-item"><div class="val">GEO-663 / GEO-664</div><div class="lbl">Stories couvertes</div></div>
+  <div class="stats-item"><div class="val">9</div><div class="lbl">Screenshots</div></div>
+  <div class="stats-item"><div class="val">chromium</div><div class="lbl">Browser</div></div>
+</div>
+
+<!-- Section 3 : TCs -->
+<div class="content">
+
+  <!-- Traceability table -->
+  <div class="traceability">
+    <h3>Traceabilité — TCs originaux</h3>
+    <table>
+      <tr><th>Scénario E2E</th><th>TCs GEO-663</th><th>TCs GEO-664</th><th>Statut</th></tr>
+      <tr><td>E2E-GEO640-001</td><td>TC-GEO-663-001, 003, 005, 006</td><td>—</td><td><span class="badge passed">PASSED</span></td></tr>
+      <tr><td>E2E-GEO640-002</td><td>—</td><td>TC-GEO-664-001, 003, 004</td><td><span class="badge passed">PASSED</span></td></tr>
+      <tr><td>E2E-GEO640-003</td><td>TC-GEO-663-002, 004</td><td>TC-GEO-664-002, 009</td><td><span class="badge passed">PASSED</span></td></tr>
+      <tr><td colspan="3">TCs skippés (données vides staging Toyota)</td><td><span class="badge skip">SKIP — TC-GEO-664-005/006/007/008/010</span></td></tr>
+    </table>
+  </div>
+
+  <!-- TC 001 -->
+  <div class="tc-card">
+    <div class="tc-header" onclick="toggle(this)">
+      <span class="chevron">&#9658;</span>
+      <span class="badge passed">PASSED</span>
+      <span class="tc-id">E2E-GEO640-001</span>
+      <span class="tc-title">KPI row sans SOV + Brand Rankings sans colonne SoV% (Overview)</span>
+      <span class="tc-dur">14.5s</span>
+    </div>
+    <div class="tc-body">
+      <ul class="steps">
+        <li><span class="step-icon ok"></span>Given a user is authenticated and navigates to the Overview dashboard</li>
+        <li><span class="step-icon ok"></span>When the KPI row renders in the Performance section</li>
+        <li><span class="step-icon ok"></span>Then exactly 4 KPI cards are visible (Visibility, Avg Position, LLM Choice, Sentiment) — no SOV KPI card</li>
+        <li><span class="step-icon ok"></span>And the Brand Rankings table has no SoV% column header</li>
+      </ul>
+      <div class="screenshots">
+        <div class="shot-wrap">
+          <img src="screenshots-geo-640-e2e/E2E-GEO640-001_step1_given.png" alt="step1_given" loading="lazy">
+          <div class="shot-label">step1_given — Page Overview chargée</div>
+        </div>
+        <div class="shot-wrap">
+          <img src="screenshots-geo-640-e2e/E2E-GEO640-001_step2_when.png" alt="step2_when" loading="lazy">
+          <div class="shot-label">step2_when — KPI cards rendues</div>
+        </div>
+        <div class="shot-wrap">
+          <img src="screenshots-geo-640-e2e/E2E-GEO640-001_step3_then.png" alt="step3_then" loading="lazy">
+          <div class="shot-label">step3_then — 4 KPIs visibles, pas de SOV card</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TC 002 -->
+  <div class="tc-card">
+    <div class="tc-header" onclick="toggle(this)">
+      <span class="chevron">&#9658;</span>
+      <span class="badge passed">PASSED</span>
+      <span class="tc-id">E2E-GEO640-002</span>
+      <span class="tc-title">Carte SOV dédiée : heading, subtitle et état chart (Overview)</span>
+      <span class="tc-dur">12.7s</span>
+    </div>
+    <div class="tc-body">
+      <ul class="steps">
+        <li><span class="step-icon ok"></span>Given a user is authenticated and navigates to the Overview dashboard</li>
+        <li><span class="step-icon ok"></span>When the page finishes loading and the Performance section is visible</li>
+        <li><span class="step-icon ok"></span>Then a dedicated "Share of Voice" card is visible below the KPI row with title and subtitle</li>
+      </ul>
+      <div class="screenshots">
+        <div class="shot-wrap">
+          <img src="screenshots-geo-640-e2e/E2E-GEO640-002_step1_given.png" alt="step1_given" loading="lazy">
+          <div class="shot-label">step1_given — Overview chargée</div>
+        </div>
+        <div class="shot-wrap">
+          <img src="screenshots-geo-640-e2e/E2E-GEO640-002_step2_when.png" alt="step2_when" loading="lazy">
+          <div class="shot-label">step2_when — Section Performance visible</div>
+        </div>
+        <div class="shot-wrap">
+          <img src="screenshots-geo-640-e2e/E2E-GEO640-002_step3_then.png" alt="step3_then" loading="lazy">
+          <div class="shot-label">step3_then — SOV card heading + subtitle visibles</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TC 003 -->
+  <div class="tc-card">
+    <div class="tc-header" onclick="toggle(this)">
+      <span class="chevron">&#9658;</span>
+      <span class="badge passed">PASSED</span>
+      <span class="tc-id">E2E-GEO640-003</span>
+      <span class="tc-title">Carte SOV sur Category view + réactivité au filtre LLM</span>
+      <span class="tc-dur">16.4s</span>
+    </div>
+    <div class="tc-body">
+      <ul class="steps">
+        <li><span class="step-icon ok"></span>Given a user is authenticated and navigates to a Category page (Hybrid Cars)</li>
+        <li><span class="step-icon ok"></span>When the Category page finishes loading and the Performance section is visible</li>
+        <li><span class="step-icon ok"></span>Then the Category page shows 4 KPI cards (no SOV) and a dedicated SOV card below</li>
+        <li><span class="step-icon ok"></span>And when the LLM filter is changed, the page updates (SOV card reacts)</li>
+      </ul>
+      <div class="screenshots">
+        <div class="shot-wrap">
+          <img src="screenshots-geo-640-e2e/E2E-GEO640-003_step1_given.png" alt="step1_given" loading="lazy">
+          <div class="shot-label">step1_given — Category page chargée</div>
+        </div>
+        <div class="shot-wrap">
+          <img src="screenshots-geo-640-e2e/E2E-GEO640-003_step2_when.png" alt="step2_when" loading="lazy">
+          <div class="shot-label">step2_when — KPI cards visibles sur Category</div>
+        </div>
+        <div class="shot-wrap">
+          <img src="screenshots-geo-640-e2e/E2E-GEO640-003_step3_then.png" alt="step3_then" loading="lazy">
+          <div class="shot-label">step3_then — SOV card + réactivité filtre LLM vérifiées</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggle(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+// Auto-open all on load
+document.querySelectorAll('.tc-header').forEach(h => {
+  h.classList.add('open');
+  h.nextElementSibling.classList.add('open');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+[
+  {
+    "bug_id": "BUG-wizard-001",
+    "story_key": "GEO-1231",
+    "parent": "GEO-1002",
+    "priority": "Low",
+    "assignee": "Youssef.AitLaydi (712020:9a3bc993-afd5-4a5e-b7b2-9cc67229f7f2)",
+    "link": "Relates GEO-1231",
+    "production": "Does not exist in Production",
+    "fixVersion": "1.3 (33003)",
+    "sprint": "GEO + Digimind Sprint 1 (14578)",
+    "summary": "[Wizard] The selected brand (logo and name) is no longer shown after the Brand & Country step",
+    "steps": [
+      "Log in to staging GEO (organisation QA-GEO, interface language English (United Kingdom)) and click New Analysis",
+      "Analysis Type: pick Brand analysis",
+      "Brand & Country: type \"Licter\", select the suggestion \"Licter / licter.com\" (its logo shows on the brand card), pick United Kingdom / English",
+      "Click Discover Categories and look at the top of the wizard on the Categories step"
+    ],
+    "expected": "TO CONFIRM (PO): as in production 1.2, once the brand is chosen the wizard keeps showing it (logo + name) on the following steps. Note: the GEO-1231 rule removes the \"New analysis\" top bar (\"Back to Dashboard in the sidebar replaces it\"), which also removed the brand block; the brand could be shown elsewhere (e.g. above the stepper).",
+    "actual": "Staging 1.3: no brand block at all from the Categories step on (no logo, no name, no lettermark); the sidebar starts with \"CREATE NEW ANALYSIS\". The brand name only appears in the subtitle \"We detected these categories for Licter\". Same with a custom brand + website (licter.com). The logo itself loads fine on the Brand & Country card (Brandfetch 200).",
+    "attachments": [
+      {
+        "path": ".claude/Data/output/reports/screenshots-GEO-1231/bug_GEO-1231_wizard-brand-header_20261027.png",
+        "kind": "image",
+        "caption": "Staging 1.3 — Categories step: no brand block above the stepper (framed area)",
+        "jira_attachment_id": "772463"
+      },
+      {
+        "path": ".claude/Data/output/reports/screenshots-GEO-1231/bug_GEO-1231_wizard-brand-header_reference_20261027.png",
+        "kind": "image",
+        "caption": "Production 1.2 — Categories step: Licter logo and name in the wizard header (framed)",
+        "jira_attachment_id": "772464"
+      }
+    ],
+    "status": "created",
+    "jira_key": "GEO-1545",
+    "jira_id": "400841",
+    "jira_url": "https://onclusive.atlassian.net/browse/GEO-1545"
+  },
+  {
+    "bug_id": "BUG-geo-overview-001",
+    "story_key": "GEO-1240",
+    "parent": "GEO-1002",
+    "priority": "Low",
+    "assignee": "Youssef.AitLaydi",
+    "link": "Relates GEO-1240",
+    "sprint": "GEO + Digimind Sprint 1 (14578)",
+    "fixVersion": "1.3 (33003)",
+    "summary": "[GEO-Overview] Remove the duplicated \"N analyses\" label from the Analysis table header",
+    "expected": "Table header keeps only the pool ring; the analyses count stays on the ANALYSES stats card (PO 868688 on GEO-1240)",
+    "actual": "\"12 analyses\" shown on the ANALYSES card and in the Analysis table header next to the pool ring",
+    "attachments": [
+      {
+        "path": ".claude/Data/output/reports/screenshots-GEO-1240/bug_GEO-1240_duplicated-analyses-count_20261027.png",
+        "kind": "image",
+        "jira_attachment_id": "772470"
+      }
+    ],
+    "status": "created",
+    "jira_key": "GEO-1546",
+    "jira_url": "https://onclusive.atlassian.net/browse/GEO-1546",
+    "retest": {
+      "date": "2026-10-28",
+      "verdict": "FIXED",
+      "comment_id": "869340",
+      "attachment_id": "772780",
+      "status": "Passed QA"
+    }
+  }
+]

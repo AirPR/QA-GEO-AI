@@ -1,0 +1,528 @@
+{
+  "spec": "GEO-152-GEO1169-mcp",
+  "runDate": "2026-10-02",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "environment": "staging",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+  "csv": ".claude/Data/output/csv/GEO-R1.2/testcases-coverage-storyGEO-1169.csv",
+  "summary": {
+    "total": 14,
+    "pass": 4,
+    "fail": 0,
+    "skip": 9,
+    "partial": 1,
+    "successRate": 90,
+    "successRateAllTcs": 32.1,
+    "verdict": "GO",
+    "formula": "(pass + 0.5*partial) / (total - skip)"
+  },
+  "dataMapping": {
+    "Source S, positive-only (TC-006)": "Not found on Toyota. Closest candidate: highmotor.com (#26, 5 missing / 1 negative), which has 1 gap prompt, so it does not qualify",
+    "Domain D, top 100 with 0 missing / 0 negative (TC-008)": "carwow.es (Frequency 37, #11 of 930, absent from Target Sources; not backend-confirmed)",
+    "All-clear analysis (TC-009)": "BYD 76aad462-a33f-4bdb-a925-2c1533e97a53 + AI Engines = Gemini only (API state ALL_CLEAR, 11 domains / 15 URLs cited)",
+    "Source S, gap + non-gap prompts (TC-010)": "frandroid.com (#1, 39 / 5): 79 prompts, 31 gap and 48 non-gap; example \"Compare Toyota, Hyundai, Tesla and Ford for Electric Cars?\" (Perplexity, US)",
+    "Source S / prompt P cited by ChatGPT and Gemini (TC-011)": "autobild.es (#3) / \"Is Toyota a good Coches Eléctricos brand?\" (ES)",
+    "Source S cited by ChatGPT and other engines (TC-012)": "frandroid.com: 28 ChatGPT prompts out of 79",
+    "Owned domains (TC-002 context)": "toyota.fr, toyota.es, toyota.com, toyota.ca, toyota.co.uk",
+    "Competitor domains (TC-002 context)": "hyundai.com, peugeot.fr, honda.com",
+    "Default scope": "Toyota 439acd96, Last 7 days (2026-09-25 to 2026-10-01), ChatGPT + Gemini + Perplexity, All Countries; Target Sources window 2026-09-23 to 2026-09-30, 7 snapshots, 261 sources"
+  },
+  "poPoints": [
+    "Target Sources is built over a rolling window of 7 to 8 snapshots (here 2026-09-23 to 2026-09-30, 7 snapshots), so the list has 261 sources while X = 100 per snapshot. Is a union over the window the intended reading of \"top X domains of the snapshot\"?",
+    "With \"Last 7 days\" (2026-09-25 to 2026-10-01), Target Sources uses snapshot 74d85616 (2026-09-30) although a 2026-10-01 snapshot exists (f7cc0b41, 232 sources).",
+    "Owned domains (toyota.*) and competitors (hyundai.com, peugeot.fr, honda.com) never appear in Target Sources. This is consistent with AC-1 but proves nothing about the selection itself.",
+    "Low-Frequency domains are in the list (e.g. aveq.ca, Frequency 2 over 7 days, #228). This may be fine (a per-snapshot top 100, or snapshots selected before the deployment), but a backend check is worth doing.",
+    "AI Engines Citation Sources shows only 55 of 930 domains (\"Showing 55 of 930 domains\"), so the AC-2 check (domains ranked 50 and 100) cannot be done in the UI.",
+    "No Toyota source is cited only in non-gap answers, so AC-3 (TC-005/006) needs a source picked from backend data.",
+    "The source detail API still names the full prompt list \"failingPrompts\" (251 rows for frandroid.com, with repeats across snapshots). The UI groups them correctly (79 rows), but the name is misleading.",
+    "The details panel tabs now read \"Lack of visibility (N)\" / \"Negative perception (N)\" (yesterday: \"Not visible in N articles\"), so the GEO-1178 labels look deployed. The GEO-1168 PARTIALs on tab labels (TC-001/002/003/006) can be run again.",
+    "The order of the prompt list is not specified (observed: grouped by market, then alphabetical).",
+    "The AI Engines filter may carry over between analyses: after BYD was set back to 5 engines, Toyota showed 4 engines (Grok on) instead of 3. Toyota was set back to ChatGPT + Gemini + Perplexity. Low confidence.",
+    "Run done in American English (the interface language was left as is). The CSV precondition says en-GB."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1169-001",
+      "title": "Top X domains by Frequency are selected and all their GROUNDED URLs sent to verification",
+      "story_id": "GEO-1169",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-001_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-001_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed snapshot with more than 100 GROUNDED domains after the owned and competitor exclusion",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the suspect selection runs over that snapshot",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then exactly the 100 domains with the highest Frequency are selected",
+          "status": "SKIP"
+        },
+        {
+          "title": "And every GROUNDED cited URL of those 100 domains is sent to verification",
+          "status": "SKIP"
+        },
+        {
+          "title": "And no URL of a domain ranked below the top 100 and no non-GROUNDED citation is sent to verification",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selected domain list, the reference ranking, the SUSPECT_SELECTION marker and the list of URLs sent to verification are not exposed in the UI. UI context captured: AI Engines Citation Sources table (Toyota, Last 7 days, ChatGPT + Gemini + Perplexity, All Countries) shows \"Showing 55 of 930 domains\"; Target Sources (ALL) shows 261 sources over a window of 7 snapshots (2026-09-23 to 2026-09-30, snapshot 74d85616), so the UI list is not a single-snapshot top-100 list and cannot be used to count the selection.",
+      "description": "Verify that the selection keeps the 100 domains with the highest Frequency and sends every GROUNDED cited URL of those domains to verification, with no URL cap. Covers AC-1. Backend-verifiable only (SKIP in UI runs)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-002",
+      "title": "Owned and competitor domains are excluded before the top X ranking",
+      "story_id": "GEO-1169",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-002_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-002_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a snapshot where an owned domain and a competitor domain rank in the top 100 by Frequency before exclusion",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the suspect selection runs over that snapshot",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then neither the owned domain nor the competitor domain is selected",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the selection still contains 100 domains, including the domains ranked 101 and 102 before the exclusion",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection output (selected domains, URLs sent, ranks 101/102) is not exposed in the UI. UI observation only (not a verdict): the owned domains toyota.fr (Frequency 89), toyota.es (56), toyota.com (41), toyota.ca (24), toyota.co.uk (17) and the competitor domains hyundai.com (18), peugeot.fr (16) and honda.com are in the AI Engines Citation Sources data but absent from all 261 Target Sources (the detail endpoint returns 404 \"TargetSource not found\" for them). Absence from Target Sources does not prove that they were excluded before the ranking, so the Then steps stay SKIP.",
+      "description": "Verify that owned and competitor domains are removed before the ranking, so they do not take a top X slot. Covers AC-1 (edge case). Backend-verifiable only (SKIP in UI runs)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-003",
+      "title": "Selection Frequency matches the AI Citation Sources Frequency column",
+      "story_id": "GEO-1169",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-003_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-003_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the selection output of the snapshot lists the selected domains with their Frequency",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user opens the AI Citation Sources table of the same snapshot with all markets, all engines and all question types",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Frequency of each of the 3 domains in the table equals the Frequency used by the selection",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the order of the selected domains matches the Frequency order of the table once owned and competitor domains are set aside",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the Frequency and the order used by the selection are not exposed in the UI. The When step was run: the AI Engines Citation Sources table opens with the Domain / Type / Frequency columns; the \"All domains\" modal says \"Showing 55 of 930 domains\", so ranks 51 to 100 cannot be read in the UI at all. UI evidence recorded: of the 48 non-owned, non-competitor domains in the 55 listed, 42 are in Target Sources (e.g. caranddriver.com 90, kbb.com 57, autobild.es 55, largus.fr 46, frandroid.com 40); 6 are absent (carwow.es 37, autojournal.fr 26, coches.net 22, autocarindia.com 17, autohebdo.net 16, seekingalpha.com 2), which is expected only if all their verified articles name Toyota non-negatively. This is consistent with a Frequency-based pool, but it does not verify the Then steps (equal Frequency values, same order), so the TC stays SKIP.",
+      "description": "Verify that the Frequency used for the selection ranking is the same value as the Frequency column of AI Citation Sources (unique URLs per domain). Covers AC-2. Backend-verifiable only (SKIP in UI runs)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-004",
+      "title": "Frequency counts unique URLs, not citations",
+      "story_id": "GEO-1169",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-004_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-004_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a snapshot where domain A has 1 URL cited in 30 answers and domain B has 5 distinct URLs cited once each",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the suspect selection ranks the domains of the snapshot",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then domain A has a Frequency of 1 and domain B a Frequency of 5",
+          "status": "SKIP"
+        },
+        {
+          "title": "And domain B ranks above domain A",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection ranking and its Frequency values are not exposed in the UI, and no domain pair matching \"1 URL x 30 answers / 5 URLs x 1 answer\" can be identified in the UI. Context: the AI Engines Citation Sources Frequency column is the unique-URL count (e.g. frandroid.com Frequency 40 while its Target Sources detail lists 251 citing answer rows).",
+      "description": "Verify that a domain with one URL cited many times ranks by its number of unique URLs, the same way as AI Citation Sources. Covers AC-2 (edge case). Backend-verifiable only (SKIP in UI runs)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-005",
+      "title": "Source cited only in positive answers is selected and sent to verification",
+      "story_id": "GEO-1169",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-005_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-005_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a top 100 domain cited only in answers where the brand is visible, first and positive",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the suspect selection runs over that snapshot",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the domain is in the selected domain list",
+          "status": "SKIP"
+        },
+        {
+          "title": "And all its GROUNDED cited URLs are sent to verification",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selected domain list and the URLs sent to verification are not exposed in the UI, and no top-100 domain cited only in visible, first and positive answers could be identified (see TC-006). Closest candidate shown: highmotor.com (#26, 5 missing / 1 negative, 17 positive articles, 44 prompts of which only 1 is a gap answer).",
+      "description": "Verify that a top X domain cited only in answers where the brand is visible, first and positive is selected, which the failing-prompts selection did not allow. Covers AC-3. Backend-verifiable only (SKIP in UI runs)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-006",
+      "title": "Positive-only source with a missing article is listed in Target Sources",
+      "story_id": "GEO-1169",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-006_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-006_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user locates source S in the list",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the details panel of source S",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every prompt under \"Prompts associated with this source\" is a prompt where the brand is visible, first and positive",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (reference data not available): no source S that is cited only in answers where the brand is visible, first and positive could be found on this dashboard. Method: for every Target Source present in the AI Engines Citation Sources data (55 domains with their gap answers: visibilityGaps, competitiveLosses, sentimentIssues), every one has at least one gap answer. Closest candidate used for the Given/When steps: highmotor.com (#26, \"Not visible in 5 articles\" / \"Negative perception in 1 article\"). Its panel (tabs \"Lack of visibility (5)\" / \"Negative perception (1)\") lists 44 prompts (6 + \"Show 38 more prompts\"); 43 are not gap answers, but 1 is: \"Which do you recommend for Coches Eléctricos: Toyota, Tesla, Kia or MG?\" (Gemini, ES, winner Tesla), highlighted in amber in step3. So highmotor.com does not meet the precondition and the Then step cannot be evaluated. The Target Sources of rank 56+ by Frequency have no gap data in the UI. Needs a backend-identified source S.",
+      "description": "Verify in the UI that a source cited only in positive answers now reaches Target Sources when one of its articles does not mention the brand. Covers AC-3."
+    },
+    {
+      "tc_id": "TC-GEO-1169-007",
+      "title": "X is changed in configuration and applies to the next selection run",
+      "story_id": "GEO-1169",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-007_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-007_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given X is set to 100 in the configuration",
+          "status": "SKIP"
+        },
+        {
+          "title": "When X is set to 50 in the configuration without any deployment",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the next selection run executes on a new snapshot",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the selection keeps exactly the 50 domains with the highest Frequency",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the selection log shows X applied = 50",
+          "status": "SKIP"
+        },
+        {
+          "title": "And X is set back to 100 in the configuration",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the configuration value X, the selection log and the selection output are not exposed in the UI. Manage Scope only shows Countries, Categories, AI insights language, AI Engines and Prompts, plus \"Last analysis 1 October 2026 18:45\". No setting for X.",
+      "description": "Verify that changing X in the configuration applies to the next selection run without a release. Covers AC-4. Backend-verifiable only (SKIP in UI runs)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-008",
+      "title": "Top X domain with no missing or negative article is not shown in Target Sources",
+      "story_id": "GEO-1169",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-008_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-008_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user browses the full Target Sources list",
+          "status": "PASS"
+        },
+        {
+          "title": "Then domain D is not listed",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And every listed source has at least one missing or negative article",
+          "status": "PASS"
+        }
+      ],
+      "notes": "D = carwow.es (Review Sites, AI Engines Citation Sources Frequency 37, #11 of 930 domains, not owned, not a competitor, cited in 39 visibility-gap answers and 20 competitive-loss answers). After \"Show 249 more sources\", all 261 sources are loaded: carwow.es found 0 times (also absent: autojournal.fr, coches.net, autocarindia.com, autohebdo.net); the detail endpoint returns 404 \"TargetSource not found: carwow.es\". Every one of the 261 cards shows at least 1 article (no card with 0 missing and 0 negative; the last ones, #260 visualcapitalist.com and #261 windows8facile.fr, show \"Not visible in 1 article\"). PARTIAL: the reference data for D (in the top-100 selection with 0 missing / 0 negative) cannot be confirmed through the UI, so \"D is not listed\" cannot be told apart from \"D was never selected\". The second Then step is fully verified.",
+      "description": "Verify that a selected domain whose articles all name the brand positively or neutrally does not appear in Target Sources. Covers AC-5."
+    },
+    {
+      "tc_id": "TC-GEO-1169-009",
+      "title": "All-clear state when no top X domain has a missing or negative article",
+      "story_id": "GEO-1169",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-009_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-009_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of that analysis",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Target Sources page is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the all-clear state is shown",
+          "status": "PASS"
+        },
+        {
+          "title": "And no source list is shown under it",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Analysis = BYD (76aad462-a33f-4bdb-a925-2c1533e97a53, Spain - Spanish) with the AI Engines filter = Gemini only. In the default scope (5 engines) BYD shows a list (autobild.es, greencars.com, motor.es, carwow.es...). With Gemini only: title \"All clear\" (P) and body \"Every article used by AI engines describes your brand positively.\" (P), exact text; the Target Sources region contains only the heading, subtitle and the all-clear block: no card, row, tab or filter. The app API returns state ALL_CLEAR (nothingCouldBeChecked=false, verificationNeverRan=false, totalSources=0) with 11 cited domains / 15 URLs in that scope, so it is a real all-clear and not an empty or not-verified state. The precondition \"no domain of the top X has a missing or negative article\" is met through the engine scope; it is not confirmed from backend reference data. The BYD AI Engines filter was set back to its original 5 engines afterwards.",
+      "description": "Verify that the page shows the all-clear state when no domain of the top X has a missing or negative article. Covers AC-5 (state)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-010",
+      "title": "Prompts panel lists every prompt citing the source, not only failing ones",
+      "story_id": "GEO-1169",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-010_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-010_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Target Sources page on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of source S",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the section \"Prompts associated with this source\" is displayed below the articles",
+          "status": "PASS"
+        },
+        {
+          "title": "And the list includes at least one prompt where the brand is visible, first and positive",
+          "status": "PASS"
+        },
+        {
+          "title": "And the number of prompts equals the number of prompts citing source S in the scope",
+          "status": "PASS"
+        }
+      ],
+      "notes": "S = frandroid.com (#1, \"Not visible in 39 articles\" / \"Negative perception in 5 articles\"). The panel opens; the \"Prompts associated with this source\" section (H4) is below the articles section (top 884 px vs 93 px), with the engine filter All / ChatGPT (28) / Gemini (7) / Perplexity (71). 6 prompts shown + \"Show 73 more prompts\"; after expanding, 79 rows, 79 distinct prompts (no duplicates; the backend sends 251 answer rows that are grouped into 79). Reference: the AI Engines Citation Sources data lists 31 gap prompts for frandroid.com (visibility gaps, competitive losses, sentiment issues): all 31 are in the panel, and 48 listed prompts are not gap answers. Non-failing example: \"Compare Toyota, Hyundai, Tesla and Ford for Electric Cars?\" (Perplexity, US), not in any gap list of frandroid.com (so Toyota is visible, ranked first and has no negative concept in that answer), highlighted in green in step3. 6 + 73 = 79 = number of distinct prompts citing frandroid.com in the source detail data. No independent backend count exists beyond that data.",
+      "description": "Verify that \"Prompts associated with this source\" lists every prompt whose answer cites the source in the scope, including non-failing prompts. Covers AC-6."
+    },
+    {
+      "tc_id": "TC-GEO-1169-011",
+      "title": "Prompt cited by several engines appears once with one icon per engine",
+      "story_id": "GEO-1169",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-011_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-011_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source S is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user locates prompt P in the list, expanding \"Show X more prompts\" if needed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then prompt P appears on exactly one row",
+          "status": "PASS"
+        },
+        {
+          "title": "And the row of prompt P shows the ChatGPT and Gemini icons",
+          "status": "PASS"
+        }
+      ],
+      "notes": "S = autobild.es (#3, \"Not visible in 20 articles\"), P = \"Is Toyota a good Coches Eléctricos brand?\" (ES), cited by ChatGPT and Gemini only in the source data. The panel shows 6 prompts + \"Show 83 more prompts\" (89 rows, 0 duplicates). After expanding: P appears on exactly 1 row, data-engines=\"openai,gemini\", aria-label \"Cited by ChatGPT, Gemini\", with the prompt text, one ChatGPT icon, one Gemini icon and the ES flag. Rows cited by 3 engines show 3 icons (e.g. \"Best Coches Eléctricos?\").",
+      "description": "Verify that a prompt whose answers cite the source on several engines is listed on one row with the icons of the citing engines. Covers AC-6."
+    },
+    {
+      "tc_id": "TC-GEO-1169-012",
+      "title": "Prompts list is limited to the current scope",
+      "story_id": "GEO-1169",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-012_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-012_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the details panel of source S is open with all filters at their defaults",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user sets the AI Engines filter of the page to ChatGPT only",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the details panel of source S again",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the list only contains the prompts whose ChatGPT answer cites source S",
+          "status": "PASS"
+        }
+      ],
+      "notes": "S = frandroid.com. Default scope (ChatGPT + Gemini + Perplexity): 79 prompts, with multi-engine rows (14 ChatGPT+Perplexity, 6 ChatGPT+Gemini+Perplexity, 1 Gemini+Perplexity). AI Engines filter set to ChatGPT only (Gemini and Perplexity off; Grok off, Claude disabled): the page recomputes to 119 sources and frandroid.com becomes #5 with \"Not visible in 5 articles\" / \"Negative perception in 1 article\". Panel again: engine filter shows only All / ChatGPT (28); 6 + \"Show 22 more prompts\" = 28 rows. Reference = the prompts whose ChatGPT answer cites frandroid.com in the default-scope data (28): the 28 listed prompts match exactly (0 missing, 0 extra). Every row has data-engines=\"openai\", aria-label \"Cited by ChatGPT\", one engine icon + flag. Filter restored to ChatGPT + Gemini + Perplexity afterwards.",
+      "description": "Verify that the prompts listed for a source follow the scope of the page (AI Engines filter). Covers AC-6."
+    },
+    {
+      "tc_id": "TC-GEO-1169-013",
+      "title": "Selection is idempotent per snapshot and keeps the done marker",
+      "story_id": "GEO-1169",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-013_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-013_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a snapshot with the SUSPECT_SELECTION done marker and a recorded selection result",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the selection job is triggered again for the same snapshot",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the selected domains and the URLs sent to verification are identical to the first run",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the SUSPECT_SELECTION done marker is still set for the snapshot",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the SUSPECT_SELECTION done marker, the recorded selection result and a way to trigger the job again are not exposed in the UI.",
+      "description": "Verify that running the selection again on the same snapshot does not change its result and keeps the SUSPECT_SELECTION done marker. Covers AC-7. Backend-verifiable only (SKIP in UI runs)."
+    },
+    {
+      "tc_id": "TC-GEO-1169-014",
+      "title": "Selection log shows domains considered, X applied and URLs sent",
+      "story_id": "GEO-1169",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-014_step1_given.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-014_step2_when.png",
+        "screenshots-GEO-152-GEO1169-mcp/TC-GEO-1169-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed selection run for a known snapshot",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the selection log of that run is opened",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the log shows the number of domains considered",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the log shows the X applied",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the log shows the number of URLs sent to verification",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (backend-only): the selection log (domains considered, X applied, number of URLs sent to verification) is not exposed in the UI.",
+      "description": "Verify that the selection log reports the number of domains considered, the X applied and the number of URLs sent to verification. Covers AC-8. Backend-verifiable only (SKIP in UI runs)."
+    }
+  ]
+}

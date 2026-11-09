@@ -1,0 +1,191 @@
+{
+  "spec": "GEO-1002-rerun-pool",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 4,
+    "pass": 0,
+    "fail": 0,
+    "skip": 0,
+    "partial": 4
+  },
+  "poolTimeline": [
+    {
+      "utc": "13:56",
+      "event": "Start: QA-GEO pool 1000, usage 713 (dashboard ring + back office)"
+    },
+    {
+      "utc": "13:59:16",
+      "event": "Pool 1000 -> 713 (PATCH quotas 200; first attempt 13:59:14 aborted by the guard to identify the request)"
+    },
+    {
+      "utc": "14:00:42",
+      "event": "Pool 713 -> 711"
+    },
+    {
+      "utc": "14:03:00",
+      "event": "Pool 711 -> 1000 (restored; back office 713 / 1000, dashboard 713 / 1000)"
+    }
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1239-011",
+      "title": "With the pool exactly full, Add prompt, Add country and Add category are disabled and suggestions cannot be ticked",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1239-011_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1239-011_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1239-011_step2b_addprompt.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1239-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A with the pool exactly full",
+          "status": "PASS",
+          "detail": "Pool set to U = 713 (back office). Decathlon b6c8b664: ring \"713 / 713\" (aria \"Prompt pool: 713 / 713 prompts\"), ring stroke rgb(245,158,11) amber, number oklch(0.769 0.188 70.08). Banner \"Pool full. Adding another prompt needs room.\" (wizard.pool.atLimit)."
+        },
+        {
+          "title": "When the user looks at the add actions of the Prompts section",
+          "status": "PASS",
+          "detail": "Add prompt, Add Country, Add Category: all disabled (button.disabled = true)."
+        },
+        {
+          "title": "And the user tries to tick a suggested prompt",
+          "status": "PASS",
+          "detail": "7/7 unticked suggestions disabled; normal click on \"Should I buy from Decathlon?\" times out (not enabled), forced click leaves it unticked; ring unchanged; 0 write request."
+        },
+        {
+          "title": "Then unticking a kept prompt frees a slot",
+          "status": "NOT RUN",
+          "detail": "Not executed: needs a saved untick on the analysis (forbidden in this run). Kept checkboxes enabled 133/133."
+        }
+      ],
+      "notes": "PARTIAL: Given/When/And verified; Then not executed (requires saving an untick)."
+    },
+    {
+      "tc_id": "TC-GEO-1236-004",
+      "title": "In Manage Scope ticking or adding a prompt still needs room in the pool",
+      "story_id": "GEO-1236",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1236-004_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1236-004_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1236-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A with no free slot",
+          "status": "PASS",
+          "detail": "Pool = U = 713. Decathlon b6c8b664 ring \"713 / 713\", stroke rgb(245,158,11) amber."
+        },
+        {
+          "title": "When the user tries to tick a suggested prompt",
+          "status": "PASS",
+          "detail": "Row \"What do you think of Decathlon?\" (first unticked suggestion): checkbox disabled, forced click leaves it unticked; 7/7 suggestion checkboxes disabled."
+        },
+        {
+          "title": "And the user tries to add a prompt",
+          "status": "PASS",
+          "detail": "Add prompt disabled; forced click opens no dialog and no input row; 0 write request. Prompt text \"Which brand sells the best climbing ropes?\" could not be entered (expected)."
+        },
+        {
+          "title": "Then unticking a kept prompt frees a slot",
+          "status": "NOT RUN",
+          "detail": "Not executed: \"Untick 1 kept prompt and save\" requires saving on the analysis."
+        }
+      ],
+      "notes": "PARTIAL: Given/When/And verified; Then not executed. No \"Suggested Prompts\" heading in the table: suggestions are the unticked rows at the end."
+    },
+    {
+      "tc_id": "TC-GEO-1239-012",
+      "title": "Over the pool the add actions stay disabled while editing, deleting and unticking stay possible",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1239-012_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1239-012_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1239-012_step2b_edit_open.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1239-012_step2c_delete_open.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1239-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A with the pool 2 slots below usage",
+          "status": "PASS",
+          "detail": "Pool set to U - 2 = 711. Decathlon b6c8b664 ring \"713 / 711\", stroke rgb(220,38,38) red, number oklch(0.577 0.245 27.325) red. Message \"2 prompts over. Untick prompts or contact your account manager.\" (wizard.pool.overWizard_other)."
+        },
+        {
+          "title": "When the user looks at the add actions and the suggested prompts",
+          "status": "PASS",
+          "detail": "Add prompt, Add Country, Add Category disabled; 7/7 suggestions disabled, forced click leaves them unticked."
+        },
+        {
+          "title": "And the user edits the wording of a kept prompt and saves",
+          "status": "NOT RUN",
+          "detail": "Edit control enabled (140/140); clicking Edit on \"Decathlon reviews?\" opens the inline text box. Cancelled with Escape, not saved."
+        },
+        {
+          "title": "And the user deletes a kept prompt",
+          "status": "NOT RUN",
+          "detail": "Delete enabled (140/140); dialog \"Delete Prompt\" opens with \"Its slot returns to the prompt pool. Results from past runs stay in the history; the prompt is no longer asked from the next analysis re-run.\" (views.manageScope.prompts.deleteModalNextRun). Cancelled."
+        },
+        {
+          "title": "Then unticking a kept prompt stays possible",
+          "status": "NOT RUN",
+          "detail": "Kept checkbox enabled; one click sent PATCH /reports/b6c8b664.../prompts/kept {isKept:false} immediately, aborted by the write guard (no confirmation dialog). After reload the prompt is still kept (133 kept / 7 unticked). Ring \"U - 2 / U - 2\" not verifiable."
+        }
+      ],
+      "notes": "PARTIAL: Given/When verified; edit/delete/untick verified only as enabled controls up to their editor/dialog/request, never saved."
+    },
+    {
+      "tc_id": "TC-GEO-1229-006",
+      "title": "Over a lowered pool only adding prompts is blocked until the count fits",
+      "story_id": "GEO-1229",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1229-006_step1_given.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1229-006_step2_when.png",
+        "screenshots-GEO-1002-rerun-pool/TC-GEO-1229-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T is 2 slots below usage",
+          "status": "PASS",
+          "detail": "Pool 711, usage 713. Analysis R = Decathlon 27bec573: ring \"713 / 711\", stroke rgb(220,38,38) red; message \"2 prompts over. Untick prompts or contact your account manager.\""
+        },
+        {
+          "title": "When the user tries to tick a suggested prompt or add a prompt in Manage Scope > Prompts of analysis R",
+          "status": "PASS",
+          "detail": "Add prompt, Add Country, Add Category disabled; forced click on Add prompt opens nothing. 27bec573 has no suggestion; at the same pool, b6c8b664 shows 7/7 suggestions disabled (TC-GEO-1239-012). Existing prompts untouched: 80/80 still kept, edit and delete enabled 80/80."
+        },
+        {
+          "title": "And the user edits the wording of a kept prompt and saves",
+          "status": "NOT RUN",
+          "detail": "Not executed (save forbidden). Edit enabled 80/80."
+        },
+        {
+          "title": "And the user unticks 3 kept prompts and saves",
+          "status": "NOT RUN",
+          "detail": "Not executed (save forbidden)."
+        },
+        {
+          "title": "Then adding prompts is possible again once the count fits",
+          "status": "NOT RUN",
+          "detail": "Not executed: depends on the unticks. Partial evidence only: with the pool at 1000 (baseline probe before the run) the add actions are enabled."
+        }
+      ],
+      "notes": "PARTIAL: only the blocking of adding is verified; the next-collection part and the save steps cannot be executed in this run."
+    }
+  ]
+}

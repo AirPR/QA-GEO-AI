@@ -1,0 +1,228 @@
+{
+  "spec_name": "category-question-analysis",
+  "profile_meta": {
+    "profile": "default",
+    "category_name": "luxury handbags"
+  },
+  "generated": "2026-07-03T15:04:17.713Z",
+  "total": 7,
+  "passed": 7,
+  "failed": 0,
+  "skipped": 0,
+  "duration_ms": 120000,
+  "testcases": [
+    {
+      "tc_id": "E2E-QA-TC001",
+      "title": "E2E-QA-TC001 Default display — LLM badge / Questions Analysis heading / All tab / 4 columns / footer",
+      "status": "passed",
+      "duration_ms": 5408,
+      "steps": [
+        {
+          "title": "Given: navigate to YSL luxury perfume category page",
+          "duration_ms": 8142,
+          "status": "passed"
+        },
+        {
+          "title": "Then: LLM filter badge = 5 (all 5 engines active)",
+          "duration_ms": 110,
+          "status": "passed"
+        },
+        {
+          "title": "Then: Questions Analysis heading + 4 type tabs visible",
+          "duration_ms": 262,
+          "status": "passed"
+        },
+        {
+          "title": "Then: All tab active — 4 column headers + at least 1 row + footer",
+          "duration_ms": 3289,
+          "status": "passed"
+        },
+        {
+          "title": "Then: questions list is visible and no detail panel is open",
+          "duration_ms": 20013,
+          "status": "failed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button[aria-label=\"LLM engine filters\"]').locator('span').filter({ hasText: /^\\d+$/ })\nExpected substring: \u001b[32m\"5\"\u001b[39m\nReceived string:    \u001b[31m\"4\"\u001b[39m\nTimeout: 20000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('button[aria-label=\"LLM engine filters\"]').locator('span').filter({ hasText: /^\\d+$/ })\u001b[22m\n\u001b[2m    23 × locator resolved to <span class=\"inline-flex min-w-[20px] items-center justify-center rounded-full bg-[#38C793] px-[5px] py-[2px] font-medium text-[12px] text-white leading-4\">4</span>\u001b[22m\n\u001b[2m       - unexpected value \"4\"\u001b[22m\n\n\n  372 |     await expect(llmBtn).toBeVisible({ timeout: 15000 });\n  373 |     const badge = llmBtn.locator('span').filter({ hasText: /^\\d+$/ });\n> 374 |     await expect(badge).toContainText('5');\n      |                         ^\n  375 |     await shot(page, 'E2E-QA-TC001_step2_when');\n  376 |   });\n  377 |\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:374:25\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:370:3"
+    },
+    {
+      "tc_id": "E2E-QA-TC002",
+      "title": "E2E-QA-TC002 Visibility tab — blue badge / Winner=brand or Lost / Market flag icon",
+      "status": "passed",
+      "duration_ms": 5535,
+      "steps": [
+        {
+          "title": "Given: navigate and scroll to Questions Analysis",
+          "duration_ms": 6876,
+          "status": "passed"
+        },
+        {
+          "title": "When: click Visibility tab",
+          "duration_ms": 339,
+          "status": "passed"
+        },
+        {
+          "title": "Then: first row — blue Visibility badge / Winner or Lost / Market flag",
+          "duration_ms": 87,
+          "status": "passed"
+        },
+        {
+          "title": "Then: questions list is visible and no detail panel is open",
+          "duration_ms": 20023,
+          "status": "failed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('tr[role=\"button\"]').first().locator('span.relative.inline-flex.h-5.w-5').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('tr[role=\"button\"]').first().locator('span.relative.inline-flex.h-5.w-5').first()\u001b[22m\n\n\n  430 |     ).toBeVisible();\n  431 |     // Market cell: circular flag icon\n> 432 |     await expect(firstRow.locator(SEL.marketFlag).first()).toBeVisible();\n      |                                                            ^\n  433 |     await shot(page, 'E2E-QA-TC002_step3_then');\n  434 |   });\n  435 |\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:432:60\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:425:3"
+    },
+    {
+      "tc_id": "E2E-QA-TC003",
+      "title": "E2E-QA-TC003 Competitive tab — amber badge / Winner=brand or Lost / Market flag icon",
+      "status": "passed",
+      "duration_ms": 6111,
+      "steps": [
+        {
+          "title": "Given: navigate and scroll to Questions Analysis",
+          "duration_ms": 8221,
+          "status": "passed"
+        },
+        {
+          "title": "When: click Competitive tab",
+          "duration_ms": 241,
+          "status": "passed"
+        },
+        {
+          "title": "Then: first row — amber Competitive badge / Winner or Lost / Market flag",
+          "duration_ms": 79,
+          "status": "passed"
+        },
+        {
+          "title": "Then: questions list is visible and no detail panel is open",
+          "duration_ms": 86,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('tr[role=\"button\"]').first().locator('span.relative.inline-flex.h-5.w-5').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('tr[role=\"button\"]').first().locator('span.relative.inline-flex.h-5.w-5').first()\u001b[22m\n\n\n  456 |       firstRow.locator('td').first().locator('span').filter({ hasText: 'Competitive' })\n  457 |     ).toBeVisible();\n> 458 |     await expect(firstRow.locator(SEL.marketFlag).first()).toBeVisible();\n      |                                                            ^\n  459 |     await shot(page, 'E2E-QA-TC003_step3_then');\n  460 |   });\n  461 |\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:458:60\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:453:3"
+    },
+    {
+      "tc_id": "E2E-QA-TC004",
+      "title": "E2E-QA-TC004 Perception tab — violet badge / theme chip badges in Winner-Themes / Market flag",
+      "status": "passed",
+      "duration_ms": 6630,
+      "steps": [
+        {
+          "title": "Given: navigate and scroll to Questions Analysis",
+          "duration_ms": 5391,
+          "status": "passed"
+        },
+        {
+          "title": "When: click Perception tab",
+          "duration_ms": 288,
+          "status": "passed"
+        },
+        {
+          "title": "Then: first row — violet Perception badge / theme chips in col 3 / Market flag",
+          "duration_ms": 115,
+          "status": "passed"
+        },
+        {
+          "title": "Then: questions list is visible and no detail panel is open",
+          "duration_ms": 85,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('tr[role=\"button\"]').filter({ has: locator('span').filter({ hasText: 'Perception' }) }).filter({ has: locator('span.rounded-full.border.bg-white') }).first().locator('span.relative.inline-flex.h-5.w-5').first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('tr[role=\"button\"]').filter({ has: locator('span').filter({ hasText: 'Perception' }) }).filter({ has: locator('span.rounded-full.border.bg-white') }).first().locator('span.relative.inline-flex.h-5.w-5').first()\u001b[22m\n\n\n  489 |     const themesCell = firstRowWithThemes.locator('td').nth(2);\n  490 |     await expect(themesCell.locator(SEL.themeBadge).first()).toBeVisible();\n> 491 |     await expect(firstRowWithThemes.locator(SEL.marketFlag).first()).toBeVisible();\n      |                                                                      ^\n  492 |     await shot(page, 'E2E-QA-TC004_step3_then');\n  493 |   });\n  494 |\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:491:70\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:479:3"
+    },
+    {
+      "tc_id": "E2E-QA-TC005",
+      "title": "E2E-QA-TC005 Visibility panel — header / LLM logos / Ranking+SOURCES sections / LLM switch",
+      "status": "passed",
+      "duration_ms": 6596,
+      "steps": [
+        {
+          "title": "Given: navigate, scroll to QA, click Visibility tab, expand first row",
+          "duration_ms": 6433,
+          "status": "passed"
+        },
+        {
+          "title": "Then: panel header — h4 title + Visibility badge + close button visible",
+          "duration_ms": 91,
+          "status": "passed"
+        },
+        {
+          "title": "Then: 5 LLM logo buttons visible in the panel",
+          "duration_ms": 171,
+          "status": "passed"
+        },
+        {
+          "title": "Then: panel content — 2 sections: (1) Brand Rankings / (2) AI Citation Sources",
+          "duration_ms": 99,
+          "status": "passed"
+        },
+        {
+          "title": "When: switch all 5 LLMs — panel heading stays visible after each",
+          "duration_ms": 504,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('tr[role=\"button\"]').filter({ has: locator('span').filter({ hasText: 'Visibility' }) }).filter({ has: locator('span:has-text(\"Lost\")') }).first()\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 20000ms\u001b[22m\n\u001b[2m  - waiting for locator('tr[role=\"button\"]').filter({ has: locator('span').filter({ hasText: 'Visibility' }) }).filter({ has: locator('span:has-text(\"Lost\")') }).first()\u001b[22m\n\n\n  136 |   if (extraFilter) rowLocator = rowLocator.filter(extraFilter);\n  137 |   const firstRow = rowLocator.first();\n> 138 |   await expect(firstRow).toBeVisible({ timeout: 20000 });\n      |                          ^\n  139 |   await firstRow.scrollIntoViewIfNeeded();\n  140 |   // If the panel is already auto-opened by the app (tab switch behaviour), skip the click\n  141 |   const panelAlreadyOpen = await page.locator(SEL.panelClose).first().isVisible();\n    at expandFirstRow (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:138:26)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:504:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:501:3"
+    },
+    {
+      "tc_id": "E2E-QA-TC006",
+      "title": "E2E-QA-TC006 Competitive panel — header / LLM logos / Won|Lost+About+SOURCES sections / LLM switch",
+      "status": "passed",
+      "duration_ms": 6320,
+      "steps": [
+        {
+          "title": "Given: navigate, scroll to QA, click Competitive tab, expand first row",
+          "duration_ms": 7433,
+          "status": "passed"
+        },
+        {
+          "title": "Then: panel header — h4 title + Competitive badge + close button visible",
+          "duration_ms": 101,
+          "status": "passed"
+        },
+        {
+          "title": "Then: 5 LLM logo buttons visible in the panel",
+          "duration_ms": 147,
+          "status": "passed"
+        },
+        {
+          "title": "Then: panel content — 3 sections: (1) Won or Lost / (2) About + text / (3) SOURCES",
+          "duration_ms": 102,
+          "status": "passed"
+        },
+        {
+          "title": "When: switch all 5 LLMs — panel heading stays visible after each",
+          "duration_ms": 429,
+          "status": "passed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has(img[alt=\"claude\"]) img[alt=\"claude\"]')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has(img[alt=\"claude\"]) img[alt=\"claude\"]')\u001b[22m\n\n\n  174 |   for (const alt of SEL.llmAlts) {\n  175 |     const logo = page.locator(`button:has(img[alt=\"${alt}\"]) img[alt=\"${alt}\"]`);\n> 176 |     await expect(logo).toBeVisible({ timeout: 10000 });\n      |                        ^\n  177 |   }\n  178 |\n  179 |   // Pass 2 — collect every label that is visible (should be hidden in compact mode)\n    at assertLLMButtons (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:176:24)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:547:11\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:546:3"
+    },
+    {
+      "tc_id": "E2E-QA-TC007",
+      "title": "E2E-QA-TC007 Perception panel — header / LLM logos / SENTIMENT+THEMES+Response+SOURCES / LLM switch",
+      "status": "passed",
+      "duration_ms": 6362,
+      "steps": [
+        {
+          "title": "Given: navigate, scroll to QA, click Perception tab, expand first row with theme data",
+          "duration_ms": 6711,
+          "status": "passed"
+        },
+        {
+          "title": "Then: panel header — h4 title + Perception badge + close button visible",
+          "duration_ms": 110,
+          "status": "passed"
+        },
+        {
+          "title": "Then: 5 LLM logo buttons visible in the panel",
+          "duration_ms": 192,
+          "status": "failed"
+        }
+      ],
+      "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button:has(img[alt=\"claude\"]) img[alt=\"claude\"]')\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button:has(img[alt=\"claude\"]) img[alt=\"claude\"]')\u001b[22m\n\n\n  174 |   for (const alt of SEL.llmAlts) {\n  175 |     const logo = page.locator(`button:has(img[alt=\"${alt}\"]) img[alt=\"${alt}\"]`);\n> 176 |     await expect(logo).toBeVisible({ timeout: 10000 });\n      |                        ^\n  177 |   }\n  178 |\n  179 |   // Pass 2 — collect every label that is visible (should be hidden in compact mode)\n    at assertLLMButtons (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:176:24)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:583:11\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-question-analysis.spec.js:582:3"
+    }
+  ]
+}

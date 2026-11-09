@@ -1,0 +1,523 @@
+{
+  "epic": {
+    "id": "GEO-200",
+    "key": "GEO-200",
+    "title": "GEO: Cookie Consent for Hubspot/PQL",
+    "status": "Ready for QA",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-04-14",
+    "updated": "2026-05-18",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-200",
+    "functionalNeed": "Implement a cookies and cookie policy solution for the Measure module that reuses the existing banner and preferences UI, adheres to the same consent categories, and gates all non-essential cookies and analytics for Measure behind explicit user consent. This is a legal GDPR requirement for platforms operating in Europe.",
+    "scope": [
+      "Reuse cross-application cookie banner and preferences UI from Review module",
+      "Three consent categories: Essential (always on), Support/Functional (opt-in, includes HubSpot/Intercom), Analytics (opt-in)",
+      "JIT consent bridge when users trigger features requiring non-essential cookies",
+      "Privacy fallback (no Consent Wall) for users who decline Functional cookies",
+      "HubSpot PQL upsell event tracking gated on Functional consent",
+      "Full EN/FR i18n via react-i18next",
+      "Cookie inventory documented in Settings Grid",
+      "Upsell page content refresh to match Figma V2"
+    ],
+    "outOfScope": [
+      "Cross-subdomain cookie sharing with 360/Review (technically impossible at geo.onclusive.com scope)",
+      "ES, DE, IT translations (deferred — V1 is EN/FR only)",
+      "Intercom Messenger boot and wiring (GEO-243 scope)",
+      "FullStory analytics integration (GEO-244 scope)",
+      "Dual cookie write to onclusive:mention:cookie-consent (abandoned — see GEO-331)"
+    ],
+    "stories": [
+      {
+        "id": "GEO-327",
+        "title": "Story 17.1 — Consent State Provider + cc_cookie persistence (Zustand store + vanilla-cookieconsent integration)",
+        "storyId": "Story 17.1",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-04-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-327",
+        "userStory": {
+          "as": "GEO frontend engineer",
+          "want": "a Zustand store that mirrors the user's cc_cookie consent state and a vanilla-cookieconsent v3 integration that persists changes back to the cookie",
+          "so": "GEO has a single typed consent API consumed by all dependent epics (GEO-243 Intercom, GEO-244 FullStory, future HubSpot epic), with consent changes durably stored on geo.onclusive.com for 180 days"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Boot with cc_cookie already present",
+            "given": "a user lands on GEO with cc_cookie already set on geo.onclusive.com",
+            "when": "the GEO app boots",
+            "then": "useCookieConsentStore exposes hasRespondedToConsent === true, areAnalyticsCookiesEnabled and areFunctionalCookiesEnabled reflecting the parsed cookie payload, and no banner is shown (shouldShowBanner === false)"
+          },
+          {
+            "id": "AC2",
+            "title": "Boot without cc_cookie",
+            "given": "a user lands on GEO with no cc_cookie",
+            "when": "the GEO app boots",
+            "then": "hasRespondedToConsent === false, shouldShowBanner === true"
+          },
+          {
+            "id": "AC3",
+            "title": "Commit consent",
+            "given": "a user clicks Accept all / Essential only / saves Preferences",
+            "when": "the choice is committed",
+            "then": "cc_cookie is written by vanilla-cookieconsent v3 with domain=current host, sameSite=lax, secure=true in prod/staging, TTL=180 days"
+          },
+          {
+            "id": "AC4",
+            "title": "Modify preferences from store",
+            "given": "the user changes preferences from the GEO modal (Story 17.3)",
+            "when": "Save is clicked and savePreferences({analytics, functional}) is called on the store",
+            "then": "cookie is updated synchronously via lib API, BroadcastChannel('geo-consent') is notified, all subscribers receive the new state"
+          },
+          {
+            "id": "AC5",
+            "title": "Cross-tab sync",
+            "given": "a user has consent stored on GEO and multiple GEO tabs open",
+            "when": "another tab updates the consent cookie via BroadcastChannel or poller fallback detects a change",
+            "then": "the store rehydrates on next render and all subscribers receive the new state"
+          },
+          {
+            "id": "AC6",
+            "title": "Malformed cookie payload",
+            "given": "a malformed or version-mismatched cookie payload",
+            "when": "the lib parser fails or the store detects an incoherent payload",
+            "then": "store treats user as not yet consented, purges corrupt cookie, without throwing or breaking app boot"
+          },
+          {
+            "id": "AC7",
+            "title": "Dev mode fixture seeding",
+            "given": "a developer in localhost (Vite DEV=true)",
+            "when": "VITE_GEO_CONSENT_FIXTURE is set in .env.local",
+            "then": "store can be seeded from a fixture object without a real cookie; tree-shaken in prod build"
+          }
+        ],
+        "technicalNotes": [
+          "Reference: AirPR/onclusive-core-client:store/cookieConsentStore.ts (360, Vue/Pinia — ported to React/Zustand)",
+          "Library: vanilla-cookieconsent v3 (orestbida)",
+          "cc_cookie scoped to geo.onclusive.com (geo.onclusive.com scope only — no cross-subdomain)"
+        ],
+        "blockedBy": [],
+        "blocks": ["GEO-328", "GEO-329", "GEO-330", "GEO-332"]
+      },
+      {
+        "id": "GEO-328",
+        "title": "Story 17.2 — Cookie Banner Phase 1 (vanilla-cookieconsent v3 React wrapper + initial UI)",
+        "storyId": "Story 17.2",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-04-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-328",
+        "userStory": {
+          "as": "first-time GEO user without prior consent on geo.onclusive.com",
+          "want": "a clear cookie consent banner with Accept all / Essential only / Manage preferences options",
+          "so": "I can make an informed GDPR-compliant choice before any non-essential script or cookie is loaded"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Initial display without cc_cookie",
+            "given": "a user lands on GEO with no cc_cookie set",
+            "when": "the GEO app boots",
+            "then": "cookie banner is rendered at the bottom of the viewport with title, description, and three CTAs"
+          },
+          {
+            "id": "AC2",
+            "title": "Accept all",
+            "given": "the cookie banner is visible",
+            "when": "user clicks Accept all",
+            "then": "cc_cookie written with categories=[necessary, analytics, functional_support], banner disappears"
+          },
+          {
+            "id": "AC3",
+            "title": "Essential only",
+            "given": "the cookie banner is visible",
+            "when": "user clicks Essential only",
+            "then": "cc_cookie written with categories=[necessary] only, banner disappears"
+          },
+          {
+            "id": "AC7",
+            "title": "Button styles (PM 2026-05-06)",
+            "given": "buttons Manage preferences, Essential Only and Accept All are rendered",
+            "when": "observed visually",
+            "then": "Manage preferences=Ghost primary (sky-700 text), Essential Only=Stroke neutral, Accept All=Filled primary (sky-700 bg). LEGAL RISK: abandons equalWeightButtons principle — PM derogation pending legal review."
+          }
+        ],
+        "technicalNotes": [
+          "Option B: custom React wrapper CookieConsentBanner.tsx (lib autoShow:false)",
+          "Figma node 12986:63154 (PM 2026-05-06 override)",
+          "83/83 unit tests green"
+        ],
+        "blockedBy": ["GEO-327"],
+        "blocks": ["GEO-329"]
+      },
+      {
+        "id": "GEO-329",
+        "title": "Story 17.3 — Cookie Preferences Modal (Settings Grid + per-category toggles + Save)",
+        "storyId": "Story 17.3",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-04-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-329",
+        "userStory": {
+          "as": "GEO user wanting fine-grained control over cookies",
+          "want": "to open a Cookie Preferences modal that displays each cookie category with toggles, allowing me to enable/disable Functional and Analytics individually before saving",
+          "so": "I can give informed, granular consent and revisit my choices anytime"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Open from Manage preferences",
+            "given": "the cookie banner from Story 17.2 is visible",
+            "when": "the user clicks Manage preferences",
+            "then": "Cookie Preferences modal opens with three sections: Essential (locked-on), Functional & Support (toggle, OFF), Analytics (toggle, OFF)"
+          },
+          {
+            "id": "AC3",
+            "title": "Save Preferences",
+            "given": "the modal is open",
+            "when": "user toggles categories and clicks Save preferences",
+            "then": "savePreferences({analytics, functional}) called, cc_cookie updated, modal closes"
+          },
+          {
+            "id": "AC5",
+            "title": "Cancel / close without saving",
+            "given": "the modal is open with pending toggles",
+            "when": "user clicks Cancel, X, or presses Escape",
+            "then": "store NOT modified, pending toggles discarded, modal closes. Overlay click does NOT close modal (PM decision)."
+          }
+        ],
+        "technicalNotes": [
+          "Radix Dialog primitive — focus trap, aria-labelledby, keyboard navigation",
+          "Equal visual weight for Save and Accept all CTAs (ICO PECR compliance — AC9)",
+          "32 unit tests green"
+        ],
+        "blockedBy": ["GEO-327", "GEO-328"],
+        "blocks": ["GEO-330"]
+      },
+      {
+        "id": "GEO-330",
+        "title": "Story 17.4 — Cookie Inventory & Essentials Documentation (Auth0 SSO, CSRF, cc_cookie + placeholders)",
+        "storyId": "Story 17.4",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-04-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-330",
+        "userStory": {
+          "as": "GEO user opening Cookie Settings",
+          "want": "to see a clear inventory of every cookie GEO sets, grouped by category, with name, provider, and purpose",
+          "so": "I have informed consent (GDPR requirement) and understand what each cookie does before opting in"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Essential section: 3 real rows",
+            "given": "user opens Cookie Preferences modal",
+            "when": "Essential section is rendered",
+            "then": "Settings Grid contains exactly 3 rows: APP_TOKEN (Auth0), GEO_OAUTH_REQ (OAuth2 state), cc_cookie (consent preferences)"
+          },
+          {
+            "id": "AC2",
+            "title": "Functional & Support section: Intercom + HubSpot placeholders",
+            "given": "user opens Cookie Preferences modal",
+            "when": "Functional & Support section is rendered",
+            "then": "3 placeholder rows with Inactive badge: intercom-session-*, intercom-id-*, hubspot-*"
+          },
+          {
+            "id": "AC3",
+            "title": "Analytics section: FullStory placeholder",
+            "given": "user opens Cookie Preferences modal",
+            "when": "Analytics section is rendered",
+            "then": "1 placeholder row: fs_uid (FullStory)"
+          },
+          {
+            "id": "AC9",
+            "title": "Cookie Settings link in UserMenuDropdown",
+            "given": "user already consented (shouldShowBanner===false)",
+            "when": "they want to re-open the modal",
+            "then": "Cookie Settings button visible in UserMenuDropdown, calls openPreferences()"
+          }
+        ],
+        "technicalNotes": [
+          "Single source of truth: frontend/src/lib/cookieConsent/cookieInventory.ts",
+          "CookieSettingsGrid component with SectionId typed mapping",
+          "26/26 tests green (17 RTL + 9 sanity)"
+        ],
+        "blockedBy": ["GEO-329"],
+        "blocks": []
+      },
+      {
+        "id": "GEO-331",
+        "title": "Story 17.5 — Hybrid Write Strategy (dual cookie persistence + bidirectional adapters)",
+        "storyId": "Story 17.5a",
+        "status": "Abandoned",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-04-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-331",
+        "userStory": {
+          "as": "product engineer maintaining cross-module cookie consent compatibility",
+          "want": "GEO to persist consent into both onclusive:mention:cookie-consent (360 format) and cc_cookie (Review format)",
+          "so": "the user is recognized as having consented regardless of which Onclusive module reads the cookie next"
+        },
+        "acceptanceCriteria": [],
+        "technicalNotes": [
+          "ABANDONED: Cross-subdomain writing to .onclusive.com not technically possible from geo.onclusive.com scope",
+          "Replaced by simplified approach in GEO-327"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-332",
+        "title": "Story 17.5 — i18n EN/FR for Cookie Consent (import 360 locales, namespace cookieConsent)",
+        "storyId": "Story 17.5b",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-04-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-332",
+        "userStory": {
+          "as": "GEO user",
+          "want": "the cookie consent banner, modal and settings to be fully translated in English and French",
+          "so": "I get the GDPR-required clear and informed consent in my own language"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "UI language en -> English copies",
+            "given": "UI language resolves to en",
+            "when": "banner, modal, settings render",
+            "then": "all user-facing copies are in English via useTranslation() namespace cookieConsent"
+          },
+          {
+            "id": "AC2",
+            "title": "UI language fr -> French copies",
+            "given": "UI language resolves to fr",
+            "when": "banner, modal, settings render",
+            "then": "all user-facing copies are in French"
+          },
+          {
+            "id": "AC7",
+            "title": "Structural parity FR <-> EN (automated test)",
+            "given": "en.json and fr.json export namespace cookieConsent",
+            "when": "a parity test compares deep key paths",
+            "then": "strictly the same key paths in both — test breaks if a key is added EN without FR"
+          }
+        ],
+        "technicalNotes": [
+          "Option A: react-i18next (Epic 13 Story 13.1 done)",
+          "Source of truth: AirPR/onclusive-core-client locales en-GB.json and fr-FR.json",
+          "FR draft (Sally) — copywriter/legal review required before production",
+          "75/75 unit tests passing"
+        ],
+        "blockedBy": ["GEO-328", "GEO-329"],
+        "blocks": []
+      },
+      {
+        "id": "GEO-333",
+        "title": "Story 17.6 — Help JIT Bridge Modal \"Ready to chat?\"",
+        "storyId": "Story 17.6",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-04-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-333",
+        "userStory": {
+          "as": "GEO user who consented to Essential cookies only and clicks the Help / Chat button",
+          "want": "a modal explaining that Live Chat requires enabling Intercom & HubSpot cookies, with options to either accept and start chatting OR stay private",
+          "so": "I can make a granular informed consent decision at the moment I express interest in the feature"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Trigger: Help clicked with no Functional consent",
+            "given": "hasRespondedToConsent === true AND areFunctionalCookiesEnabled === false",
+            "when": "user clicks the Help button",
+            "then": "JIT Bridge Modal opens with title 'Ready to chat?' and 2 CTAs"
+          },
+          {
+            "id": "AC3",
+            "title": "Enable Support & Start Chat",
+            "given": "the modal is open",
+            "when": "user clicks Enable Support & Start Chat",
+            "then": "savePreferences({functional: true}) called, only functional_support set to true, modal closes"
+          },
+          {
+            "id": "AC4",
+            "title": "I'd still like to stay private",
+            "given": "the modal is open",
+            "when": "user clicks I'd still like to stay private",
+            "then": "no store change, JIT modal closes, Privacy Fallback Modal (Story 17.7) opens immediately"
+          },
+          {
+            "id": "AC5",
+            "title": "Cookie Settings inline link",
+            "given": "description contains inline Cookie Settings link",
+            "when": "user clicks it",
+            "then": "JIT modal closes, Cookie Preferences Modal (Story 17.3) opens"
+          }
+        ],
+        "technicalNotes": [
+          "Figma node 12987:64849 (file msZlgB0O4kKPc3jlwegBKx, Layout - Navigation)",
+          "Modal width 480px (more compact than preferences modal 600px)",
+          "Intercom Messenger boot is GEO-243 scope — this story ships modal + store API only"
+        ],
+        "blockedBy": ["GEO-327", "GEO-328", "GEO-329"],
+        "blocks": ["GEO-334"]
+      },
+      {
+        "id": "GEO-334",
+        "title": "Story 17.7 — Privacy Fallback Modal \"Your privacy is respected\"",
+        "storyId": "Story 17.7",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-04-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-334",
+        "userStory": {
+          "as": "GEO user who declined to enable live chat (Functional cookies)",
+          "want": "a confirmation modal that respects my privacy choice and offers me an alternative way to contact support (email)",
+          "so": "I don't feel locked out of getting help just because I declined cookies — GDPR-compliant fallback (no consent wall)"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Triggered from JIT Bridge Modal",
+            "given": "JIT Bridge Modal (Story 17.6) is open",
+            "when": "user clicks I'd still like to stay private",
+            "then": "JIT modal closes, Privacy Fallback Modal opens immediately, no consent state change"
+          },
+          {
+            "id": "AC3",
+            "title": "Email link",
+            "given": "modal is rendered",
+            "when": "user clicks support@onclusive.com",
+            "then": "browser opens email client via mailto:support@onclusive.com, modal stays open"
+          },
+          {
+            "id": "AC8",
+            "title": "No additional opt-out",
+            "given": "user opens this modal",
+            "when": "they interact (read, click email, click Close)",
+            "then": "no write to consent store — purely informational modal"
+          }
+        ],
+        "technicalNotes": [
+          "Figma node 12988:10517 (file msZlgB0O4kKPc3jlwegBKx, Layout - Navigation)",
+          "Email support@onclusive.com — to confirm with PM before merge (placeholder)",
+          "Can be delivered in the same PR as GEO-333 (tight logical coupling)"
+        ],
+        "blockedBy": ["GEO-333"],
+        "blocks": []
+      },
+      {
+        "id": "GEO-237",
+        "title": "GEO: Hubspot PQL feedback into Hubspot",
+        "storyId": "Story (HubSpot PQL)",
+        "status": "QA In Progress",
+        "assignee": "Quentin.Reant",
+        "created": "2026-04-14",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-237",
+        "userStory": {
+          "as": "sales team / product",
+          "want": "PQL upsell page events tracked into HubSpot",
+          "so": "the sales team can capture and track leads from the GEO/Measure upsell page"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "No cookies -> JIT popup",
+            "given": "user is on Measure upsell page AND Functional cookies not accepted",
+            "when": "user clicks Speak to Us",
+            "then": "JitBridgeModal shown, no POST /geo/api/upsell/hubspot made"
+          },
+          {
+            "id": "AC4",
+            "title": "Consent already granted -> direct call",
+            "given": "areFunctionalCookiesEnabled === true",
+            "when": "user clicks any Speak to Us on the page",
+            "then": "POST /geo/api/upsell/hubspot called without popup, event appears in HubSpot"
+          },
+          {
+            "id": "AC5",
+            "title": "Session idempotence",
+            "given": "user already clicked Speak to Us and event was sent",
+            "when": "they click again on another Speak to Us",
+            "then": "no second backend call made"
+          },
+          {
+            "id": "AC6",
+            "title": "Internal users excluded",
+            "given": "JWT contains @onclusive.com email",
+            "when": "POST /geo/api/upsell/hubspot is called",
+            "then": "no event sent to HubSpot, response is 200 OK"
+          },
+          {
+            "id": "AC10",
+            "title": "See it in action popup",
+            "given": "user is on Measure upsell page",
+            "when": "they click any Speak to Us (5 instances)",
+            "then": "SeeItInActionModal opens with title 'See it in action', checkbox 'I'm happy to be contacted for a demo' unchecked, Confirm button disabled"
+          },
+          {
+            "id": "AC14",
+            "title": "Fix 401: no Auth0 redirect",
+            "given": "POST /api/v1/upsell/hubspot returns 401",
+            "when": "postUpsellEvent is called",
+            "then": "no Auth0 redirect triggered, error logged silently in DEV, user stays on upsell page"
+          }
+        ],
+        "technicalNotes": [
+          "Endpoint: POST /api/v1/upsell/hubspot",
+          "Event: upsell_cta with product: geo",
+          "HUBSPOT_ACCESS_TOKEN is backend-only — never exposed to client",
+          "Amendment 2026-05-13: SeeItInActionModal + 401 fix added (AC10-AC14)",
+          "HubSpot integration docs: https://onclusive.atlassian.net/wiki/spaces/PT2/pages/5154209795/HubSpot+Integration+Guide+Login+Upsell+Events"
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-427",
+        "title": "Upsell page content refresh — align with Figma V2 (5->3 showcases, new features)",
+        "storyId": "Story (Upsell Refresh)",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-05-12",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-427",
+        "userStory": {
+          "as": "product team",
+          "want": "the /geo/upsell page to match the Figma V2 design (3 showcases, 4 new feature cards, updated copy)",
+          "so": "the page reflects the current product vision and brand messaging"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "Hero",
+            "given": "user arrives on /geo/upsell",
+            "when": "page is rendered",
+            "then": "h1 displays exactly 'Your AI Search Intelligence', description matches Figma"
+          },
+          {
+            "id": "AC5",
+            "title": "Showcases 5->3",
+            "given": "page Upsell is rendered",
+            "when": "showcases section is displayed",
+            "then": "exactly 3 showcases: Multi-Engine AI Monitoring / Earned Media to AI Connection / Competitive Intelligence"
+          },
+          {
+            "id": "AC7",
+            "title": "HubSpot tracking anti-regression",
+            "given": "story GEO-237 delivered HubSpot tracking via SpeakToUsButton",
+            "when": "content is refreshed",
+            "then": "all 5 Speak to Us buttons still go through SpeakToUsButton component, idempotence preserved"
+          }
+        ],
+        "technicalNotes": [
+          "Purely frontend/cosmetic — no backend changes",
+          "Figma node 14083:11425 (file msZlgB0O4kKPc3jlwegBKx, Layout - Navigation)",
+          "All copies via i18n views.upsell.* — EN=FR (PM decision, FR not yet validated)",
+          "Assets sourced from Figma MCP: icons in frontend/src/assets/icons/upsell/, illustrations in frontend/src/assets/illustrations/upsell/"
+        ],
+        "blockedBy": ["GEO-237"],
+        "blocks": []
+      }
+    ]
+  }
+}

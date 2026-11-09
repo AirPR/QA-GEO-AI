@@ -1,0 +1,337 @@
+{
+  "spec": "GEO-1002-GEO1238",
+  "runDate": "2026-10-20",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1238",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "runFolder": "20102026-0931",
+  "summary": {
+    "total": 6,
+    "pass": 6,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0,
+    "successRate": 100,
+    "verdict": "GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me at start and end)",
+    "organisation": "QA-GEO, role SUPER_ADMIN, existing session (no login needed)",
+    "featureFlag": "unbranded_analysis = true: 5-step wizard, Brand analysis card + Continue used for every TC",
+    "pool": "P = 1000; U = 703 at start and at end (7 analyses both times)",
+    "stateChanges": "None. No analysis created, no back-office action, no deletion. Every wizard ended with Exit and Discard, Back with nothing entered, or a reload (beforeunload check)."
+  },
+  "entryPointMatrix": [
+    {
+      "entryPoint": "Back to Dashboard (sidebar), fresh wizard, nothing picked (Analysis Type)",
+      "dialog": "None",
+      "outcome": "Leaves to dashboard directly"
+    },
+    {
+      "entryPoint": "Back to Dashboard, only Analysis Type picked (Brand & Country empty)",
+      "dialog": "None",
+      "outcome": "Leaves to dashboard directly (TC-003)"
+    },
+    {
+      "entryPoint": "Footer Back on Brand & Country, empty",
+      "dialog": "None",
+      "outcome": "Goes to Analysis Type"
+    },
+    {
+      "entryPoint": "Footer Back on Analysis Type, only type picked",
+      "dialog": "None",
+      "outcome": "Leaves to dashboard directly (TC-003)"
+    },
+    {
+      "entryPoint": "Footer Back on Analysis Type, brand entered on Brand & Country",
+      "dialog": "\"Exit setup?\" full (title, subtitle, description, body, keepWork)",
+      "outcome": "Resume Setup: stays on Analysis Type, brand kept (TC-004)"
+    },
+    {
+      "entryPoint": "Back to Dashboard on Brand & Country / Categories / Prompts / Review with choices",
+      "dialog": "\"Exit setup?\" full",
+      "outcome": "Exit and Discard: dashboard, nothing created, next wizard empty (TC-001). Resume Setup / cross / Esc: same step, everything kept (TC-002/005/006)"
+    },
+    {
+      "entryPoint": "Footer Back Categories -> Brand & Country (category added or deleted), Prompts -> Categories (prompt unticked)",
+      "dialog": "None",
+      "outcome": "Goes back one step, choices kept"
+    },
+    {
+      "entryPoint": "Stepper Review -> Categories (no pending category change)",
+      "dialog": "None",
+      "outcome": "Categories shown, choices kept (differs from earlier runs, which had a pending change)"
+    },
+    {
+      "entryPoint": "Stepper back (Brand & Country or Analysis Type) from Categories after a category was added since the last prompt generation",
+      "dialog": "\"Exit setup?\" short: title + wizard.discardModal.stepChangesDescription, buttons Resume Setup / Exit and Discard / cross",
+      "outcome": "Exit and Discard: goes to the clicked step, stays in the wizard and keeps the added category (Cycling then had 30 prompts generated, 69 selected). Resume Setup and Esc: stay on Categories, everything kept"
+    },
+    {
+      "entryPoint": "Stepper forward Categories -> Prompts with pending category",
+      "dialog": "None",
+      "outcome": "Prompts shown"
+    },
+    {
+      "entryPoint": "Reload with choices entered (location.reload)",
+      "dialog": "Browser beforeunload dialog (message \"\")",
+      "outcome": "Auto-accepted by the Playwright MCP harness: page reloaded, wizard restarted empty on Analysis Type"
+    }
+  ],
+  "sideFindings": [
+    "Step-change dialog: when going back with the stepper from Categories after adding a category (not via footer Back), the app opens a dialog titled \"Exit setup?\" (wizard.discardModal.title) with wizard.discardModal.stepChangesDescription (\"... Exiting the process now will result in the loss of all progress made during this session.\") and \"Exit and Discard\" (wizard.common.exitAndDiscard). Clicking Exit and Discard neither exits nor discards: it moves to the clicked step and keeps the change (Cycling kept, its prompts generated). Labels and behaviour disagree. The story says this message stays for back navigation with unsaved changes, so it is in scope only as wording; same as earlier runs.",
+    "The same back navigation through the footer Back button never shows this dialog (category added or deleted, prompt unticked), so footer Back and stepper back behave differently.",
+    "Review -> stepper Categories showed no dialog in this run (no pending change); earlier runs reported a dialog on that path, probably because they had a pending category change. Trigger = pending category change, not the Review step.",
+    "The exit body wizard.discardModal.body \"... including the prompts you kept.\" is shown on Analysis Type and Brand & Country too, before any prompt exists (minor wording).",
+    "Not verified: Back to Dashboard disabled during category discovery (discovery returned at once, cached for Decathlon GB) and during creation (no creation allowed); hidden on \"Analysis created\" not checked.",
+    "Console: only brandfetch logo 410 errors (cdn.brandfetch.io lettermark icons), not related."
+  ],
+  "csvProposals": [
+    "TC-GEO-1238-003 step 3: \"And the user opens the wizard again, selects Brand analysis, clicks Continue, then clicks Back on Brand & Country and Back on Analysis Type\" / expected \"Back on Brand & Country shows Analysis Type with no confirmation; Back on Analysis Type shows the GEO dashboard with no confirmation\" (flag ON, same logic as the TC-004 adaptation). Description: \"Back on the first step\" instead of \"Back on Brand & Country\".",
+    "TC-GEO-1238-001 test data: \"market United Kingdom - English (EN)\" (picker label) instead of \"GB (EN)\" which is the Prompts table chip.",
+    "TC-GEO-1238-002 step 2 expected: the body sentence is the same on every step (\"including the prompts you kept\"); write \"\\\"Exit setup?\\\" opens with \\\"Exiting now discards every choice made during this session, including the prompts you kept.\\\"\" so the step is checked on text, not on a step-specific message.",
+    "Optional new TC (or note in TC-002): stepper back from Categories with a pending category change opens the short \"Exit setup?\" (stepChangesDescription); expected behaviour of its \"Exit and Discard\" to be confirmed with the PO before writing an assertion."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1238-001",
+      "title": "Back to Dashboard with choices entered opens \"Exit setup?\"",
+      "story_id": "GEO-1238",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Brand & Country and has entered a brand and a market",
+          "data": "Brand \"Decathlon\"; market GB (EN)",
+          "expected": "The entries are shown",
+          "observed": "Brand & Country shows Decathlon (decathlon.com) and United Kingdom + English (EN)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Back to Dashboard",
+          "expected": "The \"Exit setup?\" confirmation opens",
+          "observed": "\"Exit setup?\" dialog opened (role=dialog), URL still /geo/new",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the confirmation states that exiting discards every choice since there is no draft",
+          "expected": "The message names \"Decathlon\", says there is no draft and that every choice is discarded",
+          "observed": "Text: \"There is no draft: nothing is saved yet\" / \"Your analysis configuration for Decathlon is incomplete.\" / \"Exiting now discards every choice made during this session, including the prompts you kept.\" / \"To keep this work, resume the setup and create the analysis.\" (wizard.discardModal.subtitle / description / body / keepWork, exact en-GB)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the confirmation offers Resume Setup and Exit and Discard",
+          "expected": "\"Resume Setup\" and \"Exit and Discard\" are shown",
+          "observed": "Buttons \"Resume Setup\" (wizard-discard-modal-cancel-btn), \"Exit and Discard\" (wizard-discard-modal-confirm-btn) and a Close cross",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Exit and Discard",
+          "expected": "The GEO dashboard is displayed and no analysis was created",
+          "observed": "GEO Analytics Dashboard displayed (/geo), no dialog; \"7 analyses\" and pool 703 / 1000 unchanged = no analysis created; New Analysis afterwards opened an empty wizard (nothing kept)",
+          "status": "PASS"
+        }
+      ],
+      "description": "Verify that Back to Dashboard, once something was entered, opens the \"Exit setup?\" confirmation stating there is no draft and that exiting discards every choice, naming the brand, and that Exit and Discard returns to the dashboard. Covers AC-1.",
+      "notes": "Entry point: Back to Dashboard (sidebar, wizard-stepper-back-to-dashboard-btn) on Brand & Country. Same wizard as TC-004 (brand entered, Resume Setup used there), market GB added before this TC."
+    },
+    {
+      "tc_id": "TC-GEO-1238-002",
+      "title": "The exit confirmation opens on every step",
+      "story_id": "GEO-1238",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-002_step2a_categories_dialog.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step",
+          "expected": "Back to Dashboard is enabled",
+          "observed": "Categories step (Sporting Goods kept, Outdoor Gear removed); Back to Dashboard enabled (disabled=false)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Back to Dashboard",
+          "expected": "\"Exit setup?\" opens; the user clicks Resume Setup",
+          "observed": "\"Exit setup?\" opened on Categories with the same full text; Resume Setup closed it, Categories unchanged",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user goes to the Prompts step and clicks Back to Dashboard",
+          "expected": "\"Exit setup?\" opens and says the prompts kept are discarded too; the user clicks Resume Setup",
+          "observed": "Prompts step (40 selected, ring 743 / 1000): \"Exit setup?\" opened, body \"Exiting now discards every choice made during this session, including the prompts you kept.\"; Resume Setup closed it",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user goes to Review and clicks Back to Dashboard",
+          "expected": "\"Exit setup?\" opens",
+          "observed": "Review step (United Kingdom · English, Sporting Goods, 5 AI engines): \"Exit setup?\" opened with the same text; Resume Setup used",
+          "status": "PASS"
+        }
+      ],
+      "description": "Verify that Back to Dashboard opens \"Exit setup?\" on Categories, Prompts and Review, the message including the prompts kept. Covers AC-1 (any step).",
+      "notes": "Minimal scope: Decathlon, United Kingdom - English (EN), C1 = Sporting Goods (discovery returned Sporting Goods + Outdoor Gear, Outdoor Gear removed) = 40 prompts. Extra screenshot step2a = dialog on Categories."
+    },
+    {
+      "tc_id": "TC-GEO-1238-003",
+      "title": "With nothing entered Back to Dashboard leaves directly",
+      "story_id": "GEO-1238",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has just opened the wizard and entered nothing",
+          "expected": "Brand & Country is empty",
+          "observed": "Fresh wizard, Brand analysis + Continue: Brand & Country empty (no brand, no market, AI Insights language default English (EN))",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Back to Dashboard",
+          "expected": "The GEO dashboard is displayed with no confirmation",
+          "observed": "Back to Dashboard -> GEO Analytics Dashboard (/geo) at once, no dialog",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the wizard again and clicks Back on Brand & Country",
+          "expected": "The GEO dashboard is displayed with no confirmation",
+          "observed": "Flag ON: Back on Brand & Country -> Analysis Type (Brand analysis still selected, no dialog); Back on Analysis Type -> GEO Analytics Dashboard, no dialog",
+          "status": "PASS"
+        }
+      ],
+      "description": "Verify that with nothing entered, Back to Dashboard and Back on Brand & Country leave the wizard directly without confirmation. Covers AC-1 (confirmation only once something was entered).",
+      "notes": "Flag ON adaptation (same as TC-004): Back on Brand & Country returns to Analysis Type, not to the dashboard; with only the type picked, Back on Analysis Type leaves directly (story rule amended 2026-10-13). Literal CSV step 3 expected result (\"The GEO dashboard is displayed\") is reached after one more Back - see proposed CSV wording."
+    },
+    {
+      "tc_id": "TC-GEO-1238-004",
+      "title": "Back on the first step with choices entered opens \"Exit setup?\"",
+      "story_id": "GEO-1238",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Brand & Country with a brand entered",
+          "data": "Brand \"Decathlon\"",
+          "expected": "The brand is shown",
+          "observed": "Brand & Country shows Decathlon (decathlon.com)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Back in the footer",
+          "expected": "The Analysis Type step is displayed with Brand analysis still selected",
+          "observed": "Analysis Type displayed, Brand analysis still selected (input BRAND checked), no dialog",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks Back in the footer on Analysis Type",
+          "expected": "The \"Exit setup?\" confirmation opens naming \"Decathlon\"",
+          "observed": "\"Exit setup?\" opened naming Decathlon (\"Your analysis configuration for Decathlon is incomplete.\"), full text identical to Back to Dashboard",
+          "status": "PASS"
+        }
+      ],
+      "description": "Verify that Back on the first step (Analysis Type, flag ON) opens the \"Exit setup?\" confirmation once something was entered on a later step. Covers AC-1.",
+      "notes": "Resume Setup then kept the user on Analysis Type; Continue showed Decathlon still entered on Brand & Country."
+    },
+    {
+      "tc_id": "TC-GEO-1238-005",
+      "title": "Resume Setup keeps the user on the same step with every choice",
+      "story_id": "GEO-1238",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step with 39 selected and a CUSTOM prompt",
+          "expected": "The ring and \"39 selected\" are shown",
+          "observed": "Prompts step: ring 742 / 1000, \"39 selected\" (40 suggested - 2 unticked + 1 custom)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Back to Dashboard",
+          "expected": "\"Exit setup?\" opens",
+          "observed": "\"Exit setup?\" opened",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks Resume Setup",
+          "expected": "The confirmation closes",
+          "observed": "Resume Setup closed the dialog",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user stays on the same step with every choice intact",
+          "expected": "Prompts step, \"39 selected\", the 2 unticked rows and the CUSTOM prompt unchanged",
+          "observed": "Still on Prompts; \"39 selected\", ring 742 / 1000; unticked rows \"What do you think of Decathlon?\" and \"What is Decathlon known for?\" (Overview, Brand Image, GB (EN)) still unticked; CUSTOM \"Which sports retailer has the best running shoes in the UK?\" (Sporting Goods, Visibility, GB (EN)) still listed; 41 rows",
+          "status": "PASS"
+        }
+      ],
+      "description": "Verify that cancelling the exit confirmation with Resume Setup keeps the user on the same step with every choice intact. Covers AC-2.",
+      "notes": "Custom prompt added with Add prompt (draft row: category Sporting Goods, type Visibility, market GB (EN)). The draft row Type defaulted to \"Other\" before selection."
+    },
+    {
+      "tc_id": "TC-GEO-1238-006",
+      "title": "The cross and Esc also keep every choice",
+      "story_id": "GEO-1238",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-006_step1_given.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-006_step2_when.png",
+        "screenshots-GEO-1002-GEO1238/TC-GEO-1238-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step",
+          "expected": "C1 and \"Cycling\" are listed",
+          "observed": "Categories lists Sporting Goods (AI generated, C1) and Cycling (Custom)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Back to Dashboard and closes the confirmation with the cross",
+          "expected": "The user stays on Categories with C1 and \"Cycling\"",
+          "observed": "Back to Dashboard -> \"Exit setup?\"; Close cross (wizard-discard-modal-close-btn) -> still on Categories with Sporting Goods and Cycling",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks Back to Dashboard and presses Esc",
+          "data": "Esc key",
+          "expected": "The user stays on Categories with C1 and \"Cycling\"",
+          "observed": "Back to Dashboard -> \"Exit setup?\" (focus on the cross); Esc -> dialog closed, still on Categories with Sporting Goods and Cycling",
+          "status": "PASS"
+        }
+      ],
+      "description": "Verify that closing the exit confirmation with the cross or the Esc key keeps the user on the same step with every choice intact. Covers AC-2.",
+      "notes": "Cycling added via Add category (AI Sense translation \"United Kingdom · English: Cycling\"), removed again before the Prompts step so TC-002/005 kept the 40-prompt scope."
+    }
+  ]
+}

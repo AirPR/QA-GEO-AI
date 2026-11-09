@@ -1,0 +1,268 @@
+{
+  "epic": {
+    "id": "GEO-102",
+    "key": "GEO-102",
+    "title": "EPIC-004: Dashboard — Overview & Navigation",
+    "status": "In Progress",
+    "assignee": "Youssef.AitLaydi",
+    "description": "L'utilisateur consulte les KPIs agrégés, la matrice de priorisation, les Brand Rankings, Top Concepts, AI Citation Sources. Filtrage par marché et LLM. Perception Summary et Executive Summary générés à la demande.",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-102",
+    "stories": [
+      {
+        "id": "GEO-79",
+        "title": "[Story 4.1] Dashboard Layout & Sidebar Navigation",
+        "storyId": "Story 4.1",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-79",
+        "description": "Navigation via sidebar with Overview, Actions Center, Category Views, Settings. SPA, <2s load time.",
+        "frontend": {
+          "component": "Sidebar layout component",
+          "router": "React Router for view navigation",
+          "stateManagement": "Zustand filter state, persists across views"
+        }
+      },
+      {
+        "id": "GEO-78",
+        "title": "[Story 4.2] Market & LLM Filters",
+        "storyId": "Story 4.2",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-78",
+        "filters": {
+          "market": {
+            "default": "Master (All Markets)",
+            "options": "Master or specific market",
+            "aggregation": "Arithmetic mean across all category-market pairs"
+          },
+          "llm": {
+            "default": "All enabled LLMs",
+            "constraint": "Min 1 LLM must remain selected"
+          }
+        },
+        "api": "GET /api/v1/reports/{id}/overview?marketCode=en-US&llmProvider=gemini",
+        "caching": "Caffeine cache (30-min TTL)"
+      },
+      {
+        "id": "GEO-107",
+        "title": "[Story 4.3] Overview — 5 KPI Cards",
+        "storyId": "Story 4.3",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-107",
+        "kpis": [
+          {
+            "name": "Share of Voice",
+            "unit": "%",
+            "formula": "Visibility% × (2 / (AvgPosition + 1))",
+            "thresholds": {
+              "good": ">50%",
+              "fair": ">25%",
+              "poor": "≤25%"
+            }
+          },
+          {
+            "name": "Visibility",
+            "unit": "%",
+            "formula": "mentionCount / totalLLMResponseCount × 100"
+          },
+          {
+            "name": "Avg Position",
+            "unit": "rank",
+            "formula": "ceil(mean(target_rank)), unranked = 11"
+          },
+          {
+            "name": "Win Rate",
+            "unit": "%",
+            "formula": "winsCount / totalCompetitiveResponses × 100"
+          },
+          {
+            "name": "Sentiment",
+            "unit": "score",
+            "formula": "sum(score × freq) / sum(freq)",
+            "range": "-100 to +100"
+          }
+        ]
+      },
+      {
+        "id": "GEO-77",
+        "title": "[Story 4.4] Overview — Category Prioritization Matrix",
+        "storyId": "Story 4.4",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-77",
+        "matrix": {
+          "xAxis": "Share of Voice (threshold: 50%)",
+          "yAxis": "Win Rate (threshold: 50%)",
+          "quadrants": {
+            "stars": "High SOV + High Win Rate",
+            "opportunity": "Low SOV + High Win Rate",
+            "atRisk": "High SOV + Low Win Rate",
+            "monitor": "Low SOV + Low Win Rate"
+          },
+          "dataPoints": "One per category × market pair with market flag"
+        }
+      },
+      {
+        "id": "GEO-76",
+        "title": "[Story 4.5] Overview — Brand Rankings",
+        "storyId": "Story 4.5",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-76",
+        "table": {
+          "columns": [
+            "Rank",
+            "Brand (with logo)",
+            "SOV%",
+            "Visibility%",
+            "Avg Position",
+            "LLM Choice%"
+          ],
+          "sorting": "SOV desc",
+          "grouping": "By normalized brand family"
+        },
+        "logos": {
+          "source": "Brandfetch (domain-based)",
+          "fallback": "First-letter avatar"
+        }
+      },
+      {
+        "id": "GEO-75",
+        "title": "[Story 4.5b] Overview — Top Concepts",
+        "storyId": "Story 4.5b",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-75",
+        "content": {
+          "columns": [
+            "Concept name",
+            "Sentiment distribution (positive/mixed/negative)",
+            "Frequency",
+            "LLM attribution badges"
+          ],
+          "grouping": "By name (case-insensitive)",
+          "frequency": "response_ids.length / total_perception_responses"
+        }
+      },
+      {
+        "id": "GEO-74",
+        "title": "[Story 4.6] Overview — AI Citation Sources",
+        "storyId": "Story 4.6",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-74",
+        "visualization": {
+          "chart": "Stacked bar chart",
+          "categories": 11,
+          "table": {
+            "columns": [
+              "Domain name",
+              "Source type",
+              "Favorability (Favorable/Neutral/Unfavorable)",
+              "Citation count"
+            ]
+          }
+        }
+      },
+      {
+        "id": "GEO-73",
+        "title": "[Story 4.7] AI Perception Summary (On-Demand)",
+        "storyId": "Story 4.7",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-73",
+        "summary": {
+          "generation": "Via Gemini",
+          "format": "3 bullet points, 150 chars max each",
+          "caching": "Caches result for subsequent access",
+          "invalidation": "On new scheduled execution completion"
+        },
+        "scopes": [
+          "Global",
+          "Global per market",
+          "Per category",
+          "Per category × market"
+        ],
+        "api": "GET /api/v1/reports/{id}/perception-summary?scope=...&market=...&category=...&llms=...",
+        "storage": "perception_summaries table per snapshot"
+      },
+      {
+        "id": "GEO-72",
+        "title": "[Story 4.8] Executive Summary",
+        "storyId": "Story 4.8",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-72",
+        "content": {
+          "sections": [
+            "Key findings",
+            "Top anomalies",
+            "Recommended domains per improvement area"
+          ],
+          "generation": "Once per analysis run (not on-demand)"
+        }
+      },
+      {
+        "id": "GEO-71",
+        "title": "[Story 4.9] Report Deletion",
+        "storyId": "Story 4.9",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-71",
+        "deletion": {
+          "type": "Soft-delete",
+          "effects": [
+            "Report no longer visible in list",
+            "Shared links return 404"
+          ],
+          "confirmation": "Deletion dialog required"
+        }
+      },
+      {
+        "id": "GEO-120",
+        "title": "Dashboard — Overview & Navigation — Tests manuels",
+        "storyId": "Test Manual",
+        "status": "Done",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-120",
+        "useCases": [
+          {
+            "id": "UC-01",
+            "name": "Layout et navigation Sidebar",
+            "coverage": "Sidebar sections, SPA navigation, page load time"
+          },
+          {
+            "id": "UC-02",
+            "name": "Filtres Market & LLM",
+            "coverage": "Filter defaults, aggregation, constraints, persistence"
+          },
+          {
+            "id": "UC-03",
+            "name": "5 KPI Cards",
+            "coverage": "Card display, values, units, quality labels, filter impact"
+          },
+          {
+            "id": "UC-04",
+            "name": "Matrice de priorisation",
+            "coverage": "Axes, quadrants, thresholds, tooltips"
+          },
+          {
+            "id": "UC-05",
+            "name": "Brand Rankings et Top Concepts",
+            "coverage": "Table columns, sorting, logos, sentiment distribution"
+          },
+          {
+            "id": "UC-06",
+            "name": "AI Citation Sources",
+            "coverage": "Stacked chart, domain table, 11 categories"
+          },
+          {
+            "id": "UC-07",
+            "name": "Perception et Executive Summary",
+            "coverage": "Generation, caching, invalidation, structure"
+          },
+          {
+            "id": "UC-08",
+            "name": "Suppression de rapport",
+            "coverage": "Soft-delete, list visibility, link invalidation"
+          },
+          {
+            "id": "UC-09",
+            "name": "Responsive et performance",
+            "coverage": "Multiple resolutions, load time, transitions"
+          }
+        ]
+      }
+    ]
+  }
+}

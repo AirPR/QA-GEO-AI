@@ -1,0 +1,131 @@
+{
+  "spec": "NO-EPIC-GEO-1220-check-20261029",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "rerunOf": ["runs/28102026-1614"],
+  "account": "assiya.benramdane@onclusive.com, SUPER_ADMIN, organisation QA-GEO, language en-GB (GET /geo/api/v1/auth/me at start and end)",
+  "devEvidence": "GEO-1220 comment 869634 (Youssef Ait Laydi, runs of 28/10 ~21:39 UTC): Electric bikes snapshot 08141e91 COMPLETED, cyclingelectric.com stored REVIEW_SITES (7 sources), log Level 0 (override): classified=1 ... Level 3 (Gemini): 1, cyclingelectric.com not sent to Gemini; Lictorix Geo snapshot c4b2a494 COMPLETED_PARTIAL, capterra.com stored SOCIAL_UGC (24 sources) although the regex says REVIEW_SITES; domain_classifications rows unchanged after the runs (origin OVERRIDE, updated_at 16:14:14 UTC).",
+  "snapshots": {
+    "Electric bikes 42c3ab89-7dfd-4ba5-b5ec-117cec2514e4": {
+      "run": "08141e91-e4ab-4e8a-a7dc-153a759903c2 (createdAt 2026-10-28T21:38:45.864378Z, 10 success / 0 failed, report status COMPLETED, latest)",
+      "dayBefore": "1f99658a-0aa3-45a4-8be4-f80de4906ce5 (2026-10-27T22:20:42.152286Z)"
+    },
+    "Lictorix Geo f228f1fe-9363-4f3c-97e6-e7275bd383e8": {
+      "run": "c4b2a494-1e6d-4166-b3f3-e33668d3a5be (createdAt 2026-10-28T21:38:45.872420Z, 139 success / 1 failed, report status COMPLETED_PARTIAL, latest)",
+      "sameDayBeforeOverride": "bf9f5da5-c35d-4642-89b8-18ae2beb3327 (2026-10-28T15:50:42.164994Z, before the 16:14Z override)"
+    }
+  },
+  "readOnlyCheck": {
+    "cyclingelectric.com": "GET 09:46:17 GMT -> REVIEW_SITES / OVERRIDE / overriddenAt = updatedAt = 2026-10-28T16:14:14.520683Z / reason unchanged",
+    "capterra.com": "GET 09:46:18 GMT -> SOCIAL_UGC / OVERRIDE / overriddenAt = updatedAt = 2026-10-28T16:14:14.650209Z / reason unchanged (capterra.com.au GEMINI REVIEW_SITES untouched)"
+  },
+  "putReplays": [
+    {
+      "domain": "cyclingelectric.com",
+      "request": "PUT /geo/api/v1/admin/source-classifications/cyclingelectric.com",
+      "body": {"sourceType": "REVIEW_SITES", "reason": "QA GEO-1220 AC1 — keep until next Electric bikes run, cleanup 29/10", "applyToHistory": false},
+      "status": 200,
+      "dateHeader": "Thu, 29 Oct 2026 09:50:04 GMT",
+      "serverTime": "2026-10-29T09:50:04.414985Z",
+      "response": {"classification": {"domain": "cyclingelectric.com", "sourceType": "REVIEW_SITES", "origin": "OVERRIDE", "overriddenBy": "assiya.benramdane@onclusive.com", "overriddenAt": "2026-10-29T09:50:04.414985Z", "reason": "QA GEO-1220 AC1 — keep until next Electric bikes run, cleanup 29/10", "updatedAt": "2026-10-29T09:50:04.414985Z"}, "previousSourceType": "REVIEW_SITES", "historyRowsUpdated": 0}
+    },
+    {
+      "domain": "capterra.com",
+      "request": "PUT /geo/api/v1/admin/source-classifications/capterra.com",
+      "body": {"sourceType": "SOCIAL_UGC", "reason": "QA GEO-1220 AC2 — keep until next run, cleanup 29/10", "applyToHistory": false},
+      "status": 200,
+      "dateHeader": "Thu, 29 Oct 2026 09:50:04 GMT",
+      "serverTime": "2026-10-29T09:50:04.558020Z",
+      "response": {"classification": {"domain": "capterra.com", "sourceType": "SOCIAL_UGC", "origin": "OVERRIDE", "overriddenBy": "assiya.benramdane@onclusive.com", "overriddenAt": "2026-10-29T09:50:04.558020Z", "reason": "QA GEO-1220 AC2 — keep until next run, cleanup 29/10", "updatedAt": "2026-10-29T09:50:04.558020Z"}, "previousSourceType": "SOCIAL_UGC", "historyRowsUpdated": 0}
+    }
+  ],
+  "afterReplay": "GET 09:50:09 GMT: both rows identical except overriddenAt / updatedAt (09:50:04.414985Z, 09:50:04.558020Z); ?overridden=true -> 2 rows. No DELETE sent. History unchanged (Electric bikes 27 Oct JOURNALISM x3, 28 Oct REVIEW_SITES x3; Lictorix 27 Oct REVIEW_SITES x5, 28 Oct SOCIAL_UGC x5). Browser clock about 73 s behind the server (client 09:48:51Z).",
+  "overridesLeft": "cyclingelectric.com REVIEW_SITES and capterra.com SOCIAL_UGC stay on staging until the dev shares the audit lines; cleanup then (PUT restore applyToHistory=true where needed, DELETE -> 204, GET absent, DELETE again -> 404).",
+  "summary": {"total": 3, "pass": 3, "fail": 0, "skip": 0, "partial": 0, "success_rate": 100, "verdict": "GO"},
+  "recommendations": {
+    "TC-GEO-1220-005": "Stays PARTIAL. Its missing step is the AC3 row count (are the 27 updated rows all the non-deleted response_sources rows of cyclingelectric.com in every organisation?), not next-run behaviour; comment 869634 does not cover it.",
+    "TC-GEO-1220-008": "Can move to PASS (recommended). Its missing step 'Gemini can no longer change it' (same check as TC-009) is covered by 869634: during the 21:38Z run the OVERRIDE row was read at Level 0, the domain was not sent to Gemini and the row kept updated_at 16:14:14. The row type had changed from JOURNALISM (AC4b PUT) to REVIEW_SITES by later PUTs, but the protection depends on origin OVERRIDE, not on the type. DELETE stays in the cleanup, as for TC-006 / TC-018 (PASS with DELETE deferred)."
+  },
+  "sideObservations": [
+    "Lictorix XLSX of 28 Oct: AI Engines sources sheets show capterra.com Social / UGC, but the Target Sources sheet (row 10) still shows capterra.com as Review Sites. Outside the TC scope (CSV checks AI Engines Citation Sources); Target Sources are probably computed from an earlier pass. To triage, not posted.",
+    "PUT capterra.com now returns previousSourceType SOCIAL_UGC (row exists); on 28/10 the first PUT on a regex domain with no row had no previousSourceType field (F-14 / OP-10)."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1220-002",
+      "title": "An override applies to the next run of any organisation without a Gemini call",
+      "story_id": "GEO-1220",
+      "ac": "AC1",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-002_step3_get_override_unchanged_after_run.png",
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-002_step5_then_run_day_review_sites.png",
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-002_step5b_xlsx_run_day_review_sites.png"
+      ],
+      "steps": [
+        {"title": "Given the user reads the classification of the test domain", "status": "PASS", "observed": "28/10 16:05Z: cyclingelectric.com JOURNALISM / GEMINI; T0 = JOURNALISM (run 28102026-1614)"},
+        {"title": "When the user creates an override without history", "status": "PASS", "observed": "28/10 16:14:14Z: PUT REVIEW_SITES applyToHistory=false -> 200, historyRowsUpdated 0, previousSourceType JOURNALISM (run 28102026-1614)"},
+        {"title": "Then the GET shows the domain as an override", "status": "PASS", "observed": "28/10 and again 29/10 09:46Z: REVIEW_SITES, OVERRIDE, overriddenBy assiya.benramdane@onclusive.com, overriddenAt 2026-10-28T16:14:14.520683Z, reason as sent"},
+        {"title": "When the next run of analysis A completes", "status": "PASS", "observed": "Electric bikes snapshot 08141e91-e4ab-4e8a-a7dc-153a759903c2, 2026-10-28T21:38:45Z, 10 success / 0 failed, report COMPLETED (run started by the dev ~21:38Z)"},
+        {"title": "Then the source of the new run is stored as REVIEW_SITES", "status": "PASS", "observed": "UI period 28 Oct 2026 (= snapshot 08141e91 only): cyclingelectric.com | Review Sites | 3, bar Review Sites 5 URLs (20%); API citation-sources 28 Oct: REVIEW_SITES on the 3 cited URLs; XLSX 28 Oct: Overview r45 and Commuter Electric Bikes r36 'cyclingelectric.com | Review Sites | 3'"},
+        {"title": "And no Gemini call is made for the domain during the run", "status": "PASS", "observed": "Dev evidence, comment 869634: log 'Level 0 (override): classified=1 ... Level 3 (Gemini): 1', cyclingelectric.com not sent to Gemini; stored REVIEW_SITES (7 sources)"},
+        {"title": "And the user restores the history of the domain to its original type", "status": "PENDING", "observed": "Cleanup deferred until the dev shares the audit lines (user decision 29/10)"},
+        {"title": "And the user removes the override", "status": "PENDING", "observed": "Cleanup deferred (DELETE -> 204 expected)"}
+      ],
+      "notes": "Replaces IN PROGRESS of 28/10. PASS on every behaviour step; the two cleanup steps are deferred by the user (same handling as TC-006 / TC-018 on 28/10)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-003",
+      "title": "An override beats the hard-coded regex list",
+      "story_id": "GEO-1220",
+      "ac": "AC2",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-003_step3_get_override_unchanged_after_run.png",
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-003_step5_then_run_c4b2a494_social_ugc.png",
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-003_step5b_day_before_review_sites.png",
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-003_step5c_xlsx_social_ugc.png"
+      ],
+      "steps": [
+        {"title": "Given trustpilot.com is classified by the regex list", "status": "PASS", "observed": "capterra.com (user-approved replacement of trustpilot.com), Lictorix Geo f228f1fe: Review Sites | 5 before the override (28/10); still Review Sites on 27 Oct and on snapshot bf9f5da5 (28/10 15:50Z)"},
+        {"title": "And the GET holds no override for trustpilot.com", "status": "PASS", "observed": "28/10 before the PUT: no capterra.com row, ?overridden=true empty (run 28102026-1614)"},
+        {"title": "When the user overrides trustpilot.com to SOCIAL_UGC", "status": "PASS", "observed": "28/10 16:14:14Z: PUT capterra.com SOCIAL_UGC applyToHistory=false -> 200, historyRowsUpdated 0 (run 28102026-1614)"},
+        {"title": "And the next run of analysis B completes", "status": "PASS", "observed": "Lictorix Geo snapshot c4b2a494-1e6d-4166-b3f3-e33668d3a5be, 2026-10-28T21:38:45Z, 139 success / 1 failed, report COMPLETED_PARTIAL (one LLM response failed; the run finished and its sources are stored)"},
+        {"title": "Then the next run stores SOCIAL_UGC for trustpilot.com", "status": "PASS", "observed": "UI period 28 Oct 2026 (latest snapshot c4b2a494): capterra.com | Social / UGC | 5; API 28 Oct: SOCIAL_UGC on the 5 URLs, 28 Oct 00:00-16:00Z (snapshot bf9f5da5) still REVIEW_SITES; XLSX 28 Oct Overview r76 'capterra.com | Social / UGC | 5'. Dev 869634: stored SOCIAL_UGC (24 sources) although the regex says REVIEW_SITES"},
+        {"title": "And the user restores REVIEW_SITES on the history", "status": "PENDING", "observed": "Cleanup deferred until the dev shares the audit lines"},
+        {"title": "And the user removes the override", "status": "PENDING", "observed": "Cleanup deferred (DELETE -> 204 expected)"}
+      ],
+      "notes": "Replaces IN PROGRESS of 28/10. Run status COMPLETED_PARTIAL noted (1/140 responses failed), not linked to the classification. Side observation: XLSX Target Sources sheet still shows capterra.com as Review Sites (outside TC scope, to triage)."
+    },
+    {
+      "tc_id": "TC-GEO-1220-007",
+      "title": "applyToHistory false leaves the history untouched and only future runs use the new type",
+      "story_id": "GEO-1220",
+      "ac": "AC4",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-007_step5_then_run_day_review_sites.png",
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-007_step6_then_day_before_journalism.png",
+        "screenshots-NO-EPIC-GEO-1220-check-20261029/TC-GEO-1220-007_step6b_xlsx_day_before_journalism.png"
+      ],
+      "steps": [
+        {"title": "Given the Citation Sources of analysis A show the test domain with its original type", "status": "PASS", "observed": "28/10: cyclingelectric.com Journalism | 3 (run 28102026-1614)"},
+        {"title": "When the user creates an override without history", "status": "PASS", "observed": "28/10: PUT REVIEW_SITES false -> 200, historyRowsUpdated 0, previousSourceType JOURNALISM (run 28102026-1614)"},
+        {"title": "Then no past row is changed", "status": "PASS", "observed": "28/10: still Journalism | 3 (run 28102026-1614)"},
+        {"title": "And the XLSX export of the past period keeps the original type", "status": "PASS", "observed": "28/10: XLSX cyclingelectric.com | Journalism | 3 (run 28102026-1614)"},
+        {"title": "When the next run of analysis A completes", "status": "PASS", "observed": "Snapshot 08141e91-e4ab-4e8a-a7dc-153a759903c2, 2026-10-28T21:38:45Z, COMPLETED"},
+        {"title": "Then only the new run uses the new type", "status": "PASS", "observed": "Run day 28 Oct: Review Sites | 3 (UI, API, XLSX). Days before: API per day 20, 21, 22, 23, 26, 27 Oct = JOURNALISM (24-25 Oct not cited); UI 27 Oct: cyclingelectric.com | Journalism | 3, bar Journalism 21 URLs (61.8%) / Review Sites 5 (= 28/10 baseline); XLSX 27 Oct Overview r44 'cyclingelectric.com | Journalism | 3'"},
+        {"title": "And the user restores the history of the domain to its original type", "status": "PENDING", "observed": "Cleanup deferred"},
+        {"title": "And the user removes the override", "status": "PENDING", "observed": "Cleanup deferred"}
+      ],
+      "notes": "Replaces IN PROGRESS of 28/10. Note: wide periods (Last 7 / 30 days) now show Review Sites because the citation sources view uses the latest snapshot of the period; the day-by-day check is the one the CSV asks for."
+    }
+  ]
+}

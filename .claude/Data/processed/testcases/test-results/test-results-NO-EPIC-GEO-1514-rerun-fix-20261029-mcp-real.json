@@ -1,0 +1,173 @@
+{
+  "spec": "NO-EPIC-GEO-1514-rerun-fix-mcp",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "mode": "structured (retest of F-01 / F-02 after Ready for QA 28/10 12:33 EDT)",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "build": "index-Bz4-PVcj.js (Last-Modified Wed, 28 Oct 2026 16:19:10 GMT, ETag W/\"6ae2207e-231cf1\")",
+  "account": "GEO_USER_EMAIL (SUPER_ADMIN), org QA-GEO; en-GB at start (28/10) -> fr-FR -> es-ES -> en-GB restored 29/10 09:23 UTC, verified with GET /geo/api/v1/auth/me",
+  "summary": {
+    "total": 3,
+    "pass": 1,
+    "fail": 1,
+    "skip": 0,
+    "partial": 1
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1514-006",
+      "title": "Manage Scope prompts subtitle and stop warnings say country in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_en_categoryTopics.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_fr_visibility.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_fr_perception.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_fr_competitive.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_fr_brandImage.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_fr_categoryTopics.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_es_visibility.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_es_perception.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_es_competitive.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_es_brandImage.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-006_es_categoryTopics.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis R in en-GB",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and reopens Manage Scope > Prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user unticks the last Visibility prompt of category C1 in France",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user unticks the last Brand Image prompt in France",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and reopens Manage Scope > Prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replays the last Visibility prompt of category C1",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last Brand Image prompt warning says country",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "F-01 FIXED. Existing analyses, every dialog cancelled: bike d3fd1b30 (Delete prompt on the only MB/FR Competitive prompt; Untick 3 prompts of MB/FR Category Topics in the 'Selected only' view) and Toyota 439acd96 (Untick 10 prompts of Voitures hybrides/FR Visibility and Reputation, VUS/FR Competitive, Overview/FR Brand Image). en-GB: \"This is the last Competitive prompt of Mountain Bikes in France (FR). For this category and country, AI Choice, competitive losses and the Competitive part of Share of Voice stop updating.\" / \"This is the last Visibility prompt of Voitures hybrides in France (FR). For this category and country, Visibility %, Average Position and Brand Rankings stop updating, and Share of Voice counts Competitive answers only.\" / \"This is the last Reputation prompt of Voitures hybrides in France (FR). For this category and country, Sentiment, Top Concepts and the AI Perception Summary stop updating.\" / \"This is the last Brand Image prompt in France (FR). For this country, Corporate Reputation and Brand Territory stop updating.\" / \"This is the last Category Topics prompt of Mountain Bikes in France (FR). For this category and country, InBrief and Top Topics will no longer be produced.\" fr-FR: \"Pour cette catégorie et ce pays, ...\" (Visibilité, Réputation, Concurrentiel, Thèmes de catégorie) and \"Pour ce pays, Réputation d'entreprise et Territoire de marque ne sont plus mis à jour.\" es-ES: \"Para esta categoría y este país, ...\" (x4) and \"Para este país, Reputación corporativa y Territorio de marca dejan de actualizarse.\" Bundle: the 4 locale blocks of views.manageScope.prompts.stopWarning now carry groupMetrics.{visibility, competitive, perception, brandImage, categoryTopics} with country / pays / país; 0 occurrence of 'For this category and market', 'For this market', 'ce marché', 'este mercado'. Remaining 'market' only in the key name groupInMarket and the {{market}} variable (excluded). INCIDENT: on bike, the header checkbox of a filtered list that contained unticked suggestions TICKED 7 MB/FR Category Topics prompts (autosave, kept 44 -> 51, pool 1040 -> 1047). Restored at once with the endpoint the UI calls (PATCH /reports/d3fd1b30.../prompts/kept, isKept=false on the 7 ids); kept set checked identical to before (same 44 ids), pool 1040/1100. Bike Version history may show 2 entries on 28/10 around 16:45 UTC."
+    },
+    {
+      "tc_id": "TC-GEO-1514-008",
+      "title": "PPTX export cover and slides say countries in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Then the cover says countries - expected: Cover label \"COUNTRIES\" with the value \"All Countries\" (FR \"PAYS\" / \"Tous les pays\", ES \"PAÍSES\" / \"Todos los países\"). Observed with \"Country filter — All countries\": en-GB \"COUNTRIES\" + \"United States\", \"France\", \"Spain\"; fr-FR \"PAYS\" + \"United States\", \"France\", \"Spain\"; es-ES \"PAÍSES\" + \"United States\", \"France\", \"Spain\". Same as on 28/10.",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-008_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-008_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on analysis A in en-GB with all countries",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as a presentation",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the cover says countries",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the slides say country",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and exports the presentation again",
+          "status": "FAIL"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and exports the presentation again",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "F-02 STILL OPEN (question asked in comment 869483, no answer yet). Extra en-GB cases: 2 countries selected (US, ES) -> 'COUNTRIES' + 'United States', 'Spain'; 1 country (US) -> 'COUNTRIES' + 'United States'. The cover always lists the selected countries; 'All Countries' never appears. Cover country names stay in English in FR / ES. The cover strings are not in the web bundle (export built server side); the web key dashboard.market.allMarkets ('All Countries' / 'Tous les pays' / 'Todos los países') is used by the filter only. Slide texts (matrix, time evolution) not re-read in this retest (PASS on 28/10). 'marché' hits in slides 2, 4, 21 are French AI-generated content (Toyota AI insights language), not labels. Filter set back to All countries."
+    },
+    {
+      "tc_id": "TC-GEO-1514-010",
+      "title": "No visible text says market in en-GB on the web app and the exports",
+      "story_id": "GEO-1514",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/GEO-1514_proof_en-GB_stopWarning_fixed.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step5_en_visibility.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step5_en_perception.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step5_en_competitive.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step5_en_brandImage.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step5_en_categoryTopics.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step5_en_addcountry.png",
+        "screenshots-NO-EPIC-GEO-1514-rerun-fix-mcp/TC-GEO-1514-010_step5_en_addcategory.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the wizard Add category modal first",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user goes through every wizard step and dialog",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the GEO dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the analysis pages",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks Manage Scope",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the upsell page and the lite result",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the exports say country only",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Quick en-GB sweep (visible text nodes + title / placeholder / aria-label / alt, case-insensitive 'market'), 0 hit: wizard Analysis Type, Brand & Country, Add country (no analysis created; Categories / Prompts / Summary / Add category modal not reached without entering a brand, 0 hit on 28/10); GEO dashboard; Toyota Overview, both category views, Action Center; Manage Scope page, Add country and Add category dialogs (cancelled), and the 5 stop-warning variants (step 5 now PASS). A single-prompt country shows the scope variant 'Russia (RU) will stop producing results.' (file TC-GEO-1514-010_step5_en_categoryTopics.png). Bundle-wide: 0 locale value in en / fr / es contains market / marché / mercado outside {{...}} variables. Step 6 (upsell, PQL account) not in this retest (PARTIAL on 28/10). Step 7: en-GB PPTX has no 'market' label (only French AI text); PDF / XLS not re-read. PARTIAL only because steps 6-7 were out of this retest scope; the F-01 part is fixed."
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "spec_name": "category-perception-citation",
+  "profile_meta": {
+    "profile": "dyson",
+    "category_name": "vacuum cleaners",
+    "snapshot": "11 mai 2026"
+  },
+  "generated": "2026-07-03T15:04:17.741Z",
+  "total": 12,
+  "passed": 7,
+  "failed": 0,
+  "skipped": 5,
+  "duration_ms": 82688,
+  "testcases": [
+    {
+      "tc_id": "GEO-66-TC001",
+      "title": "GEO-66-TC001 — Perception topics and sentiment filters are displayed",
+      "status": "passed",
+      "duration_ms": 5166,
+      "steps": [
+        "Given an authenticated Editor navigates to the category perception page",
+        "When the page finishes loading and the perception area is visible",
+        "Then \"AI Perception Summary\" heading is visible, \"Top Concepts Associated with Your Brand\" heading is visible, and sentiment filter buttons (All, Positive, Mixed, Negative) are displayed"
+      ],
+      "screenshots": [
+        "screenshots-category-perception-citation/GEO-66-TC001_step1_given.png",
+        "screenshots-category-perception-citation/GEO-66-TC001_step2_when.png",
+        "screenshots-category-perception-citation/GEO-66-TC001_step3_then.png"
+      ],
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"tab\"]:has-text(\"Identity\")').first()\u001b[22m\n\n\n  68 |     ?? await identityTab.evaluate(el => el.getAttribute('data-state') === 'active' || el.getAttribute('aria-selected') === 'true').catch(() => false);\n  69 |   if (!isIdentitySelected) {\n> 70 |     await identityTab.click();\n     |                       ^\n  71 |     await page.waitForTimeout(500);\n  72 |   }\n  73 |   await page.evaluate(() => window.scrollTo(0, 400));\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:70:23)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:108:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:107:3"
+    },
+    {
+      "tc_id": "GEO-66-TC002",
+      "title": "GEO-66-TC002 — AI Citation Sources section is visible with stacked legend bar and domain table",
+      "status": "passed",
+      "duration_ms": 4672,
+      "steps": [
+        "Given the Editor is on the category page",
+        "When the Editor scrolls to the AI Citation Sources section",
+        "Then \"AI Citation Sources\" heading is visible, the stacked legend bar is displayed, and the domain table has at least one row with a favorability badge"
+      ],
+      "screenshots": [
+        "screenshots-category-perception-citation/GEO-66-TC002_step1_given.png",
+        "screenshots-category-perception-citation/GEO-66-TC002_step2_when.png",
+        "screenshots-category-perception-citation/GEO-66-TC002_step3_then.png"
+      ],
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"tab\"]:has-text(\"Identity\")').first()\u001b[22m\n\n\n  68 |     ?? await identityTab.evaluate(el => el.getAttribute('data-state') === 'active' || el.getAttribute('aria-selected') === 'true').catch(() => false);\n  69 |   if (!isIdentitySelected) {\n> 70 |     await identityTab.click();\n     |                       ^\n  71 |     await page.waitForTimeout(500);\n  72 |   }\n  73 |   await page.evaluate(() => window.scrollTo(0, 400));\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:70:23)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:137:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:136:3"
+    },
+    {
+      "tc_id": "GEO-66-TC003",
+      "title": "GEO-66-TC003 — Domain row click opens AI Citation Source Details drawer",
+      "status": "passed",
+      "duration_ms": 7685,
+      "steps": [
+        "Given the AI Citation Sources table contains at least one domain row",
+        "When the Editor clicks a domain row",
+        "Then a right-side drawer titled \"AI Citation Source Details\" opens with Citation Signals (Missed Visibility, Lost to Competitors, Sentiment Issues, Citations by AI Model) and a Cited URLs list"
+      ],
+      "screenshots": [
+        "screenshots-category-perception-citation/GEO-66-TC003_step1_given.png",
+        "screenshots-category-perception-citation/GEO-66-TC003_step2_when.png",
+        "screenshots-category-perception-citation/GEO-66-TC003_step3_then.png"
+      ],
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"tab\"]:has-text(\"Identity\")').first()\u001b[22m\n\n\n  68 |     ?? await identityTab.evaluate(el => el.getAttribute('data-state') === 'active' || el.getAttribute('aria-selected') === 'true').catch(() => false);\n  69 |   if (!isIdentitySelected) {\n> 70 |     await identityTab.click();\n     |                       ^\n  71 |     await page.waitForTimeout(500);\n  72 |   }\n  73 |   await page.evaluate(() => window.scrollTo(0, 400));\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:70:23)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:167:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:166:3"
+    },
+    {
+      "tc_id": "GEO-66-TC004",
+      "title": "GEO-66-TC004 — Citation Signals shows four diagnostic cards with AI model breakdown",
+      "status": "passed",
+      "duration_ms": 7393,
+      "steps": [
+        "Given the AI Citation Source Details drawer is open",
+        "When the drawer renders the Citation Signals and Citations by AI Model sections",
+        "Then four diagnostic cards (Missed Visibility, Lost to Competitors, Sentiment Issues, Citations by AI Model) are visible and each AI model row (Gemini, Claude, Perplexity) shows its citation count"
+      ],
+      "screenshots": [
+        "screenshots-category-perception-citation/GEO-66-TC004_step1_given.png",
+        "screenshots-category-perception-citation/GEO-66-TC004_step2_when.png",
+        "screenshots-category-perception-citation/GEO-66-TC004_step3_then.png"
+      ],
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"tab\"]:has-text(\"Identity\")').first()\u001b[22m\n\n\n  68 |     ?? await identityTab.evaluate(el => el.getAttribute('data-state') === 'active' || el.getAttribute('aria-selected') === 'true').catch(() => false);\n  69 |   if (!isIdentitySelected) {\n> 70 |     await identityTab.click();\n     |                       ^\n  71 |     await page.waitForTimeout(500);\n  72 |   }\n  73 |   await page.evaluate(() => window.scrollTo(0, 400));\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:70:23)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:193:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:192:3"
+    },
+    {
+      "tc_id": "GEO-66-TC005",
+      "title": "GEO-66-TC005 — Cited URLs list shows URL references in the detail drawer",
+      "status": "passed",
+      "duration_ms": 7676,
+      "steps": [
+        "Given the AI Citation Source Details drawer is open",
+        "When the Editor scrolls to the Cited URLs section in the drawer",
+        "Then the Cited URLs section is visible and contains at least one URL item with title and AI model icons"
+      ],
+      "screenshots": [
+        "screenshots-category-perception-citation/GEO-66-TC005_step1_given.png",
+        "screenshots-category-perception-citation/GEO-66-TC005_step2_when.png",
+        "screenshots-category-perception-citation/GEO-66-TC005_step3_then.png"
+      ],
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"tab\"]:has-text(\"Identity\")').first()\u001b[22m\n\n\n  68 |     ?? await identityTab.evaluate(el => el.getAttribute('data-state') === 'active' || el.getAttribute('aria-selected') === 'true').catch(() => false);\n  69 |   if (!isIdentitySelected) {\n> 70 |     await identityTab.click();\n     |                       ^\n  71 |     await page.waitForTimeout(500);\n  72 |   }\n  73 |   await page.evaluate(() => window.scrollTo(0, 400));\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:70:23)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:220:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:219:3"
+    },
+    {
+      "tc_id": "GEO-66-TC006",
+      "title": "GEO-66-TC006 — Legend segment selection filters the domain table",
+      "status": "passed",
+      "duration_ms": 5254,
+      "steps": [
+        "Given the AI Citation Sources section with its stacked legend bar is visible",
+        "When the Editor clicks a source type segment in the legend bar",
+        "Then the domain table shows only rows matching the selected source type and the table is non-empty"
+      ],
+      "screenshots": [
+        "screenshots-category-perception-citation/GEO-66-TC006_step1_given.png",
+        "screenshots-category-perception-citation/GEO-66-TC006_step2_when.png",
+        "screenshots-category-perception-citation/GEO-66-TC006_step3_then.png"
+      ],
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"tab\"]:has-text(\"Identity\")').first()\u001b[22m\n\n\n  68 |     ?? await identityTab.evaluate(el => el.getAttribute('data-state') === 'active' || el.getAttribute('aria-selected') === 'true').catch(() => false);\n  69 |   if (!isIdentitySelected) {\n> 70 |     await identityTab.click();\n     |                       ^\n  71 |     await page.waitForTimeout(500);\n  72 |   }\n  73 |   await page.evaluate(() => window.scrollTo(0, 400));\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:70:23)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:246:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:245:3"
+    },
+    {
+      "tc_id": "GEO-66-TC007",
+      "title": "GEO-66-TC007 — [SKIP] All domains modal opens with search",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "screenshots": [],
+      "error": "SKIPPED — \"All domains\" button presence on the category page not confirmed. Pattern already validated in GEO-74-TC006 on the overview dashboard. Re-enable once DOM inspection confirms the button on this page."
+    },
+    {
+      "tc_id": "GEO-66-TC008",
+      "title": "GEO-66-TC008 — [SKIP] Market filter recalculates perception topics and citation sources",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "screenshots": [],
+      "error": "SKIPPED — Market filter availability on category page not confirmed. Re-enable with dedicated before/after comparison or sandboxed test report."
+    },
+    {
+      "tc_id": "GEO-66-TC009",
+      "title": "GEO-66-TC009 — [SKIP] LLM filter recalculates both components",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "screenshots": [],
+      "error": "SKIPPED — Requires deselecting an LLM and comparing before/after state on both Perception Topics and Citation Sources. Re-enable with a dedicated recalculation test helper."
+    },
+    {
+      "tc_id": "GEO-66-TC010",
+      "title": "GEO-66-TC010 — [SKIP] Empty state messages are displayed",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "screenshots": [],
+      "error": "SKIPPED — Requires a category with zero perception responses and zero citation sources. Cannot be reproduced on current staging report. Re-enable with a dedicated empty-state test category or seeded dataset."
+    },
+    {
+      "tc_id": "GEO-66-TC011",
+      "title": "GEO-66-TC011 — [SKIP] Error state displayed with retry option",
+      "status": "skipped",
+      "duration_ms": 0,
+      "steps": [],
+      "screenshots": [],
+      "error": "SKIPPED — Requires simulating an API failure for the perception topics or citation sources endpoint. Cannot be triggered reliably without network interception. Re-enable with a mock-server or network interception approach."
+    },
+    {
+      "tc_id": "GEO-66-TC012",
+      "title": "GEO-66-TC012 — Sources classification: every domain in the AI Citation Sources table matches its expected source type from the oracle (GEO-393 regression)",
+      "status": "passed",
+      "duration_ms": 4652,
+      "steps": [
+        "Given: navigate to the category page and scroll to AI Citation Sources",
+        "When: the AI Citation Sources table is rendered with all rows (no source-type filter applied)",
+        "Then: every domain present in BOTH the table and the oracle has actualType === expectedType (oracle: sources-classification-oracle.json)"
+      ],
+      "screenshots": [],
+      "error": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"tab\"]:has-text(\"Identity\")').first()\u001b[22m\n\n\n  68 |     ?? await identityTab.evaluate(el => el.getAttribute('data-state') === 'active' || el.getAttribute('aria-selected') === 'true').catch(() => false);\n  69 |   if (!isIdentitySelected) {\n> 70 |     await identityTab.click();\n     |                       ^\n  71 |     await page.waitForTimeout(500);\n  72 |   }\n  73 |   await page.evaluate(() => window.scrollTo(0, 400));\n    at gotoCategory (C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:70:23)\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:292:5\n    at C:\\Users\\DIGIMIND\\workflow-new\\QA-Workflow1\\.claude\\Data\\raw\\playwright\\category-perception-citation.spec.js:291:3"
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "spec": "GEO-1209-prod-smoke-p2-mcp",
+  "runDate": "2026-10-29",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://geo.onclusive.com/geo/",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1209.csv",
+  "context": "PROD smoke phase 2 (controlled creation, approved). Org QA-GEO, SUPER_ADMIN, en-GB, unbranded flag ON. Quota before: 259/24400 (3 analyses). Analysis A \"Licter\" 62be61d8-444b-4d7f-9366-092e75211be5 created 2026-10-29T11:35:06Z -> 264/24400. Analysis B \"Postal services\" 49e2640d-b614-4f0e-a3b3-0ed8ee41a3e2 created 2026-10-29T11:36:48Z -> 269/24400.",
+  "summary": {
+    "total": 3,
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "partial": 0
+  },
+  "results": [
+    {
+      "duration": 0,
+      "tc_id": "TC-GEO-1242-001",
+      "title": "A created unbranded analysis keeps its mode and topic with no target brand and is named after the topic",
+      "story_id": "GEO-1242",
+      "status": "PASS",
+      "error": null,
+      "notes": "PROD, full run including the approved creation of B 49e2640d-b614-4f0e-a3b3-0ed8ee41a3e2. Scope: topic \"Postal services\", United Kingdom - English (EN) + France - French (FR), discovered categories Package Delivery (FR Livraison de colis) and Mail Services (FR Services de courrier) kept; 5 prompts kept (Package Delivery/Visibility/GB, Mail Services/Category Topics/GB, Package Delivery/Competitive/FR, Mail Services/Visibility/FR + 1 custom prompt \"Which postal service is the most reliable for sending letters abroad?\" added inline, category and type left as Other, GB). Wizard ring before creation 269 / 24400. Confirmation dialog: \"Analysis created / Postal services is scheduled. / 5 prompts across 2 countries and 2 categories run on ChatGPT and Gemini. / 116 suggested prompts you did not keep stay on the analysis...\" with View analysis and Go to Dashboard. Quota after 269 / 24400. GET /reports/{B}: analysisMode UNBRANDED, entityName \"Postal services\", no entityDomain / entityLogoUrl, entityDomainConfirmed false; brand-rankings and sov-distribution: isTargetBrand true count = 0.",
+      "steps": [
+        {
+          "title": "Given the user is on Summary of the unbranded scope",
+          "status": "PASS",
+          "observed": "Countries \"United Kingdom · English\", \"France · French\"; Categories \"Package Delivery\", \"Mail Services\"; \"Other prompts\" table with the custom prompt; topic not shown (PO 867869)"
+        },
+        {
+          "title": "When the user clicks Create Analysis",
+          "status": "PASS",
+          "observed": "Confirmation \"Analysis created\" with View analysis"
+        },
+        {
+          "title": "And the user opens the GEO dashboard analyses list",
+          "status": "PASS",
+          "observed": "Row \"P | Postal services\" in the \"Brand / Topic\" column"
+        },
+        {
+          "title": "And the user opens the analysis",
+          "status": "PASS",
+          "observed": "Sidebar block \"P Postal services\""
+        },
+        {
+          "title": "Then no target brand is set",
+          "status": "PASS",
+          "observed": "No brand in sidebar, Overview (no \"your brand\", no highlighted row) or Manage Scope; isTargetBrand count 0"
+        },
+        {
+          "title": "And the analysis stays unbranded",
+          "status": "PASS",
+          "testData": "Manage Scope",
+          "observed": "Manage Scope: no brand field; topic \"Postal services\" shown in the sidebar block of the Manage Scope page (no topic field in the form - same as phase 1 / staging)"
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1242-001_step1_given.png",
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1242-001_step2_when.png",
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1242-001_step3_then.png",
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1242-001_step3_list.png",
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1242-001_step4_sidebar.png"
+      ]
+    },
+    {
+      "duration": 0,
+      "tc_id": "TC-GEO-1243-001",
+      "title": "The sidebar block shows the topic first letter and the topic with no extra header",
+      "story_id": "GEO-1243",
+      "status": "PASS",
+      "error": null,
+      "notes": "PROD complement on B 49e2640d-b614-4f0e-a3b3-0ed8ee41a3e2 (UA data adapted: 5 prompts, one custom Other/Other prompt). Sidebar block = first child of its container: span \"P\" 40x40 rounded bg-indigo-500 (aria-hidden) + \"Postal services\". No \"Unbranded analysis\" text anywhere on the page (count 0), no generation date or header above the block or the Overview (the 29 Oct 2026 date picker in the toolbar is the standard filter).",
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard",
+          "status": "PASS",
+          "observed": "Postal services listed"
+        },
+        {
+          "title": "When the user opens analysis UA",
+          "status": "PASS",
+          "observed": "Analysis loads with its sidebar"
+        },
+        {
+          "title": "Then the sidebar block shows the topic first letter in the logo slot",
+          "status": "PASS",
+          "observed": "Letter avatar \"P\""
+        },
+        {
+          "title": "And the block shows the topic",
+          "status": "PASS",
+          "observed": "\"Postal services\" next to the avatar"
+        },
+        {
+          "title": "And no extra header, mode label or date is shown",
+          "status": "PASS",
+          "observed": "No \"Unbranded analysis\" label, no generation date, no header"
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1243-001_step1_given.png",
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1243-001_step2_when.png",
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1243-001_step3_then.png"
+      ]
+    },
+    {
+      "duration": 0,
+      "tc_id": "TC-GEO-1248-001",
+      "title": "The sidebar shows a last \"Other\" category when a kept prompt has no category",
+      "story_id": "GEO-1248",
+      "status": "PASS",
+      "error": null,
+      "notes": "PROD complement on B 49e2640d-b614-4f0e-a3b3-0ed8ee41a3e2: the kept custom prompt has category Other and type Other (CSV: one custom Visibility prompt with an empty category - adapted, the category is what drives this TC). Sidebar: Overview, Categories > Package Delivery, Mail Services, Other (last). Clicking Other opens /category/ca1126b7-529e-4f16-afa4-5f190b2bee3e: Prompts Analysis \"Other 1\" with the custom prompt, AI summary and topics. Country filter lists All Countries, United Kingdom, France (FR market present). Manage Scope banner \"1 prompt is in Other.\" Minor: the Other page header pill reads \"2 categories\".",
+      "steps": [
+        {
+          "title": "Given the user opens analysis UA",
+          "status": "PASS",
+          "observed": "Sidebar displayed"
+        },
+        {
+          "title": "When the sidebar lists the categories",
+          "status": "PASS",
+          "observed": "Package Delivery and Mail Services listed"
+        },
+        {
+          "title": "Then a last \"Other\" category is shown",
+          "status": "PASS",
+          "observed": "\"Other\" is the last entry after C1 and C2"
+        },
+        {
+          "title": "When the user clicks \"Other\"",
+          "status": "PASS",
+          "observed": "The Other category page opens with the custom prompt"
+        }
+      ],
+      "screenshots": [
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1248-001_step1_given.png",
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1248-001_step2_when.png",
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1248-001_step3_then.png",
+        "screenshots-GEO-1209-prod-smoke-p2-mcp/TC-GEO-1248-001_step4_countries.png"
+      ]
+    }
+  ]
+}

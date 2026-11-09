@@ -1,0 +1,267 @@
+[auth-setup] Session réutilisée (6min) → C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\processed\auth\storageState.json
+
+Running 19 tests using 4 workers
+
+  ✘   2 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:381:1 › GEO-56-TC003 - Previous button is disabled on the oldest snapshot (41.1s)
+  ✘   4 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:412:1 › GEO-56-TC004 - Next button is disabled on the most recent snapshot (41.2s)
+  ✘   3 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:342:1 › GEO-56-TC002 - Filters remain consistent across snapshots (41.3s)
+  ✘   1 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:312:1 › GEO-56-TC001 - Previous and Next controls change the selected snapshot (41.7s)
+  -   5 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:442:1 › GEO-56-TC005 - Snapshot controls are hidden when only one snapshot exists
+  ✘   9 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:556:1 › GEO-57-TC004 - Snapshot stores report and response links (41.1s)
+  ✘   8 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:524:1 › GEO-57-TC003 - Snapshot retention is preserved (44.1s)
+  ✘   7 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:496:1 › GEO-57-TC002 - Snapshot remains immutable (44.2s)
+  ✘   6 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:467:1 › GEO-57-TC001 - Snapshot is created when analysis completes (44.4s)
+  -  11 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:615:1 › GEO-55-TC002 - Tour can be advanced or skipped
+  -  12 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:645:1 › GEO-55-TC003 - Tour uses demo data and stays within step range
+  -  10 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:592:1 › GEO-55-TC001 - Guided tour starts from URL parameter
+  -  13 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:676:1 › GEO-55-TC004 - Guided tour completion is tracked
+  ✓  17 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:803:1 › GEO-235-TC004 - Settings sidebar link opens the internal Coming Soon page (7.8s)
+  ✓  16 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:772:1 › GEO-235-TC003 - Contact sidebar link opens the Contact portal (14.6s)
+  ✓  18 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:829:1 › GEO-235-TC005 - Measure sidebar item stays active when already selected (7.1s)
+  ✓  14 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:710:1 › GEO-235-TC001 - Mention sidebar link opens the Mention application (16.2s)
+  -  19 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:852:1 › GEO-235-TC006 - Missing module URL leaves the sidebar item inactive
+  ✘  15 [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:741:1 › GEO-235-TC002 - Review sidebar link opens the Review application (27.8s)
+
+
+  1) [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:312:1 › GEO-56-TC001 - Previous and Next controls change the selected snapshot 
+
+    Error: snapshot navigator must be visible for a multi-snapshot report
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-testid="snapshot-navigator"]')
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - snapshot navigator must be visible for a multi-snapshot report with timeout 30000ms[22m
+    [2m  - waiting for locator('[data-testid="snapshot-navigator"]')[22m
+
+
+      314 |   await openDashboard(page);
+      315 |   const navigator = page.locator(SEL.snapshotNavigator);
+    > 316 |   await expect(navigator, 'snapshot navigator must be visible for a multi-snapshot report').toBeVisible({ timeout: 30000 });
+          |                                                                                             ^
+      317 |   // Open dropdown to check multiple options exist
+      318 |   await page.locator(SEL.snapshotTrigger).first().click();
+      319 |   const options = page.locator(SEL.snapshotOption);
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic99.spec.js:316:93
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic99-GEO-56-T-a413d-hange-the-selected-snapshot-chromium\error-context.md
+
+  2) [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:342:1 › GEO-56-TC002 - Filters remain consistent across snapshots 
+
+    Error: snapshot navigator must be visible
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-testid="snapshot-navigator"]')
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - snapshot navigator must be visible with timeout 30000ms[22m
+    [2m  - waiting for locator('[data-testid="snapshot-navigator"]')[22m
+
+
+      344 |   await openDashboard(page);
+      345 |   const navigator = page.locator(SEL.snapshotNavigator);
+    > 346 |   await expect(navigator, 'snapshot navigator must be visible').toBeVisible({ timeout: 30000 });
+          |                                                                 ^
+      347 |   // Verify multiple snapshots exist before applying filters
+      348 |   await page.locator(SEL.snapshotTrigger).first().click();
+      349 |   const options = page.locator(SEL.snapshotOption);
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic99.spec.js:346:65
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic99-GEO-56-T-1ad64-consistent-across-snapshots-chromium\error-context.md
+
+  3) [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:381:1 › GEO-56-TC003 - Previous button is disabled on the oldest snapshot 
+
+    Error: snapshot navigator must be visible
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-testid="snapshot-navigator"]')
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - snapshot navigator must be visible with timeout 30000ms[22m
+    [2m  - waiting for locator('[data-testid="snapshot-navigator"]')[22m
+
+
+      383 |   await openDashboard(page);
+      384 |   const navigator = page.locator(SEL.snapshotNavigator);
+    > 385 |   await expect(navigator, 'snapshot navigator must be visible').toBeVisible({ timeout: 30000 });
+          |                                                                 ^
+      386 |   await openSnapshotDropdown(page);
+      387 |   const options = page.locator(SEL.snapshotOption);
+      388 |   const count = await options.count();
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic99.spec.js:385:65
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic99-GEO-56-T-ed1ef-bled-on-the-oldest-snapshot-chromium\error-context.md
+
+  4) [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:412:1 › GEO-56-TC004 - Next button is disabled on the most recent snapshot 
+
+    Error: snapshot navigator must be visible
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-testid="snapshot-navigator"]')
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - snapshot navigator must be visible with timeout 30000ms[22m
+    [2m  - waiting for locator('[data-testid="snapshot-navigator"]')[22m
+
+
+      414 |   await openDashboard(page);
+      415 |   const navigator = page.locator(SEL.snapshotNavigator);
+    > 416 |   await expect(navigator, 'snapshot navigator must be visible').toBeVisible({ timeout: 30000 });
+          |                                                                 ^
+      417 |   // Select newest = first option in dropdown
+      418 |   await openSnapshotDropdown(page);
+      419 |   const options = page.locator(SEL.snapshotOption);
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic99.spec.js:416:65
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic99-GEO-56-T-41d67-on-the-most-recent-snapshot-chromium\error-context.md
+
+  5) [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:467:1 › GEO-57-TC001 - Snapshot is created when analysis completes 
+
+    Error: snapshot navigator must be visible — confirms at least one snapshot was created after analysis completion
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-testid="snapshot-navigator"]')
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - snapshot navigator must be visible — confirms at least one snapshot was created after analysis completion with timeout 30000ms[22m
+    [2m  - waiting for locator('[data-testid="snapshot-navigator"]')[22m
+
+
+      477 |     navigator,
+      478 |     'snapshot navigator must be visible — confirms at least one snapshot was created after analysis completion',
+    > 479 |   ).toBeVisible({ timeout: 30000 });
+          |     ^
+      480 |   await screenshot(page, 'GEO-57-TC001_step1_given');
+      481 |
+      482 |   // When the results are finalized — navigate to the most recent snapshot
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic99.spec.js:479:5
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic99-GEO-57-T-c345a-ted-when-analysis-completes-chromium\error-context.md
+
+  6) [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:496:1 › GEO-57-TC002 - Snapshot remains immutable 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-testid="snapshot-navigator"]')
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 30000ms[22m
+    [2m  - waiting for locator('[data-testid="snapshot-navigator"]')[22m
+
+
+      502 |   await openDashboard(page);
+      503 |   const navigator = page.locator(SEL.snapshotNavigator);
+    > 504 |   await expect(navigator).toBeVisible({ timeout: 30000 });
+          |                           ^
+      505 |   const labelBefore = (await navigator.textContent() || '').trim();
+      506 |   await screenshot(page, 'GEO-57-TC002_step1_given');
+      507 |
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic99.spec.js:504:27
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic99-GEO-57-TC002---Snapshot-remains-immutable-chromium\error-context.md
+
+  7) [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:524:1 › GEO-57-TC003 - Snapshot retention is preserved 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-testid="snapshot-navigator"]')
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 30000ms[22m
+    [2m  - waiting for locator('[data-testid="snapshot-navigator"]')[22m
+
+
+      531 |   await openDashboard(page);
+      532 |   const navigator = page.locator(SEL.snapshotNavigator);
+    > 533 |   await expect(navigator).toBeVisible({ timeout: 30000 });
+          |                           ^
+      534 |   const prevBtn = navigator.locator('button').first();
+      535 |   const prevDisabled = await prevBtn.getAttribute('disabled') !== null || await prevBtn.getAttribute('aria-disabled') === 'true';
+      536 |   test.skip(
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic99.spec.js:533:27
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic99-GEO-57-T-1f782-shot-retention-is-preserved-chromium\error-context.md
+
+  8) [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:556:1 › GEO-57-TC004 - Snapshot stores report and response links 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('[data-testid="snapshot-navigator"]')
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 30000ms[22m
+    [2m  - waiting for locator('[data-testid="snapshot-navigator"]')[22m
+
+
+      563 |   await openDashboard(page);
+      564 |   const navigator = page.locator(SEL.snapshotNavigator);
+    > 565 |   await expect(navigator).toBeVisible({ timeout: 30000 });
+          |                           ^
+      566 |   await screenshot(page, 'GEO-57-TC004_step1_given');
+      567 |
+      568 |   // When the snapshot is created — verify LLM filter loads (proves llm_responses are linked)
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic99.spec.js:565:27
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic99-GEO-57-T-154a5-s-report-and-response-links-chromium\error-context.md
+
+  9) [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:741:1 › GEO-235-TC002 - Review sidebar link opens the Review application 
+
+    Error: expected Review URL ("https://test.reputation.onclusive.com/up") or auth-staging login redirect; got "https://test.reputation.onclusive.com/auth?accounts=false&&r=&&&returnUrl=https:/test.reputation.onclusive.com/up"
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mtrue[39m
+    Received: [31mfalse[39m
+
+      765 |     isDestination || isAuthRedirect,
+      766 |     `expected Review URL ("${VITE_REVIEW_URL}") or auth-staging login redirect; got "${finalUrl}"`,
+    > 767 |   ).toBe(true);
+          |     ^
+      768 |
+      769 |   await screenshot(page, 'GEO-235-TC002_step3_then');
+      770 | });
+        at C:\Users\DIGIMIND\workflow-new\QA-Workflow1\.claude\Data\raw\playwright\test-suite-epic99.spec.js:767:5
+
+    Error Context: .claude\Data\raw\playwright\artifacts\test-suite-epic99-GEO-235--19f0c-pens-the-Review-application-chromium\error-context.md
+
+  9 failed
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:312:1 › GEO-56-TC001 - Previous and Next controls change the selected snapshot 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:342:1 › GEO-56-TC002 - Filters remain consistent across snapshots 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:381:1 › GEO-56-TC003 - Previous button is disabled on the oldest snapshot 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:412:1 › GEO-56-TC004 - Next button is disabled on the most recent snapshot 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:467:1 › GEO-57-TC001 - Snapshot is created when analysis completes 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:496:1 › GEO-57-TC002 - Snapshot remains immutable 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:524:1 › GEO-57-TC003 - Snapshot retention is preserved 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:556:1 › GEO-57-TC004 - Snapshot stores report and response links 
+    [chromium] › .claude\Data\raw\playwright\test-suite-epic99.spec.js:741:1 › GEO-235-TC002 - Review sidebar link opens the Review application 
+  6 skipped
+  4 passed (2.2m)

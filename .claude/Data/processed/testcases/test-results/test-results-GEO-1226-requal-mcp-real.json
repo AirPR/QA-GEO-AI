@@ -1,0 +1,581 @@
+{
+  "spec": "GEO-1226-requal-mcp",
+  "runDate": "2026-11-04",
+  "runMode": "requalification",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "context": "Requalification of TCs of the rerun 04112026-1340 after user decisions of 2026-11-04 (P2 answered, CSV alignment C-6). No new execution; screenshots are those of the rerun. 2026-11-05: TC-GEO-1548-015 / 016 / 024 requalified after the PO answer 873111 (P5, P1); screenshots of the rerun 04112026-1255. 2026-11-09: 9 TCs waiting for staging data (P6) requalified on the dev unit-test evidence 873345 (7 PASS, 2 PARTIAL). TC-GEO-1549-001 requalified PASS on the GEO-1584 retest (2026-11-05). TC-GEO-1547-023 requalified PASS after the CSV data adaptation (2026-11-09).",
+  "summary": {
+    "total": 16,
+    "pass": 13,
+    "fail": 1,
+    "skip": 0,
+    "partial": 2,
+    "successRate": 81.3
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1549-013",
+      "title": "Show more on an article with more than 20 reviews",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-013_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-013_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Article with > 20 negative reviews (e.g. 25)",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the button under the first 10 reviews",
+          "status": "PASS",
+          "expected": "\"Show 15 more reviews\" (all remaining) or \"Show 10 more reviews\" (next step); QA records the text"
+        },
+        {
+          "title": "And the user clicks it",
+          "status": "PASS",
+          "expected": "all remaining reviews, or the next 10 with a new button; QA records the result"
+        }
+      ],
+      "notes": "Requalified PASS (user decision 2026-11-04: open point P2 answered, \"one click shows all the rest\" is the expected behaviour). Evidence of the rerun 04112026-1340: \"Show 20 more reviews\" under the first 10 of 30, one click shows all 30, no new button. Open point P2 - behaviour recorded. Orange \"Orange Maroc Reviews\" (www.trustpilot.com/review/www.orange.ma, 30 negative reviews > 20). Button under the first 10 reviews: \"Show 20 more reviews\" (all remaining, not \"Show 10 more reviews\"). Click: all 30 entries shown at once (pages 1, ?page=2, ?page=4), no new button. Matches Figma 1.2 \"the rest comes after the click\"; PO to confirm P2 vs the GEO-1161 step of 10."
+    },
+    {
+      "tc_id": "TC-GEO-1549-018",
+      "title": "[Figma] Page block link opens in a new tab with the external icon",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-018_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-018_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-018_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Grouped article",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads a page block header",
+          "status": "PASS",
+          "expected": "URL link followed by the open_in_new icon, underlined on hover"
+        },
+        {
+          "title": "And the user clicks the URL",
+          "status": "PASS",
+          "expected": "The page opens in a new browser tab; the GEO panel stays open in the first tab"
+        }
+      ],
+      "notes": "Requalified PASS after CSV alignment C-6 (user OK 2026-11-04, Figma 1.1 shows no underline at rest): link + open_in_new icon, underline on hover (class hover:underline). Evidence of the rerun 04112026-1340. Orange trustpilot.com, \"Orange Maroc Reviews\" page block ?page=2. Header = blue link (rgb 3,105,161, weight 500) + open_in_new icon (mask \"Open in new\"), target=_blank rel=noopener. Click: the page opens in a new browser tab (https://www.trustpilot.com/review/www.orange.ma?page=2, bot-block page from Trustpilot), the GEO panel stays open in the first tab."
+    },
+    {
+      "tc_id": "TC-GEO-1548-015",
+      "title": "PDF export shows the number of negative articles of the source (same as the card), not the quotes",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-015_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-015_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"PDF\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the export shows the number of negative articles of the source",
+          "status": "PASS"
+        },
+        {
+          "title": "And the export shows no review quote",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Requalified PASS after the PO answer P5 (GEO-1226 comment 873111, 2026-11-04: XLSX is enough for the per-article number; PDF / PPTX keep the top 10 sources and their count must be the number of articles, same as the card) and the CSV alignment of 2026-11-05. Evidence of the rerun 04112026-1255: last page, row 5 trustpilot.com 'Negative perception in 9 articles' = card / tab 'Negative perception (9)' (Orange 16cdf040, Last 30 days, ChatGPT + Gemini); no review text. Recheck when GEO-1585 is fixed (the count should drop). Export 'PDF' (7 s), page 32 rendered locally with pdf.js (text drawn as outlines, no text layer). Step 4 PASS: no review text in the PDF. P5 is open (where / with which label the per-article number is shown in XLSX / PDF / PPTX); if the PO decides that the PDF keeps the source summary only, align the TC (drop the article-count check for PDF). Recommendation: PO question P5 rather than a bug."
+    },
+    {
+      "tc_id": "TC-GEO-1548-016",
+      "title": "PPTX export shows the number of negative articles of the source (same as the card), not the quotes",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-016_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-016_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as \"Presentation .pptx\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the export shows the number of negative articles of the source",
+          "status": "PASS"
+        },
+        {
+          "title": "And the export shows no review quote",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Requalified PASS after the PO answer P5 (GEO-1226 comment 873111, 2026-11-04: XLSX is enough for the per-article number; PDF / PPTX keep the top 10 sources and their count must be the number of articles, same as the card) and the CSV alignment of 2026-11-05. Evidence of the rerun 04112026-1255: last slide, row 5 trustpilot.com 'Negative perception in 9 articles' = card / tab 'Negative perception (9)' (Orange 16cdf040, Last 30 days, ChatGPT + Gemini); no review text. Recheck when GEO-1585 is fixed (the count should drop). Export 'Presentation .pptx' (3 s); step3_then = text runs of slide32.xml extracted locally. Step 4 PASS: no review text on any slide. Same P5 remark as TC-GEO-1548-015 (PO question rather than bug)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-024",
+      "title": "Page without stored reviews inside a grouped article",
+      "story_id": "GEO-1548",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step \"And a grouped article with no stored review is not counted as negative\" - expected: \"Not listed in the Negative perception tab, not counted in the tab, on the source card or in the export\" (PO 873111). Observed (Orange 16cdf040, Last 30 days, trustpilot.com): the grouped article ie.trustpilot.com/review/www.orange.ma (grouped = true, reviewCount 0, pages = []) is listed as an empty row and counted in \"Negative perception (9)\", on the card (9) and in the XLSX (row 193, Negative reviews 0). Known bug GEO-1585.",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the page blocks of the article",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page without stored reviews shows no classic passage",
+          "status": "PASS"
+        },
+        {
+          "title": "And a grouped article with no stored review is not counted as negative",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Requalified after the PO answer P1 (GEO-1226 comment 873111, 2026-11-04) and the CSV alignment of 2026-11-05: no classic passage for the merged page = PASS; the empty grouped article still counts as negative = FAIL, bug GEO-1585. P1 open - behaviour recorded. Orange 16cdf040 trustpilot.com, Last 30 days, ChatGPT + Gemini. The grouped article for ie.trustpilot.com/review/www.orange.ma (API grouped=true, reviewCount 0, pages=[]) merges the 03/11 run page ie.trustpilot.com/review/www.orange.ma (no reviews stored) and the 04/11 page ie.trustpilot.com/review/www.orange.ma?page=2 (no reviews stored, judged NAMED_NEGATIVELY with a classic passage 'Orange is an absolutely terrible service...' - shown as such in Last 7 days). Shown in the panel: title 'https://ie.trustpilot.com/review/www.orange.ma' (B-2) + URL line ie.trustpilot.com/review/www.orange.ma as plain text (no link), NO page block, NO entry, NO classic passage, NO chip (green frame). Effect on the tabs: the article counts for the Negative perception verdict ('Negative perception (9)', card 9, XLSX row 193 'Negative reviews' 0). Same display for the grouped www.trustpilot.com/review/www.orange.fr article (title 'Read Customer Service Reviews of www.orange.fr', no link, no passage). So a page without stored reviews inside a grouped article is not shown at all (its classic passage is dropped) but still makes the article negative. To confirm with the PO (P1)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-006",
+      "title": "Grouped article whose pages never name the brand shows in Lack of visibility",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-006_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-006_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel and selects the tab \"Lack of visibility\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the review page shows as one article",
+          "status": "PASS"
+        },
+        {
+          "title": "And none of its pages names the brand on the live page",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Requalified PASS on dev evidence (user decision 2026-11-09). Dev evidence GEO-1226 comment 873345 (Abdenasser, 2026-11-05): unit tests of the PRs 49.1 / 49.2 / 49.3, CI run https://github.com/AirPR/geo-analytics/actions/runs/40885465592 (backend job 123487970441, frontend job 123487970703), same run as the technical ACs. TargetSourceDetailPanel.test.tsx (AC7: multi-page review article in Lack of visibility). No such data on staging (QA-GEO sweep). Earlier notes: Prerequisite missing: no grouped (multi-page) review page in Lack of visibility in any QA-GEO analysis (API sweep, Orange / Toyota / Decathlon, Last 7 and 30 days, all engines). The only Lack of visibility review page is Orange trustpilot.com 'Read Customer Service Reviews of www.prixtel.com | 2 of 10' (www.trustpilot.com/review/www.prixtel.com?page=2, Last 30 days): ONE cited page, grouped=false, so the grouping of several pages in Lack of visibility is not exercised (orange frame). Its title keeps the page part '| 2 of 10' (allowed: not grouped). Step 4 (search the brand on each live page) impossible anyway: Trustpilot blocks the test browser. Rerun when a competitor review page with >= 2 cited pages exists (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-019",
+      "title": "Pagination parameters page, p and pg of one review page share one article",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-019_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-019_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the page block URLs of the article",
+          "status": "PASS"
+        },
+        {
+          "title": "Then page 1 and the ?page= / ?p= / ?pg= pages of the same path are in the same article",
+          "status": "PASS"
+        },
+        {
+          "title": "And a page of another company on the same host has its own article",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Requalified PASS on dev evidence (user decision 2026-11-09). Dev evidence GEO-1226 comment 873345 (Abdenasser, 2026-11-05): unit tests of the PRs 49.1 / 49.2 / 49.3, CI run https://github.com/AirPR/geo-analytics/actions/runs/40885465592 (backend job 123487970441, frontend job 123487970703), same run as the technical ACs. ReviewPageGroupingTest.java (?p= / ?pg= URLs grouped with page 1). ?page= grouping and page order verified on staging (Orange trustpilot.com). Earlier notes: Orange 16cdf040 trustpilot.com, Last 7 days. Page blocks listed in page order: www.trustpilot.com/review/www.orange.ma (page 1, no parameter), ?page=2, ?page=4; fr.trustpilot.com/review/www.orange.ma, ?page=4 -> page 1 and the ?page= pages of the same path are in ONE article (green frames). Step 4 adapted (axa.fr not in data): a page of another company on the same host has its own article - fr.trustpilot.com/review/www.orange.fr is a separate article. PARTIAL: only ?page= exists in the data; no ?p= or ?pg= URL in any QA-GEO analysis (API search, 5 analyses, Last 30 days, all engines: one ?p= URL on businessman.ma, Journalism, positive) - ?p= / ?pg= grouping needs the dev unit-test evidence (TC description)."
+    },
+    {
+      "tc_id": "TC-GEO-1548-020",
+      "title": "Journalism URLs with ?p= stay two articles",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-020_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-020_step2_when.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-020_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Journalism source",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the two ?p= URLs are two articles",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Requalified PASS on dev evidence (user decision 2026-11-09). Dev evidence GEO-1226 comment 873345 (Abdenasser, 2026-11-05): unit tests of the PRs 49.1 / 49.2 / 49.3, CI run https://github.com/AirPR/geo-analytics/actions/runs/40885465592 (backend job 123487970441, frontend job 123487970703), same run as the technical ACs. ReviewPageGroupingTest.java (?p= / ?pg= URLs; grouping applies to Review Sites only, dev decision D2 c868944, so Journalism ?p= URLs stay two articles). No Journalism ?p= pair on staging. Earlier notes: Prerequisite missing: no Journalism source with two ?p= URLs. API search over Orange 16cdf040, Toyota 439acd96, Decathlon b6c8b664, adidas 7afde4fe, Lictorix f228f1fe (Last 30 days, 5 engines, failing + positive articles): only www.businessman.ma/?p=32505 (Orange, Journalism, positive, grouped=false, not shown in the panel). Related non-regression seen: Journalism ?page= URLs stay one article per URL (Toyota lefigaro.fr /automobile?page=130, larepubliquedespyrenees.fr, all grouped=false). Per TC description: dev evidence (unit test of the grouping function) needed."
+    },
+    {
+      "tc_id": "TC-GEO-1549-008",
+      "title": "Article with more than 10 reviews shows the first 10 then Show 7 more reviews",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-008_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-008_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Article with 17 negative reviews (pages 4, 2, 3, 2, then 6 more)",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user counts the entries shown before any click",
+          "status": "PASS",
+          "expected": "10 entries"
+        },
+        {
+          "title": "Then the cut inside page 5 shows its header above its first review",
+          "status": "PASS",
+          "expected": "Page block \"…?page=5\" with \"2 negative reviews\" and 1 entry shown"
+        },
+        {
+          "title": "And the button below reads the number of remaining reviews",
+          "status": "PASS",
+          "expected": "\"Show 7 more reviews\" (reviews, not pages)"
+        }
+      ],
+      "notes": "Requalified PASS on dev evidence (user decision 2026-11-09). Dev evidence GEO-1226 comment 873345 (Abdenasser, 2026-11-05): unit tests of the PRs 49.1 / 49.2 / 49.3, CI run https://github.com/AirPR/geo-analytics/actions/runs/40885465592 (backend job 123487970441, frontend job 123487970703), same run as the technical ACs. TargetSourceDetailPanel.test.tsx TAC1 (article with 17 reviews cut at 10, \"Show 7 more reviews\"; the cut falls inside a page and shows its header). First 10 entries and the button count verified on staging with 20 reviews (Orange \"Avis de Orange Maroc\"). Earlier notes: Data adapted (no 17-review article; the capture stores 10 reviews per page): Orange 16cdf040 trustpilot.com \"Avis de Orange Maroc\" (20 reviews, pages 1 and 4). Before any click: 10 entries, all of page block 1 (header https://fr.trustpilot.com/review/www.orange.ma, \"10 negative reviews\"). Button below: \"Show 10 more reviews\" (counts reviews, not pages); \"Orange Maroc Reviews\" (30): \"Show 20 more reviews\". Step 3 not verifiable: the cut falls on a page boundary (pages of 10), so a cut inside a page (header shown above its first review) is not exercised. Rerun with an article whose pages hold fewer than 10 reviews (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-009",
+      "title": "Click on Show 7 more reviews shows all 17 reviews in page order",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-009_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-009_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS",
+          "data": "Article with 17 negative reviews collapsed at 10",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user clicks \"Show 7 more reviews\"",
+          "status": "PASS",
+          "expected": "The article expands"
+        },
+        {
+          "title": "Then 17 entries are shown",
+          "status": "PASS",
+          "expected": "17 entries; the second review of page 5 shows under the same page 5 block"
+        },
+        {
+          "title": "And the page blocks follow page order",
+          "status": "PASS",
+          "expected": "e.g. ?page=2, 3, 4, 5, 6, 7, 8, 10; the sum of block counts = 17 = chip"
+        }
+      ],
+      "notes": "Requalified PASS on dev evidence (user decision 2026-11-09). Dev evidence GEO-1226 comment 873345 (Abdenasser, 2026-11-05): unit tests of the PRs 49.1 / 49.2 / 49.3, CI run https://github.com/AirPR/geo-analytics/actions/runs/40885465592 (backend job 123487970441, frontend job 123487970703), same run as the technical ACs. TargetSourceDetailPanel.test.tsx TAC1 (17 reviews, \"Show 7 more reviews\" then all 17). Expand to all entries in page order verified on staging with 20 reviews. Earlier notes: Data adapted: Orange \"Avis de Orange Maroc\" (20, collapsed at 10). Click \"Show 10 more reviews\": the article expands, 20 entries shown, page blocks in order page 1 then ?page=4, block counts 10 + 10 = 20 = chip \"20 NEGATIVE REVIEWS\". Same on \"Orange Maroc Reviews\": 30 entries, blocks 1, 2, 4. Not verifiable: \"the second review of page 5 shows under the same page 5 block\" (no cut inside a page, see TC-008). Known: 4 reviews of ?page=4 repeat page 1 (duplicates across ?page= blocks, already recorded)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-012",
+      "title": "Article with 11 reviews shows Show 1 more review",
+      "story_id": "GEO-1549",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-012_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PARTIAL",
+          "data": "Article with 11 negative reviews",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user reads the bottom of the article",
+          "status": "PARTIAL",
+          "expected": "10 entries shown"
+        },
+        {
+          "title": "Then the button reads the singular form",
+          "status": "PARTIAL",
+          "expected": "\"Show 1 more review\""
+        },
+        {
+          "title": "When the user clicks it",
+          "status": "PARTIAL",
+          "expected": "11 entries shown, no button left"
+        }
+      ],
+      "notes": "Requalified PARTIAL on dev evidence (user decision 2026-11-09). Dev evidence GEO-1226 comment 873345 (Abdenasser, 2026-11-05): unit tests of the PRs 49.1 / 49.2 / 49.3, CI run https://github.com/AirPR/geo-analytics/actions/runs/40885465592 (backend job 123487970441, frontend job 123487970703), same run as the technical ACs. TargetSourceDetailServiceTest.java covers an article with exactly 11 reviews (4+2+3+2 pages) on the backend only; the singular button \"Show 1 more review\" is not named in the evidence and no 11-review article exists on staging. Stays PARTIAL. Earlier notes: Prerequisite missing: no article with exactly 11 negative reviews in QA-GEO (API sweep Orange 16cdf040 / Toyota 439acd96, Last 7 and 30 days: review counts 1, 2, 3, 4, 6, 7, 9, 10, 20, 30). The string \"Show 1 more review\" cannot be shown. Decathlon b6c8b664 not re-crawled (reviewCount 0). Rerun with data (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-015",
+      "title": "Lack of visibility review article shows its pages as links without quotes",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-015_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-015_step2_when.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS",
+          "data": "Review Sites source with a paginated competitor / category review page",
+          "expected": "The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION"
+        },
+        {
+          "title": "When the user opens the panel and selects the tab \"Lack of visibility\"",
+          "status": "PASS",
+          "expected": "Subtitle \"None of these articles mentions {brand} anywhere on the page.\""
+        },
+        {
+          "title": "Then the review page shows as one article with one link per page",
+          "status": "PASS",
+          "expected": "e.g. \"Avis Generali Vie\", links fr.trustpilot.com/review/generali.fr, …?page=2 … ?page=6"
+        },
+        {
+          "title": "And no quote is shown",
+          "status": "PASS",
+          "expected": "No entry, no passage under the article"
+        },
+        {
+          "title": "When the user clicks one page link",
+          "status": "PASS",
+          "expected": "That page opens"
+        }
+      ],
+      "notes": "Requalified PASS on dev evidence (user decision 2026-11-09). Dev evidence GEO-1226 comment 873345 (Abdenasser, 2026-11-05): unit tests of the PRs 49.1 / 49.2 / 49.3, CI run https://github.com/AirPR/geo-analytics/actions/runs/40885465592 (backend job 123487970441, frontend job 123487970703), same run as the technical ACs. TargetSourceDetailPanel.test.tsx (AC7: multi-page review article in Lack of visibility, pages as links without quotes). No such data on staging. Earlier notes: Prerequisite missing: no grouped (multi-page) review page in a Lack of visibility tab in QA-GEO (same sweep as TC-GEO-1548-006: Orange / Toyota / Decathlon, Last 7 and 30 days). Orange trustpilot.com in Last 7 days has no Lack of visibility tab (panel tabs: \"Negative perception (6)\" only). Rerun with data (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-016",
+      "title": "[Figma] Lack of visibility review article has no chip and no count",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-016_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-016_step2_when.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS",
+          "data": "Review Sites source with a paginated review page in Lack of visibility",
+          "expected": "The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION"
+        },
+        {
+          "title": "When the user opens the panel and selects the tab \"Lack of visibility\"",
+          "status": "PASS",
+          "expected": "The grouped article is listed"
+        },
+        {
+          "title": "Then the article has no \"N negative reviews\" chip",
+          "status": "PASS",
+          "expected": "No chip under the URL line"
+        },
+        {
+          "title": "And the page links have no count",
+          "status": "PASS",
+          "expected": "Each page line is the URL with the open_in_new icon only"
+        },
+        {
+          "title": "And page 1 is listed as a link and the URL line is plain text",
+          "status": "PASS",
+          "expected": "First link e.g. fr.trustpilot.com/review/generali.fr; the grey URL line under the title does not open anything"
+        }
+      ],
+      "notes": "Requalified PASS on dev evidence (user decision 2026-11-09). Dev evidence GEO-1226 comment 873345 (Abdenasser, 2026-11-05): unit tests of the PRs 49.1 / 49.2 / 49.3, CI run https://github.com/AirPR/geo-analytics/actions/runs/40885465592 (backend job 123487970441, frontend job 123487970703), same run as the technical ACs. TargetSourceDetailPanel.test.tsx (AC7: Lack of visibility review article, no chip and no count). No such data on staging. Earlier notes: Prerequisite missing: same as TC-GEO-1549-015 (no grouped review page in Lack of visibility)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-023",
+      "title": "Show more reviews and Show more articles work together in one tab",
+      "story_id": "GEO-1549",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-023_step1_given.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PARTIAL",
+          "data": "Tab with > 10 articles, one of them with > 10 reviews",
+          "expected": "The grouped articles of the source are listed with their page blocks and entries"
+        },
+        {
+          "title": "When the user clicks \"Show N more reviews\" in the article",
+          "status": "PARTIAL",
+          "expected": "Only that article expands; the list button \"Show N more articles\" keeps its number"
+        },
+        {
+          "title": "And the user clicks \"Show N more articles\"",
+          "status": "PARTIAL",
+          "expected": "The next articles show; the expanded article stays expanded"
+        },
+        {
+          "title": "Then each button counts its own items",
+          "status": "PARTIAL",
+          "expected": "Reviews for the article button, articles for the list button"
+        }
+      ],
+      "notes": "Requalified PARTIAL on dev evidence (user decision 2026-11-09). Dev evidence GEO-1226 comment 873345 (Abdenasser, 2026-11-05): unit tests of the PRs 49.1 / 49.2 / 49.3, CI run https://github.com/AirPR/geo-analytics/actions/runs/40885465592 (backend job 123487970441, frontend job 123487970703), same run as the technical ACs. TargetSourceDetailPanel.test.tsx covers \"Show N more articles\" (\"shows ten of twelve, then all twelve\") and \"Show N more reviews\" separately; both buttons together in one tab are not named in the evidence and no such tab exists on staging. Stays PARTIAL. Earlier notes: Prerequisite missing: no tab with more than 10 articles holding an article with more than 10 reviews. Only Orange trustpilot.com has articles > 10 reviews and its Negative perception tab has 6 articles (Last 7 days) / 9 (Last 30 days): no \"Show N more articles\" button. Rerun with data (P6)."
+    },
+    {
+      "tc_id": "TC-GEO-1549-001",
+      "title": "Reviews are listed by page in page order under page URL links",
+      "story_id": "GEO-1549",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step1_given.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step2_when.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step4_header.png",
+        "screenshots-GEO-1226-GEO1549-rerun-mcp/TC-GEO-1549-001_step5_newtab.png",
+        "screenshots-GEO-1226-retest-bugs/TC-GEO-1549-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS",
+          "data": "Grouped review article with >= 3 pages (e.g. MSC dc801726 fr.trustpilot.com, or CNP)",
+          "expected": "The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS",
+          "data": "Source with the badge \"Review Sites\" (e.g. trustpilot.com)",
+          "expected": "The panel header shows \"#N · trustpilot.com\" with the chip \"Review Sites\"; the tab \"Negative perception (N)\" is active with the subtitle \"Each of these articles mentions {brand} negatively.\""
+        },
+        {
+          "title": "Then the page blocks are listed in page order",
+          "status": "PASS",
+          "expected": "e.g. fr.trustpilot.com/review/cnp.fr?page=2, then ?page=3, then ?page=4 (increasing page number)"
+        },
+        {
+          "title": "And each page block starts with its page URL then its count",
+          "status": "PASS",
+          "expected": "Header \"fr.trustpilot.com/review/cnp.fr?page=2\" then \"4 negative reviews\", then its entries"
+        },
+        {
+          "title": "When the user clicks the page URL of a page block",
+          "status": "PASS",
+          "expected": "The page of that URL opens (e.g. ?page=2), not page 1 or another page"
+        }
+      ],
+      "notes": "Requalified PASS after the retest of GEO-1584 (2026-11-05, FIXED, comment 873708, Passed QA): Orange 16cdf040, Last 7 days, trustpilot.com, page block headers read trustpilot.com/review/www.orange.ma, ?page=2, ?page=4 and fr.trustpilot.com/review/www.orange.ma, ?page=4 (no https://, www. dropped as on the URL line), then the count; links open the full URL. step3_then = GEO-1584 proof. Earlier run: Data adapted (MSC / CNP not in QA-GEO): Orange 16cdf040, Last 7 days, AI Engines 2 (ChatGPT + Gemini), All Countries. Given: cards shown with tabs ALL / IMPROVE VISIBILITY / IMPROVE PERCEPTION. When: card #4 trustpilot.com, panel header \"#4 · trustpilot.com\", chips \"Review Sites\" + \"Improve perception\", tab \"Negative perception (6)\" active (aria-selected=true), subtitle \"Each of these articles mentions Orange negatively.\" Then: grouped article \"Orange Maroc Reviews\" (www.trustpilot.com/review/www.orange.ma, 30 reviews), after \"Show 20 more reviews\": page blocks in DOM order page 1 (no parameter), ?page=2, ?page=4 = increasing page number; same for \"Avis de Orange Maroc\" (page 1, ?page=4). Each block = link, then \"10 negative reviews\", then its entries. Header text keeps the scheme (FAIL, new side finding N-1). Click on the ?page=2 link: a new tab opens on https://www.trustpilot.com/review/www.orange.ma?page=2 (not page 1); Trustpilot answers its bot-block page to the test browser (content not comparable, extra shot step5_newtab)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-023",
+      "title": "GEO-1192 non-review pages fixed in GEO-1192 stay negative with one passage",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/183bdb00-e80a-4d98-8866-e3dc5645900c/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-023_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-023_step2_when.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-023_step3a_routard.png",
+        "screenshots-GEO-1226-GEO1547-rerun2-mcp/TC-GEO-1547-023_step3b_prc.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of each source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the routard.com forum page and the prc.gov press release are in Negative perception",
+          "status": "PASS"
+        },
+        {
+          "title": "And each of them shows one negative passage",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Requalified PASS after the CSV data adaptation of 2026-11-09 (user decision: the GEO-1192 prc.gov FY2023 PDF and comparador-alarmas.es securitas-direct page are no longer cited). Evidence of the rerun 09112026-1113: MSC routard.com forum in Negative perception (1) with one passage, no page block, no chip (step3a_routard); USPS prc.gov press release in Negative perception (1) with one passage, no chip (step3b_prc). The quality of the prc.gov passage (title of a related press release) is tracked in GEO-1204 (PO scope question 874966). Earlier notes: (1) MSC dc801726 routard.com (#9, Journalism): 'Negative perception (1)', article 'Croisière sur le MSC SEASHORE à eviter - Croisières - Forums Routard.com' (routard.com/forums/t/croisiere-sur-le-msc-seashore-a-eviter/340911) with ONE passage 'Première et dernière croisière avec MSC Seashore, très beau bateau, propre et bien entretenu. L'embarquement à Marseille à durée 4h00 sans…', no page block, no 'N negative reviews' chip -> OK (step3a_routard). The second cited routard thread (croisiere-msc-mediterannee-depart-le-4-mars-2023) is a positive article. (2) USPS 3e6da2fd (run 09/11): the GEO-1192 page prc.gov FY2023FinancialReport.pdf is not cited; cited-urls for prc.gov = the press release + www.prc.gov/sites/default/files/reports/2803%202804.pdf (another document, cited but not judged negative, not in the panel). The prc.gov press release (the GEO-1204 'still not negative' case) is now in 'Negative perception (1)' with one passage 'PRC Questions the Reliability of USPS Service Performance Measurement System', no chip (step3b_prc) - relevant to the GEO-1204 non-review scope question. (3) Verisure 183bdb00: comparador-alarmas.es/opiniones-alarmas/securitas-direct (GEO-1192 QA retest page, 1.15/5) is not cited; cited-urls for comparador-alarmas.es = /negocios and /mejores-alarmas, neither is a Target Source (panel API 404, absent from the 43 sources, step3_then) - generic comparison pages, not equivalent, so no adaptation. In GEO-1192 the dev listed Verisure / Securitas Direct as out of scope (former brand name); QA saw it negative on 06/10. To finish the TC: a run citing those two pages, or a CSV data update (user decision)."
+    }
+  ]
+}

@@ -1,0 +1,333 @@
+{
+  "spec_name": "e2e-brand-SOV",
+  "profile_meta": {
+    "dashboard": "Toyota (staging)",
+    "locale": "fr",
+    "dashboard_uuid": "439acd96-0b1b-4da4-9e07-612d38e9783e"
+  },
+  "generated": "2026-07-03T15:04:17.770Z",
+  "total": 13,
+  "passed": 8,
+  "failed": 0,
+  "skipped": 5,
+  "duration_ms": 166420,
+  "testcases": [
+    {
+      "tc_id": "TC-GEO-663-001",
+      "title": "TC-GEO-663-001 - Overview: KPI row shows exactly 4 cards without SOV",
+      "status": "passed",
+      "duration_ms": 23914,
+      "steps": [
+        {
+          "title": "Given a user is authenticated and navigates to the Overview dashboard",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "When the Performance KPI row renders",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "Then exactly 4 KPI cards are displayed in order: Visibility, Avg Position, AI Choice, Sentiment",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And no \"Share of Voice\" KPI card is rendered",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And no Good/Fair/Poor quality pill for Share of Voice is rendered",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "TC-GEO-663-003",
+      "title": "TC-GEO-663-003 - Overview: Brand Rankings table has no SoV% column",
+      "status": "passed",
+      "duration_ms": 34307,
+      "steps": [
+        {
+          "title": "Given a user is authenticated and navigates to the Overview dashboard",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "When the Brand Rankings table renders",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "Then the table columns are exactly: Rank, Brand, Visibility%, Avg Position, LLM Choice%",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And there is no SoV% column header and no SoV% cell in any parent or variant row",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "TC-GEO-663-005",
+      "title": "TC-GEO-663-005 - Brand Rankings default sort is Visibility% descending with correct Rank order",
+      "status": "passed",
+      "duration_ms": 17080,
+      "steps": [
+        {
+          "title": "Given a user is on the Overview or a Category view with the Brand Rankings table visible",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "When no explicit user sort is applied",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "Then the table rows are ordered by Visibility% descending",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And the Rank column reflects that order with rank 1 assigned to the brand with the highest Visibility%",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And the target brand highlight (trophy icon / \"YOU\" badge + amber row) is still rendered correctly",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "TC-GEO-663-006",
+      "title": "TC-GEO-663-006 - No SOV-related tooltips or i18n keys are visible after removal",
+      "status": "passed",
+      "duration_ms": 16170,
+      "steps": [
+        {
+          "title": "Given a user is on the Overview or a Category view after the SOV removal",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "When the KPI row and Brand Rankings table are rendered",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "Then no SOV-specific tooltip text or raw i18n key placeholder is visible in the UI",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "TC-GEO-664-001",
+      "title": "TC-GEO-664-001 - SOV dedicated card renders below KPI row on Overview",
+      "status": "passed",
+      "duration_ms": 20006,
+      "steps": [
+        {
+          "title": "Given a user is authenticated and navigates to the Overview dashboard with data available",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "When the page finishes loading",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "Then a full-width \"Share of Voice\" card is visible directly below the KPI card row",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And the card displays the title \"Share of Voice\" and the subtitle \"By brand, your brand is highlighted\"",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And a doughnut chart comparing the target brand against top competitors is rendered inside the card",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "TC-GEO-664-003",
+      "title": "TC-GEO-664-003 - Doughnut shows top 10 brands + Others slice with callouts and legend",
+      "status": "passed",
+      "duration_ms": 17973,
+      "steps": [
+        {
+          "title": "Given the SOV doughnut chart is rendered with data containing more than 10 brands",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "When the chart finishes rendering",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "Then the doughnut shows exactly the top 10 brands by SOV descending plus one \"Others\" slice aggregating all remaining share",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And each arc >= ~2% displays an outside percentage callout",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And arcs with a value below ~2% have their callout hidden but their brand still appears in the legend",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And a bottom-centered legend lists each brand with a color dot, name, and bold SOV percentage ordered by SOV desc with \"Others\" last",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "TC-GEO-664-004",
+      "title": "TC-GEO-664-004 - Target brand in top 10: arc emphasized and center label shows brand SOV",
+      "status": "passed",
+      "duration_ms": 23493,
+      "steps": [
+        {
+          "title": "Given the SOV doughnut renders and the target brand is among the top 10 brands by SOV",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "When the doughnut finishes rendering",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "Then the target brand's arc is structurally emphasized (e.g. larger radius) relative to competitor arcs",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "And the persistent center label shows the target brand's name, SOV value, and \"Share of Voice\" — even when it is not the largest slice",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "TC-GEO-664-005",
+      "title": "TC-GEO-664-005 - Target brand not in top 10: center label still shows brand SOV from KPI",
+      "status": "skipped",
+      "duration_ms": 975,
+      "steps": [
+        {
+          "title": "SKIPPED — Requires a dedicated scope where the target brand ranks below top 10",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": "Requires a dedicated scope where the target brand ranks below top 10 — not available on current Toyota staging dashboard"
+    },
+    {
+      "tc_id": "TC-GEO-664-006",
+      "title": "TC-GEO-664-006 - Empty state displayed when scope has no responses",
+      "status": "skipped",
+      "duration_ms": 908,
+      "steps": [
+        {
+          "title": "SKIPPED — Requires a scope/filter configuration returning zero responses",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": "Requires a scope/filter configuration returning zero responses — cannot be reliably reproduced without dedicated test data"
+    },
+    {
+      "tc_id": "TC-GEO-664-007",
+      "title": "TC-GEO-664-007 - Error state shows reload button that re-fetches inline",
+      "status": "skipped",
+      "duration_ms": 880,
+      "steps": [
+        {
+          "title": "SKIPPED — Requires a simulated network error",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": "Requires a simulated network error (request interception) — out of scope for this E2E suite"
+    },
+    {
+      "tc_id": "TC-GEO-664-008",
+      "title": "TC-GEO-664-008 - Loading skeleton occupies chart area while data is fetching",
+      "status": "skipped",
+      "duration_ms": 1078,
+      "steps": [
+        {
+          "title": "SKIPPED — Loading skeleton is a race condition",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": "Loading skeleton is a race condition — requires request throttling not available in standard E2E context"
+    },
+    {
+      "tc_id": "TC-GEO-664-009",
+      "title": "TC-GEO-664-009 - Filter changes recompute doughnut callouts legend and center label",
+      "status": "passed",
+      "duration_ms": 22503,
+      "steps": [
+        {
+          "title": "Given the SOV doughnut chart is rendered with a given scope (market, category, engine, period)",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "When the user updates any filter (market, category, engine, or period)",
+          "status": "passed",
+          "duration_ms": 0
+        },
+        {
+          "title": "Then the doughnut arcs, outside callouts, legend entries, and center label all recompute and refresh to reflect the new scope",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": ""
+    },
+    {
+      "tc_id": "TC-GEO-664-010",
+      "title": "TC-GEO-664-010 - Doughnut with 10 or fewer brands shows no Others slice",
+      "status": "skipped",
+      "duration_ms": 1065,
+      "steps": [
+        {
+          "title": "SKIPPED — Requires a scope with exactly 10 or fewer brands having SOV data",
+          "status": "passed",
+          "duration_ms": 0
+        }
+      ],
+      "error": "Requires a scope with exactly 10 or fewer brands having SOV data — not available on current Toyota staging dashboard"
+    }
+  ]
+}

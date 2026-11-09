@@ -1,0 +1,58 @@
+{
+  "epic": {
+    "id": "GEO-668",
+    "key": "GEO-668",
+    "title": "EPIC-27: Question Detail Status Labels",
+    "status": "Passed QA",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-06-16",
+    "updated": "2026-07-06",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-668",
+    "functionalNeed": "When a user opens a question in the questions analysis and inspects how a single AI engine answered it, the status shown for that engine must read as the true outcome for the brand. Two cases currently mislabel that outcome.\nIn a visibility question, an engine can place the brand somewhere in its ranking or leave the brand out of the ranking entirely. The per-engine status must read with the right severity across three tiers: a strong ranking is a leading result, a weak ranking is unfavorable, and not being ranked at all is the worst possible outcome and must read as such, rather than as a neutral, muted style.\nIn a competitive question, each engine makes a binary head-to-head choice: it either selects the brand or it selects a competitor. A single engine's outcome is therefore always either a win or a loss. Today, when the viewed engine did not select the brand, the detail can read \"Split\" rather than \"Lost\". \"Split\" only describes the aggregate across several engines that disagree with each other; it is never a valid description of one engine's answer. When the engine in view did not select the brand, that engine's result must read \"Lost\".\nThis EPIC corrects both labels in the per-engine question detail so the status always reflects the real outcome. The aggregate favorability rollup across engines is unchanged: a genuine disagreement across engines still reads as \"Split\".\n> ⚡ PM revirement — Quentin, 2026-06-22 (supersedes the previous binary model). Visibility per-engine status follows a 3-tier model: rank 1–3 → Favorable (green) with the rank shown · rank 4–10 → \"Unfavorable\" (yellow/amber, same color as the competitive Split banner) with the rank shown · not ranked → \"Unranked\" (red). Applies to BOTH the engine pill badge and the favorability card. The aggregate rollup across engines is unchanged.\n---",
+    "scope": [
+      "Out of scope",
+      "- The aggregate \"Split\" label and the favorability rollup logic across multiple engines",
+      "- Perception question status, which is expressed as sentiment rather than win, loss, or rank",
+      "- Any change to how rankings, win rate, or sentiment are computed",
+      "- The competitive model itself: it stays Won (green) / Lost (red), with no per-engine \"Split\"",
+      "Resolved (was open)",
+      "- The not-ranked visibility result carries an explicit \"Unranked\" caption (red), distinct from the amber \"Unfavorable\" tier — styling alone is not used. (PM decision, 2026-06-22.)"
+    ],
+    "outOfScope": [],
+    "stories": [
+      {
+        "id": "GEO-718",
+        "title": "27-3 — Aggregate \"Split\" across engines is preserved",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-19",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-718",
+        "userStory": "## Story\n\nAs a viewer scanning the questions list, I want a question to still read as **\"Split\"** when engines genuinely disagree, so that the aggregate view keeps distinguishing mixed results from clear wins or losses.",
+        "acceptanceCriteria": "**AC1** — Given a question where some engines are favorable and others are not, When the aggregate status is shown across all selected engines, Then it still reads \"Split\".\n\n**AC2** — Given the favorability rollup at the top of the questions analysis, When statuses are tallied, Then the counts of favorable, split, and unfavorable results are unchanged by this EPIC.\n\n📋 Spec complète : [27-3-aggregate-split-preserved.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-27/27-3-aggregate-split-preserved.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-717",
+        "title": "27-2 — Not-selected competitive result reads as \"Lost\"",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-19",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-717",
+        "userStory": "## Story\n\nAs a viewer inspecting a competitive question, I want an engine that did **not select my brand** to read as **\"Lost\"**, so that I am not shown an ambiguous **\"Split\"** for a single engine's binary choice.",
+        "acceptanceCriteria": "**AC1** — Given a competitive question detail, When the viewed engine did not select the brand, Then that engine's result reads \"Lost\", never \"Split\".\n\n**AC2** — Given a competitive question detail, When the viewed engine selected the brand, Then that engine's result reads \"Won\".\n\n**AC3** — Given a competitive question, When a single engine's outcome is shown, Then \"Split\" never appears for that single engine because its choice is always either a win or a loss.\n\n📋 Spec complète : [27-2-not-selected-competitive-lost.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-27/27-2-not-selected-competitive-lost.md)",
+        "technicalNotes": ""
+      },
+      {
+        "id": "GEO-716",
+        "title": "27-1 — Visibility per-engine status: 3-tier model (Favorable / Unfavorable / Unranked)",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-06-19",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-716",
+        "userStory": "## Story\n\nAs a viewer inspecting a visibility question, I want each engine's outcome for my brand to read with the right severity — **Favorable** when ranked in the top 3, **Unfavorable** (amber) when ranked 4 to 10, and **Unranked** (red) when the brand is not ranked at all — so that I instantly distinguish a leading result from a weak one and from a complete miss.",
+        "acceptanceCriteria": "**AC1** — Given a visibility question detail, When the viewed engine ranked the brand between rank 1 and 3 inclusive, Then the result is shown as \"Favorable\" in green, with the rank displayed (#1, #2 or #3).\n\n**AC2** — Given a visibility question detail, When the viewed engine ranked the brand between rank 4 and 10 inclusive, Then the result is shown as \"Unfavorable\" in yellow/amber (the same shade as the competitive \"Split\" banner), with the rank displayed.\n\n**AC3** — Given a visibility question detail, When the viewed engine did not rank the brand (not ranked), Then the result is shown as \"Unranked\" in red — a label distinct from \"Unfavorable\".\n\n**AC4** — Given a single engine's visibility result, When it is shown, Then these three states (Favorable green 1–3 / Unfavorable amber 4–10 / Unranked red not-ranked) are the only possible ones, and the green/amber/red color is consistent between the engine pill badge and the favorability card.\n\n📋 Spec complète : [27-1-not-ranked-visibility-unfavorable.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-27/27-1-not-ranked-visibility-unfavorable.md)",
+        "technicalNotes": ""
+      }
+    ]
+  }
+}

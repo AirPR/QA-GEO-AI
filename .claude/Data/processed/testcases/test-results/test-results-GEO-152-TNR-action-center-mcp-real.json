@@ -1,0 +1,1019 @@
+{
+  "spec": "GEO-152-TNR-action-center-mcp",
+  "runDate": "2026-10-06",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "environment": "staging",
+  "csv": ".claude/Data/output/csv/GEO-R1.2/testcases-tnr-GEO-152-action-center.csv",
+  "campaign": "TNR - 15 bugs fixed in v1.2 of epic GEO-152 (Action Center / Target Sources)",
+  "context": {
+    "bundle": {
+      "start": "index-BoaWyZbU.js",
+      "end": "index-BoaWyZbU.js",
+      "lastKnown": "index-BoaWyZbU.js"
+    },
+    "browser": "MCP Playwright --isolated, fresh context (empty cache, new Auth0 login), Chromium headless 1280x720",
+    "language": {
+      "start": "en-GB (/api/v1/auth/me, 2026-10-06 19:37Z)",
+      "switched": [
+        "TC-TNR-AC-003: French then Spanish, restored British English",
+        "TC-TNR-AC-005: French then Spanish, restored British English"
+      ],
+      "end": "en-GB (/api/v1/auth/me + Settings \"British English\", 2026-10-06 20:07Z)"
+    },
+    "organisations": [
+      "GEO Stress Test 2026-10 (TC-013..016)",
+      "Onclusive (TC-001)",
+      "QA-GEO (TC-002..012, 017..019)"
+    ],
+    "toyotaWindow": "Last 7 days = 30 Sep - 6 Oct 2026 (8 snapshots, data 29 Sep 17:41Z -> 6 Oct 17:41Z), AI Engines 4 (ChatGPT, Gemini, Grok, Perplexity), All Countries, 129 target sources (CSV reference: 29 Sep - 5 Oct, about 117)",
+    "stressTestReports": {
+      "Toyota": "6241d4d6-514d-4fad-94a3-b63bb58650bc",
+      "Nissan": "7bda5a97-e9a8-43cd-8f8f-71d3d6f4a115",
+      "Juventus FC": "d6f668a8-9afe-401d-a0aa-68e471a4ee00",
+      "Hermès": "7905326c-538c-4a46-a76d-4d800ded40d0"
+    },
+    "downloads": ".claude/Data/output/reports/runs/06102026-1936/downloads-GEO-152-TNR-action-center-mcp/ (enGB pdf/pptx, frFR pdf/xlsx, esES pdf/xlsx - read only)",
+    "noDataCreation": "No analysis, re-judge, provisioning or settings save other than the language switches of TC-003/TC-005. Nothing posted to Jira.",
+    "userDecisions": "TC-014 positives checked via the app API; TC-001 and TC-006 kept as written; FR/ES export labels of TC-003/TC-005 confirmed; TC-007 one row per prompt with all engine icons = final design."
+  },
+  "summary": {
+    "total": 19,
+    "pass": 15,
+    "fail": 3,
+    "skip": 0,
+    "blocked": 0,
+    "partial": 1,
+    "successRate": 81.6,
+    "verdict": "GO",
+    "formula": "(pass + 0.5*partial) / (total - skip - blocked)"
+  },
+  "knownOpenBugsSeen": {
+    "GEO-1201": "Passages cut mid-word without \"…\" (TC-002, TC-008, TC-015, TC-018) - not counted.",
+    "GEO-1204": "USPS prc.gov FY2023 report passage does not support the negative verdict (TC-015) - not counted.",
+    "GEO-1190/GEO-1203": "Not assessed (out of scope of the TCs).",
+    "GEO-1205": "Back-end only, not checked."
+  },
+  "openPoints": [
+    "TC-003: the ranked sources table of the PDF has 4 columns (# | Source | Type | Articles) in en-GB, FR and ES; the \"Articles problématiques\"/\"Citée\" and \"Artículos problemáticos\"/\"Citada\" headers no longer exist. Confirm the layout with the PO and update the CSV expected labels.",
+    "TC-007: prompts that differ only by case (\"Kia\"/\"KIA\") are shown on separate rows; confirm whether grouping must be case-insensitive (GEO-1167 reopen) or whether the duplicated questions are a prompt-set data issue.",
+    "TC-018: guideautoweb.com is in the first 10 Improve perception sources but was left out of the GEO-1202 verdict; its 2 Highlander passages carry a literal \"\\n\\n\". Exclude it explicitly in the CSV or raise a new bug for escape sequences.",
+    "TC-013/TC-014: the details panel no longer has a \"Positive articles\" tab (only Lack of visibility / Negative perception): the CSV steps that click it are outdated; positives can only be checked through the API.",
+    "TC-001: the first Improve visibility source of the Nike analysis lists 1 article; the CSV step expects 3.",
+    "TC-006: www.ouest-france.fr and programmetv.ouest-france.fr block the test client (HTTP 403 Akamai); choose another sample source or check those URLs manually.",
+    "TC-018: the CSV example passage for caranddriver.com 4Runner (\"The 2023 Toyota 4Runner isn't like most...\") is no longer the quoted sentence (the passage now quotes the page header).",
+    "Rolling window: the Toyota reference values of the CSV (29 Sep - 5 Oct, about 117 sources) now read 30 Sep - 6 Oct, 129 sources."
+  ],
+  "results": [
+    {
+      "tc_id": "TC-TNR-AC-001",
+      "title": "[GEO-1158] Lack of visibility articles really do not name the brand (Nike)",
+      "story_id": "GEO-1158",
+      "bug_key": "GEO-1158",
+      "bug_status": "Passed QA",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-001_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-001_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-001_step3_then.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-001_article1_marketbeat.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Nike analysis",
+          "expected": "The Target Sources list is displayed with ranked source cards and their badges (\"Improve visibility\" / \"Improve perception\")",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/51f6eb92-0d7a-4c77-8fa8-e46d5d610309/actions",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show N more sources\" until the full list is displayed",
+          "expected": "All Target Sources of the analysis are listed and the \"Show N more sources\" button is no longer displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user looks for myimperfectlife.com in the full list",
+          "expected": "myimperfectlife.com is not listed with an \"Improve visibility\" badge, and no panel shows the Nike review with \"None of these articles mentions Nike anywhere on the page.\" (record \"not cited\" if the source is absent)",
+          "data": "myimperfectlife.com/reviews/nike-review-our-verdict-on-the-best-workout-clothes-brand-for-women",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of the first source with an \"Improve visibility\" badge",
+          "expected": "The panel opens on the \"Lack of visibility (N)\" tab with the line \"None of these articles mentions Nike anywhere on the page.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the first 3 listed articles in new browser tabs",
+          "expected": "Each article page loads its content (no error page, no consent wall, no bot challenge)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user searches \"Nike\" in the title and the body of each opened article",
+          "expected": "For each of the 3 articles, \"Nike\" is found in neither the article title nor the article body (mentions in ads, image credits, logos or navigation do not count)",
+          "data": "Ctrl+F \"Nike\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Org Onclusive (UI switch, /auth/me org_name=Onclusive, en-GB). Nike 51f6eb92: snapshot 6 Oct 2026, AI Engines 5, United States - English; 38 target sources (1 click on \"Show N more sources\", button then gone; API totalSources=38). Step 3: myimperfectlife.com is NOT CITED (absent from the 38 target sources and from the citation-sources data) -> recorded \"not cited\", fallback sampling applies. Step 4: first \"Improve visibility\" source = #2 marketbeat.com; panel opens on \"Lack of visibility (1)\" (selected) with \"None of these articles mentions Nike anywhere on the page.\". Step 5: the panel lists only 1 article (not 3): marketbeat.com/stocks/NYSE/UAA/ \"Under Armour (UAA) Stock Price, News & Analysis\" -> HTTP 200, content loaded, no consent wall / bot challenge. Step 6: \"Nike\" found 0 times in title, body text and full HTML after scrolling. Extra sample (not required): 3 BRAND_NOT_NAMED sgieurope.com articles of #4 are paywalled teasers, 0 \"Nike\" in the visible text. Open point: the first Improve visibility source has only 1 article, the CSV assumes 3."
+    },
+    {
+      "tc_id": "TC-TNR-AC-002",
+      "title": "[GEO-1159] Target Sources passages keep the capitalisation of the page",
+      "story_id": "GEO-1159",
+      "bug_key": "GEO-1159",
+      "bug_status": "Passed QA",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-002_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-002_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "expected": "The Target Sources list is displayed with ranked source cards",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of caranddriver.com",
+          "expected": "The details panel opens with the header \"#N · caranddriver.com\"",
+          "data": "caranddriver.com (if it has no negative article in the current window, use any source with the \"Improve perception\" badge)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Negative perception (N)\" tab",
+          "expected": "The negative articles are listed with their title, their URL and a quoted passage in italics, under the line \"Each of these articles mentions Toyota negatively.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user compares each passage with the casing of normal text",
+          "expected": "Every passage keeps the capital letters of the page (sentence starts and proper nouns capitalised, \"Toyota\" written with a capital T); no passage is entirely in lower case",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the brand in each passage",
+          "expected": "The brand or product name is highlighted in each passage and keeps its original capitalisation",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the article of the first passage and searches the first words of the passage on the page",
+          "expected": "The words are found on the page with exactly the same capitalisation as in the passage",
+          "data": "Ctrl+F on the first 5 words of the passage",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96, Last 7 days = 30 Sep - 6 Oct 2026 (8 snapshots, data 29 Sep 17:41Z -> 6 Oct 17:41Z), 4 engines, 129 sources. caranddriver.com = #2, header \"#2 · caranddriver.com\"; \"Negative perception (8)\" lists 8 articles with title, URL and an italic quoted passage under \"Each of these articles mentions Toyota negatively.\". 8/8 passages keep page capitalisation (none all lower case), brand/product highlighted in each (mark \"Toyota\", \"Toyota 4Runner\", \"Toyota bZ4X\", \"Toyota Tacoma Hybrid\"). Step 6: first passage \"Honestly I’m not a Prius fan after driving the new one...\" found on the article page with exactly the same capitalisation - inside the OpenWeb reader-comments widget (shadow DOM), i.e. a reader comment, not the article body (info). Info: the 4Runner 2023 and Tacoma Hybrid passages quote the page header/navigation (\"... New! Shop For Cars Available Near You. Got it! - Research Cars - Expert Reviews -\"). Known open bug GEO-1201 visible (passages cut mid-word without \"…\", e.g. \"...the trend toward boxy, har\")."
+    },
+    {
+      "tc_id": "TC-TNR-AC-003",
+      "title": "[GEO-1160] PDF export FR and ES - Target Sources table column headers are separated",
+      "story_id": "GEO-1160",
+      "bug_key": "GEO-1160",
+      "bug_status": "Passed QA",
+      "priority": "Low",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected the last two column headers of the ranked sources table to be \"Articles problématiques\" and \"Citée\" (FR) / \"Artículos problemáticos\" and \"Citada\" (ES) (labels confirmed by the user on 2026-10-06), separated. Observed: the table now has 4 columns \"# | Source | Type | Articles\" (FR) and \"# | Fuente | Tipo | Artículos\" (ES): the last two headers are \"Type\"/\"Articles\" and \"Tipo\"/\"Artículos\". They are separate and readable (no concatenation, so GEO-1160 itself does not come back), but the expected \"Articles problématiques\"/\"Citée\" columns no longer exist (no \"Cited\" column; same 4-column layout in the en-GB PDF). Not a regression of GEO-1160: layout/label change to confirm with the PO, or CSV update.",
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-003_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-003_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-003_step3_then.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-003_extra_fr_pdf_p41.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-003_extra_es_settings.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-003_extra_engb_restored.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user switches the interface language to French and clicks \"Save changes\"",
+          "expected": "The interface is displayed in French",
+          "data": "Settings > Preferences > Interface Language = French",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the Toyota analysis",
+          "expected": "The Toyota analysis is displayed in French",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the export icon in the analysis toolbar and selects \"PDF\"",
+          "expected": "A PDF file of the analysis is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user opens the Action Center · Target Sources page of the PDF",
+          "expected": "The last two column headers of the ranked sources table are two separate, readable headers (accepted on 2026-09-28: \"Articles problématiques\" and \"Citée\"), with no \"Articles problématiquesCitée\" concatenation",
+          "data": "Last page (41 of 41 on 2026-10-06), title \"Où l'effort RP paie d'abord\"",
+          "status": "FAIL"
+        },
+        {
+          "title": "When the user switches the interface language to Spanish, saves, and exports the Toyota analysis as \"PDF\" again",
+          "expected": "A Spanish PDF file of the analysis is downloaded",
+          "data": "Settings > Preferences > Interface Language = Spanish",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user opens the Action Center · Target Sources page of the Spanish PDF",
+          "expected": "The last two column headers are two separate, readable headers (accepted on 2026-09-28: \"Artículos problemáticos\" and \"Citada\"), with no \"Artículos problemáticosSitada\" concatenation",
+          "data": "Last page, title \"Dónde rinde primero el esfuerzo de RR. PP.\"",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the user switches the interface language back to British English and clicks \"Save changes\"",
+          "expected": "The interface is displayed in British English again and the left menu shows \"Action Center\"",
+          "data": "Settings > Preferences > Interface Language = British English",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language switched ONLY for this TC: French saved (/auth/me fr-FR, toast \"Langue de l'interface mise à jour\"), analysis in French (\"Vue d'ensemble\", \"Centre d'actions\"), export menu \"EXPORTER L'ANALYSE AU FORMAT: PDF / Présentation .pptx / Feuille de calcul .xls\". FR PDF 41 pages (image-based, rendered with pdf.js): p41 \"ACTIONS · SOURCES À CIBLER - Où l’effort RP paie d’abord\". Spanish saved (es-ES), analysis in Spanish (\"Resumen general\", \"Centro de acciones\"); ES PDF p41 \"ACCIONES · FUENTES A PRIORIZAR - Dónde rinde primero el esfuerzo de RR. PP.\". British English restored right after (/auth/me en-GB, left menu \"Action Center\"). Info: the left rail \"Settings / Help / Log out\" stays in English in FR. Downloads: runs/06102026-1936/downloads-GEO-152-TNR-action-center-mcp/frFR_ and esES_Toyota_AI_Visibility_Report.pdf."
+    },
+    {
+      "tc_id": "TC-TNR-AC-004",
+      "title": "[GEO-1161] Details panel shows 10 articles then a \"Show N more articles\" button",
+      "story_id": "GEO-1161",
+      "bug_key": "GEO-1161",
+      "bug_status": "Passed QA",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-004_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-004_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "expected": "The Target Sources list is displayed with ranked source cards",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of a source with more than 10 articles in one tab",
+          "expected": "The details panel opens with the header \"#N · frandroid.com\" and a tab count above 10, e.g. \"Lack of visibility (N)\"",
+          "data": "frandroid.com (31 articles on 2026-09-30); otherwise any source whose tab count is above 10",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the articles list of that tab",
+          "expected": "Exactly 10 articles are displayed, followed by the button \"Show N more articles\" where N = tab count - 10 (e.g. \"Show 21 more articles\" for 31 articles)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks \"Show N more articles\"",
+          "expected": "All the articles of the tab are displayed (their number equals the tab count) and the button is no longer displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user scrolls to \"Prompts associated with this source\"",
+          "expected": "When the source has more prompts than the first rows shown, the list ends with a \"Show N more prompts\" button instead of the full list",
+          "status": "PASS"
+        }
+      ],
+      "notes": "frandroid.com #1, header \"#1 · frandroid.com\", \"Lack of visibility (46)\" selected; exactly 10 articles then \"Show 36 more articles\" (46 - 10 = 36); after the click 46 articles listed (= tab count) and the button is gone. Prompts section: 6 rows then \"Show 73 more prompts\". Other checks during the scan: 10 more sources with tabs above 10 (e.g. caranddriver 23 -> \"Show 13 more articles\", edmunds Negative 13 -> \"Show 3 more articles\", automobile-magazine.fr 11 -> \"Show 1 more article\" singular), all expanded to the tab count."
+    },
+    {
+      "tc_id": "TC-TNR-AC-005",
+      "title": "[GEO-1162] Excel export FR and ES - the Target Sources summary text is translated",
+      "story_id": "GEO-1162",
+      "bug_key": "GEO-1162",
+      "bug_status": "Passed QA",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-005_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-005_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-005_step3_then.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-005_extra_engb_restored.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user switches the interface language to French and clicks \"Save changes\"",
+          "expected": "The interface is displayed in French",
+          "data": "Settings > Preferences > Interface Language = French",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the Toyota analysis",
+          "expected": "The Toyota analysis is displayed in French",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the export icon and selects the spreadsheet option",
+          "expected": "An Excel file of the analysis is downloaded",
+          "data": "Spreadsheet export (.xlsx)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user opens the target sources sheet and reads the summary column",
+          "expected": "Every summary cell is in French, e.g. \"Cette source compte N articles problématiques : ...\"; no cell starts with \"This source has\"",
+          "data": "Sheet \"Sources à cibler\", column \"Résumé\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the interface language to Spanish, saves, and exports the Toyota analysis as a spreadsheet again",
+          "expected": "A Spanish Excel file of the analysis is downloaded",
+          "data": "Settings > Preferences > Interface Language = Spanish",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user opens the target sources sheet and reads the summary column",
+          "expected": "Every summary cell is in Spanish, e.g. \"Esta fuente tiene N artículos problemáticos: ...\"; no cell starts with \"This source has\"",
+          "data": "Sheet \"Fuentes a priorizar\", column \"Resumen\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user switches the interface language back to British English and clicks \"Save changes\"",
+          "expected": "The interface is displayed in British English again and the left menu shows \"Action Center\"",
+          "data": "Settings > Preferences > Interface Language = British English",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language switched ONLY for this TC: French saved (fr-FR), analysis in French, \"Feuille de calcul .xls\" -> frFR_Toyota_AI_Visibility_Report.xlsx: sheet \"Sources à cibler\", header row 6, column I \"Résumé\": 129/129 cells start with \"Cette source compte\", 0 English cell (I7 \"Cette source compte 54 articles problématiques : 46 où la marque est totalement absente et 8 où la marque est décrite négativement, et 15 articles qui traitent la marque positivement.\"). Spanish saved (es-ES), \"Hoja de cálculo .xls\" -> esES_Toyota_AI_Visibility_Report.xlsx: sheet \"Fuentes a priorizar\", column I \"Resumen\": 129/129 cells start with \"Esta fuente tiene\", 0 English. British English restored right after (/auth/me en-GB, \"Action Center\"). Files read with require('xlsx'), not modified. Info: row 1 of the sheet keeps English country names and dates \"(United States, Spain, France · ... snapshot Sep 30, 2026 – Oct 6, 2026)\"."
+    },
+    {
+      "tc_id": "TC-TNR-AC-006",
+      "title": "[GEO-1164] Unreadable or off-site pages are not listed as \"No mention of the brand\"",
+      "story_id": "GEO-1164",
+      "bug_key": "GEO-1164",
+      "bug_status": "Done",
+      "priority": "Medium",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": "Not fully verifiable: 21 of the 99 article URLs (all on www.ouest-france.fr and programmetv.ouest-france.fr) answer HTTP 403 \"Désolé - Une erreur est survenue\" (AkamaiGHost) to the test client - the ouest-france.fr home page also answers 403 from the headless browser and from curl with a desktop user agent, so the host blocks the test client; it is not evidence of an error page at capture time.",
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-006_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-006_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-006_step3_then.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-006_extra_paris_sportifs.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "expected": "The Target Sources list is displayed with ranked source cards",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of the first 3 sources with an \"Improve visibility\" badge",
+          "expected": "Each panel opens on the \"Lack of visibility (N)\" tab with the line \"None of these articles mentions Toyota anywhere on the page.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens every listed article URL of these panels in a new browser tab",
+          "expected": "Every article URL opens a page",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "Then the user checks each opened page",
+          "expected": "No listed article is an HTTP error page (404, 500, 503...), a \"server error\" or \"application error\" page, or a redirect to another site's home page or to unrelated content (e.g. an online gaming portal)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user looks for the truecar.com Toyota page among the Lack of visibility articles",
+          "expected": "The truecar.com make-toyota page is not listed as a Lack of visibility article",
+          "data": "truecar.com/best-cars-trucks/make-toyota/",
+          "status": "PASS"
+        }
+      ],
+      "notes": "First 3 \"Improve visibility\" sources: frandroid.com (46), caranddriver.com (23), ouest-france.fr (30); each panel opens on \"Lack of visibility (N)\" with \"None of these articles mentions Toyota anywhere on the page.\". 99 URLs opened: frandroid 46/46 HTTP 200 and caranddriver 23/23 HTTP 200 with real content (no error page, no off-site redirect, no gaming content); ouest-france 9/30 HTTP 200, 21/30 blocked (403 Akamai, see error). 2 ouest-france URLs are betting comparator pages (paris-sportifs.ouest-france.fr/meilleurs-sites-de-paris-sportifs/ and .../bonus/paris-gratuits/): no redirect (final URL = cited URL), it is the real content of the cited page, not the GEO-1164 case (info for the PO: unrelated content cited for Toyota prompts). Step 5: truecar.com is #111 and lists only truecar.com/compare/ - the make-toyota page is not listed."
+    },
+    {
+      "tc_id": "TC-TNR-AC-007",
+      "title": "[GEO-1167] Each prompt appears once in \"Prompts associated with this source\"",
+      "story_id": "GEO-1167",
+      "bug_key": "GEO-1167",
+      "bug_status": "Passed QA",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected each prompt text on one row only, even ignoring case. Observed on caranddriver.com (All, fully expanded after \"Show 280 more prompts\"): 286 rows, 0 exact duplicates but 14 prompts appear on 2 rows that differ only by \"Kia\"/\"KIA\", e.g. \"Best for hybrid cars: Toyota, Honda, Hyundai or Kia?\" [Gemini] / \"...or KIA?\" [Gemini]; \"Recommended for hybrid cars: Toyota, Honda, Hyundai or Kia?\" [ChatGPT, Gemini] / \"...or KIA?\" [ChatGPT, Gemini]; \"Toyota vs Honda vs Hyundai vs Kia for hybrid cars?\" [ChatGPT] / \"...KIA...\" [ChatGPT]; \"¿Comparar Toyota, Hyundai, Kia y Seat para SUVs?\" [ChatGPT] / \"...KIA...\" [Perplexity]. ChatGPT tab: 157 rows = tab count, all with the ChatGPT icon, but 2 case-only duplicate pairs. The panel data (failingPrompts) holds both spellings as distinct questions (same engine, market en-US); the panel groups rows by exact text. Duplicate rows framed in red.",
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-007_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-007_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "expected": "The Target Sources list is displayed with ranked source cards",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of caranddriver.com",
+          "expected": "The details panel opens with the header \"#N · caranddriver.com\"",
+          "data": "caranddriver.com",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user scrolls to \"Prompts associated with this source\" with the \"All\" engine tab selected",
+          "expected": "The section shows the engine tabs (\"All\" selected) and the prompts list",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks \"Show N more prompts\"",
+          "expected": "The full prompts list is displayed and the button is no longer displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user compares the prompt texts of all rows",
+          "expected": "Each prompt text appears on one row only (no duplicate, even ignoring case, spacing and quotes)",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the user locates the rows of two prompts cited by several engines",
+          "expected": "Each of these prompts appears once, on a single row that shows the icons of all the engines citing it (e.g. ChatGPT and Gemini)",
+          "data": "\"Best Electric Cars?\", \"Best Coches Eléctricos?\" (otherwise any prompt cited by 2 engines or more)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the ChatGPT engine tab",
+          "expected": "Only rows with the ChatGPT icon are listed, each prompt once, and their number equals the count of the ChatGPT tab",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Engine tabs \"All | ChatGPT (157) | Gemini (142) | Perplexity (203)\" (icon + count), All selected; 6 rows then \"Show 280 more prompts\", full list displayed and button gone. \"Best Electric Cars?\" = 1 row with ChatGPT + Gemini icons; \"Best Coches Eléctricos?\" = 1 row with ChatGPT + Gemini + Perplexity icons (one row per prompt with all engine icons = confirmed final design). The QA verdict of 2026-10-02 (208 rows) asserted no duplicate ignoring case; the \"KIA\" spelling is in today's data (7-day window 30 Sep - 6 Oct)."
+    },
+    {
+      "tc_id": "TC-TNR-AC-008",
+      "title": "[GEO-1182] The brand is highlighted in every Negative perception passage",
+      "story_id": "GEO-1182",
+      "bug_key": "GEO-1182",
+      "bug_status": "Passed QA",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-008_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-008_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "expected": "The Target Sources list is displayed with ranked source cards",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of edmunds.com",
+          "expected": "The details panel opens with the header \"#N · edmunds.com\"",
+          "data": "edmunds.com (if absent from the current window, use any source with the \"Improve perception\" badge)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Negative perception (N)\" tab",
+          "expected": "The negative articles are listed, each with a quoted passage in italics",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the bZ4X passages",
+          "expected": "\"Toyota\" is highlighted (bold on a highlight chip) in both passages",
+          "data": "\"It took Toyota a long time to produce a mass-market electric vehicle…\" (2023 and 2024 bZ4X)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks every passage of the tab for a highlight",
+          "expected": "Every passage shows at least one highlighted brand or product name",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user repeats the check on the Negative perception tab of caradisiac.com and rpmweb.ca",
+          "expected": "Every passage of both tabs shows at least one highlighted brand or product name",
+          "data": "caradisiac.com, rpmweb.ca (or 2 other \"Improve perception\" sources)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "edmunds.com #6, header \"#6 · edmunds.com\", \"Negative perception (13)\" (10 + \"Show 3 more articles\"), each with an italic quoted passage. bZ4X 2023 and 2024: \"It took Toyota a long time to produce a mass-market electric vehicle...\" - \"Toyota\" highlighted (mark, font-weight 600, background #E0F2FE) in both. 13/13 edmunds passages highlighted; caradisiac.com (#18) 8/8 and rpmweb.ca (#37) 6/6 highlighted. Across the 13 Improve perception sources scanned: 72/72 negative passages with at least one highlight. Known open bugs seen (not counted): GEO-1201 (passages cut mid-word, e.g. \"...Subaru Solterra battery electric vehicl\"); GEO-1190/1203 not checked (out of scope)."
+    },
+    {
+      "tc_id": "TC-TNR-AC-009",
+      "title": "[GEO-1187] Engine filter tabs show icon and count, no truncation",
+      "story_id": "GEO-1187",
+      "bug_key": "GEO-1187",
+      "bug_status": "Passed QA",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-009_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-009_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-009_step3_then.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-009_hover_chatgpt.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis in a 1280x720 browser window",
+          "expected": "The Target Sources list is displayed with ranked source cards",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of frandroid.com",
+          "expected": "The details panel opens with the header \"#N · frandroid.com\"",
+          "data": "frandroid.com (otherwise any source with prompts from 3 engines)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user scrolls to \"Prompts associated with this source\"",
+          "expected": "The engine filter tabs are displayed above the prompts list",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the engine tabs",
+          "expected": "\"All\" is selected by default, followed by one tab per engine showing its icon and its count, e.g. \"All | [ChatGPT] 25 | [Gemini] 12 | [Perplexity] 68\"; no label is cut, no ellipsis, no tab overflows",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user hovers the ChatGPT tab",
+          "expected": "A tooltip shows the engine name with its count, e.g. \"ChatGPT (25)\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the Perplexity tab",
+          "expected": "Only prompts cited by Perplexity are listed and their number equals the Perplexity tab count",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user resizes the browser window to 1920x1080",
+          "expected": "The engine tabs still show icon and count with no truncation and no ellipsis",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Viewport 1280x720. frandroid.com #1; engine tabs \"All | [ChatGPT icon] 26 | [Gemini icon] 12 | [Perplexity icon] 71\", All selected (aria-selected=true); each tab 102 px wide, scrollWidth = clientWidth, no ellipsis, inside the tab list. Hover ChatGPT: tooltip text = native title attribute \"ChatGPT (26)\" (also aria-label); no DOM tooltip, so it does not appear in a headless screenshot - same mechanism as accepted in the GEO-1187 verdict. Perplexity tab: 71 rows (after \"Show more\"), all with data-engines including perplexity = tab count 71. 1920x1080: same icon + count, no truncation, no ellipsis. Viewport set back to 1280x720."
+    },
+    {
+      "tc_id": "TC-TNR-AC-010",
+      "title": "[GEO-1188] British English menu reads \"Action Center\"",
+      "story_id": "GEO-1188",
+      "bug_key": "GEO-1188",
+      "bug_status": "Passed QA",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-010_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-010_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the interface language is British English",
+          "expected": "British English is the saved interface language",
+          "data": "Settings > Preferences > Interface Language = British English (click \"Save changes\" if another language is selected)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user loads the Action Center page of the Toyota analysis directly",
+          "expected": "The left menu entry reads \"Action Center\"",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user navigates to the Overview with the left menu, then back to the Action Center",
+          "expected": "The left menu entry reads \"Action Center\" on both pages",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user searches \"Action Centre\" on the page and in the browser tab title",
+          "expected": "\"Action Centre\" is found nowhere (menu, headings, browser tab title)",
+          "data": "Ctrl+F \"Action Centre\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Settings > Preferences shows \"British English\" (already saved, /auth/me en-GB, no save needed). Direct load of /actions: left menu \"Action Center\"; Overview via the menu, then Action Center via the menu: \"Action Center\" on both. \"Action Centre\" found nowhere (page text, full HTML, browser tab title \"Toyota — GEO Analytics\")."
+    },
+    {
+      "tc_id": "TC-TNR-AC-011",
+      "title": "[GEO-1189] PowerPoint export - category sections follow the left navigation order",
+      "story_id": "GEO-1189",
+      "bug_key": "GEO-1189",
+      "bug_status": "Passed QA",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-011_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-011_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Toyota analysis",
+          "expected": "The analysis Overview is displayed with the left navigation",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user notes the category order in the left navigation",
+          "expected": "The categories are listed in the left navigation in this order",
+          "data": "Voitures hybrides > VUS > Voitures électriques (2026-10-06)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the export icon and selects \"Presentation .pptx\"",
+          "expected": "A .pptx file of the analysis is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the category section slides of the deck",
+          "expected": "The category sections follow the left navigation order: Voitures hybrides, then VUS, then Voitures électriques",
+          "data": "41 slides on 2026-10-06: Voitures hybrides 14-22, VUS 23-31, Voitures électriques 32-40",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the last slide of the deck",
+          "expected": "The last slide is Action Center · Target Sources (slide 41 on 2026-10-06)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Left navigation: Voitures hybrides > VUS > Voitures électriques. Export menu \"EXPORT ANALYSIS AS: PDF / Presentation .pptx / Spreadsheet .xls\". enGB_Toyota_AI_Visibility_Report.pptx: 41 slides (order read from ppt/presentation.xml): 1 cover, 2-13 overview, VOITURES HYBRIDES 14-22, VUS 23-31, VOITURES ÉLECTRIQUES 32-40, slide 41 \"ACTION CENTER · TARGET SOURCES - Where PR effort pays first - Top 10 of 129 verified target sources\"."
+    },
+    {
+      "tc_id": "TC-TNR-AC-012",
+      "title": "[GEO-1189] PDF export - category sections follow the left navigation order",
+      "story_id": "GEO-1189",
+      "bug_key": "GEO-1189",
+      "bug_status": "Passed QA",
+      "priority": "Low",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-012_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-012_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-012_step3_then.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-012_extra_last_page.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Toyota analysis",
+          "expected": "The analysis Overview is displayed with the left navigation",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user notes the category order in the left navigation",
+          "expected": "The categories are listed in the left navigation in this order",
+          "data": "Voitures hybrides > VUS > Voitures électriques (2026-10-06)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the export icon and selects \"PDF\"",
+          "expected": "A PDF file of the analysis is downloaded",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the category section pages of the PDF",
+          "expected": "The category sections follow the left navigation order: Voitures hybrides, then VUS, then Voitures électriques",
+          "data": "41 pages on 2026-10-06: Voitures hybrides 14-22, VUS 23-31, Voitures électriques 32-40",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the last page of the PDF",
+          "expected": "The last page is Action Center · Target Sources (page 41 on 2026-10-06)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "enGB_Toyota_AI_Visibility_Report.pdf: 41 pages, image-based (no text layer) -> pages rendered with pdf.js: Voitures hybrides 14-22, VUS 23-31, Voitures électriques 32-40, page 41 \"ACTION CENTER · TARGET SOURCES - Where PR effort pays first\". Info: the ranked table on page 41 has 4 columns \"# | Source | Type | Articles\"."
+    },
+    {
+      "tc_id": "TC-TNR-AC-013",
+      "title": "[GEO-1191] Ads, image credits, logos and related links are not counted as a brand mention",
+      "story_id": "GEO-1191",
+      "bug_key": "GEO-1191",
+      "bug_status": "Passed QA",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-013_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-013_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-013_step3_then.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-013_extra_nissan_oneshift.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis of the organisation \"GEO Stress Test 2026-10\"",
+          "expected": "The Target Sources list is displayed",
+          "data": "Analysis \"Toyota\" (org GEO Stress Test 2026-10), AI Engines = ChatGPT",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of caranddriver.com and reads every tab",
+          "expected": "No article has the passage \"Priority Toyota Chesapeake\" and none of the 3 articles is listed under the Positive articles tab",
+          "data": "Articles \"10Best Trucks and SUVs 2023\", \"Best SUVs 2023\", bestselling EVs 2024",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the Action Center of the Nissan analysis and the details panel of oneshift.com",
+          "expected": "No article has the passage \"Nissan Serena e-POWER (2024) Review\" and none of the 3 articles is listed under the Positive articles tab",
+          "data": "Analysis \"Nissan\" (org GEO Stress Test 2026-10); articles Hyundai Ioniq 5 review, BYD Atto 3, Car of the Year 2023",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the Action Center of the Juventus FC analysis and the details panel of giemme.it",
+          "expected": "The giemme.it article (client logo only) is not listed under the Positive articles tab",
+          "data": "Analysis \"Juventus FC\" (org GEO Stress Test 2026-10)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the passages of the remaining Positive articles of these panels",
+          "expected": "Each remaining positive article shows a passage taken from the article text, not an ad, an image credit, a logo or a related-article title",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Org \"GEO Stress Test 2026-10\" (UUIDs found from the org analysis list: Toyota 6241d4d6-514d-4fad-94a3-b63bb58650bc, Nissan 7bda5a97-e9a8-43cd-8f8f-71d3d6f4a115, Juventus FC d6f668a8-9afe-401d-a0aa-68e471a4ee00), AI Engines = 1 (ChatGPT, default). The details panel has no \"Positive articles\" tab any more (only \"Lack of visibility\" / \"Negative perception\"), so positives were checked READ ONLY through the panel API data (GET target-sources/{domain}, same params as the app: positive[] / failing[]). caranddriver.com #2: \"10Best Trucks and SUVs for 2023\", \"Best SUVs for 2023\", bestselling-evs-2024 are BRAND_NOT_NAMED (Lack of visibility tab), none positive, no \"Priority Toyota Chesapeake\" passage anywhere. Nissan oneshift.com #3: Hyundai Ioniq 5 review, BYD Atto 3, Car of the Year 2023 = Lack of visibility, none positive, no \"Nissan Serena e-POWER (2024) Review\" passage. Juventus giemme.it #6: the logo-only page (lp/produzione-merchandising-sportivo, Juventus only in the \"Loghi-Clienti\" image) is in Lack of visibility, not positive. Remaining positives: caranddriver 14 (body/review sentences, e.g. \"The bZ4X is a solid contender...\"), oneshift 1 (own article headline \"Nissan X-Trail e-POWER Launched In Singapore...\"), giemme.it 1 (/clienti/juventus/ body sentence \"Fin dalla metà degli anni Novanta, abbiamo accompagnato la Vecchia Signora...\"): no ad, image credit, logo or related-article title."
+    },
+    {
+      "tc_id": "TC-TNR-AC-014",
+      "title": "[GEO-1191] A body mention or an editorial product selection is still counted as a mention",
+      "story_id": "GEO-1191",
+      "bug_key": "GEO-1191",
+      "bug_status": "Passed QA",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-014_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-014_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Victoria's Secret analysis",
+          "expected": "The Target Sources list is displayed",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/0bd0b48c-e78a-4e43-b607-f0318b48f6ba/actions",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of elle.com and clicks the Positive articles tab",
+          "expected": "The best lingerie brands article is listed as a positive article",
+          "data": "elle.com best lingerie brands article",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user reads its passage",
+          "expected": "The passage is a sentence of the article naming Victoria's Secret (e.g. \"Victoria's Secret has been the home of the push-up bra…\" or \"The then-Victoria's Secret model…\"), not the image credit \"Courtesy Victoria's Secret\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Action Center of the Hermès analysis and the details panel of gqmagazine.fr",
+          "expected": "The gqmagazine.fr article is listed as a positive article",
+          "data": "Analysis \"Hermès\" (org GEO Stress Test 2026-10)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user reads its passage",
+          "expected": "The passage names the product of the editorial selection, e.g. \"Carré Hermès\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Conditional TC: elle.com (#3, Victoria's Secret) and gqmagazine.fr (#8, Hermès 7905326c-538c-4a46-a76d-4d800ded40d0) ARE listed in Target Sources, but the panel has no \"Positive articles\" tab (Lack of visibility only), so the positive articles were checked READ ONLY through the app's own API data (GET target-sources/{domain}?marketCodes=master&llms=openai&lang=en-GB, positive[]) - user decision 2026-10-06. elle.com: positive \"The Best Lingerie Brands To Know Right Now - ELLE\" (elle.com/uk/fashion/g37290936/best-lingerie-brands/) with passage \"Victoria's Secret has been the home of the push-up bra since it held its first runway show...\" (body sentence, not \"Courtesy Victoria's Secret\"). gqmagazine.fr: positive chris-pine-foulard-masculin-nouvel-accessoire-mode-2023 with passage \"Carré Hermès\" (matchedEntity Carré Hermès)."
+    },
+    {
+      "tc_id": "TC-TNR-AC-015",
+      "title": "[GEO-1192] Negative review pages and critical reports are listed as Negative perception",
+      "story_id": "GEO-1192",
+      "bug_key": "GEO-1192",
+      "bug_status": "Passed QA",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-015_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-015_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-015_step3_then.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-015_extra_msc_trustpilot.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Victoria's Secret analysis",
+          "expected": "The Target Sources list is displayed",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/0bd0b48c-e78a-4e43-b607-f0318b48f6ba/actions",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of trustpilot.com and clicks the \"Negative perception (N)\" tab",
+          "expected": "The negative articles of trustpilot.com are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the Victoria's Secret Trustpilot pages",
+          "expected": "Both pages are listed under Negative perception",
+          "data": "nl-be.trustpilot.com/review/www.victoriassecret.com, www.trustpilot.com/review/www.victoriassecret.com",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Action Center of the MSC Croisieres analysis and the \"Negative perception (N)\" tab of trustpilot.com",
+          "expected": "fr.trustpilot.com/review/www.msccroisieres.fr is listed under Negative perception",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/dc801726-99e5-4e53-bf72-87b469ed5098/actions - fr.trustpilot.com/review/www.msccroisieres.fr",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the \"Negative perception (N)\" tab of routard.com",
+          "expected": "The 2 routard.com forum threads are listed under Negative perception",
+          "data": "routard.com forum (2 threads)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Action Center of the USPS analysis and the \"Negative perception (N)\" tab of prc.gov",
+          "expected": "The prc.gov FY2023 financial report (PDF) is listed under Negative perception",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/3e6da2fd-efdd-4a44-af41-435c74ed5e73/actions - FY2023FinancialReport.pdf",
+          "status": "PASS"
+        }
+      ],
+      "notes": "AI Engines = 1 (ChatGPT). Victoria's Secret trustpilot.com #1 \"Negative perception (5)\": nl-be.trustpilot.com/review/www.victoriassecret.com (\"NOOIT MEER VICTORIA's SECRET...\") and trustpilot.com/review/www.victoriassecret.com both listed. MSC Croisieres trustpilot.com #1 \"Negative perception (5)\": fr.trustpilot.com/review/www.msccroisieres.fr listed; routard.com #3 \"Negative perception (2)\": the 2 forum threads (msc-croisiere-avis/291828, vos-avis-sur-msc-croisieres/11834/22). USPS prc.gov #4 \"Negative perception (2)\": prc.gov/sites/default/files/reports/FY2023FinancialReport.pdf listed. Known open bugs seen (not counted): GEO-1201 (routard passages cut \"...pour 6\", \"...certain no\"); GEO-1204 (FY2023 report passage \"129348 Accepted 6/17/2024 Financial Analysis of United States Postal Service...\" does not support the negative verdict)."
+    },
+    {
+      "tc_id": "TC-TNR-AC-016",
+      "title": "[GEO-1194] Nothing could be checked shows \"Pages could not be checked\", not \"All clear\"",
+      "story_id": "GEO-1194",
+      "bug_key": "GEO-1194",
+      "bug_status": "Passed QA",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-016_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-016_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the AstraZeneca analysis",
+          "expected": "The Action Center page is displayed",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/458c20e9-1dcc-4e82-a05b-2fca56431396/actions",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the Target Sources section",
+          "expected": "The section shows a grey warning icon, the title \"Pages could not be checked\" and the text \"None of the cited pages could be checked.\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks that the all-clear state is not shown",
+          "expected": "No \"All clear\" text, no green check icon and no source card are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Action Center of the Cruz Roja Argentina analysis",
+          "expected": "The Action Center page is displayed",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/a3eb5a05-3cfa-4132-a116-3fec6a9e0c87/actions",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the Target Sources section",
+          "expected": "The section shows the grey warning icon, \"Pages could not be checked\" and \"None of the cited pages could be checked.\", with no \"All clear\" and no green check",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Org \"GEO Stress Test 2026-10\". AstraZeneca 458c20e9 (snapshot 5 Oct 2026 01:57Z, not re-collected; a second AstraZeneca report e9230802 exists and was not used) and Cruz Roja Argentina a3eb5a05 (5 Oct 01:57Z): Target Sources shows a warning-triangle icon in grey (rgb(100,116,139) / #64748B), \"Pages could not be checked\" and \"None of the cited pages could be checked.\"; no \"All clear\", no green check, no source card. The in-run retry (GEO-1205, open) is not checked."
+    },
+    {
+      "tc_id": "TC-TNR-AC-017",
+      "title": "[GEO-1194] An analysis with checked pages still shows the normal source list",
+      "story_id": "GEO-1194",
+      "bug_key": "GEO-1194",
+      "bug_status": "Passed QA",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-017_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-017_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-017_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "expected": "The Action Center page is displayed",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user checks the Target Sources section",
+          "expected": "The ranked source cards are displayed with their badges, followed by \"Show N more sources\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks that no warning or all-clear state is shown",
+          "expected": "Neither \"Pages could not be checked\" nor \"All clear\" is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96 Last 7 days: API state READY, nothingCouldBeChecked=false; 12 ranked source cards with badges then \"Show 117 more sources\" (129 sources); neither \"Pages could not be checked\" nor \"All clear\" displayed."
+    },
+    {
+      "tc_id": "TC-TNR-AC-018",
+      "title": "[GEO-1202] Negative perception passages show page text without markdown",
+      "story_id": "GEO-1202",
+      "bug_key": "GEO-1202",
+      "bug_status": "Passed QA",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected no passage with a backslash escape character in the first 10 \"Improve perception\" sources. Observed: 2/72 negative passages show a literal escape sequence \"\\n\\n\" (characters 92,110,92,110) on guideautoweb.com (#4): Toyota Highlander 2020 (guideautoweb.com/constructeurs/toyota/highlander/2020) and Toyota Highlander 2023 (.../highlander/2023), both \"D’autres Toyota Highlander aux prises avec des sièges mal fabriqués\\n\\nRappels\". No link syntax, link target, bold, image syntax or table pipes in the 72 passages. Both passages framed in red.",
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-018_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-018_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-018_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "expected": "The Target Sources list is displayed with ranked source cards",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the \"Negative perception (N)\" tab of caranddriver.com",
+          "expected": "The passage is page text, e.g. \"The 2023 Toyota 4Runner isn't like most of the other mid-size crossovers and SUVs…\", with no \"[Skip to Content](https://…)\"",
+          "data": "Article \"2023 Toyota 4Runner Review, Pricing, and Specs\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the \"Negative perception (N)\" tab of frandroid.com and of topspeed.com",
+          "expected": "No passage contains a link target such as \"(https://\"",
+          "data": "\"…le premier SUV compact Toyota bZ4X\", \"…Toyota moved just 13 Prius models\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the \"Negative perception (N)\" tab of autobild.es",
+          "expected": "The passage contains no markdown table pipes (\"| … |\")",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user reads every Negative perception passage of the first 10 sources with the \"Improve perception\" badge",
+          "expected": "No passage contains link syntax, a link target, bold markers, image syntax, table pipes or a backslash escape character",
+          "data": "Markup to look for: [text](url), (https://, **, ![ or !Logo, table pipes, backslash",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Scanned in the UI: first 10 Improve perception sources (frandroid, caranddriver, guideautoweb, edmunds, zonebourse, autobild.es, automobile-propre, elpais, autoplus.fr, automobile-magazine.fr) + caradisiac, rpmweb.ca, topspeed.com = 72 negative passages. caranddriver.com 2023 4Runner: passage is page header text \"2023 Toyota 4Runner Review, Pricing, and Specs New! Shop For Cars Available Near You. Got it! - Research Cars - Expert Reviews -\" - no \"[Skip to Content](https://...)\" (the CSV example sentence is no longer the quoted one). frandroid.com \"...le premier SUV compact Toyota bZ4X\" and topspeed.com \"...Toyota moved just 13 Prius models\": no \"(https://\". autobild.es: \"226 Mercedes EQA 250 190 66,5 4 °C 53.795 222 Toyota bZ4X 218...\" no table pipes. Classification: NOT a regression - the same \"\\n\\n\" Highlander passage was already present in the GEO-1178 run of 2026-10-06 09:08 and guideautoweb.com was left out of the GEO-1202 final verdict by agreement (\"quotes the page header\"); but the escape sequence is an escape character, not a header choice: CSV scope to clarify (exclude guideautoweb.com) or new bug. Known open bug GEO-1201 visible (cut passages)."
+    },
+    {
+      "tc_id": "TC-TNR-AC-019",
+      "title": "[GEO-1202] Article titles in the details panel show no escape backslash",
+      "story_id": "GEO-1202",
+      "bug_key": "GEO-1202",
+      "bug_status": "Passed QA",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-019_step1_given.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-019_step2_when.png",
+        "screenshots-GEO-152-TNR-action-center-mcp/TC-TNR-AC-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Action Center of the Toyota analysis",
+          "expected": "The Target Sources list is displayed with ranked source cards",
+          "data": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions - period \"Last 7 days\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of automobile-propre.com and reads the article titles of every tab",
+          "expected": "The title reads \"l'électrique\" with no backslash before the apostrophe",
+          "data": "Title \"Marché auto : encore un record pour l'électrique, les Tesla…\" (if no longer listed, use any title with an apostrophe)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user reads the article titles of the details panels of the first 5 sources",
+          "expected": "Titles with an apostrophe are displayed as on the page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user searches for a backslash in the opened panels",
+          "expected": "No article title contains a backslash",
+          "data": "Ctrl+F \"\\\"",
+          "status": "PASS"
+        }
+      ],
+      "notes": "automobile-propre.com #9: title \"Marché auto : encore un record pour l'électrique, les Tesla Model Y et Renault Twingo cartonnent\" (Negative perception tab), no backslash. First 5 sources (frandroid, caranddriver, ouest-france, guideautoweb, lefigaro): 171 titles across all tabs, 0 with a backslash; titles with an apostrophe shown as on the page (e.g. \"Presenting Car and Driver's 2023 EV of the Year\", \"Toyota bZ4X 2023 - Le Guide de l'auto\")."
+    }
+  ]
+}

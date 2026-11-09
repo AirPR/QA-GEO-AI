@@ -1,0 +1,874 @@
+{
+  "spec": "GEO-152-GEO1125-mcp",
+  "runDate": "2026-10-05",
+  "runTimestamp": "05102026-1549",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+  "environment": "staging",
+  "bundle": "assets/index-D1pTUG_F.js (css index-BPbeaLzg.css)",
+  "cache": "fresh browser context (MCP --isolated), cookies cleared, CDP Network.clearBrowserCache + setCacheDisabled; PQL account in a second fresh context with the same CDP settings",
+  "accounts": {
+    "main": {
+      "email": "assiya.benramdane@onclusive.com",
+      "startLanguage": "en-GB",
+      "endLanguage": "en-GB",
+      "note": "switched to es-ES then fr-FR for TC-004, restored to en-GB and confirmed via /auth/me"
+    },
+    "pql": {
+      "email": "assiya.benramdane+geo@onclusive.com",
+      "startLanguage": "en-US",
+      "endLanguage": "en-US",
+      "liteQuotaBefore": "1/3",
+      "liteQuotaAfter": "2/3",
+      "liteRuns": 1
+    }
+  },
+  "csv": ".claude/Data/output/csv/GEO-R1.2/testcases-coverage-storyGEO-1125.csv",
+  "csvUpdated": "2026-10-05 (TC-001/002/006/008 wording, TC-010 PPTX slide, TC-016 Overview block)",
+  "storyFilter": "GEO-1125",
+  "summary": {
+    "total": 17,
+    "pass": 11,
+    "fail": 2,
+    "skip": 0,
+    "partial": 2,
+    "blocked": 2,
+    "successRate": 80,
+    "successRateBasis": "(pass + 0.5*partial) / (total - skip - blocked)",
+    "verdict": "GO"
+  },
+  "knownBugs": [
+    {
+      "key": "GEO-1197",
+      "priority": "High",
+      "tc": "TC-GEO-1125-009",
+      "label": "XLSX source types kbb.com / cars.com \"Other\", \"Government / NGO\""
+    },
+    {
+      "key": "GEO-1198",
+      "priority": "Medium",
+      "tc": "TC-GEO-1125-013",
+      "label": "4th chevron column in the table and modal"
+    },
+    {
+      "key": "GEO-1196",
+      "priority": "Low",
+      "tc": "TC-GEO-1125-009 (side)",
+      "label": "XLSX block title \"LLM Engines Citation Sources\""
+    },
+    {
+      "key": "GEO-1144",
+      "priority": "Low",
+      "tc": "TC-GEO-1125-004 (side)",
+      "label": "\"Showing N of M domains\" not translated fr/es"
+    },
+    {
+      "key": "GEO-1199",
+      "priority": "Medium",
+      "tc": "TC-GEO-1125-010 (side)",
+      "label": "PPTX/PDF \"Top 10 of 777\" shows 8 rows and 777 vs app 54"
+    }
+  ],
+  "newObservations": [
+    "Lite (PQL) result page still says \"LLM Engines Citation Sources\" / \"See which domains LLM Engines reference most often for your brand and niche\" while the main app says \"AI Engines\" (TC-011 step3_then).",
+    "XLSX Overview domain table: the last two rows are femis.fr (2) then prnewswire.com (3), not in descending frequency order; the app lists prnewswire.com before femis.fr (TC-009 step3_then).",
+    "PPTX deck now has 29 slides (30 in the previous run); the overview sources slide is still slide13."
+  ],
+  "previous_runs": [
+    {
+      "runs": "05102026-1007 / 05102026-1138 (TC-001/002/006/008) / 05102026-1337 (TC-010/016)",
+      "bundle": "assets/index-D1pTUG_F.js (css index-BPbeaLzg.css)",
+      "summary": {
+        "total": 17,
+        "pass": 10,
+        "fail": 3,
+        "skip": 0,
+        "partial": 2,
+        "blocked": 2,
+        "successRate": 73.3,
+        "successRateBasis": "(pass + 0.5*partial) / (total - skip - blocked)",
+        "verdict": "CONDITIONAL"
+      },
+      "rerun": {
+        "date": "2026-10-05",
+        "tcs": [
+          "TC-GEO-1125-001",
+          "TC-GEO-1125-002",
+          "TC-GEO-1125-006",
+          "TC-GEO-1125-008"
+        ],
+        "bundle": "assets/index-DuR5p_qh.js (css index-BPbeaLzg.css)",
+        "cache": "fresh browser context, CDP Network.clearBrowserCache + setCacheDisabled",
+        "language": "en-GB UI (after waiting ~3 min for a parallel agent FR/ES switch to end; language not changed by this run)"
+      },
+      "rerun2": {
+        "date": "2026-10-05",
+        "run": "05102026-1337",
+        "tcs": [
+          "TC-GEO-1125-010",
+          "TC-GEO-1125-016"
+        ],
+        "reason": "CSV steps updated 2026-10-05 (TC-016 also renamed)",
+        "bundle": "assets/index-D1pTUG_F.js (css index-BPbeaLzg.css)",
+        "cache": "fresh browser context (MCP --isolated), cookies cleared, CDP Network.clearBrowserCache + setCacheDisabled",
+        "language": "UI chrome en-GB/English as found; language not changed by this run"
+      }
+    },
+    {
+      "runs": "05102026-1427",
+      "summary": {
+        "total": 17,
+        "pass": 10,
+        "fail": 3,
+        "skip": 0,
+        "partial": 2,
+        "blocked": 2,
+        "successRate": 73.3,
+        "successRateBasis": "(pass + 0.5*partial) / (total - skip - blocked)",
+        "verdict": "CONDITIONAL"
+      },
+      "rerun3": {
+        "date": "2026-10-05",
+        "run": "05102026-1549",
+        "tcs": [
+          "TC-GEO-1125-003"
+        ],
+        "reason": "CSV step 2 updated 2026-10-05: hover highlight no longer expected (no AC covers it)",
+        "bundle": "assets/index-D1pTUG_F.js (css index-BPbeaLzg.css)",
+        "cache": "fresh browser context (MCP --isolated), cookies cleared, CDP Network.clearBrowserCache + setCacheDisabled",
+        "language": "UI en-GB / English as found (html lang=en); language not changed by this run"
+      }
+    }
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1125-001",
+      "title": "TC-GEO-1125-001 - Citation Sources section shows only Domain Type and Frequency columns",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-001_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-001_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the overview page of the Toyota dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the AI Engines Citation Sources section renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the domain table shows exactly three column headers",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column is present",
+          "status": "PASS"
+        },
+        {
+          "title": "And the \"All domains\" button is displayed under the table",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Overview page of the Toyota dashboard (Last 7 days, AI Engines 4, All Countries). Heading \"AI Engines Citation Sources\" and subtitle \"See which domains AI Engines reference most often for your brand and niche\" displayed, with the \"All source types\" filter, the stacked bar (9 segments) and its legend (Journalism 33 (51%) ... Press Release 1 (0%)). Table headers \"Domain\" / \"Type\" / \"Frequency\" in this order, each a button with a sort icon (the 4th th is the empty chevron column, see TC-013 / GEO-1198). No Favorability / Favorable / Mixed / Unfavorable text or attribute in the section. 10 rows, each with favicon, domain, external-link icon (shown on hover), type chip and frequency. \"All domains 54\" button under the last row.",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-002",
+      "title": "TC-GEO-1125-002 - All domains modal shows only Domain Type and Frequency columns",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-002_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-002_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-002_step3_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-002_step4_search.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the \"All domains\" button",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the modal table shows exactly three column headers",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column is present in the modal",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user types a domain in the search field",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the filtered table still shows only the Domain, Type and Frequency columns",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Modal <dialog open> titled \"Sources - All domains\", subtitle \"Showing 54 of 777 domains\", search placeholder \"Search domains…\" (single ellipsis character U+2026; the CSV writes three dots). 54 rows. Headers Domain / Type / Frequency, each with a sort icon; no Favorability. Search \"toyota.fr\" (first domain of the list) narrows the list to 1 row (toyota.fr / Other / 69); headers unchanged, no Favorability. The subtitle stays \"Showing 54 of 777 domains\" while filtered (not in the TC scope).",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-003",
+      "title": "TC-GEO-1125-003 - [Figma] Source type filter and legend hover keep the three-column table",
+      "story_id": "GEO-1125",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-003_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-003_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-003_step3_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-003_step4_filter_menu.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-003_step5_then_filtered.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed with \"All source types\"",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user hovers a segment of the stacked bar",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table still shows only the Domain, Type and Frequency columns",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user selects one source type in the \"All source types\" filter",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the filtered table still shows only the Domain, Type and Frequency columns",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Rerun 2026-10-05 15:49 (run 05102026-1549) with the CSV step 2 updated (no hover highlight required: no AC covers it). Given: section \"AI Engines Citation Sources\", filter \"All source types\", 10 rows with types Other / Journalism / Corporate / Aggregators. When: hover on the Journalism bar segment (\"Journalism: 1423 URLs (50.7%)\", confirmed under :hover); the table outerHTML is byte-identical before and during the hover (same 10 rows, same order). Then: headers Domain / Type / Frequency (plus the empty chevron th tracked by GEO-1198), no Favorability / Favorable / Mixed / Unfavorable text in the section. Filter: menu lists All source types, Journalism (33), Other (7), Corporate (4), Review Sites (4), Aggregators (2), Social / UGC (1), Gov / NGO (1), Academic (1), Press Release (1); selecting \"Journalism (33)\" lists only Journalism chips (10 rows: caranddriver.com 64, elpais.com 51, autobild.es 36, frandroid.com 33, abc.es 31, expansion.com 27, hibridosyelectricos.com 26, caradisiac.com 24, lavanguardia.com 23, motor.es 22), headers unchanged, no Favorability. Cookie banner dismissed (\"Essential Only\") as it covered the table; screenshots retaken. Filter reset by reloading the page (back to \"All source types\").",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-004",
+      "title": "TC-GEO-1125-004 - Citation Sources table has three columns in fr-FR and es-ES",
+      "story_id": "GEO-1125",
+      "priority": "Medium",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step0_settings_es.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step0_settings_start.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step3_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step4_es_modal.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step5_fr_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step6_fr_table.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step7_fr_modal_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-004_step8_language_restored.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user switches the app language to es-ES",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Citation Sources section renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table shows exactly three column headers",
+          "status": "PASS"
+        },
+        {
+          "title": "And the All domains modal shows exactly three column headers",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the app language to fr-FR",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the section table and the All domains modal show exactly three column headers",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Language is set in Settings > Preferences > Interface Language (saved in the profile, /auth/me.language). Starting language British English (en-GB), not en-US as the precondition states. es-ES: heading \"Fuentes de citación de los motores de IA\" (exact match), headers Dominio / Tipo / Frecuencia, button \"Todos los dominios 54\", modal \"Fuentes - Todos los dominios\" with the same 3 headers, search \"Buscar dominios…\". fr-FR: heading \"Sources de citation des moteurs IA\", headers Domaine / Type / Fréquence, button \"Tous les domaines 54\", modal \"Sources - Tous les domaines\" with the same 3 headers. No Favorabilidad / Favorabilité anywhere. Side observation (GEO-1144, already filed): the modal subtitle stays in English (\"Showing 54 of 777 domains\") in es-ES and fr-FR (framed in red in step4 / step7). Language restored to British English (en-GB), confirmed via /auth/me and the Settings combobox.",
+      "jira": [
+        {
+          "key": "GEO-1144",
+          "url": "https://onclusive.atlassian.net/browse/GEO-1144",
+          "label": "side observation: \"Showing N of M domains\" not translated in fr/es"
+        }
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1125-005",
+      "title": "TC-GEO-1125-005 - Favorability is not a sort key in the Citation Sources section",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-005_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-005_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-005_step3_frequency.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-005_step3_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-005_step4_domain.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-005_step5_type.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user inspects the sortable headers of the table",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Frequency\" header",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Domain\" header",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Type\" header",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no Favorability sort key is offered",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Exactly 3 header buttons with a sort icon (Domain, Type, Frequency); the 4th th is empty (chevron). The only dropdown in the section is \"All source types\" (its options are source types only); no sort menu. Default order = Frequency descending; clicking Frequency re-orders ascending (femis.fr 2 first, fiches-auto.fr 14 last of the 10 shown); first click on Domain sorts Z to A (zonebourse.com first), second click A to Z (20minutos.es first); first click on Type sorts Z to A (youtube.com Social / UGC first). Sorting applies to the whole 54-domain list. No aria-sort on th (a11y note).",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-006",
+      "title": "TC-GEO-1125-006 - Favorability is not a sort key in the All domains modal",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-006_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-006_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-006_step3_frequency.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the \"All domains\" modal is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user inspects the sortable headers of the modal table",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Frequency\" header",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the \"Type\" header",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no Favorability sort key is offered",
+          "status": "PASS"
+        }
+      ],
+      "notes": "\"Sources - All domains\" with headers Domain / Type / Frequency. Exactly 3 sortable header buttons; no 4th sortable header, no menu / listbox / aria-haspopup in the modal. Frequency click: 54 rows re-ordered ascending (femis.fr 2, prnewswire.com 3, gouv.fr 4 ... toyota.es 64, toyota.fr 69). Type click: rows re-ordered by type, descending (youtube.com Social / UGC first ... cars.com Aggregators, femis.fr Academic last). No \"Favorability\" in the modal markup.",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-007",
+      "title": "TC-GEO-1125-007 - No favorability badge on domain rows of the section and the All domains modal",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-007_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-007_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-007_step3_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-007_step4_modal_top.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-007_step5_modal_mid.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-007_step6_modal_end_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the domain rows of the section render",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no favorability badge is shown on any row",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the \"All domains\" modal and scrolls through the list",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no favorability badge is shown on any row of the modal",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Section: 10 rows, each with favicon img, domain, external-link icon, exactly one type chip from the source-type set and the frequency. Modal: 54 rows, scrolled top / middle / end (scroll container 2521 px), same layout. 0 rows with Favorable / Mixed / Unfavorable text, class or attribute, no extra chip. Chip set = Other, Journalism, Corporate, Aggregators, Review Sites, Social / UGC, Gov / NGO, Press Release, Academic (\"Competitor Media\" not present in the Toyota data).",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-008",
+      "title": "TC-GEO-1125-008 - No favorability badge in the source details panel",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-008_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-008_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-008_step3_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-008_step4_scroll_end.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-008_step5_modal_row.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-008_step6_modal_panel_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the first domain of the table",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel shows its sections without any favorability badge",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user scrolls to the end of the panel",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no favorability badge or label is shown anywhere in the panel",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the details panel of a domain from the \"All domains\" modal",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no favorability badge is shown in that panel either",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Click on toyota.fr (first row) opens the side panel \"AI Engines Citation Source Details\" with \"Related Prompts\" + \"All related Prompts 6\" and \"Sources\" + \"All sources 69\". No Favorable / Mixed / Unfavorable text and no favorability / sentiment attribute in the panel. At 1440x1250 the whole panel fits the viewport (no scroll container), so all sections are displayed at once (step4_scroll_end). From the \"All domains\" modal, a click on caranddriver.com (row 2) closes the modal and opens \"AI Engines Citation Source Details\" (Related Prompts, All related Prompts 32, Sources); no favorability badge.",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-009",
+      "title": "TC-GEO-1125-009 - XLSX export AI Citation Sources table carries Domain Type and Frequency only",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 6 (And the data rows match the domain table of the dashboard): expected the same domains, types and frequencies as the section table on screen; observed kbb.com typed \"Other\" in the XLSX (row 95) vs \"Aggregators\" on screen, cars.com \"Other\" (row 118) vs \"Aggregators\", gouv.fr \"Government / NGO\" (row 142) vs \"Gov / NGO\". Domains and frequencies of the first 10 rows match.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-009_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-009_step2_menu.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-009_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the overview page of the Toyota dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in Excel (XLSX) format",
+          "status": "PASS"
+        },
+        {
+          "title": "And the runner opens the AI Citation Sources section of the workbook",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the header row of the domain table carries Domain, Type and Frequency only",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column or value is present in that table",
+          "status": "PASS"
+        },
+        {
+          "title": "And the data rows match the domain table of the dashboard",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Export = icon button aria-label \"Export analysis\" (no visible \"Export\" text) at the top right; menu \"EXPORT ANALYSIS AS\": PDF / Presentation .pptx / Spreadsheet .xls. File Toyota_AI_Visibility_Report.xlsx (865,463 bytes, 11 sheets). OP-4: no dedicated sheet; the table is in sheet \"Overview\", block \"SOURCES — LLM Engines Citation Sources\" (title: GEO-1196), \"Domains — 54 of 777\", header row 90 = Domain | Type | Frequency (exactly 3 cells), rows 91-144 with 3 cells each, no Favorability header and no Favorable / Mixed / Unfavorable cell. New minor observation: the last two rows are femis.fr (2) then prnewswire.com (3), not in descending frequency order (the app lists prnewswire.com 3 before femis.fr 2).",
+      "jira": [
+        {
+          "key": "GEO-1197",
+          "url": "https://onclusive.atlassian.net/browse/GEO-1197",
+          "label": "XLSX source types kbb.com / cars.com \"Other\", \"Government / NGO\" (High)"
+        },
+        {
+          "key": "GEO-1196",
+          "url": "https://onclusive.atlassian.net/browse/GEO-1196",
+          "label": "side observation: XLSX block title \"LLM Engines Citation Sources\" (Low)"
+        }
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1125-010",
+      "title": "TC-GEO-1125-010 - PPTX export AI Citation Sources slide table carries Domain Type and Frequency only",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-010_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-010_step2_menu.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-010_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the overview page of the Toyota dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis in PowerPoint (PPTX) format",
+          "status": "PASS"
+        },
+        {
+          "title": "And the runner opens the AI Citation Sources slide of the deck",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the domain table of the slide has exactly three columns",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column or value is present on the slide",
+          "status": "PASS"
+        }
+      ],
+      "notes": "File Toyota_AI_Visibility_Report.pptx (225,578 bytes, 29 slides; the previous run reported 30). Slide = ppt/slides/slide13.xml: eyebrow \"SOURCES  ·  OVERVIEW\", title \"Which sources shape your AI presence\", subtitle \"Top 10 of 777 source domains  ·  2,808 citations analysed\"; 0 a:tbl (text shapes). Exactly 3 header shapes at the same y: \"Domain\" (x=938784), \"Type\" (x=6955536), \"Frequency\" (x=9749028). 8 data rows, 3 values each: toyota.fr / Other / 69; caranddriver.com / Journalism / 64; toyota.es / Corporate / 64; elpais.com / Journalism / 51; kbb.com / Aggregators / 45; automobile-propre.com / Other / 37; largus.fr / Other / 37; guideautoweb.com / Other / 37. Regex /favou?rab|unfavou?rable|mixed/i over the 41 a:t runs of the slide: 0 hits. Side observation (GEO-1199): only 8 rows drawn although the subtitle says \"Top 10\", and \"777\" vs \"All domains 54\" in the app. Category slides 18 / 23 / 28 carry the same title. Evidence: step3_then = slide text rendered as an HTML grid with the checked cells framed.",
+      "jira": [
+        {
+          "key": "GEO-1199",
+          "url": "https://onclusive.atlassian.net/browse/GEO-1199",
+          "label": "side observation: PPTX/PDF \"Top 10 of 777\" shows 8 rows and 777 vs app 54 (Medium)"
+        }
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1125-011",
+      "title": "TC-GEO-1125-011 - Lite PQL result table has no Favorability column and stays aligned with its ghost rows",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-011_auth.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-011_form.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-011_after_submit.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-011_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-011_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-011_step3_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-011_step4_zoom.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is logged in with the PQL account on staging and a Lite analysis result is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the result table renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no Favorability column is displayed in the result table",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Favorability column is displayed in the gated ghost rows",
+          "status": "PASS"
+        },
+        {
+          "title": "And the real table and the ghost rows table have the same column count",
+          "status": "PASS"
+        },
+        {
+          "title": "And the columns of the ghost rows are aligned with the columns of the real table",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "PQL account assiya.benramdane+geo@onclusive.com in its own fresh browser context (cache cleared and disabled via CDP). Lands on /geo/upsell (role READER, access_status AUTH0_ACCESS_DENIED, language en-US, not changed). \"Accept all cookies\" clicked to enable the form. ONE Lite analysis launched: Toyota (toyota.com), product \"hybrid cars\", United States / English, AI insights English, demo consent NOT ticked; POST lite-analysis/run 200, result in about 23 s; quota (GET lite-analysis/quota) 1/3 before, 2/3 after. Real table (table-fixed): headers Domain / Type / Frequency + empty chevron th; colgroup 4 entries (auto, 130px, 88px, 32px); 4 rows x 4 td (kbb.com Aggregators 4, fueleconomy.gov Gov / NGO 3, prnewswire.com Press Release 3, cars.usnews.com Other 2); no Favorability text. Ghost table (aria-hidden, blur): same 4-entry colgroup, 6 rows x 4 td; ghost placeholders sit in the Domain / Type / Frequency columns, no dedicated favorability column. Column edges of real header / real row / ghost row identical (max diff 0 px). PARTIAL: the \"Frequency\" header content (label + sort icon, 93 px) overflows its 88 px column by 5 px into the chevron column; not clipped, no visible overlap, but \"no column is overflowing\" is not strictly met (framed in red in step3 / step4). Not reported for now (user decision). Side observation (new): the Lite section still reads \"LLM Engines Citation Sources\" / \"See which domains LLM Engines reference most often...\" while the main app reads \"AI Engines\".",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-012",
+      "title": "TC-GEO-1125-012 - Citation sources API returns no favorability field for a domain",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-012_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-012_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-012_step3_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-012_step4_modal.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the overview page of the Toyota dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the citation sources response is received",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no domain object carries a favorability field",
+          "status": "PASS"
+        },
+        {
+          "title": "And each domain object carries only the citation source fields",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the \"All domains\" modal",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the data loaded for the modal carries no favorability field either",
+          "status": "PASS"
+        }
+      ],
+      "notes": "GET /geo/api/v1/reports/439acd96-…/overview/citation-sources?from=2026-09-28T00:00:00Z&to=2026-10-04T23:59:59Z&marketCodes=master&llms=gemini,grok,openai,perplexity returns 200. Top level: distribution, domains[54], totalUrls 2808, totalDomainCount 777, returnedDomainCount 54. All 54 domain objects have exactly: domain, sourceType, frequency, citedBy, visibilityGaps, competitiveLosses, sentimentIssues, llmCitations, citedUrls. No key matching favor / unfavor / mixed at any level, no Favorable / Mixed / Unfavorable string value. Every API domain is in the modal with the same frequency. Opening the \"All domains\" modal sends no API request (data reused). sentimentIssues = [{conceptName, sentimentScore, questionText, providerKey}] (concept-level numeric sentiment, not a favourability label, not displayed).",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-013",
+      "title": "TC-GEO-1125-013 - Citation Sources DOM holds no hidden Favorability column",
+      "story_id": "GEO-1125",
+      "priority": "Medium",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 3 (Then the table holds exactly three columns in the DOM): expected 3 th per header row and 3 td per data row; observed 4 th and 4 td (4th = empty th.w-12 / td holding the chevron svg, the row expand affordance), no colgroup. Step 6: the modal table has the same 4 th / 4 td.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-013_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-013_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-013_step3_then.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-013_step4_modal_dom.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the AI Engines Citation Sources section is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the runner inspects the DOM of the section table",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table holds exactly three columns in the DOM",
+          "status": "FAIL"
+        },
+        {
+          "title": "And no hidden favorability element exists",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the \"All domains\" modal and the runner inspects its table",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the modal table holds exactly three columns and no hidden favorability element",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "No hidden favorability element: 0 elements in the section (247 nodes) or the modal (842 nodes) carry favor / unfavor / mixed text, class or attribute, visible or hidden. The extra column is the chevron, not a hidden Favorability column. Side observation (unchanged): bundle index-D1pTUG_F.js still ships i18n keys colFavorability (\"Favourability\" / \"Favorability\" / \"Favorabilidad\" / \"Favorabilité\") and citationTooltip.favorability in all 4 locales (dead strings).",
+      "jira": [
+        {
+          "key": "GEO-1198",
+          "url": "https://onclusive.atlassian.net/browse/GEO-1198",
+          "label": "4th chevron column in the table and modal (Medium)"
+        }
+      ]
+    },
+    {
+      "tc_id": "TC-GEO-1125-014",
+      "title": "TC-GEO-1125-014 - Questions Analysis favourability filter is unchanged",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "Staging data: the Prompts Analysis block of the Toyota category pages (\"Questions Analysis\" in the CSV) shows \"No prompt data available.\" (data-testid dashboard-questions-empty), so the favourability filter (data-testid dashboard-questions-filter-favorability) is not rendered. GET …/categories/{id}/questions returns totalQuestions 0. Cause: the latest snapshot (2026-10-04 17:42, id b5e7dfe5…) failed for Toyota (successCount 0, failedCount 824); no newer snapshot exists.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-014_step0_date_options.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-014_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-014_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Questions Analysis page of the Toyota dashboard",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user opens the favourability filter",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And the user selects one favourability option",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the question list is narrowed to that favourability",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user clears the filter",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": "Checked for a newer snapshot first: /snapshots lists 2026-10-04 as the latest (failed); 2026-10-03 (824 ok / 360 failed) and 2026-10-02 (1184 ok) hold data (questions endpoint with snapshotId returns 56 and 86 questions). The UI offers no way to pick a snapshot: the questions call has no from/to and setSnapshotId is never called from the UI; \"Latest report\", \"All reports\", \"Last 30 days\" and \"Last 7 days\" were tried, all still empty. Date filter restored to \"Last 7 days\". Re-run once a staging snapshot succeeds.",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-015",
+      "title": "TC-GEO-1125-015 - Question detail panel favourability is unchanged",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "BLOCKED",
+      "duration": 0,
+      "error": "Same cause as TC-014: the Prompts Analysis question list is empty (\"No prompt data available.\") because the latest staging snapshot (2026-10-04) failed, so no question detail panel can be opened.",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-015_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-015_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Questions Analysis page of the Toyota dashboard",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "When the user opens the detail panel of a question",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "Then the favourability information of the question is displayed as before",
+          "status": "BLOCKED"
+        },
+        {
+          "title": "And the rest of the panel is unchanged",
+          "status": "BLOCKED"
+        }
+      ],
+      "notes": "Same checks as TC-014 (all date options tried, no snapshot selector in the UI). Re-run once a staging snapshot succeeds.",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-016",
+      "title": "TC-GEO-1125-016 - XLSX Corporate Reputation block of the Overview sheet keeps its favourability column",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-016_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-016_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-016_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user exports the analysis in Excel (XLSX) format",
+          "status": "PASS"
+        },
+        {
+          "title": "When the runner opens the Overview sheet and finds the Corporate Reputation block",
+          "status": "PASS"
+        },
+        {
+          "title": "Then its header row still includes the favourability column",
+          "status": "PASS"
+        },
+        {
+          "title": "And its rows hold favourability values",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same XLSX as TC-009 (11 sheets, Overview first; no sheet named \"Corporate Reputation\"). Overview sheet (xl/worksheets/sheet1.xml): row 3 \"IDENTITY\", row 4 \"InBrief (AI summary)\", block rows 5-9. The block has no title cell; no cell in the workbook reads \"Corporate Reputation\" (identified by its header; AC7 wording \"Corporate Reputation sheet\" being discussed with the developer). Header row 5 exactly: \"Reputation dimension\" | \"Favorability\" | \"Key insights\". Rows: Brand Image = Positive; Employer Brand = Mixed; ESG / Sustainability = Positive; Leadership = Positive (each row has a favourability value). Evidence: step2_when = Overview rows 1-13 grid with the block shaded; step3_then = header + Favorability column framed.",
+      "jira": []
+    },
+    {
+      "tc_id": "TC-GEO-1125-017",
+      "title": "TC-GEO-1125-017 - XLSX Raw Data sheet is unchanged",
+      "story_id": "GEO-1125",
+      "priority": "High",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-017_step1_given.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-017_step2_when.png",
+        "screenshots-GEO-152-GEO1125-mcp/TC-GEO-1125-017_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user exports the analysis in Excel (XLSX) format",
+          "status": "PASS"
+        },
+        {
+          "title": "When the runner opens the Raw Data sheet",
+          "status": "PASS"
+        },
+        {
+          "title": "Then its header row is the same as in the reference export",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And its rows hold favourability values as before",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Sheet \"Raw Data\" exists (sheetId 11, 1081 data rows). Header: Snapshot | Country | Category | Type | Question | Engine | Favorability | Sentiment | Themes | Response | Source URLs | Source Domains. Favorability filled on 761 rows (Favorable 516, Unfavorable 127, Neutral 118); the 320 empty rows are all Type \"Perception\" (no Sentiment either). Identical to the previous run of 2026-10-05. PARTIAL (OP-6): steps 3-4 strictly require a comparison with a pre-deployment reference export, which does not exist on staging.",
+      "jira": []
+    }
+  ]
+}

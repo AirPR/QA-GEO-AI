@@ -1,0 +1,65 @@
+{
+  "page": "manage-scope",
+  "route": "/geo/dashboard/:uuid/manage-scope",
+  "description": "Analysis Scope editor — Countries (add/remove), Categories (add/remove), AI Engines (toggle), Questions (add/edit), Analysis Info.",
+  "scenarios": {
+    "complete": {
+      "dashboard_uuid": "9864c210-948d-4813-aab8-6a007e9127c2",
+      "countries_to_add": ["Germany"],
+      "countries_to_remove": ["France"],
+      "categories_to_add": ["mobile phone"],
+      "categories_to_remove": ["AI chatbot"],
+      "llm_engines_toggles": {
+        "ChatGPT": true,
+        "Gemini":  true,
+        "Claude":  true,
+        "Grok":    false,
+        "Perplexity": false
+      },
+      "questions_to_add": [
+        "Which AI chatbot has the best customer support?"
+      ],
+      "confirm_save": true
+    },
+    "empty": {
+      "dashboard_uuid": "9864c210-948d-4813-aab8-6a007e9127c2",
+      "countries_to_add": [],
+      "countries_to_remove": [],
+      "categories_to_add": [],
+      "categories_to_remove": [],
+      "llm_engines_toggles": {
+        "ChatGPT": false,
+        "Gemini":  false,
+        "Claude":  false,
+        "Grok":    false,
+        "Perplexity": false
+      },
+      "questions_to_add": [],
+      "confirm_save": false
+    },
+    "invalid": {
+      "dashboard_uuid_not_found": "00000000-0000-0000-0000-000000000000",
+      "countries_duplicates": ["United States", "United States"],
+      "countries_unknown": ["Wakanda"],
+      "categories_duplicates": ["AI chatbot", "AI chatbot"],
+      "categories_unknown": ["NotARealCategory"],
+      "question_empty": "",
+      "question_whitespace": "     ",
+      "question_too_long": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "question_sql_injection": "'; DELETE FROM questions; --",
+      "question_xss": "<script>alert('xss')</script>",
+      "llm_engines_toggle_unknown": { "NotARealLLM": true }
+    }
+  },
+  "options": {
+    "sections": ["Countries", "Categories", "AI Engines", "Questions", "Analysis Info"],
+    "countries_on_fixture": ["United States", "France"],
+    "categories_on_fixture": ["AI chatbot", "large language model"],
+    "configurable_llm_engines": ["ChatGPT", "Gemini", "Claude", "Grok", "Perplexity"],
+    "configurable_quotas": ["markets", "categories", "questions", "LLMs"],
+    "action_buttons": ["+ Add Country", "+ Add Category"],
+    "remove_button_aria_pattern": "Remove {item}",
+    "toggle_button_aria_pattern": "Toggle {llm}",
+    "modals": ["Discard Changes modal", "Removal confirmation modal"]
+  }
+}

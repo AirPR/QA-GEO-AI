@@ -1,0 +1,380 @@
+{
+ "spec": "GEO-1226-GEO1548-mcp",
+ "runDate": "2026-11-04",
+ "runMode": "mcp-playwright",
+ "mode": "structured",
+ "url": "https://staging-geo.onclusive.com/geo",
+ "environment": {
+  "auth_me_start": "2026-11-03 17:21 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+  "auth_me_resume": "2026-11-04 08:51 UTC: QA-GEO / SUPER_ADMIN / en-GB (session still valid, no re-login)",
+  "auth_me_end": "2026-11-04 08:54 UTC: QA-GEO / SUPER_ADMIN / en-GB / unbranded_analysis=true",
+  "guard": "context.route on **/geo/api/**: every non-GET aborted except POST /export/{xlsx|pdf|pptx} while an export was being clicked; re-applied on 2026-11-04 08:51 UTC",
+  "non_get_requests": [
+   "POST /geo/api/v1/reports/16cdf040-.../export/xlsx (2026-11-03 17:29 UTC)",
+   "POST /geo/api/v1/reports/16cdf040-.../export/pdf (17:31 UTC)",
+   "POST /geo/api/v1/reports/16cdf040-.../export/pptx (17:31 UTC)"
+  ],
+  "blocked_requests": 0,
+  "interruption": "Run interrupted by a network error on 2026-11-03 after TC-012 evidence (17:32 UTC); resumed 2026-11-04 08:51 UTC in the same browser session. TCs 002-012 use the 2026-11-03 evidence; 017, 018, 025, 026 ran on 2026-11-04 (no new analysis run in between: Orange / Toyota last run 2026-11-03 14:57 UTC).",
+  "exports": "screenshots-GEO-1226-GEO1548-mcp/exports/ (Orange_AI_Visibility_Report.xlsx / .pdf / .pptx + local renderings)"
+ },
+ "summary": {
+  "total": 11,
+  "pass": 9,
+  "fail": 0,
+  "skip": 0,
+  "partial": 2,
+  "successRate": 90.9,
+  "verdict": "GO"
+ },
+ "results": [
+  {
+   "tc_id": "TC-GEO-1548-002",
+   "title": "Two pages on the same host with different paths are never grouped",
+   "story_id": "GEO-1548",
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-002_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-002_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-002_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then each path shows as its own article",
+     "status": "PASS"
+    },
+    {
+     "title": "And no page block of one article belongs to the other path",
+     "status": "SKIP"
+    }
+   ],
+   "notes": "Orange 16cdf040 (QA-GEO), Last 7 days (28 Oct - 3 Nov 2026), AI Engines 2 (ChatGPT + Gemini), All Countries. Cards shown with tabs ALL / IMPROVE VISIBILITY / IMPROVE PERCEPTION. trustpilot.com panel: header '#3 · trustpilot.com', chips 'Review Sites' + 'Improve perception', tab 'Negative perception (6)' active, subtitle 'Each of these articles mentions Orange negatively.' Same host, different paths = separate articles: fr.trustpilot.com/review/www.orange.ma (grouped=true in API) and fr.trustpilot.com/review/www.orange.fr (grouped=false) are two rows (green frames). 30-day window (API): fr. host has 3 separate articles (/www.orange.ma, /www.orange.fr, /www.orange.com?page=2). Data adapted from the CSV example (cnp.fr / cnp-prevoyance.fr) to the JDD Orange data. Step 4 SKIP: review entries not stored on staging yet (GEO-1226 comment 872356) - every article has pages=[] in the API, no page block is rendered, so no page block URL can be compared with its article path."
+  },
+  {
+   "tc_id": "TC-GEO-1548-003",
+   "title": "Two subdomains of the same review page are never grouped",
+   "story_id": "GEO-1548",
+   "status": "PARTIAL",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-003_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-003_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-003_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then www.trustpilot.com, uk.trustpilot.com and nl-be.trustpilot.com show as separate articles",
+     "status": "PASS"
+    },
+    {
+     "title": "And their reviews are not mixed",
+     "status": "SKIP"
+    }
+   ],
+   "notes": "CSV data Victoria's Secret 0bd0b48c is in org 'GEO Stress Test 2026-10' (pre-deploy, 404 from QA-GEO) - replaced by the JDD data Orange 16cdf040 trustpilot.com (Last 7 days, ChatGPT + Gemini). The same review page /review/www.orange.ma on 4 subdomains gives 4 separate articles, each with its own URL line: fr.trustpilot.com (grouped), www.trustpilot.com (grouped, shown 'trustpilot.com/review/www.orange.ma'), fr-be.trustpilot.com, ie.trustpilot.com/review/www.orange.ma?page=2 (green frames). Decathlon b6c8b664 (API, 7 days, 5 engines) confirms: www / fr / fr-be decathlon.fr and www / uk decathlon.co.uk are 5 separate articles. Step 4 SKIP: review entries not stored on staging yet (GEO-1226 comment 872356) - pages=[] and no review shown, so 'reviews not mixed' cannot be checked."
+  },
+  {
+   "tc_id": "TC-GEO-1548-008",
+   "title": "Card lines and panel tab counts give the same number of articles",
+   "story_id": "GEO-1548",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-008_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-008_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-008_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user reads the lines of the Review Sites card",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user opens the panel of the card",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the card and the tabs give the same numbers",
+     "status": "PASS"
+    },
+    {
+     "title": "And each number counts grouped articles",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Orange 16cdf040, Last 30 days (5 Oct - 3 Nov), ChatGPT + Gemini, All Countries (window chosen because trustpilot.com has grouped articles in both tabs there). Card #5 trustpilot.com: 'Not visible in 1 article' / 'Negative perception in 9 articles'. Panel tabs 'Lack of visibility (1)' / 'Negative perception (9)'. Rows: 1 LoV (www.trustpilot.com/review/www.prixtel.com?page=2) + 9 negative, including the grouped articles fr / ie / www orange.ma and www orange.fr (one row each). API: failingArticlesByVerdict {BRAND_NOT_NAMED:1, NAMED_NEGATIVELY:9} = 10 rows. Grouping is applied: ie.trustpilot.com/review/www.orange.ma?page=2 (a separate article in the 7-day window, where it is the only ie page) is merged into the grouped ie.trustpilot.com/review/www.orange.ma article in the 30-day window (UI and API agree). Also checked in 7 days: trustpilot.com card 6 = tab 6 = 6 rows; degrouptest.com (Review Sites) card 2/4 = tabs 2/4 = rows 2/4. Extra captures: TC-GEO-1548-008_extra_panel_full.png, TC-GEO-1548-008_extra_lov_tab.png."
+  },
+  {
+   "tc_id": "TC-GEO-1548-009",
+   "title": "Cards are sorted by the article count of review sites",
+   "story_id": "GEO-1548",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-009_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-009_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-009_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user reads the rank and the article counts of the cards",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the rank order follows the article counts of the cards",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Orange 16cdf040, Card view, tab ALL, ChatGPT + Gemini. Order checked against the rule failing articles desc, then badges, then citations, then domain (GEO-1184 description, TargetSourcesService): 0 violations on 44 sources (7 days) and 122 sources (30 days), API rank = UI rank for the 12 visible cards. 30 days: trustpilot.com (Review Sites) is #5 with 10 grouped articles, after ariase.com 13 and before numerama.com 10 (tie on articles and badges, citations 737 > 660). Its page count is higher than 10 (ie ?page=2 is merged into the ie article), so the card is placed by its article count, not its page count. Exact page count per group not visible (pages=[] on staging)."
+  },
+  {
+   "tc_id": "TC-GEO-1548-010",
+   "title": "Excel export gives the same article count as the card",
+   "story_id": "GEO-1548",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-010_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-010_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-010_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user notes the card lines of the Review Sites source",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user exports the analysis as \"Spreadsheet .xls\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Target Sources sheet gives the same counts for the source",
+     "status": "PASS"
+    },
+    {
+     "title": "And the source rank matches the card order",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Export 'Spreadsheet .xls' (Last 30 days, ChatGPT + Gemini, All Countries, en-GB) -> Orange_AI_Visibility_Report.xlsx (POST /export/xlsx allowed, 23 s). Sheet 'Target Sources', ranked sources: row 11 = rank 5, trustpilot.com, Review Sites, Failing articles 10, Brand absent 1 (= N1), Depicted negatively 9 (= N2), Positive articles 3; ranks 1-12 identical to the app cards. Failing articles section: 10 trustpilot.com rows (same URLs as the panel, grouped articles one row each). Column 'Negative reviews' = 0 on every trustpilot row (review entries not stored yet). step3_then = local rendering of the parsed sheet (file kept in exports/)."
+  },
+  {
+   "tc_id": "TC-GEO-1548-011",
+   "title": "PDF export gives the same article count as the card",
+   "story_id": "GEO-1548",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-011_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-011_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-011_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user notes the card lines of the Review Sites source",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user exports the analysis as \"PDF\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Target Sources page gives the same failing article count for the source",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Export 'PDF' (same filters) -> Orange_AI_Visibility_Report.pdf, 32 pages (POST /export/pdf allowed, 10 s). Last page 'ACTION CENTER · TARGET SOURCES' / 'Where PR effort pays first' (text drawn as outlines, page rendered locally with pdf.js): row 5 trustpilot.com, Review Sites, 'Not visible in 1 article' + 'Negative perception in 9 articles' = card total 10 articles; ranks 1-10 identical to the app. Wording: the page has no 'Failing articles' label - the 'Articles' column shows the two card lines (CSV label alignment proposed)."
+  },
+  {
+   "tc_id": "TC-GEO-1548-012",
+   "title": "PowerPoint export gives the same article count as the card",
+   "story_id": "GEO-1548",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-012_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-012_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-012_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user notes the card lines of the Review Sites source",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user exports the analysis as \"Presentation .pptx\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the Target Sources slide gives the same failing article count for the source",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Export 'Presentation .pptx' (same filters) -> Orange_AI_Visibility_Report.pptx, 32 slides (POST /export/pptx allowed, 4 s). slide32.xml 'ACTION CENTER · TARGET SOURCES': row 5 trustpilot.com, Review Sites, 'Not visible in 1 article' / 'Negative perception in 9 articles' = card (10 articles); ranks 1-10 identical to the app. Same wording note as the PDF (no 'Failing articles' label, column 'Articles'). step3_then = text runs of slide 32 extracted locally."
+  },
+  {
+   "tc_id": "TC-GEO-1548-017",
+   "title": "Non-review source keeps one article per URL",
+   "story_id": "GEO-1548",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-017_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-017_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-017_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the panel of the Journalism source",
+     "status": "PASS"
+    },
+    {
+     "title": "Then every URL is its own article",
+     "status": "PASS"
+    },
+    {
+     "title": "And the card and the tab count URLs as before",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Run on 2026-11-04. Toyota 439acd96, Last 7 days (28 Oct - 3 Nov), AI Engines 4, All Countries. lefigaro.fr card #15 'Not visible in 5 articles'; panel header chip 'Journalism', tab 'Lack of visibility (5)', 5 rows, each URL line a link, no chip, no page block: www.lefigaro.fr/automobile and www.lefigaro.fr/automobile?page=130 stay two articles (green frames), plus tvmag.lefigaro.fr/...?page=213. API: grouped=false on all 5, card 5/0 = panel 5/0. The CSV example URLs (/services/bons-plans?page=20 / ?page=21) are not in this window - data alignment proposed."
+  },
+  {
+   "tc_id": "TC-GEO-1548-018",
+   "title": "Prompts associated with this source section is unchanged",
+   "story_id": "GEO-1548",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-018_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-018_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-018_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+     "status": "PASS"
+    },
+    {
+     "title": "And the user scrolls to the section \"Prompts associated with this source\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the section lists the prompts as before",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Run on 2026-11-04 (reload reset the period to Last 7 days). Orange trustpilot.com: header '#3 · trustpilot.com' + 'Review Sites', tab 'Negative perception (6)' active, subtitle 'Each of these articles mentions Orange negatively.' Section 'Prompts associated with this source': tabs 'All (31)', 'ChatGPT (25)', 'Gemini (27)' (All = card 'Used in 31 prompts'); 6 prompt rows + 'Show 25 more prompts', each with engine icons ('Cited by Gemini' / 'Cited by ChatGPT, Gemini') and country flag (MA); no review entry, no page block, no grouping in the section."
+  },
+  {
+   "tc_id": "TC-GEO-1548-025",
+   "title": "Comparison page alone in its article keeps its classic passage",
+   "story_id": "GEO-1548",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-025_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-025_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-025_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+     "status": "PASS"
+    },
+    {
+     "title": "Then the comparison page shows as an article with its classic passage",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Run on 2026-11-04. CSV data Great Eastern 595928ee / seedly.sg is in org 'GEO Stress Test 2026-10' (pre-deploy) - replaced by the JDD comparison page Orange choisir.com (Review Sites). Card #16 'Negative perception in 1 article'; panel '#16 · choisir.com', chips 'Review Sites' + 'Improve perception', tab 'Negative perception (1)', subtitle 'Each of these articles mentions Orange negatively.' The article choisir.com/forfait-mobile/operateurs shows its classic passage with Orange highlighted, URL line as a link, no 'N negative reviews' chip, no page block. API: grouped=false, matchedEntity Orange, passage present."
+  },
+  {
+   "tc_id": "TC-GEO-1548-026",
+   "title": "Card and panel counts agree on a non-review source",
+   "story_id": "GEO-1548",
+   "status": "PASS",
+   "duration": 0,
+   "error": null,
+   "screenshots": [
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-026_step1_given.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-026_step2_when.png",
+    "screenshots-GEO-1226-GEO1548-mcp/TC-GEO-1548-026_step3_then.png"
+   ],
+   "steps": [
+    {
+     "title": "Given the user is on Actions Center > Target Sources of analysis A",
+     "status": "PASS"
+    },
+    {
+     "title": "When the user reads the card lines of 3 non-review sources and opens their panels",
+     "status": "PASS"
+    },
+    {
+     "title": "Then each card line equals its panel tab count",
+     "status": "PASS"
+    }
+   ],
+   "notes": "Run on 2026-11-04. Toyota 439acd96, Last 7 days, 4 engines. guideautoweb.com card 12 / 7 = tabs 'Lack of visibility (12)' / 'Negative perception (7)' (12 rows after 'Show 2 more articles', 7 rows); autobild.es 12 / 1 = tabs 12 / 1 (12 rows after 'Show 2 more articles'); automobile-magazine.fr 3 / 9 = tabs 3 / 9. API sweep: card BRAND_NOT_NAMED / NAMED_NEGATIVELY = panel row counts for all 80 sources of the analysis (0 mismatch)."
+  }
+ ]
+}

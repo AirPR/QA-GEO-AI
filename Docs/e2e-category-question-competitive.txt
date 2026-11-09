@@ -1,0 +1,91 @@
+================================================================================
+Feature: Competitive Tab — Winner Column Consistency with LLM Detail Panel
+================================================================================
+Spec file : e2e-category-question-competitive.spec.js
+Validated : Staging and Production — Toyota dashboard
+--------------------------------------------------------------------------------
+
+  Background:
+    Given the user is authenticated
+    And the user navigates to a category page
+    When the user clicks the "Competitive" filter in the question-type filter bar
+    Then the detail panel opens automatically on the first question in the list
+
+
+  # ----------------------------------------------------------------------------
+  # Winner column display rules
+  # ----------------------------------------------------------------------------
+  #
+  #   Value displayed          | CSS style                  | Meaning
+  #   -------------------------|----------------------------|--------------------
+  #   Brand name (e.g. Toyota) | font-medium text-slate-900 | Wins on ALL LLMs
+  #   Competitor name          | text-slate-700 (no bold)   | Competitor wins on ALL LLMs
+  #   "Lost" plain text        | text-slate-400 text-sm     | Loses on all LLMs, no competitor named
+  #   "Split" badge (orange)   | border-orange-200          | LLMs disagree (mix Won/Lost)
+  # ----------------------------------------------------------------------------
+
+
+================================================================================
+Scenario: WN-01 — Winner = Brand Name: all LLM engines show Won
+================================================================================
+
+  Given the user is on the Competitive tab of the "Hybrid Cars" category
+    And at least one question row exists where the Winner column displays
+        the tracked brand name (Toyota) in bold dark text
+
+  When the user opens the detail panel for that row
+    And clicks each active LLM engine pill (ChatGPT, Gemini, Grok...)
+
+  Then every LLM engine with data displays the "Won" (green) badge
+    And no engine displays the "Lost" badge
+
+
+================================================================================
+Scenario: WN-02 — Winner = Competitor Name: all LLM engines show Lost
+================================================================================
+
+  Given the user is on the Competitive tab of the "Electric Cars" category
+    And at least one question row exists where the Winner column displays
+        a competitor brand name (grey text, no bold, different from Toyota)
+
+  When the user opens the detail panel for that row
+    And clicks each active LLM engine pill
+
+  Then every LLM engine with data displays the "Lost" (red) badge
+    And no engine displays the "Won" badge
+
+
+================================================================================
+Scenario: WN-03 — Winner = "Lost" plain text: all LLM engines show Lost
+================================================================================
+
+  Given the user is on the Competitive tab of the "Electric Cars" category
+    And at least one question row exists where the Winner column displays
+        the plain text "Lost" in faded grey with no badge border
+
+  When the user opens the detail panel for that row
+    And clicks each active LLM engine pill
+
+  Then every LLM engine with data displays the "Lost" (red) badge
+
+  # Note: differs from WN-02 — no competitor is identified;
+  #       the brand loses across all engines with no consensus competitor.
+
+
+================================================================================
+Scenario: WN-04 — Winner = "Split" badge: per-engine mix of Won and Lost
+================================================================================
+
+  Given the user is on the Competitive tab of the "SUVs" category
+    And at least one question row exists where the Winner column displays
+        the orange "Split" badge
+
+  When the user opens the detail panel for that row
+    And clicks each active LLM engine pill
+
+  Then no individual LLM engine displays a "Split" badge
+    And each engine displays either "Won" or "Lost" only
+    And at least one engine displays "Won"
+    And at least one engine displays "Lost"
+
+================================================================================

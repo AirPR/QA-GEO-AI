@@ -1,0 +1,1062 @@
+{
+  "spec": "GEO-1002-rerun-create-20261023",
+  "runDate": "2026-10-23",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 19,
+    "pass": 13,
+    "fail": 1,
+    "skip": 0,
+    "partial": 5
+  },
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "analysisD": {
+    "uuid": "52e4bef1-032c-4166-8af7-f20ae0eb6c96",
+    "name": "Decathlon (decathlon.com)",
+    "markets": [
+      "US (EN)",
+      "US (ES)",
+      "FR (FR)"
+    ],
+    "category": "Outdoor Gear",
+    "prompts": 5,
+    "engines": "ChatGPT + Gemini (wizard defaults)",
+    "createdAt": "2026-10-23T12:33:10Z (POST /v1/reports 201)",
+    "deletedAt": "2026-10-23T12:59:46Z (DELETE /v1/reports/{D}, GET afterwards 404)"
+  },
+  "poolBaseline": {
+    "org": "QA-GEO",
+    "orgId": "dcea498b-a5cc-4c2a-b078-82530de16998",
+    "U": 996,
+    "P": 1000,
+    "readAt": "2026-10-23T12:28Z",
+    "source": "dashboard 'Prompt pool: 996 / 1000 prompts', GET /v1/admin/organisations promptPool 1000 promptsUsed 996"
+  },
+  "poolTimeline": [
+    {
+      "utc": "12:29:07",
+      "event": "Pool 1000 -> 1050 (room for D), PATCH quotas {\"promptPool\":1050} 200 (promptsUsed 996)"
+    },
+    {
+      "utc": "12:33:10",
+      "event": "D created (5 prompts): usage 996 -> 1001, dashboard 'Prompt pool: 1001 / 1050 prompts', 12 analyses"
+    },
+    {
+      "utc": "12:37:26",
+      "event": "Pool 1050 -> 1100 for TC-GEO-1239-010 (90 Cycling suggestions did not fit: '1091 / 1050 · 41 prompts over'), PATCH {\"promptPool\":1100} 200"
+    },
+    {
+      "utc": "12:38:06",
+      "event": "Cycling added to D (90 prompts): usage 1001 -> 1091, ring 1091 / 1100"
+    },
+    {
+      "utc": "12:39:28",
+      "event": "Pool 1100 -> 1200 for TC-GEO-1239-009 (Spain: 70 suggestions, precondition 'enough free slots for a new market'), PATCH {\"promptPool\":1200} 200 (promptsUsed 1091)"
+    },
+    {
+      "utc": "12:40:42",
+      "event": "Spain - Spanish added to D with 67 ticked (3 unticked): usage 1091 -> 1158, ring 1158 / 1200"
+    },
+    {
+      "utc": "12:42:20",
+      "event": "TC-GEO-1239-002 tick of 1 suggestion on D: usage 1158 -> 1159"
+    },
+    {
+      "utc": "12:46:27",
+      "event": "TC-GEO-1239-004 deletion of 1 prompt on D: usage 1159 -> 1158"
+    },
+    {
+      "utc": "12:47:56",
+      "event": "TC-GEO-1239-005 deletion of the last US (EN) x Outdoor Gear x Reputation prompt: usage 1158 -> 1157"
+    },
+    {
+      "utc": "12:49:37",
+      "event": "Pool 1200 -> 1157 (= U) for TC-GEO-1239-011 / TC-GEO-1236-004, PATCH {\"promptPool\":1157} 200 (promptsUsed 1157)"
+    },
+    {
+      "utc": "12:50:09",
+      "event": "TC-GEO-1239-011 untick 1 kept prompt on D: usage 1157 -> 1156"
+    },
+    {
+      "utc": "12:50:38",
+      "event": "Re-tick of the unticked prompt (back to U / U) sent, then staging returned 503 on every /geo route from ~12:50:40 to ~12:52:13 (oauth2/authorization/auth0 503); the re-tick was lost (usage stayed 1156)"
+    },
+    {
+      "utc": "12:52:38",
+      "event": "Re-tick replayed after recovery: usage 1156 -> 1157 (= pool)"
+    },
+    {
+      "utc": "12:53:10",
+      "event": "TC-GEO-1236-004 untick 1 kept (1157 -> 1156), then tick 1 suggestion accepted (12:53:19, 1156 -> 1157)"
+    },
+    {
+      "utc": "12:54:37",
+      "event": "Pool 1157 -> 1155 (U - 2) for TC-GEO-1239-012, PATCH {\"promptPool\":1155} 200"
+    },
+    {
+      "utc": "12:55:23",
+      "event": "TC-GEO-1239-012 on D: 1 delete (1157 -> 1156) + 1 untick (1156 -> 1155)"
+    },
+    {
+      "utc": "12:55:48",
+      "event": "Pool 1155 -> 1153 (U - 2) for TC-GEO-1229-006, PATCH {\"promptPool\":1153} 200"
+    },
+    {
+      "utc": "12:56:53",
+      "event": "TC-GEO-1229-006 on D: 3 unticks (1155 -> 1152) + 1 tick (1152 -> 1153)"
+    },
+    {
+      "utc": "12:57:23",
+      "event": "Pool 1153 -> 1148 (U - 5) for TC-GEO-1240-003, PATCH {\"promptPool\":1148} 200"
+    },
+    {
+      "utc": "12:57:30",
+      "event": "TC-GEO-1240-003 wizard up to Prompts only: ring 1193 / 1148, Review & Launch disabled, Exit and Discard"
+    },
+    {
+      "utc": "12:58:59",
+      "event": "Pool 1148 -> 1200 (room) for TC-GEO-1240-005 / TC-GEO-1229-004, PATCH {\"promptPool\":1200} 200 (promptsUsed 1153)"
+    },
+    {
+      "utc": "12:59:16",
+      "event": "TC-GEO-1240-005 untick 2 on D: usage 1153 -> 1151, D column 157 -> 155"
+    },
+    {
+      "utc": "12:59:46",
+      "event": "D deleted (DELETE /v1/reports/52e4bef1...): usage 1151 -> 996 at once, dashboard 'Prompt pool: 996 / 1200', 11 analyses"
+    },
+    {
+      "utc": "13:01:28",
+      "event": "RESTORE: pool 1200 -> 1000, PATCH {\"promptPool\":1000} 200 (promptsUsed 996); back office row '996 / 1000' text-slate-600; dashboard 'Prompt pool: 996 / 1000 prompts', 11 analyses; GET /v1/reports/{D} 404; /v1/auth/me language en-GB, org QA-GEO; wizard drafts left with Exit and Discard; routes removed (unrouteAll)"
+    }
+  ],
+  "writeGuard": "context.route on **/geo/api/**: GET always continue; non-GET allowed only for discover-categories / translate-category / questions/adapt-batch, the single POST /v1/reports (creation, once), any URL or body containing D's UUID, and PATCH /admin/organisations/{QA-GEO}/quotas; everything else aborted and logged",
+  "environment": "staging, organisation QA-GEO, /v1/auth/me language en-GB, features.unbranded_analysis true",
+  "writeGuardLog": "53 non-GET requests, 0 aborted: 9 x PATCH QA-GEO quotas (1050, 1100, 1200, 1157, 1155, 1153, 1148, 1200, 1000), 17 x wizard draft (discover-categories, translate-category, questions/adapt-batch), 1 x POST /v1/reports (creation of D; further creations blocked), 26 x writes on D (categories, markets, prompts/kept, prompt PUT, classification PATCH, prompt DELETE, report DELETE). No write on any other analysis.",
+  "poolRestored": {
+    "value": 1000,
+    "used": 996,
+    "verifiedAt": "2026-10-23T13:01Z",
+    "backoffice": "996 / 1000 (text-slate-600)",
+    "dashboard": "Prompt pool: 996 / 1000 prompts, 11 analyses",
+    "language": "en-GB",
+    "screenshots": [
+      "screenshots-GEO-1002-rerun-create-20261023/restore_ok.png",
+      "screenshots-GEO-1002-rerun-create-20261023/restore_ok_backoffice.png"
+    ]
+  },
+  "restoreScreenshot": "screenshots-GEO-1002-rerun-create-20261023/restore_ok.png",
+  "restoreNote": "D deleted (404), QA-GEO pool back to 1000, dashboard and back office read 996 / 1000, language en-GB, wizard drafts discarded, write guard removed.",
+  "incidents": [
+    "Staging returned 503 on every /geo route (oauth2/authorization/auth0 and /api) from about 12:50:40 to 12:52:13 UTC; one set-up re-tick was lost and replayed after recovery."
+  ],
+  "sideFindings": [
+    "TC-GEO-1239-005 (FAIL): the delete warning of the last prompt of a group names the group (\"This is the last Reputation prompt of Outdoor Gear in United States (EN).\") but no metric; AC-5 expects the metrics that stop. Screenshot TC-GEO-1239-005_step3_then.png",
+    "Version history logs the suggestions left unticked when adding a market as \"Added a ... prompt\" (70 Spain entries for 67 kept). Screenshot TC-GEO-1239-009_step4_history_unticked_added.png",
+    "Version history date group count = loaded entries only (\"Today 50 Changes\" before Load more, then 90 / 160). Screenshots TC-GEO-1239-010_step4_history.png, TC-GEO-1239-006_step2_when.png",
+    "Dashboard country filter: with All Countries ticked, clicking a country unticks it (keeps the others) instead of selecting it alone. Screenshot TC-GEO-1229-007_step2b_first_click_us.png",
+    "Toast after deleting a prompt reads \"Prompt updated. Changes will apply on the next analysis re-run.\" (generic wording, no Undo). Screenshot TC-GEO-1239-004_step3_deleted.png",
+    "Known: Manage Scope table shows FR/ES category rows as \"Cycling\" while the history shows Cyclisme / Ciclismo; markets shown as United States (EN) / France (French) in warnings and history vs US (EN) / FR (FR) in the table",
+    "Add Category ring does not refresh after a back-office pool change while the dialog is open (needs Exit and Discard + reload)"
+  ],
+  "results": [
+    {
+      "tc_id": "TC-GEO-1237-011",
+      "title": "The unticked-suggestions line is hidden when there are none",
+      "story_id": "GEO-1237",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1237-011_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1237-011_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1237-011_step3_then.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1237-011_step4_dashboard.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Summary with 40 kept prompts and none unticked",
+          "testData": "Adapted scope (user instruction): Decathlon (decathlon.com), US (EN) + US (ES) + FR (FR), 1 category Outdoor Gear kept (Sports Apparel removed), 120 suggestions generated, 115 deleted with the trash icon, 5 kept, 0 unticked",
+          "expected": "Create Analysis is enabled",
+          "observed": "Summary: markets United States · English, United States · Spanish, France · French; category Outdoor Gear; engines ChatGPT and Gemini on (default), Grok/Claude/Perplexity off; warning 'Some metrics will not be produced. No Competitive prompts are kept...'; Create Analysis enabled; Prompts step ring '1001 / 1050 · 5 selected'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Create Analysis",
+          "testData": "",
+          "expected": "The confirmation opens",
+          "observed": "POST /v1/reports 201 (id 52e4bef1-032c-4166-8af7-f20ae0eb6c96, PENDING); dialog 'Analysis created' opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no line about unticked suggestions is shown",
+          "testData": "",
+          "expected": "40 prompts, 1 market, 1 category and the engines are stated; no unticked-suggestions line",
+          "observed": "Dialog text: 'Analysis created | Decathlon is scheduled. | 5 prompts across 3 markets and 1 category run on ChatGPT and Gemini. | Prompt changes apply at the next run. | View analysis | Go to Dashboard' - counts (5 / 3 / 1, adapted scope) and engines stated, no unticked-suggestions line",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Go to Dashboard",
+          "testData": "",
+          "expected": "The GEO dashboard list is displayed with the new analysis",
+          "observed": "/geo dashboard, 12 analyses, new row 'Decathlon decathlon.com Outdoor Gear 5 A few seconds ago'; pool 'Prompt pool: 1001 / 1050 prompts'",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Scope adapted per user authorisation (5 prompts / 3 markets instead of 40 / 1 market) so the same analysis D serves the other TCs; the rule under test (no unticked-suggestions line when 0 unticked) is independent of the counts. Suggestions removed with the trash icon in the wizard (no confirmation in the wizard)."
+    },
+    {
+      "tc_id": "TC-GEO-1229-007",
+      "title": "The dashboard market filter lists a country once and rolls up its languages",
+      "story_id": "GEO-1229",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-007_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-007_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-007_step2b_first_click_us.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis M",
+          "testData": "Analysis M = D 52e4bef1 (US (EN), US (ES), FR (FR)); first collection already available at 12:34Z",
+          "expected": "The Overview is displayed",
+          "observed": "Overview of D displayed (Identity / Performance / Sources, InBrief, Brand Territory, KPIs, Share of Voice, Citation Sources 35 URLs); filters 23 Oct 2026, AI Engines 2, All Countries",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the market (country) filter",
+          "testData": "",
+          "expected": "The filter lists \"United States\" once and \"France\" once (no separate entry per language)",
+          "observed": "Listbox 'Countries' (market-dropdown-listbox): 'All Countries | United States | France' - one entry per country",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user selects \"United States\" only",
+          "testData": "",
+          "expected": "The filter shows United States selected",
+          "observed": "Filter shows 'United States' (aria 'Country filter — 1 selected'). Note: with All Countries ticked, the first click on United States UNTICKS it (France only was selected); United States only was reached by ticking US back and unticking France",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the results roll up both languages of the country",
+          "testData": "",
+          "expected": "The prompts and results shown include the English and the Spanish prompts of United States, and none of France",
+          "observed": "Requests sent with marketCodes=en-US,es-US (no fr-FR). Category Outdoor Gear prompt table 'Showing 3 of 3 prompts': 'What do you think of Decathlon for Outdoor Gear?' (US EN), 'Best Outdoor Gear?' (US EN), '¿Cuál es el mejor equipo para exteriores?' (US ES); FR prompt absent. Citation sources: en-US 20 URLs + es-US 10 = 26 URLs with US filter (Journalism 20 + Other 3 + Aggregators 2 + Review 1), FR-only domains (rando.fr, theriderpost.com) absent; All = 35 = 26 + 9 FR",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Run on D instead of a long-lived analysis M. Side observation (UX, not a CSV assertion): when All Countries is selected every country is ticked, so clicking a country removes it instead of selecting it alone."
+    },
+    {
+      "tc_id": "TC-GEO-1239-010",
+      "title": "Adding a category brings fresh suggestions, all ticked, with the pool in view",
+      "story_id": "GEO-1239",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-010_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-010_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-010_step3_then.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-010_step4_history.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is in Manage Scope of analysis A",
+          "testData": "A = D (US (EN), US (ES), FR (FR); 1 category; 5 prompts)",
+          "expected": "Add category is available",
+          "observed": "Manage Scope of D: Add Category enabled; ring 1001 / 1050",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a category",
+          "testData": "Category: \"Cycling\"",
+          "expected": "Fresh suggestions for \"Cycling\" in GB (EN) and FR (FR) are shown, all ticked, with the pool ring in view",
+          "observed": "Translations US-English Cycling / US-Spanish Ciclismo / FR-French Cyclisme; Prompts step: 90 suggestions (10 Reputation + 10 Visibility + 10 Competitive per market, US (EN), US (ES), FR (FR)), all ticked, ring in view. First attempt at pool 1050: '1091 / 1050 · 90 selected · 41 prompts over. Untick prompts or contact your account manager.' and Add Category disabled; pool raised to 1100 (TC precondition 'enough free slots'), flow replayed: ring '1091 / 1100', Add Category enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user saves",
+          "testData": "",
+          "expected": "The category is added",
+          "observed": "POST /v1/reports/{D}/categories 200; dialog closed; Categories in the side menu and scope: Outdoor Gear, Cycling; ring 1091 / 1100",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the new prompts join the analysis",
+          "testData": "Filter Category = Cycling",
+          "expected": "The \"Cycling\" prompts are listed in Manage Scope > Prompts and show as \"Added\" in the version history",
+          "observed": "Category filter menu: Outdoor Gear 4, Cycling 90, Other 0, Overview 1; filter Cycling = 90 rows, all ticked. Version history: 'Today' group, entries 'Added a Reputation/Visibility/Competitive prompt' with user, category, market and time; 90 'Added' entries after Load more",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Market = GB (EN) in the CSV, adapted to D's markets (US EN, US ES, FR FR). Side findings: (1) the version-history date group counts only the loaded entries ('Today 50 Changes' before Load more, '90 Changes' after) - the group count should be the total of the day; (2) known: the Manage Scope table shows the FR / ES rows with category 'Cycling' while the history shows 'Cyclisme' / 'Ciclismo'; (3) the Add Category ring does not refresh after a pool change in the back office (needs Cancel > Exit and Discard and a reload)."
+    },
+    {
+      "tc_id": "TC-GEO-1239-009",
+      "title": "Adding a market brings fresh suggestions, all ticked, with the pool in view",
+      "story_id": "GEO-1239",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-009_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-009_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-009_step3a_none_ticked.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-009_step3_then.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-009_step4_history_unticked_added.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is in Manage Scope of analysis A",
+          "testData": "A = D (US EN, US ES, FR FR; Outdoor Gear + Cycling; 95 prompts); pool 1200",
+          "expected": "Add market is available",
+          "observed": "Add Country enabled; ring 1091 / 1200",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a market",
+          "testData": "Market: Spain - Spanish (ES)",
+          "expected": "Fresh suggestions for Spain are generated, all ticked, with the pool ring in view",
+          "observed": "Spain / Spanish (ES) auto-detected; Prompts step: 70 suggestions ES (ES) (Brand Image 10; Outdoor Gear and Cycling x Reputation/Visibility/Competitive 10 each), all ticked; ring in view '1161 / 1200 · 70 selected'",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user unticks every suggestion of the new market",
+          "testData": "Header checkbox 'Tick or untick every prompt'",
+          "expected": "Save is refused with no ticked prompt",
+          "observed": "0 selected, ring 1091 / 1200, Add Country button disabled (no message shown)",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user ticks back all but 3 suggestions and saves",
+          "testData": "Unticked: '¿Por qué es conocido Decathlon?', 'Háblame sobre Decathlon.', '¿Cuál es la reputación de Decathlon?' (Overview, Brand Image, ES (ES))",
+          "expected": "The market is added; the ring reflects the ticked prompts",
+          "observed": "POST /v1/reports/{D}/markets 200; Countries now include Spain - Spanish; ring 1158 / 1200 (1091 + 67) · 162 selected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the 3 unticked suggestions join the suggestions at the end of the table",
+          "testData": "Manage Scope > Prompts",
+          "expected": "The 3 rows are listed unticked and greyed at the end of the table (no \"Suggested Prompts\" heading); the new prompts show as \"Added\" in the version history",
+          "observed": "Rows 163-165 of 165 = the 3 unticked ES suggestions, unticked, grey text; no 'Suggested Prompts' heading. Version history 'Today': 70 'Added a ... prompt' entries for Spain (Spanish) at 12:41",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Possible bug (side finding): the version history logs the 3 suggestions left unticked as 'Added a Brand Image prompt' (70 Spain entries for 67 kept prompts) although they were not added to the run scope (they do not count in the pool) - screenshot TC-GEO-1239-009_step4_history_unticked_added.png. Also the date group count shows only loaded entries (50 before Load more, 160 after all pages)."
+    },
+    {
+      "tc_id": "TC-GEO-1239-002",
+      "title": "Retained unticked suggestions show at the end of the table and can be ticked when the pool has room",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-002_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-002_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-002_step3_ticked.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A",
+          "testData": "A = D; unticked suggestions = the 3 left unticked by TC-GEO-1239-009 (D was created with 0 unticked, as required by TC-GEO-1237-011)",
+          "expected": "The kept prompts are listed",
+          "observed": "165 rows, ring 1158 / 1200 · 162 selected",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user scrolls to the end of the table",
+          "testData": "",
+          "expected": "The unticked suggestions are listed, unticked and greyed, at the end of the table (no \"Suggested Prompts\" heading)",
+          "observed": "Last 3 rows: '¿Por qué es conocido Decathlon?', 'Háblame sobre Decathlon.', '¿Cuál es la reputación de Decathlon?' - unticked, checkbox enabled, grey text; no 'Suggested Prompts' heading",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user ticks one suggested prompt",
+          "testData": "Suggested prompt G = 'Háblame sobre Decathlon.' (Overview, Brand Image, ES (ES))",
+          "expected": "The ring increases by 1 and G is kept at once (no Save button)",
+          "observed": "Ring 1158 -> 1159 / 1200; G ticked and moved into the kept rows; PATCH /v1/reports/{D}/prompts/kept {isKept:true} sent on click; no Save button, no confirmation",
+          "status": "PASS"
+        },
+        {
+          "title": "Then G is kept from the next run",
+          "testData": "Next collection of A",
+          "expected": "G is collected and appears in the results of the next run only; the tick is not written in the version history",
+          "observed": "Version history after the tick: newest entries still the Spain additions of 12:41, no entry for the tick (part verified). Next collection not available within this run (daily frequency): NOT RUN",
+          "status": "NOT RUN"
+        }
+      ],
+      "notes": "PARTIAL: steps 1-3 verified and the 'not in version history' part of step 4; collection of G at the next run cannot be observed in this session."
+    },
+    {
+      "tc_id": "TC-GEO-1239-003",
+      "title": "Editing a prompt in Manage Scope changes only its wording, from the next run",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-003_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-003_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-003_step2b_saved.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a kept prompt K of analysis A collected in past runs",
+          "testData": "Prompt K = 'Best Outdoor Gear?' (Outdoor Gear, Visibility, US (EN)) of D, collected in the first run of 23/10",
+          "expected": "K shows its original wording",
+          "observed": "Row 'Best Outdoor Gear? | Outdoor Gear | Visibility | US (EN)', ticked",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user edits the wording of K and saves",
+          "testData": "New wording: original wording + \" in 2026\"",
+          "expected": "K shows the new wording; category, type, market and ticked state are unchanged",
+          "observed": "Inline edit, Enter opens 'Save Changes - Only the wording changes. Results from past runs stay as they are; the new wording is asked from the next analysis re-run.'; Save Changes -> PUT /v1/reports/{D}/prompts/fc7f9996... {questionText:'Best Outdoor Gear? in 2026'}; row now 'Best Outdoor Gear? in 2026 | Outdoor Gear | Visibility | US (EN)', ticked",
+          "status": "PASS"
+        },
+        {
+          "title": "Then past results keep the original wording",
+          "testData": "Results of the last run",
+          "expected": "The last run shows K with its original wording",
+          "observed": "Category Outdoor Gear (23 Oct 2026, United States): prompt table 'Showing 3 of 3 prompts' lists 'Best Outdoor Gear?' (original wording), no 'in 2026'",
+          "status": "PASS"
+        },
+        {
+          "title": "And the next run uses the new wording",
+          "testData": "Next collection of A",
+          "expected": "The next run shows K with the new wording",
+          "observed": "Next collection not available in this session: NOT RUN",
+          "status": "NOT RUN"
+        }
+      ],
+      "notes": "PARTIAL: steps 1-3 verified on D; step 4 needs a later collection. The dashboard country filter (United States) persisted between pages."
+    },
+    {
+      "tc_id": "TC-GEO-1239-007",
+      "title": "A category change keeps the prompt history where it was collected",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-007_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-007_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-007_step3_history.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given prompt K of category C1 has past results",
+          "testData": "Prompt K = '¿Cuál es el mejor equipo para exteriores?' (Outdoor Gear = C1, Visibility, US (ES)) of D, collected on 23/10 (winner Patagonia)",
+          "expected": "K is listed under C1",
+          "observed": "Row '¿Cuál es el mejor equipo para exteriores? | Outdoor Gear | Visibility | US (ES)'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user changes the category of K to C2 with the row select",
+          "testData": "Category: C2 = Cycling",
+          "expected": "K is listed under C2 at once (no Save button, no confirmation)",
+          "observed": "Category cell select lists 'Outdoor Gear | Cycling'; choosing Cycling sends PATCH /v1/reports/{D}/prompts/570945b5.../classification {categoryId: Cycling, questionType: VISIBILITY} at once; row now 'Cycling | Visibility | US (ES)'; no Save button, no confirmation",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the version history shows K deleted from C1 and added to C2",
+          "testData": "",
+          "expected": "Two entries: deleted from C1, added to C2",
+          "observed": "Top of 'Today': 'Deleted a Visibility prompt · Equipo para Exteriores · United States (Spanish)' and 'Added a Visibility prompt · Ciclismo · United States (Spanish)', both with K's wording",
+          "status": "PASS"
+        },
+        {
+          "title": "And the past results of K stay under C1",
+          "testData": "Category view C1, past runs",
+          "expected": "The past results of K are still counted in C1",
+          "observed": "Category Outdoor Gear (23 Oct 2026, United States): K still listed with its result (Visibility, winner Patagonia), 'Showing 3 of 3 prompts'",
+          "status": "PASS"
+        },
+        {
+          "title": "And the next run collects K under C2",
+          "testData": "Next collection of A",
+          "expected": "K results appear under C2 from the next run",
+          "observed": "Next collection not available in this session: NOT RUN",
+          "status": "NOT RUN"
+        }
+      ],
+      "notes": "PARTIAL: steps 1-4 verified on D (C1 = Outdoor Gear, C2 = Cycling added by TC-GEO-1239-010); step 5 needs a later collection. The history names categories in the market language (Equipo para Exteriores / Ciclismo) while the table shows the English names."
+    },
+    {
+      "tc_id": "TC-GEO-1239-008",
+      "title": "A type change ends the old series and starts a new one",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-008_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-008_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given prompt K of type Visibility has past results",
+          "testData": "Prompt K = \"Quel est le meilleur équipement d'extérieur ?\" (Outdoor Gear, Visibility, FR (FR), no [Competitor N] placeholder) of D, collected on 23/10",
+          "expected": "K shows type Visibility",
+          "observed": "Row 'Quel est le meilleur équipement d'extérieur ? | Outdoor Gear | Visibility | FR (FR)'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user changes the type of K to Reputation with the row select",
+          "testData": "Type: Reputation",
+          "expected": "K shows type Reputation at once (no Save button, no confirmation)",
+          "observed": "Type cell select 'Visibility | Reputation | Competitive | Brand Image | Other'; Reputation -> PATCH .../prompts/bb8f1f84.../classification {questionType: PERCEPTION} at once; row shows Reputation; no Save button, no confirmation",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Visibility series of K ends",
+          "testData": "Visibility results, past runs",
+          "expected": "The past Visibility results of K stay and get no new data point",
+          "observed": "Category Outdoor Gear, France, 23 Oct 2026: K still listed as Visibility with its past result (Unranked), 'Showing 1 of 1 prompts'. 'No new data point' needs the next run: not observable",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And a new Reputation series starts from the next run",
+          "testData": "Next collection of A",
+          "expected": "K results appear as Reputation from the next run",
+          "observed": "Next collection not available in this session: NOT RUN",
+          "status": "NOT RUN"
+        }
+      ],
+      "notes": "PARTIAL: steps 1-2 and the 'past results stay' part of step 3 verified on D; next-run behaviour not observable in this session."
+    },
+    {
+      "tc_id": "TC-GEO-1239-004",
+      "title": "Deleting a prompt frees its slot and keeps its past data points",
+      "story_id": "GEO-1239",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-004_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-004_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-004_step3_deleted.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a kept prompt K of analysis A with past data points",
+          "testData": "Prompt K = 'Best Outdoor Gear? in 2026' (formerly 'Best Outdoor Gear?', Outdoor Gear, Visibility, US (EN)) of D",
+          "expected": "The ring reads \"X / P\"",
+          "observed": "Ring 'Prompt pool: 1159 / 1200 prompts' (X = 1159, P = 1200)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the trash icon of K",
+          "testData": "",
+          "expected": "A confirmation opens",
+          "observed": "'Delete Prompt - Its slot returns to the prompt pool. Results from past runs stay in the history; the prompt is no longer asked from the next analysis re-run. | What stops from the next run | This is the last Visibility prompt of Outdoor Gear in United States (EN). | Cancel | Delete Prompt'",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user confirms",
+          "testData": "",
+          "expected": "K is removed from the table, with no Undo toast",
+          "observed": "DELETE /v1/reports/{D}/prompts/fc7f9996... ; K removed (164 rows); toast 'Prompt updated. Changes will apply on the next analysis re-run.' without Undo button",
+          "status": "PASS"
+        },
+        {
+          "title": "Then its slot returns to the pool",
+          "testData": "",
+          "expected": "The ring reads \"X - 1 / P\"",
+          "observed": "Ring 'Prompt pool: 1158 / 1200 prompts'",
+          "status": "PASS"
+        },
+        {
+          "title": "And its past data points stay in the history",
+          "testData": "Results of past runs",
+          "expected": "The past results of K are still shown",
+          "observed": "Category Outdoor Gear, All Countries, 23 Oct 2026: 'Best Outdoor Gear?' still listed (Visibility, Unranked), 'Showing 4 of 4 prompts'",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Side observation: the toast after a deletion reads 'Prompt updated...' (generic wording, not 'Prompt deleted'). The delete confirmation does not name the prompt (known)."
+    },
+    {
+      "tc_id": "TC-GEO-1239-005",
+      "title": "The last prompt of a group can be deleted with a warning naming the metrics that stop",
+      "story_id": "GEO-1239",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 'Then a warning names the metrics the analysis will stop producing': expected the warning to name the Reputation metrics of C1 in the market; observed 'What stops from the next run | This is the last Reputation prompt of Outdoor Gear in United States (EN).' - the group is named, no metric is named.",
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-005_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-005_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-005_step3_then.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-005_step4_group_empty.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the group GB (EN) x C1 x Reputation holds a single prompt",
+          "testData": "Filters: Market US (EN) (adapted from GB (EN)), Category Outdoor Gear (C1), Type Reputation",
+          "expected": "One row is listed",
+          "observed": "1 row: 'What do you think of Decathlon for Outdoor Gear? | Outdoor Gear | Reputation | US (EN)'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user deletes that last prompt",
+          "testData": "",
+          "expected": "The deletion is allowed (no minimum error)",
+          "observed": "Trash icon opens 'Delete Prompt' with Delete Prompt enabled; no minimum-per-group error",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a warning names the metrics the analysis will stop producing",
+          "testData": "",
+          "expected": "The warning names the Reputation metrics of C1 in GB (EN)",
+          "observed": "'What stops from the next run | This is the last Reputation prompt of Outdoor Gear in United States (EN).' - names the group (type, category, market) but no metric",
+          "status": "FAIL"
+        },
+        {
+          "title": "When the user confirms",
+          "testData": "",
+          "expected": "The prompt is deleted and the group is empty",
+          "observed": "DELETE /v1/reports/{D}/prompts/743dfa69... ; filtered table empty (0 rows); ring 1158 -> 1157 / 1200",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Same behaviour as the 2026-10-20 run on the untick warning (side finding 'names the group, not the metrics'). The market reads 'United States (EN)' in the warning vs 'US (EN)' in the table. Possible bug / PO question: AC-5 says the warning names the metrics the analysis stops producing."
+    },
+    {
+      "tc_id": "TC-GEO-1239-006",
+      "title": "Version history groups prompt changes by date with count and original and edited wording",
+      "story_id": "GEO-1239",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-006_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-006_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given prompts of analysis A were changed on two dates",
+          "testData": "Adapted (same day only): 3 wording edits on D on 23/10 - 'Best Outdoor Gear?' (12:43, TC-GEO-1239-003), 'What do you think of Decathlon?' and \"Quel est le meilleur équipement d'extérieur ?\" (12:48), each + ' in 2026'",
+          "expected": "The changes are saved",
+          "observed": "3 PUT /v1/reports/{D}/prompts/{id} {questionText} after the 'Save Changes' confirmation; table shows the new wordings",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user opens the version history",
+          "testData": "",
+          "expected": "The version history is displayed",
+          "observed": "Panel 'Prompts Version history' opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the changes are grouped by date with their count",
+          "testData": "",
+          "expected": "A D2 group with 1 change and a D1 group with 2 changes",
+          "observed": "Only one date exists on D: single group 'Today' with '50 Changes' (count of the loaded entries, 165 changes in total today: adds, deletes, edits, moves). Two-date grouping not verifiable with a same-day analysis",
+          "status": "NOT RUN"
+        },
+        {
+          "title": "And each change shows the original and the edited wording",
+          "testData": "",
+          "expected": "Original and edited wording of each of the 3 prompts",
+          "observed": "'Edited a Reputation prompt · Équipement d'extérieur · France (French) · 12:49 | Quel est le meilleur équipement d'extérieur ? | ... in 2026'; 'Edited a Brand Image prompt · Overview · United States (English) · 12:49 | What do you think of Decathlon? | ... in 2026'; 'Edited a Visibility prompt · Outdoor Gear · United States (English) · 12:44 | Best Outdoor Gear? | Best Outdoor Gear? in 2026'",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PARTIAL: same-day changes only (user instruction); the D1 / D2 grouping cannot be observed. The group count reflects the loaded page of entries (50) rather than the day's total (see TC-GEO-1239-010 note). Times in the panel run about one minute ahead of the UTC request times."
+    },
+    {
+      "tc_id": "TC-GEO-1239-011",
+      "title": "With the pool exactly full, Add prompt, Add country and Add category are disabled and suggestions cannot be ticked",
+      "story_id": "GEO-1239",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-011_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-011_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-011_step3a_suggestion_locked.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A with the pool exactly full",
+          "testData": "Pool = U = 1157 (A = D)",
+          "expected": "The ring reads \"U / U\" (amber)",
+          "observed": "Ring 'Prompt pool: 1157 / 1157 prompts', arc stroke #F59E0B (amber), number oklch(0.769 0.188 70.08) amber; message 'Pool full. Adding another prompt needs room.'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user looks at the add actions of the Prompts section",
+          "testData": "",
+          "expected": "Add prompt, Add country and Add category are disabled",
+          "observed": "Add prompt, Add Country and Add Category disabled",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user tries to tick a suggested prompt",
+          "testData": "A row under Suggested Prompts ('¿Por qué es conocido Decathlon?', ES (ES))",
+          "expected": "The suggestion cannot be ticked",
+          "observed": "Checkbox 'Keep this prompt' disabled (click times out: element is not enabled); both suggestions stay unticked; ring unchanged",
+          "status": "PASS"
+        },
+        {
+          "title": "Then unticking a kept prompt frees a slot",
+          "testData": "Untick 1 kept prompt ('¿Cuál es la marca más recomendada para Ciclismo: ...', ES (ES))",
+          "expected": "The ring reads \"U - 1 / U\"; Add prompt, Add country and Add category are enabled and suggestions can be ticked again",
+          "observed": "PATCH .../prompts/kept {isKept:false} at once; ring '1156 / 1157' (arc #0369A1, no message); Add prompt, Add Country, Add Category enabled; the 3 unticked rows' checkboxes enabled",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Run on D (disposable, saves allowed). An untick of a single row is saved at once, no confirmation."
+    },
+    {
+      "tc_id": "TC-GEO-1236-004",
+      "title": "In Manage Scope ticking or adding a prompt still needs room in the pool",
+      "story_id": "GEO-1236",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1236-004_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1236-004_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1236-004_step3a_add_disabled.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1236-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A with no free slot",
+          "testData": "Pool = U = 1157 (A = D)",
+          "expected": "The ring reads \"U / U\" (amber)",
+          "observed": "Ring 'Prompt pool: 1157 / 1157 prompts', arc #F59E0B amber, number amber; 'Pool full. Adding another prompt needs room.'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user tries to tick a suggested prompt",
+          "testData": "A row under Suggested Prompts",
+          "expected": "The suggested prompt checkboxes are disabled: the prompt cannot be ticked",
+          "observed": "2/2 unticked suggestions ('¿Por qué es conocido Decathlon?', '¿Cuál es la reputación de Decathlon?') have their checkbox disabled",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user tries to add a prompt",
+          "testData": "Prompt: \"Which brand sells the best climbing ropes?\" - category of A - Visibility - GB (EN)",
+          "expected": "Add prompt is disabled: no prompt can be added",
+          "observed": "Add prompt disabled; forced click opens no dialog and no input row, so the prompt cannot be typed; ring unchanged; no write request",
+          "status": "PASS"
+        },
+        {
+          "title": "Then unticking a kept prompt frees a slot",
+          "testData": "Untick 1 kept prompt and save",
+          "expected": "The ring reads \"U - 1 / U\" and ticking one suggested prompt is now accepted",
+          "observed": "Untick saved at once (PATCH prompts/kept isKept:false): ring '1156 / 1157', suggestion checkboxes enabled; ticking '¿Por qué es conocido Decathlon?' accepted (PATCH isKept:true), ring back to '1157 / 1157'",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Run on D (markets US EN / US ES / FR FR / ES ES instead of GB EN / FR FR). The untick is saved at once (no Save button), as per Q-05. A staging outage (503) between 12:50:40 and 12:52:13 forced a replay of the set-up re-tick."
+    },
+    {
+      "tc_id": "TC-GEO-1239-012",
+      "title": "Over the pool the add actions stay disabled while editing, deleting and unticking stay possible",
+      "story_id": "GEO-1239",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-012_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-012_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-012_step3a_edit_saved.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-012_step3b_deleted.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1239-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis A with the pool 2 slots below usage",
+          "testData": "Pool: U - 2 = 1155 (U = 1157, A = D)",
+          "expected": "The ring reads \"U / U - 2\" in red",
+          "observed": "Ring 'Prompt pool: 1157 / 1155 prompts', arc #DC2626 red, number oklch(0.577 0.245 27.325) red; '2 prompts over. Untick prompts or contact your account manager.'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user looks at the add actions and the suggested prompts",
+          "testData": "",
+          "expected": "Add prompt, Add country and Add category are disabled and suggested prompts cannot be ticked",
+          "observed": "Add prompt, Add Country, Add Category disabled; the 2 unticked suggestions have disabled checkboxes",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user edits the wording of a kept prompt and saves",
+          "testData": "'¿Qué opinas de Decathlon?' (Overview, Brand Image, ES (ES)) + ' in 2026'",
+          "expected": "The edit is saved",
+          "observed": "Save Changes -> PUT /v1/reports/{D}/prompts/39d03745... 200; row shows '¿Qué opinas de Decathlon? in 2026', ring unchanged 1157 / 1155",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user deletes a kept prompt",
+          "testData": "'¿Ciclismo bueno?' (Cycling, Visibility, ES (ES))",
+          "expected": "The prompt is deleted and the ring reads \"U - 1 / U - 2\"",
+          "observed": "Delete Prompt confirmed -> DELETE .../prompts/f5019dd5...; row removed; ring '1156 / 1155' (still red)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then unticking a kept prompt stays possible",
+          "testData": "Untick 1 kept prompt ('¿Sugerir ciclismo?')",
+          "expected": "The ring reads \"U - 2 / U - 2\"; Add prompt, Add country and Add category stay disabled (no free slot)",
+          "observed": "PATCH prompts/kept isKept:false; ring '1155 / 1155' amber with 'Pool full. Adding another prompt needs room.'; Add prompt, Add Country, Add Category still disabled; suggestion checkboxes disabled",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Run on D (disposable, saves allowed)."
+    },
+    {
+      "tc_id": "TC-GEO-1229-006",
+      "title": "Over a lowered pool only adding prompts is blocked until the count fits",
+      "story_id": "GEO-1229",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-006_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-006_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-006_step3a_edit_saved.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-006_step3b_untick3.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T is 2 slots below usage",
+          "testData": "Pool: U - 2 = 1153 (U = 1155, R = D)",
+          "expected": "The Manage Scope ring of analysis R reads \"U / U - 2\" in red",
+          "observed": "Ring 'Prompt pool: 1155 / 1153 prompts', arc #DC2626 red; '2 prompts over. Untick prompts or contact your account manager.'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user tries to tick a suggested prompt or add a prompt in Manage Scope > Prompts of analysis R",
+          "testData": "",
+          "expected": "Add prompt, Add Country and Add category are disabled and suggested prompts cannot be ticked",
+          "observed": "Add prompt, Add Country, Add Category disabled; the 3 unticked suggestions have disabled checkboxes",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user edits the wording of a kept prompt and saves",
+          "testData": "'¿Es bueno Decathlon?' (Overview, Brand Image, ES (ES)) + ' in 2026'",
+          "expected": "The edit is saved",
+          "observed": "Save Changes -> PUT .../prompts/5ea53ec3...; row shows '¿Es bueno Decathlon? in 2026'. Control: Cancel in the 'Save Changes' dialog sends nothing and keeps the old wording",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user unticks 3 kept prompts and saves",
+          "testData": "'¿El mejor Ciclismo?' (US ES), '¿Ciclismo de primera?', '¿Qué ciclismo recomiendas?' (ES ES)",
+          "expected": "The unticks are saved and the ring reads \"U - 3 / U - 2\"",
+          "observed": "3 x PATCH prompts/kept isKept:false, each saved at once; ring '1152 / 1153' (blue, no message)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then adding prompts is possible again once the count fits",
+          "testData": "",
+          "expected": "Add prompt, Add Country and Add category are enabled again; ticking one suggested prompt is accepted and the ring reads \"U - 2 / U - 2\"",
+          "observed": "At 1152 / 1153: Add prompt, Add Country, Add Category enabled, suggestion checkboxes enabled; ticking '¿Cuál es la reputación de Decathlon?' accepted (PATCH isKept:true), ring '1153 / 1153' amber 'Pool full...' (add actions disabled again, as the pool is full)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Run on D (disposable, saves allowed); closes the PARTIAL of the 2026-10-23 pool rerun (saves were not authorised then)."
+    },
+    {
+      "tc_id": "TC-GEO-1240-002",
+      "title": "A pool exactly at the limit shows an amber ring and New Analysis stays available",
+      "story_id": "GEO-1240",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-002_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-002_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-002_step3_then.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-002_step4_wizard.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T equals its usage",
+          "testData": "Pool = U = 1157 (U includes D)",
+          "expected": "The back office shows \"U / U\"",
+          "observed": "Back office > Organisations, QA-GEO row: Prompts '1157 / 1157' (text-slate-600)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the GEO dashboard loads",
+          "testData": "",
+          "expected": "The pool block is displayed",
+          "observed": "Pool block with ring 'Prompt pool: 1157 / 1157 prompts', 12 analyses",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the ring is amber with a short message",
+          "testData": "",
+          "expected": "Amber ring \"U / U\" with its at-limit message",
+          "observed": "Arc stroke #F59E0B, number '1157 / 1157' amber oklch(0.769 0.188 70.08); message 'Pool full at 1157 of 1157. New Analysis stays available.'",
+          "status": "PASS"
+        },
+        {
+          "title": "And New Analysis stays available",
+          "testData": "",
+          "expected": "New Analysis is enabled and opens the wizard",
+          "observed": "New Analysis enabled; click opens /geo/new (Analysis Type step); left with Back to Dashboard, nothing created",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Run with D in the organisation (U = 1157 instead of 996)."
+    },
+    {
+      "tc_id": "TC-GEO-1240-003",
+      "title": "A pool over the limit shows a red ring and a new analysis cannot be launched",
+      "story_id": "GEO-1240",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-003_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-003_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the pool of organisation T is 5 slots below usage",
+          "testData": "Pool = U - 5 = 1148 (U = 1153)",
+          "expected": "The back office shows \"U / U - 5\" in red",
+          "observed": "Back office > Organisations, QA-GEO: '1153 / 1148' in text-red-600 (oklch(0.577 0.245 27.325))",
+          "status": "PASS"
+        },
+        {
+          "title": "When the GEO dashboard loads",
+          "testData": "",
+          "expected": "The pool block is displayed",
+          "observed": "Pool block 'Prompt pool: 1153 / 1148 prompts', 12 analyses",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the ring is red with how many prompts are over",
+          "testData": "",
+          "expected": "Red ring \"U / U - 5\" with a message stating 5 prompts over",
+          "observed": "Arc #DC2626, number red; '5 prompts over the pool. Analyses can be created but not launched until the count fits.'",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks New Analysis and goes to the Prompts step",
+          "testData": "Brand \"Decathlon\", GB (EN), 1 category",
+          "expected": "The wizard opens and the Prompts step is reached",
+          "observed": "New Analysis enabled; Brand analysis > Decathlon (decathlon.com), United Kingdom - English (EN), Outdoor Gear kept (Sports Apparel removed), Generate Prompts -> Prompts step with 40 prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the new analysis cannot be launched",
+          "testData": "",
+          "expected": "The ring is red and Review & Launch is disabled",
+          "observed": "Ring '1193 / 1148 · 40 selected · 45 prompts over. Untick prompts or contact your account manager.' (red #DC2626); 'Review & Launch' (wizard-next-btn) disabled; stepper '5 Summary' aria-disabled (no bypass). Wizard left with Back to Dashboard > 'Exit setup?' > Exit and Discard; nothing created",
+          "status": "PASS"
+        }
+      ],
+      "notes": "The new-analysis wizard went only up to the Prompts step (never launched); the write guard also blocked any second creation."
+    },
+    {
+      "tc_id": "TC-GEO-1240-005",
+      "title": "Dashboard counts follow an edited or deleted analysis",
+      "story_id": "GEO-1240",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-005_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-005_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1240-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the dashboard shows the pool block \"U / P\" and the Prompts column of A = a",
+          "testData": "Adapted: A = D (the only analysis where saves are allowed), pool P = 1200",
+          "expected": "Values noted",
+          "observed": "Pool block 'Prompt pool: 1153 / 1200 prompts' (U = 1153); Prompts column of D a = 157; column total of the 12 rows = 1153",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user unticks 2 kept prompts in Manage Scope of A, saves and comes back to the dashboard",
+          "testData": "'¿Ciclismo recomendado?', '¿Qué ciclismo debería comprar?' (ES (ES))",
+          "expected": "The Prompts column of A reads a - 2 and the pool block \"U - 2 / P\"",
+          "observed": "2 x PATCH prompts/kept isKept:false (saved at once); back to the dashboard with Back to Analysis: D column 155 (= a - 2), pool block '1151 / 1200' (= U - 2 / P), column total 1151",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user deletes analysis D",
+          "testData": "S = 155",
+          "expected": "D disappears from the list",
+          "observed": "Trash 'Delete Decathlon' on D's row > 'Delete analysis - Are you sure you want to delete the analysis \"Decathlon\"? This action cannot be undone.' > Delete; DELETE /v1/reports/52e4bef1...; D gone, '11 analyses'",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the counts reflect the deletion",
+          "testData": "",
+          "expected": "The pool block reads \"U - 2 - S / P\" and the column still adds up to it",
+          "observed": "Pool block '996 / 1200' = 1153 - 2 - 155; Prompts column total of the 11 rows = 996; KPI PROMPTS 996",
+          "status": "PASS"
+        }
+      ],
+      "notes": "A and D are the same analysis here (only D could be saved), so the deletion removes S = a - 2 = 155 slots."
+    },
+    {
+      "tc_id": "TC-GEO-1229-004",
+      "title": "Deleting an analysis returns its slots to the pool immediately",
+      "story_id": "GEO-1229",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-004_step1_given.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-004_step2_when.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-004_step3_then.png",
+        "screenshots-GEO-1002-rerun-create-20261023/TC-GEO-1229-004_step4_wizard_popover.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the GEO dashboard of organisation T",
+          "testData": "Analysis D, Prompts column = S",
+          "expected": "The pool block reads \"U / P\" and the Prompts column of D reads S",
+          "observed": "Pool block '1151 / 1200' (U = 1151, P = 1200); D row 'Decathlon decathlon.com Cycling Outdoor Gear 155' (S = 155)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user deletes analysis D and confirms",
+          "testData": "",
+          "expected": "Analysis D disappears from the Analysis table",
+          "observed": "'Delete analysis' confirmation > Delete; DELETE /v1/reports/52e4bef1-032c-4166-8af7-f20ae0eb6c96; row gone, 11 analyses; GET of D afterwards 404",
+          "status": "PASS"
+        },
+        {
+          "title": "Then its slots return to the pool immediately",
+          "testData": "",
+          "expected": "Without reloading the page, the pool block reads \"U - S / P\"",
+          "observed": "Without reload (2.5 s after the click): 'Prompt pool: 996 / 1200 prompts' = 1151 - 155",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks New Analysis and reaches the Prompts step",
+          "testData": "Any brand, 1 market, 1 category (Decathlon, United Kingdom - English, Outdoor Gear)",
+          "expected": "The ring popover shows other analyses = U - S",
+          "observed": "Prompts step ring '1036 / 1200 · 40 selected'; hover popover: 'Prompt pool | 1036 of 1200 after creation | In use by other analyses 996 | Kept in this analysis 40 | Free in the pool 164' (other analyses = 996 = U - S). Wizard left with Exit and Discard, nothing created",
+          "status": "PASS"
+        }
+      ],
+      "notes": "D is the disposable analysis created by TC-GEO-1237-011; this TC is its deletion (end state)."
+    }
+  ]
+}

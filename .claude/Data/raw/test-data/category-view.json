@@ -1,0 +1,318 @@
+{
+  "page": "category-view",
+  "route": "/geo/dashboard/:uuid/category/:category_id",
+  "description": "Category drill-in view — rendered when user clicks a category link in the sidebar. Sections: category header, Brand Territory (shared), Top Concepts, Brand Prioritization matrix, Questions Analysis table, Brand Rankings (per category), AI Citation Sources (per category). Components Corporate Reputation is excluded (v0.2).",
+  "scenarios": {
+    "complete": {
+      "dashboard_uuid": "9864c210-948d-4813-aab8-6a007e9127c2",
+      "category_id":    "d007b176-b4dd-4443-80c1-92037d44abfc",
+      "category_label": "AI chatbot",
+      "snapshot_label": "Analysis — 15 Apr 2026",
+      "market":         "United States - English",
+      "llm_engines_selected": ["ChatGPT", "Gemini", "Claude", "Grok", "Perplexity"],
+      "active_tab":     "Identity"
+    },
+    "empty": {
+      "dashboard_uuid": "9864c210-948d-4813-aab8-6a007e9127c2",
+      "category_id":    null,
+      "category_label": null,
+      "snapshot_label": null,
+      "market":         "🌐All Markets",
+      "llm_engines_selected": [],
+      "active_tab":     null
+    },
+    "invalid": {
+      "dashboard_uuid":           "9864c210-948d-4813-aab8-6a007e9127c2",
+      "category_id_not_found":    "00000000-0000-0000-0000-000000000000",
+      "category_id_malformed":    "not-a-uuid",
+      "category_label_unknown":   "NotARealCategory",
+      "snapshot_label_unknown":   "Analysis — 01 Jan 1970",
+      "active_tab_unknown":       "NotATab",
+      "matrix_axis_x_unknown":    "NotAnAxis",
+      "matrix_axis_y_unknown":    "NotAnAxis"
+    }
+  },
+  "categories_fixture": {
+    "ai_chatbot": {
+      "id": "d007b176-b4dd-4443-80c1-92037d44abfc",
+      "label": "AI chatbot",
+      "url": "/geo/dashboard/9864c210-948d-4813-aab8-6a007e9127c2/category/d007b176-b4dd-4443-80c1-92037d44abfc"
+    },
+    "large_language_model": {
+      "id": "ddfb9cf7-e941-4cb3-9f19-84ec1076cf88",
+      "label": "large language model",
+      "url": "/geo/dashboard/9864c210-948d-4813-aab8-6a007e9127c2/category/ddfb9cf7-e941-4cb3-9f19-84ec1076cf88"
+    }
+  },
+  "sections": {
+    "brand_territory": {
+      "testid_or_heading": "Brand Territory",
+      "chart_type": "bubble chart",
+      "subtitle": "Topics associated with your brand",
+      "schema": { "bubble": { "topic": "string", "percentage": "number" } },
+      "complete": {
+        "bubbles": [
+          { "topic": "AI Research",           "percentage": 61.3 },
+          { "topic": "AI Assistants",         "percentage": 30.3 },
+          { "topic": "AI Infrastructure",     "percentage":  6.7 },
+          { "topic": "Software & Technology", "percentage":  1.7 }
+        ]
+      },
+      "empty":   { "bubbles": [], "expected_placeholder": "No brand territory data" },
+      "invalid": {
+        "bubbles_negative_percentage": [{ "topic": "AI Research", "percentage": -10 }],
+        "bubbles_over_100":            [{ "topic": "AI Research", "percentage": 200 }],
+        "bubbles_sum_not_100":         [{ "topic": "A", "percentage": 10 }, { "topic": "B", "percentage": 20 }]
+      }
+    },
+    "top_concepts": {
+      "testid_or_heading": "Top Concepts Associated with Your Brand",
+      "subtitle": "Click on a concept to view quotes and sources",
+      "sort_options": ["Frequency"],
+      "filter_tabs": ["All", "Positive", "Mixed", "Negative"],
+      "schema": {
+        "concept": { "name": "string", "sources_count": "number", "sentiment_score": "number (-100..100)", "frequency_percentage": "number", "sentiment_bucket": "Positive | Mixed | Negative" }
+      },
+      "complete_ai_chatbot": {
+        "summary": {
+          "total_concepts": 7,
+          "distribution": {
+            "positive": { "percentage": 86, "topics": 6 },
+            "mixed":    { "percentage":  0, "topics": 0 },
+            "negative": { "percentage": 14, "topics": 1 }
+          }
+        },
+        "concepts": [
+          { "name": "Safety-focused AI design",        "sources_count": 166, "sentiment_score":  87, "frequency_percentage": 98, "sentiment_bucket": "Positive" },
+          { "name": "Advanced reasoning capabilities", "sources_count": 111, "sentiment_score":  90, "frequency_percentage": 70, "sentiment_bucket": "Positive" },
+          { "name": "Competitive with ChatGPT",        "sources_count": 102, "sentiment_score":  63, "frequency_percentage": 60, "sentiment_bucket": "Positive" },
+          { "name": "Ethical AI practices",            "sources_count": 106, "sentiment_score":  90, "frequency_percentage": 56, "sentiment_bucket": "Positive" },
+          { "name": "Enterprise adoption",             "sources_count":  98, "sentiment_score":  83, "frequency_percentage": 52, "sentiment_bucket": "Positive" },
+          { "name": "Natural conversations",           "sources_count":  18, "sentiment_score":  83, "frequency_percentage": 18, "sentiment_bucket": "Positive" },
+          { "name": "Overly cautious responses",       "sources_count":  17, "sentiment_score": -53, "frequency_percentage":  8, "sentiment_bucket": "Negative" }
+        ]
+      },
+      "empty":   { "summary": { "total_concepts": 0 }, "concepts": [] },
+      "invalid": {
+        "sentiment_out_of_range":  { "name": "X", "sentiment_score": 200, "frequency_percentage": 50, "sources_count": 10 },
+        "frequency_negative":      { "name": "X", "sentiment_score": 0,   "frequency_percentage": -5, "sources_count": 10 },
+        "sources_negative":        { "name": "X", "sentiment_score": 0,   "frequency_percentage": 10, "sources_count": -5 },
+        "sentiment_bucket_unknown": "Euphoric",
+        "concept_name_empty":       ""
+      }
+    },
+    "brand_prioritization": {
+      "testid_or_heading": "Brand Prioritization",
+      "chart_type": "Brand Prioritization Matrix",
+      "axes": { "x": "SHARE OF VOICE", "y": "COMPETITIVENESS" },
+      "scale": { "min": 0, "max": 100, "unit": "%" },
+      "thresholds": { "x": 50, "y": 50 },
+      "quadrants": {
+        "stars":       { "label": "Stars",       "criteria": "High visibility, High comp", "position": "top-right" },
+        "opportunity": { "label": "Opportunity", "criteria": "Low visibility, High comp",  "position": "top-left" },
+        "at_risk":     { "label": "At Risk",     "criteria": "High visibility, Low comp",  "position": "bottom-right" },
+        "monitor":     { "label": "Monitor",     "criteria": "Low visibility, Low comp",   "position": "bottom-left" }
+      },
+      "schema": {
+        "point": { "brand": "string", "market": "string (country)", "flag": "emoji", "x_sov": "number", "y_competitiveness": "number" }
+      },
+      "complete_ai_chatbot": {
+        "total_brands_plotted": 4,
+        "quadrant_counts": { "stars": 1, "opportunity": 0, "at_risk": 1, "monitor": 2 },
+        "market_flag": "🇺🇸"
+      },
+      "complete_large_language_model": {
+        "total_brands_plotted": 4,
+        "quadrant_counts": { "stars": 0, "opportunity": 0, "at_risk": 0, "monitor": 4 },
+        "market_flag": "🇺🇸"
+      },
+      "empty": { "total_brands_plotted": 0, "quadrant_counts": { "stars": 0, "opportunity": 0, "at_risk": 0, "monitor": 0 } },
+      "invalid": {
+        "point_x_over_100":     { "brand": "X", "x_sov": 200, "y_competitiveness": 50 },
+        "point_y_negative":     { "brand": "X", "x_sov": 50,  "y_competitiveness": -5 },
+        "point_brand_empty":    { "brand": "",  "x_sov": 50,  "y_competitiveness": 50 },
+        "point_market_unknown": { "brand": "OpenAI", "market": "Wakanda", "x_sov": 50, "y_competitiveness": 50 }
+      }
+    },
+    "questions_analysis": {
+      "testid_or_heading": "Questions Analysis",
+      "subtitle": "All questions across visibility, competitive, and perception",
+      "types": ["Visibility", "Competitive", "Perception"],
+      "columns": ["Type", "Question", "Winner / Themes", "Market"],
+      "per_type_counts_ai_chatbot": { "Visibility": 10, "Competitive": 10, "Perception": 10, "total": 30 },
+      "favorable_stat_ai_chatbot": { "percentage": 33, "count": 10, "total": 30 },
+      "winner_values_visibility": ["ChatGPT", "Lost"],
+      "winner_values_competitive": ["Lost", "Split", "Won"],
+      "themes_delta_pattern": "+<number>",
+      "schema": {
+        "row": { "type": "Visibility | Competitive | Perception", "question": "string", "winner_or_themes": "string (brand name OR multiline themes)", "market_flag": "emoji" }
+      },
+      "complete_ai_chatbot": {
+        "rows_top_10": [
+          { "type": "Competitive", "question": "How does Anthropic rank against OpenAI, Google, Claude for AI chatbot?", "winner_or_themes": "Lost",                                                   "market_flag": "🇺🇸" },
+          { "type": "Visibility",  "question": "Best AI chatbot?",                                                       "winner_or_themes": "ChatGPT",                                                "market_flag": "🇺🇸" },
+          { "type": "Visibility",  "question": "Best value AI chatbot?",                                                 "winner_or_themes": "Lost",                                                   "market_flag": "🇺🇸" },
+          { "type": "Competitive", "question": "Anthropic or OpenAI -- which is better for AI chatbot?",                 "winner_or_themes": "Lost",                                                   "market_flag": "🇺🇸" },
+          { "type": "Perception",  "question": "Anthropic reviews for AI chatbot?",                                      "winner_or_themes": "Nuanced responses\nSafety and ethics\n+15",              "market_flag": "🇺🇸" },
+          { "type": "Competitive", "question": "Is Anthropic better than OpenAI for AI chatbot?",                        "winner_or_themes": "Lost",                                                   "market_flag": "🇺🇸" },
+          { "type": "Visibility",  "question": "Highest rated AI chatbot?",                                              "winner_or_themes": "ChatGPT",                                                "market_flag": "🇺🇸" },
+          { "type": "Perception",  "question": "What do people say about Anthropic for AI chatbot?",                     "winner_or_themes": "Advanced reasoning\nSafety and ethics\n+12",             "market_flag": "🇺🇸" },
+          { "type": "Perception",  "question": "Is Anthropic popular for AI chatbot right now?",                         "winner_or_themes": "Safety-first positioning\nEnterprise adoption\n+14",     "market_flag": "🇺🇸" },
+          { "type": "Competitive", "question": "Compare Anthropic, OpenAI, Google for AI chatbot.",                      "winner_or_themes": "Lost",                                                   "market_flag": "🇺🇸" }
+        ],
+        "total_rows": 30
+      },
+      "complete_large_language_model": {
+        "rows_top_10": [
+          { "type": "Perception",  "question": "Is Anthropic a good large language model solution?",                          "winner_or_themes": "AI Safety Focus\nConstitutional AI\n+9",      "market_flag": "🇺🇸" },
+          { "type": "Perception",  "question": "Is Anthropic worth it for large language model?",                             "winner_or_themes": "AI Safety\nComplex Reasoning\n+6",            "market_flag": "🇺🇸" },
+          { "type": "Visibility",  "question": "Most recommended large language model?",                                      "winner_or_themes": "Lost",                                       "market_flag": "🇺🇸" },
+          { "type": "Visibility",  "question": "Leading large language model providers?",                                     "winner_or_themes": "OpenAI",                                     "market_flag": "🇺🇸" },
+          { "type": "Visibility",  "question": "Most trusted large language model?",                                          "winner_or_themes": "Lost",                                       "market_flag": "🇺🇸" },
+          { "type": "Perception",  "question": "What is Anthropic known for in large language model?",                        "winner_or_themes": "AI Safety\nConstitutional AI\n+15",           "market_flag": "🇺🇸" },
+          { "type": "Competitive", "question": "Compare Anthropic, Google, Meta AI for large language model.",                "winner_or_themes": "Split",                                      "market_flag": "🇺🇸" },
+          { "type": "Competitive", "question": "Which brand is best for large language model: Anthropic, Google, or Meta AI?","winner_or_themes": "Split",                                      "market_flag": "🇺🇸" },
+          { "type": "Visibility",  "question": "Most affordable large language model?",                                       "winner_or_themes": "Lost",                                       "market_flag": "🇺🇸" },
+          { "type": "Perception",  "question": "What do you think of Anthropic for large language model?",                    "winner_or_themes": "AI Safety\nConstitutional AI\n+10",           "market_flag": "🇺🇸" }
+        ],
+        "total_rows": 30
+      },
+      "empty":   { "rows": [], "total_rows": 0 },
+      "invalid": {
+        "type_unknown":            { "type": "Prediction", "question": "X?", "winner_or_themes": "Lost",   "market_flag": "🇺🇸" },
+        "question_empty":          { "type": "Visibility", "question": "",   "winner_or_themes": "Lost",   "market_flag": "🇺🇸" },
+        "winner_unknown_verdict":  { "type": "Competitive", "question": "X?", "winner_or_themes": "Tied?!", "market_flag": "🇺🇸" },
+        "market_flag_unknown":     { "type": "Visibility", "question": "X?", "winner_or_themes": "Lost",   "market_flag": "🏴‍☠️" }
+      }
+    },
+    "brand_rankings": {
+      "testid_or_heading": "Brand Rankings",
+      "subtitle": "Top brands by share of voice across all topics",
+      "columns": ["Rank", "Brand", "SOV %", "Visibility %", "Avg Position", "LLM Choice %"],
+      "sort": "SOV desc",
+      "schema": {
+        "row": { "rank": "number", "brand": "string", "brand_delta": "number (e.g. +1)", "sov_percentage": "number", "visibility_percentage": "number", "avg_position": "number", "llm_choice_percentage": "number" }
+      },
+      "complete_ai_chatbot": {
+        "rows": [
+          { "rank":  1, "brand": "OpenAI",        "brand_delta":  1, "sov_percentage": 83.2, "visibility_percentage": 97.9, "avg_position":  2, "llm_choice_percentage": 52.0 },
+          { "rank":  2, "brand": "Google",        "brand_delta":  4, "sov_percentage": 54.0, "visibility_percentage": 97.9, "avg_position":  3, "llm_choice_percentage":  0.0 },
+          { "rank":  3, "brand": "Claude",        "brand_delta":  4, "sov_percentage": 44.5, "visibility_percentage": 97.9, "avg_position":  4, "llm_choice_percentage": 10.0 },
+          { "rank":  4, "brand": "Perplexity AI", "brand_delta":  3, "sov_percentage": 25.3, "visibility_percentage": 87.5, "avg_position":  6, "llm_choice_percentage":  0.0 },
+          { "rank":  5, "brand": "Microsoft",     "brand_delta":  3, "sov_percentage": 17.4, "visibility_percentage": 64.6, "avg_position":  7, "llm_choice_percentage":  0.0 },
+          { "rank":  6, "brand": "Meta AI",       "brand_delta":  4, "sov_percentage": 14.4, "visibility_percentage": 66.7, "avg_position":  9, "llm_choice_percentage":  0.0 },
+          { "rank":  7, "brand": "Poe",           "brand_delta":  0, "sov_percentage":  8.1, "visibility_percentage": 43.8, "avg_position": 10, "llm_choice_percentage":  0.0 },
+          { "rank":  8, "brand": "Character.AI",  "brand_delta":  1, "sov_percentage":  7.1, "visibility_percentage": 39.6, "avg_position": 11, "llm_choice_percentage":  0.0 },
+          { "rank":  9, "brand": "You.com",       "brand_delta":  1, "sov_percentage":  6.9, "visibility_percentage": 37.5, "avg_position": 10, "llm_choice_percentage":  0.0 },
+          { "rank": 10, "brand": "Jasper",        "brand_delta":  2, "sov_percentage":  6.7, "visibility_percentage": 37.5, "avg_position": 11, "llm_choice_percentage":  0.0 }
+        ]
+      },
+      "complete_large_language_model": {
+        "rows": [
+          { "rank":  1, "brand": "Google",        "brand_delta": 17, "sov_percentage": 47.5, "visibility_percentage": 96.0, "avg_position": 4, "llm_choice_percentage": 22.0 },
+          { "rank":  2, "brand": "Claude",        "brand_delta": 11, "sov_percentage": 43.0, "visibility_percentage": 92.0, "avg_position": 4, "llm_choice_percentage": 28.0 },
+          { "rank":  3, "brand": "Meta AI",       "brand_delta": 14, "sov_percentage": 34.7, "visibility_percentage": 96.0, "avg_position": 5, "llm_choice_percentage":  0.0 },
+          { "rank":  4, "brand": "AI21 Labs",     "brand_delta": 26, "sov_percentage": 24.1, "visibility_percentage": 82.0, "avg_position": 6, "llm_choice_percentage":  0.0 },
+          { "rank":  5, "brand": "OpenAI",        "brand_delta":  3, "sov_percentage": 22.1, "visibility_percentage": 64.0, "avg_position": 5, "llm_choice_percentage": 22.0 },
+          { "rank":  6, "brand": "Mistral AI",    "brand_delta": 11, "sov_percentage": 20.1, "visibility_percentage": 82.0, "avg_position": 8, "llm_choice_percentage":  0.0 },
+          { "rank":  7, "brand": "Perplexity AI", "brand_delta": 13, "sov_percentage": 15.7, "visibility_percentage": 72.0, "avg_position": 9, "llm_choice_percentage":  0.0 },
+          { "rank":  8, "brand": "Cohere",        "brand_delta":  4, "sov_percentage": 13.8, "visibility_percentage": 66.0, "avg_position": 9, "llm_choice_percentage":  0.0 },
+          { "rank":  9, "brand": "Qwen",          "brand_delta": 15, "sov_percentage": 11.3, "visibility_percentage": 56.0, "avg_position": 9, "llm_choice_percentage":  0.0 },
+          { "rank": 10, "brand": "Microsoft",     "brand_delta": 11, "sov_percentage": 11.1, "visibility_percentage": 54.0, "avg_position": 9, "llm_choice_percentage":  0.0 }
+        ]
+      },
+      "empty":   { "rows": [] },
+      "invalid": {
+        "row_negative_sov":      { "rank": 1, "brand": "X", "sov_percentage": -5,  "visibility_percentage": 50, "avg_position": 5, "llm_choice_percentage": 10 },
+        "row_sov_over_100":      { "rank": 1, "brand": "X", "sov_percentage": 200, "visibility_percentage": 50, "avg_position": 5, "llm_choice_percentage": 10 },
+        "row_rank_zero":         { "rank": 0, "brand": "X", "sov_percentage": 50,  "visibility_percentage": 50, "avg_position": 5, "llm_choice_percentage": 10 },
+        "row_avg_position_zero": { "rank": 1, "brand": "X", "sov_percentage": 50,  "visibility_percentage": 50, "avg_position": 0, "llm_choice_percentage": 10 },
+        "row_brand_empty":       { "rank": 1, "brand": "",  "sov_percentage": 50,  "visibility_percentage": 50, "avg_position": 5, "llm_choice_percentage": 10 }
+      }
+    },
+    "ai_citation_sources": {
+      "testid_or_heading": "AI Citation Sources",
+      "subtitle": "See which domains AI tools reference most often for your brand and niche",
+      "chart_type": "stacked bar chart",
+      "source_types_count": 11,
+      "filter_control": "All source types (keyboard_arrow_down)",
+      "domain_table_columns": ["Domain", "Type", "Frequency", "Favorability"],
+      "favorability_values": ["Favorable", "Neutral", "Unfavorable"],
+      "complete_ai_chatbot": {
+        "source_types_distribution": [
+          { "type": "Journalism",                 "count": 620, "percentage": 69 },
+          { "type": "Competitor Media",           "count": 140, "percentage": 16 },
+          { "type": "Aggregators / Encyclopedic", "count":  43, "percentage":  5 },
+          { "type": "Social / UGC",               "count":  29, "percentage":  3 },
+          { "type": "Review Sites",               "count":  20, "percentage":  2 },
+          { "type": "Owned Media",                "count":  20, "percentage":  2 },
+          { "type": "Academic",                   "count":  10, "percentage":  1 },
+          { "type": "Corporate",                  "count":   9, "percentage":  1 },
+          { "type": "Other",                      "count":   8, "percentage":  1 },
+          { "type": "Press Release",              "count":   2, "percentage":  0 }
+        ],
+        "domain_table_top_10": [
+          { "domain": "theverge.com",    "type": "Journalism",                 "frequency": 182, "favorability": "Unfavorable" },
+          { "domain": "techcrunch.com",  "type": "Journalism",                 "frequency": 136, "favorability": "Unfavorable" },
+          { "domain": "cnbc.com",        "type": "Journalism",                 "frequency":  58, "favorability": "Unfavorable" },
+          { "domain": "reuters.com",     "type": "Journalism",                 "frequency":  49, "favorability": "Unfavorable" },
+          { "domain": "forbes.com",      "type": "Journalism",                 "frequency":  46, "favorability": "Unfavorable" },
+          { "domain": "nytimes.com",     "type": "Journalism",                 "frequency":  27, "favorability": "Unfavorable" },
+          { "domain": "wikipedia.org",   "type": "Aggregators / Encyclopedic", "frequency":  26, "favorability": "Neutral" },
+          { "domain": "bloomberg.com",   "type": "Journalism",                 "frequency":  22, "favorability": "Unfavorable" },
+          { "domain": "wired.com",       "type": "Journalism",                 "frequency":  21, "favorability": "Unfavorable" },
+          { "domain": "anthropic.com",   "type": "Owned Media",                "frequency":  19, "favorability": "Neutral" }
+        ],
+        "domain_table_row_count": 50
+      },
+      "complete_large_language_model": {
+        "source_types_distribution": [
+          { "type": "Journalism",                 "count": 630, "percentage": 61 },
+          { "type": "Competitor Media",           "count": 233, "percentage": 23 },
+          { "type": "Aggregators / Encyclopedic", "count":  65, "percentage":  6 },
+          { "type": "Owned Media",                "count":  37, "percentage":  4 },
+          { "type": "Academic",                   "count":  26, "percentage":  3 },
+          { "type": "Social / UGC",               "count":  24, "percentage":  2 },
+          { "type": "Other",                      "count":   8, "percentage":  1 },
+          { "type": "Corporate",                  "count":   4, "percentage":  0 },
+          { "type": "Review Sites",               "count":   2, "percentage":  0 }
+        ],
+        "domain_table_top_10": [
+          { "domain": "theverge.com",    "type": "Journalism",                 "frequency": 198, "favorability": "Unfavorable" },
+          { "domain": "techcrunch.com",  "type": "Journalism",                 "frequency": 132, "favorability": "Neutral" },
+          { "domain": "reuters.com",     "type": "Journalism",                 "frequency":  91, "favorability": "Unfavorable" },
+          { "domain": "cnbc.com",        "type": "Journalism",                 "frequency":  43, "favorability": "Unfavorable" },
+          { "domain": "huggingface.co",  "type": "Aggregators / Encyclopedic", "frequency":  41, "favorability": "Unfavorable" },
+          { "domain": "anthropic.com",   "type": "Owned Media",                "frequency":  30, "favorability": "Neutral" },
+          { "domain": "openai.com",      "type": "Competitor Media",           "frequency":  26, "favorability": "Unfavorable" },
+          { "domain": "microsoft.com",   "type": "Competitor Media",           "frequency":  26, "favorability": "Unfavorable" },
+          { "domain": "meta.com",        "type": "Competitor Media",           "frequency":  23, "favorability": "Unfavorable" },
+          { "domain": "zdnet.com",       "type": "Journalism",                 "frequency":  22, "favorability": "Unfavorable" }
+        ],
+        "domain_table_row_count": 50
+      },
+      "empty":   { "source_types_distribution": [], "domain_table_top_10": [], "domain_table_row_count": 0 },
+      "invalid": {
+        "source_type_unknown":     { "type": "NotARealSourceType", "count": 10, "percentage": 5 },
+        "percentage_sum_over_100": [{ "type": "Journalism", "percentage": 90 }, { "type": "Competitor Media", "percentage": 50 }],
+        "domain_empty":            { "domain": "",            "type": "Journalism", "frequency": 10, "favorability": "Favorable" },
+        "domain_malformed":        { "domain": "not a domain", "type": "Journalism", "frequency": 10, "favorability": "Favorable" },
+        "frequency_negative":      { "domain": "x.com",       "type": "Journalism", "frequency": -5, "favorability": "Favorable" },
+        "favorability_unknown":    { "domain": "x.com",       "type": "Journalism", "frequency": 10, "favorability": "SuperGood" }
+      }
+    }
+  },
+  "options": {
+    "tabs": ["Identity", "Performance", "Sources"],
+    "default_active_tab": "Identity",
+    "excluded_components_v02": ["Corporate Reputation", "Brand Territory Overview-only"],
+    "kpi_cards": ["Share of Voice", "Visibility", "Avg Position", "AI Choice", "Sentiment"],
+    "matrix_axes": ["Share of Voice", "Competitiveness"],
+    "charts": ["Brand Prioritization Matrix", "stacked bar chart", "bubble chart"],
+    "markets": {
+      "default": "United States - English",
+      "available": ["🌐All Markets", "United States - English", "France - French"]
+    },
+    "llm_engines": ["ChatGPT", "Gemini", "Claude", "Grok", "Perplexity"]
+  }
+}

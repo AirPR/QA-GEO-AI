@@ -1,0 +1,40 @@
+{
+  "_meta": {
+    "description": "Base JDD — KPI cards & AI Perception Summary sur la page category (GEO-70)",
+    "note": "Fusionné avec jdd/common.json et jdd/category-kpi-cards-analysis-default.json au chargement"
+  },
+
+  "dashboard": {
+    "uuid": "edfe97e0-e55f-404c-99a4-0436af8524a1",
+    "_comment": "Dashboard luxury handbags — override via env DASHBOARD_UUID"
+  },
+
+  "category": {
+    "uuid": "0ee96af2-3e87-49a6-bc0d-8b42594b8715",
+    "name": "luxury handbags",
+    "_comment": "Override via env CATEGORY_UUID"
+  },
+
+  "snapshot": {
+    "target": "",
+    "_comment": "Label partiel du snapshot cible ex: '05 mai'. Vide = snapshot courant. Override via env TARGET_SNAPSHOT"
+  },
+
+  "kpi": {
+    "names": ["Share of Voice", "Visibility", "Avg Position", "LLM Choice", "Sentiment"],
+    "formats": {
+      "Share of Voice": "percentage (e.g. 15%)",
+      "Visibility":     "percentage (e.g. 94%)",
+      "Avg Position":   "position (e.g. #3)",
+      "LLM Choice":     "percentage (e.g. 63%)",
+      "Sentiment":      "signed score (e.g. +42)"
+    },
+    "tooltips": {
+      "Share of Voice": "Your overall brand presence across AI responses. Each mention of your brand or its product variants counts separately. If Nike Air Max and Nike Pegasus both appear in the same answer, that's 2 mentions.",
+      "Visibility":     "How often your brand is named in AI responses, regardless of rank. Range 0–100%. 75% means your brand was cited in 75% of relevant questions across the selected AI engines.",
+      "Avg Position":   "Your typical rank when an AI engine lists brands. Lower is better. #1 means you are usually named first in the response.",
+      "LLM Choice":     "Your win rate on head-to-head competitive questions. 100% means AI engines always pick your brand over the named competitors.",
+      "Sentiment":      "Average tone of how AI engines describe your brand, scored –100 (negative) to +100 (positive)."
+    }
+  }
+}

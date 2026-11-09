@@ -1,0 +1,50 @@
+{
+  "epic": {
+    "id": "GEO-581",
+    "key": "GEO-581",
+    "title": "EPIC-31: Edit analysis prompts in Manage Scope (applied on next run)",
+    "status": "Passed QA",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-05-29",
+    "updated": "2026-07-21",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-581",
+    "functionalNeed": "Manage Scope currently lets users view the questions. This story adds full management of those prompts in place: add, edit, and delete. Per-category prompts cover visibility, competitive, and perception. Brand image prompts are managed at the scope level (not nested inside categories). Prompts are managed per country, so each market can have its own prompts. Changes are saved against the scope and applied on the next analysis run (they do not retroactively change already-completed results). A version history (Google Docs style) lets users see what was changed over time, and a message informs them that changes take effect on the next run.",
+    "scope": [],
+    "outOfScope": [],
+    "stories": [
+      {
+        "id": "GEO-912",
+        "title": "GEO-581 / 30.3 — Prompt version history (feed API + drawer)",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-07-07",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-912",
+        "userStory": "**As** a user in Manage Scope,\n**I want** a Google-Docs-style history of prompt changes across my organisation,\n**so that** I can see what changed, when, and by whom — with shared visibility and accountability, without any restore.",
+        "acceptanceCriteria": "**AC1 — Open the history**\n\n- Given: I am in the Prompts section (READER or EDITOR)\n- When: I click \"Version history\"\n- Then: a right-side drawer titled \"Prompts Version history\" opens, closable via the ✕\n\n**AC2 — Grouped by day with counts**\n\n- Given: prompt changes exist for this report\n- When: the drawer is open\n- Then: entries are grouped by day (\"Today\", \"March 25, 2026\", …), each group header showing the number of changes, and groups are collapsible/expandable\n\n**AC3 — Entry content (who / what / when)**\n\n- Given: a change entry\n- When: I read it\n- Then: it shows the action + prompt type (\"Edited a Competitive prompt\", \"Added a Visibility prompt\", \"Deleted a Competitive prompt\"), and a line \"{actor} · {category} · {market} · {time}\"\n\n**AC4 — Diff rendering per action**\n\n- Given: an entry\n- When: I read its text\n- Then: Edited → previous text struck-through in red + new text in green; Added → new text in green; Deleted → the deleted text struck-through in red\n\n**AC5 — Organisation-wide visibility**\n\n- Given: teammates in my organisation also edited this report's prompts\n- When: I open the history\n- Then: I see their changes too (not only my own), each attributed to its actor\n\n**AC6 — Read-only (no restore)**\n\n- Given: the history\n- When: I view any entry\n- Then: there is no restore/revert action — the log is read-only (to undo, users re-edit forward)\n\n**AC7 — Empty state**\n\n- Given: no prompt change has ever been made on this report\n- When: I open the drawer\n- Then: an empty state is shown (no entries)\n\n**AC8 — Long histories**\n\n- Given: many changes exist\n- When: I scroll the drawer\n- Then: older entries load progressively (pagination / load-more) — the drawer does not attempt to render the entire history at once\n\n---",
+        "technicalNotes": "- Reads `prompt_change_log` (written by 30.1); no writes. Retention = keep all → pagination required.\n- Backend: `GET /api/v1/reports/{id}/prompts/history?cursor=&limit=50` (role READER), keyset pagination on (created_at, id), org-scoped. Entry DTO returns raw market country/language codes (label built client-side) + category name translated for the entry's market.\n- Frontend: `VersionHistoryDrawer.tsx` + `usePromptHistory` infinite query; opened by the button from 30.2; invalidated after any prompt mutation.\n- i18n on all copy (4 locales); diff colors from design tokens.\n\n📋 Spec complète : [30-3-prompt-version-history.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-30/30-3-prompt-version-history.md)"
+      },
+      {
+        "id": "GEO-911",
+        "title": "GEO-581 / 30.2 — Edit prompts inline in Manage Scope (frontend)",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-07-07",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-911",
+        "userStory": "**As** an Editor viewing a report's Manage Scope,\n**I want** to see, add, edit and delete the prompts sent to the AI engines — organized per country and per prompt type —\n**so that** I can refine my analysis in place without recreating it.",
+        "acceptanceCriteria": "_Voir Jira._",
+        "technicalNotes": "- New components under `components/manage-scope/` (PromptsSection, PromptGroup, Edit/Delete modals); reuse wizard `QuestionItem`.\n- Extend `useReportScope` + `types/scope.ts` with the prompt list (from 30.1); new mutation hooks (add/edit/delete) with query invalidation.\n- Terminology: Reputation→PERCEPTION, Brand Image→BRAND_IMAGE, Visibility Analysis→VISIBILITY, Competitive Analysis→COMPETITIVE.\n- i18n on all copy (4 locales); modal copy exact from Figma.\n- ⏳ Reset button: scope pending PM (per-group vs global). Reuses wizard default-generation + AI `adapt-batch`; needs the 30.1 bulk-replace endpoint if in scope.\n\n📋 Spec complète : [30-2-prompt-editor-manage-scope-ui.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-30/30-2-prompt-editor-manage-scope-ui.md)"
+      },
+      {
+        "id": "GEO-910",
+        "title": "GEO-581 / 30.1 — Prompt CRUD API + change-log persistence (Manage Scope, backend)",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-07-07",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-910",
+        "userStory": "**As** an Editor managing a report's scope,\n**I want** to add, edit and delete individual prompts (visibility, competitive, perception per category, and brand image at scope level) per country,\n**so that** I can refine what the AI engines are asked without recreating the analysis, with each change recorded for later review.",
+        "acceptanceCriteria": "_Voir Jira._",
+        "technicalNotes": "- New endpoints on `ScopeController`: `POST/PUT/DELETE /reports/{id}/prompts`; extend scope read with the prompt list.\n- New append-only table `prompt_change_log` (write side here; read feed in 30.3). Retention: keep all, no cap (PM-confirmed).\n- Re-run: reuse `armOneTimeRecollection` — **add + edit arm, delete does not** (DAILY = next daily cron). Doc `1-configuration.md` §1.8.2 is stale vs code → correct it.\n- Multi-tenant scoping on every query; single `@Transactional` (all DB, no external I/O).\n- ⏳ Conditional: `PUT /prompts:reset` bulk-replace endpoint — only if \"Reset to defaults\" is confirmed in scope by PM.\n\n📋 Spec complète : [30-1-prompt-crud-and-change-log-api.md](https://github.com/AirPR/geo-analytics/blob/main/docs/implementation-artifacts/epics/epic-30/30-1-prompt-crud-and-change-log-api.md)"
+      }
+    ]
+  }
+}

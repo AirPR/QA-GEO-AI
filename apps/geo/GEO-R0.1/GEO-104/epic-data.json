@@ -1,0 +1,396 @@
+{
+  "epic": {
+    "id": "GEO-104",
+    "key": "GEO-104",
+    "title": "EPIC-002: Configuration de Rapport (Wizard 4 étapes)",
+    "status": "In Progress",
+    "assignee": "Youssef.AitLaydi",
+    "description": "L'éditeur peut configurer un rapport complet via le wizard : marque (Brandfetch), pays avec langue auto-détectée, catégories IA, questions (perception/visibility/competitive), sélection des LLMs. Sauvegarde atomique avec validation de quotas.",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-104",
+    "stories": [
+      {
+        "id": "GEO-94",
+        "title": "[Story 2.1] Wizard Layout & Navigation",
+        "storyId": "Story 2.1",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-94",
+        "userStory": {
+          "as": "Editor",
+          "want": "a 4-step wizard layout with navigation controls",
+          "so_that": "I can progress through report configuration in a structured flow"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "4-step stepper with navigation via Next/Back buttons, sticky header with progress bar, sticky footer with CTA"
+          },
+          {
+            "id": 2,
+            "criterion": "Discard Changes modal (462x222px) when navigating back with unsaved changes"
+          }
+        ],
+        "technicalDetails": {
+          "components": [
+            "WizardStepper component (4 steps)",
+            "Sticky header with progress bar",
+            "Sticky footer with CTA"
+          ],
+          "stateManagement": "Wizard state in Zustand (local, no URL deep-linking)",
+          "responsive": {
+            "desktop": ">=1280px (full layout)",
+            "tablet": "1024-1279px (compact layout)",
+            "mobile": "<1024px (blocked message)"
+          }
+        }
+      },
+      {
+        "id": "GEO-93",
+        "title": "[Story 2.1b] Brand Search (Brandfetch)",
+        "storyId": "Story 2.1b",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-93",
+        "userStory": {
+          "as": "Editor",
+          "want": "to search and select a brand with auto-complete suggestions",
+          "so_that": "I can identify my brand with its logo and domain"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Auto-complete suggestions with logo and domain from Brandfetch (debounce 300ms), Custom Brand option available"
+          },
+          {
+            "id": 2,
+            "criterion": "Brand input shows red border error when submitting without selection"
+          }
+        ],
+        "technicalDetails": {
+          "frontend": "BrandSearch component",
+          "api": {
+            "endpoint": "GET /api/v1/brands/search?q=",
+            "requiredRole": "EDITOR",
+            "responseContract": [
+              {
+                "name": "string",
+                "domain": "string",
+                "logoUrl": "string"
+              }
+            ]
+          },
+          "backend": [
+            "BrandSearchProvider interface",
+            "BrandfetchBrandSearchProvider implementation"
+          ]
+        }
+      },
+      {
+        "id": "GEO-92",
+        "title": "[Story 2.1c] Market Configuration (Country + Language)",
+        "storyId": "Story 2.1c",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-92",
+        "userStory": {
+          "as": "Editor",
+          "want": "to add countries with auto-detected language and designate a primary market",
+          "so_that": "I can define the geographic scope of my analysis"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Auto-detect language (France→French), override via edit icon, first country auto-marked as Primary when second added"
+          },
+          {
+            "id": 2,
+            "criterion": "Error shown on duplicate country+language combinations"
+          },
+          {
+            "id": 3,
+            "criterion": "Button disabled with warning banner at country quota limit"
+          }
+        ],
+        "technicalDetails": {
+          "frontend": "CountryRow component",
+          "database": {
+            "migrations": [
+              "markets table: reportId, country, language, code, isPrimary",
+              "quotas table: moved here to avoid forward dependency"
+            ]
+          }
+        }
+      },
+      {
+        "id": "GEO-91",
+        "title": "[Story 2.2] Step 2 — AI Category Discovery",
+        "storyId": "Story 2.2",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-91",
+        "userStory": {
+          "as": "Editor",
+          "want": "AI to detect relevant categories for my brand across my selected countries",
+          "so_that": "I don't have to manually research what categories apply"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Intermediate 'Discovering Categories' screen with progress bar and 15-20 second note"
+          },
+          {
+            "id": 2,
+            "criterion": "Each category shows 'AI GENERATED' badge, categories in primary market language"
+          },
+          {
+            "id": 3,
+            "criterion": "Add custom categories with auto-translation, showing 'CUSTOM' badge"
+          },
+          {
+            "id": 4,
+            "criterion": "Remove categories with confirmation modal, Last One Rule respected (delete icon hidden if only 1)"
+          }
+        ],
+        "technicalDetails": {
+          "api": {
+            "endpoint": "POST /api/v1/analysis/discover-categories",
+            "requiredRole": "EDITOR"
+          },
+          "rateLimiting": {
+            "type": "Redis Fixed Window",
+            "limit": "100 RPM/org",
+            "key": "geo:ratelimit:wizard:{orgId}:{window}"
+          },
+          "aiConfig": {
+            "promptAlias": "geo-wizard-discover-categories-v1",
+            "model": "Gemini Flash Lite"
+          },
+          "frontend": [
+            "CategoryAccordion component with expand/collapse for translations",
+            "Edit Category modal (640x592px) with 'Auto-translate' button"
+          ],
+          "database": {
+            "migrations": "categories table: reportId, name, origin, translations JSON"
+          }
+        }
+      },
+      {
+        "id": "GEO-90",
+        "title": "[Story 2.3] Step 3 — Prompts Review (Sentiment, Visibility, Competitive)",
+        "storyId": "Story 2.3",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-90",
+        "userStory": {
+          "as": "Editor",
+          "want": "to review and customize the auto-generated questions for each category and market",
+          "so_that": "the analysis asks exactly what matters to my brand"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Loading state 'Generating questions...' with spinner"
+          },
+          {
+            "id": 2,
+            "criterion": "Market tabs (flag + country + language abbr), 3 sub-tabs: Sentiment | Visibility | Competitive, grouped by category with counter"
+          },
+          {
+            "id": 3,
+            "criterion": "Edit inline (Enter save, Escape cancel) or delete with 5s undo toast"
+          },
+          {
+            "id": 4,
+            "criterion": "Auto-append '?' to questions"
+          },
+          {
+            "id": 5,
+            "criterion": "Reject empty questions, restore last saved version"
+          },
+          {
+            "id": 6,
+            "criterion": "Invalid characters show error state (59px height)"
+          },
+          {
+            "id": 7,
+            "criterion": "Quota limit blocking toast for + Add Question"
+          },
+          {
+            "id": 8,
+            "criterion": "Competitive Analysis shows info banner and [Competitor 1-5] placeholders in grey"
+          }
+        ],
+        "technicalDetails": {
+          "frontend": [
+            "FlagTabs component",
+            "QuestionItem component (inline edit)",
+            "Underlined sub-tabs (not Button Group)"
+          ],
+          "questionManagement": "Default frontend templates per question type, user customizes in Step 3, stored in Zustand until submission",
+          "quotaEnforcement": [
+            "max_q_perception_per_category",
+            "max_q_visibility_per_category",
+            "max_q_competitive_per_category"
+          ],
+          "database": {
+            "migrations": "questions table: reportId, marketId, categoryId, questionText, questionType"
+          }
+        }
+      },
+      {
+        "id": "GEO-89",
+        "title": "[Story 2.4] Step 4 — Review & Submit Configuration",
+        "storyId": "Story 2.4",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-89",
+        "userStory": {
+          "as": "Editor",
+          "want": "to review a summary of my configuration and select AI engines before submitting",
+          "so_that": "I can verify everything is correct before the analysis runs"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "Display 'Ready to analyze {Brand}' with 3 summary cards: Countries, Categories, Total Questions"
+          },
+          {
+            "id": 2,
+            "criterion": "LLM cards show logo, name, description, Web search checkbox, ON/OFF toggle (default: Gemini ON, ChatGPT ON)"
+          },
+          {
+            "id": 3,
+            "criterion": "Smart-Select: auto-reactivate all LLMs if all are OFF"
+          },
+          {
+            "id": 4,
+            "criterion": "Atomic save with double quota validation, returns 201 Created"
+          },
+          {
+            "id": 5,
+            "criterion": "Return 403 QUOTA_EXCEEDED if concurrent overcommit detected"
+          },
+          {
+            "id": 6,
+            "criterion": "First-time config redirects to report page"
+          },
+          {
+            "id": 7,
+            "criterion": "Subsequent edits save immediately, results at next scheduled execution"
+          }
+        ],
+        "technicalDetails": {
+          "api": {
+            "endpoint": "POST /api/v1/reports",
+            "requiredRole": "EDITOR",
+            "type": "atomic save"
+          },
+          "validation": "Double validation: quota check at start AND end",
+          "frontend": [
+            "LlmToggleCard component with Web search checkbox",
+            "ReviewSummary component with 3 metric cards"
+          ],
+          "database": {
+            "migrations": [
+              "llm_configurations table",
+              "report_job_queue table"
+            ]
+          }
+        }
+      },
+      {
+        "id": "GEO-88",
+        "title": "[Story 2.5] Quota Validation & Warning System",
+        "storyId": "Story 2.5",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-88",
+        "userStory": {
+          "as": "Editor",
+          "want": "the system to validate quotas at each step and show clear warnings",
+          "so_that": "I don't exceed my organization's limits"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": 1,
+            "criterion": "At quota limit: disable '+' button, show yellow warning banner"
+          },
+          {
+            "id": 2,
+            "criterion": "brand_markets quota message: 'You have reached the maximum...'"
+          },
+          {
+            "id": 3,
+            "criterion": "Backend validation: brand_markets_used+new <= max_brand_markets, categories <= max, questions/type <= max, LLMs <= max"
+          }
+        ],
+        "technicalDetails": {
+          "api": {
+            "endpoint": "GET /api/v1/quota",
+            "requiredRole": "EDITOR"
+          },
+          "frontend": "Warning banners per limit type with used/max counts",
+          "errorResponse": {
+            "error": "QUOTA_EXCEEDED",
+            "message": "string",
+            "used": "number",
+            "max": "number",
+            "resetDate": "ISO 8601 date-time"
+          },
+          "backend": "QuotaValidator in geo-config-manager with double validation pattern"
+        }
+      },
+      {
+        "id": "GEO-119",
+        "title": "Configuration de Rapport (Wizard 4 étapes) — Tests manuels",
+        "storyId": "Test Manual",
+        "status": "Done",
+        "assignee": "Youssef.AitLaydi",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-119",
+        "description": "Comprehensive manual testing of the entire 4-step wizard configuration flow",
+        "useCases": [
+          {
+            "id": "UC-01",
+            "name": "Complete Wizard Navigation (4 steps)",
+            "description": "Verify stepper reflects current step, Next/Back buttons work, Discard Changes modal appears if unsaved changes exist"
+          },
+          {
+            "id": "UC-02",
+            "name": "Brandfetch Brand Search & Selection",
+            "description": "Verify suggestions display with logo+domain, Custom Brand option available, error on empty brand"
+          },
+          {
+            "id": "UC-03",
+            "name": "Market Configuration (Country + Language)",
+            "description": "Verify auto-detected language, modification via edit icon, Primary market auto-marking, duplicate detection, quota limits"
+          },
+          {
+            "id": "UC-04",
+            "name": "AI Category Discovery (Step 2)",
+            "description": "Verify loading screen, AI GENERATED badges, custom categories, deletion with Last One Rule"
+          },
+          {
+            "id": "UC-05",
+            "name": "Prompts Review (Step 3)",
+            "description": "Verify inline editing, deletion with undo, auto-append '?', empty rejection, invalid character handling, quota limits"
+          },
+          {
+            "id": "UC-06",
+            "name": "Review & Submit (Step 4)",
+            "description": "Verify summary cards, LLM toggles with defaults, Smart-Select, atomic save, redirection"
+          },
+          {
+            "id": "UC-07",
+            "name": "Quota Validation & Warnings",
+            "description": "Verify warning banners at limits, blocked actions, clear used/max indicators"
+          },
+          {
+            "id": "UC-08",
+            "name": "Responsive & Screen Resolutions",
+            "description": "Verify display at >=1280px (full), 1024-1279px (compact), <1024px (blocked)"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,226 @@
+{
+  "spec": "GEO-152-GEO1117-mcp",
+  "runDate": "2026-10-05",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+  "csv": ".claude/Data/output/csv/GEO-R1.2/testcases-coverage-epicGEO-152.csv",
+  "story": "GEO-1117",
+  "summary": {
+    "total": 7,
+    "pass": 3,
+    "fail": 1,
+    "skip": 1,
+    "partial": 2
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1117-001",
+      "title": "All suspect articles verified no cap",
+      "story_id": "GEO-1117",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-001_step1_given.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-001_step2_when.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with a large number of suspect articles across multiple sources",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Target Sources list and explanation panels are inspected",
+          "status": "PASS"
+        },
+        {
+          "title": "Then every article listed in the panel sits under the Lack of visibility (N) or Negative perception (N) tab — no article is listed as unchecked due to a cap",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Live data 2026-10-05 (window Last 7 days, 3 engines, All Countries): 196 sources in Target Sources, 668 failing articles in total (558 Not visible + 110 Negative perception), well above the >50 precondition. All 196 panels opened one by one via Next source: for each source the tab counts Lack of visibility (N) / Negative perception (N) equal the card lines Not visible in N / Negative perception in N, and the number of article rows listed (after expanding every \"Show N more article(s)\") equals N (196/196 match). Only the two article tabs exist; no unchecked / pending / not-verified state anywhere. API cross-check: every article in the 196 source-detail responses has a final verdict (BRAND_NOT_NAMED 558, NAMED_NEGATIVELY 110, NAMED_NOT_NEGATIVE 1746); no other verdict value. frandroid.com (#1): Lack of visibility (41) = 41 rows, Negative perception (5) = 5 rows."
+    },
+    {
+      "tc_id": "TC-GEO-1117-002",
+      "title": "Check determines brand family presence and depiction",
+      "story_id": "GEO-1117",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-002_step1_given.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-002_step2_when.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with a source that has a brand-absent article, a negatively depicted article, and an article where the brand is named positively",
+          "status": "PASS"
+        },
+        {
+          "title": "When the explanation panel is opened and the Lack of visibility (N) and Negative perception (N) tabs are reviewed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Lack of visibility tab shows the line None of these articles mentions {brand} anywhere on the page. and its article rows show no passage",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Negative perception tab shows the line Each of these articles mentions {brand} negatively. with a passage on each row, and the brand-positive article appears in neither tab",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Source frandroid.com (#1): API lists 41 BRAND_NOT_NAMED, 5 NAMED_NEGATIVELY and 17 NAMED_NOT_NEGATIVE (brand named positively/neutrally) articles. Panel opens with tabs [Lack of visibility (41) (aria-selected=true), Negative perception (5)], no Positive articles tab. Lack of visibility tab line: \"None of these articles mentions Toyota anywhere on the page.\" and 0/41 rows carry a passage block. Negative perception tab line: \"Each of these articles mentions Toyota negatively.\" and 5/5 rows carry a quoted passage with <mark>Toyota</mark>. None of the 17 positive article URLs appears in either tab (0 in Lack of visibility, 0 in Negative perception). Brand name used = Toyota (analysis brand)."
+    },
+    {
+      "tc_id": "TC-GEO-1117-003",
+      "title": "Product named on page counts as brand family",
+      "story_id": "GEO-1117",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-003_step1_given.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-003_step2_when.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where a suspect article page names only a brand product (not the parent brand name itself)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the explanation panel is opened for that source",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the article is not classified as brand-absent — it has a depiction verdict (neutral/positive or negative)",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "PARTIAL - Given not confirmable via UI/API: it is not possible to prove that a page names only a brand product without the parent brand, nor that the product never appeared in any LLM answer (backend-only inference). UI/API evidence collected: the verifier matches product entities (API matchedEntity values include Toyota RAV4, Toyota C-HR, Toyota bZ4X, Toyota Corolla Cross Hybrid, Toyota Prius...). 0 of the 558 BRAND_NOT_NAMED articles carries a matchedEntity, i.e. no product-matched article is ever listed under Lack of visibility. Example used: cars.com (#19) \"What's the Best Affordable SUV of 2023?\" - matchedEntity Toyota Corolla Cross Hybrid, passage names only the product (\"...the Corolla Cross Hybrid's calling cards...\") - listed under Negative perception (1), absent from Lack of visibility (6). Page content could not be read (cars.com returns HTTP 403 to curl), so whether the page also names \"Toyota\" elsewhere is unknown. Other product-only passages: greencarreports.com (\"the prius...\"), 985fm.ca (bZ4X), highmotor.com (Avanza)."
+    },
+    {
+      "tc_id": "TC-GEO-1117-004",
+      "title": "False positives not counted as failing",
+      "story_id": "GEO-1117",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-004_step1_given.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-004_step2_when.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where a source has missing and/or negative articles and false-positive articles (brand named neutrally or positively)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the explanation panel of that source is opened and the source-detail API response is inspected in the browser Network tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel tab counts Lack of visibility (X) and Negative perception (Y) equal the card lines X and Y, with no Positive articles tab and no header meta line",
+          "status": "PASS"
+        },
+        {
+          "title": "And the source-detail API response lists the neutral or positive verdict articles of the source, but they are not counted in the missing and negative totals shown on the card and used for ranking",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Source frandroid.com (#1). Card: \"Not visible in 41 articles\" / \"Negative perception in 5 articles\", badges IMPROVE VISIBILITY + IMPROVE PERCEPTION. Panel: Lack of visibility (41) / Negative perception (5) = card lines; no Positive articles tab; header = \"#1 · frandroid.com\" + type chip Journalism + badges only (no failing/positive/cited count line). Source-detail API captured: GET /geo/api/v1/reports/439acd96-0b1b-4da4-9e07-612d38e9783e/target-sources/frandroid.com?from=2026-09-28T00:00:00Z&to=2026-10-04T23:59:59Z&marketCodes=master&llms=gemini,openai,perplexity&lang=en-GB -> 200: failingArticles=46, failingArticlesByVerdict={BRAND_NOT_NAMED:41, NAMED_NEGATIVELY:5}, failing[] length 46, positiveArticles=17, positive[] length 17 all verdict NAMED_NOT_NEGATIVE, 0 URL overlap between positive[] and failing[]; brief: \"This source has 46 unfavorable articles: 41 ... and 5 ... and 17 articles that cover the brand positively.\" -> ranking total 46 = 41+5 excludes the 17 positives. Generalised over 196 sources: list API failingArticles = BRAND_NOT_NAMED + NAMED_NEGATIVELY for all; badges exactly reflect missing>0 / negative>0 for all; list order is monotonic on failingArticles (0 inversions) while ordering by failing+positive would give 71 inversions (e.g. autobild.es #2 has 22 failing + 53 positive = 75 > frandroid 46+17 = 63) -> positives do not affect rank. 119 sources carry at least one positive article (1746 in total)."
+    },
+    {
+      "tc_id": "TC-GEO-1117-005",
+      "title": "Failing article passage max 140 chars",
+      "story_id": "GEO-1117",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: the quoted passage of each Negative perception article shows the brand name highlighted. Observed: 14 of the 110 Negative perception passages (all 59 sources with negative articles inspected) have no highlight at all. 6 of them contain the word \"Toyota\" in plain text without highlight because the highlighted entity is the matchedEntity string, which is not present verbatim: edmunds.com x2 (\"It took Toyota a long time to produce a mass-market electric vehicle...\" - matchedEntity \"Toyota bZ4X\"), caradisiac.com (\"Je pensais acheter un Toyota mais...\" - \"Toyota Proace Verso\"), guideautoweb.com (\"Défaut de sièges : Toyota rappelle 40 000 Highlander au Canada\" - \"Toyota Highlander\"), rpmweb.ca (\"Toyota rappelle des Camry et Corolla Cross Hybride...\" - \"Toyota Corolla Cross\"), 985fm.ca (\"...pour la haute direction de Toyota...\" - \"Toyota bZ4X\"). The other 8 passages do not name the brand at all (trustpilot.com x2, fiches-auto.fr, rpmweb.ca, guideautoweb.com, highmotor.com, greencarreports.com, cars.com).",
+      "screenshots": [
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-005_step1_given.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-005_step2_when.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis with at least one source having a failing article where the brand is named negatively",
+          "status": "PASS"
+        },
+        {
+          "title": "When the explanation panel is opened on the Negative perception (N) tab and the article with a negative mention is displayed",
+          "status": "FAIL"
+        },
+        {
+          "title": "Then the extracted passage is shown verbatim with the brand name highlighted",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the passage does not exceed 140 characters including spaces",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Length check PASS: 110/110 passages <= 140 characters including spaces (max 140, 32 passages at exactly 140 = hard cut, e.g. edmunds \"...Not so much. The bZ4X\"). Verbatim check PASS: 110/110 UI passages equal the API passage text. Tab line \"Each of these articles mentions Toyota negatively.\" present; quoted/indented block present on 110/110 rows; no per-article verdict line. Demonstrated source: edmunds.com (#20), Negative perception (5): 3 rows highlighted, 2 rows (\"2023 Toyota bZ4X...\" and \"2024 Toyota bZ4X\") show \"Toyota\" without highlight (red frame in step3_then). frandroid.com 5/5 rows highlighted correctly."
+    },
+    {
+      "tc_id": "TC-GEO-1117-006",
+      "title": "Unfetchable article contributes nothing",
+      "story_id": "GEO-1117",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-006_step1_given.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-006_step2_when.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where at least one suspect article URL returned a fetch error",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the explanation panel is opened for the source whose article was unfetchable",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the unfetchable article is counted in neither card line and is not listed in the panel article tabs",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP - Backend-only: the fetch outcome of each suspect article (404 / timeout / service error at verification time) is exposed neither in the UI nor in the API (verdicts present: BRAND_NOT_NAMED, NAMED_NEGATIVELY, NAMED_NOT_NEGATIVE only; list flags nothingCouldBeChecked=false, verificationNeverRan=false). Observation recorded for the PO/dev: a curl probe today of 647 of the 668 failing article URLs returned 2 x HTTP 404, both listed under Lack of visibility on yahoo.com (#45, Not visible in 5 articles): finance.yahoo.com/quote/VUS/ and finance.yahoo.com/quote/VUSXX/ (plus 1 x HTTP 500 on a fiches-auto.fr Negative perception article). If those URLs were already unreachable at verification time, they should contribute nothing (AC-8); the status at verification time cannot be established. Note: yahoo.com rows are Vanguard/Virtus ETF quote pages (ticker VUS) - off-topic for a car brand."
+    },
+    {
+      "tc_id": "TC-GEO-1117-007",
+      "title": "Source with zero failing articles absent from list",
+      "story_id": "GEO-1117",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-007_step1_given.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-007_step2_when.png",
+        "screenshots-GEO-152-GEO1117-mcp/TC-GEO-1117-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a completed analysis where a top-100 domain had all its articles verify as false positives (0 missing and 0 negative articles)",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the Target Sources list renders on the ALL tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the source with 0 missing and 0 negative articles is not present in any tab of the Target Sources list",
+          "status": "PASS"
+        }
+      ],
+      "notes": "PARTIAL - Then verified, Given only inferred. Target Sources: ALL 196 / IMPROVE VISIBILITY 180 / IMPROVE PERCEPTION 45 sources (API tab=ALL / VISIBILITY / PERCEPTION); 0 card with 0 missing and 0 negative in any tab. Candidate for the Given: carwow.es is #13 of the overview citation-sources list (frequency 25) but absent from all three tabs, and GET .../target-sources/carwow.es returns 404 \"TargetSource not found\"; all 20 of its cited URLs return HTTP 200 today and name Toyota (curl) - consistent with \"every article verified as neutral/positive, then excluded\". autocarindia.com (frequency 12): same pattern (12/12 cited pages name Toyota, absent, 404). Not confirmable: the actual verdicts of these domains' articles and their membership in the top-100-by-Frequency selection (GEO-1169) are not exposed. Other absent top domains (toyota.fr/.es/.ca/.com/.co.uk, hyundai.com, coches.net, morningstar.com, femis.fr) are probably excluded by other rules (own brand / competitor domains) - not part of this TC."
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "spec": "GEO-1002-GEO1232",
+  "runDate": "2026-10-19",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "story": "GEO-1232",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-epicGEO-1002.csv",
+  "summary": {
+    "total": 7,
+    "pass": 6,
+    "fail": 1,
+    "skip": 0,
+    "partial": 0,
+    "successRate": 85.7,
+    "verdict": "GO"
+  },
+  "environment": {
+    "language": "en-GB (GET /geo/api/v1/auth/me, before and after the run)",
+    "organisation": "QA-GEO (org_name from /auth/me and the header switcher)",
+    "featureFlag": "unbranded_analysis = true: 5-step wizard (Analysis Type, Brand & Country, Categories, Prompts, Review); Brand analysis card + Continue used every time",
+    "role": "SUPER_ADMIN",
+    "pool": "P = 1000; U = 570 at start and at end (dashboard \"570 / 1000 prompts\", 6 analyses)",
+    "analysesCreated": [],
+    "stateChanges": "None. Three wizard sessions, each exited with Back to Dashboard > Exit and Discard. No back-office change, no deletion of analyses.",
+    "consoleErrors": "Only brandfetch.io logo 410 errors (unrelated)"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1232-001",
+      "title": "Detected categories show an AI-generated badge and a translation per market language",
+      "story_id": "GEO-1232",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-001_step1_given.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-001_step2_when.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on a valid Brand & Country with 3 markets",
+          "expected": "Discover Categories is enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Discover Categories and discovery ends",
+          "expected": "The Categories step lists the detected categories as a flat list",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each detected category shows an AI-generated badge",
+          "expected": "Every detected row carries the AI-generated badge",
+          "status": "PASS"
+        },
+        {
+          "title": "And each category shows its translation per market language without being opened",
+          "expected": "Each row shows its English, French and Spanish names, a pencil and a cross",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Brand Decathlon (decathlon.com), markets United Kingdom - English (EN), France - French (FR), Spain - Spanish (ES), AI Insights English. Discovery returned in about 2 s: 2 categories as a flat list (no tree/accordion): \"Sports Equipment\" and \"Outdoor Gear\". Each row: badge \"AI generated\" (i18n wizard.category.aiGenerated), translation line \"EN · FR (Équipement de sport) · ES (Equipamiento deportivo)\" visible without opening the row (the English name is the row title, EN shown as a code), pencil (aria \"Edit Sports Equipment\") and cross (aria \"Delete Sports Equipment\"). At 1280 px the first translation line is truncated with an ellipsis; hovering shows the full text in a tooltip."
+    },
+    {
+      "tc_id": "TC-GEO-1232-002",
+      "title": "With no category, an empty state invites the user to add one",
+      "story_id": "GEO-1232",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-002_step1_given.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-002_step2_when.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step",
+          "expected": "The detected categories are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user removes every category and confirms each removal",
+          "expected": "The list becomes empty",
+          "status": "PASS"
+        },
+        {
+          "title": "Then an empty state invites the user to add a category",
+          "expected": "The empty state with its Add category action is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And Generate Prompts is disabled",
+          "expected": "Generate Prompts cannot be clicked",
+          "status": "PASS"
+        },
+        {
+          "title": "And the stepper does not let the user jump to Prompts or Review",
+          "expected": "Clicking Prompts or Review in the stepper does nothing",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Removed \"Sports Equipment\" and \"Outdoor Gear\", each after its confirmation (Remove). Empty state shown: \"We could not detect categories for Decathlon.\" + \"No categories detected for Decathlon\" + \"Add your own categories; each one is translated to every market language.\" + button \"Add Category\" (wizard.category.noneDetected / noResults / noResultsHint / add). Footer \"Generate Prompts\" disabled. Stepper Prompts and Review have aria-disabled=\"true\"; forced clicks on both left the user on Categories. Side finding: the empty-state text says categories could not be detected although they were detected and removed by the user."
+    },
+    {
+      "tc_id": "TC-GEO-1232-003",
+      "title": "Add category modal: name and an editable translation per market",
+      "story_id": "GEO-1232",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Expected: \"Trail running shoes\" is listed with \"Chaussures de trail\" as its French translation. Observed: the category is listed as \"Trail Running Shoes\" (title case) with FR (Chaussures de trail). The name typed \"Trail running shoes\" is rewritten to \"Trail Running Shoes\" in the name input as soon as the name is confirmed (Enter), and this rewritten name is the one added.",
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-003_step1_given.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-003_step2a_name_typed.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-003_step2_when.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-003_step2b_fr_edited.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step",
+          "expected": "Add category is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Add category",
+          "expected": "The modal opens with a name input",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user enters a name and confirms it",
+          "expected": "A translation per market is filled: English and French",
+          "data": "Name: \"Trail running shoes\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user edits the French translation",
+          "expected": "The French translation shows the edited text",
+          "data": "French: \"Chaussures de trail\"",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the category is added with its translations",
+          "expected": "\"Trail running shoes\" is listed with \"Chaussures de trail\" as its French translation",
+          "data": "Click Add",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Markets GB (EN) + FR (FR). Add category opens the modal \"Add Category\" / \"Translated to each market language by AI Sense\" with input \"Category name\" (wizard.categoryModal.*). After Enter, translations filled in about 1 s: \"United Kingdom · English: Trail Running Shoes\", \"France · French: Chaussures de trail\"; each has an edit pencil. The FR field is editable (probe value accepted) and was set to the CSV value \"Chaussures de trail\". Caveat: AI Sense already proposed \"Chaussures de trail\", so the CSV test data does not prove the edit is kept (non-discriminating data). Row added with badge \"Custom\". If the title-case rewrite is by design, the CSV expected result must be reworded (PO decision needed)."
+    },
+    {
+      "tc_id": "TC-GEO-1232-004",
+      "title": "A category name already used in the analysis cannot be added",
+      "story_id": "GEO-1232",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-004_step1_given.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-004_step2_when.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-004_step3a_add_disabled.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step with category C1",
+          "expected": "C1 is listed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens Add category and types the name of C1 in another letter case",
+          "expected": "The modal shows an error on the name",
+          "data": "Name: C1 in upper case",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the category cannot be added",
+          "expected": "The add action is disabled or refused; the list still holds a single C1",
+          "status": "PASS"
+        }
+      ],
+      "notes": "C1 = detected category \"Outdoor Gear\". Typing \"OUTDOOR GEAR\" shows \"This category already exists.\" under the name (i18n addCategory.alreadyExists), input aria-invalid=\"true\", \"Add category\" disabled (also after Enter, no translation triggered). A forced click is ignored, the modal stays open. After Cancel the list still holds a single \"Outdoor Gear\"."
+    },
+    {
+      "tc_id": "TC-GEO-1232-005",
+      "title": "Removing a category with prompts states how many prompts are deleted with it",
+      "story_id": "GEO-1232",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-005_step1_given.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-005_step2_when.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-005_step2b_confirmation.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "expected": "The table shows N prompts for C1 across GB (EN) and FR (FR), ticked and unticked (N = 60 when no prompt was added or deleted)",
+          "data": "Filter Category = C1",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks Back to the Categories step",
+          "expected": "The Categories step is displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user clicks the cross of C1",
+          "expected": "A confirmation opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the confirmation states the number of prompts deleted with the category",
+          "expected": "The message states N prompts across the markets, the 2 unticked suggestions included",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user confirms the removal and returns to Prompts",
+          "expected": "C1 is gone and none of its prompts is listed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Scope Decathlon, GB (EN) + FR (FR), C1 = \"Sporting Goods\", C2 = \"Outdoor Gear\" (custom \"Trail Running Shoes\" from TC-003 removed first). Generate Prompts: 140 prompts (10 Overview + 30 per category per market), pool projection 710 / 1000. Unticked 2 C1 prompts (GB) -> 138 selected. Filter Category = Sporting Goods: 60 rows (GB 28 ticked + 2 unticked, FR 30). Back -> Categories step, no dialog. Cross of C1 -> \"Remove \"Sporting Goods\" category / Are you sure you want to remove Sporting Goods ? This action cannot be undone. / 60 prompts across your markets will be deleted with it.\" (deleteCategory.impact_other, 60 = N including the 2 unticked). After Remove and Generate Prompts: 80 rows (Overview 20 + Outdoor Gear 60), no \"Sporting Goods\" anywhere, Category filter lists only Outdoor Gear / Other / Overview, pool 650 / 1000, 80 selected. Nothing saved (wizard discarded)."
+    },
+    {
+      "tc_id": "TC-GEO-1232-006",
+      "title": "Removing a category without prompts still asks for confirmation",
+      "story_id": "GEO-1232",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-006_step1_given.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-006_step2_when.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step before generating prompts",
+          "expected": "The categories are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the cross of a category",
+          "expected": "A confirmation opens",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the confirmation does not state a prompt count",
+          "expected": "No number of deleted prompts is stated",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Before any prompt generation (3-market session of TC-001). Cross of \"Sports Equipment\" opens: \"Remove \"Sports Equipment\" category / Are you sure you want to remove Sports Equipment ? This action cannot be undone.\" with Cancel / Remove. No digit and no \"prompt\" word in the dialog. Side finding (typography): space before \"?\" in \"Sports Equipment ?\" (i18n deleteCategory.description \"Are you sure you want to remove {{name}} ? ...\")."
+    },
+    {
+      "tc_id": "TC-GEO-1232-007",
+      "title": "No limit applies when adding or removing categories",
+      "story_id": "GEO-1232",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-007_step1_given.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-007_step2_when.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-007_step3a_no_limit.png",
+        "screenshots-GEO-1002-GEO1232/TC-GEO-1232-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step",
+          "expected": "The detected categories are listed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds categories until there are 12",
+          "expected": "Each category is added",
+          "data": "\"Cycling\", \"Camping\", \"Hiking\", \"Swimming\", \"Fitness\", \"Yoga\", ...",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no category limit applies",
+          "expected": "Add category stays available, no limit message, Generate Prompts stays enabled",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user removes 10 categories",
+          "expected": "Each removal is accepted after its confirmation, with no minimum message while at least one category remains",
+          "status": "PASS"
+        }
+      ],
+      "notes": "3-market session (GB/FR/ES), rediscovery gave \"Sporting Goods\" + \"Outdoor Gear\". Added 10 categories: Cycling, Camping, Hiking, Swimming, Fitness, Yoga, Running, Tennis, Skiing, Climbing -> 12 rows (badge \"Custom\" on added rows). At 12: \"Add category\" visible and enabled, no limit message (only the info banner \"Categories are unlimited and set by you, never derived from results.\"), \"Generate Prompts\" enabled. Removed 10 (Climbing ... Cycling), each with its confirmation; no minimum message at any point; 2 left, Generate Prompts still enabled."
+    }
+  ]
+}

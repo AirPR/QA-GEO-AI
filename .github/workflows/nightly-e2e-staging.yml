@@ -1,0 +1,141 @@
+# Nightly E2E suite on staging — non-blocking: test failures never fail the job,
+# the HTML report + screenshots are always uploaded as a workflow artifact.
+# Nothing is committed back to the repository and nothing is written to Jira.
+name: Nightly E2E (staging)
+
+on:
+  schedule:
+    # 23:00 Paris, Monday to Friday. GitHub cron is UTC only: both slots fire and
+    # the gate job keeps the one that is 23:00 in Europe/Paris (CET / CEST).
+    - cron: '0 21 * * 1-5'   # 23:00 Paris in summer time (CEST, UTC+2)
+    - cron: '0 22 * * 1-5'   # 23:00 Paris in winter time (CET, UTC+1)
+  workflow_dispatch:
+    inputs:
+      grep:
+        description: 'Optional filter on test titles (e.g. E2E-SOV-BRAND-001 or a regex) — empty = whole suite'
+        required: false
+        default: ''
+      workers:
+        description: 'Workers (4 max; 2 max when a filter is set)'
+        required: false
+        default: '4'
+
+concurrency:
+  group: e2e-staging        # never two runs at once on the same staging account
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.hour.outputs.run }}
+    steps:
+      - id: hour
+        shell: bash
+        run: |
+          # Keep the cron slot that matches the current Paris offset (start delays don't matter)
+          OFFSET=$(TZ=Europe/Paris date +%z)            # +0200 summer, +0100 winter
+          [ "$OFFSET" = "+0200" ] && WANTED='0 21 * * 1-5' || WANTED='0 22 * * 1-5'
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "${{ github.event.schedule }}" = "$WANTED" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Skipped: this cron slot is not 23:00 in Paris today (offset $OFFSET)."
+          fi
+
+  e2e:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      BASE_URL: https://staging-geo.onclusive.com/geo
+      USE_AUTH: 'true'
+      HEADLESS: 'true'
+      GEO_USER_EMAIL: ${{ secrets.GEO_USER_EMAIL }}
+      GEO_USER_PASSWORD: ${{ secrets.GEO_USER_PASSWORD }}
+      UPSELL_USER_EMAIL: ${{ secrets.UPSELL_USER_EMAIL }}
+      UPSELL_USER_PASSWORD: ${{ secrets.UPSELL_USER_PASSWORD }}
+      UPSELL_URL: https://staging-geo.onclusive.com/geo/upsell
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Account language must be en-GB (tests not started otherwise)
+        id: lang
+        run: node .github/scripts/check-account-language.js
+
+      - name: Run E2E tests
+        id: tests
+        continue-on-error: true   # non-blocking by design (user decision 2026-11-03)
+        shell: bash
+        env:
+          SPEC_NAME: e2e-suite
+          GREP: ${{ inputs.grep }}
+          WORKERS: ${{ inputs.workers || '4' }}
+        run: |
+          if [ -n "$GREP" ]; then
+            [ "$WORKERS" -gt 2 ] && WORKERS=2
+            npx playwright test --project=e2e-suite --workers="$WORKERS" --grep "$GREP"
+          else
+            [ "$WORKERS" -gt 4 ] && WORKERS=4
+            npx playwright test --project=e2e-suite --workers="$WORKERS"
+          fi
+
+      - name: Account language still en-GB after the run
+        if: always() && steps.tests.outcome != 'skipped'
+        continue-on-error: true   # warns if a test left the account in FR / ES
+        run: |
+          # fresh login: the Auth0 session may have expired during the suite
+          rm -f .claude/Data/processed/auth/storageState.json
+          node .github/scripts/check-account-language.js
+
+      - name: Build HTML report
+        if: always() && steps.tests.outcome != 'skipped'
+        run: node .claude/Data/templates/build-e2e-suite-report.js --run-name "CI-E2E-${{ github.run_number }}"
+
+      - name: Job summary
+        if: always()
+        shell: bash
+        run: |
+          RAW=".claude/Data/raw/playwright/test-results-e2e-suite-raw.json"
+          [ -f "$RAW" ] || RAW=""
+          node -e "
+            const fs = require('fs');
+            const raw = process.argv[1] ? JSON.parse(fs.readFileSync(process.argv[1], 'utf8')) : null;
+            const s = raw ? raw.stats : null;
+            const lines = ['## E2E staging — run ${{ github.run_number }}', ''];
+            if (!s) lines.push('No raw results found (login or setup failure?) — see the job log.');
+            else lines.push(
+              '| Passed | Failed | Flaky | Skipped | Duration |', '|---|---|---|---|---|',
+              '| ' + s.expected + ' | ' + s.unexpected + ' | ' + s.flaky + ' | ' + s.skipped + ' | ' + Math.round(s.duration / 60000) + ' min |');
+            lines.push('', 'HTML report + screenshots: artifact **e2e-report-${{ github.run_number }}** below.');
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+          " "$RAW"
+
+      - name: Upload report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report-${{ github.run_number }}
+          path: .claude/Data/output/reports/runs/CI-E2E-${{ github.run_number }}/
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Upload login debug screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: login-debug-${{ github.run_number }}
+          path: .claude/Data/processed/auth/login-error.png
+          retention-days: 7
+          if-no-files-found: ignore

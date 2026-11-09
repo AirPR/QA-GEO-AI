@@ -1,0 +1,544 @@
+{
+  "spec": "NO-EPIC-GEO-1514-mcp",
+  "runDate": "2026-10-28",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "csv": ".claude/Data/output/csv/GEO-R1.3/testcases-coverage-storyGEO-1514.csv",
+  "story": "GEO-1514",
+  "epic": null,
+  "environment": {
+    "org": "QA-GEO",
+    "account": "assiya.benramdane@onclusive.com",
+    "auth_me_start": {
+      "language": "en-GB",
+      "role": "SUPER_ADMIN",
+      "roles": "absent (no \"roles\" field in the response)",
+      "org_name": "QA-GEO",
+      "features": {
+        "unbranded_analysis": true
+      }
+    },
+    "auth_me_end": {
+      "language": "en-GB",
+      "role": "SUPER_ADMIN",
+      "org_name": "QA-GEO"
+    },
+    "language_switches": "en-GB -> fr-FR -> es-ES -> en-GB (Settings > Interface Language), restored and checked with GET /geo/api/v1/auth/me",
+    "data_changes": "none: no analysis created or deleted, nothing saved in Manage Scope (kept prompts bike 44, Toyota 174, pool 1040 / 1100 unchanged)"
+  },
+  "summary": {
+    "total": 10,
+    "pass": 4,
+    "fail": 3,
+    "skip": 2,
+    "partial": 1,
+    "success_rate_executed": 56.3,
+    "success_rate_total": 45,
+    "verdict": "NO-GO"
+  },
+  "results": [
+    {
+      "tc_id": "TC-GEO-1514-001",
+      "title": "Wizard Categories step says country and language in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Steps 2, 3, 5, 7 (W-2 wizard.category.translateFailed): cannot be triggered without dev help (OP-12).",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-001_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-001_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-001_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-001_step4_fr_empty.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-001_step6_es_empty.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step with every detected category removed",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a country and the translation of a category fails",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the translation failure message says countries or languages",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and replays steps 1 and 2",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the French translation failure message is shown",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and replays steps 1 and 2",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Spanish translation failure message is shown",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "W-1 PASS in the 3 languages (Categories step with every detected category removed, brand Decathlon, GB/FR/ES): en-GB \"Add your own categories; each one is translated for every country and language.\"; fr-FR \"Ajoutez vos propres catégories ; chacune est traduite pour chaque pays et chaque langue.\"; es-ES \"Añada sus propias categorías; cada una se traduce para cada país e idioma.\" W-2 translateFailed: SKIP, cannot be triggered without dev help (OP-12); for information the app bundle holds the exact expected EN / FR / ES strings. Language set back to en-GB at the end of the run (/auth/me language = en-GB)."
+    },
+    {
+      "tc_id": "TC-GEO-1514-002",
+      "title": "Wizard prompt table says Country in the column, the duplicate message and the no-result filter",
+      "story_id": "GEO-1514",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-002_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-002_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-002_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-002_step4_fr_table.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-002_step4_fr_duplicate.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-002_step4_fr_noresult.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-002_step5_es_table.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-002_step5_es_duplicate.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-002_step5_es_noresult.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Prompts step",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user adds a prompt that already exists for the same country, language, category and type",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user filters the table so that no row matches with a country selected",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and replays steps 1 to 3",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and replays steps 1 to 3",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no prompt table text says market",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Column header text \"Country\" / \"Pays\" / \"País\" (displayed upper-case by CSS text-transform). Duplicate: \"This prompt already exists for this country, language, category and type.\" / \"Ce prompt existe déjà pour ce pays, cette langue, cette catégorie et ce type.\" / \"Este prompt ya existe para este país, este idioma, esta categoría y este tipo.\", confirm button disabled in the 3 languages. No-result text: the wizard prompt table has no search box, so the empty result was produced with Type filter \"Other\" (0 prompts) + Country filter GB (EN): \"Type Other and country GB (EN) have no prompts in common. Widen one of the two, or clear the filters.\" / \"Le type Autre et le pays GB (EN) n'ont aucun prompt en commun. Élargissez l'un des deux ou effacez les filtres.\" / \"El tipo Otro y el país GB (EN) no tienen ningún prompt en común. Amplíe uno de los dos o borre los filtros.\" No market / marché / mercado in the table in the 3 languages. Test data deviation: 2 categories (EN run) and 3 countries + 3 categories (FR / ES runs) instead of 1 category; texts not affected."
+    },
+    {
+      "tc_id": "TC-GEO-1514-003",
+      "title": "Wizard Summary says Countries and the dropped countries in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-003_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-003_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-003_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-003_step4_fr_summary.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-003_step4_fr_dropped1.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-003_step4_fr_dropped2.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-003_step5_es_summary.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-003_step5_es_dropped1.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-003_step5_es_dropped2.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Summary step with 3 countries kept",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user unticks every prompt of one country and comes back to the Summary step",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user unticks every prompt of a second country and comes back to the Summary step",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and replays steps 1 to 3 in a new wizard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and replays steps 1 to 3 in a new wizard",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the user leaves the wizard without creating the analysis",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Countries GB (EN), FR (FR), ES (ES), brand Decathlon. en-GB: title \"Countries\"; \"1 country will be dropped: France.\"; \"2 countries will be dropped: France and Spain.\" fr-FR: \"Pays\"; \"1 pays sera exclu : France.\"; \"2 pays seront exclus : France et Spain.\" es-ES: \"Países\"; \"Se excluirá 1 país: France.\"; \"Se excluirán 2 países: France y Spain.\" Wizard left with Exit and Discard each time; analysis count still 13 (GET /geo/api/v1/reports). Side observation (out of GEO-1514 scope): {names} and the country rows of the Summary stay in English in FR / ES (\"France\", \"Spain\", \"United Kingdom · English\")."
+    },
+    {
+      "tc_id": "TC-GEO-1514-004",
+      "title": "Analysis created screen counts countries in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Needs analysis creation, user approval pending (OP-13: 5 disposable analyses). Create Analysis was never clicked.",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-004_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-004_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Summary step of an analysis with 1 country",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user creates the analysis",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user creates a second disposable analysis with 2 countries",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and creates a disposable analysis with 2 countries",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and creates a disposable analysis with 1 country",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user creates a disposable analysis with 2 countries in Spanish",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the user deletes the 5 disposable analyses",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP: needs analysis creation, user approval pending. For information only (not a verdict): the bundle holds wizard.analysisCreated.markets_one / _other = \"{{count}} country\" / \"{{count}} countries\"; fr \"{{count}} pays\" / \"{{count}} pays\"; es \"{{count}} país\" / \"{{count}} países\". Screenshot = dashboard state (13 analyses, nothing created)."
+    },
+    {
+      "tc_id": "TC-GEO-1514-005",
+      "title": "Add category modal and delete category dialog say country and language in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 4 - expected: \"1 prompt across your countries will be deleted with it.\" after unticking every prompt of C1 but one. Observed: \"60 prompts across your countries will be deleted with it.\" (Outdoor Gear, GB (EN) + FR (FR), 1 of its 60 prompts ticked). The count is the number of prompts of the category, ticked or not (unticked suggestions included), so unticking cannot produce the _one text.",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step3_add-category-typed.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step4_remove-C1.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step5_remove-C2.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step4_en_remove-one-after-delete.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step6_fr_modal.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step6_fr_modal-typed.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step6_fr_remove.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step6_fr_remove-one.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step7_es_modal.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step7_es_remove.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-005_step7_es_remove-one.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Categories step with 2 countries",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the Add category modal",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user types a category name",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user keeps only one prompt of category C1, goes back to Categories and removes C1",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the user removes category C2 with N prompts kept",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and replays steps 1 to 5 in a new wizard",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and replays steps 1 to 5 in a new wizard",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Checked first as asked: the Add category modal no longer says market (0 hit in en-GB; the 27/10 observation is not reproduced). W-11 \"Translated for each country and language by AI Sense\" / \"Traduite pour chaque pays et chaque langue par AI Sense\" / \"Traducida para cada país e idioma por AI Sense\" PASS. W-12 \"AI Sense translates the category for each country and language. Use the edit icon to adjust any translation.\" / \"AI Sense traduit la catégorie pour chaque pays et chaque langue. Utilisez l'icône de modification pour ajuster une traduction.\" / \"AI Sense traduce la categoría para cada país e idioma. Use el icono de edición para ajustar cualquier traducción.\" PASS. W-14: \"60 prompts across your countries will be deleted with it.\" (C2, real N = 60), \"90 prompts de vos pays seront supprimés avec elle.\", \"90 prompts de sus países se eliminarán con ella.\" PASS. W-13 _one wording reached only by DELETING (trash icon, wizard only, nothing saved) every prompt of a custom category but one: \"1 prompt across your countries will be deleted with it.\" / \"1 prompt de vos pays sera supprimé avec elle.\" / \"1 prompt de sus países se eliminará con ella.\" -> the GEO-1514 wording is right in the 3 languages; the FAIL is on the count produced by the CSV test data (untick). Likely TC alignment (count includes unticked prompts, same rule as GEO-1501), to triage; no CSV change made. Steps 6-7 PARTIAL: wording PASS, _one reached through delete instead of untick. FR / ES runs used 3 countries instead of 2. Side observation: the modal translation rows stay in English in FR / ES (\"United Kingdom · English\")."
+    },
+    {
+      "tc_id": "TC-GEO-1514-006",
+      "title": "Manage Scope prompts subtitle and stop warnings say country in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_step3_fr_groupInCategory.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_step4_fr_groupInMarket.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_step5_es_subtitle.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_step6_es_groupInCategory.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_step7_es_groupInMarket.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_side_fr_impact-marche.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-006_probe_en_delete-dialog.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Manage Scope > Prompts of analysis R in en-GB",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and reopens Manage Scope > Prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user unticks the last Visibility prompt of category C1 in France",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user unticks the last Brand Image prompt in France",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and reopens Manage Scope > Prompts",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user replays the last Visibility prompt of category C1",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the last Brand Image prompt warning says country",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "No disposable analysis R was created; existing QA-GEO analyses were used read-only: EN subtitle on Toyota 439acd96, FR / ES subtitle on bike d3fd1b30; groupInCategory on bike (FR (FR) / Mountain Bikes / Competitive has 1 kept prompt) through the Delete prompt dialog (Cancel); groupInMarket on Toyota (FR (FR) / Brand Image, 10 kept) through the \"Untick 10 prompts\" dialog of the header checkbox with Selected only + FR (FR) + Brand Image (all rows ticked, Cancel). Kept counts unchanged after every dialog (bike 44, Toyota 174, pool 1040 / 1100). EN \"Add, edit and remove the prompts asked to the AI engines — per country. No need to recreate the analysis.\" FR \"Ajoutez, modifiez et supprimez les prompts adressés aux moteurs d'IA — par pays. Pas besoin de recréer l'analyse.\"; \"C'est le dernier prompt de type Concurrentiel de la catégorie Mountain Bikes pour le pays France (FR).\"; \"C'est le dernier prompt de type Image de marque pour le pays France (FR).\" ES \"Añada, edite y elimine los prompts enviados a los motores de IA, por país. No es necesario recrear el análisis.\"; \"Es el último prompt de tipo Competitivo de la categoría Mountain Bikes en el país Francia (FR).\"; \"Es el último prompt de tipo Imagen de marca en el país Francia (FR).\" Side finding: the impact sentence right after the group warning still says market in the 3 languages (EN \"For this category and market, ...\" / \"For this market, ...\", FR \"Pour cette catégorie et ce marché, ...\" / \"Pour ce marché, ...\", ES \"Para esta categoría y este mercado, ...\" / \"Para este mercado, ...\") - keys views.manageScope.prompts.stopWarning.visibility / competitive / perception / brandImage / categoryTopics, not in the GEO-1514 tables (EN counted as FAIL in TC-010)."
+    },
+    {
+      "tc_id": "TC-GEO-1514-007",
+      "title": "Upsell page and lite result say Country in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Upsell page not reachable with the QA account: route found in the app bundle (/geo/upsell, used for NO_GRANT / AUTH0_ACCESS_DENIED users) but it redirects to the GEO dashboard for a granted account; it needs the PQL (Lite plan) account, not used in this run.",
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-007_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-007_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the PQL user is on the upsell page in en-GB",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user runs a lite analysis",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and reopens the upsell page",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the user opens the lite result in French",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and reopens the upsell page",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the lite result says País in Spanish",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the PQL user sets the language back to British English (en-GB)",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP (upsell page not reachable with the QA account). For information only: bundle values views.upsell.showcase1Bullet2 = \"Track brand presence in any country and language\" / \"Suivez la présence de votre marque dans tout pays et toute langue\" / \"Realice un seguimiento de la presencia de su marca en cualquier país e idioma\"; views.upsell.marketLabel = \"Country\" / \"Pays\" / \"País\"; result.prompts.colMarket = \"Country\" / \"Pays\" / \"País\". Note: the CSV names the PQL account assiya.benramdane+geo@onclusive.com while .env holds GEO_USER_PQL_EMAIL = assiya.benramdane+pql@onclusive.com."
+    },
+    {
+      "tc_id": "TC-GEO-1514-008",
+      "title": "PPTX export cover and slides say countries in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Cover value (E-2 cover.allMarkets), country filter on all countries - expected \"All Countries\" / \"Tous les pays\" / \"Todos los países\". Observed in the 3 languages: the cover lists the countries \"United States\" / \"France\" / \"Spain\" under the label (the label itself is right: \"COUNTRIES\" / \"PAYS\" / \"PAÍSES\"). Export language follows the interface language.",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-008_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-008_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-008_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-008_step5_fr_export-menu.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-008_step6_es_export-menu.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on analysis A in en-GB with all countries",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as a presentation",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the cover says countries",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the slides say country",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and exports the presentation again",
+          "status": "FAIL"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and exports the presentation again",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96 (US, FR, ES), aria-label \"Country filter — All countries\". E-1 label PASS (COUNTRIES / PAYS / PAÍSES). E-3 slide11 \"Visibility vs LLM choice, by category and country\" / \"Visibilité vs choix LLM, par catégorie et pays\" / \"Visibilidad vs elección LLM, por categoría y país\" PASS. E-7 band (15 slides) \"All countries combined, plus one line per country  ·  Daily\" / \"Tous les pays combinés, plus une ligne par pays  ·  Quotidien\" / \"Todos los países combinados, más una línea por país  ·  Diario\" PASS ({0} filled). No \"market\" in any slide XML of the en-GB PPTX. Evidence step3_then = table of the texts read from ppt/slides/*.xml, the failing value framed in red. To triage: either cover.allMarkets is only used in another case not described in the ticket, or the cover should show it when the filter is on all countries."
+    },
+    {
+      "tc_id": "TC-GEO-1514-009",
+      "title": "XLSX export sheets say country in EN FR and ES",
+      "story_id": "GEO-1514",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-009_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-009_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on analysis A in en-GB with all countries",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user exports the analysis as a spreadsheet",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the sheets say country",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Français (fr-FR) and exports the spreadsheet again",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches the language to Español (es-ES) and exports the spreadsheet again",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user sets the language back to British English (en-GB)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96, texts read from xl/sharedStrings.xml. en-GB: \"From BRAND_IMAGE questions, consolidated per dimension per engine (all countries).\"; \"Category Prioritization (per category × country)\"; column \"Country\"; \"Countries: United States, France, Spain   -   AI engines: ...\". fr-FR: \"Questions BRAND_IMAGE, consolidées par dimension et moteur (tous les pays).\"; \"Priorisation des catégories (par catégorie × pays)\"; \"Pays\"; \"Pays : United States, France, Spain ...\". es-ES: \"Preguntas BRAND_IMAGE, consolidadas por dimensión y motor (todos los países).\"; \"Priorización de categorías (por categoría × país)\"; \"País\"; \"Países: United States, France, Spain ...\". The only \"market\" strings of the en-GB XLSX are AI answers and source URLs (data, not labels)."
+    },
+    {
+      "tc_id": "TC-GEO-1514-010",
+      "title": "No visible text says market in en-GB on the web app and the exports",
+      "story_id": "GEO-1514",
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 5 (Manage Scope, en-GB) - expected: no visible text says market. Observed in the Delete prompt / Untick dialogs (\"What stops from the next run\"): \"This is the last Competitive prompt of Mountain Bikes in France (FR). For this category and market, AI Choice, competitive losses and the Competitive part of Share of Voice stop updating.\" (bike d3fd1b30, dialog cancelled). Same word in the sibling en-GB values of the app bundle: \"For this category and market, Visibility %, Average Position and Brand Rankings stop updating, ...\", \"For this category and market, Sentiment, Top Concepts and the AI Perception Summary stop updating.\", \"For this market, Corporate Reputation and Brand Territory stop updating.\", \"For this category and market, InBrief and Top Topics will no longer be produced.\" (views.manageScope.prompts.stopWarning.*, not listed in GEO-1514).",
+      "skip_reason": null,
+      "screenshots": [
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-010_step1_given.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-010_step2_when.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-010_step3_then.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-010_step3_dashboard.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-010_step4_analysis-overview.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-010_step4_action-center.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-010_step5_manage-scope-add-country.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-010_step5_manage-scope-add-category.png",
+        "screenshots-NO-EPIC-GEO-1514-mcp/TC-GEO-1514-010_wizard-summary.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the wizard Add category modal first",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user goes through every wizard step and dialog",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the GEO dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks the analysis pages",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user checks Manage Scope",
+          "status": "FAIL"
+        },
+        {
+          "title": "And the user checks the upsell page and the lite result",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then the exports say country only",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "Sweep = visible text nodes + title / placeholder / aria-label / alt, case-insensitive \"market\". 0 hit: wizard Add category modal (checked first, the 27/10 observation is no longer reproduced), Analysis Type (brand and unbranded), Brand & Country + Add country, Categories, Prompts (filters, add / edit / delete prompt, pool), Summary, Exit dialog, remove category dialog; GEO dashboard (table, stat cards, delete dialog cancelled, flag tooltips); Toyota Overview (Identity / Performance / Sources), both category views (8 tabs), Action Center, country filter (aria-label now \"Country filter — All countries\" / \"— 2 selected\"); Manage Scope page, Add country and Add category dialogs (cancelled), filters, Version history, Settings. Step 6 SKIP (upsell needs the PQL account). Step 7 PARTIAL: PPTX and XLSX have no \"market\" label (only AI answer / URL data); the PDF has no text layer (32 pages, image only), not readable without OCR. Bundle residue not seen on screen in this run: generationTotalFailed / generationPartialFailed (variable {{markets}} only), dashboard.market.ariaSelected \"Country filter — {{market}} selected\" (variable)."
+    }
+  ]
+}

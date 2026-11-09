@@ -1,0 +1,29 @@
+# Static checks on every push / PR — no browser, no access to staging.
+name: CI checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Static checks (spec syntax, JSON, JDD, sensitive files)
+        run: node .github/scripts/validate.js
+
+      - name: Playwright can load every spec of the E2E suite
+        run: npx playwright test --list --project=e2e-suite

@@ -1,0 +1,104 @@
+================================================================================
+Feature: Perception Tab — Themes Column Consistency with LLM Detail Panel
+================================================================================
+Spec file : e2e-category-question-perception.spec.js
+Validated : Staging and Production — Toyota dashboard
+--------------------------------------------------------------------------------
+
+  Background:
+    Given the user is authenticated
+    And the user navigates to a category page
+    When the user clicks the "Perception" filter in the question-type filter bar
+    Then the questions table shows only Perception-type rows
+
+
+  # ----------------------------------------------------------------------------
+  # Themes column display rules (Perception tab)
+  # ----------------------------------------------------------------------------
+  #
+  #   Displayed Value   | Condition
+  #   ------------------|--------------------------------------------------------
+  #   Blank (empty)     | No themes are detected in the LLM results
+  #   List of Themes    | One or more themes are detected in the LLM results
+  # ----------------------------------------------------------------------------
+  #
+  # Detail panel sections for Perception questions:
+  #   - SENTIMENT  : sentiment value per LLM engine (Positive / Negative / Mixed / Neutral)
+  #   - THEMES     : list of theme badges, or empty-state message if no themes
+  #   - RESPONSE   : raw LLM response text
+  #
+  # Note: Perception panel does NOT show rank badges (Favorable / Unranked).
+  #       Those belong exclusively to the Visibility tab.
+  # ----------------------------------------------------------------------------
+
+
+================================================================================
+Scenario: TH-01 — Themes = Blank: panel THEMES section shows empty state
+================================================================================
+
+  # Data-driven: auto-skipped if no blank-themes rows exist in the current dataset.
+  # Re-runs automatically when data becomes available on next execution.
+
+  Given the user is on the Perception tab across available categories
+    And at least one question row exists where the Themes column is blank
+        (no themes detected in any LLM result)
+
+  When the user opens the detail panel for that row
+
+  Then the THEMES section heading is visible in the detail panel
+    And the "No theme extracted" / "Aucun thème" empty-state message is displayed
+    And no theme badges appear in the THEMES section
+
+
+================================================================================
+Scenario: SENT-01 — Perception panel: SENTIMENT and RESPONSE sections visible,
+          no rank badges
+================================================================================
+
+  Given the user is on the Perception tab of the "Hybrid Cars" category
+    And at least one Perception question row exists
+
+  When the user opens the detail panel for the first Perception question
+
+  Then the SENTIMENT section is visible in the detail panel
+    And a sentiment value is displayed (Positive, Negative, Mixed, or Neutral)
+    And the RESPONSE section is visible
+    And no "Favorable" or "Unranked" rank badge appears anywhere in the panel
+
+  # Note: rank badges (Favorable / Unfavorable / Unranked) are specific to
+  #       Visibility questions — they must never appear in a Perception panel.
+
+
+================================================================================
+Scenario: SENT-02 — Switching LLM engine: SENTIMENT section stays with
+          per-engine value
+================================================================================
+
+  Given a Perception question detail panel is open
+    And at least 2 LLM engine pills are visible (e.g. ChatGPT, Gemini)
+
+  When the user clicks a second LLM engine pill
+
+  Then the SENTIMENT section remains visible
+    And a sentiment value (Positive / Negative / Mixed / Neutral) is displayed
+        for the newly selected LLM engine
+
+
+================================================================================
+Scenario: TH-02 — Themes = List of Themes: panel THEMES section shows theme badges
+================================================================================
+
+  # Data-driven: auto-skipped if no rows with themes exist in the current dataset.
+  # Re-runs automatically when data becomes available on next execution.
+
+  Given the user is on the Perception tab across available categories
+    And at least one question row exists where the Themes column shows
+        one or more theme badges (e.g. "fiabilité de la marque", "leadership hybride")
+
+  When the user opens the detail panel for that row
+
+  Then the THEMES section heading is visible in the detail panel
+    And at least one theme badge is displayed in the THEMES section
+    And the "No theme extracted" empty-state message does NOT appear
+
+================================================================================

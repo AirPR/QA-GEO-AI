@@ -1,0 +1,1613 @@
+{
+  "_comment": "Extracted from PRD dated 2026-03-04, last edited 2026-03-16",
+  "_description": "AI Presence is a SaaS B2B platform (MarTech/AI Brand Intelligence) that enables PR/communications teams to monitor brand visibility across AI search engines, detect competitive gaps, and prioritize outreach targets. Phased delivery: V1 (configuration), V2 (processing + dashboard), V3 (advanced features).",
+  "prd_metadata": {
+    "filename": "prd.md",
+    "version": "2026-03-16",
+    "project_type": "SaaS B2B Brownfield",
+    "domain": "MarTech / AI Brand Intelligence",
+    "complexity": "Medium-High",
+    "date_processed": "2026-04-02"
+  },
+  "functional_requirements": [
+    {
+      "req_id": "FR0",
+      "title": "Module Activation Gate",
+      "description": "When user accesses the Mesure module, system checks if the module is activated for their organization. If not activated → redirect to sales page. If activated and no configuration exists → display empty state with 'Create Report' button.",
+      "priority": "V1",
+      "category": "Authentication & Organization Context",
+      "acceptance_criteria": [
+        "Module activation status checked on module access",
+        "Inactive orgs redirected to sales page",
+        "Active orgs with no config see empty state with create button"
+      ]
+    },
+    {
+      "req_id": "FR1",
+      "title": "Editor Login via Auth0",
+      "description": "Editor can log in via Auth0 and access only their organization's data",
+      "priority": "V1",
+      "category": "Authentication & Organization Context",
+      "acceptance_criteria": [
+        "Auth0 SSO integration functional",
+        "Editor receives Auth0 token on successful login",
+        "Data access scoped to authenticated user's organization"
+      ]
+    },
+    {
+      "req_id": "FR2",
+      "title": "Reader Read-Only Access",
+      "description": "Reader can log in via Auth0 and access their organization's data in read-only mode",
+      "priority": "V1",
+      "category": "Authentication & Organization Context",
+      "acceptance_criteria": [
+        "Reader role login successful via Auth0",
+        "Reader can view all data (reports, dashboards)",
+        "Reader cannot create, edit, or delete any resources"
+      ]
+    },
+    {
+      "req_id": "FR3",
+      "title": "Organization Context Resolution",
+      "description": "System resolves organization context from the authenticated user's token",
+      "priority": "V1",
+      "category": "Authentication & Organization Context",
+      "acceptance_criteria": [
+        "Auth0 token contains organization identifier",
+        "Organization context extracted on every API request",
+        "Data queries filtered by organization context"
+      ]
+    },
+    {
+      "req_id": "FR4",
+      "title": "Shared Report Token-Based Access",
+      "description": "Unauthenticated users can access shared reports via token-based links without authentication",
+      "priority": "V2",
+      "category": "Authentication & Organization Context",
+      "acceptance_criteria": [
+        "Shared report links use cryptographically random tokens",
+        "Token-based access works without Auth0 authentication",
+        "Token format: /reports/shared/{token}"
+      ]
+    },
+    {
+      "req_id": "FR5",
+      "title": "Brand Search and Selection",
+      "description": "Editor can search and select a brand with auto-completed suggestions (logo + domain). If no match, user can enter custom brand name.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Real-time autocomplete returns brand name + logo/favicon + domain",
+        "Custom brand entry allowed if no match found",
+        "Empty brand submission triggers error",
+        "Selected brand persists through wizard flow"
+      ]
+    },
+    {
+      "req_id": "FR6",
+      "title": "Market Addition with Language Auto-Detection",
+      "description": "Editor can add multiple markets (country + language) with auto-detected language. Minimum 1 market required. Maximum enforced by quota. Duplicate pairs rejected.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Country selection auto-fills primary official language",
+        "Language selection is overridable by user",
+        "Minimum 1 market validation enforced",
+        "Quota limit max_brand_markets checked",
+        "Duplicate country+language pairs rejected with error",
+        "Market removal is undoable"
+      ]
+    },
+    {
+      "req_id": "FR7",
+      "title": "Primary Market Designation",
+      "description": "Editor can designate one market as primary. First market added is automatically Primary. Only one Primary at a time. Primary market determines source language for category names and translations.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "First market auto-set as Primary",
+        "Only one Primary market allowed",
+        "Selecting another market switches Primary status",
+        "Primary market language used for translations"
+      ]
+    },
+    {
+      "req_id": "FR8",
+      "title": "AI-Based Category Discovery",
+      "description": "Editor can trigger AI-based category discovery for the selected brand. AI returns categories labeled 'AI GENERATED'. User can view translations per category. If AI returns 0 categories → empty state prompting to add custom category.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "AI discovery triggered per brand",
+        "Categories returned with AI_GENERATED label",
+        "Translations displayed per category per market language",
+        "Empty result shows empty state with custom add prompt",
+        "Empty category list blocks navigation to Review Prompts"
+      ]
+    },
+    {
+      "req_id": "FR9",
+      "title": "Custom Category Addition with AI Translation",
+      "description": "Editor can add custom categories with automatic AI translation per market language. User can manually override translations.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Custom category labeled CUSTOM in UI",
+        "Category name entered in English",
+        "Auto-translation to all configured market languages",
+        "User can manually override translations per market",
+        "Translations persisted and displayed"
+      ]
+    },
+    {
+      "req_id": "FR10",
+      "title": "Category Removal with Last-One Rule",
+      "description": "Editor can remove AI-generated or custom categories. Deletion disabled when only 1 category remains. Deletion requires confirmation.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Delete action disabled when only 1 category exists",
+        "Confirmation dialog shown before deletion",
+        "Deletion removes category from all markets",
+        "Subsequent questions updated after deletion"
+      ]
+    },
+    {
+      "req_id": "FR11",
+      "title": "Review and Edit Auto-Generated Prompts",
+      "description": "Editor can review and edit auto-generated prompts (perception, visibility, competitive) per market and per category. Questions organized by market, then by type, then by category. 10 default questions per type per category. Auto-punctuation appends missing '?'. Empty question rejected.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Questions organized by market → type → category",
+        "10 default questions per type per category",
+        "Inline editing of question text supported",
+        "Auto-punctuation: missing '?' appended automatically",
+        "Empty question submission rejected, restores last saved version"
+      ]
+    },
+    {
+      "req_id": "FR12",
+      "title": "Add or Remove Individual Questions",
+      "description": "Editor can add or remove individual questions within each prompt type. Question deletion is undoable. Question count updates in real-time. Max 20 questions per type per market (60 max per market). Beyond limit → user notified and action blocked.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Add question action available per category section",
+        "Delete question action undoable",
+        "Question count updates real-time",
+        "Max 20 per type per market enforced",
+        "Max 60 per market enforced",
+        "Limit breach notifies user and blocks action"
+      ]
+    },
+    {
+      "req_id": "FR13",
+      "title": "Reset Questions to Default",
+      "description": "Editor can reset questions to default per category. 'Reset' button per category restores all questions to AI-generated defaults, undoing all edits/additions/deletions for that category.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Reset button available per category",
+        "All edits/additions/deletions undone",
+        "Questions restored to AI-generated defaults",
+        "Confirmation dialog shown before reset"
+      ]
+    },
+    {
+      "req_id": "FR14",
+      "title": "Enable or Disable LLM Engines",
+      "description": "Editor can enable or disable each available LLM engine. Default engines are pre-selected. Minimum 1 engine required — if user disables all, system auto-enables all. Maximum enforced by quota.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Default engines pre-selected per configuration",
+        "User can toggle each engine on/off",
+        "Minimum 1 engine enforced (auto-enable-all fallback)",
+        "Quota max_llms enforced",
+        "Selected engines persisted"
+      ]
+    },
+    {
+      "req_id": "FR15",
+      "title": "Review Configuration Summary",
+      "description": "Editor can review a summary (markets count, categories count, total questions count) before submitting the configuration.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "3 summary cards displayed",
+        "Markets count, categories count, questions count shown",
+        "Total questions = markets × categories × 30 (default)",
+        "Reflects actual question count including user edits"
+      ]
+    },
+    {
+      "req_id": "FR16",
+      "title": "Submit Report Configuration",
+      "description": "Editor can submit the report configuration from the review step. On first-time configuration → analysis starts automatically. Subsequent edits are saved immediately but results produced at next scheduled weekly execution.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Atomic save (config + questions + LLM selection)",
+        "Save failure results in no persistence and error message",
+        "First-time config triggers automatic analysis execution",
+        "User redirected to report page with progress display",
+        "Subsequent edits saved immediately but results delayed to weekly execution"
+      ]
+    },
+    {
+      "req_id": "FR17",
+      "title": "Quota Validation During Configuration",
+      "description": "System validates quotas during configuration setup. Quota brand×market validated twice: at start and at submission time. If exceeded at submission → save rejected with error. Quotas enforced: brand_market, categories, questions per type, LLMs. Warning displayed at limit. Adding disabled at limit.",
+      "priority": "V1",
+      "category": "Analysis Setup (Onboarding Wizard)",
+      "acceptance_criteria": [
+        "Initial quota check shows available capacity",
+        "Submission-time quota check prevents concurrent overcommit",
+        "All quota types validated: brand_market, categories, questions, LLMs",
+        "Quota exceeded → save rejected with updated usage",
+        "Warning displayed at limit, adding disabled"
+      ]
+    },
+    {
+      "req_id": "FR18",
+      "title": "Multi-LLM Parallel Analysis Execution",
+      "description": "System executes the analysis pipeline across all enabled LLM providers in parallel. Each enabled LLM receives all questions. Analysis produces: source classification, brand family grouping, visibility/competitive/perception metrics, competitor detection, semantic clustering, PR insights, Priority Source Targets, and Executive Summary.",
+      "priority": "V2",
+      "category": "Analysis Execution",
+      "acceptance_criteria": [
+        "All enabled LLMs queried in parallel",
+        "All questions sent to each LLM",
+        "Source classification performed on all responses",
+        "Brand family grouping completed",
+        "All metrics calculated per LLM"
+      ]
+    },
+    {
+      "req_id": "FR18b",
+      "title": "Structured JSON Output Validation",
+      "description": "System enforces structured JSON output from all LLM providers. All LLM responses must be valid JSON. Malformed responses are rejected and retried.",
+      "priority": "V2",
+      "category": "Analysis Execution",
+      "acceptance_criteria": [
+        "All LLM responses validated as valid JSON",
+        "Malformed responses rejected",
+        "Automatic retry mechanism triggered for malformed responses"
+      ]
+    },
+    {
+      "req_id": "FR19",
+      "title": "Real-Time Progress Display",
+      "description": "System displays real-time progress during analysis execution. On first-time configuration → progress bar visible immediately. On subsequent edits → report shows PENDING status until next scheduled weekly execution.",
+      "priority": "V2",
+      "category": "Analysis Execution",
+      "acceptance_criteria": [
+        "Progress bar displayed for first-time config",
+        "Real-time progress updates with sub-second latency",
+        "PENDING status shown for config edits",
+        "User can navigate away and return to check progress"
+      ]
+    },
+    {
+      "req_id": "FR20",
+      "title": "Graceful Degradation on LLM Provider Failure",
+      "description": "System continues analysis if one LLM provider fails. Report status: COMPLETED if all OK, COMPLETED_PARTIAL if some failed. FAILED only if all LLMs fail. A single LLM being down never causes FAILED.",
+      "priority": "V2",
+      "category": "Analysis Execution",
+      "acceptance_criteria": [
+        "Failed LLM does not block analysis",
+        "Status = COMPLETED when all LLMs succeed",
+        "Status = COMPLETED_PARTIAL when some fail",
+        "Status = FAILED only when all LLMs fail",
+        "Single LLM failure never causes FAILED status"
+      ]
+    },
+    {
+      "req_id": "FR20b",
+      "title": "Brand Entity Normalization",
+      "description": "System normalizes brand entities into brand families using AI-powered grouping with domain hints. Entity name variants are grouped into single brand family. Visibility and competitive metrics aggregated by brand family. Fallback: if grouping confidence low, entity treated as own brand family.",
+      "priority": "V2",
+      "category": "Analysis Execution",
+      "acceptance_criteria": [
+        "Entity variants grouped into brand families",
+        "Visibility metrics aggregated by family",
+        "Competitive metrics aggregated by family",
+        "Low-confidence groupings fallback to entity-as-own-family"
+      ]
+    },
+    {
+      "req_id": "FR20c",
+      "title": "Citation Source Extraction and Deduplication",
+      "description": "System extracts and deduplicates citation sources from all LLM responses. All URLs cited in LLM responses are extracted and deduplicated by normalized domain. Each unique source retains attribution to which LLM(s) cited it.",
+      "priority": "V2",
+      "category": "Analysis Execution",
+      "acceptance_criteria": [
+        "All URLs extracted from responses",
+        "Deduplication by normalized domain",
+        "LLM attribution retained per source",
+        "Duplicate detection case-insensitive"
+      ]
+    },
+    {
+      "req_id": "FR20d",
+      "title": "Brand and Competitor Source Classification",
+      "description": "System identifies brand-owned and competitor-owned sources separately. Sources matching target brand's domain tagged 'Owned'. Sources matching competitor domain tagged 'Competitor'. Classification uses domain hints from brand family grouping.",
+      "priority": "V2",
+      "category": "Analysis Execution",
+      "acceptance_criteria": [
+        "Brand-owned sources identified by domain match",
+        "Competitor sources identified by domain match",
+        "Owned and Competitor tags applied correctly",
+        "Unmatched sources classified per 11-category taxonomy"
+      ]
+    },
+    {
+      "req_id": "FR20e",
+      "title": "Brand Logo Display",
+      "description": "System displays brand logos using a domain-based logo service. Brand logos fetched from Brandfetch using brand's domain. Displayed in Brand Rankings tables, KPI cards, and report list. Fallback: first-letter avatar if logo unavailable.",
+      "priority": "V2",
+      "category": "Analysis Execution",
+      "acceptance_criteria": [
+        "Logo fetched from Brandfetch by domain",
+        "Logo displayed in Rankings tables",
+        "Logo displayed in KPI cards",
+        "Logo displayed in report list",
+        "First-letter avatar used as fallback"
+      ]
+    },
+    {
+      "req_id": "FR21",
+      "title": "Check Analysis Progress",
+      "description": "During analysis execution, Editor can navigate away and return to check progress. Report list shows status badge 'Processing X%'. Clicking 'View' returns to progress page.",
+      "priority": "V2",
+      "category": "Analysis Execution",
+      "acceptance_criteria": [
+        "Progress badge displays 'Processing X%'",
+        "View button navigates back to progress page",
+        "Progress persists across page navigations",
+        "Progress updates in real-time"
+      ]
+    },
+    {
+      "req_id": "FR25b",
+      "title": "Auto-Translation to Market Languages",
+      "description": "System translates questions into each market's language automatically. Questions authored in primary market language are auto-translated to all configured market languages. User can override translations in wizard.",
+      "priority": "V2",
+      "category": "Analysis Setup",
+      "acceptance_criteria": [
+        "Questions auto-translated to all market languages",
+        "Translations based on primary market language",
+        "User can override translations per market",
+        "Overrides persist through analysis"
+      ]
+    },
+    {
+      "req_id": "FR25c",
+      "title": "Cross-Language Category Matching",
+      "description": "System supports cross-language category matching (e.g., 'Solar Energy' ↔ 'Energie Solaire'). Category names entered in primary market language are matched to their translations across markets. Aggregation groups results by canonical category regardless of language.",
+      "priority": "V2",
+      "category": "Analysis Setup",
+      "acceptance_criteria": [
+        "Category translations mapped across languages",
+        "Aggregation uses canonical category name",
+        "Language differences don't fragment results",
+        "Translations displayed per market"
+      ]
+    },
+    {
+      "req_id": "FR26",
+      "title": "View Report List",
+      "description": "Editor can view a list of all reports for their organization with status, metadata, and date. List shows report name, status badge, creation date, number of markets, number of categories. Sorted by most recent. Supports sorting and filtering. Paginated (limit/offset). Scoped to user's organization only.",
+      "priority": "V1",
+      "category": "Report List",
+      "acceptance_criteria": [
+        "All reports displayed with name, status, date",
+        "Markets count displayed",
+        "Categories count displayed",
+        "Sorted by most recent first",
+        "Sorting and filtering supported",
+        "Pagination implemented",
+        "Organization-scoped (no cross-org data)"
+      ]
+    },
+    {
+      "req_id": "FR26b",
+      "title": "Report Execution Metadata Display",
+      "description": "Report list displays full execution metadata: status badge with PROCESSING/COMPLETED/COMPLETED_PARTIAL/FAILED, last run date, last refresh date, execution time.",
+      "priority": "V2",
+      "category": "Report List",
+      "acceptance_criteria": [
+        "Status badge shows: PROCESSING, COMPLETED, COMPLETED_PARTIAL, or FAILED",
+        "Last run date displayed",
+        "Last refresh date displayed",
+        "Execution time displayed"
+      ]
+    },
+    {
+      "req_id": "FR27",
+      "title": "Dashboard Navigation via Sidebar",
+      "description": "Editor can navigate between report views via sidebar (Overview, Actions Center, Category Views, Settings). Sidebar persists across all views. Active view highlighted. Category Views expandable with sub-items per category. Navigation does not reload the page (SPA).",
+      "priority": "V2",
+      "category": "Dashboard & Report Navigation",
+      "acceptance_criteria": [
+        "Sidebar displays all main views",
+        "Active view highlighted",
+        "Category Views expandable with sub-items",
+        "Sidebar persists across navigations",
+        "Navigation does not reload (SPA behavior)"
+      ]
+    },
+    {
+      "req_id": "FR28",
+      "title": "Market Filter",
+      "description": "Editor can select a market filter (Master/All Markets or individual market). Default is 'Master (All Markets)' which aggregates across all markets. Selecting a specific market scopes all KPIs, tables, and charts to that market. Filter state persists across view navigation.",
+      "priority": "V2",
+      "category": "Dashboard & Report Navigation",
+      "acceptance_criteria": [
+        "Master (All Markets) option aggregates all markets",
+        "Individual market selection filters all KPIs",
+        "Individual market filters all tables and charts",
+        "Filter state persists across views",
+        "Default: Master (All Markets)"
+      ]
+    },
+    {
+      "req_id": "FR29",
+      "title": "LLM Engine Filter",
+      "description": "Editor can filter results by LLM engine(s) — filtering applies to all views including perception summaries and reputation topics. Multi-select LLM filter listing all active engines. Default: all active LLMs selected. Deselecting an LLM recalculates all metrics. Perception summaries regenerated. Min 1 LLM must remain selected.",
+      "priority": "V2",
+      "category": "Dashboard & Report Navigation",
+      "acceptance_criteria": [
+        "Multi-select LLM filter UI",
+        "All active LLMs listed",
+        "Default: all selected",
+        "Deselecting recalculates metrics",
+        "Perception summaries regenerated",
+        "Min 1 LLM enforced"
+      ]
+    },
+    {
+      "req_id": "FR30",
+      "title": "Delete Report",
+      "description": "Editor can delete a report. Soft delete with confirmation dialog. Deleted reports no longer appear in list. Editor role required. Shared links for deleted reports return 404.",
+      "priority": "V2",
+      "category": "Dashboard & Report Navigation",
+      "acceptance_criteria": [
+        "Soft delete implemented",
+        "Confirmation dialog shown",
+        "Deleted reports hidden from list",
+        "Editor role required",
+        "Shared links return 404 for deleted reports"
+      ]
+    },
+    {
+      "req_id": "FR31",
+      "title": "AI Perception Summary Generation and Caching",
+      "description": "System generates AI Perception Summary on-demand per filter combination at 4 hierarchical levels, and caches results. 4 levels: Global, Global per market, Per category, Per category × market. Summary = 3 bullet points (150 chars max). Loading state during generation. Cached result served on subsequent access. Cache invalidated on each new scheduled execution.",
+      "priority": "V2",
+      "category": "Overview",
+      "acceptance_criteria": [
+        "4-level hierarchy: global, per-market, per-category, per-category×market",
+        "3 bullet points per summary (150 chars max)",
+        "On-demand generation with loading state",
+        "Results cached per (scope, market, category, LLM selection)",
+        "Cache invalidated after scheduled execution",
+        "Filtered by selected LLMs"
+      ]
+    },
+    {
+      "req_id": "FR31b",
+      "title": "Executive Summary Generation",
+      "description": "System generates an Executive Summary with Areas of Improvement and scoped source recommendations. Includes structured summary with key findings, top anomalies, and recommended domains per improvement area. Displayed at top of Overview page. Generated once per analysis run.",
+      "priority": "V2",
+      "category": "Overview",
+      "acceptance_criteria": [
+        "Executive Summary generated per analysis run",
+        "Key findings included",
+        "Top anomalies highlighted",
+        "Recommended domains per improvement area",
+        "Displayed prominently on Overview",
+        "Not regenerated on filter changes"
+      ]
+    },
+    {
+      "req_id": "FR32",
+      "title": "Display 5 KPI Cards",
+      "description": "System displays 5 KPI cards: Share of Voice, Visibility, Avg Position, LLM Choice / Win Rate, Sentiment. Each KPI shows current value with unit. Values computed per formulas. All KPIs respect active market and LLM filters. Each KPI has quality label (Good/Fair/Poor) based on thresholds.",
+      "priority": "V2",
+      "category": "Overview",
+      "acceptance_criteria": [
+        "5 KPI cards displayed: SOV, Visibility, Avg Position, Win Rate, Sentiment",
+        "Current values with units displayed",
+        "Computed per metric formulas (FR79-FR82b)",
+        "Market filter applied",
+        "LLM filter applied",
+        "Quality labels displayed (Good/Fair/Poor)"
+      ]
+    },
+    {
+      "req_id": "FR33",
+      "title": "Category Prioritization Matrix",
+      "description": "System displays Category Prioritization Matrix (SOV × Win Rate) with market flags. SOV on X-axis, Win Rate on Y-axis. 4 quadrants: Stars (high SOV + high win), Opportunity (low SOV + high win), At Risk (high SOV + low win), Monitor (low SOV + low win). Threshold: SOV 50%, Win Rate 50%.",
+      "priority": "V2",
+      "category": "Overview",
+      "acceptance_criteria": [
+        "SOV on X-axis, Win Rate on Y-axis",
+        "Data points: category × market pairs",
+        "Market flags displayed",
+        "4 quadrants: Stars, Opportunity, At Risk, Monitor",
+        "Thresholds: SOV 50%, Win Rate 50%"
+      ]
+    },
+    {
+      "req_id": "FR34",
+      "title": "Category Performance Visualization",
+      "description": "System displays Category Performance visualization (SOV, Competitive Wins, Perception Sentiment). One visualization per category showing 3 sub-metrics as percentages.",
+      "priority": "V2",
+      "category": "Overview",
+      "acceptance_criteria": [
+        "Per-category visualization",
+        "SOV displayed as %",
+        "Competitive Wins displayed as %",
+        "Perception Sentiment displayed as %"
+      ]
+    },
+    {
+      "req_id": "FR35",
+      "title": "Brand Rankings Table",
+      "description": "System displays Brand Rankings table (rank, brand with logo, SOV%, Visibility%, Avg Position, LLM Choice%). Table sorted by SOV descending. Target brand highlighted. Logo fetched from Brandfetch. Respects market/LLM filters.",
+      "priority": "V2",
+      "category": "Overview",
+      "acceptance_criteria": [
+        "Table columns: Rank, Brand, SOV%, Visibility%, Avg Position, LLM Choice%",
+        "Sorted by SOV descending",
+        "Target brand highlighted",
+        "Logos fetched and displayed",
+        "Market filter applied",
+        "LLM filter applied"
+      ]
+    },
+    {
+      "req_id": "FR36",
+      "title": "Top Concepts with Sentiment Distribution",
+      "description": "System displays Top Concepts with sentiment distribution, frequency, and LLM attribution badges. Concepts extracted from perception responses, grouped by name. Each concept shows: frequency (% of responses), sentiment score, and LLM attribution badges. Distribution header: N positive / N negative / N neutral. List sorted by frequency descending. Expandable detail shows up to 3 quotes with source URLs and sentiment gradient.",
+      "priority": "V2",
+      "category": "Overview",
+      "acceptance_criteria": [
+        "Concepts extracted from perception responses",
+        "Frequency displayed as % of responses",
+        "Sentiment score displayed",
+        "LLM attribution badges shown",
+        "Distribution header shows sentiment counts",
+        "Sorted by frequency descending",
+        "Expandable detail with quotes and URLs"
+      ]
+    },
+    {
+      "req_id": "FR37",
+      "title": "AI Citation Sources with Favorability",
+      "description": "System displays AI Citation Sources with source type breakdown and priority domain table. Stacked bar showing distribution by source type (11-category taxonomy). Clicking segment filters table. Domain table columns: Domain, Frequency, Favorability. Favorability: ≥60% green, 40-59% amber, <40% red. Expandable detail per domain: Visibility Gaps, Competitive Losses, Sentiment Issues, LLM Citations breakdown, Cited URLs list.",
+      "priority": "V2",
+      "category": "Overview",
+      "acceptance_criteria": [
+        "Stacked bar by source type (11-category taxonomy)",
+        "Segment click filters table",
+        "Domain table: Domain, Frequency, Favorability",
+        "Favorability color thresholds: ≥60% green, 40-59% amber, <40% red",
+        "Expandable detail per domain with gaps/losses/sentiment/citations",
+        "Cited URLs list in detail"
+      ]
+    },
+    {
+      "req_id": "FR38",
+      "title": "Improvement Areas Detection",
+      "description": "System detects and displays 8 types of improvement areas with severity scoring. 8 issue types: low_visibility, poor_position, category_market_low, owned_media_gap, low_favorability, category_market_losing, low_source_favorability, negative_sentiment. Severity thresholds: Critical (metric < 25%), Warning (< 40%), Info (< 50%). Special rules: all competitive improvements cleared when global favorability >= 95%; max 3 reputation items per category. Issues detected per LLM — multiple issues if multiple LLMs show distinct problems.",
+      "priority": "V2",
+      "category": "Actions Center",
+      "acceptance_criteria": [
+        "8 issue types detected per specification",
+        "Severity calculated: Critical < 25%, Warning < 40%, Info < 50%",
+        "All competitive cleared when global favorability >= 95%",
+        "Max 3 reputation items per category",
+        "Issues detected per LLM",
+        "Sorted by severity: critical > warning > info"
+      ]
+    },
+    {
+      "req_id": "FR38b",
+      "title": "Filter Areas of Improvement by Market",
+      "description": "Editor can filter Areas of Improvement by market/country. Market filter scopes improvement areas to the selected market. Default: all markets. Combinable with LLM filter.",
+      "priority": "V2",
+      "category": "Actions Center",
+      "acceptance_criteria": [
+        "Market filter available",
+        "Default: all markets",
+        "Individual market selection filters improvements",
+        "Combinable with LLM filter"
+      ]
+    },
+    {
+      "req_id": "FR39",
+      "title": "Improvement Area Detail Panel",
+      "description": "Editor can expand an issue to view detail panel with Quick Stats, Priority Source Targets, Owned Media, and Competitor Media sections. Expanded detail shows: Quick Stats (relevant KPIs), Priority Source Targets (domains with favorability/counts/gaps), Owned Media (brand-owned domains cited), Competitor Media (competitor domains cited).",
+      "priority": "V2",
+      "category": "Actions Center",
+      "acceptance_criteria": [
+        "Expandable detail panel",
+        "Quick Stats section with KPIs",
+        "Priority Source Targets section",
+        "Owned Media section",
+        "Competitor Media section"
+      ]
+    },
+    {
+      "req_id": "FR40",
+      "title": "Priority Source Targets",
+      "description": "System provides Priority Source Targets with specific domains, favorability, citation counts, and gap counts. Domains listed with favorability (Favorable/Neutral/Unfavorable), total citation count, and gaps count (questions where brand underperforms). Per-LLM logo badges. Sorted by impact potential.",
+      "priority": "V2",
+      "category": "Actions Center",
+      "acceptance_criteria": [
+        "Domains with favorability status",
+        "Citation counts displayed",
+        "Gap counts displayed",
+        "Per-LLM logo badges shown",
+        "Sorted by impact potential"
+      ]
+    },
+    {
+      "req_id": "FR41",
+      "title": "Per-Category Perception Summary",
+      "description": "System displays per-category AI Perception Summary with key insight. Summary scoped to selected category. Shows key insight as one-sentence highlight. Generated on-demand and cached.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Per-category summary generated",
+        "One-sentence key insight highlighted",
+        "On-demand generation with caching",
+        "Loading state during generation"
+      ]
+    },
+    {
+      "req_id": "FR42",
+      "title": "Per-Category KPI Cards",
+      "description": "System displays per-category KPI cards (same 5 metrics scoped to category). Same 5 KPIs as FR32 but computed for selected category only. Respects market/LLM filters.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "5 KPI cards scoped to category",
+        "Market filter applied",
+        "LLM filter applied",
+        "Same metric calculations as Overview"
+      ]
+    },
+    {
+      "req_id": "FR43",
+      "title": "Per-Category Brand Prioritization Matrix",
+      "description": "System displays per-category Brand Prioritization Matrix. Same visualization as FR33 but with brands (not categories) as data points, scoped to selected category.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Per-category matrix",
+        "Brands as data points (not categories)",
+        "Same 4 quadrants and thresholds"
+      ]
+    },
+    {
+      "req_id": "FR44",
+      "title": "Per-Category Brand Rankings Table",
+      "description": "System displays per-category Brand Rankings table. Same structure as FR35 but scoped to selected category.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Per-category rankings",
+        "Same columns and sorting as FR35",
+        "Market filter applied",
+        "LLM filter applied"
+      ]
+    },
+    {
+      "req_id": "FR45",
+      "title": "Unified Questions Table",
+      "description": "System displays Unified Questions Table with visibility, competitive, and perception questions. Each row shows question text, winner/themes column, market flag, per-LLM rank badges. Favorability rules: Visibility (Won=Favorable, Split=Neutral, Lost/Not Named=Unfavorable), Competitive (Won=Favorable, Split=Neutral, Lost=Unfavorable), Perception (Positive=Favorable, Mixed=Neutral, Negative=Unfavorable). Winner column shows brand name + 'You' badge if won, competitor if agreed, 'Lost' if disagreed, 'Split' if mixed.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "All question types displayed",
+        "Question text displayed",
+        "Winner/themes column shown",
+        "Market flags displayed",
+        "Per-LLM rank badges shown",
+        "Favorability rules applied per type",
+        "Winner column shows appropriate badges"
+      ]
+    },
+    {
+      "req_id": "FR45b",
+      "title": "Filter Questions by Favorability",
+      "description": "User can filter questions by favorability (favorable, split, not favorable). Filter applies to all question types in the Unified Questions Table. Default: all favorabilities shown. Filter combinable with question type filter.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Favorability filter available",
+        "Default: all favorabilities",
+        "Individual favorability selection filters",
+        "Combinable with question type filter"
+      ]
+    },
+    {
+      "req_id": "FR46",
+      "title": "Expand Question Row for Details",
+      "description": "Editor can expand a question row to view full ranking, sources, and per-LLM details. Expanded detail shows: for visibility — full brand ranking list; for competitive — win/loss per LLM; for all — cited sources and full LLM response text per engine.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Expandable question detail",
+        "Full brand rankings for visibility",
+        "Win/loss per LLM for competitive",
+        "Cited sources displayed",
+        "Full LLM response text per engine"
+      ]
+    },
+    {
+      "req_id": "FR46b",
+      "title": "Category View Scope Limitation",
+      "description": "Category View focuses on category-scoped metrics, rankings, questions, and citation sources — improvement areas are surfaced in Overview and Actions Center only. Category View does not display anomaly cards or improvement actions.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Improvement areas NOT in Category View",
+        "Anomaly cards NOT in Category View",
+        "Improvement actions NOT in Category View",
+        "All improvements in Overview and Actions Center"
+      ]
+    },
+    {
+      "req_id": "FR47",
+      "title": "Per-Category Perception Topics",
+      "description": "System displays per-category perception topics with sentiment distribution and LLM attribution. Topic clustering with sentiment filtering (All/Positive/Mixed/Negative). LLM attribution badges per concept.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Per-category topics extracted",
+        "Sentiment distribution shown",
+        "Sentiment filter: All/Positive/Mixed/Negative",
+        "LLM attribution badges displayed"
+      ]
+    },
+    {
+      "req_id": "FR48",
+      "title": "Per-Category Perception Questions",
+      "description": "System displays per-category perception questions with sentiment, key themes, and per-LLM response detail. Perception questions listed in Unified Questions Table. Each row shows sentiment score, key themes, expandable per-LLM detail. Filterable by sentiment.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Perception questions in Unified Table",
+        "Sentiment score displayed",
+        "Key themes displayed",
+        "Expandable per-LLM detail",
+        "Sentiment filtering available"
+      ]
+    },
+    {
+      "req_id": "FR49",
+      "title": "Per-Category Citation Sources",
+      "description": "System displays per-category AI Citation Sources including reputation gaps. Citation sources table includes perception-related sources. Highlights reputation gaps (domains cited by competitors but not by the brand) within category scope.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Per-category sources displayed",
+        "Perception sources included",
+        "Reputation gaps highlighted",
+        "Competitor source identification"
+      ]
+    },
+    {
+      "req_id": "FR50",
+      "title": "View Source Details",
+      "description": "User can view source details (URL, title, domain, LLM attribution). Accessible from any citation source in Overview (FR37) or Category View (FR49). Shows full URL, page title, normalized domain, which LLM(s) cited source.",
+      "priority": "V2",
+      "category": "Category View",
+      "acceptance_criteria": [
+        "Source detail modal accessible",
+        "Full URL displayed",
+        "Page title displayed",
+        "Normalized domain displayed",
+        "LLM attribution displayed"
+      ]
+    },
+    {
+      "req_id": "FR51",
+      "title": "Add New Market to Existing Report",
+      "description": "Editor can add a new market to an existing report — changes take effect on next analysis run. Select country+language pair (not already in report). Config saved immediately. Quota consumed: +1 brand_market on save. New market included in next scheduled weekly execution.",
+      "priority": "V2",
+      "category": "Incremental Analysis",
+      "acceptance_criteria": [
+        "Add market action in Manage Scope",
+        "Duplicate prevention (market not already in report)",
+        "Config saved immediately",
+        "Quota incremented",
+        "Applied on next scheduled execution"
+      ]
+    },
+    {
+      "req_id": "FR52",
+      "title": "Add New Category to Existing Report",
+      "description": "Editor can add a new category to an existing report — changes take effect on next analysis run. Category name + per-market translations. Config saved immediately. No additional brand_market quota consumed (category within existing markets). New category included in next scheduled weekly execution.",
+      "priority": "V2",
+      "category": "Incremental Analysis",
+      "acceptance_criteria": [
+        "Add category action in Manage Scope",
+        "Per-market translations supported",
+        "Config saved immediately",
+        "No brand_market quota consumed",
+        "Applied on next scheduled execution"
+      ]
+    },
+    {
+      "req_id": "FR53",
+      "title": "Auto-Detect Competitors",
+      "description": "System automatically extracts top competitors per category per market from visibility rankings — these become default entities used in competitive questions. During execution, visibility responses parsed for brand mentions. Top N brands populate competitive questions. If visibility fails for all LLMs, competitive questions use generic placeholders.",
+      "priority": "V2",
+      "category": "Incremental Analysis",
+      "acceptance_criteria": [
+        "Top competitors extracted from visibility",
+        "Per-category per-market detection",
+        "Used as default entities in competitive questions",
+        "Fallback to generic placeholders on failure"
+      ]
+    },
+    {
+      "req_id": "FR53b",
+      "title": "Manually Add Competitor",
+      "description": "Editor can add a competitor to an existing report — changes take effect on next analysis run. Manual competitor addition in Manage Scope. Added competitors merged with auto-detected ones. Total capped at max_competitors_per_category. Changes apply on next scheduled weekly execution.",
+      "priority": "V2",
+      "category": "Incremental Analysis",
+      "acceptance_criteria": [
+        "Manual competitor add in Manage Scope",
+        "Merged with auto-detected competitors",
+        "Max competitor limit enforced",
+        "Applied on next scheduled execution"
+      ]
+    },
+    {
+      "req_id": "FR54",
+      "title": "Persist Scope and Configuration Changes",
+      "description": "All scope and configuration changes (markets, categories, competitors, questions, LLMs) are persisted and automatically applied on next analysis run. Changes saved to DB immediately. No immediate re-execution. Next scheduled weekly execution uses updated config. UI shows confirmation message.",
+      "priority": "V2",
+      "category": "Incremental Analysis",
+      "acceptance_criteria": [
+        "All changes persisted immediately",
+        "No immediate re-execution",
+        "Applied on next scheduled execution",
+        "Confirmation message shown"
+      ]
+    },
+    {
+      "req_id": "FR56",
+      "title": "View and Manage Markets and Categories",
+      "description": "Editor can view and manage the list of markets and categories for a report. Displays all markets with their categories. Markets and categories can be added or removed. Removing market/category removes associated results.",
+      "priority": "V2",
+      "category": "Manage Scope (Settings)",
+      "acceptance_criteria": [
+        "List of all markets with categories",
+        "Add/remove market actions",
+        "Add/remove category actions",
+        "Removal deletes associated results"
+      ]
+    },
+    {
+      "req_id": "FR57",
+      "title": "Enable or Disable LLM Engines in Existing Report",
+      "description": "Editor can enable or disable LLM engines for an existing report — changes take effect on next analysis run. User can enable/disable each LLM engine. Min 1 engine must remain active. Changes saved immediately, applied on next scheduled weekly execution.",
+      "priority": "V2",
+      "category": "Manage Scope (Settings)",
+      "acceptance_criteria": [
+        "LLM enable/disable toggles",
+        "Min 1 engine enforced",
+        "Changes saved immediately",
+        "Applied on next scheduled execution"
+      ]
+    },
+    {
+      "req_id": "FR57b",
+      "title": "Modify, Add, or Remove Questions in Existing Report",
+      "description": "Editor can modify, add, or remove questions on an existing report — changes take effect on next analysis run. Same editing capabilities as wizard Steps 3-4. Max 20 questions per type per market. Changes saved immediately, applied on next scheduled weekly execution.",
+      "priority": "V2",
+      "category": "Manage Scope (Settings)",
+      "acceptance_criteria": [
+        "Question edit capability in Manage Scope",
+        "Max 20 per type per market",
+        "Changes saved immediately",
+        "Applied on next scheduled execution"
+      ]
+    },
+    {
+      "req_id": "FR58",
+      "title": "Display Question Counts",
+      "description": "System displays question counts per category and market. Breakdown: N visibility + N competitive + N perception questions per category×market. Total question count for report.",
+      "priority": "V2",
+      "category": "Manage Scope (Settings)",
+      "acceptance_criteria": [
+        "Question counts per category×market",
+        "Breakdown by type (visibility/competitive/perception)",
+        "Total report question count"
+      ]
+    },
+    {
+      "req_id": "FR59",
+      "title": "Display Analysis Metadata",
+      "description": "System displays analysis metadata (creation date, last analysis date, execution time). Shows creation timestamp, last successful analysis timestamp, total execution time of last run, number of runs completed.",
+      "priority": "V2",
+      "category": "Manage Scope (Settings)",
+      "acceptance_criteria": [
+        "Creation date displayed",
+        "Last analysis date displayed",
+        "Execution time displayed",
+        "Number of runs completed"
+      ]
+    },
+    {
+      "req_id": "FR60",
+      "title": "Automated Weekly Refresh",
+      "description": "System automatically refreshes all active reports on a weekly cadence. All active configurations executed weekly at same day/time as initial configuration (or last edit). Same configuration (markets, categories, questions, LLM selection). No user intervention required. Each execution produces new snapshot.",
+      "priority": "V2",
+      "category": "Scheduled Weekly Execution",
+      "acceptance_criteria": [
+        "Weekly execution schedule",
+        "Same day/time as initial configuration",
+        "No user intervention required",
+        "New snapshot created per execution",
+        "Configuration applied from last edit"
+      ]
+    },
+    {
+      "req_id": "FR62",
+      "title": "Stagger Weekly Refreshes",
+      "description": "System staggers weekly refreshes to respect LLM provider rate limits. No thundering herd — refreshes queued and staggered across refresh window. Fair scheduling across tenants.",
+      "priority": "V2",
+      "category": "Scheduled Weekly Execution",
+      "acceptance_criteria": [
+        "Refreshes queued and staggered",
+        "Rate limits respected",
+        "Fair scheduling across tenants",
+        "No thundering herd pattern"
+      ]
+    },
+    {
+      "req_id": "FR65",
+      "title": "Store Immutable Snapshots",
+      "description": "System stores results from each analysis run as an immutable snapshot. Each scheduled weekly execution produces new snapshot. Snapshots immutable. Minimum retention: 12 months.",
+      "priority": "V3",
+      "category": "Snapshot Navigation",
+      "acceptance_criteria": [
+        "Snapshot created per analysis execution",
+        "Snapshots immutable after creation",
+        "12-month minimum retention"
+      ]
+    },
+    {
+      "req_id": "FR66",
+      "title": "Navigate Between Snapshots",
+      "description": "User can navigate between analysis snapshots using previous/next controls. Navigation between snapshots with current snapshot date displayed. Viewing older snapshot updates all dashboard data to reflect that snapshot's results. No trend analysis or cross-run comparison.",
+      "priority": "V3",
+      "category": "Snapshot Navigation",
+      "acceptance_criteria": [
+        "Previous/next controls displayed",
+        "Current snapshot date shown",
+        "Dashboard updates per selected snapshot",
+        "No trend analysis",
+        "No cross-run comparison"
+      ]
+    },
+    {
+      "req_id": "FR68",
+      "title": "Generate Shareable Link",
+      "description": "Editor can generate a shareable link (token-based, no auth required) for a report. Token is cryptographically random (min 32 chars). Link format: /reports/shared/{token}. No authentication required to access. Editor can regenerate token (invalidates previous link).",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "acceptance_criteria": [
+        "Token generated (min 32 chars, cryptographically random)",
+        "Link format: /reports/shared/{token}",
+        "No auth required to access",
+        "Regeneration capability (invalidates old token)"
+      ]
+    },
+    {
+      "req_id": "FR69",
+      "title": "Shared Report Read-Only Access",
+      "description": "Shared report provides full read-only access to all views (Overview, Actions Center, Categories). All views accessible. No edit, delete, or configuration actions available. No navigation to other reports. Organisation branding preserved.",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "acceptance_criteria": [
+        "All views accessible",
+        "No edit actions",
+        "No delete actions",
+        "No configuration actions",
+        "No cross-report navigation",
+        "Organization branding preserved"
+      ]
+    },
+    {
+      "req_id": "FR70",
+      "title": "Shared Report Market and LLM Filtering",
+      "description": "Shared report supports market and LLM filtering. Same filter UI as authenticated view. Filters do not modify stored data — client-side or re-query only.",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "acceptance_criteria": [
+        "Market filter in shared view",
+        "LLM filter in shared view",
+        "Same UI as authenticated view",
+        "Client-side filtering only"
+      ]
+    },
+    {
+      "req_id": "FR71",
+      "title": "Export Report to PPTX",
+      "description": "Editor can export report sections to PPTX (branded slide deck with screenshots). PPTX includes: title slide, one slide per selected section with chart screenshots and key metrics. Branded with organization logo. Generation < 30s.",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "acceptance_criteria": [
+        "Section selection for export",
+        "Title slide generated",
+        "Chart screenshots captured",
+        "Key metrics included",
+        "Organization logo displayed",
+        "Generation < 30 seconds"
+      ]
+    },
+    {
+      "req_id": "FR72",
+      "title": "Export Report to PDF",
+      "description": "Editor can export report to PDF via browser print dialog. Print-optimized CSS stylesheet. All visible sections included. Charts rendered as static images. No interactive elements in print view.",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "acceptance_criteria": [
+        "Browser print dialog functional",
+        "Print-optimized CSS",
+        "All visible sections in print",
+        "Charts as static images",
+        "No interactive elements"
+      ]
+    },
+    {
+      "req_id": "FR73",
+      "title": "Select Sections for Export",
+      "description": "Editor can select which sections to include in the export. User selects which sections (Overview, Actions Center, each Category). At least one section required. Selection applies to both PPTX and PDF exports.",
+      "priority": "V2",
+      "category": "Sharing & Export",
+      "acceptance_criteria": [
+        "Section multi-select available",
+        "At least one section required",
+        "Selection applies to PPTX",
+        "Selection applies to PDF"
+      ]
+    },
+    {
+      "req_id": "FR74",
+      "title": "Send Analysis Completion Email",
+      "description": "System sends email notification when analysis execution completes (first-time or scheduled weekly). Email sent to all editors in organization. Includes: report name, status (COMPLETED/COMPLETED_PARTIAL), 4 KPI values, AI perception summary snippet, direct link to report. Sent within 5 minutes of completion. One email per report executed.",
+      "priority": "V2",
+      "category": "Notifications",
+      "acceptance_criteria": [
+        "Email to all editors on completion",
+        "Sent within 5 minutes",
+        "Includes report name",
+        "Includes status badge",
+        "Includes 4 KPI values",
+        "Includes perception summary snippet",
+        "Includes direct report link"
+      ]
+    },
+    {
+      "req_id": "FR76",
+      "title": "Send Quota Warning Email",
+      "description": "System sends email notification when organization quota reaches warning threshold. Warning at 80% and 100% of brand_market quota. Email includes current usage, max quota, and reset date. Sent to all editors in organization.",
+      "priority": "V2",
+      "category": "Notifications",
+      "acceptance_criteria": [
+        "Warning at 80% quota",
+        "Warning at 100% quota",
+        "Email to all editors",
+        "Current usage displayed",
+        "Max quota displayed",
+        "Reset date displayed"
+      ]
+    },
+    {
+      "req_id": "FR77",
+      "title": "Guided Tour with Demo Data",
+      "description": "System provides a guided tour accessible via URL parameter. Tour triggered by ?tour=true URL parameter. Tour uses demo/sample data (not real user data). Tour can be dismissed at any step. Tour state not persisted — refreshing restarts.",
+      "priority": "V3",
+      "category": "Guided Tour",
+      "acceptance_criteria": [
+        "URL parameter ?tour=true triggers tour",
+        "Demo/sample data used (not real user data)",
+        "Dismissible at any step",
+        "State not persisted across refresh"
+      ]
+    },
+    {
+      "req_id": "FR78",
+      "title": "Guided Tour Navigation and Tooltips",
+      "description": "Tour navigates automatically across views (Overview, Actions Center, Category) with contextual tooltips. Sequential steps highlighting key features: KPI cards, filters, question table, perception summary, anomalies. User can advance or skip. 8-12 steps total.",
+      "priority": "V3",
+      "category": "Guided Tour",
+      "acceptance_criteria": [
+        "Sequential step navigation",
+        "Contextual tooltips displayed",
+        "All views covered (Overview, Actions Center, Category)",
+        "Key features highlighted",
+        "Advance/skip controls",
+        "8-12 steps total"
+      ]
+    },
+    {
+      "req_id": "FR79",
+      "title": "Calculate Share of Voice",
+      "description": "System calculates Share of Voice as Visibility × (2 / (Avg Position + 1)). SOV expressed as percentage (0-100%). If Avg Position = 0 (not ranked), SOV = 0. Computed per category×market×LLM, then aggregated 1/N across active LLMs.",
+      "priority": "V2",
+      "category": "Metrics Calculation",
+      "acceptance_criteria": [
+        "Formula: Visibility × (2 / (Avg Position + 1))",
+        "Result as percentage (0-100%)",
+        "Not ranked = position 0 → SOV = 0",
+        "Per-category×market×LLM calculation",
+        "Aggregation: 1/N across LLMs"
+      ]
+    },
+    {
+      "req_id": "FR80",
+      "title": "Calculate Visibility",
+      "description": "System calculates Visibility as mentions / maximum possible mentions, capped at 100%. Mentions = number of visibility questions where brand appears. Max possible = total visibility questions. Visibility = mentions / max × 100, capped at 100%.",
+      "priority": "V2",
+      "category": "Metrics Calculation",
+      "acceptance_criteria": [
+        "Mentions = count of questions where brand appears",
+        "Max possible = total visibility questions",
+        "Formula: mentions / max × 100",
+        "Result capped at 100%"
+      ]
+    },
+    {
+      "req_id": "FR81",
+      "title": "Calculate Average Position",
+      "description": "System calculates Average Position as arithmetic mean of all rank positions, with penalty position 11 for unranked brands. Position extracted from ranked lists in LLM responses (1-10). Brands not mentioned receive position 11. Avg Position = sum / count. Lower is better.",
+      "priority": "V2",
+      "category": "Metrics Calculation",
+      "acceptance_criteria": [
+        "Positions extracted from LLM responses",
+        "Unranked brands = position 11 (penalty)",
+        "Arithmetic mean calculation",
+        "Lower = better",
+        "Used in SOV formula"
+      ]
+    },
+    {
+      "req_id": "FR82",
+      "title": "Calculate Win Rate",
+      "description": "System calculates LLM Choice / Win Rate as wins (target ranked #1) / total competitive questions. Win = target brand ranked #1. Win Rate = wins / total competitive questions × 100%. Computed per LLM, then aggregated 1/N.",
+      "priority": "V2",
+      "category": "Metrics Calculation",
+      "acceptance_criteria": [
+        "Win = target brand ranked #1",
+        "Total competitive questions count",
+        "Formula: wins / total × 100%",
+        "Per-LLM calculation",
+        "Aggregation: 1/N across LLMs"
+      ]
+    },
+    {
+      "req_id": "FR82b",
+      "title": "Calculate Sentiment",
+      "description": "System calculates Sentiment as weighted average of perception concept scores, weighted by frequency. Each perception concept has sentiment_score (-1.0 to +1.0) and frequency (proportion of responses). Overall Sentiment = sum(score × frequency) / sum(frequency). Displayed as score -100 to +100. Quality labels: Positive (≥ 0), Negative (< 0).",
+      "priority": "V2",
+      "category": "Metrics Calculation",
+      "acceptance_criteria": [
+        "Perception concepts extracted",
+        "Sentiment score per concept (-1.0 to +1.0)",
+        "Frequency weight per concept",
+        "Formula: sum(score × frequency) / sum(frequency)",
+        "Result scaled -100 to +100",
+        "Quality labels: Positive/Negative"
+      ]
+    },
+    {
+      "req_id": "FR84",
+      "title": "Aggregate Master Metrics",
+      "description": "System aggregates Master (All Markets) metrics as arithmetic mean across all category-market pairs. Master = simple arithmetic mean of per-market values. No weighting by market size. Applied to all 4 KPIs. Displayed when market filter = 'Master (All Markets)'.",
+      "priority": "V2",
+      "category": "Metrics Calculation",
+      "acceptance_criteria": [
+        "Master = arithmetic mean across categories×markets",
+        "No market size weighting",
+        "All 4 KPIs aggregated",
+        "Displayed for Master filter only"
+      ]
+    }
+  ],
+  "business_flows": [
+    {
+      "flow_id": "BF-001",
+      "name": "First-Time Report Configuration (Sarah - PR Lead)",
+      "description": "PR lead logs in, completes onboarding wizard (brand, markets, categories, questions), submits config, and receives first analysis results within 2-6 minutes with Priority Source Targets for outreach.",
+      "version": "V1/V2",
+      "steps": [
+        "Editor logs in via Auth0",
+        "Module activation check passes",
+        "Empty state with Create Report button displayed",
+        "Editor enters brand name with autocomplete",
+        "Editor adds 3 markets with auto-detected languages",
+        "Editor sets primary market",
+        "AI generates 4 product categories",
+        "Editor reviews and customizes categories",
+        "Editor reviews auto-generated questions (3 types × 10 per category)",
+        "Editor customizes questions per market/category",
+        "Editor selects enabled LLM engines",
+        "Editor reviews summary (3 cards: markets, categories, questions)",
+        "Editor submits configuration",
+        "Atomic save triggers: config + questions + LLM selection persisted",
+        "First-time config triggers automatic analysis execution",
+        "Progress bar displayed with real-time updates",
+        "Analysis executes across all enabled LLMs in parallel (2-6 minutes)",
+        "On completion: email sent to all editors with completion status, 4 KPIs, perception summary, report link",
+        "User navigates to report and sees Overview dashboard with all metrics"
+      ],
+      "actors": ["Editor (PR Lead)"],
+      "triggers": ["User clicks Create Report button"],
+      "preconditions": ["User authenticated via Auth0", "Module activated for org", "No existing configuration"],
+      "postconditions": ["Report configured with initial results displayed", "Email notification sent", "Weekly schedule established"]
+    },
+    {
+      "flow_id": "BF-002",
+      "name": "Weekly Scheduled Refresh and Team Collaboration",
+      "description": "Weekly automated analysis execution refreshes all active reports. All team members receive email notifications and review their scoped metrics (market/category). Team syncs on insights and updates outreach priorities.",
+      "version": "V2",
+      "steps": [
+        "Weekly scheduled execution triggered at same day/time as initial configuration",
+        "All active reports queued for execution, staggered to respect rate limits",
+        "Each report executes analysis with current configuration (markets, categories, questions, LLMs)",
+        "Analysis completes within 2-6 minutes",
+        "COMPLETED or COMPLETED_PARTIAL status assigned",
+        "New snapshot created and immutable",
+        "Email notification sent to all editors: report name, status, 4 KPIs, perception summary, link",
+        "Sarah (lead) opens Overview dashboard, checks Master metrics",
+        "Marcus (category specialist) opens Category View for his category, checks metrics",
+        "UK team member opens Overview, filters by UK market, reviews market-specific metrics",
+        "French team member opens Overview, filters by France market",
+        "Team syncs in 15-minute meeting, each member reports changes in their scope",
+        "Team identifies improvements (e.g., new sources citing brand, improved visibility)",
+        "Team identifies new areas of improvement requiring outreach",
+        "Team updates outreach priorities based on Priority Source Targets"
+      ],
+      "actors": ["System (Scheduler)", "Editor (Lead)", "Editor (Category Specialist)", "Editor (Market Specialist) x2"],
+      "triggers": ["Weekly cron schedule at configured day/time"],
+      "preconditions": ["Report configured and active", "Weekly schedule established", "Editors opted into notifications"],
+      "postconditions": ["New snapshot created", "Email sent to all editors", "Dashboard reflects latest metrics", "Team updated on priorities"]
+    },
+    {
+      "flow_id": "BF-003",
+      "name": "Report Expansion (Incremental Analysis)",
+      "description": "After initial configuration, Editor adds a new market or category to the existing report. Changes applied at next weekly scheduled execution without requiring full reconfiguration.",
+      "version": "V2",
+      "steps": [
+        "Editor navigates to Manage Scope (Settings)",
+        "Editor clicks 'Add Market'",
+        "Editor selects new country+language pair (e.g., Spain es-ES)",
+        "System checks: market not already in report, quota available",
+        "Editor clicks confirm",
+        "New market persisted immediately",
+        "Quota incremented (+1 brand_market)",
+        "UI shows confirmation: 'Changes will take effect on next scheduled execution'",
+        "Questions auto-translated to new market language",
+        "Next weekly execution includes new market",
+        "New analysis includes new market across all categories and questions",
+        "Dashboard updated with new market data"
+      ],
+      "actors": ["Editor"],
+      "triggers": ["Editor clicks Add Market/Category in Manage Scope"],
+      "preconditions": ["Report already configured and has results", "Quota available for addition", "Market/category not already in report"],
+      "postconditions": ["New market/category persisted", "Included in next scheduled execution", "Metrics updated for new scope"]
+    },
+    {
+      "flow_id": "BF-004",
+      "name": "Report Sharing and External Review",
+      "description": "Editor generates a shareable link for external stakeholders (clients, colleagues) to review report findings without authentication. Stakeholders access read-only view with full filtering capabilities.",
+      "version": "V2",
+      "steps": [
+        "Editor navigates to report",
+        "Editor clicks 'Share' button",
+        "Editor selects sections to include (Overview, Actions Center, Categories)",
+        "Editor clicks 'Generate Link'",
+        "System generates cryptographically random token (min 32 chars)",
+        "Share link created: https://app.aipresence.com/reports/shared/{token}",
+        "Editor copies link and sends to external stakeholder",
+        "External stakeholder clicks link",
+        "No authentication required",
+        "Shared report loads: Overview with all views accessible",
+        "Stakeholder can apply market filter, LLM filter",
+        "Stakeholder can expand Areas of Improvement, Priority Source Targets",
+        "Stakeholder cannot edit, delete, or create new reports",
+        "Stakeholder sees org branding",
+        "Editor can regenerate token (invalidates old link)"
+      ],
+      "actors": ["Editor", "External Stakeholder (Client/Colleague)"],
+      "triggers": ["Editor clicks Share button"],
+      "preconditions": ["Report completed with results", "Results at least partially available"],
+      "postconditions": ["Shareable link generated", "External access enabled", "Original token invalidable"]
+    },
+    {
+      "flow_id": "BF-005",
+      "name": "Actions Center Discovery and Outreach Prioritization",
+      "description": "Editor reviews Areas of Improvement in Actions Center, identifies Priority Source Targets, and uses those targets to prioritize PR outreach to publications/domains that could improve brand visibility.",
+      "version": "V2",
+      "steps": [
+        "Editor navigates to Actions Center",
+        "System displays 8 types of improvement areas with severity (Critical/Warning/Info)",
+        "Issues sorted by severity and LLM source",
+        "Editor reviews top Critical issues (e.g., 'Low Visibility in Category X')",
+        "Editor clicks to expand issue detail",
+        "Detail panel shows: Quick Stats (visibility %), Priority Source Targets, Owned Media, Competitor Media",
+        "Priority Source Targets list: domains cited by LLMs but brand underperforms",
+        "Each domain shows: favorability (Red/Amber/Green), citation count, gap count, per-LLM badges",
+        "Editor identifies 3 publications she already has relationships with",
+        "Editor exports Priority Source Targets (via PPTX or for manual tracking)",
+        "Editor uses exported list to draft pitches to target publications",
+        "Editor tracks which publications respond to outreach",
+        "Next week's refresh shows improved visibility if outreach successful"
+      ],
+      "actors": ["Editor (PR Lead)"],
+      "triggers": ["Editor navigates to Actions Center after analysis completion"],
+      "preconditions": ["Report executed with results", "Areas of Improvement detected"],
+      "postconditions": ["Editor prioritizes outreach targets", "PR team has data-driven action plan"]
+    }
+  ],
+  "constraints": [
+    {
+      "constraint_id": "C-001",
+      "type": "Technical",
+      "description": "Multi-tenancy: Each organization operates in complete data isolation. No cross-organization data visibility under any circumstance.",
+      "scope": "All features",
+      "priority": "V1",
+      "affected_requirements": ["FR1", "FR2", "FR3", "FR4"]
+    },
+    {
+      "constraint_id": "C-002",
+      "type": "Technical",
+      "description": "All data in transit encrypted via TLS. Auth0 tokens validated on every API request.",
+      "scope": "All API interactions",
+      "priority": "V1",
+      "affected_requirements": ["FR1", "FR2", "FR3"]
+    },
+    {
+      "constraint_id": "C-003",
+      "type": "Technical",
+      "description": "LLM API keys managed server-side — never exposed to client. All LLM calls go through internal Prompt API.",
+      "scope": "Analysis execution",
+      "priority": "V2",
+      "affected_requirements": ["FR18"]
+    },
+    {
+      "constraint_id": "C-004",
+      "type": "Performance",
+      "description": "Dashboard pages (Overview, Category View, Actions Center) must load within 2 seconds after analysis completion (NFR1).",
+      "scope": "Dashboard views",
+      "priority": "V2",
+      "affected_requirements": ["FR27", "FR31", "FR32", "FR33"]
+    },
+    {
+      "constraint_id": "C-005",
+      "type": "Performance",
+      "description": "Real-time progress updates during analysis must be delivered with sub-second latency from backend to UI (NFR2).",
+      "scope": "Analysis execution progress",
+      "priority": "V2",
+      "affected_requirements": ["FR19"]
+    },
+    {
+      "constraint_id": "C-006",
+      "type": "Performance",
+      "description": "Report sharing links must load full report within 5 seconds for external stakeholders (NFR3).",
+      "scope": "Shared report views",
+      "priority": "V2",
+      "affected_requirements": ["FR68", "FR69"]
+    },
+    {
+      "constraint_id": "C-007",
+      "type": "Performance",
+      "description": "PPTX export generation must complete within 30 seconds for a full report (NFR4).",
+      "scope": "Export functionality",
+      "priority": "V2",
+      "affected_requirements": ["FR71"]
+    },
+    {
+      "constraint_id": "C-008",
+      "type": "Scalability",
+      "description": "System must support concurrent analysis execution across multiple organizations without degradation (NFR10).",
+      "scope": "Analysis execution",
+      "priority": "V2",
+      "affected_requirements": ["FR18", "FR60"]
+    },
+    {
+      "constraint_id": "C-009",
+      "type": "Scalability",
+      "description": "Scheduled weekly execution queue must handle peak load (all executions simultaneous) with staggered execution (NFR11).",
+      "scope": "Scheduled execution",
+      "priority": "V2",
+      "affected_requirements": ["FR60", "FR62"]
+    },
+    {
+      "constraint_id": "C-010",
+      "type": "Scalability",
+      "description": "System must scale to support 100+ organizations with independent analysis workloads (NFR12).",
+      "scope": "Multi-tenancy",
+      "priority": "V2",
+      "affected_requirements": ["FR1", "FR3"]
+    },
+    {
+      "constraint_id": "C-011",
+      "type": "Reliability",
+      "description": "Analysis execution must be idempotent — a scheduled re-execution produces identical outcome without data duplication (NFR13).",
+      "scope": "Analysis execution",
+      "priority": "V2",
+      "affected_requirements": ["FR18", "FR60"]
+    },
+    {
+      "constraint_id": "C-012",
+      "type": "Reliability",
+      "description": "Partial LLM failure (1-2 providers down) must not block analysis completion — results delivered for available providers (NFR14).",
+      "scope": "Analysis execution",
+      "priority": "V2",
+      "affected_requirements": ["FR20"]
+    },
+    {
+      "constraint_id": "C-013",
+      "type": "Reliability",
+      "description": "Failed scheduled executions must be automatically retried once before alerting the user (NFR15).",
+      "scope": "Scheduled execution",
+      "priority": "V2",
+      "affected_requirements": ["FR60"]
+    },
+    {
+      "constraint_id": "C-014",
+      "type": "Reliability",
+      "description": "No data loss on application restart — all analysis state must be persisted (NFR16).",
+      "scope": "Data persistence",
+      "priority": "V2",
+      "affected_requirements": ["FR16", "FR54"]
+    },
+    {
+      "constraint_id": "C-015",
+      "type": "Business",
+      "description": "Quota system enforces tier-based consumption limits: brand×market, categories, questions per type, LLMs. Prevents unlimited usage and cost overrun.",
+      "scope": "All tiers",
+      "priority": "V1",
+      "affected_requirements": ["FR17"]
+    },
+    {
+      "constraint_id": "C-016",
+      "type": "Business",
+      "description": "Analysis must complete within 2-6 minutes to meet user success criteria for 'first results' (FR success metric).",
+      "scope": "Analysis execution",
+      "priority": "V2",
+      "affected_requirements": ["FR18", "FR19"]
+    },
+    {
+      "constraint_id": "C-017",
+      "type": "Business",
+      "description": "Report configuration must be completable within 10 minutes to meet success criteria (FR success metric).",
+      "scope": "Onboarding wizard",
+      "priority": "V1",
+      "affected_requirements": ["FR5", "FR6", "FR7", "FR8", "FR11", "FR14"]
+    },
+    {
+      "constraint_id": "C-018",
+      "type": "Regulatory",
+      "description": "GDPR compliance: ability to delete all tenant data on request (right to erasure). Data processing limited to configured markets' analysis scope (NFR9c).",
+      "scope": "Data retention and privacy",
+      "priority": "V2",
+      "affected_requirements": ["FR30", "FR56"]
+    },
+    {
+      "constraint_id": "C-019",
+      "type": "Technical",
+      "description": "V1 scope: Report configuration only (auth, wizard, quota, report list). Processing and dashboard deferred to V2.",
+      "scope": "V1 release",
+      "priority": "V1",
+      "affected_requirements": ["FR0", "FR1", "FR2", "FR5", "FR6", "FR7", "FR8", "FR9", "FR10", "FR11", "FR12", "FR13", "FR14", "FR15", "FR16", "FR17", "FR26"]
+    },
+    {
+      "constraint_id": "C-020",
+      "type": "Technical",
+      "description": "V2 scope: Scheduled execution (weekly cron), dashboard, metrics, manage scope, notifications, export. No time evolution comparison or trend analysis.",
+      "scope": "V2 release",
+      "priority": "V2",
+      "affected_requirements": ["FR18", "FR19", "FR20", "FR27", "FR28", "FR29", "FR31", "FR32", "FR33", "FR60", "FR74", "FR76"]
+    },
+    {
+      "constraint_id": "C-021",
+      "type": "Technical",
+      "description": "V3 scope: Snapshot navigation (browse previous snapshots, no trend analysis) and Guided Tour. Not blocking for V2 launch.",
+      "scope": "V3 release",
+      "priority": "V3",
+      "affected_requirements": ["FR65", "FR66", "FR77", "FR78"]
+    },
+    {
+      "constraint_id": "C-022",
+      "type": "Integration",
+      "description": "Email service integration is provider-agnostic — swappable without code changes (SendGrid, Resend, SES, etc.) (NFR17).",
+      "scope": "Notifications",
+      "priority": "V2",
+      "affected_requirements": ["FR74", "FR76"]
+    },
+    {
+      "constraint_id": "C-023",
+      "type": "Integration",
+      "description": "All LLM calls routed through internal Prompt API. System never contacts LLM providers directly (NFR18).",
+      "scope": "Analysis execution",
+      "priority": "V2",
+      "affected_requirements": ["FR18", "FR18b"]
+    },
+    {
+      "constraint_id": "C-024",
+      "type": "Integration",
+      "description": "If Prompt API or individual LLM providers unavailable, system degrades gracefully — affected analyses marked FAILED with automatic retry (NFR18b).",
+      "scope": "Analysis execution",
+      "priority": "V2",
+      "affected_requirements": ["FR20"]
+    }
+  ],
+  "acceptance_criteria_mapping": {
+    "module_activation": ["FR0"],
+    "authentication": ["FR1", "FR2", "FR3", "FR4"],
+    "wizard_brand": ["FR5"],
+    "wizard_markets": ["FR6", "FR7"],
+    "wizard_categories": ["FR8", "FR9", "FR10"],
+    "wizard_questions": ["FR11", "FR12", "FR13"],
+    "wizard_llm": ["FR14"],
+    "wizard_review": ["FR15", "FR16", "FR17"],
+    "analysis_execution": ["FR18", "FR18b", "FR19", "FR20", "FR20b", "FR20c", "FR20d", "FR20e", "FR21"],
+    "report_list": ["FR26", "FR26b"],
+    "dashboard_navigation": ["FR27", "FR28", "FR29", "FR30"],
+    "overview_dashboard": ["FR31", "FR31b", "FR32", "FR33", "FR34", "FR35", "FR36", "FR37"],
+    "actions_center": ["FR38", "FR38b", "FR39", "FR40"],
+    "category_view": ["FR41", "FR42", "FR43", "FR44", "FR45", "FR45b", "FR46", "FR46b", "FR47", "FR48", "FR49", "FR50"],
+    "incremental_analysis": ["FR51", "FR52", "FR53", "FR53b", "FR54"],
+    "manage_scope": ["FR56", "FR57", "FR57b", "FR58", "FR59"],
+    "scheduled_execution": ["FR60", "FR62"],
+    "snapshot_navigation": ["FR65", "FR66"],
+    "sharing_export": ["FR68", "FR69", "FR70", "FR71", "FR72", "FR73"],
+    "notifications": ["FR74", "FR76"],
+    "guided_tour": ["FR77", "FR78"],
+    "metrics_calculation": ["FR79", "FR80", "FR81", "FR82", "FR82b", "FR84"]
+  },
+  "glossary": {
+    "AI Presence": "SaaS platform for monitoring brand perception across AI search engines",
+    "Brand Family": "Group of entity name variants referring to same brand (e.g., BMW, BMW Group), grouped by AI",
+    "Brand Market": "1 brand × 1 market = 1 quota unit, fundamental billing consumption unit",
+    "Category": "Product/service vertical the brand competes in (e.g., Skincare, Cloud Infrastructure)",
+    "COMPLETED_PARTIAL": "Report status when some (not all) LLM providers returned results",
+    "Cross-language matching": "Mapping category names across languages (e.g., Solar Energy ↔ Energie Solaire)",
+    "Executive Summary": "AI-generated structured summary with key findings, top anomalies, recommended domains",
+    "LLM Choice / Win Rate": "% of competitive questions where target brand ranked #1",
+    "Priority Source Targets (PST)": "Domains prioritized by impact — publications cited by AI engines where brand underperforms",
+    "Share of Voice (SOV)": "Visibility × (2 / (Avg Position + 1)) — measures presence and prominence in AI results",
+    "Snapshot": "Immutable point-in-time capture of all analysis results from single execution",
+    "Source Taxonomy": "11-category classification: Corporate, Journalism, Government/NGO, Aggregator, Academic, Press Release, Review Sites, Social/UGC, Other, Owned, Competitor",
+    "Visibility": "Mentions / max possible × 100%, capped at 100% — how often brand appears in AI responses"
+  },
+  "version_control": {
+    "v1_scope": "Report configuration, Auth0 SSO, quota validation, report list",
+    "v2_scope": "Scheduled execution (weekly), dashboard, metrics, manage scope, notifications, export",
+    "v3_scope": "Snapshot navigation, guided tour"
+  },
+  "validation_notes": [
+    "PRD contains 84 functional requirements (FR0-FR84)",
+    "5 major feature areas: Setup, Analysis, Dashboard, Collaboration, Export",
+    "All requirements linked to user journeys (Journey 1-4) and capability traceability matrix",
+    "V1 focuses on configuration (0 analysis features, 0 dashboard features)",
+    "V2 adds processing and dashboard (majority of features)",
+    "V3 non-blocking enhancements (snapshot nav, guided tour)",
+    "24 constraints covering technical, performance, scalability, reliability, business, regulatory, integration",
+    "Error states documented for quota, rate limit, circuit breaker, LLM failure, partial completion",
+    "5 success criteria: first-time config < 10 min, analysis 2-6 min, email < 1 min, weekly auto-execute, LLM parallel"
+  ]
+}

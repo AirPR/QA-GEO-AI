@@ -1,0 +1,306 @@
+{
+  "epic": {
+    "id": "GEO-1035",
+    "key": "GEO-1035",
+    "title": "EPIC-044: GEO Top Bar for OS Users - Organisation Switch, Settings & Administration (No UP Navbar)",
+    "status": "QA In Progress",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-07-24",
+    "updated": "2026-09-21",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1035",
+    "figmaUrl": "https://www.figma.com/design/xctSRqtM653zRS7QY3KMm0?node-id=13393-81456",
+    "functionalNeed": "On UP, admin and settings were deliberately merged: interface language and user management live on the GEO settings page (https://geo.onclusive.com/geo/settings), reached via the Settings entry in the UP navbar. The organisation switcher is likewise a UP navbar affordance.\n\nTwo capabilities are therefore unreachable for OS users of GEO:\n1. Settings and Administration. No way to change the interface language, and no way to manage users. The settings page's only entry point is a navbar they do not have.\n2. Organisation switch. A user who belongs to more than one organisation cannot change the active organisation, so they are locked into whichever organisation they land in and cannot reach the reports of the others.\n\nBoth have the same root cause: GEO's own top bar carries no account affordances when GEO runs inside OS.",
+    "proposedSolution": "Three additions to the GEO top bar as rendered for OS users:\n1. Organisation switcher - left of the bar, beside the GEO logo: avatar, \"Organisation\" label, active organisation name, chevron.\n2. Avatar dropdown - right of the bar: user name header, then Administration (super admin only), Settings, Cookie Settings, then Logout.\n3. Home sub-navigation tab on the Settings and Administration pages, returning the user to GEO in one click.",
+    "scope": [
+      "Organisation switcher in the GEO top bar for OS users (GEO-1129)",
+      "Home sub-navigation tab on Settings and Administration pages for OS users (GEO-1130)",
+      "Settings entry in the GEO avatar menu for OS users (GEO-1131)"
+    ],
+    "outOfScope": [
+      "Any change to the UP navbar or the merged UP settings/admin experience.",
+      "Any change to the OS navbar itself.",
+      "The multi-organisation membership model itself (GEO-681). This epic only surfaces the switch in the OS GEO top bar.",
+      "Cookie Settings behaviour, which is unchanged."
+    ],
+    "acceptanceCriteria": {
+      "groupA": [
+        "An OS user with GEO access can open the avatar dropdown in the GEO top bar and reach the GEO settings page from it.",
+        "The Administration entry appears only for a super admin; every other role sees Settings, Cookie Settings and Logout only.",
+        "The settings page offers Preferences (interface language) and User admin, and both behave identically to the UP path.",
+        "From Settings or Administration, the Home tab returns the user to the GEO homepage in one click.",
+        "No change to the UP navbar or the UP settings/admin experience."
+      ],
+      "groupB": [
+        "An OS user sees the organisation switcher in the GEO top bar, in the same position and state as a UP user with the same memberships would see it.",
+        "Opening it, searching it, and selecting an organisation behave identically to UP, including the role tag shown per row.",
+        "After a switch, the OS context refreshes exactly as UP does: no data from the previous organisation remains visible, and no manual reload is required.",
+        "The switcher is present on the dashboard, the Settings page and the Administration page.",
+        "No change to the switcher's behaviour on UP."
+      ]
+    },
+    "stories": [
+      {
+        "id": "GEO-1129",
+        "title": "Organisation switcher in the GEO top bar for OS users",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-09-17",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1129",
+        "githubSpecUrl": "https://github.com/AirPR/geo-analytics/blob/hotfix/GEO-1035-geo-top-bar-for-os-users/docs/implementation-artifacts/epics/epic-44/44-1-organisation-switcher-in-the-os-top-bar.md",
+        "userStory": {
+          "as": "a GEO user signed in through Onclusive Social who belongs to several organisations",
+          "want": "the organisation switcher in the GEO top bar",
+          "so": "I can change the active organisation and reach the reports of the others instead of being locked into the one I land in"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "The switcher is present and correctly placed",
+            "given": "a user signed in to GEO from Onclusive Social",
+            "when": "they look at the top bar",
+            "then": "the organisation switcher appears on the left, immediately right of the logo, showing the avatar, the \"Organisation\" label, the active organisation name and a chevron"
+          },
+          {
+            "id": "AC2",
+            "title": "Behaviour is strictly the Unified Platform one",
+            "given": "a user on the Onclusive Social top bar opens the switcher",
+            "when": "(open)",
+            "then": "they see the list of their organisations with a search field, each row carries the role tag for that organisation, the active organisation is visually distinguished, and an organisation where they are suspended stays visible but is not selectable"
+          },
+          {
+            "id": "AC3",
+            "title": "Switching refreshes the context",
+            "given": "a user on the Onclusive Social top bar selects another organisation",
+            "when": "(select)",
+            "then": "a transition screen is shown during the switch, no data from the previous organisation remains visible afterwards, and no manual reload is required"
+          },
+          {
+            "id": "AC4",
+            "title": "The switcher is present on all three pages",
+            "given": "a user on the Onclusive Social top bar",
+            "when": "they are on the dashboard, the Settings page or the Administration page",
+            "then": "the organisation switcher is present in the top bar, in the same state"
+          },
+          {
+            "id": "AC5",
+            "title": "Absent for accounts without organisation access",
+            "given": "a user with no organisation assigned, or whose account carries an access restriction",
+            "when": "they look at the Onclusive Social top bar",
+            "then": "no organisation switcher is shown, and the rest of the top bar renders normally"
+          },
+          {
+            "id": "AC6",
+            "title": "The Unified Platform top bar does not change",
+            "given": "a user who sees the Unified Platform top bar",
+            "when": "they use the organisation switcher",
+            "then": "its placement, appearance and behaviour are identical to before this story"
+          },
+          {
+            "id": "AC-D1",
+            "title": "The logo becomes \"Onclusive GEO\"",
+            "given": "a user on the Onclusive Social top bar",
+            "when": "they look at the top-left corner",
+            "then": "the logo shown is \"Onclusive GEO\", not \"Onclusive Social\""
+          },
+          {
+            "id": "AC-D2",
+            "title": "Top bar geometry",
+            "given": "",
+            "when": "",
+            "then": "Logo 94x38, 12px gap, then the switcher in a 180x40 box. Left-aligned, 20px from the edge, vertically centred in a 48px bar."
+          },
+          {
+            "id": "AC-D3",
+            "title": "The switcher reuses the Unified Platform appearance unchanged",
+            "given": "",
+            "when": "",
+            "then": "No restyling. The OS mock-up and the existing UP component describe the same box."
+          }
+        ],
+        "technicalNotes": [
+          "Inherited behaviour: this is the same component as the UP switcher built under GEO-681 (Epic 35). Any divergence between the OS switcher and the UP switcher is a defect.",
+          "Scope is frontend only, in GEO's own OS top bar. No change to the Onclusive Social navbar itself, and none to Unified Platform.",
+          "Design: Figma file xctSRqtM653zRS7QY3KMm0, section 13393:81456 — wrapper 14430:106627, Brand Dropdown 14424:20504, logo 13379:20071.",
+          "Independent of the two sibling stories — recommended to start with this one."
+        ],
+        "blockedBy": [],
+        "blocks": ["GEO-1130", "GEO-1131"]
+      },
+      {
+        "id": "GEO-1130",
+        "title": "Home sub-navigation tab on Settings and Administration for OS users",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-09-17",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1130",
+        "githubSpecUrl": "https://github.com/AirPR/geo-analytics/blob/hotfix/GEO-1035-geo-top-bar-for-os-users/docs/implementation-artifacts/epics/epic-44/44-2-home-sub-navigation-in-os-mode.md",
+        "userStory": {
+          "as": "a GEO user signed in through Onclusive Social",
+          "want": "a \"Home\" tab on the Settings and Administration pages",
+          "so": "I can get back to GEO in one click instead of being stranded on a page with no navigation"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "The Home tab exists on the Settings page",
+            "given": "a user signed in to GEO from Onclusive Social, on the Settings page",
+            "when": "they look below the top bar",
+            "then": "they see a navigation bar with two tabs, \"Home\" and \"Settings\", with \"Settings\" marked as active"
+          },
+          {
+            "id": "AC2",
+            "title": "The Home tab exists on the Administration page",
+            "given": "a super admin signed in to GEO from Onclusive Social, on the Administration page",
+            "when": "they look below the top bar",
+            "then": "they see a navigation bar with two tabs, \"Home\" and \"Administration\", with \"Administration\" marked as active"
+          },
+          {
+            "id": "AC3",
+            "title": "Return in one click",
+            "given": "a user on the Onclusive Social top bar, on Settings or Administration",
+            "when": "they click the \"Home\" tab",
+            "then": "they land on the GEO homepage, the report list, with no full page reload"
+          },
+          {
+            "id": "AC4",
+            "title": "No sub-navigation anywhere else in Onclusive Social mode",
+            "given": "a user on the Onclusive Social top bar, on the GEO homepage",
+            "when": "they look below the top bar",
+            "then": "no sub-navigation bar is shown"
+          },
+          {
+            "id": "AC5",
+            "title": "The active tab is not a second way to reload the page",
+            "given": "a user on Settings in Onclusive Social mode",
+            "when": "they click the \"Settings\" tab, already active",
+            "then": "nothing happens"
+          },
+          {
+            "id": "AC6",
+            "title": "Translation",
+            "given": "a user whose interface language is fr-FR, en-US, en-GB or es-ES",
+            "when": "they open Settings or Administration in Onclusive Social mode",
+            "then": "both tab labels are shown in their language"
+          },
+          {
+            "id": "AC7",
+            "title": "Unified Platform does not change",
+            "given": "a user who sees the Unified Platform top bar",
+            "when": "they navigate GEO, including Settings and Administration",
+            "then": "the sub-navigation bar is exactly the one from before this story — a single non-clickable label, same colours, same height"
+          },
+          {
+            "id": "AC-D1",
+            "title": "Appearance of the Onclusive Social sub-navigation",
+            "given": "",
+            "when": "",
+            "then": "45px tall bar, same grey background as the top bar, labels 20px from the left edge and 30px apart, 14px dark grey text. The active tab carries a 2px green underline across its full width; the inactive tab has none. No bottom border (unlike the Unified Platform variant)."
+          },
+          {
+            "id": "AC-D2",
+            "title": "Only the Home tab is clickable",
+            "given": "",
+            "when": "",
+            "then": "Cursor and keyboard focus signal only the inactive tab as actionable."
+          }
+        ],
+        "technicalNotes": [
+          "This story also fixes a defect that already exists: the \"Administration\" entry is already present in the avatar menu in Onclusive Social mode, so a super admin can already reach the backoffice today and is already stranded there.",
+          "QA note: until the sibling story \"Settings entry in the GEO avatar menu\" ships, the Settings page has no entry point in Onclusive Social mode. AC1 is therefore only verifiable by typing the URL. AC2 (Administration) is testable normally.",
+          "Scope is frontend only. No change to the Onclusive Social navbar itself, and none to Unified Platform.",
+          "Design: Figma file xctSRqtM653zRS7QY3KMm0 — Settings sub-nav 13393:80936, Administration sub-nav 13393:80988.",
+          "Open design points to confirm with design: the green accent (#18ae46) is an Onclusive Social colour absent from the current GEO palette; the focus ring is currently a GEO blue; on the backoffice this stacks two levels of tabs."
+        ],
+        "blockedBy": [],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1131",
+        "title": "Settings entry in the GEO avatar menu for OS users",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-09-17",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1131",
+        "githubSpecUrl": "https://github.com/AirPR/geo-analytics/blob/hotfix/GEO-1035-geo-top-bar-for-os-users/docs/implementation-artifacts/epics/epic-44/44-3-settings-entry-in-the-geo-avatar-menu.md",
+        "userStory": {
+          "as": "a GEO user signed in through Onclusive Social",
+          "want": "a \"Settings\" entry in the GEO avatar menu",
+          "so": "I can reach the settings page — interface language and user management — without depending on a navbar I do not have"
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "title": "The entry exists and leads to the Settings page",
+            "given": "a user signed in to GEO from Onclusive Social",
+            "when": "they open the avatar menu in the top bar",
+            "then": "they see a \"Settings\" entry, and clicking it takes them to the GEO settings page and closes the menu"
+          },
+          {
+            "id": "AC2",
+            "title": "The entry is visible for every role",
+            "given": "a user on the Onclusive Social top bar, whatever their role (Reader, Editor, Admin, Super Admin)",
+            "when": "they open the avatar menu",
+            "then": "the \"Settings\" entry is visible"
+          },
+          {
+            "id": "AC3",
+            "title": "Menu order follows the design",
+            "given": "a super admin on the Onclusive Social top bar / a Reader or an Editor on the Onclusive Social top bar",
+            "when": "they open the avatar menu",
+            "then": "Super admin: entries appear in this order — Administration, Settings, Cookie Settings, Logout — with no \"Help\" entry and no timezone footer. Reader/Editor: entries appear in this order — Settings, Cookie Settings, Logout — with no \"Administration\" entry, no \"Help\" entry and no timezone footer"
+          },
+          {
+            "id": "AC4",
+            "title": "The Unified Platform avatar menu does not change",
+            "given": "a user who sees the Unified Platform top bar",
+            "when": "they open the avatar menu",
+            "then": "there is no \"Settings\" entry, the \"Administration\" entry keeps its current appearance including its role badge, the \"Help\" entry and the timezone footer are still present, and the menu is in every respect identical to before this story"
+          },
+          {
+            "id": "AC5",
+            "title": "The page reached is the same as via the Unified Platform path",
+            "given": "a user who reached the settings page from the avatar menu",
+            "when": "they change their interface language or manage users",
+            "then": "the behaviour is strictly identical to the Unified Platform path"
+          },
+          {
+            "id": "AC6",
+            "title": "Translation",
+            "given": "a user whose interface language is fr-FR, en-US, en-GB or es-ES",
+            "when": "they open the avatar menu",
+            "then": "the \"Settings\" entry is shown in their language"
+          },
+          {
+            "id": "AC7",
+            "title": "The entry is disabled on the Upsell page",
+            "given": "a user on the Onclusive Social top bar, without module access, on the upsell page",
+            "when": "they open the avatar menu",
+            "then": "the \"Settings\" entry is visible but disabled, and clicking it triggers no navigation"
+          },
+          {
+            "id": "AC-D1",
+            "title": "The Settings entry follows the menu item style",
+            "given": "",
+            "when": "",
+            "then": "Same typography, padding and hover behaviour as \"Cookie Settings\" and \"Logout\". No icon, no badge."
+          },
+          {
+            "id": "AC-D2",
+            "title": "The Administration item is flattened, on Onclusive Social only",
+            "given": "an admin or super admin on the Onclusive Social top bar / on the Unified Platform top bar",
+            "when": "they open the avatar menu",
+            "then": "OS: the \"Administration\" entry is styled exactly like the other entries, with no tinted background, no icon and no role badge. UP: the \"Administration\" entry keeps its tinted background, its icon and its role badge"
+          }
+        ],
+        "technicalNotes": [
+          "The avatar dropdown is shared between both top bars, so all three changes — the Settings entry, the flattened Administration item, and hiding Help plus the timezone footer — are conditional on the Onclusive Social top bar. Unified Platform is untouched, which is the point of AC4.",
+          "The epic's \"Administration only for a super admin\" requirement needs no code: no account currently carries the Admin role, so the existing guard already produces that behaviour.",
+          "Scope is frontend only. No change to the Onclusive Social navbar itself, and none to Unified Platform.",
+          "Design: Figma file xctSRqtM653zRS7QY3KMm0 — avatar dropdown 13379:60321."
+        ],
+        "blockedBy": ["GEO-1130"],
+        "blocks": []
+      }
+    ]
+  }
+}

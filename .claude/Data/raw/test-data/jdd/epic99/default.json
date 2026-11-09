@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "profile": "default",
+    "epic": "epic99",
+    "description": "Jeu de données nominal — rapport multi-snapshots, sidebar complet, tour non activé",
+    "note": "base_url non inclus ici — fourni via env var BASE_URL ou common.json"
+  },
+
+  "reports": {
+    "multi_snapshot_uuid": "439acd96-0b1b-4da4-9e07-612d38e9783e",
+    "_comment": "Rapport Toyota staging (Hybrid Cars) — snapshot cible '29 mai 2026'",
+    "single_snapshot_uuid": "",
+    "_comment_single": "Vide = GEO-56-TC005 skippé — renseigner un UUID avec exactement 1 snapshot"
+  },
+
+  "snapshot": {
+    "target": "29 mai 2026",
+    "_comment": "Label partiel du snapshot cible sur staging (français). Prod: '29 May 2026'. Override via env TARGET_SNAPSHOT."
+  },
+
+  "sidebar": {
+    "missing_module_label": "",
+    "_comment_missing": "Vide = GEO-235-TC006 skippé — renseigner le label d'un module sans URL configurée",
+    "_comment_labels": "module_labels défini dans common.json — fusionné au chargement"
+  },
+
+  "urls": {
+    "tour_entry_url": "",
+    "_comment_tour": "Vide = tous les tests GEO-55 skippés — ex: https://staging-geo.onclusive.com/geo/dashboard/33aec680-53fd-4b1e-bcc0-b180a56a863c",
+    "mention_url": "https://staging-360.onclusive.com/",
+    "review_url": "https://test.reputation.onclusive.com/up",
+    "contact_url": "https://stgadmin.prgloo.com/Saml/SsoUnified",
+    "_comment_modules": "URLs staging confirmées — assertion sur URL de destination activée"
+  },
+
+  "snapshot_navigator": {
+    "label_regex": "\\d+\\s+\\w+\\s+\\d{4}",
+    "_comment_regex": "Format attendu : '29 mai 2026' (staging FR) ou '29 May 2026' (prod EN). Changement fonctionnel : le préfixe 'Analysis —' a été supprimé.",
+    "max_nav_clicks": 30
+  },
+
+  "guided_tour": {
+    "min_steps": 8,
+    "max_steps": 12,
+    "max_iteration_clicks": 15
+  },
+
+  "settings_page": {
+    "expected_text": "Coming Soon|disponible prochainement"
+  },
+
+  "expected_texts": {
+    "empty_state_heading": "No reports have been made for your Brand",
+    "empty_state_cta": "Create your first Report"
+  }
+}
