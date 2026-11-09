@@ -84,7 +84,6 @@ claude            # run from the repo root; type / and check the commands appear
     ├── output/     Shareable deliverables: CSVs, reports, regression matrices
     └── templates/  Report/CSV/QP scripts (build-multi-epic-report.js, qp-import.js…)
 apps/geo/           Imported GEO epics: {VERSION}/{EPIC}/ (EPIC.md, STORY_*.md, epic-data.json, test plans, run findings)
-apps/Analytics/     Imported Analytics (UP) epics, same layout
 Docs/               HowTo.txt (lessons learned), selectors_reference.md
 ```
 

@@ -2862,27 +2862,6 @@ TÂCHE 96 : /senior-qa-campaign — statuts Jira automatiques (04/11/2026)
    204, vérification ; tracé dans la section « Campagne » du fichier de constats
 
 ================================================================================
-TÂCHE 97 : Epic Analytics (UP) — import, plan de test, CSV (09/11/2026)
-================================================================================
-1. Les epics du projet Jira UP vivent dans apps/Analytics/{VERSION}/{EPIC}/
-   (ex. apps/Analytics/UP-V3/UP-2065/), pas dans apps/geo/
-2. /gen-test-plan sur une Story (ex. UP-2162) : plan limité à la story, écrit
-   dans apps/Analytics/{VERSION}/{EPIC}/TEST-PLAN-{STORY}.md
-3. Nommage des TC UP (copié de testcases-coverage-epicUP-1739.csv) :
-   TC-UP-{story}-{NNN}, Labels OA-v3 (par analogie avec OA-v2 d UP-1739,
-   confirmé par l utilisateur le 09/11/2026)
-4. Stories sans AC structurées (API / tables de mapping, ex. UP-2173, UP-2170)
-   et AC « tbd » (ex. UP-2162 AC-3) : aucun TC, signalées en point ouvert
-5. Jira 401 sur /rest/api/3/myself = JIRA_TOKEN expiré : en recréer un sur
-   id.atlassian.com, l enregistrer dans .env, retester /myself (200)
-6. CSV Quality Plus = séparateur « ; » : tout champ contenant ; " ou un saut de
-   ligne doit être entre guillemets (guillemets doublés). Un écrivain CSV à
-   virgules corrompt le fichier (virgules finales, lignes entourées de
-   guillemets, champs coupés). Valider après génération : 16 colonnes sur
-   chaque ligne, nom de TC répété sur les lignes de continuation (UP-2065
-   régénéré le 09/11/2026)
-
-================================================================================
 TÂCHE 98 : Changement d organisation autorisé pour tester (09/11/2026)
 ================================================================================
 1. Si les données d un TC ou d un bug sont dans une autre organisation (ex. GEO
@@ -2928,7 +2907,5 @@ TÂCHE 99 : Nettoyage du dépôt et un seul dossier de run par epic (09/11/2026)
    initial 634db94, pas encore poussé) : commandes, agents, scripts, specs, config,
    sans aucune exécution, cas de test, doc d epic, JDD ni capture Figma
    (bloqués par son .gitignore).
-9. CSV des projets autres que GEO : dans csv/{VERSION}/ comme pour GEO
-   (ex. csv/UP-V3/testcases-coverage-epicUP-2065.csv), jamais à la racine de csv/.
-   Les CSV de story GEO-152 (GEO-R1.2) divergent du CSV d epic (valeurs observées
+9. Les CSV de story GEO-152 (GEO-R1.2) divergent du CSV d epic (valeurs observées
    vs données de test) : gardés, le CSV d epic reste la référence.
