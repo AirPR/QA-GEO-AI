@@ -108,7 +108,7 @@ Then type slash commands. **Always run them as slash commands** (`/gen-tc-csv â€
 |---|---|---|---|
 | 1 | `/import-jira-epic GEO-123[,GEO-456]` | Pulls epics + Stories from Jira (REST) into local docs | `apps/geo/{VERSION}/{EPIC}/EPIC.md`, `STORY_*.md`, `epic-data.json` |
 | 2 | `/gen-test-plan` *(optional)* | QA test plan from an epic or Jira ticket, optional push to Jira | markdown test plan |
-| 3 | `/gen-tc-csv` | Test cases (Given/When/Then) from the Acceptance Criteria | `.claude/Data/output/csv/testcases-coverage-epic{KEY}.csv` |
+| 3 | `/gen-tc-csv` | Test cases (Given/When/Then) from the Acceptance Criteria | `.claude/Data/output/csv/{VERSION}/testcases-coverage-epic{KEY}.csv` + `-review.md` |
 | 4 | `/analyze-gaps` | Compares ACs (Jira + Confluence) with the CSV | gap report |
 | 5 | `/import-qualityplus` | Pushes the CSV to Quality Plus | TCs in Quality Plus |
 | 6 | `/run-tests --epic ID --url URL` | Generates + runs the Playwright spec for an epic | spec, raw JSON, `real.json`, screenshots, logs |
@@ -125,10 +125,15 @@ The original PRD-based path (`/read-prd`, `/fetch-jira`, `/analyze-req`, `/gen-t
 |---|---|
 | `/gen-playwright-spec` | Generate a new E2E spec + initial `real.json`, update `selectors_blueprint.json` |
 | `/gen-e2e-scenarios` | Consolidate several TC CSVs into business-level E2E scenarios |
-| `/sync-tcs-epic` | Update the CSV after the PO changed ACs in Jira |
+| `/sync-tcs-epic {EPIC} {VERSION} [--since DATE]` | Compare Jira (ACs, every comment and reply, linked bugs) with the local files and the CSV; match PO / dev answers to the open items of `PO-PM-QUESTIONS-{VERSION}.md` and `{EPIC}-RUN-FINDINGS.md`; show the plan, apply it after confirmation. Before a campaign, use the epic creation date (full history) |
+| `/GEO-prepare-jdd` | Find the test data an epic's CSV needs on the target environment (analyses, accounts per role, flags), read-only; writes `jdd/{EPIC}/default.json` and lists what is missing |
 | `/extract-figma-screen` | Export Figma frames to `figmaScreens/` (batches of 3) |
-| `/run-mcp-PWT-tests` | Run test cases through the MCP browser (CSV or Markdown plan), no spec generated |
+| `/run-mcp-PWT-tests --csv <csv> --url <url> [--story GEO-XXXX] [--tc ID]` | Run test cases through the MCP browser (CSV or Markdown plan), no spec generated; `--story` filters on the `QA Story/Task` column |
+| `/consolidate-epic-report` | One consolidated HTML report per epic from its run / rerun results (latest result per TC), GO / CONDITIONAL / NO-GO verdict |
 | `/run-and-report` | Replay a Jira bug's steps, get CONFIRMED / FIXED / NOT REPRODUCIBLE, comment on the ticket |
+| `/comment-jira-bug` | Post a QA comment on a bug (threaded reply tagging the last commenter, proof screenshot embedded, optional transition); draft confirmed first |
+| `/promote-passed-qa --version 1.3` | Move to Passed QA the release tickets with no open bug and every TC run successfully, with a short comment |
+| `/gen-release-map --version 1.3` | Release map Artifact: bugs by status and TCs by verdict per release and per epic, epic tree (read-only on Jira) |
 | `/regression-test â€¦ --run --gen-missing` | Also execute covered specs / generate TCs for uncovered stories (both opt-in) |
 
 ### 4.3 Running Playwright directly (without Claude)
@@ -166,7 +171,9 @@ Both write to `.claude/Data/output/reports/runs/{DDMMYYYY-HHMM}/`. The latest ru
 
 | What | Where |
 |---|---|
-| Test case CSVs | `.claude/Data/output/csv/` |
+| Test case CSVs | `.claude/Data/output/csv/{VERSION}/` (CSV + `-review.md` per epic) |
+| E2E suite | `.claude/Data/output/csv/E2E-tests/` (one `.md` per spec + `E2E-SUITE-INDEX.md`) |
+| Test plans, run findings, PO questions | `apps/geo/{VERSION}/{EPIC}/TEST-PLAN-{EPIC}.md`, `apps/geo/{VERSION}/{EPIC}-RUN-FINDINGS.md`, `apps/geo/{VERSION}/PO-PM-QUESTIONS-{VERSION}.md` |
 | HTML reports + screenshots | `.claude/Data/output/reports/runs/{VERSION}_{EPIC}_{DDMMYYYY-HHMM}/`: one consolidated folder per epic (several reports inside when an epic has staging, production and non-regression campaigns) |
 | Regression coverage | `.claude/Data/output/regression/` |
 | Parsed results and logs (working files) | `.claude/Data/processed/testcases/test-results/` |
