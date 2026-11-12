@@ -1,0 +1,775 @@
+{
+  "spec": "E2E-SUITE-b1-staging",
+  "runDate": "2026-11-10",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "environment": "staging",
+  "organisation": "QA-GEO",
+  "account": "main (SUPER_ADMIN), language en-GB",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 22,
+    "pass": 19,
+    "fail": 1,
+    "skip": 1,
+    "partial": 1,
+    "successRate": 88.6,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "E2E-GEO-DASHBOARD-001",
+      "title": "GEO Analytics Dashboard displays correctly",
+      "story_id": "e2e-geo-analytics-dashboard",
+      "stories": [
+        "GEO-95",
+        "GEO-1240",
+        "GEO-1243"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-GEO-DASHBOARD-001_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-GEO-DASHBOARD-001_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-GEO-DASHBOARD-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated Editor opens the GEO Analytics Dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the heading GEO Analytics Dashboard is visible",
+          "status": "PASS"
+        },
+        {
+          "title": "And the subtitle Monitor your presence across AI search engines is visible",
+          "status": "PASS"
+        },
+        {
+          "title": "And the New Analysis button is visible",
+          "status": "PASS"
+        },
+        {
+          "title": "And the 6 stat cards COUNTRIES CATEGORIES COMPETITORS ANALYSES PROMPTS SOURCES are displayed",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Analysis table is visible with columns Brand / Topic Countries Categories Prompts Last update and Actions",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the CATEGORIES stat card total equals the sum of category chips displayed in the table",
+          "status": "PASS"
+        },
+        {
+          "title": "And the ANALYSES stat card total equals the number of rows in the Analysis table",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Main account (SUPER_ADMIN) used as Editor. Heading \"GEO Analytics Dashboard\", subtitle \"Monitor your presence across AI search engines\", New Analysis button. Stat cards in order COUNTRIES 18 / CATEGORIES 14 / COMPETITORS 78 / ANALYSES 7 / PROMPTS 804 / SOURCES 1824. Table headers: Brand / Topic, Countries, Categories, Prompts, Last update, Actions. 7 rows (adidas, bike, Decathlon, Lictorix Geo, Nike, Orange, Toyota), 2 category chips each = 14 = CATEGORIES card; 7 rows = ANALYSES card; no Show more needed."
+    },
+    {
+      "tc_id": "E2E-VERIFY-001",
+      "title": "Find a brand analysis on the GEO dashboard with its prompt pool and open it",
+      "story_id": "e2e-verify-analysis",
+      "stories": [
+        "GEO-104",
+        "GEO-1240",
+        "GEO-1243"
+      ],
+      "status": "FAIL",
+      "duration": 0,
+      "error": "Step 2 — Expected: next to the number of analyses (e.g. \"5 analyses\"), the ring reads \"U / P\". Observed: the Analysis table header shows \"Analysis\" + ring \"804 / 1500 prompts\" (aria-label \"Prompt pool: 804 / 1500 prompts\"); no \"N analyses\" label is displayed (red frame on step1_given). Known change: GEO-1546 removes the duplicated \"N analyses\" label — test text to align.",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-VERIFY-001_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-VERIFY-001_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-VERIFY-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated Editor navigates to the reports list",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a pool block is shown in the header of the Analysis table",
+          "status": "FAIL"
+        },
+        {
+          "title": "When the user hovers the ring",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a \"Prompts\" column is shown after Categories",
+          "status": "PASS"
+        },
+        {
+          "title": "And the column adds up to the pool block",
+          "status": "PASS"
+        },
+        {
+          "title": "When the list shows analysis UA",
+          "status": "PASS"
+        },
+        {
+          "title": "And brand analyses keep their logo and domain",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Editor locates the brand row in the reports list",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Editor clicks on the brand analysis row",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the URL matches the pattern /dashboard/{uuid}",
+          "status": "PASS"
+        },
+        {
+          "title": "And the dashboard page shows the market United States",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the dashboard page shows the market France",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the dashboard page shows the LLM Claude",
+          "status": "SKIP"
+        },
+        {
+          "title": "And the dashboard page shows exactly 1 LLM engine",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "Step 3: popover \"Prompt pool 804 of 1500 — In use across analyses 804 — Free in the pool 696\" (U and P-U split OK). Step 5: Prompts column 168+47+203+70+3+140+173 = 804 = U. Step 6: header \"Brand / Topic\" with unbranded \"bike\" row. Step 7: brand rows keep favicon logo + domain. Steps 8-10 run with Toyota (staging default brand analysis; JDD_PROFILE Dyson/YSL analysis absent on staging) → /dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e. Steps 11-14 SKIP: they need the YSL analysis (US + FR, Claude only) created by E2E-MARKETS-1LLM-001, not present in QA-GEO staging; analysis creation excluded by the user (read-only run). Toyota has US/FR/ES and 4 engines (no Claude), so these checks are not applicable to it."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-001",
+      "title": "Sidebar layout is displayed",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-001_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-001_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an Editor opens a completed report dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the dashboard loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the sidebar shows Overview, Categories sub-items (auto-expanded), and Manage Scope entries",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota dashboard: sidebar shows Overview, Categories with sub-items Voitures hybrides / VUS (expanded, no toggle), Action Center, Manage Scope. Staging Toyota has 2 categories (not 3)."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-002",
+      "title": "Categories accordion is auto-expanded",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-002_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-002_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the dashboard sidebar is visible",
+          "status": "PASS"
+        },
+        {
+          "title": "When the dashboard loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then category sub-items are listed under Categories (auto-expanded — no click needed)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Categories block has no toggle button / aria-expanded: the sub-items Voitures hybrides and VUS are listed on load without any click."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-003",
+      "title": "Active view is highlighted",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-003_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-003_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor is on a dashboard view",
+          "status": "PASS"
+        },
+        {
+          "title": "When the dashboard loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the current sidebar item is visually highlighted (aria-current=page)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Overview link has aria-current=\"page\" (highlighted); the other sidebar links have no aria-current."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-004",
+      "title": "Sidebar navigation is SPA",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-004_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-004_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor has active market and LLM filters",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Editor clicks a different sidebar item",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the content area updates without full page reload and the filters remain applied",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Filters set on Overview: Country = France (\"Country filter — 1 selected\"), Grok toggled OFF (AI Engines 3). Click on sidebar \"VUS\" → URL /category/2b64f5f7-…, window marker kept and performance.timeOrigin unchanged (no full reload); after navigation Country still France, AI Engines 3, Grok aria-checked=false. Filters restored to All Countries + 4 engines afterwards (view state only, nothing saved)."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-005",
+      "title": "Dashboard pages load within 5 seconds",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-005_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-005_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor opens a dashboard view",
+          "status": "PASS"
+        },
+        {
+          "title": "When the page is requested",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page loads within 5 seconds",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Measured 1.59 s from navigation start to Overview content rendered (no skeleton / animate-pulse left, Brand Image card and Visibility KPI present). Limit 5 s."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-006",
+      "title": "Discard Changes modal appears",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "SKIP",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-006_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-006_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor has unsaved changes in the current view",
+          "status": "SKIP"
+        },
+        {
+          "title": "When the Editor clicks Back or navigates away",
+          "status": "SKIP"
+        },
+        {
+          "title": "Then a Discard Changes modal is shown",
+          "status": "SKIP"
+        }
+      ],
+      "notes": "SKIP — read-only run requested by the user: the only editable state on the dashboard is Manage Scope (countries, categories, AI engines, AI insights language, prompts) which autosaves; creating a dirty state would write data to the analysis. Screenshots show the Manage Scope page reached without any change."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-007",
+      "title": "Category sub-items stay displayed for non-category sections",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-007_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-007_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor is on Overview (a non-category section)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the dashboard loads with Overview active",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the category sub-items remain visible — the accordion stays expanded across non-category sections",
+          "status": "PASS"
+        }
+      ],
+      "notes": "With Overview active (aria-current=page), Categories sub-items Voitures hybrides and VUS stay rendered in the sidebar."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-008",
+      "title": "Report header shows the brand name and the date range picker",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-008_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-008_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor opens a completed report",
+          "status": "PASS"
+        },
+        {
+          "title": "When the dashboard loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the brand name (e.g. Toyota) with its logo and the date range picker are displayed in the top section",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Brand name \"Toyota\" with its logo (img alt \"Toyota logo\", 48 px loaded) in the top of the sidebar; date range picker \"Last 7 days\" in the toolbar. No \"Generated <date>\" label (only \"Summary generated by artificial intelligence\" caption under InBrief, not a generation date)."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-009",
+      "title": "Report header has an Export button",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-009_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-009_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor is on the report dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Editor inspects the top-right of the dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "Then an Export button is visible and clickable",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Button aria-label \"Export analysis\" (download icon) enabled; click opens the menu \"EXPORT ANALYSIS AS — PDF / Presentation .pptx / Spreadsheet .xls\" (closed without exporting). No Share button in the page."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-010",
+      "title": "AC3 it shows: back arrow next to brand image",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-79"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-010_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-010_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the dashboard Top Section (brand bar)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the dashboard loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then it shows: a back arrow (\"Back to Analysis\") next to the brand image, the brand name, the date range picker and the AI Engines filter",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Button aria-label \"Back to Analysis\" next to the Toyota logo, brand name \"Toyota\", date range picker \"Last 7 days\", AI Engines filter with count badge \"4\"; no generation date."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-011",
+      "title": "Default market filter is All Markets",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-78"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-011_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-011_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an Editor opens the Overview page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the dashboard loads with no market change",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the market filter is set to All Countries",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Country filter button \"All Countries\" (aria-label \"Country filter — All countries\"); listbox: All Countries, United States, France, Spain all selected/checked."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-012",
+      "title": "All engines activated at analysis creation are active by default",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-174"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-012_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-012_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated user is on the Toyota dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the AI Engines filter dropdown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then all engines activated during analysis creation are toggled ON (Active) by default",
+          "status": "PASS"
+        }
+      ],
+      "notes": "AI Engines dropdown: Toggle ChatGPT / Gemini / Grok / Perplexity aria-checked=true; Toggle Claude aria-checked=false and disabled; badge \"4\". Test data alignment: the filter button aria-label is now \"AI engine filters\" (test data says \"LLM engine filters\")."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-013",
+      "title": "4 identity cards present below InBrief",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-174"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-013_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-013_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated user is on the Toyota dashboard with the Identity tab active",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Identity section is fully rendered",
+          "status": "PASS"
+        },
+        {
+          "title": "Then exactly 4 cards are visible with titles: Brand Image, Employer Brand, ESG / Sustainability, Leadership",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Below the InBrief block: 4 cards Brand Image, Employer Brand, ESG / Sustainability, Leadership."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-014",
+      "title": "Each card shows sentiment and 3 AI bullets",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-174"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-014_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-014_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-014_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated user is on the Toyota dashboard with the 4 identity cards visible",
+          "status": "PASS"
+        },
+        {
+          "title": "When the cards are fully rendered",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each card displays a sentiment badge (Positive / Negative / Neutral / Mixed) and exactly 3 AI-generated bullet points",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Each of the 4 cards shows sentiment badge \"Positive\" and exactly 3 non-empty bullet points (AI content in French = analysis AI insights language FR)."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-015",
+      "title": "Drill-in panel opens with All + one tab per engine in scope",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-174"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-015_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-015_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-015_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated user is on the Toyota dashboard with the 4 identity cards visible",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks on the Brand Image card",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel displays the \"All\" tab + one tab per engine of the analysis scope",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Click Brand Image → right drill-in panel (role=dialog, x=960, width 480) with tabs All, ChatGPT, Gemini, Grok, Perplexity (5 tabs, no Claude)."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-016",
+      "title": "Per-LLM tab shows raw bullets and engine-specific sources",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-174"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-016_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-016_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-016_step3_then.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-016_ChatGPT.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-016_Gemini.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-016_Grok.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-016_Perplexity.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user has opened the Brand Image drill-in panel with the All tab active",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user switches to a specific LLM tab (ChatGPT, Gemini, Grok, Claude, Perplexity)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the panel shows that LLM's raw response array directly (no consolidation) and cited sources specific to that LLM",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Tabs = engines of the analysis only (no Claude). Each engine tab: 3 bullets with titles different from All (ChatGPT \"Réputation De Fiabilité Et Qualité…\", Gemini \"Forte Réputation Clientèle…\", Grok \"Fiabilité et Qualité Reconnues…\", Perplexity \"Fiabilité et Qualité Reconnues / Leadership en Mobilité Durable…\"), caption \"Overview generated by artificial intelligence\". Sources: ChatGPT 4 (autofacil.es, autopista.es, motor1.com, forocoches.com), Gemini 4 (prensa.toyota.es, marketingdirecto.com, toyota.es — same top hosts as the All tab), Perplexity 4 (prensa.toyota.es, newsroom.toyota.eu), Grok no Sources block (allowed, known limitation)."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-017",
+      "title": "LLM Engines dropdown lists engines",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-78"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-017_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-017_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-017_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor is on the dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Editor opens the AI Engines dropdown",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the list of available LLMs is displayed with checkable items",
+          "status": "PASS"
+        }
+      ],
+      "notes": "AI Engines dropdown lists ChatGPT, Gemini, Grok, Claude, Perplexity as switches (role=switch, aria-checked); Claude visible but disabled (not in the Toyota scope)."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-018",
+      "title": "AI Perception Summary is displayed",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-72"
+      ],
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-018_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-018_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-018_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an Editor opens the Overview page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the InBrief section loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the summary shows perception findings, key opportunities, and warnings about misperceptions",
+          "status": "PARTIAL"
+        }
+      ],
+      "notes": "InBrief (img \"InBrief powered by AI Sense\") renders 3 bullets + caption \"Summary generated by artificial intelligence\": perception findings are present (leader in hybrid technology, reliability) and bullet 3 carries a caveat (\"Malgré des prix parfois jugés élevés…\"), but there is no distinct \"key opportunities\" or \"warnings about misperceptions\" section. Expected result \"The executive summary is visible\" is met; the structure named in the Then text cannot be confirmed → PARTIAL. Test text to align with the InBrief 3-bullet format."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-019",
+      "title": "KPI cards are displayed",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-107"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-019_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-019_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-019_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an Editor opens the Overview page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the KPI section loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then KPI cards are visible for Visibility, AI Choice, and Sentiment with their labels",
+          "status": "PASS"
+        }
+      ],
+      "notes": "KPI row: Visibility (AI search presence) 97% Good; Avg Position (Typical AI rank) #2.4 Fair; AI Choice (Competitive picks) 74% Good; Sentiment (Sentiment score) +72 Good — each with ring, value, quality label and \"vs previous period\"."
+    },
+    {
+      "tc_id": "E2E-DASHBOARD-OVERVIEW-020",
+      "title": "AC5 the card shows \"N/A\" with a muted style instead of 0",
+      "story_id": "e2e-dashboard-overview",
+      "stories": [
+        "GEO-107"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-020_step1_given.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-020_step2_when.png",
+        "screenshots-E2E-SUITE-b1-staging/E2E-DASHBOARD-OVERVIEW-020_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given no data is available for a KPI type (e.g., no competitive responses yet)",
+          "status": "PASS"
+        },
+        {
+          "title": "When KPIs load",
+          "status": "PASS"
+        },
+        {
+          "title": "Then at least one KPI card shows \"N/A\" indicating no data available",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Lictorix Geo (f228f1fe): Avg Position card shows \"N/A\" (aria-label \"Avg Position: not available\") in muted text-slate-300 vs text-slate-950 for the other values, no quality label. Nike (0b7687da) shows N/A on all 4 KPI cards."
+    }
+  ]
+}

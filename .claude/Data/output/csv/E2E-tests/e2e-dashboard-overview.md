@@ -10,20 +10,20 @@
 | [E2E-DASHBOARD-OVERVIEW-001](#e2e-dashboard-overview-001) | Sidebar layout is displayed | KEEP | GEO-79 |
 | [E2E-DASHBOARD-OVERVIEW-002](#e2e-dashboard-overview-002) | Categories accordion is auto-expanded | KEEP | GEO-79 |
 | [E2E-DASHBOARD-OVERVIEW-003](#e2e-dashboard-overview-003) | Active view is highlighted | KEEP | GEO-79 |
-| [E2E-DASHBOARD-OVERVIEW-004](#e2e-dashboard-overview-004) | Sidebar navigation is SPA | KEEP | GEO-79 |
-| [E2E-DASHBOARD-OVERVIEW-005](#e2e-dashboard-overview-005) | Dashboard pages load within 5 seconds | KEEP | GEO-79 |
+| [E2E-DASHBOARD-OVERVIEW-004](#e2e-dashboard-overview-004) | Sidebar navigation is SPA | UPDATE | GEO-79 |
+| [E2E-DASHBOARD-OVERVIEW-005](#e2e-dashboard-overview-005) | Dashboard pages load within 5 seconds | UPDATE | GEO-79 |
 | [E2E-DASHBOARD-OVERVIEW-006](#e2e-dashboard-overview-006) | Discard Changes modal appears | KEEP | GEO-79 |
 | [E2E-DASHBOARD-OVERVIEW-007](#e2e-dashboard-overview-007) | Category sub-items stay displayed for non-category sections | KEEP | GEO-79 |
-| [E2E-DASHBOARD-OVERVIEW-008](#e2e-dashboard-overview-008) | Report header shows the brand name and the date range picker | KEEP | GEO-79 |
-| [E2E-DASHBOARD-OVERVIEW-009](#e2e-dashboard-overview-009) | Report header has an Export button | KEEP | GEO-79 |
+| [E2E-DASHBOARD-OVERVIEW-008](#e2e-dashboard-overview-008) | Report header shows the brand name and the date range picker | UPDATE | GEO-79 |
+| [E2E-DASHBOARD-OVERVIEW-009](#e2e-dashboard-overview-009) | Report header has an Export button | UPDATE | GEO-79 |
 | [E2E-DASHBOARD-OVERVIEW-010](#e2e-dashboard-overview-010) | AC3 it shows: back arrow next to brand image | UPDATE | GEO-79 |
-| [E2E-DASHBOARD-OVERVIEW-011](#e2e-dashboard-overview-011) | Default market filter is All Markets | UPDATE | GEO-78 |
+| [E2E-DASHBOARD-OVERVIEW-011](#e2e-dashboard-overview-011) | Default country filter is All Countries | UPDATE | GEO-78 |
 | [E2E-DASHBOARD-OVERVIEW-012](#e2e-dashboard-overview-012) | All engines activated at analysis creation are active by default | UPDATE | GEO-174 |
 | [E2E-DASHBOARD-OVERVIEW-013](#e2e-dashboard-overview-013) | 4 identity cards present below InBrief | KEEP | GEO-174 |
 | [E2E-DASHBOARD-OVERVIEW-014](#e2e-dashboard-overview-014) | Each card shows sentiment and 3 AI bullets | KEEP | GEO-174 |
-| [E2E-DASHBOARD-OVERVIEW-015](#e2e-dashboard-overview-015) | Drill-in panel opens with All + one tab per engine in scope | KEEP | GEO-174 |
+| [E2E-DASHBOARD-OVERVIEW-015](#e2e-dashboard-overview-015) | Drill-in panel opens with All + one tab per engine in scope | UPDATE | GEO-174 |
 | [E2E-DASHBOARD-OVERVIEW-016](#e2e-dashboard-overview-016) | Per-LLM tab shows raw bullets and engine-specific sources | UPDATE | GEO-174 |
-| [E2E-DASHBOARD-OVERVIEW-017](#e2e-dashboard-overview-017) | LLM Engines dropdown lists engines | UPDATE | GEO-78 |
+| [E2E-DASHBOARD-OVERVIEW-017](#e2e-dashboard-overview-017) | AI Engines dropdown lists engines | UPDATE | GEO-78 |
 | [E2E-DASHBOARD-OVERVIEW-018](#e2e-dashboard-overview-018) | AI Perception Summary is displayed | UPDATE | GEO-72 |
 | [E2E-DASHBOARD-OVERVIEW-019](#e2e-dashboard-overview-019) | KPI cards are displayed | UPDATE | GEO-107 |
 | [E2E-DASHBOARD-OVERVIEW-020](#e2e-dashboard-overview-020) | AC5 the card shows "N/A" with a muted style instead of 0 | KEEP | GEO-107 |
@@ -46,7 +46,7 @@
 | Components / QA Component | GEO Module / Sidebar,Layout |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -72,7 +72,7 @@
 | Components / QA Component | GEO Module / Sidebar navigation |
 | Smoke / Regression | No / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -98,7 +98,7 @@
 | Components / QA Component | GEO Module / Sidebar navigation |
 | Smoke / Regression | No / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -114,8 +114,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP — no newer TC contradicts it (non-regression of the brand Overview, test plan scenario 208) |
-| Description | Verifies that switching dashboard views updates content without reloading the page and keeps filters applied. Consolidates archive GEO-79-TC004 (GEO-79). Former id: GEO-79-TC004. Archived in GEO-R1.0/e2e-dashboard-overview.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — no newer TC contradicts it (non-regression of the brand Overview, test plan scenario 208) |
+| Description | Verifies that switching dashboard views updates content without reloading the page and keeps filters applied. Consolidates archive GEO-79-TC004 (GEO-79). Former id: GEO-79-TC004. Archived in GEO-R1.0/e2e-dashboard-overview.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): "market and LLM filters" → "country and AI engine filters" (GEO-1514 / AI Engines filter). |
 | Priority | High |
 | Stories | GEO-79 |
 | Precondition | An Editor is authenticated and has active filters |
@@ -124,11 +124,11 @@
 | Components / QA Component | GEO Module / SPA navigation,Filter persistence |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the Editor has active market and LLM filters | Applied filters | The filters are already set |
+| 1 | Given the Editor has active country and AI engine filters | Applied filters (e.g. Country = France, one engine toggled off) | The filters are already set |
 | 2 | When the Editor clicks a different sidebar item | Sidebar navigation | The view changes |
 | 3 | Then the content area updates without full page reload and the filters remain applied | SPA result | The new view is shown and the filters are preserved |
 
@@ -150,7 +150,7 @@
 | Components / QA Component | GEO Module / Performance |
 | Smoke / Regression | No / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP, 2 s limit, 2.15 s observed) — TC aligned: limit 5 s |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -176,7 +176,7 @@
 | Components / QA Component | GEO Module / Discard modal |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | SKIP 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -202,7 +202,7 @@
 | Components / QA Component | GEO Module / Sidebar,Category Views |
 | Smoke / Regression | No / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -228,7 +228,7 @@
 | Components / QA Component | GEO Module / Report header |
 | Smoke / Regression | No / No |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -254,7 +254,7 @@
 | Components / QA Component | GEO Module / Header actions |
 | Smoke / Regression | No / No |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -280,7 +280,7 @@
 | Components / QA Component | GEO Module / Sidebar,Layout |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -292,12 +292,12 @@
 
 ## E2E-DASHBOARD-OVERVIEW-011
 
-**Default market filter is All Markets**
+**Default country filter is All Countries**
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — "All Markets" now reads "All Countries" (TC-GEO-1120-017, GEO-1514) — label |
-| Description | Verifies that the default market filter scopes the dashboard to all markets. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: "All Markets" now reads "All Countries" (TC-GEO-1120-017, GEO-1514); driven by step 3 → TC-GEO-1120-017. Consolidates archive GEO-78-TC001 (GEO-78). Former id: GEO-78-TC001. Archived in GEO-R1.0/e2e-dashboard-overview.csv. |
+| Status | UPDATE — "All Markets" now reads "All Countries" (TC-GEO-1120-017, GEO-1514) — label; labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Verifies that the default market filter scopes the dashboard to all markets. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: "All Markets" now reads "All Countries" (TC-GEO-1120-017, GEO-1514); driven by step 3 → TC-GEO-1120-017. Consolidates archive GEO-78-TC001 (GEO-78). Former id: GEO-78-TC001. Archived in GEO-R1.0/e2e-dashboard-overview.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): title and steps "market" → "country" (GEO-1514), aria-label "Country filter — All countries". |
 | Priority | High |
 | Stories | GEO-78 |
 | Precondition | An Editor is authenticated and opens the dashboard |
@@ -306,13 +306,13 @@
 | Components / QA Component | GEO Module / Market filter |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 03/07 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
 | 1 | Given an Editor opens the Overview page | Dashboard overview | The dashboard is displayed |
-| 2 | When the dashboard loads with no market change | Default filter | The default selection is applied |
-| 3 | Then the market filter is set to All Countries | All Countries | The dashboard aggregates all markets |
+| 2 | When the dashboard loads with no country change | Default filter | The default selection is applied |
+| 3 | Then the country filter is set to All Countries | All Countries (aria-label "Country filter — All countries") | The dashboard aggregates all countries |
 
 ---
 
@@ -322,8 +322,8 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — "LLM Engines" filter is now "AI Engines" (TC-GEO-1120-017) — label; aligned on the observed result 2026-11-04 (user decision) |
-| Description | Verify that all engines activated during analysis creation are active on the dashboard by default. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: "LLM Engines" filter is now "AI Engines" (TC-GEO-1120-017); driven by steps 1-2 → TC-GEO-1120-017. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): all engines activated during analysis creation are toggled ON (Active) by default (Toyota: 4 ON, Claude OFF and disabled, badge 4). Consolidates archive IDENTITY-TC001. Former id: IDENTITY-TC001. Archived in GEO-R1.0/e2e-dashboard-overview.csv. |
+| Status | UPDATE — "LLM Engines" filter is now "AI Engines" (TC-GEO-1120-017) — label; aligned on the observed result 2026-11-04 (user decision); labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Verify that all engines activated during analysis creation are active on the dashboard by default. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: "LLM Engines" filter is now "AI Engines" (TC-GEO-1120-017); driven by steps 1-2 → TC-GEO-1120-017. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): all engines activated during analysis creation are toggled ON (Active) by default (Toyota: 4 ON, Claude OFF and disabled, badge 4). Consolidates archive IDENTITY-TC001. Former id: IDENTITY-TC001. Archived in GEO-R1.0/e2e-dashboard-overview.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): filter button aria-label "LLM engine filters" → "AI engine filters", data-testid "llm-dropdown-trigger". |
 | Priority | High |
 | Stories | GEO-174 |
 | Precondition | User is authenticated and on the dashboard |
@@ -332,12 +332,12 @@
 | Components / QA Component | GEO Module / LLM filter |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
 | 1 | Given an authenticated user is on the Toyota dashboard | URL: /dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e | The dashboard loads and displays the Identity tab with the AI Engines filter |
-| 2 | When the user opens the AI Engines filter dropdown | AI Engines filter button (aria-label=LLM engine filters) | The dropdown opens showing the list of AI engines with toggles |
+| 2 | When the user opens the AI Engines filter dropdown | AI Engines filter button (aria-label=AI engine filters, data-testid=llm-dropdown-trigger) | The dropdown opens showing the list of AI engines with toggles |
 | 3 | Then all engines activated during analysis creation are toggled ON (Active) by default | button[role="switch"] — engines of the analysis scope (Toyota: ChatGPT, Gemini, Grok, Perplexity) | Every engine activated at analysis creation has aria-checked=true; an engine not activated at creation (Toyota: Claude) is OFF and disabled; the badge in the filter button shows the number of active engines (Toyota: "4") |
 
 ---
@@ -358,7 +358,7 @@
 | Components / QA Component | GEO Module / Identity cards display |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -384,7 +384,7 @@
 | Components / QA Component | GEO Module / Identity cards content |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -410,7 +410,7 @@
 | Components / QA Component | GEO Module / Drill-in panel |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -436,7 +436,7 @@
 | Components / QA Component | GEO Module / Per-LLM drill-in |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 30/10 (MCP) — expected results updated 2026-11-05 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -448,12 +448,12 @@
 
 ## E2E-DASHBOARD-OVERVIEW-017
 
-**LLM Engines dropdown lists engines**
+**AI Engines dropdown lists engines**
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — "LLM Engines" dropdown is now "AI Engines" (TC-GEO-1120-017) — label |
-| Description | Verifies that the LLM Engines filter dropdown displays all available engines. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: "LLM Engines" dropdown is now "AI Engines" (TC-GEO-1120-017); driven by step 3 → TC-GEO-1120-017. Consolidates archive GEO-78-TC007 (GEO-78). Former id: GEO-78-TC007. Archived in GEO-R1.0/e2e-dashboard-overview.csv. |
+| Status | UPDATE — "LLM Engines" dropdown is now "AI Engines" (TC-GEO-1120-017) — label; labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Verifies that the LLM Engines filter dropdown displays all available engines. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: "LLM Engines" dropdown is now "AI Engines" (TC-GEO-1120-017); driven by step 3 → TC-GEO-1120-017. Consolidates archive GEO-78-TC007 (GEO-78). Former id: GEO-78-TC007. Archived in GEO-R1.0/e2e-dashboard-overview.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): title "LLM Engines dropdown" → "AI Engines dropdown". |
 | Priority | Medium |
 | Stories | GEO-78 |
 | Precondition | An Editor is authenticated and on the dashboard |
@@ -462,7 +462,7 @@
 | Components / QA Component | GEO Module / LLM Engines dropdown |
 | Smoke / Regression | No / No |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 03/07 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -488,7 +488,7 @@
 | Components / QA Component | GEO Module / Summary display |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | PARTIAL 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -514,7 +514,7 @@
 | Components / QA Component | GEO Module / KPI display |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -540,7 +540,7 @@
 | Components / QA Component | GEO Module / KPI display |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS/SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|

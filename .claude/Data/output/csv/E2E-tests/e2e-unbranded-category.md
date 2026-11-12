@@ -17,17 +17,17 @@
 
 | Field | Value |
 |---|---|
-| Status | NEW |
-| Description | End-to-end: Unbranded Category view, prompts, Other category and hidden Action Center. Pass 1 — per epic (GEO-1209 + GEO-1068). Assumptions: TC-GEO-1248-004 needs an Other-type prompt in C1 ("Other (1)"); if absent the step is skipped (JDD ""). Epics: GEO-1209, GEO-1068. Consolidates TC-GEO-1244-001, TC-GEO-1244-010, TC-GEO-1244-006, TC-GEO-1244-009, TC-GEO-1248-004, TC-GEO-1248-001, TC-GEO-1248-003, TC-GEO-1266-006, TC-GEO-1268-004, TC-GEO-1267-003, TC-GEO-1267-005, TC-GEO-1248-017, TC-GEO-1245-001, TC-GEO-1245-002. |
+| Status | NEW; labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | End-to-end: Unbranded Category view, prompts, Other category and hidden Action Center. Pass 1 — per epic (GEO-1209 + GEO-1068). Assumptions: TC-GEO-1248-004 needs an Other-type prompt in C1 ("Other (1)"); if absent the step is skipped (JDD ""). Epics: GEO-1209, GEO-1068. Consolidates TC-GEO-1244-001, TC-GEO-1244-010, TC-GEO-1244-006, TC-GEO-1244-009, TC-GEO-1248-004, TC-GEO-1248-001, TC-GEO-1248-003, TC-GEO-1266-006, TC-GEO-1268-004, TC-GEO-1267-003, TC-GEO-1267-005, TC-GEO-1248-017, TC-GEO-1245-001, TC-GEO-1245-002. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): test data set — UA = bike d3fd1b30 (C1 Mountain Bikes, C2 Road Bikes), BA = Toyota 439acd96. |
 | Priority | High |
 | Stories | GEO-1244, GEO-1248, GEO-1266, GEO-1268, GEO-1267, GEO-1245 |
-| Precondition | Same analysis UA, with a kept prompt in Other (category and type) and an Other-type prompt in category C1; Brand analysis BA for the Action Center comparison |
+| Precondition | Same analysis UA (staging: bike d3fd1b30, C1 = Mountain Bikes, C2 = Road Bikes), with a kept prompt in Other (category and type) and an Other-type prompt in category C1; Brand analysis BA for the Action Center comparison (staging: Toyota 439acd96) |
 | Labels | e2e-suite |
 | QA Parent | GEO-1209 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | — |
+| Last result | PARTIAL 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|

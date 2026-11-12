@@ -1,0 +1,622 @@
+{
+  "spec": "E2E-SUITE-b7-staging",
+  "runDate": "2026-11-10",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "environment": "staging",
+  "organisation": "per account (see accounts)",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 10,
+    "pass": 8,
+    "fail": 0,
+    "skip": 0,
+    "partial": 2,
+    "successRate": 90,
+    "verdict": "GO"
+  },
+  "accounts": [
+    {
+      "role": "PQL / Lite",
+      "authMe": "role READER, no organisation (access_status AUTH0_ACCESS_DENIED, granted_applications unified), language en-US",
+      "scenarios": "E2E-UPSELL-PQL-001..008"
+    },
+    {
+      "role": "READER",
+      "authMe": "role READER, org Onclusive, language en-US",
+      "scenarios": "E2E-READER-001"
+    },
+    {
+      "role": "EDITOR (multi-organisation)",
+      "authMe": "start: role EDITOR, org QA-GEO, en-US; orgs available: Onclusive (Editor), QA-GEO (Editor); end: org QA-GEO, en-US",
+      "scenarios": "E2E-MULTI-ORG-001"
+    },
+    {
+      "role": "Main (SUPER_ADMIN)",
+      "authMe": "start and end: role SUPER_ADMIN, org QA-GEO, en-GB",
+      "scenarios": "none (final login)"
+    }
+  ],
+  "hubspot_calls": [
+    {
+      "at": "2026-11-10T12:30:41Z",
+      "request": "POST /geo/api/v1/upsell/hubspot",
+      "response": 200,
+      "scenario": "E2E-UPSELL-PQL-004",
+      "real": true
+    },
+    {
+      "request": "POST /geo/api/v1/upsell/hubspot",
+      "response": "503 (mocked browser-side, not sent)",
+      "scenario": "E2E-UPSELL-PQL-006"
+    },
+    {
+      "request": "POST /geo/api/v1/upsell/hubspot",
+      "response": "401 (mocked browser-side, not sent)",
+      "scenario": "E2E-UPSELL-PQL-008"
+    }
+  ],
+  "data_writes": "none (no analysis, run, scope, prompt, user, setting or language change); browser-only state changed: cookie consent accepted, localStorage demo flag; organisation switch of the multi-org account restored to QA-GEO",
+  "results": [
+    {
+      "tc_id": "E2E-UPSELL-PQL-001",
+      "title": "Modal See it in action affichée au clic",
+      "story_id": "e2e-hubspot-upsell-pql",
+      "stories": [
+        "GEO-237"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "PQL / Lite (READER, no organisation, en-US)",
+      "url": "https://staging-geo.onclusive.com/geo/upsell",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-001_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-001_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given l'user est sur la page upsell Measure",
+          "status": "PASS",
+          "data": "",
+          "expected": "L'user est sur la page upsell Measure",
+          "observed": ""
+        },
+        {
+          "title": "When il clique sur un bouton \"Speak to Us\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "Il clique sur un bouton \"Speak to Us\"",
+          "observed": "First \"Speak to us\" (hero) clicked"
+        },
+        {
+          "title": "Then la modal s'ouvre avec le titre \"See it in action\", la description, la checkbox décochée et le bouton Confirm désactivé",
+          "status": "PASS",
+          "data": "",
+          "expected": "La modal s'ouvre avec le titre \"See it in action\", la description, la checkbox décochée et le bouton Confirm désactivé",
+          "observed": "Dialog \"See it in action\" / \"One of our specialists will reach out to show you how this module can fit into your current workflow.\" / checkbox \"I'm happy to be contacted for a demo\" unchecked / Confirm disabled=true / Close (X) button"
+        }
+      ],
+      "notes": "Upsell page /geo/upsell (Measure — upgrade required) with 5 \"Speak to us\" buttons (UI casing \"Speak to us\"). Consent banner reset and \"Accept all\" clicked (browser cookie cc_cookie: necessary -> necessary + analytics + functional_support), as in the spec helper gotoUpsell(), so that the SeeItInActionModal opens instead of the JitBridgeModal."
+    },
+    {
+      "tc_id": "E2E-UPSELL-PQL-002",
+      "title": "Confirm activé après coche de la checkbox",
+      "story_id": "e2e-hubspot-upsell-pql",
+      "stories": [
+        "GEO-237"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "PQL / Lite (READER, no organisation, en-US)",
+      "url": "https://staging-geo.onclusive.com/geo/upsell",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-002_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-002_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given la modal SeeItInActionModal est ouverte",
+          "status": "PASS",
+          "data": "",
+          "expected": "La modal SeeItInActionModal est ouverte",
+          "observed": ""
+        },
+        {
+          "title": "When l'user coche la checkbox \"I'm happy to be contacted for a demo\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "L'user coche la checkbox \"I'm happy to be contacted for a demo\"",
+          "observed": ""
+        },
+        {
+          "title": "Then le bouton \"Confirm\" devient actif (clickable)",
+          "status": "PASS",
+          "data": "",
+          "expected": "Le bouton \"Confirm\" devient actif (clickable)",
+          "observed": "checkbox.checked=true, Confirm disabled=false"
+        }
+      ],
+      "notes": "Checkbox ticked through its label; Confirm not clicked in this scenario."
+    },
+    {
+      "tc_id": "E2E-UPSELL-PQL-003",
+      "title": "Fermeture modal sans confirmation -> aucun appel backend",
+      "story_id": "e2e-hubspot-upsell-pql",
+      "stories": [
+        "GEO-237"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "PQL / Lite (READER, no organisation, en-US)",
+      "url": "https://staging-geo.onclusive.com/geo/upsell",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-003_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-003_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given la modal SeeItInActionModal est ouverte",
+          "status": "PASS",
+          "data": "",
+          "expected": "La modal SeeItInActionModal est ouverte",
+          "observed": ""
+        },
+        {
+          "title": "When l'user ferme la modal (croix / backdrop / touche Escape)",
+          "status": "PASS",
+          "data": "",
+          "expected": "L'user ferme la modal (croix / backdrop / touche Escape)",
+          "observed": "Close (X), then Escape, then backdrop click"
+        },
+        {
+          "title": "Then la modal se ferme et aucun appel POST /api/v1/upsell/hubspot n'est effectué",
+          "status": "PASS",
+          "data": "",
+          "expected": "La modal se ferme et aucun appel POST /api/v1/upsell/hubspot n'est effectué",
+          "observed": "Dialog count 0 after each way; 0 request to /upsell/hubspot (nor any other hubspot URL)"
+        }
+      ],
+      "notes": "The three closing ways were tested in turn: Close (X) with the checkbox ticked, Escape, click on the backdrop. Request listener on /hubspot during the whole scenario."
+    },
+    {
+      "tc_id": "E2E-UPSELL-PQL-004",
+      "title": "Confirmation + cookies accordés -> appel direct sans JitBridgeModal",
+      "story_id": "e2e-hubspot-upsell-pql",
+      "stories": [
+        "GEO-237"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "PQL / Lite (READER, no organisation, en-US)",
+      "url": "https://staging-geo.onclusive.com/geo/upsell",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-004_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-004_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given areFunctionalCookiesEnabled est true (consentement accordé) et la page upsell est chargée",
+          "status": "PASS",
+          "data": "",
+          "expected": "AreFunctionalCookiesEnabled est true (consentement accordé) et la page upsell est chargée",
+          "observed": "cc_cookie categories = necessary, analytics, functional_support"
+        },
+        {
+          "title": "When l'user ouvre la modal, coche la checkbox et clique \"Confirm\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "L'user ouvre la modal, coche la checkbox et clique \"Confirm\"",
+          "observed": ""
+        },
+        {
+          "title": "Then POST /api/v1/upsell/hubspot est appelé directement sans ouvrir la JitBridgeModal",
+          "status": "PASS",
+          "data": "",
+          "expected": "POST /api/v1/upsell/hubspot est appelé directement sans ouvrir la JitBridgeModal",
+          "observed": "POST /geo/api/v1/upsell/hubspot -> 200; \"Ready to chat\" (JitBridgeModal) count 0 during and after; dialog closes"
+        }
+      ],
+      "notes": "Real call sent (allowed by the user): POST https://staging-geo.onclusive.com/geo/api/v1/upsell/hubspot at 2026-11-10T12:30:41Z, empty body, response 200. Consent categories at the time: necessary, analytics, functional_support."
+    },
+    {
+      "tc_id": "E2E-UPSELL-PQL-005",
+      "title": "Idempotence - un seul appel HubSpot par session",
+      "story_id": "e2e-hubspot-upsell-pql",
+      "stories": [
+        "GEO-237"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "PQL / Lite (READER, no organisation, en-US)",
+      "url": "https://staging-geo.onclusive.com/geo/upsell",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-005_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-005_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given l'user a déjà cliqué \"Speak to Us\" et confirmé - l'événement a été envoyé",
+          "status": "PASS",
+          "data": "",
+          "expected": "L'user a déjà cliqué \"Speak to Us\" et confirmé - l'événement a été envoyé",
+          "observed": ""
+        },
+        {
+          "title": "When il clique à nouveau sur un autre \"Speak to Us\" de la page et confirme",
+          "status": "PASS",
+          "data": "",
+          "expected": "Il clique à nouveau sur un autre \"Speak to Us\" de la page et confirme",
+          "observed": "2nd button -> dialog \"Request already submitted\" (Close only); no checkbox / Confirm to click"
+        },
+        {
+          "title": "Then aucun deuxième appel POST /api/v1/upsell/hubspot n'est effectué",
+          "status": "PASS",
+          "data": "",
+          "expected": "Aucun deuxième appel POST /api/v1/upsell/hubspot n'est effectué",
+          "observed": "0 request to /upsell/hubspot after the first call (also after reload + 4th button)"
+        }
+      ],
+      "notes": "Given = the real call of E2E-UPSELL-PQL-004. The frontend stores localStorage \"geo:upsell-demo-requested:{email}\" = true after Confirm. A second \"Speak to us\" (2nd button) opens a different dialog \"Request already submitted — We received your request. Our team will contact you shortly.\" with Close only: no checkbox, no Confirm, so \"et confirme\" cannot be done (test text to align). Same dialog after a page reload with the 4th button: the guard is per browser (localStorage, kept across reloads), not per session."
+    },
+    {
+      "tc_id": "E2E-UPSELL-PQL-006",
+      "title": "Erreur HubSpot non-bloquante pour l'utilisateur",
+      "story_id": "e2e-hubspot-upsell-pql",
+      "stories": [
+        "GEO-237"
+      ],
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "PQL / Lite (READER, no organisation, en-US)",
+      "url": "https://staging-geo.onclusive.com/geo/upsell",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-006_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-006_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given HubSpot API retourne une erreur (503) - simulée via page.route()",
+          "status": "PASS",
+          "data": "",
+          "expected": "HubSpot API retourne une erreur (503) - simulée via page.route()",
+          "observed": "503 simulated on /hubspot via page.route"
+        },
+        {
+          "title": "When l'user ouvre la modal, coche la checkbox et clique \"Confirm\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "L'user ouvre la modal, coche la checkbox et clique \"Confirm\"",
+          "observed": "Modal opened, checkbox ticked, Confirm clicked"
+        },
+        {
+          "title": "Then le frontend reçoit 200 OK et aucune UI d'erreur n'est affichée à l'user",
+          "status": "PARTIAL",
+          "data": "",
+          "expected": "Le frontend reçoit 200 OK et aucune UI d'erreur n'est affichée à l'user",
+          "observed": "No error UI (alerts 0, toasts 0, no error text, dialog closed). Frontend received the simulated 503, not 200 — \"200 OK\" part not verifiable from the browser"
+        }
+      ],
+      "notes": "Error simulated browser-side: every /hubspot request answered 503 {\"error\":\"Service Unavailable\"} by page.route (POST /geo/api/v1/upsell/hubspot, and the login-event call POST /geo/api/v1/auth/hubspot/login-event). No error UI: no alert/toast, no error text, dialog closed, user stays on /geo/upsell. \"Le frontend reçoit 200 OK\" cannot be checked this way: the browser mock replaces the backend answer, so the frontend receives the simulated 503; a HubSpot failure behind the backend needs a server-side fault (not reachable from the UI). Side observation: after the 503 the frontend still writes \"geo:upsell-demo-requested\" = true, so the next click shows \"Request already submitted\" although nothing was recorded."
+    },
+    {
+      "tc_id": "E2E-UPSELL-PQL-007",
+      "title": "Les 5 boutons \"Speak to Us\" déclenchent la même logique",
+      "story_id": "e2e-hubspot-upsell-pql",
+      "stories": [
+        "GEO-237"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "PQL / Lite (READER, no organisation, en-US)",
+      "url": "https://staging-geo.onclusive.com/geo/upsell",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-007_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-007_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given les 5 instances du bouton \"Speak to Us\" sont présentes sur la page upsell Measure",
+          "status": "PASS",
+          "data": "",
+          "expected": "Les 5 instances du bouton \"Speak to Us\" sont présentes sur la page upsell Measure",
+          "observed": "5 buttons \"Speak to us\" found"
+        },
+        {
+          "title": "When l'user clique sur n'importe laquelle des 5 instances",
+          "status": "PASS",
+          "data": "",
+          "expected": "L'user clique sur n'importe laquelle des 5 instances",
+          "observed": ""
+        },
+        {
+          "title": "Then la modal SeeItInActionModal s'ouvre à chaque fois et la même logique s'applique quel que soit le bouton",
+          "status": "PASS",
+          "data": "",
+          "expected": "La modal SeeItInActionModal s'ouvre à chaque fois et la même logique s'applique quel que soit le bouton",
+          "observed": "All 5: dialog \"See it in action\", checkbox unchecked, Confirm disabled, no JitBridgeModal"
+        }
+      ],
+      "notes": "Each of the 5 buttons (hero, middle CTA, Multi-Engine AI Monitoring, Earned Media to AI Connection, Competitive Intelligence) clicked in turn, before any confirmation."
+    },
+    {
+      "tc_id": "E2E-UPSELL-PQL-008",
+      "title": "Réponse 401 ne déclenche pas de redirection Auth0",
+      "story_id": "e2e-hubspot-upsell-pql",
+      "stories": [
+        "GEO-237"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "PQL / Lite (READER, no organisation, en-US)",
+      "url": "https://staging-geo.onclusive.com/geo/upsell",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-008_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-008_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-UPSELL-PQL-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given POST /api/v1/upsell/hubspot retourne 401 - simulé via page.route()",
+          "status": "PASS",
+          "data": "",
+          "expected": "POST /api/v1/upsell/hubspot retourne 401 - simulé via page.route()",
+          "observed": ""
+        },
+        {
+          "title": "When l'user ouvre la modal, coche la checkbox et clique \"Confirm\"",
+          "status": "PASS",
+          "data": "",
+          "expected": "L'user ouvre la modal, coche la checkbox et clique \"Confirm\"",
+          "observed": ""
+        },
+        {
+          "title": "Then aucune redirection vers Auth0 n'est déclenchée et l'user reste sur la page upsell",
+          "status": "PASS",
+          "data": "",
+          "expected": "Aucune redirection vers Auth0 n'est déclenchée et l'user reste sur la page upsell",
+          "observed": "framenavigated: [] ; url /geo/upsell ; Speak to us visible"
+        }
+      ],
+      "notes": "401 {\"error\":\"Unauthorized\"} simulated by page.route on POST /geo/api/v1/upsell/hubspot only (localStorage demo flag removed first so the See it in action modal opens again). Main-frame navigations after Confirm: none; URL stays /geo/upsell; \"Speak to us\" still visible; no dialog left open."
+    },
+    {
+      "tc_id": "E2E-READER-001",
+      "title": "A Reader browses the organisation analyses and users in read-only mode",
+      "story_id": "e2e-reader-role",
+      "stories": [
+        "GEO-397",
+        "GEO-1053"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "READER (organisation Onclusive, en-US)",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/d5c77bfd-5866-42a7-a32c-9e4cdef1a53d",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step3_then.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step6b_category.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step4_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step5_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step6_then.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step7_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step8_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step9_then.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step10_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step11_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-READER-001_step12_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user with the READER role has valid credentials for the GEO application",
+          "status": "PASS",
+          "data": "READER role user credentials",
+          "expected": "",
+          "observed": "/auth/me role READER, org Onclusive, en-US — login OK with GEO_USER_READER_*"
+        },
+        {
+          "title": "When the user logs in and the GEO home/dashboard page loads",
+          "status": "PASS",
+          "data": "GEO home or dashboard page",
+          "expected": "",
+          "observed": "GEO Analytics Dashboard loaded (4 analyses, 605 / 999 prompts)"
+        },
+        {
+          "title": "Then the New analysis button is rendered in a visibly disabled/greyed-out state and is not clickable",
+          "status": "PASS",
+          "data": "Button: New analysis",
+          "expected": "The New analysis button appears disabled (greyed out) and clicking it produces no action",
+          "observed": "\"New Analysis\" disabled=true, opacity 0.5, cursor not-allowed; forced click: URL unchanged, no dialog"
+        },
+        {
+          "title": "Given a READER user is logged into GEO and at least one existing report is available in their organization",
+          "status": "PASS",
+          "data": "READER role user",
+          "expected": "existing report in the organization",
+          "observed": ""
+        },
+        {
+          "title": "When the READER user opens an existing report",
+          "status": "PASS",
+          "data": "Existing report accessible to the organization",
+          "expected": "",
+          "observed": "Hybrid Cars opened from the list"
+        },
+        {
+          "title": "Then all report sections (Overview, categories, AI Citation Sources, etc.) load completely with the full data the organization has access to and no section is hidden or restricted",
+          "status": "PASS",
+          "data": "Report sections: Overview, categories, AI Citation Sources",
+          "expected": "All sections load with full data",
+          "observed": "Overview tabs Identity / Performance / Sources: InBrief, Top Topics, Share of Voice, landscape, AI Engines Citation Sources loaded; category SUV Hybrid Cars: Top Topics, Share of Voice, Brand Prioritization, landscape, AI Engines Citation Sources loaded; no error text, no skeleton left. No Action Center entry (topic analysis)"
+        },
+        {
+          "title": "Given a READER user has access to a report that has an on-demand run trigger",
+          "status": "PASS",
+          "data": "READER role user",
+          "expected": "report with on-demand run option",
+          "observed": "Manage Scope opened (read-only view)"
+        },
+        {
+          "title": "When the READER user inspects the report actions available",
+          "status": "PASS",
+          "data": "On-demand run control",
+          "expected": "",
+          "observed": "Controls inspected on the dashboard, Manage Scope and analysis list"
+        },
+        {
+          "title": "Then the on-demand run control is disabled or absent for the READER",
+          "status": "PASS",
+          "data": "Action: on-demand run",
+          "expected": "The on-demand run action is disabled or hidden",
+          "observed": "No run / re-run / launch control anywhere; Manage Scope: language, engine toggles, prompt ticks all disabled; list: Delete aria-disabled, tooltip \"Read-only role\""
+        },
+        {
+          "title": "Given un utilisateur avec le rôle reader",
+          "status": "PASS",
+          "data": "",
+          "expected": "Le reader est connecté dans l'application",
+          "observed": ""
+        },
+        {
+          "title": "When il ouvre les paramètres utilisateurs",
+          "status": "PASS",
+          "data": "",
+          "expected": "La page des paramètres utilisateurs est chargée",
+          "observed": "Settings > User admin: \"You have view-only access. Contact an editor in your organisation to manage users.\""
+        },
+        {
+          "title": "Then il voit la liste des utilisateurs de son organisation avec le rôle de chacun (editor ou reader)",
+          "status": "PASS",
+          "data": "",
+          "expected": "La liste affiche tous les membres avec leur rôle visible",
+          "observed": "Table EMAIL / NAME / ROLE / STATUS with EDITOR and READER roles per member (67 of 100 seats), filters All roles / All statuses"
+        }
+      ],
+      "notes": "Reader account lands in organisation \"Onclusive\" (not QA-GEO), 4 analyses (banks, Hybrid Cars, Package Delivery, Reliable car brands — topic analyses). Report used: Hybrid Cars d5c77bfd. Read-only only: no click on any write control. In the list, the row action \"Delete banks\" is aria-disabled with tooltip \"Read-only role — contact an editor to delete an analysis\" (not clicked — analysis deletion excluded by the user)."
+    },
+    {
+      "tc_id": "E2E-MULTI-ORG-001",
+      "title": "A multi-organisation user lands in the last organisation, switches and gets the rights of each",
+      "story_id": "e2e-multi-org",
+      "stories": [
+        "GEO-1055",
+        "GEO-1056",
+        "GEO-1057"
+      ],
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "account": "EDITOR (multi-organisation: QA-GEO + Onclusive)",
+      "url": "https://staging-geo.onclusive.com/geo",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b7-staging/E2E-MULTI-ORG-001_step1_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-MULTI-ORG-001_step2_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-MULTI-ORG-001_step3_then.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-MULTI-ORG-001_step4_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-MULTI-ORG-001_step5_when.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-MULTI-ORG-001_step6_then.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-MULTI-ORG-001_step7_given.png",
+        "screenshots-E2E-SUITE-b7-staging/E2E-MULTI-ORG-001_step9_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user belongs to more than one organization and previously connected to organization B",
+          "status": "PASS",
+          "data": "",
+          "expected": "",
+          "observed": "Last organisation set to Onclusive by the switch of steps 4-6"
+        },
+        {
+          "title": "When the user signs in",
+          "status": "PASS",
+          "data": "",
+          "expected": "",
+          "observed": "Signed in again with GEO_USER_EDITOR_*"
+        },
+        {
+          "title": "Then the user is by default redirected to organization B without being prompted to choose",
+          "status": "PASS",
+          "data": "",
+          "expected": "",
+          "observed": "Landed in Onclusive (\"Current organisation: Onclusive\"), no organisation prompt"
+        },
+        {
+          "title": "Given a user belonging to multiple organizations is working in organization A",
+          "status": "PASS",
+          "data": "",
+          "expected": "",
+          "observed": ""
+        },
+        {
+          "title": "When the user opens the organization switcher and selects organization B",
+          "status": "PASS",
+          "data": "",
+          "expected": "",
+          "observed": "Switcher -> Onclusive; POST /auth/switch-organisation"
+        },
+        {
+          "title": "Then the user is now in organization B without having signed out or re-authenticated",
+          "status": "PASS",
+          "data": "",
+          "expected": "",
+          "observed": "Header \"Onclusive\"; /auth/me org Onclusive; no Auth0 navigation"
+        },
+        {
+          "title": "Given the same user who is an editor in organization A and a reader in organization B",
+          "status": "SKIP",
+          "data": "",
+          "expected": "",
+          "observed": "Precondition not met: role Editor in both organisations (switcher \"Onclusive Editor / QA-GEO Editor\")"
+        },
+        {
+          "title": "When the user is in organization B",
+          "status": "SKIP",
+          "data": "",
+          "expected": "",
+          "observed": "Not executable: no organisation where this account is Reader"
+        },
+        {
+          "title": "Then no editor capabilities are available",
+          "status": "SKIP",
+          "data": "",
+          "expected": "",
+          "observed": "Not executable (in Onclusive the account is Editor: New Analysis enabled)"
+        },
+        {
+          "title": "And nothing in the interface suggests the user has editor rights in organization B",
+          "status": "SKIP",
+          "data": "",
+          "expected": "",
+          "observed": "Not executable: same reason"
+        }
+      ],
+      "notes": "Start /auth/me: org QA-GEO, EDITOR, en-US. Switcher lists 2 organisations: \"Onclusive — Editor\" and \"QA-GEO — Editor\". Steps 4-6: switch QA-GEO -> Onclusive via the header switcher (POST /geo/api/v1/auth/switch-organisation, page reload to /geo, no Auth0 page): /auth/me org Onclusive. Steps 1-3: logged out in Onclusive, signed in again: landed directly in Onclusive, no chooser (/auth/me org Onclusive). Steps 7-10 SKIP: the account is Editor in both organisations, so the \"editor in A, reader in B\" precondition is not met, and changing a role is a data write (excluded). End: switched back to QA-GEO (its start organisation), /auth/me org QA-GEO, EDITOR, en-US. Screenshot step2_when shows the first sign-in of the run (QA-GEO, before the switch); step3_then shows the second sign-in landing in Onclusive."
+    }
+  ]
+}

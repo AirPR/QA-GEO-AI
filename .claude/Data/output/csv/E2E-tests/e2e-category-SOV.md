@@ -29,7 +29,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | GEO / Functional |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -56,7 +56,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | GEO / Functional |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -83,7 +83,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | GEO / Functional |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|

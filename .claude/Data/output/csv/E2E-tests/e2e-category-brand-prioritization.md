@@ -9,8 +9,8 @@
 |---|---|---|---|
 | [E2E-CAT-PRIORITIZATION-001](#e2e-cat-prioritization-001) | Category brand matrix is displayed | KEEP | GEO-69 |
 | [E2E-CAT-PRIORITIZATION-002](#e2e-cat-prioritization-002) | Category brand matrix updates when LLM filter changes | KEEP | GEO-69 |
-| [E2E-CAT-PRIORITIZATION-003](#e2e-cat-prioritization-003) | Hovering a data point shows brand metrics in tooltip | KEEP | GEO-69 |
-| [E2E-CAT-PRIORITIZATION-004](#e2e-cat-prioritization-004) | All markets view shows multiple brand data points | KEEP | GEO-69 |
+| [E2E-CAT-PRIORITIZATION-003](#e2e-cat-prioritization-003) | Hovering a data point shows brand metrics in tooltip | UPDATE | GEO-69 |
+| [E2E-CAT-PRIORITIZATION-004](#e2e-cat-prioritization-004) | All markets view shows multiple brand data points | UPDATE | GEO-69 |
 | [E2E-CAT-PRIORITIZATION-007](#e2e-cat-prioritization-007) | Quadrant legend shows all four quadrants with counts | KEEP | GEO-69 |
 | [E2E-CAT-PRIORITIZATION-008](#e2e-cat-prioritization-008) | Brand tooltip metrics match category KPI cards | UPDATE | GEO-69 |
 
@@ -32,7 +32,7 @@
 | Components / QA Component | Category Views / Brand matrix |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -58,7 +58,7 @@
 | Components / QA Component | Category Views / Filter respect |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -74,8 +74,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP |
-| Description | Covers GEO-69 AC2 - a tooltip displays brand name and metrics on hover. Consolidates archive GEO-69-TC003 (GEO-69). Former id: GEO-69-TC003. Archived in GEO-R1.0/e2e-category-brand-prioritization.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) |
+| Description | Covers GEO-69 AC2 - a tooltip displays brand name and metrics on hover. Consolidates archive GEO-69-TC003 (GEO-69). Former id: GEO-69-TC003. Archived in GEO-R1.0/e2e-category-brand-prioritization.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): UI label 'win rate' → 'AI Choice' (tooltip 'Visibility / AI Choice / SOV / Position'). |
 | Priority | Medium |
 | Stories | GEO-69 |
 | Precondition | The matrix is populated |
@@ -84,13 +84,13 @@
 | Components / QA Component | Category Views / Brand matrix |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
 | 1 | Given the matrix is populated | Matrix populated | Brands and data points are visible |
 | 2 | When a user hovers over a data point | Hover data point | Mouse moves over an SVG circle |
-| 3 | Then brand metrics are accessible on the scatter (SOV, win rate, %) | Brand metrics accessible | Scatter exposes brand name, SOV%, win rate% in accessible text |
+| 3 | Then brand metrics are accessible on the scatter (SOV, AI Choice, %) | Brand metrics accessible — tooltip e.g. 'Toyota (Target) \| Visibility 93% \| AI Choice 100% \| SOV 14% \| Position #1.1' (the point aria-label still reads 'win rate') | Scatter exposes brand name, SOV%, AI Choice% in accessible text (hover tooltip) |
 
 ---
 
@@ -100,23 +100,23 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP |
-| Description | Covers GEO-69 AC4 - All markets shows multiple brand data points. Consolidates archive GEO-69-TC004 (GEO-69). Former id: GEO-69-TC004. Archived in GEO-R1.0/e2e-category-brand-prioritization.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) |
+| Description | Covers GEO-69 AC4 - All markets shows multiple brand data points. Consolidates archive GEO-69-TC004 (GEO-69). Former id: GEO-69-TC004. Archived in GEO-R1.0/e2e-category-brand-prioritization.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): market → country wording (GEO-1514). |
 | Priority | Medium |
 | Stories | GEO-69 |
-| Precondition | All markets filter is active (default) |
+| Precondition | All Countries filter is active (default) |
 | Labels | geo-101,category-view,matrix |
 | QA Parent | GEO-69 |
 | Components / QA Component | Category Views / Brand matrix |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given All markets filter (default state) | Default all-markets state | No specific market filter applied |
+| 1 | Given All Countries filter (default state) | Default All Countries state | No specific country filter applied |
 | 2 | When the matrix loads | Matrix load | Data points are rendered |
-| 3 | Then multiple brand data points are shown across markets | Multiple data points | More than one data point visible |
+| 3 | Then multiple brand data points are shown across countries | Multiple data points | More than one data point visible |
 
 ---
 
@@ -136,7 +136,7 @@
 | Components / QA Component | Category Views / Brand matrix |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -153,22 +153,22 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — confirmed by the user 2026-10-28; aligned 2026-11-04 (user decision) |
-| Description | Verifies that the Brand Prioritization tooltip metrics for a target brand match the category KPI cards (Visibility, Avg Position). Updated 2026-10-28: Share of Voice comparison removed (no SOV KPI card since R1.1, GEO-663), user decision. Aligned 2026-11-04 (user decision): KPI cards pool the whole selected period, while the Brand Prioritization Matrix (like Brand Rankings and the other non-KPI widgets) shows the last day of the period only — PM decision of 07/07 (GEO-577), confirmed by the dev on GEO-1210 (Abandoned for this reason). The matrix has one point per brand and country, so it is compared with the KPI cards filtered on that same country, on a 1-day period (single snapshot). A gap on a multi-day period is expected behaviour, not a bug (MCP run 04/11, 7 days: France 98% / #1.6 vs 100% / #1.4). Reference check on staging, Toyota, 03/11, 1 day, Category View France: KPI vs Toyota fr-FR matrix point 100% / 100%, #1.375 / #1.375, AI Choice 85 / 85. Consolidates archive GEO-69-TC008 (GEO-69). Former id: GEO-69-TC008. Archived in GEO-R1.0/e2e-category-brand-prioritization.csv. |
+| Status | UPDATE — confirmed by the user 2026-10-28; aligned 2026-11-04 (user decision); labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Verifies that the Brand Prioritization tooltip metrics for a target brand match the category KPI cards (Visibility, Avg Position). Updated 2026-10-28: Share of Voice comparison removed (no SOV KPI card since R1.1, GEO-663), user decision. Aligned 2026-11-04 (user decision): KPI cards pool the whole selected period, while the Brand Prioritization Matrix (like Brand Rankings and the other non-KPI widgets) shows the last day of the period only — PM decision of 07/07 (GEO-577), confirmed by the dev on GEO-1210 (Abandoned for this reason). The matrix has one point per brand and country, so it is compared with the KPI cards filtered on that same country, on a 1-day period (single snapshot). A gap on a multi-day period is expected behaviour, not a bug (MCP run 04/11, 7 days: France 98% / #1.6 vs 100% / #1.4). Reference check on staging, Toyota, 03/11, 1 day, Category View France: KPI vs Toyota fr-FR matrix point 100% / 100%, #1.375 / #1.375, AI Choice 85 / 85. Consolidates archive GEO-69-TC008 (GEO-69). Former id: GEO-69-TC008. Archived in GEO-R1.0/e2e-category-brand-prioritization.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides, target brand Toyota (Running Shoes / Adidas Adizero not on staging). |
 | Priority | Medium |
 | Stories | GEO-69 |
-| Precondition | An Editor is authenticated and opens the GEO Analytics dashboard for a category (e.g., Running Shoes); the date range is set to a 1-day period (single snapshot) and the country filter to a single country |
+| Precondition | An Editor is authenticated and opens the GEO Analytics dashboard for a category (e.g., Toyota › Voitures hybrides, 439acd96 / 21a79173); the date range is set to a 1-day period (single snapshot) and the country filter to a single country |
 | Labels | geo-101,category-view,matrix,tooltip,kpi |
 | QA Parent | GEO-69 |
 | Components / QA Component | Category Views / Brand matrix |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP, 7-day period, All Countries — expected behaviour, TC aligned) |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the GEO Analytics dashboard for a category (e.g., Running Shoes) filtered on a 1-day period and a single country displays the KPI cards (Visibility, Avg Position) | Date range: 1 day (single snapshot); Country: one country (e.g., France) | The KPI cards Visibility and Avg Position are displayed at the top of the page with their values for that day and country |
-| 2 | When the user hovers over the data point for the target brand (Adidas Adizero Evo SL) and the selected country in the Brand Prioritization Matrix | Hover the target brand point of the selected country (e.g., fr-FR) | The tooltip is shown for the target brand and country with its metrics (Visibility, Position) |
+| 1 | Given the GEO Analytics dashboard for a category (e.g., Toyota › Voitures hybrides) filtered on a 1-day period and a single country displays the KPI cards (Visibility, Avg Position) | Date range: 1 day (single snapshot, e.g. 'Latest report'); Country: one country (e.g., France) | The KPI cards Visibility and Avg Position are displayed at the top of the page with their values for that day and country |
+| 2 | When the user hovers over the data point for the target brand (Toyota) and the selected country in the Brand Prioritization Matrix | Hover the target brand point of the selected country (e.g., fr-FR) | The tooltip is shown for the target brand and country with its metrics (Visibility, Position) |
 | 3 | Then the tooltip Visibility and Position values are identical to the KPI cards | Tooltip matches KPIs (same day, same country) | Tooltip Visibility = card Visibility; tooltip Position = card Avg Position |
 
 ---

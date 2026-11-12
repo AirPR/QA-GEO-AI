@@ -2909,3 +2909,95 @@ TÂCHE 99 : Nettoyage du dépôt et un seul dossier de run par epic (09/11/2026)
    (bloqués par son .gitignore).
 9. Les CSV de story GEO-152 (GEO-R1.2) divergent du CSV d epic (valeurs observées
    vs données de test) : gardés, le CSV d epic reste la référence.
+
+================================================================================
+TÂCHE 100 : Reconsolider un epic sans les dossiers de run par story (09/11/2026)
+================================================================================
+1. Depuis la TÂCHE 99, les dossiers runs/DDMMYYYY-HHMM/ ne sont plus gardés après
+   la consolidation : build-epic-consolidated-report.js cherche aussi les dossiers
+   screenshots-* dans les dossiers consolidés précédents du même epic
+   (runs/{VERSION}_{EPIC}_*, du plus récent au plus ancien).
+2. Requalifier un TC après un retest de bug FIXED : copier la preuve du bug en
+   screenshots-{EPIC}-retest-bugs/{TC}_step3_then.png dans le dossier consolidé
+   courant, puis ajouter le TC (PASS, note avec le n° de commentaire) au -requal-
+   real.json, et reconstruire.
+
+================================================================================
+TÂCHE 101 : Lancer la suite E2E (csv/E2E-tests/*.md) en MCP sur staging (10/11/2026)
+================================================================================
+1. La suite E2E est en Markdown (un .md par spec, tableau | # | Step | Test data |
+   Expected result |), pas en CSV : /run-mcp-PWT-tests est lancé par lots de
+   fichiers .md, le runner lit ces tableaux à la place des lignes CSV. Les
+   scénarios RETIRE (sans étapes) sont ignorés.
+2. Découpage en 7 lots, un agent MCP à la fois : 1 dashboard/verify,
+   2 SOV/KPI/rankings/matrice, 3 questions/topics/citations, 4 Manage Scope/
+   Action Center/NR, 5 unbranded/exports/wizards sans création, 6 créations
+   + export FR, 7 comptes PQL/Reader/multi-org. Spec E2E-SUITE-b{N}-staging.
+3. Lots en lecture seule : Manage Scope enregistre à chaque clic → regarder
+   seulement ; les wizards sortent par Exit/Discard sans "Create Analysis".
+   Suppression d analyse exclue (demande utilisateur).
+4. Créations (accord explicite) : 5 prompts par analyse ; 10/11 : Lacoste
+   a2bd7ffe, YVES SAINT LAURENT 490f68b0, Tikamoon QA 2d7755c3, Electric kick
+   scooters 0569acf3 (unbranded) — non supprimées, pool 804 → 824 / 1500.
+5. Comptes : +pql = upsell (READER, sans organisation), +os = Reader (org
+   Onclusive), +geo = Editor ET multi-organisation (Onclusive + QA-GEO, Editor
+   dans les deux → les étapes "reader dans B" de E2E-MULTI-ORG-001 ne sont pas
+   jouables sans changement de rôle).
+6. Les URLs des anciens JDD (luxury handbags 89f17431, Running Shoes, YSL
+   6dc13f88, Electric Cars, Postal services, A2 79e18910) n existent pas sur
+   staging : substituer Toyota 439acd96 › Voitures hybrides / Lictorix /
+   adidas / bike et le noter dans le résultat.
+7. Consolidation de la suite : build-epic-consolidated-report.js --version
+   GEO-R1.3 --epic E2E-SUITE --real (les 7 real.json) → un seul dossier
+   runs/GEO-R1.3_E2E-SUITE_{DDMMYYYY-HHMM}/ ; les dossiers par lot restent
+   en local. Résultat 10/11 : 132 scénarios, 105 PASS, 10 FAIL, 15 PARTIAL,
+   2 SKIP, GO 85,2 %. 7 FAIL sur 10 = libellés Competitive "Chosen / Not
+   chosen" au lieu de "Won / Lost" (question PO en attente).
+
+================================================================================
+TÂCHE 102 : Triage de la suite E2E du 10/11 et alignement sur la 1.4 (11/11/2026)
+================================================================================
+1. Attendu (décision utilisateur, ne plus remonter) : le panneau de détail d un
+   prompt s ouvre au clic (tiroir à droite), pas au chargement ; sous-titre de
+   Brand Rankings "...by share of voice..." ; toast "Interface language
+   updated" en anglais après passage en FR.
+2. Prévu par la 1.4 (scénarios alignés, citer la source) : Competitive "Chosen /
+   Conditional / Not chosen / Overlooked" au lieu de Won / Lost, plus de carte
+   About (GEO-1570 STORY-53.7, GEO-1498 EPIC-053) ; info-bulle AI Choice
+   "How often AI engines choose your brand... (Chosen + Conditional)..."
+   (GEO-1571 + commentaire PO 870232 sur GEO-1498, 29/10). L aria-label du (i)
+   AI Choice garde "win rate" : reste de GEO-1571, à signaler à son retest.
+   Avant de qualifier un changement d UI en bug : chercher dans les epics et
+   stories de la version suivante ET dans leurs commentaires (le texte exact
+   peut n être validé que dans un commentaire PO).
+3. Bug prod ou staging seul : rejouer en lecture seule sur la prod avant de
+   remplir "Exists in Production" ; comparer les bundles index-*.js. Ex.
+   GEO-1594 (classement du panneau qui répète une marque par produit) : staging
+   seul (champ family ajouté par la 1.4), prod 0/358 → Does not exist in
+   Production, fixVersion 1.4, parent GEO-1498.
+4. Sprint : "GEO + Digimind Sprint 1" (14578) est fermé ; sprint actif
+   "GEO + Digimind Sprint 2" (14638, jusqu au 18/11) → vérifier le sprint actif
+   avant chaque création (GET /rest/agile/1.0/sprint/{id}).
+5. Les textes de la suite E2E (csv/E2E-tests/*.md + index) sont alignés sur le
+   run du 10/11 : libellés renommés, JDD staging, préconditions des comptes.
+   Restent à trancher : chiffres figés des analyses à 5 prompts, upsell 005/006,
+   attentes à 5 moteurs, logos NR-OLDER, étapes de données manquantes.
+
+================================================================================
+TÂCHE 103 : Synchro GEO-1226 (GEO-R1.4) sur tout l historique (12/11/2026)
+================================================================================
+1. /sync-tcs-epic sans --since : prendre la date de création Jira de l epic
+   (champ created) = historique complet (règle utilisateur). GEO-R1.4 ne
+   contient qu un epic (GEO-1226) → /sync-tcs-epic GEO-R1.4 suffit à le cibler.
+2. Décision PO postée en commentaire qui contredit le texte d une AC non mise à
+   jour (ex. GEO-1583 876255 "Any criticism = listed please" vs GEO-1547 AC-4
+   "no entry is a positive review") : classer AMBIGUOUS, faire trancher
+   l utilisateur ; si on suit la décision → TC alignés, note citée sous l AC
+   dans STORY_*.md / EPIC.md / epic-data.json, et demander au PO d aligner le
+   texte Jira (écriture Jira = accord explicite).
+3. Synchro = plan d abord (agent arrêté après la phase 3), puis application
+   via SendMessage au même agent après "ok" : vérifier 16 champs par ligne,
+   même nombre de TC par story, lignes non touchées identiques octet pour octet.
+4. Quand des steps d un TC changent (ex. TC-GEO-1547-007 : +1 step), le
+   real.json existant n est pas mis à jour : le relancer produit un nouveau
+   real.json de rerun.

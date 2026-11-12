@@ -1,0 +1,1129 @@
+{
+  "spec": "E2E-SUITE-b2-staging",
+  "runDate": "2026-11-10",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "environment": "staging",
+  "organisation": "QA-GEO",
+  "account": "main account (SUPER_ADMIN), en-GB",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 33,
+    "pass": 31,
+    "fail": 1,
+    "skip": 0,
+    "partial": 1,
+    "successRate": 95.5,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "E2E-BRAND-SOV-001",
+      "title": "Overview: KPI row shows exactly 4 cards without SOV",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-663"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-001_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-001_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user is authenticated and navigates to the Overview dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Performance KPI row renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then exactly 4 KPI cards are displayed in order: Visibility, Avg Position, AI Choice, Sentiment",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Share of Voice KPI card is rendered",
+          "status": "PASS"
+        },
+        {
+          "title": "And no Good/Fair/Poor quality pill for Share of Voice is rendered",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota 439acd96 Overview > Performance, Last 7 days, All Countries, 4 engines. KPI row = 4 cards in order: Visibility 97% / Avg Position #2.4 / AI Choice 74% / Sentiment +72. No Share of Voice card in the KPI row, no SOV Good/Fair/Poor pill (quality pills only on the 4 KPI cards)."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-002",
+      "title": "Overview: Brand Rankings table has no SoV% column",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-663"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-002_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-002_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user is authenticated and navigates to the Overview dashboard",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Brand Rankings table renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table columns are exactly: Rank, Brand, Visibility %, Avg Position, AI Choice %",
+          "status": "PASS"
+        },
+        {
+          "title": "And there is no SoV% column header and no SoV% cell in any parent or variant row",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Brand Rankings header = Rank | Brand | Visibility % | Avg Position | AI Choice % (5 columns, in order). No SoV% header or cell in any row."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-003",
+      "title": "Brand Rankings default sort is Visibility% descending with correct Rank order",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-663"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-003_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-003_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user is on the Overview or a Category view with the Brand Rankings table visible",
+          "status": "PASS"
+        },
+        {
+          "title": "When no explicit user sort is applied",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table rows are ordered by Visibility% descending",
+          "status": "PASS"
+        },
+        {
+          "title": "And the Rank column reflects that order with rank 1 assigned to the brand with the highest Visibility%",
+          "status": "PASS"
+        },
+        {
+          "title": "And the target brand highlight (trophy icon / YOU badge + amber row) is still rendered correctly",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Default sort Visibility % desc: 94.0 / 80.0 / 75.0 / 63.0 / 57.5 / 47.5 / 46.5 / 43.0 / 36.0 / 35.5; rank 1 = Toyota (trophy icon \"Top ranked\"), ranks 2-10 in order. Target row has bg-amber-50 + trophy (no YOU badge; the step accepts badge OR trophy)."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-004",
+      "title": "No SOV-related tooltips or i18n keys are visible after removal",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-663"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-004_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-004_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user is on the Overview or a Category view after the SOV removal",
+          "status": "PASS"
+        },
+        {
+          "title": "When the KPI row and Brand Rankings table are rendered",
+          "status": "PASS"
+        },
+        {
+          "title": "Then no SOV-specific tooltip text or raw i18n key placeholder is visible in the UI",
+          "status": "PASS"
+        }
+      ],
+      "notes": "No SOV tooltip in the KPI row or the Brand Rankings headers (aria-labels/tooltips scanned), no raw i18n key placeholder on the page. The only SOV tooltips belong to the dedicated SOV card (GEO-664, expected). Side observation: the Brand Rankings subtitle still reads \"Top brands by share of voice across all topics\" although the table has no SOV column and is sorted by Visibility % (copy remnant, not a tooltip)."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-005",
+      "title": "SOV dedicated card renders below KPI row on Overview",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-005_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-005_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user is authenticated and navigates to the Overview dashboard with data available",
+          "status": "PASS"
+        },
+        {
+          "title": "When the page finishes loading",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a full-width Share of Voice card is visible directly below the KPI card row",
+          "status": "PASS"
+        },
+        {
+          "title": "And the card displays the title Share of Voice and the subtitle By brand, your brand is highlighted",
+          "status": "PASS"
+        },
+        {
+          "title": "And a doughnut chart comparing the target brand against top competitors is rendered inside the card",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Full-width card (1066 px = KPI row width) directly after the KPI row (next sibling, 16 px gap). Title \"Share of Voice\", subtitle \"By brand, your brand is highlighted\", doughnut with 11 coloured arcs."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-006",
+      "title": "Doughnut shows top 10 brands + Others slice with callouts and legend",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-006_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-006_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-006_step3_then.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-006_step5_small-arcs.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the SOV doughnut chart is rendered with data containing more than 10 brands",
+          "status": "PASS"
+        },
+        {
+          "title": "When the chart finishes rendering",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the doughnut shows exactly the top 10 brands by SOV descending plus one Others slice aggregating all remaining share",
+          "status": "PASS"
+        },
+        {
+          "title": "And each arc >= ~2% displays an outside percentage callout",
+          "status": "PASS"
+        },
+        {
+          "title": "And arcs with a value below ~2% have their callout hidden but their brand still appears in the legend",
+          "status": "PASS"
+        },
+        {
+          "title": "And a bottom-centered legend lists each brand with a color dot, name, and bold SOV percentage ordered by SOV desc with Others last",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota (more than 10 brands): 11 arcs = top 10 by SOV desc + Others 24%; callouts outside each arc (14/13/10/9/7/6/5/4/4/4/24 %); legend bottom-centred, colour dot + name + bold %, SOV desc with Others last. Step 5 (< ~2 % callout hidden) not exercised by Toyota data (smallest top-10 arc 4 %) - verified on Decathlon b6c8b664, France, Gemini only, Last 7 days: ASICS 1.82 % and Deuter 1.77 % have no callout but stay in the legend (extra screenshot step5_small-arcs). Filters restored."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-007",
+      "title": "Target brand in top 10: arc emphasized and center label shows brand SOV",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-007_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-007_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-007_step3_then.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-007_step4_not-largest.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the SOV doughnut renders and the target brand is among the top 10 brands by SOV",
+          "status": "PASS"
+        },
+        {
+          "title": "When the doughnut finishes rendering",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the target brand's arc is structurally emphasized (e.g. larger radius) relative to competitor arcs",
+          "status": "PASS"
+        },
+        {
+          "title": "And the persistent center label shows the target brand's name, SOV value, and Share of Voice — even when it is not the largest slice",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota: target arc outer radius 130 vs 116 for competitors (structural emphasis); centre label \"Toyota 14% Share of Voice\". \"Even when not the largest slice\": Lictorix Geo f228f1fe default filters - target is 5th (5 %, Brandwatch 14 % largest), its arc radius 130 vs 116 and the centre label reads \"Lictorix Geo 5% Share of Voice\" (extra screenshot step4_not-largest)."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-008",
+      "title": "Target brand not in top 10: center label still shows brand SOV from KPI",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-008_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-008_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the SOV doughnut renders and the target brand is NOT among the top 10 brands by SOV",
+          "status": "PASS"
+        },
+        {
+          "title": "When the doughnut finishes rendering",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the center label still shows the target brand's name and SOV value sourced from the KPI shareOfVoice field",
+          "status": "PASS"
+        },
+        {
+          "title": "And no arc is popped out or highlighted for the target brand — its share is absorbed into Others",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Lictorix Geo f228f1fe, Gemini only (ChatGPT off), Last 7 days, United States: target absent from the top 10 (legend Brandwatch 14 % ... Agorapulse 3 %, Others 39 %). Centre label \"Lictorix Geo 3% Share of Voice\" = KPI API shareOfVoice displayValue \"3%\". All 11 arcs radius 116 - no arc emphasised; target share absorbed into Others. ChatGPT restored. Side observation: same scope KPI Visibility 0 % / Avg Position N/A while SOV = 3.2 % (custom brand) - see findings."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-009",
+      "title": "Empty state displayed when scope has no responses",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-009_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-009_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-009_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user is on the Overview or a Category view where the selected scope returns no responses",
+          "status": "PARTIAL"
+        },
+        {
+          "title": "When the SOV card would render",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the SOV card displays an empty state message such as No data to show or Adjust your filters or widen the date range to see this metric inside the card",
+          "status": "PASS"
+        },
+        {
+          "title": "And no misleading 0% value is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "No real zero-response scope is reachable on staging (calendar disables days without a report; the only empty API scopes use engines not configured on the analysis, whose toggles are disabled). Empty scope simulated client-side by intercepting overview/sov-distribution with {\"brands\":[]} (read-only). Result: card keeps its header and shows \"No data to show\" + \"Adjust your filters or widen the date range to see this metric\"; no 0 % value, no empty doughnut. UI behaviour verified; real empty-scope precondition not reproducible -> PARTIAL."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-010",
+      "title": "Error state shows reload button that re-fetches inline",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-010_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-010_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-010_step3_then.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-010_step4_reload.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-010_step5_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the SOV chart data fails to load (network error or server error)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the card renders after the failure",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the card keeps its Share of Voice header and shows an error state with a crossed-chart icon, Couldn't load this chart message, helper text, and a Reload button",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user clicks the Reload button",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the chart re-fetches its data inline without triggering a full page reload",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Failure simulated (test data) by answering overview/sov-distribution with HTTP 500. Card keeps \"Share of Voice\" header and shows crossed-chart icon, \"Couldn't load this chart\", \"Something went wrong while loading this chart.\" and a Reload button. After removing the interception and clicking Reload: only the sov-distribution request was re-sent, no main-frame navigation, window marker kept (no full reload), doughnut re-rendered \"Toyota 14%\" (screenshots step4_reload / step5_then)."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-011",
+      "title": "Loading skeleton occupies chart area while data is fetching",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-011_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-011_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-011_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user navigates to the Overview or a Category view and the SOV chart request is in flight",
+          "status": "PASS"
+        },
+        {
+          "title": "When the SOV data request is still in progress",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a loading skeleton is displayed in the chart area of the SOV card",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Pending network response simulated (test data) by holding overview/sov-distribution: a grey skeleton block fills the doughnut area under the card header while the request is in flight; chart renders once released."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-012",
+      "title": "Filter changes recompute doughnut callouts legend and center label",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-012_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-012_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-012_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the SOV doughnut chart is rendered with a given scope (market, category, engine, period)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user updates any filter (market, category, engine, or period)",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the doughnut arcs, outside callouts, legend entries, and center label all recompute and refresh to reflect the new scope",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Toyota, country All Countries -> France. Callouts 14/13/10/9/7/6/5/4/4/4/24 -> 14/13/12/11/6/6/5/5/5/4/19; legend reordered (Renault 13 %, Peugeot 12 %, Citroen enters, Others 24 -> 19 %); centre label recomputed (API 14.38 -> 14.35 %, both display 14 %; trend chip 2.2 % -> 1.6 %). Restored to All Countries."
+    },
+    {
+      "tc_id": "E2E-BRAND-SOV-013",
+      "title": "Doughnut with 10 or fewer brands shows no Others slice",
+      "story_id": "e2e-brand-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-013_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-013_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-BRAND-SOV-013_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the SOV doughnut renders with a scope containing 10 or fewer brands with SOV data",
+          "status": "PASS"
+        },
+        {
+          "title": "When the chart finishes rendering",
+          "status": "PASS"
+        },
+        {
+          "title": "Then all present brands are shown as individual arcs and no Others slice is displayed",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Orange 16cdf040, Morocco only, Gemini only, Latest report (09/11): 4 brands (INWI 31 %, Maroc Telecom 31 %, Orange 31 %, Yoxo 8 %, API sum 100 %) -> 4 arcs, no Others slice, no Others entry in the legend. Filters restored (Last 7 days, All Countries, 2 engines)."
+    },
+    {
+      "tc_id": "E2E-CATEGORY-SOV-001",
+      "title": "Category: KPI row shows exactly 4 cards without SOV and layout reflows cleanly",
+      "story_id": "e2e-category-SOV",
+      "stories": [
+        "GEO-663"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CATEGORY-SOV-001_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CATEGORY-SOV-001_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CATEGORY-SOV-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user is authenticated and navigates to a Category view",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Performance KPI row renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then it shows the same 4 KPI cards: Visibility, Avg Position, AI Choice, Sentiment — and no Share of Voice card",
+          "status": "PASS"
+        },
+        {
+          "title": "And the KPI row layout reflows cleanly for 4 cards with no broken grid or empty cell",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. KPI row = Visibility 99% / Avg Position #1.2 / AI Choice 93% / Sentiment +73, no SOV card. CSS grid of 4 equal columns (4 x 257.5 px) filling the full row width, no empty cell."
+    },
+    {
+      "tc_id": "E2E-CATEGORY-SOV-002",
+      "title": "Category: Brand Rankings table has no SoV% column",
+      "story_id": "e2e-category-SOV",
+      "stories": [
+        "GEO-663"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CATEGORY-SOV-002_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CATEGORY-SOV-002_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CATEGORY-SOV-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user is authenticated and navigates to a Category view",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Brand Rankings table renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the table columns are exactly: Rank, Brand, Visibility %, Avg Position, AI Choice %",
+          "status": "PASS"
+        },
+        {
+          "title": "And there is no SoV% column header and no SoV% cell in any parent or variant row",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Columns exactly Rank | Brand | Visibility % | Avg Position | AI Choice %; no SoV% header or cell."
+    },
+    {
+      "tc_id": "E2E-CATEGORY-SOV-003",
+      "title": "SOV dedicated card renders below KPI row on Category view",
+      "story_id": "e2e-category-SOV",
+      "stories": [
+        "GEO-664"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CATEGORY-SOV-003_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CATEGORY-SOV-003_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CATEGORY-SOV-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a user is authenticated and navigates to a Category view with data available",
+          "status": "PASS"
+        },
+        {
+          "title": "When the page finishes loading",
+          "status": "PASS"
+        },
+        {
+          "title": "Then a full-width Share of Voice card is visible directly below the KPI card row",
+          "status": "PASS"
+        },
+        {
+          "title": "And the card displays the title Share of Voice and the subtitle By brand, your brand is highlighted",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Full-width SOV card (1066 px) directly below the KPI row; title \"Share of Voice\", subtitle \"By brand, your brand is highlighted\"."
+    },
+    {
+      "tc_id": "E2E-CAT-KPI-001",
+      "title": "Category view shows summary and KPI cards",
+      "story_id": "e2e-category-kpi-cards",
+      "stories": [
+        "GEO-70"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-001_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-001_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated Editor navigates to the luxury handbags category page",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the category name 'luxury handbags' is shown as the active entry in the sidebar",
+          "status": "PASS"
+        },
+        {
+          "title": "And the InBrief section is visible with its 'InBrief powered by AI Sense' logo",
+          "status": "PASS"
+        },
+        {
+          "title": "And 4 KPI cards are displayed: Visibility / Avg Position / AI Choice / Sentiment — and no Share of Voice card",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Page loads with the Identity tab active; sidebar entry \"Voitures hybrides\" active (aria-current=\"page\"), no H1/H2 with the category name; InBrief block with image \"InBrief powered by AI Sense\"; 4 KPI cards identified by aria-label (Visibility / Avg Position / AI Choice / Sentiment), no SOV card."
+    },
+    {
+      "tc_id": "E2E-CAT-KPI-002",
+      "title": "KPI cards show values and quality labels",
+      "story_id": "e2e-category-kpi-cards",
+      "stories": [
+        "GEO-70"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-002_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-002_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated Editor navigates to the luxury handbags category page",
+          "status": "PASS"
+        },
+        {
+          "title": "When the KPI cards are rendered",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each card shows: title / a numeric value (%, position #, or score) / a quality label (Good or Fair or Poor)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Each card: title + value + quality label - Visibility 99% Good, Avg Position #1.2 Good, AI Choice 93% Good, Sentiment +73 Good."
+    },
+    {
+      "tc_id": "E2E-CAT-KPI-003",
+      "title": "KPI cards update when LLM filter changes",
+      "story_id": "e2e-category-kpi-cards",
+      "stories": [
+        "GEO-70"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-003_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-003_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated Editor is on the luxury handbags category page with all LLMs active",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Editor opens the LLM filter and deselects one LLM engine",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the KPI cards reload and display updated values reflecting the new LLM scope",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. ChatGPT deselected (4 -> 3 engines): Visibility 99% -> 99%, Avg Position #1.2 -> #1.2, AI Choice 93% -> 97%, Sentiment +73 -> +72; values equal the category KPI API for llms=gemini,grok,perplexity. ChatGPT restored. Selector in test data \"[data-testid=llm-dropdown] button\" is now data-testid=\"llm-dropdown-trigger\" (aria-label \"AI engine filters\")."
+    },
+    {
+      "tc_id": "E2E-CAT-KPI-004",
+      "title": "KPI card values format and (i) tooltip content",
+      "story_id": "e2e-category-kpi-cards",
+      "stories": [
+        "GEO-70"
+      ],
+      "status": "FAIL",
+      "duration": 0,
+      "error": "AI Choice (i) tooltip - expected text starting \"Your win rate on head-to-head...\"; observed [role=tooltip] \"How often AI engines choose your brand in head-to-head competitive questions, outright or under conditions (Chosen + Conditional). Each brand is measured on its own, so the brands of a question do not add up to 100%.\" Note: the (i) button aria-label still carries the old text \"AI Choice: Your win rate on head-to-head competitive questions. 100% means AI engines always pick your brand over the named competitors.\" (visible tooltip and accessible name disagree; same for the Brand Rankings \"AI Choice %\" header button).",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-004_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-004_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated Editor navigates to the category page and clicks the Performance tab",
+          "status": "PASS"
+        },
+        {
+          "title": "When the KPI cards are fully rendered on the Performance tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each card value matches its expected format (Visibility/AI Choice → %, Avg Position → #N, Sentiment → signed score) | And hovering the (i) button on each card shows the correct tooltip: Visibility — \"How often your brand is named...\" | Avg Position — \"Your typical rank...\" | AI Choice — \"Your win rate on head-to-head...\" | Sentiment — \"Average tone of how AI engines...\"",
+          "status": "FAIL"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Formats OK: Visibility 99% (%), Avg Position #1.2 (#N), AI Choice 93% (%), Sentiment +73 (signed). Tooltips on hover: Visibility \"How often your brand is named...\" OK, Avg Position \"Your typical rank...\" OK, Sentiment \"Average tone of how AI engines...\" OK; AI Choice KO."
+    },
+    {
+      "tc_id": "E2E-CAT-KPI-005",
+      "title": "KPI cards align with analyzed brand row in Brand Rankings on a 1-day period",
+      "story_id": "e2e-category-kpi-cards",
+      "stories": [
+        "GEO-70",
+        "GEO-398"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-005_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-005_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-KPI-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated Editor opens the category page on a 1-day period and clicks the Performance tab",
+          "status": "PASS"
+        },
+        {
+          "title": "When the KPI cards and Brand Rankings table are fully rendered on the Performance tab",
+          "status": "PASS"
+        },
+        {
+          "title": "Then Visibility / Avg Position / AI Choice values displayed in the KPI cards match the corresponding cells of the analyzed brand row in Brand Rankings, with absolute difference ≤ 1pp on percentages and ≤ 1 rank on Avg Position",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Period \"Latest report\" (1 day, 09/11), Performance tab, All Countries: KPI Visibility 96% vs row 96.0% (0 pp), Avg Position #1.2 vs 1.2 (0), AI Choice 88% vs 88.0% (0 pp). Restored to Last 7 days."
+    },
+    {
+      "tc_id": "E2E-CAT-RANKINGS-001",
+      "title": "Brand Rankings table is displayed for the category",
+      "story_id": "e2e-category-brand-rankings",
+      "stories": [
+        "GEO-68"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-001_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-001_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an Editor navigates to the category Brand Rankings URL",
+          "status": "PASS"
+        },
+        {
+          "title": "When the rankings section loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Brand Rankings table is shown with at least one brand row for the current category",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Performance tab visible; Brand Rankings section with 10 brand rows (Toyota, Hyundai, Kia, Renault, Honda, Ford, Peugeot, Nissan, Volkswagen, Lexus)."
+    },
+    {
+      "tc_id": "E2E-CAT-RANKINGS-002",
+      "title": "Brand Rankings update when LLM filter changes",
+      "story_id": "e2e-category-brand-rankings",
+      "stories": [
+        "GEO-68"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-002_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-002_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the category Brand Rankings table is loaded",
+          "status": "PASS"
+        },
+        {
+          "title": "When the LLM engine filter is changed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Brand Rankings table remains visible and reflects the updated LLM filter scope",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. ChatGPT toggled off: table stays visible and its data changes (e.g. Toyota AI Choice 88.0 -> 94.7 %, Hyundai Visibility 79.0 -> 86.7 %, Nissan leaves the top 10, BMW enters). ChatGPT restored."
+    },
+    {
+      "tc_id": "E2E-CAT-RANKINGS-003",
+      "title": "Parent row shows aggregated metrics and expandable variant badge",
+      "story_id": "e2e-category-brand-rankings",
+      "stories": [
+        "GEO-68"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-003_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-003_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Brand Rankings table is loaded with brand data",
+          "status": "PASS"
+        },
+        {
+          "title": "When the table renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then each visible brand row shows a rank and a Visibility % value, and there is no SOV % column",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Every row has a rank (2-10, trophy icon \"Top ranked\" on Toyota) and a numeric Visibility % (96.0 ... 22.0); variant badges +N shown (Toyota +26 ...); no SOV % header or cell."
+    },
+    {
+      "tc_id": "E2E-CAT-RANKINGS-004",
+      "title": "Target brand row is highlighted with amber/gold background",
+      "story_id": "e2e-category-brand-rankings",
+      "stories": [
+        "GEO-68"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-004_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-004_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Brand Rankings table is loaded",
+          "status": "PASS"
+        },
+        {
+          "title": "When the table renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the target brand row has a warm yellow/gold (amber) background highlight that distinguishes it from other rows",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Toyota row has class bg-amber-50 (amber), all other rows bg-white."
+    },
+    {
+      "tc_id": "E2E-CAT-RANKINGS-006",
+      "title": "Table recalculates when LLM filter changes",
+      "story_id": "e2e-category-brand-rankings",
+      "stories": [
+        "GEO-68"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-006_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-006_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-006_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Brand Rankings table is loaded with all LLM engines active",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user deselects one LLM engine from the filter",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Brand Rankings table recalculates and remains visible, reflecting the filtered LLM response pool",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. 4 engines -> ChatGPT off: table reloads and recalculates (Toyota +26 -> +23 variants, AI Choice 88.0 -> 94.7 %, Lexus 10th -> 8th, BMW 10th). ChatGPT restored."
+    },
+    {
+      "tc_id": "E2E-CAT-RANKINGS-007",
+      "title": "All Markets filter aggregates data across all markets",
+      "story_id": "e2e-category-brand-rankings",
+      "stories": [
+        "GEO-68"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-007_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-007_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-RANKINGS-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the category view is loaded with the default All Countries scope",
+          "status": "PASS"
+        },
+        {
+          "title": "When the Brand Rankings table renders",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Brand Rankings table shows a unified brand list aggregated across all markets, not a per-market breakdown",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Default \"All Countries\": one table, 10 unique brands, no per-country split (category covers US / FR / ES)."
+    },
+    {
+      "tc_id": "E2E-CAT-PRIORITIZATION-001",
+      "title": "Category brand matrix is displayed",
+      "story_id": "e2e-category-brand-prioritization",
+      "stories": [
+        "GEO-69"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-001_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-001_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an Editor opens a category view",
+          "status": "PASS"
+        },
+        {
+          "title": "When the matrix loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the Brand Prioritization Matrix is shown with category-scoped data",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. \"Brand Prioritization\" matrix rendered from the category-scoped endpoint categories/21a79173/brand-matrix (12 points: 4 brands x US/FR/ES), quadrants STARS / OPPORTUNITY / MONITOR / AT RISK."
+    },
+    {
+      "tc_id": "E2E-CAT-PRIORITIZATION-002",
+      "title": "Category brand matrix updates when LLM filter changes",
+      "story_id": "e2e-category-brand-prioritization",
+      "stories": [
+        "GEO-69"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-002_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-002_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given LLM filters are applied",
+          "status": "PASS"
+        },
+        {
+          "title": "When the LLM filter is changed",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the matrix reflects the new LLM filter scope and remains visible",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. ChatGPT off: matrix stays visible and re-plots (single points Hyundai 70 % / Renault 88 % / Toyota 93 % -> only Toyota 90 % shown alone, clusters 5/2/2 -> 5/4/2). ChatGPT restored."
+    },
+    {
+      "tc_id": "E2E-CAT-PRIORITIZATION-003",
+      "title": "Hovering a data point shows brand metrics in tooltip",
+      "story_id": "e2e-category-brand-prioritization",
+      "stories": [
+        "GEO-69"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-003_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-003_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the matrix is populated",
+          "status": "PASS"
+        },
+        {
+          "title": "When a user hovers over a data point",
+          "status": "PASS"
+        },
+        {
+          "title": "Then brand metrics are accessible on the scatter (SOV, win rate, %)",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Hover on the Toyota point shows the tooltip \"Toyota (Target) | Visibility 93% | AI Choice 100% | SOV 14% | Position #1.1\" (brand name, SOV %, win rate = AI Choice %). Points also expose aria-label \"Toyota - visibility 93%, win rate 100%\" (no SOV in the aria-label)."
+    },
+    {
+      "tc_id": "E2E-CAT-PRIORITIZATION-004",
+      "title": "All markets view shows multiple brand data points",
+      "story_id": "e2e-category-brand-prioritization",
+      "stories": [
+        "GEO-69"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-004_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-004_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given All markets filter (default state)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the matrix loads",
+          "status": "PASS"
+        },
+        {
+          "title": "Then multiple brand data points are shown across markets",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. All Countries default: 12 data points (3 single points + clusters of 5, 2 and 2) across fr-FR, es-ES and en-US."
+    },
+    {
+      "tc_id": "E2E-CAT-PRIORITIZATION-007",
+      "title": "Quadrant legend shows all four quadrants with counts",
+      "story_id": "e2e-category-brand-prioritization",
+      "stories": [
+        "GEO-69"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-007_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-007_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-007_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the matrix data loaded",
+          "status": "PASS"
+        },
+        {
+          "title": "When the quadrant legend section is rendered",
+          "status": "PASS"
+        },
+        {
+          "title": "Then all four quadrant cards are visible with a numeric count: Stars N, Opportunity N, At Risk N, Monitor N",
+          "status": "PASS"
+        },
+        {
+          "title": "And the N values in each quadrant legend card match the count of brand data points in that quadrant of the chart",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Legend cards Stars 3 / Opportunity 0 / At Risk 9 / Monitor 0. Chart: Stars quadrant = Toyota es-ES point + cluster of 2 = 3; At Risk = Hyundai + Renault points + clusters of 5 and 2 = 9; Opportunity / Monitor empty = 0. API brand-matrix: 3 STARS, 9 AT_RISK."
+    },
+    {
+      "tc_id": "E2E-CAT-PRIORITIZATION-008",
+      "title": "Brand tooltip metrics match category KPI cards on a 1-day period and a single country",
+      "story_id": "e2e-category-brand-prioritization",
+      "stories": [
+        "GEO-69"
+      ],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "screenshots": [
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-008_step1_given.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-008_step2_when.png",
+        "screenshots-E2E-SUITE-b2-staging/E2E-CAT-PRIORITIZATION-008_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the GEO Analytics dashboard for a category (e.g., Running Shoes) filtered on a 1-day period and a single country displays the KPI cards (Visibility, Avg Position)",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user hovers over the data point for the target brand (Adidas Adizero Evo SL) and the selected country in the Brand Prioritization Matrix",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the tooltip Visibility and Position values are identical to the KPI cards",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Test data URL (luxury handbags / Running Shoes / old UUIDs) does not exist on staging; run on Toyota 439acd96 > category Voitures hybrides (21a79173), main account (SUPER_ADMIN), All Countries, 4 engines, Last 7 days unless stated. Latest report (09/11) + France only: KPI Visibility 98% / Avg Position #1.4; hover on Toyota fr-FR point -> tooltip Visibility 98% / Position #1.4 (also AI Choice 75 % = 75 %). API point visibility 97.5, avgPosition 1.359. Restored to All Countries / Last 7 days."
+    }
+  ]
+}

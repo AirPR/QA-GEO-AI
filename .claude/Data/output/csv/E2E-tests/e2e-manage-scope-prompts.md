@@ -17,24 +17,24 @@
 
 | Field | Value |
 |---|---|
-| Status | NEW |
-| Description | End-to-end: Manage Scope > Prompts of a brand analysis: wizard table, pool tracker, suggestions and types (read-only). Pass 1 — per epic (GEO-1002 / GEO-1209). Assumptions: TC-GEO-1246-004 is limited to the Add prompt type list (steps 1-2): adding a market saves suggestions, so steps 3-4 stay an open point. Epics: GEO-1002, GEO-1209. Consolidates TC-GEO-1239-001, TC-GEO-1239-002, TC-GEO-1246-004, TC-GEO-1239-006. |
+| Status | NEW; labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | End-to-end: Manage Scope > Prompts of a brand analysis: wizard table, pool tracker, suggestions and types (read-only). Pass 1 — per epic (GEO-1002 / GEO-1209). Assumptions: TC-GEO-1246-004 is limited to the Add prompt type list (steps 1-2): adding a market saves suggestions, so steps 3-4 stay an open point. Epics: GEO-1002, GEO-1209. Consolidates TC-GEO-1239-001, TC-GEO-1239-002, TC-GEO-1246-004, TC-GEO-1239-006. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): 4th column and header menu "Market" → "Country" (GEO-1514); staging analysis named (Toyota). |
 | Priority | High |
 | Stories | GEO-1239, GEO-1246 |
-| Precondition | Brand analysis BA with retained unticked suggestions and a version history (JDD); Read-only: no tick, no save (Manage Scope saves at once — memory "Manage Scope autosave") |
+| Precondition | Brand analysis BA with retained unticked suggestions and a version history (JDD; staging QA-GEO: Toyota 439acd96-0b1b-4da4-9e07-612d38e9783e for steps 1-8 — the JDD analysis with the D2 / D1 history does not exist on staging); Read-only: no tick, no save (Manage Scope saves at once — memory "Manage Scope autosave") |
 | Labels | e2e-suite |
 | QA Parent | GEO-1002 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | — |
+| Last result | PARTIAL 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
 | 1 | Given the user is on the dashboard of analysis A |  | Manage Scope is reachable |
 | 2 | When the user opens Manage Scope > Prompts |  | The Prompts section is displayed |
-| 3 | Then the wizard's table is shown |  | Columns "Prompt", "Category", "Type", "Market", "Actions" in one table; no per-country or per-type tabs; no Reset button |
-| 4 | And the wizard's filters are shown |  | Category, Type and Market header menus and the Show prompts menu |
+| 3 | Then the wizard's table is shown |  | Columns "Prompt", "Category", "Type", "Country", "Actions" in one table; no per-country or per-type tabs; no Reset button |
+| 4 | And the wizard's filters are shown |  | Category, Type and Country header menus and the Show prompts menu |
 | 5 | And the pool tracker is shown |  | The ring "U / P" with its popover |
 | 6 | When the user scrolls to the end of the table |  | The unticked suggestions are listed, unticked and greyed, at the end of the table (no "Suggested Prompts" heading) |
 | 7 | When the user opens the type select of Add prompt |  | The select lists Visibility, Competitive, Reputation, Brand Image and Other |

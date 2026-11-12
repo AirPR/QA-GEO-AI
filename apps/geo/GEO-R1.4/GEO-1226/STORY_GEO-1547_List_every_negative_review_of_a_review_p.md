@@ -8,7 +8,7 @@
 **Epic:** GEO-1226
 **Fix version:** 1.4
 **Created:** 2026-10-27
-**Updated:** 2026-11-02
+**Updated:** 2026-11-11
 **Jira link:** https://onclusive.atlassian.net/browse/GEO-1547
 
 ## User Story
@@ -46,6 +46,8 @@ _7 functional ACs (Given/When/Then), copied verbatim from the Jira description (
 - Given: a review page
 - When: it is checked
 - Then: no entry is the page title, a menu, a banner, a summary written by the site, a reply from the company or a positive review (GEO-1224).
+
+> **PO decision 2026-11-11 (GEO-1583 comment 876255, Quentin Reant):** "Any criticism = listed please" — answer to the dev question 876222 ("Any criticism = listed, even in a 4 or 5-star review"). A review that criticises the brand is listed even when it is rated 4 or 5 stars; a review holding no criticism of the brand is never listed. The Jira AC text above is not updated yet (synced 2026-11-12, TC-GEO-1547-007 / 010).
 
 ### AC5 — At most 10 per page
 

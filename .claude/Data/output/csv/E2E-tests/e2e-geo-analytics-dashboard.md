@@ -27,7 +27,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 02/11 (MCP) — expected results updated 2026-11-05 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|

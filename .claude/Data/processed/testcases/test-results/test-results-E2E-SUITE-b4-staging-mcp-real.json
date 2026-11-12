@@ -1,0 +1,979 @@
+{
+  "spec": "E2E-SUITE-b4-staging",
+  "runDate": "2026-11-10",
+  "runMode": "mcp-playwright",
+  "mode": "structured",
+  "environment": "staging",
+  "organisation": "QA-GEO",
+  "url": "https://staging-geo.onclusive.com/geo",
+  "summary": {
+    "total": 13,
+    "pass": 9,
+    "fail": 0,
+    "skip": 0,
+    "partial": 4,
+    "successRate": 84.6,
+    "verdict": "GO"
+  },
+  "results": [
+    {
+      "tc_id": "E2E-MANAGE-SCOPE-001",
+      "title": "Current scope is displayed on Manage Scope",
+      "story_id": "e2e-manage-scope",
+      "stories": [],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/manage-scope",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-001_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-001_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given an authenticated Editor navigates to the Manage Scope page",
+          "status": "PASS",
+          "expected": "The Manage Scope page loads without errors"
+        },
+        {
+          "title": "When the page finishes loading",
+          "status": "PASS",
+          "expected": "The page content is visible with identifiable scope sections"
+        },
+        {
+          "title": "Then the page shows: at least one country entry (no \"Primary\" tag), at least one category row, the AI Engines section with LLM cards, and at least one metadata field (creation date or last analysis date)",
+          "status": "PASS",
+          "expected": "All scope sections are visible: Countries (≥1 country row, no \"Primary\" tag), Categories (≥1 category row), AI Engines (LLM cards), and report metadata (at least one date field visible)"
+        }
+      ],
+      "notes": "Data: Toyota 439acd96 Manage Scope — substitution for the luxury handbags dashboard 89f17431 (not on staging). Read-only: nothing clicked except scrolling and hovering. Manage Scope loads (\"Configure analysis scope, engines, and prompts\"). Countries: United States - English, France - French, Spain - Spanish, no \"Primary\" tag anywhere on the page. Categories: Voitures hybrides, VUS. AI Engines: 5 cards. \"Analysis Information\": Created 26 May 2026 12:28, Last analysis 9 November 2026 12:56. Account: main (SUPER_ADMIN) instead of Editor (user instruction)."
+    },
+    {
+      "tc_id": "E2E-MANAGE-SCOPE-002",
+      "title": "Add Country button is visible and enabled",
+      "story_id": "e2e-manage-scope",
+      "stories": [],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/manage-scope",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-002_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-002_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-002_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor is on the Manage Scope page and the Countries/Markets section is visible",
+          "status": "PASS",
+          "expected": "The Manage Scope page is loaded and the Countries/Markets section is visible"
+        },
+        {
+          "title": "When the Editor views the Countries/Markets section",
+          "status": "PASS",
+          "expected": "The section shows at least one country entry with its configuration"
+        },
+        {
+          "title": "Then an \"+ Add Country\" button (or equivalent) is visible and not disabled — confirming the add-market entry point is accessible and quota has not been reached on this staging report",
+          "status": "PASS",
+          "expected": "An \"+ Add Country\" or equivalent button is visible and in an enabled (not disabled) state — the add-market flow is accessible on the staging report"
+        }
+      ],
+      "notes": "Data: Toyota 439acd96 Manage Scope — substitution for the luxury handbags dashboard 89f17431 (not on staging). Read-only: nothing clicked except scrolling and hovering. \"Add country\" button (sentence case, GEO-1533) visible and enabled (disabled=false); pool 804 / 1500. Not clicked."
+    },
+    {
+      "tc_id": "E2E-MANAGE-SCOPE-003",
+      "title": "Add Topic button is visible and enabled",
+      "story_id": "e2e-manage-scope",
+      "stories": [],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/manage-scope",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-003_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-003_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-003_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor is on the Manage Scope page and the Categories section is visible",
+          "status": "PASS",
+          "expected": "The Manage Scope page is loaded and the Categories section is visible"
+        },
+        {
+          "title": "When the Editor views the Categories section",
+          "status": "PASS",
+          "expected": "The section shows at least one category entry"
+        },
+        {
+          "title": "Then an \"Add category\" button (or equivalent) is visible and not disabled — confirming the add-category entry point is accessible on this staging report",
+          "status": "PASS",
+          "expected": "An \"Add category\" or equivalent button is visible and in an enabled (not disabled) state — the add-category flow is accessible on the staging report"
+        }
+      ],
+      "notes": "Data: Toyota 439acd96 Manage Scope — substitution for the luxury handbags dashboard 89f17431 (not on staging). Read-only: nothing clicked except scrolling and hovering. \"Add category\" button visible and enabled (disabled=false). Not clicked."
+    },
+    {
+      "tc_id": "E2E-MANAGE-SCOPE-004",
+      "title": "Remove control visible on country row",
+      "story_id": "e2e-manage-scope",
+      "stories": [],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/manage-scope",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-004_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-004_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-004_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor is on the Manage Scope page and the Countries section shows at least one country row",
+          "status": "PASS",
+          "expected": "The Countries section is visible with at least one country entry"
+        },
+        {
+          "title": "When the Editor inspects the first country row",
+          "status": "PASS",
+          "expected": "The row is rendered with its country name and configuration details"
+        },
+        {
+          "title": "Then a remove or delete icon/button is visible on the country row — confirming the remove-market entry point is present in the UI (not interacted with)",
+          "status": "PASS",
+          "expected": "A remove or delete control (icon button or text link) is visible on at least the first country row — the remove-market flow is accessible from the UI"
+        }
+      ],
+      "notes": "Data: Toyota 439acd96 Manage Scope — substitution for the luxury handbags dashboard 89f17431 (not on staging). Read-only: nothing clicked except scrolling and hovering. Each country chip has a \"×\" button: aria-label \"Remove United States\" / \"Remove France\" / \"Remove Spain\". Checked as visible only, never clicked."
+    },
+    {
+      "tc_id": "E2E-MANAGE-SCOPE-005",
+      "title": "Remove control visible on category row",
+      "story_id": "e2e-manage-scope",
+      "stories": [],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/manage-scope",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-005_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-005_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-005_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor is on the Manage Scope page and the Categories section shows at least one category row",
+          "status": "PASS",
+          "expected": "The Categories section is visible with at least one category entry"
+        },
+        {
+          "title": "When the Editor inspects the first category row",
+          "status": "PASS",
+          "expected": "The row is rendered with its category name and configuration details"
+        },
+        {
+          "title": "Then a remove or delete icon/button is visible on the category row — confirming the remove-category entry point is present in the UI (not interacted with)",
+          "status": "PASS",
+          "expected": "A remove or delete control is visible on at least the first category row — the remove-category flow is accessible from the UI"
+        }
+      ],
+      "notes": "Data: Toyota 439acd96 Manage Scope — substitution for the luxury handbags dashboard 89f17431 (not on staging). Read-only: nothing clicked except scrolling and hovering. Each category chip has a \"×\" button: aria-label \"Remove Voitures hybrides\" / \"Remove VUS\". Checked as visible only, never clicked."
+    },
+    {
+      "tc_id": "E2E-MANAGE-SCOPE-010",
+      "title": "AI Engines section shows 5 LLM cards with toggles",
+      "story_id": "e2e-manage-scope",
+      "stories": [],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/manage-scope",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-010_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-010_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-010_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the authenticated Editor is on the Manage Scope page",
+          "status": "PASS",
+          "expected": "The Manage Scope page loads and the AI Engines section is visible"
+        },
+        {
+          "title": "When the AI Engines section loads",
+          "status": "PASS",
+          "expected": "The section is visible with at least one LLM card"
+        },
+        {
+          "title": "Then 5 LLM engine cards are visible (Claude, Gemini, Grok, ChatGPT/OpenAI, Perplexity) each showing the engine name/logo and a toggle switch in either enabled or disabled state",
+          "status": "PASS",
+          "expected": "All 5 LLM engine cards are visible in the AI Engines section. Each card shows the engine name (or logo) and a toggle switch (e.g. ChatGPT / Gemini / Grok / Perplexity on, Claude off). No \"X of 5 active\" counter is shown."
+        }
+      ],
+      "notes": "Data: Toyota 439acd96 Manage Scope — substitution for the luxury handbags dashboard 89f17431 (not on staging). Read-only: nothing clicked except scrolling and hovering. 5 cards: ChatGPT (on), Gemini (on), Grok (on), Claude (off), Perplexity (on), each with logo img + name + role=switch \"Toggle {engine}\". No \"X of 5 active\" counter. No toggle touched."
+    },
+    {
+      "tc_id": "E2E-MANAGE-SCOPE-015",
+      "title": "Enabled LLM card shows logo, name and on/off switch (no Web search checkbox)",
+      "story_id": "e2e-manage-scope",
+      "stories": [],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/manage-scope",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-015_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-015_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-015_step3_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-015_step4_and.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Editor is on the Manage Scope page and the AI Engines section is loaded with at least one LLM in enabled state",
+          "status": "PASS",
+          "expected": "The AI Engines section is visible with at least one enabled LLM card"
+        },
+        {
+          "title": "When the Editor views an enabled LLM card",
+          "status": "PASS",
+          "expected": "The enabled LLM card is fully rendered with its configuration controls"
+        },
+        {
+          "title": "Then the enabled LLM card shows the engine logo, the engine name and its on/off switch",
+          "status": "PASS",
+          "expected": "The enabled LLM card shows its logo, its name and the switch in the on state"
+        },
+        {
+          "title": "And no \"Web search\" checkbox is displayed on the LLM card",
+          "status": "PASS",
+          "expected": "No \"Web search\" checkbox, toggle or text is displayed on any LLM card of Manage Scope"
+        }
+      ],
+      "notes": "Data: Toyota 439acd96 Manage Scope — substitution for the luxury handbags dashboard 89f17431 (not on staging). Read-only: nothing clicked except scrolling and hovering. ChatGPT card: img alt \"ChatGPT\" + name + switch aria-checked=true. No checkbox and no \"Web search\" text in any LLM card nor anywhere on the page."
+    },
+    {
+      "tc_id": "E2E-MANAGE-SCOPE-PROMPTS-001",
+      "title": "Manage Scope > Prompts of a brand analysis: wizard table, pool tracker, suggestions and types (read-only)",
+      "story_id": "e2e-manage-scope-prompts",
+      "stories": [],
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/manage-scope",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step3_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step4_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step5_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step6_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step7_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step8_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step9_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-MANAGE-SCOPE-PROMPTS-001_step10_and.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the dashboard of analysis A",
+          "status": "PASS",
+          "expected": "Manage Scope is reachable"
+        },
+        {
+          "title": "When the user opens Manage Scope > Prompts",
+          "status": "PASS",
+          "expected": "The Prompts section is displayed"
+        },
+        {
+          "title": "Then the wizard's table is shown",
+          "status": "PARTIAL",
+          "expected": "Columns \"Prompt\", \"Category\", \"Type\", \"Market\", \"Actions\" in one table; no per-country or per-type tabs; no Reset button"
+        },
+        {
+          "title": "And the wizard's filters are shown",
+          "status": "PASS",
+          "expected": "Category, Type and Market header menus and the Show prompts menu"
+        },
+        {
+          "title": "And the pool tracker is shown",
+          "status": "PASS",
+          "expected": "The ring \"U / P\" with its popover"
+        },
+        {
+          "title": "When the user scrolls to the end of the table",
+          "status": "PASS",
+          "expected": "The unticked suggestions are listed, unticked and greyed, at the end of the table (no \"Suggested Prompts\" heading)"
+        },
+        {
+          "title": "When the user opens the type select of Add prompt",
+          "status": "PASS",
+          "expected": "The select lists Visibility, Competitive, Reputation, Brand Image and Other"
+        },
+        {
+          "title": "When the user opens the version history",
+          "status": "PASS",
+          "expected": "The version history is displayed"
+        },
+        {
+          "title": "Then the changes are grouped by date with their count",
+          "status": "PARTIAL",
+          "expected": "A D2 group with 1 change and a D1 group with 2 changes"
+        },
+        {
+          "title": "And each change shows the original and the edited wording",
+          "status": "PARTIAL",
+          "expected": "Original and edited wording of each of the 3 prompts"
+        }
+      ],
+      "notes": "Data: Toyota 439acd96 (the JDD brand analysis BA with a \"D2 = 1 change / D1 = 2 changes\" history does not exist on staging). Read-only: nothing ticked or saved; pool 804 / 1500 · 173 selected before and after. Step 3: one table, no tabs, no Reset button; headers PROMPT / CATEGORY / TYPE / COUNTRY / ACTIONS: the 4th column reads \"Country\", not \"Market\" (GEO-1514 wording), step PARTIAL (label only). Step 4: header menus \"Sort and filter Category / Type / Country\" + \"Show prompts\". Step 5: ring \"804 / 1500 prompts · 173 selected\", popover \"Prompt pool 804 of 1500: In use by other analyses 631, Kept in this analysis 173, Free in the pool 696\". Step 6: 174 rows; the only unticked suggestion (\"What do you think of Toyota?\", data-kept=false) is the last row, text greyed (#94a3b8), no \"Suggested Prompts\" heading. Step 7: \"Add prompt\" opens an inline draft row; the Type select lists Visibility, Reputation, Competitive, Brand Image, Other; closed with Escape + Cancel (nothing added). Steps 8-10: the \"Prompts Version history\" panel opens; changes grouped by date with their count (12 October 2026 · 32 Changes, 21 July 2026 · 5 Changes, 14 July 2026 · 2 Changes, 13 July 2026 · 22 Changes); the 21 July edit shows the original \"What do you think of Toyota?\" and the edited \"lkkkkkk dzfkzfkkf ,fkza,flkéf,\". The mechanism works, but the expected D2/D1 counts (1 and 2) and the 3 edited prompts are JDD-specific and cannot be checked on Toyota, so steps 9-10 PARTIAL."
+    },
+    {
+      "tc_id": "E2E-COUNTRY-FILTER-001",
+      "title": "Filter the dashboard by country across Overview and Category views",
+      "story_id": "e2e-country-filter",
+      "stories": [],
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Steps 8-10 need analysis M with one country in two languages (United States EN + ES); no QA-GEO analysis has it (Toyota US/FR/ES = 3 countries, one language each) and creating one is excluded (read-only run).",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-COUNTRY-FILTER-001_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-COUNTRY-FILTER-001_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-COUNTRY-FILTER-001_step3_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-COUNTRY-FILTER-001_step4_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-COUNTRY-FILTER-001_step5_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-COUNTRY-FILTER-001_step6_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-COUNTRY-FILTER-001_step7_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-COUNTRY-FILTER-001_step11_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-COUNTRY-FILTER-001_step12_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given a multi-country report on Overview or Category view",
+          "status": "PASS",
+          "expected": "Each market has a selectable checkbox and All markets shortcut is available"
+        },
+        {
+          "title": "When the user selects one or two markets",
+          "status": "PASS",
+          "expected": "The dropdown trigger shows the market names"
+        },
+        {
+          "title": "And when the user selects three or more markets",
+          "status": "PASS",
+          "expected": "The dropdown trigger shows the selected count (e.g. 3 markets)"
+        },
+        {
+          "title": "Then if the user deselects every market",
+          "status": "PASS",
+          "expected": "The view falls back to All markets automatically"
+        },
+        {
+          "title": "Given the user has selected a subset of markets on Overview",
+          "status": "PASS",
+          "expected": "Selection is active"
+        },
+        {
+          "title": "When they navigate to any Category view in the same session",
+          "status": "PASS",
+          "expected": "The same market selection is applied on the Category view"
+        },
+        {
+          "title": "And when they reload the page",
+          "status": "PASS",
+          "expected": "The selection is restored to what was active before the reload"
+        },
+        {
+          "title": "When the user opens the market (country) filter",
+          "status": "SKIP",
+          "expected": "The filter lists \"United States\" once and \"France\" once (no separate entry per language)"
+        },
+        {
+          "title": "And the user selects \"United States\" only",
+          "status": "SKIP",
+          "expected": "The filter shows United States selected"
+        },
+        {
+          "title": "Then the results roll up both languages of the country",
+          "status": "SKIP",
+          "expected": "The prompts and results shown include the English and the Spanish prompts of United States, and none of France"
+        },
+        {
+          "title": "Given a single-country report",
+          "status": "PASS",
+          "expected": "The Overview or Category view of the analysis is displayed"
+        },
+        {
+          "title": "Then no country filter is displayed",
+          "status": "PASS",
+          "expected": "No country (market) filter is rendered in the filter bar, so there is no dropdown to open"
+        }
+      ],
+      "notes": "Data: Toyota (steps 1-2, 4-7), bike d3fd1b30 (step 3: Toyota has only 3 countries, so selecting 3 = All Countries), Lictorix Geo f228f1fe (single country US, steps 11-12). Step 1: options All Countries / United States / France / Spain, each with a checkbox. Step 2: trigger \"United States - France\" (aria \"Country filter — 2 selected\"). Step 3 (bike, 4 countries): 3 selected gives \"3 countries\". Step 4: unticking the last country falls back to \"All Countries\". Steps 5-7: France only on Overview, Voitures hybrides shows \"France\", still \"France\" after reload. Steps 11-12: Lictorix Geo filter bar = Date range picker, AI engine filters, Export; no country filter. Filters restored to All Countries on Toyota and bike. Labels read \"All Countries\" / \"country\" (GEO-1514 wording, covered by the scenario assumption)."
+    },
+    {
+      "tc_id": "E2E-ACTION-CENTER-001",
+      "title": "Prioritise Target Sources in the Action Center of a brand analysis",
+      "story_id": "e2e-action-center",
+      "stories": [],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/actions",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step2_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step3_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step4_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step5_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step6_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step7_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step8_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step9_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step10_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step11_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step13_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step14_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step17_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step18_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step19_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step20_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step21_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step23_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step24_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step25_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step26_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step27_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step28_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step29_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step30_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step31_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step32_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step33_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step34_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step35_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step36_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step37_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step38_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step39_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-ACTION-CENTER-001_step40_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user opens the Toyota analysis and clicks \"Action Center\" in the left menu",
+          "status": "PASS",
+          "expected": "The Target Sources page is displayed"
+        },
+        {
+          "title": "Then the user checks the verdict tabs",
+          "status": "PASS",
+          "expected": "Three tabs are shown, \"ALL\", \"IMPROVE VISIBILITY\" and \"IMPROVE PERCEPTION\", each verdict tab with its icon"
+        },
+        {
+          "title": "And the user checks the selected tab",
+          "status": "PASS",
+          "expected": "\"ALL\" is underlined as the selected tab"
+        },
+        {
+          "title": "Then the global filter bar at the top right shows the date, AI engine and country filters and the export icon",
+          "status": "PASS",
+          "expected": "The bar shows \"Last 7 days\", \"AI Engines\" with its count badge, \"All Countries\" and the export (download) icon"
+        },
+        {
+          "title": "And the global filter bar holds no category control",
+          "status": "PASS",
+          "expected": "Categories are selected from the left navigation or from the page Category filter next to the Type filter (\"All categories\"), not from the global filter bar"
+        },
+        {
+          "title": "And the user opens the details panel of the source ranked #1",
+          "status": "PASS",
+          "expected": "The panel header shows \"#1 · {domain of card 1}\", the footer shows \"Source 1 of N\" and card #1 shows the selected state"
+        },
+        {
+          "title": "When the user clicks \"Next source\"",
+          "status": "PASS",
+          "expected": "The panel stays open (no close / reopen) and its content is replaced by the source ranked #2"
+        },
+        {
+          "title": "Then the panel header, badges, article tabs and prompts belong to the source of card #2",
+          "status": "PASS",
+          "expected": "The header reads \"#2 · {domain of card 2}\" with its source type and reason badges; the footer reads \"Source 2 of N\""
+        },
+        {
+          "title": "And the selected state behind the panel moved to card #2",
+          "status": "PASS",
+          "expected": "Card #2 shows the selected state and card #1 no longer does"
+        },
+        {
+          "title": "When the user opens the details panel of source B",
+          "status": "PASS",
+          "expected": "The panel opens with the header \"#k · {domain of B}\""
+        },
+        {
+          "title": "Then both article tabs are displayed at the top of the panel, each with its icon",
+          "status": "PASS",
+          "expected": "A two-segment control shows \"Lack of visibility (a)\" with the eye-off icon and \"Negative perception (b)\" with the thumb-down icon"
+        },
+        {
+          "title": "And the \"Lack of visibility\" tab is the first tab",
+          "status": "PASS",
+          "expected": "\"Lack of visibility (a)\" is the left segment, before \"Negative perception (b)\""
+        },
+        {
+          "title": "And the \"Lack of visibility\" tab is selected by default",
+          "status": "PASS",
+          "expected": "\"Lack of visibility (a)\" is the active (white) segment, \"None of these articles mentions Toyota anywhere on the page.\" is shown and its articles are listed"
+        },
+        {
+          "title": "Then the engine filter is displayed above the prompts list",
+          "status": "PASS",
+          "expected": "The filter sits between the heading and the first prompt row"
+        },
+        {
+          "title": "And \"All\" is the first tab, is selected by default and shows the number of distinct prompts",
+          "status": "PASS",
+          "expected": "\"All (N)\" is the first tab, shown as the active (white) tab, with N = the distinct prompts of the source (e.g. \"All (86)\" for autobild.es on 04/11)"
+        },
+        {
+          "title": "And one tab is shown for each engine present in the prompts of source B",
+          "status": "PASS",
+          "expected": "Exactly 3 engine tabs follow \"All\""
+        },
+        {
+          "title": "And each engine tab shows the number of prompts of the list cited by that engine",
+          "status": "PASS",
+          "expected": "Each engine tab shows the engine icon and its prompt count as a bare number, the engine name appears in the tooltip on hover; \"All\" covers the distinct prompts (counts overlap)"
+        },
+        {
+          "title": "And the engine tabs are in the fixed order ChatGPT, Gemini, Perplexity, not sorted by count",
+          "status": "PASS",
+          "expected": "The order is \"All\", ChatGPT, Gemini, Perplexity (checked with the tooltips), whatever the counts"
+        },
+        {
+          "title": "Given the user opens the Action Center of the chosen analysis",
+          "status": "PASS",
+          "expected": "\"Sort by\" in the page header, left of the Card view / List view switch, shows \"Coverage\"; the cards are sorted by failing articles and each card shows \"Used in N prompts\""
+        },
+        {
+          "title": "When the user opens \"Sort by\" and selects \"Prompts\"",
+          "status": "PASS",
+          "expected": "The list is re-sorted and \"Sort by\" shows \"Prompts\""
+        },
+        {
+          "title": "Then the cards are in descending order of their prompt count",
+          "status": "PASS",
+          "expected": "The \"Used in N prompts\" value never increases from one card to the next"
+        },
+        {
+          "title": "And the ranks are renumbered from 1",
+          "status": "PASS",
+          "expected": "The first card shows rank 1 and the ranks run with no gap"
+        },
+        {
+          "title": "Given the user notes the prompt count of the card ranked #1",
+          "status": "PASS",
+          "expected": "The card shows \"Used in N prompts\""
+        },
+        {
+          "title": "When the user opens its details panel and clicks \"Show X more prompts\" on the \"All\" tab of \"Prompts associated with this source\"",
+          "status": "PASS",
+          "expected": "The \"All\" tab reads \"All (N)\" with the N of the card and the full prompts list is displayed"
+        },
+        {
+          "title": "Then the number of prompt rows equals N",
+          "status": "PASS",
+          "expected": "The rows of \"Prompts associated with this source\" equal the card count"
+        },
+        {
+          "title": "When the user selects the \"IMPROVE VISIBILITY\" tab",
+          "status": "PASS",
+          "expected": "\"Sort by\" still shows \"Prompts\", the cards are in descending prompt count order and the ranks start at 1"
+        },
+        {
+          "title": "And the user switches to List view",
+          "status": "PASS",
+          "expected": "\"Sort by\" still shows \"Prompts\" and the rows are in descending prompt count order"
+        },
+        {
+          "title": "When the user reloads the page",
+          "status": "PASS",
+          "expected": "\"Sort by\" shows \"Coverage\" and the sources are ordered by failing articles"
+        },
+        {
+          "title": "When the user selects the \"IMPROVE PERCEPTION\" tab",
+          "status": "PASS",
+          "expected": "Only sources with the \"Improve perception\" badge are listed; the user notes their count Y"
+        },
+        {
+          "title": "And the user selects a source type in the Type filter",
+          "status": "PASS",
+          "expected": "The list keeps only the sources of that type in the \"IMPROVE PERCEPTION\" tab; the user notes the new count Y"
+        },
+        {
+          "title": "And the user opens the details panel of the 2nd source of the filtered list",
+          "status": "PASS",
+          "expected": "The details panel opens for that source"
+        },
+        {
+          "title": "Then the footer counter reads \"Source 2 of Y\"",
+          "status": "PASS",
+          "expected": "The counter shows 2 (position in the filtered list) and Y (number of sources in the filtered list), not the global rank or the unfiltered total; the panel header also shows the filtered position \"#2 · {domain}\", not the global rank"
+        },
+        {
+          "title": "And the user clicks \"Next source\"",
+          "status": "PASS",
+          "expected": "The panel shows the 3rd source of the filtered list (not the next global rank): the header reads \"#3 · {domain}\" and the counter reads \"Source 3 of Y\""
+        },
+        {
+          "title": "Then a Category filter is displayed next to the Type filter",
+          "status": "PASS",
+          "expected": "The Category dropdown is shown beside the Type dropdown"
+        },
+        {
+          "title": "And the Category filter shows its default value",
+          "status": "PASS",
+          "expected": "The Category dropdown reads \"All categories\""
+        },
+        {
+          "title": "When the user opens the Category filter",
+          "status": "PASS",
+          "expected": "The list of categories is displayed"
+        },
+        {
+          "title": "Then the options are the categories of the analysis",
+          "status": "PASS",
+          "expected": "Every category of the left menu is listed, and no other category"
+        },
+        {
+          "title": "And the options are in the same order as the left menu",
+          "status": "PASS",
+          "expected": "The option order matches the left menu order exactly"
+        },
+        {
+          "title": "When the user selects category C1 in the Category filter",
+          "status": "PASS",
+          "expected": "The Category dropdown shows C1 and the list re-renders"
+        },
+        {
+          "title": "Then only sources with at least one missing or negative article in C1 answers are listed",
+          "status": "PASS",
+          "expected": "The total is lower than or equal to the total of step 1 and no card shows a 0 count"
+        }
+      ],
+      "notes": "Toyota Action Center, Last 7 days, 4 engines, All Countries, 91 sources. Steps 2-3: tabs ALL / IMPROVE VISIBILITY (visibility icon) / IMPROVE PERCEPTION (thumb icon), ALL aria-selected with a 2px #0369A1 underline. Step 4: \"Last 7 days\", \"AI Engines 4\", \"All Countries\", export icon. Step 5: no category control in the global bar; page filters \"All categories\" (Filter by category) left of \"All types\". Steps 6-9: \"#1 · guideautoweb.com\", \"Source 1 of 91\", card #1 selected; Next source keeps the same <dialog> open: \"#2 · largus.fr\", \"Source 2 of 91\", card #2 selected, card #1 not. Steps 10-18 (source B = autobild.es, both reasons, 3 engines): \"Lack of visibility (18)\" (visibility_off icon, left, selected) and \"Negative perception (3)\" (thumb_down icon); \"None of these articles mentions Toyota anywhere on the page.\"; engine filter between the heading and the first prompt; tabs \"All (71)\" (selected), then ChatGPT 58, Gemini 26, Perplexity 39 (icon + bare number, name in the title tooltip, e.g. \"Gemini (26)\"), fixed order, not by count. All (71) equals the card \"Used in 71 prompts\" (the 04/11 example was 86). Step 19: Sort by \"Coverage\" left of Card/List view; failing articles 27, 24, 24, 21, 21, 17, 13, 12... descending. Steps 20-22: \"Prompts\" gives 108, 107, 99, 94, 84, 77, 75, 73, 73, 71..., ranks 1-12 with no gap. Steps 23-25: #1 caranddriver.com \"Used in 108 prompts\", \"Show 102 more prompts\", All (108), 108 distinct rows. Steps 26-27: IMPROVE VISIBILITY and List view keep the \"Prompts\" order. Step 28: after reload \"Coverage\". Steps 29-33: IMPROVE PERCEPTION = 53 sources, all with the badge; Type Journalism (35) gives 35; 2nd card opens \"#2 · yahoo.com\" / \"Source 2 of 35\"; Next gives \"#3 · largus.fr\" / \"Source 3 of 35\". Steps 34-40: Category options All categories, Voitures hybrides, VUS = left menu, same order; Voitures hybrides gives 39 sources (<= 91), ranks 1-39, no card at 0."
+    },
+    {
+      "tc_id": "E2E-NR-BRAND-001",
+      "title": "A brand analysis keeps its Action Center entry and category Sentiment tile with the flag ON",
+      "story_id": "e2e-nr-brand",
+      "stories": [],
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "skip_reason": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-BRAND-001_step1_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-BRAND-001_step2_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-BRAND-001_step3_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-BRAND-001_step4_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-BRAND-001_step5_and.png"
+      ],
+      "steps": [
+        {
+          "title": "When the user opens brand analysis BA",
+          "status": "PASS",
+          "expected": "The sidebar is displayed"
+        },
+        {
+          "title": "Then the brand analysis keeps its Action Center entry",
+          "status": "PASS",
+          "expected": "\"Action Center\" is listed as today"
+        },
+        {
+          "title": "Given the user is on the category page C1 of brand analysis B",
+          "status": "PASS",
+          "expected": "The category metrics are displayed"
+        },
+        {
+          "title": "Then the Sentiment KPI tile is shown with its -100 to +100 value",
+          "status": "PASS",
+          "expected": "The Sentiment tile is displayed among the category metrics with its aggregate value, as before the release"
+        },
+        {
+          "title": "And the concept rows of the page show no per-concept score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"+86 sentiment\") is shown on the Top Topics rows"
+        }
+      ],
+      "notes": "Analysis BA/B = Toyota, C1 = Voitures hybrides; flag unbranded_analysis ON (auth/me). Sidebar: Toyota, Overview, Categories (Voitures hybrides, VUS), Action Center, Manage Scope. Category page (Last 7 days): Sentiment tile \"Sentiment score +73 Good\". Top Topics rows show \"{n} sources • {label}\" + frequency only: no signed score and no \"{score} sentiment\" text."
+    },
+    {
+      "tc_id": "E2E-NR-OLDER-001",
+      "title": "An analysis created before the release keeps its concepts, filters, KPI tile and logos",
+      "story_id": "e2e-nr-older-analysis",
+      "stories": [],
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Steps 26-31 export the analysis as PowerPoint and compare the slides with the baseline PPTX: export pipeline content (mandatory SKIP for MCP runs).",
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step1_given.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step2_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step3_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step4_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step5_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step6_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step7_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step8_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step9_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step10_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step11_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step12_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step13_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step14_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step15_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step16_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step17_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step18_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step19_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step20_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step21_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step22_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step23_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step24_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-NR-OLDER-001_step25_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on the Overview of analysis O with the baseline filters",
+          "status": "PASS",
+          "expected": "The \"Top Topics Associated with Your Brand\" card is displayed"
+        },
+        {
+          "title": "When the user compares the listed concepts with the baseline",
+          "status": "PASS",
+          "expected": "The same 7 concepts are listed: Fiabilité, Efficacité énergétique, Leadership hybride, Usage urbain, Coûts d'entretien, Coût d'achat, Bruit à l'accélération; none added, none missing"
+        },
+        {
+          "title": "And the user compares the frequency % of each concept with the baseline",
+          "status": "PASS",
+          "expected": "On \"Voitures hybrides\": Fiabilité 28%, Efficacité énergétique 28%, Leadership hybride 16%, Usage urbain 8%, Coûts d'entretien 7%, Bruit à l'accélération 6%, Coût d'achat 5%"
+        },
+        {
+          "title": "And the user compares the polarity and the source count of each concept with the baseline",
+          "status": "PASS",
+          "expected": "Coût d'achat is Mixed (8 sources), Bruit à l'accélération is Negative (7 sources), the 5 others are Positive (Fiabilité 23, Efficacité énergétique 29, Leadership hybride 17, Usage urbain 19, Coûts d'entretien 10 sources); each polarity is now stated by its label"
+        },
+        {
+          "title": "Then only the display changed",
+          "status": "PASS",
+          "expected": "Same concepts, polarity and source counts as the baseline on the Overview and same frequencies as the baseline on \"Voitures hybrides\"; only the \"{score} sentiment\" text (e.g. \"+86 sentiment\") is gone"
+        },
+        {
+          "title": "When the user looks at the rows of the \"Top Topics Associated with Your Brand\" card",
+          "status": "PASS",
+          "expected": "Each row shows its frequency % and the meta line \"{n} sources • {Positive | Mixed | Negative}\""
+        },
+        {
+          "title": "Then no row shows a numeric sentiment score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"+86 sentiment\", \"-43 sentiment\") is shown on any row"
+        },
+        {
+          "title": "When the user opens the category page \"Voitures hybrides\" of O",
+          "status": "PASS",
+          "expected": "Its \"Top Topics Associated with Your Brand\" rows show frequency % and polarity label only, with no score"
+        },
+        {
+          "title": "When the user clicks the row of a Negative concept",
+          "status": "PASS",
+          "expected": "The concept detail panel opens with its frequency and the \"Negative\" label in the header"
+        },
+        {
+          "title": "Then no sentiment score is shown in the panel",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"-43 sentiment\") is shown anywhere in the panel"
+        },
+        {
+          "title": "And the barometer gauge is not shown",
+          "status": "PASS",
+          "expected": "No Negative-to-Positive gauge bar and no cursor are displayed"
+        },
+        {
+          "title": "When the user compares the three pill counts with the baseline",
+          "status": "PASS",
+          "expected": "The pills show Positive 5, Mixed 1, Negative 1"
+        },
+        {
+          "title": "And the user selects the Positive filter",
+          "status": "PASS",
+          "expected": "The list shows Fiabilité, Efficacité énergétique, Leadership hybride, Usage urbain and Coûts d'entretien only"
+        },
+        {
+          "title": "And the user selects the Mixed filter",
+          "status": "PASS",
+          "expected": "The list shows Coût d'achat only"
+        },
+        {
+          "title": "And the user selects the Negative filter",
+          "status": "PASS",
+          "expected": "The list shows Bruit à l'accélération only"
+        },
+        {
+          "title": "Then filtering behaves as before the release",
+          "status": "PASS",
+          "expected": "Same counts and same filtered concepts as the baseline; only the row display is simplified"
+        },
+        {
+          "title": "When the user compares the summary with the baseline",
+          "status": "PASS",
+          "expected": "The summary shows 71% positive, 14% mixed and 14% negative"
+        },
+        {
+          "title": "And the user sorts the list by Sentiment",
+          "status": "PASS",
+          "expected": "The list is re-ordered"
+        },
+        {
+          "title": "Then the distribution summary is unchanged",
+          "status": "PASS",
+          "expected": "The summary still shows 71% positive, 14% mixed and 14% negative"
+        },
+        {
+          "title": "When the user opens the category page \"Voitures hybrides\" of analysis O with the baseline filters",
+          "status": "PASS",
+          "expected": "The category metrics are displayed"
+        },
+        {
+          "title": "Then the Sentiment KPI tile shows the baseline value",
+          "status": "PASS",
+          "expected": "The Sentiment tile is shown with the value +75 and the band \"Good\", as in the baseline"
+        },
+        {
+          "title": "And the concept rows of the page show no per-concept score",
+          "status": "PASS",
+          "expected": "No -100 to +100 value and no \"{score} sentiment\" text (e.g. \"+86 sentiment\") is shown on the Top Topics rows"
+        },
+        {
+          "title": "When the user opens the report list",
+          "status": "PARTIAL",
+          "expected": "The O row shows the same logo as the baseline (logo searched by the brand name)"
+        },
+        {
+          "title": "And the user opens the Overview of O",
+          "status": "PARTIAL",
+          "expected": "The sidebar and header show the same logo as the baseline (favicon of the domain most cited by the AI answers)"
+        },
+        {
+          "title": "Then the target brand row of the rankings shows the same logo as the baseline",
+          "status": "PARTIAL",
+          "expected": "Favicon of the domain cited by the AI answers, as in the baseline"
+        },
+        {
+          "title": "When the user exports O as PowerPoint",
+          "status": "SKIP",
+          "expected": "The .pptx file is downloaded"
+        },
+        {
+          "title": "Then the cover and the rankings target row show the same visuals as the baseline",
+          "status": "SKIP",
+          "expected": "No surface switched to the lettermark or to another logo"
+        },
+        {
+          "title": "When the user exports the analysis as PowerPoint in English",
+          "status": "SKIP",
+          "expected": "A .pptx file is downloaded"
+        },
+        {
+          "title": "Then the key concepts slides list the same concepts and frequencies as the baseline",
+          "status": "SKIP",
+          "expected": "Overview (slide 4): the same 7 concepts as the baseline (frequencies not compared). Voitures hybrides (slide 17): Fiabilité 28%, Efficacité énergétique 28%, Leadership hybride 16%, Usage urbain 8%, Coûts d'entretien 7%, Bruit à l'accélération 6%, Coût d'achat 5%"
+        },
+        {
+          "title": "And each concept row reads \"{n} sources • {label}\" with its frequency %",
+          "status": "SKIP",
+          "expected": "e.g. \"23 sources • Positive\" for Fiabilité, \"8 sources • Mixed\" for Coût d'achat, \"7 sources • Negative\" for Bruit à l'accélération"
+        },
+        {
+          "title": "And no numeric sentiment score and no barometer are shown",
+          "status": "SKIP",
+          "expected": "No \"{score} sentiment\" text (baseline: \"+86 sentiment\", \"-43 sentiment\"), no -100 to +100 value and no gauge on any key concepts slide"
+        }
+      ],
+      "notes": "Toyota with the baseline filters (28 Sept 2026 – 4 Oct 2026, All Countries = US/ES/FR, 4 engines ChatGPT/Gemini/Grok/Perplexity, Sort by Frequency). Overview: 7 concepts = baseline (Efficacité énergétique 29 sources Positive, Fiabilité 23 Positive, Leadership hybride 17 Positive, Usage urbain 19 Positive, Bruit à l'accélération 7 Negative, Coût d'achat 8 Mixed, Coûts d'entretien 10 Positive); rows \"{n} sources • {label}\" + %, no score. Voitures hybrides frequencies: Fiabilité 28%, Efficacité énergétique 28%, Leadership hybride 16%, Usage urbain 8%, Coûts d'entretien 7%, Bruit à l'accélération 6%, Coût d'achat 5% = baseline. Concept panel (Bruit à l'accélération, Overview): header \"3% frequency • Negative\", no score, no gauge. Pills Positive 5 / Mixed 1 / Negative 1; filters return the baseline lists; summary 71% / 14% / 14% unchanged after Sort by Sentiment (order changed). Category Sentiment tile \"+75 Good\" = baseline. Steps 23-25 PARTIAL: report list, sidebar/header and rankings all show the Google favicon of toyota.com (www.google.com/s2/favicons?domain=toyota.com), no lettermark, consistent across surfaces; but the baseline images are not available to compare, the list was expected to show the logo searched by the brand name, and the precondition \"O has no stored brand domain\" no longer holds (Toyota entityDomain = toyota.com). Filters restored (date back to Last 7 days, sort back to Frequency)."
+    },
+    {
+      "tc_id": "E2E-BRAND-VISUALS-001",
+      "title": "Brand visuals across analyses: lettermark for a custom brand without website, topic letter for unbranded",
+      "story_id": "e2e-brand-visuals",
+      "stories": [],
+      "status": "PARTIAL",
+      "duration": 0,
+      "error": null,
+      "skip_reason": "Steps 1-5 need analysis A2 (custom brand created without website): A2 \"Licter\" 79e18910 was deleted on 03/11 and no QA-GEO analysis has a custom brand without website; creating one is excluded (read-only run).",
+      "url": "https://staging-geo.onclusive.com/geo/",
+      "screenshots": [
+        "screenshots-E2E-SUITE-b4-staging/E2E-BRAND-VISUALS-001_step1_when.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-BRAND-VISUALS-001_step6_then.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-BRAND-VISUALS-001_step7_and.png",
+        "screenshots-E2E-SUITE-b4-staging/E2E-BRAND-VISUALS-001_step8_and.png"
+      ],
+      "steps": [
+        {
+          "title": "When the user opens the report list",
+          "status": "SKIP",
+          "expected": "The A2 row shows the letter \"L\", not a logo searched by the brand name"
+        },
+        {
+          "title": "And the user opens the Overview of A2",
+          "status": "SKIP",
+          "expected": "The dashboard sidebar and header show the letter \"L\", not the favicon of D"
+        },
+        {
+          "title": "Then the target brand row of the brand rankings in Overview shows the letter \"L\"",
+          "status": "SKIP",
+          "expected": "Letter \"L\", not the favicon of D"
+        },
+        {
+          "title": "When the user opens a Category view",
+          "status": "SKIP",
+          "expected": "The target brand row of the rankings shows the letter \"L\""
+        },
+        {
+          "title": "And the user opens a competitive view",
+          "status": "SKIP",
+          "expected": "The target brand shows the letter \"L\""
+        },
+        {
+          "title": "Then UA shows the topic with its first letter",
+          "status": "PASS",
+          "expected": "A letter avatar \"P\" and \"Postal services\""
+        },
+        {
+          "title": "And no domain is shown for UA",
+          "status": "PASS",
+          "expected": "No domain or website under the topic"
+        },
+        {
+          "title": "And brand analyses keep their logo and domain",
+          "status": "PASS",
+          "expected": "Brand rows are unchanged"
+        }
+      ],
+      "notes": "UA = bike d3fd1b30 (unbranded; the \"Postal services\" analysis is not on staging). Report list: the bike row shows a letter avatar \"B\" + \"bike\" (first letter of the topic) and no domain. Brand rows keep their favicon + domain: adidas.com, decathlon.com, licter.com, nike.com, orange.fr, toyota.com."
+    }
+  ]
+}

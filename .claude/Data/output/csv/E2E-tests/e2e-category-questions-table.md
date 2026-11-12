@@ -7,19 +7,19 @@
 
 | Scenario | Title | Status | Stories |
 |---|---|---|---|
-| [E2E-CAT-QUESTIONS-TABLE-001](#e2e-cat-questions-table-001) | Questions table shows grouped questions and key columns | KEEP | GEO-67 |
+| [E2E-CAT-QUESTIONS-TABLE-001](#e2e-cat-questions-table-001) | Questions table shows grouped questions and key columns | UPDATE | GEO-67 |
 | [E2E-CAT-QUESTIONS-TABLE-002](#e2e-cat-questions-table-002) | Visibility favorability labels are displayed | UPDATE | GEO-67 |
 | [E2E-CAT-QUESTIONS-TABLE-003](#e2e-cat-questions-table-003) | Competitive favorability labels are displayed | UPDATE | GEO-67 |
 | [E2E-CAT-QUESTIONS-TABLE-004](#e2e-cat-questions-table-004) | Perception rows show theme badges, sentiment only in the detail panel | UPDATE | GEO-67 |
-| [E2E-CAT-QUESTIONS-TABLE-005](#e2e-cat-questions-table-005) | Questions table filters by favorability | KEEP | GEO-67 |
-| [E2E-CAT-QUESTIONS-TABLE-006](#e2e-cat-questions-table-006) | Expanding a question row shows detailed evidence panel | KEEP | GEO-67 |
+| [E2E-CAT-QUESTIONS-TABLE-005](#e2e-cat-questions-table-005) | Questions table filters by favorability | UPDATE | GEO-67 |
+| [E2E-CAT-QUESTIONS-TABLE-006](#e2e-cat-questions-table-006) | Expanding a question row shows detailed evidence panel | UPDATE | GEO-67 |
 | [E2E-CAT-QUESTIONS-TABLE-007](#e2e-cat-questions-table-007) | Perception rows show themes without favorability or rank badges | UPDATE | GEO-67 |
-| [E2E-CAT-QUESTIONS-TABLE-008](#e2e-cat-questions-table-008) | Search input filters question rows by text | KEEP | GEO-67 |
+| [E2E-CAT-QUESTIONS-TABLE-008](#e2e-cat-questions-table-008) | Search input filters question rows by text | UPDATE | GEO-67 |
 | [E2E-CAT-QUESTIONS-TABLE-009](#e2e-cat-questions-table-009) | Filters button opens favorability filter panel | UPDATE | GEO-67 |
-| [E2E-CAT-QUESTIONS-TABLE-010](#e2e-cat-questions-table-010) | Visibility row detail panel shows LLM rank badges and sources | KEEP | GEO-67 |
-| [E2E-CAT-QUESTIONS-TABLE-011](#e2e-cat-questions-table-011) | Competitive row detail panel shows win/loss, chosen brand, About and Sources | KEEP | GEO-67 |
-| [E2E-CAT-QUESTIONS-TABLE-012](#e2e-cat-questions-table-012) | Perception row detail panel shows sentiment and theme badges | KEEP | GEO-67 |
-| [E2E-CAT-QUESTIONS-TABLE-014](#e2e-cat-questions-table-014) | Table recalculates when LLM filter changes | KEEP | GEO-67 |
+| [E2E-CAT-QUESTIONS-TABLE-010](#e2e-cat-questions-table-010) | Visibility row detail panel shows LLM rank badges and sources | UPDATE | GEO-67 |
+| [E2E-CAT-QUESTIONS-TABLE-011](#e2e-cat-questions-table-011) | Competitive row detail panel shows the outcome per engine, chosen brand and Sources (no About) | UPDATE | GEO-67 |
+| [E2E-CAT-QUESTIONS-TABLE-012](#e2e-cat-questions-table-012) | Perception row detail panel shows sentiment and theme badges | UPDATE | GEO-67 |
+| [E2E-CAT-QUESTIONS-TABLE-014](#e2e-cat-questions-table-014) | Table recalculates when LLM filter changes | UPDATE | GEO-67 |
 
 ---
 
@@ -29,8 +29,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP |
-| Description | Verifies that the unified questions table groups questions by type and shows the expected columns. Consolidates archive GEO-67-TC001 (GEO-67). Former id: GEO-67-TC001. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) |
+| Description | Verifies that the unified questions table groups questions by type and shows the expected columns. Consolidates archive GEO-67-TC001 (GEO-67). Former id: GEO-67-TC001. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging); rows carry no per-LLM badges (removed from step 3). |
 | Priority | High |
 | Stories | GEO-67 |
 | Precondition | An Editor is authenticated and navigates to the category URL |
@@ -39,13 +39,13 @@
 | Components / QA Component | Questions table / Question grouping,Question details |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given an Editor navigates to the category view | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The category page loads |
+| 1 | Given an Editor navigates to the category view | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The category page loads |
 | 2 | When the questions table loads | Questions section renders | The questions section is visible |
-| 3 | Then the questions table is visible with question rows showing question text, type tabs (Visibility / Competitive / Perception) and per-LLM badges | Table with question rows, type tabs, LLM badges | The table is rendered with at least one question row and question type tabs visible |
+| 3 | Then the questions table is visible with question rows showing question text and type tabs (Visibility / Competitive / Perception) | Table with prompt rows and type tabs (All / Visibility / Competitive / Perception with counts) | The table is rendered with at least one question row and question type tabs visible |
 
 ---
 
@@ -55,8 +55,8 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1) — behaviour change (confirmed at the gate) |
-| Description | Verifies that favorability labels are derived correctly for visibility questions. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Consolidates archive GEO-67-TC002 (GEO-67). Former id: GEO-67-TC002. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE — status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1) — behaviour change (confirmed at the gate); labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Verifies that favorability labels are derived correctly for visibility questions. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Consolidates archive GEO-67-TC002 (GEO-67). Former id: GEO-67-TC002. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Lictorix Geo › Social Listening Software (luxury handbags not on staging; Toyota shows no favorability badge on Visibility rows). |
 | Priority | Medium |
 | Stories | GEO-67 |
 | Precondition | An Editor is authenticated and the table contains visibility questions |
@@ -65,13 +65,13 @@
 | Components / QA Component | Questions table / Favorability rules |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the questions table contains visibility questions | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The questions table is loaded with visibility questions visible |
+| 1 | Given the questions table contains visibility questions | Category URL: https://staging-geo.onclusive.com/geo/dashboard/f228f1fe-9363-4f3c-97e6-e7275bd383e8/category/3254e3bf-48ce-4811-aa9f-7d5a2edded1f (Lictorix Geo › Social Listening Software — Toyota › Voitures hybrides has no Favorable / Unfavorable / Unranked badge on Visibility rows) | The questions table is loaded with visibility questions visible |
 | 2 | When the Visibility tab is selected | Click the Visibility type tab | The table filters to show only Visibility questions |
-| 3 | Then at least one favorability badge is visible on a visibility question row (Favorable / Unfavorable / Unranked) | Favorability badge: Favorable, Unfavorable or Unranked | At least one favorability badge is visible on a visibility question row |
+| 3 | Then at least one favorability badge is visible on a visibility question row (Favorable / Unfavorable / Unranked) | Favorability badge: Favorable, Unfavorable or Unranked (data-testid dashboard-questions-favorability-badge) | At least one favorability badge is visible on a visibility question row |
 
 ---
 
@@ -81,8 +81,8 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1) — behaviour change (confirmed at the gate) |
-| Description | Verifies that favorability labels are derived correctly for competitive questions. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Consolidates archive GEO-67-TC003 (GEO-67). Former id: GEO-67-TC003. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE — status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1) — behaviour change (confirmed at the gate); labels / test data aligned 2026-11-11 (MCP run of 10/11); aligned on GEO-1570 / GEO-1498 2026-11-11 (GEO 1.4 ACs, user decision) |
+| Description | Verifies that favorability labels are derived correctly for competitive questions. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Consolidates archive GEO-67-TC003 (GEO-67). Former id: GEO-67-TC003. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging). 2026-11-11: aligned on GEO-1570 / GEO-1498 — competitive labels Won / Lost / Split → Chosen / Not chosen / Overlooked / Split; Winner cell per GEO-1570: my brand with logo (Chosen, or Chosen + Conditional), competitor with logo (same competitor Not chosen everywhere), 'Not chosen' plain grey text (as 'Lost' before), 'Overlooked' red badge, 'Split' (mix). Observed 10/11: 10 rows 'Split' (orange), 15 rows 'Toyota'; 'Won' / 'Lost' not shown. |
 | Priority | Medium |
 | Stories | GEO-67 |
 | Precondition | An Editor is authenticated and the table contains competitive questions |
@@ -91,13 +91,13 @@
 | Components / QA Component | Questions table / Favorability rules |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the questions table contains competitive questions | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The questions table is loaded with competitive questions visible |
+| 1 | Given the questions table contains competitive questions | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The questions table is loaded with competitive questions visible |
 | 2 | When the Competitive tab is selected | Click the Competitive type tab | The table filters to show only Competitive questions |
-| 3 | Then at least one status (Won / Lost / Split) is visible on a competitive question row | Status: Won, Lost or Split | At least one status (Won / Lost / Split) is visible on a competitive question row |
+| 3 | Then at least one competitive outcome (my brand, a competitor, Not chosen, Overlooked or Split) is visible on a competitive question row | Winner cell (GEO-1570): brand name with logo (Chosen / Conditional on every counted engine), competitor name with logo, plain grey 'Not chosen' text, red 'Overlooked' badge or orange 'Split' badge | At least one GEO-1570 outcome is visible in the Winner cell of a competitive question row; no 'Won' / 'Lost' label is shown |
 
 ---
 
@@ -107,8 +107,8 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — confirmed by the user 2026-10-28; aligned on the observed result 2026-11-04 (user decision) |
-| Description | Verifies that favorability labels are derived correctly for perception questions. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): Perception rows show only theme chips (+N) in 'Winner / Themes', no favorability badge (sentiment in the detail panel). Consolidates archive GEO-67-TC004 (GEO-67). Former id: GEO-67-TC004. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE — confirmed by the user 2026-10-28; aligned on the observed result 2026-11-04 (user decision); labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Verifies that favorability labels are derived correctly for perception questions. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): Perception rows show only theme chips (+N) in 'Winner / Themes', no favorability badge (sentiment in the detail panel). Consolidates archive GEO-67-TC004 (GEO-67). Former id: GEO-67-TC004. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging). |
 | Priority | Medium |
 | Stories | GEO-67 |
 | Precondition | An Editor is authenticated and the table contains perception questions |
@@ -117,11 +117,11 @@
 | Components / QA Component | Questions table / Favorability rules |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the questions table contains perception questions | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The questions table is loaded with perception questions visible |
+| 1 | Given the questions table contains perception questions | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The questions table is loaded with perception questions visible |
 | 2 | When the Perception tab is selected | Click the Perception type tab | The table filters to show only Perception questions |
 | 3 | Then theme badges are displayed on the perception question rows and no favorability badge is shown on the rows | Theme chips (+N) in the 'Winner / Themes' column | At least one theme badge is visible on a perception question row; no Favorable / Neutral / Unfavorable badge is shown on the row (the sentiment is shown in the detail panel) |
 
@@ -133,8 +133,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP |
-| Description | Verifies that the questions table can filter rows by favorability. Consolidates archive GEO-67-TC005 (GEO-67). Former id: GEO-67-TC005. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) |
+| Description | Verifies that the questions table can filter rows by favorability. Consolidates archive GEO-67-TC005 (GEO-67). Former id: GEO-67-TC005. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging); filter menu options listed (Not Favorable label). |
 | Priority | Medium |
 | Stories | GEO-67 |
 | Precondition | An Editor is authenticated and the table contains multiple question outcomes |
@@ -143,12 +143,12 @@
 | Components / QA Component | Questions table / Favorability filter |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | FAIL 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the questions table is loaded with questions of different favorability values | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The questions table is visible with multiple rows |
-| 2 | When the Editor opens the Filters panel and selects the Favorable filter | Click the Filters button and select Favorable | The favorability filter is applied |
+| 1 | Given the questions table is loaded with questions of different favorability values | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The questions table is visible with multiple rows |
+| 2 | When the Editor opens the Filters panel and selects the Favorable filter | Click the Filters button and select Favorable (menu 'Favorability filter': All / Favorable / Split / Not Favorable / Unranked) | The favorability filter is applied |
 | 3 | Then only Favorable questions remain visible in the table | Filtered rows showing only Favorable questions | The table shows only rows with a Favorable badge |
 
 ---
@@ -159,8 +159,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP |
-| Description | Verifies that expanding a question row shows the detailed evidence panel. Consolidates archive GEO-67-TC006 (GEO-67). Former id: GEO-67-TC006. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) |
+| Description | Verifies that expanding a question row shows the detailed evidence panel. Consolidates archive GEO-67-TC006 (GEO-67). Former id: GEO-67-TC006. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging); the detail panel opens as a right-side drawer, not below the row. |
 | Priority | Medium |
 | Stories | GEO-67 |
 | Precondition | An Editor is authenticated and questions are visible in the table |
@@ -169,12 +169,12 @@
 | Components / QA Component | Questions table / Row details |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the questions table is loaded with at least one question row | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The questions table is visible with at least one collapsed question row |
-| 2 | When the Editor clicks on a question row to expand it | Click the first question row | The row expands and a detail panel appears below it |
+| 1 | Given the questions table is loaded with at least one question row | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The questions table is visible with at least one collapsed question row |
+| 2 | When the Editor clicks on a question row to expand it | Click the first question row | The detail panel opens as a right-side drawer (not below the row) |
 | 3 | Then the expanded detail panel is visible with LLM context buttons, ranking or sentiment content, and at least one source | Detail panel with LLM buttons + content + sources | The detail panel is visible and contains LLM buttons and source content |
 
 ---
@@ -185,8 +185,8 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — confirmed by the user 2026-10-28; aligned on the observed result 2026-11-04 (user decision) |
-| Description | Covers AC4 — perception question rows show sentiment favorability and theme badges with no rank badges. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): 25/25 Perception rows show theme chips and no rank badge, and none shows a favorability badge. Consolidates archive GEO-67-TC007 (GEO-67). Former id: GEO-67-TC007. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE — confirmed by the user 2026-10-28; aligned on the observed result 2026-11-04 (user decision); labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Covers AC4 — perception question rows show sentiment favorability and theme badges with no rank badges. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): 25/25 Perception rows show theme chips and no rank badge, and none shows a favorability badge. Consolidates archive GEO-67-TC007 (GEO-67). Former id: GEO-67-TC007. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging). |
 | Priority | High |
 | Stories | GEO-67 |
 | Precondition | Perception questions are displayed in the table |
@@ -195,11 +195,11 @@
 | Components / QA Component | Questions table / Question grouping,Question details |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given perception questions are displayed in the questions table | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The Perception tab is active and perception questions are visible |
+| 1 | Given perception questions are displayed in the questions table | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The Perception tab is active and perception questions are visible |
 | 2 | When the table renders each perception row | Perception tab selected | Each perception row is rendered |
 | 3 | Then each perception row shows at least one theme badge, and no favorability badge and no numeric rank badge are shown | Theme chips (+N) on perception row, no favorability badge, no rank badge | Each perception row has theme badges (+N when there are more). No Favorable / Neutral / Unfavorable badge and no numeric rank badge (#N) is shown on perception rows |
 
@@ -211,8 +211,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP |
-| Description | Covers AC5 — the table filters rows by question text via the Search input (client-side filter). Consolidates archive GEO-67-TC008 (GEO-67). Former id: GEO-67-TC008. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) |
+| Description | Covers AC5 — the table filters rows by question text via the Search input (client-side filter). Consolidates archive GEO-67-TC008 (GEO-67). Former id: GEO-67-TC008. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging); search placeholder 'Search prompts...'. |
 | Priority | High |
 | Stories | GEO-67 |
 | Precondition | An Editor is searching questions |
@@ -221,12 +221,12 @@
 | Components / QA Component | Questions table / Question grouping,Question details |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the questions table is loaded | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The questions table is visible with multiple rows |
-| 2 | When the Editor types a keyword in the "Search questions..." input field | Type a keyword matching at least one question in the search input | The table rows are filtered in real time as the Editor types |
+| 1 | Given the questions table is loaded | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The questions table is visible with multiple rows |
+| 2 | When the Editor types a keyword in the "Search prompts..." input field | Type a keyword matching at least one question in the search input | The table rows are filtered in real time as the Editor types |
 | 3 | Then the visible rows are reduced to only those containing the search keyword, and no backend request is triggered | Only matching rows visible after search input | The table shows only rows containing the typed keyword |
 
 ---
@@ -237,8 +237,8 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1) — behaviour change (confirmed at the gate) |
-| Description | Covers AC6 — the Filters button opens a panel where Favorable / Neutral / Unfavorable can be selected and combined with tabs and search. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Consolidates archive GEO-67-TC009 (GEO-67). Former id: GEO-67-TC009. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE — status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1) — behaviour change (confirmed at the gate); labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Covers AC6 — the Filters button opens a panel where Favorable / Neutral / Unfavorable can be selected and combined with tabs and search. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: status badges "Favorable / Neutral / Unfavorable" → per-type labels (Visibility Favorable / Unfavorable / Unranked, Competitive Won / Lost / Split — GEO-668 / GEO-716, archive question-visibility / question-competitive, R1.1); driven by step 3 → archive E2E-VIS-WN-01..04, E2E-COMP-WN-01..04. Consolidates archive GEO-67-TC009 (GEO-67). Former id: GEO-67-TC009. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging); filter options Favorable / Split / Not Favorable / Unranked ('Unfavorable' is labelled 'Not Favorable'). |
 | Priority | High |
 | Stories | GEO-67 |
 | Precondition | An Editor is filtering by favorability |
@@ -247,12 +247,12 @@
 | Components / QA Component | Questions table / Question grouping,Question details |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the questions table is loaded | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The questions table is visible |
-| 2 | When the Editor clicks the Filters button and selects a favorability option (Favorable / Unfavorable / Unranked) | Click the Filters button and select one favorability option | The filter panel opens and a favorability option is selected |
+| 1 | Given the questions table is loaded | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The questions table is visible |
+| 2 | When the Editor clicks the Filters button and selects a favorability option (Favorable / Split / Not Favorable / Unranked) | Click the Filters button (role=menu 'Favorability filter') and select one favorability option; active state reads 'Filters (1)' | The filter panel opens and a favorability option is selected |
 | 3 | Then the table filters accordingly and the filter is combinable with the question type tabs and the search bar | Table filtered by favorability; filter active indicator visible | The table rows are filtered to match the selected favorability and the filter is stackable with the type tab and search |
 
 ---
@@ -263,8 +263,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP |
-| Description | Covers AC7 — expanding a Visibility question row shows the detail panel with LLM rank badges and sources. Consolidates archive GEO-67-TC010 (GEO-67). Former id: GEO-67-TC010. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) |
+| Description | Covers AC7 — expanding a Visibility question row shows the detail panel with LLM rank badges and sources. Consolidates archive GEO-67-TC010 (GEO-67). Former id: GEO-67-TC010. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging); the detail panel opens as a right-side drawer. |
 | Priority | High |
 | Stories | GEO-67 |
 | Precondition | An Editor is expanding a visibility question row |
@@ -273,24 +273,24 @@
 | Components / QA Component | Questions table / Question grouping,Question details |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the Visibility tab is active and at least one visibility question is visible | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The Visibility tab is selected and visibility rows are displayed |
-| 2 | When the Editor clicks to expand a visibility question row | Click the first visibility question row | The row expands and the detail panel appears |
+| 1 | Given the Visibility tab is active and at least one visibility question is visible | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The Visibility tab is selected and visibility rows are displayed |
+| 2 | When the Editor clicks to expand a visibility question row | Click the first visibility question row | The detail panel opens as a right-side drawer (not below the row) |
 | 3 | Then the detail panel shows per-LLM rank buttons at the top, a position/rank value, and at least one source entry | Detail panel: LLM buttons + position rank + sources | The detail panel is visible with LLM buttons and at least one source listed |
 
 ---
 
 ## E2E-CAT-QUESTIONS-TABLE-011
 
-**Competitive row detail panel shows win/loss, chosen brand, About and Sources**
+**Competitive row detail panel shows the outcome per engine, chosen brand and Sources (no About)**
 
 | Field | Value |
 |---|---|
-| Status | UPDATE; aligned on the observed result 2026-11-04 (user decision) |
-| Description | Covers AC8 — expanding a Competitive question row shows the detail panel with win/loss badges and full ranking. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): the Competitive panel shows engine pills, the Won/Lost result with the chosen brand, an 'About' section and Sources — no ranked list of entities (same layout as E2E-CAT-QUESTION-ANALYSIS-006). Consolidates archive GEO-67-TC011 (GEO-67). Former id: GEO-67-TC011. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-04 (user decision); labels / test data aligned 2026-11-11 (MCP run of 10/11); aligned on GEO-1570 / GEO-1498 2026-11-11 (GEO 1.4 ACs, user decision) |
+| Description | Covers AC8 — expanding a Competitive question row shows the detail panel with win/loss badges and full ranking. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): the Competitive panel shows engine pills, the Won/Lost result with the chosen brand, an 'About' section and Sources — no ranked list of entities (same layout as E2E-CAT-QUESTION-ANALYSIS-006). Consolidates archive GEO-67-TC011 (GEO-67). Former id: GEO-67-TC011. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging); the detail panel opens as a right-side drawer (Won/Lost and About expectations unchanged — PO question pending). 2026-11-11: aligned on GEO-1570 / GEO-1498 — GEO-1498: the Competitive panel "shows the outcome card and not a ranking" and "the 'About {brand}' card of today goes"; GEO-1570: each engine pill shows its outcome in the rank badge spot (emerald Chosen / Conditional, red Not chosen / Overlooked). Observed 10/11: pills "Chosen", body "Toyota's results - CHATGPT" / "Chosen" / Sources, no 'ABOUT …', no ranked list. "Extracted from this answer" is per GEO-1498, not yet on staging 10/11 — not asserted. |
 | Priority | High |
 | Stories | GEO-67 |
 | Precondition | An Editor is expanding a competitive question row |
@@ -299,13 +299,13 @@
 | Components / QA Component | Questions table / Question grouping,Question details |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | FAIL 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the Competitive tab is active and at least one competitive question is visible | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The Competitive tab is selected and competitive rows are displayed |
-| 2 | When the Editor clicks to expand a competitive question row | Click the first competitive question row | The row expands and the detail panel appears |
-| 3 | Then the detail panel shows per-LLM buttons, a win/loss result badge with the chosen brand, an 'About' section and the Sources | Detail panel: LLM buttons + Won/Lost badge + "{brand} was chosen" + 'ABOUT {product}' + Sources | The detail panel shows the engine buttons, the result badge (e.g. 'Lost' with 'Dacia Duster was chosen'), the 'ABOUT …' text (e.g. 'ABOUT TOYOTA YARIS CROSS') and the Sources list; no ranked list of entities is shown |
+| 1 | Given the Competitive tab is active and at least one competitive question is visible | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The Competitive tab is selected and competitive rows are displayed |
+| 2 | When the Editor clicks to expand a competitive question row | Click the first competitive question row | The detail panel opens as a right-side drawer (not below the row) |
+| 3 | Then the detail panel shows per-LLM buttons with each engine's outcome, the outcome card of the selected engine with the chosen brand and the Sources — no 'About' section | Engine pills: outcome in the rank badge spot ('Chosen' emerald / 'Not chosen' red — GEO-1570) \| Body: "{brand}'s results - {ENGINE}" + outcome ('Chosen', or 'Not chosen' + "{competitor} was chosen") + Sources \| No 'ABOUT …' | The detail panel shows the engine buttons with their outcome, the outcome card (e.g. "Toyota's results - CHATGPT" / 'Chosen', or 'Not chosen' with '{competitor} was chosen') and the Sources list; no 'ABOUT …' section, no 'Won' / 'Lost' badge and no ranked list of entities (GEO-1498) |
 
 ---
 
@@ -315,8 +315,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP |
-| Description | Covers AC9 — expanding a Perception question row shows the detail panel with sentiment badge and theme badges. Consolidates archive GEO-67-TC012 (GEO-67). Former id: GEO-67-TC012. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) |
+| Description | Covers AC9 — expanding a Perception question row shows the detail panel with sentiment badge and theme badges. Consolidates archive GEO-67-TC012 (GEO-67). Former id: GEO-67-TC012. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging); the detail panel opens as a right-side drawer. |
 | Priority | High |
 | Stories | GEO-67 |
 | Precondition | An Editor is expanding a perception question row |
@@ -325,12 +325,12 @@
 | Components / QA Component | Questions table / Question grouping,Question details |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the Perception tab is active and at least one perception question is visible | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The Perception tab is selected and perception rows are displayed |
-| 2 | When the Editor clicks to expand a perception question row | Click the first perception question row | The row expands and the detail panel appears |
+| 1 | Given the Perception tab is active and at least one perception question is visible | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The Perception tab is selected and perception rows are displayed |
+| 2 | When the Editor clicks to expand a perception question row | Click the first perception question row | The detail panel opens as a right-side drawer (not below the row) |
 | 3 | Then the detail panel shows a sentiment badge (Positive / Mixed / Negative), at least one theme badge, and at least one source | Detail panel: sentiment badge + theme badges + sources | The detail panel is visible with a sentiment badge and at least one theme badge |
 
 ---
@@ -341,8 +341,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP |
-| Description | Covers AC11 — the table recalculates status and favorability from the filtered LLM pool when an LLM is deselected. Consolidates archive GEO-67-TC014 (GEO-67). Former id: GEO-67-TC014. Archived in GEO-R1.0/e2e-category-questions-table.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) |
+| Description | Covers AC11 — the table recalculates status and favorability from the filtered LLM pool when an LLM is deselected. Consolidates archive GEO-67-TC014 (GEO-67). Former id: GEO-67-TC014. Archived in GEO-R1.0/e2e-category-questions-table.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): data Toyota › Voitures hybrides (luxury handbags 89f17431 not on staging); engine filter = AI Engines menu (aria-label 'AI engine filters'). |
 | Priority | High |
 | Stories | GEO-67 |
 | Precondition | LLM filter changes |
@@ -351,12 +351,12 @@
 | Components / QA Component | Questions table / Question grouping,Question details |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the questions table is loaded with all LLM engines active | Category URL: https://staging-geo.onclusive.com/geo/dashboard/89f17431-f9ff-4fb5-bc85-a5fd2f3ac0dc/category/4cde6c93-84c2-453a-ac67-a8467ee5e617 | The questions table is visible with initial data from all LLMs |
-| 2 | When the user deselects one LLM engine from the LLM engine filter | Toggle off one LLM engine in the filter | The filter change triggers a reload of the questions table |
+| 1 | Given the questions table is loaded with all LLM engines active | Category URL: https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e/category/21a79173-c455-4e49-bf69-307dc2dba7e4 (Toyota › Voitures hybrides — the luxury handbags analysis 89f17431 does not exist on staging) | The questions table is visible with initial data from all LLMs |
+| 2 | When the user deselects one LLM engine from the LLM engine filter | Open the AI Engines menu (aria-label 'AI engine filters', data-testid 'llm-dropdown-trigger') and toggle off one engine (e.g. Perplexity) | The filter change triggers a reload of the questions table |
 | 3 | Then the questions table remains visible and reflects the updated status/favorability based on the filtered LLM pool only | Questions table updated after LLM deselection | The table is still visible and reflects data from the remaining active LLMs |
 
 ---

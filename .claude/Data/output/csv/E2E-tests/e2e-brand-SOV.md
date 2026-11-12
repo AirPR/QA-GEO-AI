@@ -18,7 +18,7 @@
 | [E2E-BRAND-SOV-009](#e2e-brand-sov-009) | Empty state displayed when scope has no responses | KEEP | GEO-664 |
 | [E2E-BRAND-SOV-010](#e2e-brand-sov-010) | Error state shows reload button that re-fetches inline | KEEP | GEO-664 |
 | [E2E-BRAND-SOV-011](#e2e-brand-sov-011) | Loading skeleton occupies chart area while data is fetching | KEEP | GEO-664 |
-| [E2E-BRAND-SOV-012](#e2e-brand-sov-012) | Filter changes recompute doughnut callouts legend and center label | KEEP | GEO-664 |
+| [E2E-BRAND-SOV-012](#e2e-brand-sov-012) | Filter changes recompute doughnut callouts legend and center label | UPDATE | GEO-664 |
 | [E2E-BRAND-SOV-013](#e2e-brand-sov-013) | Doughnut with 10 or fewer brands shows no Others slice | KEEP | GEO-664 |
 
 ---
@@ -39,7 +39,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | GEO / Functional |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -67,7 +67,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | GEO / Functional |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -94,7 +94,7 @@
 | Components / QA Component | functional / GEO |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -122,7 +122,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | GEO / Functional |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -148,7 +148,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | GEO / Functional |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -176,7 +176,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -205,7 +205,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -232,7 +232,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -259,7 +259,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | SKIP 03/07 |
+| Last result | PARTIAL 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -286,7 +286,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | GEO / Functional |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -314,7 +314,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | GEO / Functional |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -330,8 +330,8 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP — no newer TC contradicts it (non-regression, test plan scenario 217; GEO-1528 legend rounding Passed QA) |
-| Description | TC-GEO-664-009 - Filter changes recompute doughnut callouts legend and center label. Consolidates archive TC-GEO-664-009 (GEO-664). Former id: TC-GEO-664-009. Archived in GEO-R1.0/e2e-brand-SOV.csv. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — no newer TC contradicts it (non-regression, test plan scenario 217; GEO-1528 legend rounding Passed QA) |
+| Description | TC-GEO-664-009 - Filter changes recompute doughnut callouts legend and center label. Consolidates archive TC-GEO-664-009 (GEO-664). Former id: TC-GEO-664-009. Archived in GEO-R1.0/e2e-brand-SOV.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): filter "market" → "country" (GEO-1514). |
 | Priority | High |
 | Stories | GEO-664 |
 | Precondition |  |
@@ -340,12 +340,12 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 03/07 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given the SOV doughnut chart is rendered with a given scope (market, category, engine, period) | SOV doughnut visible with initial scope data | SOV card is visible with the doughnut rendered |
-| 2 | When the user updates any filter (market, category, engine, or period) |  | Filter value is changed |
+| 1 | Given the SOV doughnut chart is rendered with a given scope (country, category, engine, period) | SOV doughnut visible with initial scope data | SOV card is visible with the doughnut rendered |
+| 2 | When the user updates any filter (country, category, engine, or period) |  | Filter value is changed |
 | 3 | Then the doughnut arcs, outside callouts, legend entries, and center label all recompute and refresh to reflect the new scope |  | Doughnut updates with new data |
 
 ---
@@ -366,7 +366,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | SKIP 03/07 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|

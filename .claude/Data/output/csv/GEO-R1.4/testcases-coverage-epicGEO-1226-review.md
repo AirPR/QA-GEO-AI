@@ -4,7 +4,7 @@
 
 **Mode `--figma`:** the 6 PNGs already extracted in `figmaScreens/14_GEO-1226_Review_pages/` (Figma API not called again). Exact UI texts reused in the expected results: "17 negative reviews", "4 negative reviews", "1 negative review", "Show 7 more reviews", "Show 1 more review" (strings sheet), "Avis de CNP Assurances", "fr.trustpilot.com/review/cnp.fr?page=2", "Each of these articles mentions {brand} negatively.", "None of these articles mentions {brand} anywhere on the page.", "Lack of visibility (2)", "Negative perception (2)", "Review Sites", "Improve visibility", "Improve perception", "Previous" · "Source N of M" · "Next source". Demo texts tied to CNP are given as examples only (staging data differs).
 
-**CSV:** `.claude/Data/output/csv/GEO-R1.4/testcases-coverage-epicGEO-1226.csv` — 79 TCs, 314 step rows (+1 header), 16 columns, `;` separator, fields quoted with doubled quotes when they hold `;` or `"`, UTF-8 without BOM, LF. One Cucumber step per row; case-level fields on the first row of each TC only. QA Parent = GEO-1226, Components = GEO, QA Component = GEO Module, Test Type = Manual, QA Regression = Yes for High. Labels: one label per TC (differs from the R1.3 CSVs where Labels was empty, on request). Not imported to Quality Plus, nothing written to Jira.
+**CSV:** `.claude/Data/output/csv/GEO-R1.4/testcases-coverage-epicGEO-1226.csv` — 79 TCs, 315 step rows (+1 header), 16 columns, `;` separator, fields quoted with doubled quotes when they hold `;` or `"`, UTF-8 without BOM, LF. One Cucumber step per row; case-level fields on the first row of each TC only. QA Parent = GEO-1226, Components = GEO, QA Component = GEO Module, Test Type = Manual, QA Regression = Yes for High. Labels: one label per TC (differs from the R1.3 CSVs where Labels was empty, on request). Not imported to Quality Plus, nothing written to Jira.
 
 **Environment:** staging, main QA account (no AC names a role), en-GB except the FR / ES string TCs (switch, then restore en-GB and check `/geo/api/v1/auth/me`). Analyses must have run after the review-v1 deploy (GEO-1547 TAC2). Candidate staging analyses from the findings file (org "GEO Stress Test 2026-10", data of 2026-10-06, to confirm in the JDD phase): MSC Croisières dc801726, Victoria's Secret 0bd0b48c, Verisure 183bdb00, Great Eastern 595928ee; Toyota QA-GEO 439acd96 for non-review sources. CNP Assurances (epic example) is production only (P6).
 
@@ -13,7 +13,7 @@
 | Metric | Value |
 |---|---|
 | Test cases | 79 |
-| Steps (CSV rows) | 314 |
+| Steps (CSV rows) | 315 |
 | Stories | 3 |
 | Coverage | happy path 40 · edge 16 · error / negative 13 · state 10 |
 | Priority | Urgent 0 · High 30 · Medium 35 · Low 14 |
@@ -27,7 +27,7 @@
 
 | Story | Title | ACs (functional + technical) | TCs | Steps | Smoke | High | Medium | Low |
 |---|---|---|---|---|---|---|---|---|
-| GEO-1547 | STORY-49.1 List every negative review of a review page | 7 + 5 | 26 | 110 | 1 | 14 | 9 | 3 |
+| GEO-1547 | STORY-49.1 List every negative review of a review page | 7 + 5 | 26 | 111 | 1 | 14 | 9 | 3 |
 | GEO-1548 | STORY-49.2 Group the pages of a review page into one article | 7 + 4 | 26 | 101 | 1 | 8 | 13 | 5 |
 | GEO-1549 | STORY-49.3 Show review pages in the Target Sources panel | 7 + 3 | 27 | 103 | 2 | 8 | 13 | 6 |
 
@@ -40,7 +40,7 @@
 | AC-1 | Every negative review, one entry each | GEO-1547-001 |
 | AC-2 | Verbatim, 140 characters | GEO-1547-002, GEO-1547-003 |
 | AC-3 | Brand name not required on a review page (GEO-1183 kept elsewhere) | GEO-1547-004, GEO-1547-005, GEO-1547-012 |
-| AC-4 | Never chrome or a positive review | GEO-1547-006, GEO-1547-007 |
+| AC-4 | Never chrome or a positive review (PO GEO-1583 c876255, 2026-11-11: "Any criticism = listed", a 4–5★ review that criticises the brand is listed) | GEO-1547-006, GEO-1547-007, GEO-1547-010 |
 | AC-5 | At most 10 per page | GEO-1547-008 |
 | AC-6 | Negative page | GEO-1547-009, GEO-1547-010 |
 | AC-7 | Other sources unchanged | GEO-1547-011, GEO-1547-012, GEO-1547-013, GEO-1547-023, GEO-1547-024, GEO-1547-025, GEO-1547-026 |
@@ -127,6 +127,8 @@ Every functional AC, every epic AC and every technical AC has at least one dedic
 | GEO-1204 | GEO-1547-019 (Related bug), GEO-1547-020 (Related bug), GEO-1547-021 (Related bug) |
 | GEO-1192 | GEO-1547-022 (Related bug), GEO-1547-023 (Related bug) |
 | GEO-1224 | GEO-1547-006, GEO-1547-007, GEO-1547-024 (Related bug), GEO-1547-025 (Related bug) |
+| GEO-1580 (Ready for QA 2026-11-11) | GEO-1547-024, GEO-1547-025 (retest) |
+| GEO-1583 (Action Needed) | GEO-1547-006 (site-written text, strict), GEO-1547-007 / 010 (positive-review part by design, PO c876255) |
 | GEO-1201 | GEO-1547-002, GEO-1547-026 (Related bug) |
 | GEO-1183 | GEO-1547-005, GEO-1547-012 |
 
@@ -138,7 +140,7 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 |---|---|
 | P6 | Every TC: common precondition (test data on staging, analysis run after the review-v1 deploy; CNP production only with approval, GEO-1548-001 / 004 / 008 / 009 / 010–012) |
 | P9 | Every review-site TC: common precondition (dev or API tells which pages got review mode; key for GEO-1547-004 / 012, GEO-1548-024) |
-| P1 | GEO-1547-012, GEO-1548-024 |
+| P1 | GEO-1547-012, GEO-1548-024 — answered 2026-11-04 (GEO-1226 c873111): no stored review = not negative, no classic passage for a merged page (bug GEO-1585, Passed QA) |
 | P2 | GEO-1549-008, GEO-1549-013 |
 | P3 | GEO-1548-004 |
 | P5 | GEO-1548-014, GEO-1548-015, GEO-1548-016 |
@@ -216,14 +218,15 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 - Step 3 — Then no entry is the page title → No entry such as "Avis de CNP Assurances | Lisez les avis marchands de cnp.fr | 2 sur 29" (today's passage, frame 1.0)
 - Step 4 — And no entry is a menu, a banner or a summary written by the site → No navigation, cookie banner, TrustScore / rating summary or site-generated text in any entry
 
-**TC-GEO-1547-007 - No entry is a positive review or a reply from the company** (AC-4) | Priority: High | Smoke: No | Regression: Yes | Functional | Label: review-no-positive | error
+**TC-GEO-1547-007 - A review that criticises the brand is listed even when rated 4–5★; no review without criticism and no company reply** (AC-4, PO GEO-1583 c876255) | Priority: High | Smoke: No | Regression: Yes | Functional | Label: review-no-positive | error
 
-- Description: Verify that positive reviews and replies from the company are never listed as entries. Covers AC-4. Related GEO-1224.
-- Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a review page holding positive reviews, negative reviews and at least one reply from the company. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
-- Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: Review page with 4–5 star reviews, 1–2 star reviews and a company reply (e.g. "Réponse de …" / "Reply from …" on Trustpilot)] → The grouped articles of the source are listed with their page blocks and entries
+- Description: Verify that a review that criticises the brand is listed even when it is rated 4–5★, and that a review holding no criticism of the brand and a reply from the company are never listed as entries. Covers AC-4. PO decision (GEO-1583 comment 876255, Quentin Reant, 2026-11-11): "Any criticism = listed please", answering the dev question 876222 (option "Any criticism = listed, even in a 4 or 5-star review"). Related GEO-1224, GEO-1583.
+- Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a review page holding reviews without any criticism of the brand, negative reviews, at least one 4–5★ review that holds a criticism, and at least one reply from the company. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
+- Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: Review page with 4–5 star reviews, 1–2 star reviews and a company reply; a 4–5★ review that holds a criticism, e.g. cardekho.com Toyota Fortuner 4.2★ review "Fortuner 4wd" (Toyota QA-GEO 439acd96) (company reply e.g. "Réponse de …" / "Reply from …" on Trustpilot)] → The grouped articles of the source are listed with their page blocks and entries
 - Step 2 — When the user compares each entry with the live page → Each entry is found on the live page
-- Step 3 — Then no entry is a positive review → Every entry criticises the brand; the positive reviews of the page are not listed
-- Step 4 — And no entry is a reply from the company → No text of a company reply is listed
+- Step 3 — Then a review that criticises the brand is listed even when it is rated 4–5★ → The 4–5★ review that holds a criticism is listed, its entry found verbatim in that review (e.g. cardekho.com Toyota Fortuner 4.2★: "There is no lack of power, but it is not for comfort, just a pure diesel roar…") — PO GEO-1583 comment 876255
+- Step 4 — And no entry is a review holding no criticism of the brand → Every entry criticises the brand; the reviews of the page that hold no criticism of the brand are not listed
+- Step 5 — And no entry is a reply from the company → No text of a company reply is listed
 
 **TC-GEO-1547-008 - Page with more than 10 negative reviews keeps 10 entries and counts 10** (AC-5, Epic AC-10) | Priority: High | Smoke: No | Regression: Yes | Functional | Label: review-cap-per-page | edge
 
@@ -246,9 +249,9 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 
 **TC-GEO-1547-010 - Review page with no negative review is not in Negative perception** (AC-6) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: review-page-verdict | error
 
-- Description: Verify that a page holding no negative review is not negative: it has no page block, and an article whose pages hold none is not in Negative perception. Covers AC-6 (negative).
-- Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a review page of the brand whose page P holds only positive reviews. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
-- Step 1 — Given the user is on Actions Center > Target Sources of analysis A [data: Review page with one page holding only 4–5 star reviews (e.g. a recent ?page=N)] → The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION
+- Description: Verify that a page holding no negative review is not negative: it has no page block, and an article whose pages hold none is not in Negative perception. Covers AC-6 (negative). Per PO decision GEO-1583 comment 876255 (2026-11-11, "Any criticism = listed please"), a 4–5★ review that holds a criticism makes the page negative: page P must hold no criticism of the brand at all.
+- Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a review page of the brand whose page P holds only reviews with no criticism of the brand (a 4–5★ review with a complaint is listed, PO GEO-1583 comment 876255). Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
+- Step 1 — Given the user is on Actions Center > Target Sources of analysis A [data: Review page with one page whose reviews hold no criticism of the brand (e.g. a recent ?page=N of 4–5★ reviews without any complaint)] → The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION
 - Step 2 — When the user opens the panel of the Review Sites source and selects the tab "Negative perception" [data: Source with the badge "Review Sites" (e.g. trustpilot.com)] → The panel header shows "#N · trustpilot.com" with the chip "Review Sites"; the tab "Negative perception (N)" is active with the subtitle "Each of these articles mentions {brand} negatively."
 - Step 3 — Then no page block is shown for page P → The URL of page P is absent from all page blocks
 - Step 4 — And an article whose pages all hold no negative review is not listed → Such an article is absent from Negative perception and not counted in "Negative perception (N)"
@@ -382,12 +385,12 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 - Step 3 — Then no passage is a page title, a cookie banner, a menu or a favourable sentence → Every passage is a criticism of the brand
 - Step 4 — And a criticism far from the brand name is joined to the nearest brand name with "…" → Passage of the form "{brand} … {criticism}"
 
-**TC-GEO-1547-025 - GEO-1224 article without a good quote shows no quote rather than the header** (Related bug GEO-1224, AC-7) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: regression-GEO-1224 | edge
+**TC-GEO-1547-025 - GEO-1224 article without a good quote shows no quote rather than the header** (Related bug GEO-1224, Covers AC-7) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: regression-GEO-1224 | edge
 
-- Description: Related bug: GEO-1224 (Done, 1.2). PO decision D11 (GEO-1224 comment 859761, 2026-10-07): "no quote rather than page header". A negative article without a good quote stays listed without a quote on non-review sources.
-- Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a non-review negative article with no quotable passage (Toyota QA-GEO 439acd96, to find at execution).
+- Description: Related bug: GEO-1224 (Done, 1.2). PO decision D11 (GEO-1224 comment 859761, 2026-10-07): "no quote rather than page header". A negative article without a good quote stays listed without a quote on non-review sources. Covers AC-7 (unchanged rule).
+- Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a non-review negative article with no quotable passage (Toyota QA-GEO 439acd96, automobile-magazine.fr "Défauts de batterie 12 V chez Toyota et Lexus…", listed without a quote since the GEO-1580 fix, QA comment 875748, 2026-11-10).
 - Step 1 — Given the user is on Actions Center > Target Sources of analysis A [data: Toyota QA-GEO 439acd96] → The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION
-- Step 2 — When the user opens the panels of the Journalism sources in Negative perception → Article rows shown
+- Step 2 — When the user opens the panels of the Journalism sources in Negative perception [data: Toyota 439acd96 (QA-GEO): guideautoweb.com, automobile-magazine.fr, largus.fr, article without a good quote: automobile-magazine.fr "Défauts de batterie 12 V chez Toyota et Lexus…" (Last 7 days, listed without a quote, GEO-1580 QA comment 875748, 2026-11-10)] → Article rows shown
 - Step 3 — Then an article with no good quote is listed without a quote → The article row shows title and URL, no passage
 - Step 4 — And no article shows its page header as a quote → No title / banner / menu passage
 
@@ -608,14 +611,14 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 - Step 2 — When the user reads the URL lines of the articles → Both variants found
 - Step 3 — Then each variant is its own article → Two articles, not merged
 
-**TC-GEO-1548-024 - Page without stored reviews inside a grouped article** (AC-4, Open point P1) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: open-point | state
+**TC-GEO-1548-024 - Page without stored reviews inside a grouped article** (AC-4, GEO-1549 AC-1, P1 answered 873111, related bug GEO-1585) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: open-point | state
 
-- Description: Check how a page without stored reviews (comparison page judged with today's rule, or page not yet re-judged with review-v1) shows inside a multi-page article, and whether it counts for the tabs. Open point P1: only the one-page case is decided (dev note D6). Covers AC-4 / GEO-1549 AC-1.
+- Description: Verify that a page without stored reviews inside a multi-page article shows no classic passage, and that a grouped article none of whose pages holds a stored review does not count as negative. PO answer P1 (GEO-1226 comment 873111, 2026-11-04): no review stored = no negative page and no negative article (not in the tab, on the card or in the export); no classic passage for a merged page (GEO-1224). Covers AC-4 / GEO-1549 AC-1. Related bug: GEO-1585.
 - Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a grouped article holding one page without stored reviews (comparison page or not re-judged). Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
 - Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: Grouped article with one page without stored reviews (dev to name it, P9)] → The grouped articles of the source are listed with their page blocks and entries
 - Step 2 — When the user reads the page blocks of the article → Page blocks listed
-- Step 3 — Then the page without stored reviews shows as decided by the PO → [Open point P1 — expected to confirm] page block with its classic passage, page block with no entry, or not shown; QA records what is shown
-- Step 4 — And its effect on the article tab is as decided by the PO → [Open point P1 — expected to confirm] counts or not for the Negative perception verdict and the Lack of visibility rule; QA records the result
+- Step 3 — Then the page without stored reviews shows no classic passage → No page block, no entry and no classic passage for that page
+- Step 4 — And a grouped article with no stored review is not counted as negative [data: e.g. Orange 16cdf040, Last 30 days, trustpilot.com: ie.trustpilot.com/review/www.orange.ma (pages = [])] → Not listed in the Negative perception tab, not counted in the tab, on the source card or in the export
 
 **TC-GEO-1548-025 - Comparison page alone in its article keeps its classic passage** (AC-7) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: comparison-page | state
 
@@ -716,7 +719,7 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 
 **TC-GEO-1549-010 - [Figma] Expanded article has no button left and no Show less** (Figma E3, AC-5) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: figma | state
 
-- Description: [Figma] Verify that once expanded, the article has no Show more button left and no "Show less". Figma gap E3 (frame 1.2, state without AC; related AC-5).
+- Description: [Figma] Verify that once expanded, the article has no Show more button left and no "Show less". Figma gap E3 (frame 1.2, state without AC). Covers AC-5.
 - Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: same article as TC-GEO-1549-008 (11 to 20 reviews). Design: Figma GEO-1497, figmaScreens/14_GEO-1226_Review_pages/03_1.2_Show_more_expanded_all_17_reviews.png. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
 - Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: Article with 11 to 20 negative reviews] → The grouped articles of the source are listed with their page blocks and entries
 - Step 2 — When the user clicks "Show N more reviews" → All reviews shown
@@ -769,7 +772,7 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 
 **TC-GEO-1549-016 - [Figma] Lack of visibility review article has no chip and no count** (Figma E7, AC-7) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: figma | happy
 
-- Description: [Figma] Verify the Lack of visibility layout of a grouped article: no chip, no count per page, page 1 listed as a link, URL line plain. Figma gap E7 (frame 1.3, note 1.3 "no quote and no badge"; designer comment 865921). Related AC-7.
+- Description: [Figma] Verify the Lack of visibility layout of a grouped article: no chip, no count per page, page 1 listed as a link, URL line plain. Figma gap E7 (frame 1.3, note 1.3 "no quote and no badge"; designer comment 865921). Covers AC-7.
 - Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: same as TC-GEO-1549-015. Design: Figma GEO-1497, figmaScreens/14_GEO-1226_Review_pages/04_1.3_Lack_of_visibility_tab_review_pages_with_no_mention_of_the_brand.png. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
 - Step 1 — Given the user is on Actions Center > Target Sources of analysis A [data: Review Sites source with a paginated review page in Lack of visibility] → The Target Sources cards are displayed with the tabs ALL, IMPROVE VISIBILITY and IMPROVE PERCEPTION
 - Step 2 — When the user opens the panel and selects the tab "Lack of visibility" → The grouped article is listed
@@ -779,7 +782,7 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 
 **TC-GEO-1549-017 - [Figma] Pages without a negative review are not listed as page blocks** (Figma E5, AC-1) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: figma | edge
 
-- Description: [Figma] Verify that no page block is empty: a page without negative review is not listed. Figma gap E5 (frames 1.1 / 1.2: page 1 and page 9 absent; rationale "Pages without a negative review are not listed"). Related AC-1.
+- Description: [Figma] Verify that no page block is empty: a page without negative review is not listed. Figma gap E5 (frames 1.1 / 1.2: page 1 and page 9 absent; rationale "Pages without a negative review are not listed"). Covers AC-1.
 - Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a grouped article where some pages hold no negative review. Design: Figma GEO-1497, figmaScreens/14_GEO-1226_Review_pages/03_1.2_Show_more_expanded_all_17_reviews.png. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
 - Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: Grouped article with gaps in page numbers (e.g. ?page=8 then ?page=10)] → The grouped articles of the source are listed with their page blocks and entries
 - Step 2 — When the user clicks "Show N more reviews" if present and reads all page blocks → All page blocks shown
@@ -788,15 +791,15 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 
 **TC-GEO-1549-018 - [Figma] Page block link opens in a new tab with the external icon** (Figma E6, AC-1) | Priority: Low | Smoke: No | Regression: No | UI | Label: figma | happy
 
-- Description: [Figma] Verify that the page block URL is a link with the open_in_new icon that opens a new tab. Figma gap E6 (frame 1.1, rationale "opens the page in a new tab"). Related AC-1.
+- Description: [Figma] Verify that the page block URL is a link with the open_in_new icon that opens a new tab. Figma gap E6 (frame 1.1, rationale "opens the page in a new tab"). Covers AC-1.
 - Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: any grouped article. Design: Figma GEO-1497, figmaScreens/14_GEO-1226_Review_pages/02_1.1_Review_page_as_one_article_quotes_only_first_10_reviews.png. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
 - Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: Grouped article] → The grouped articles of the source are listed with their page blocks and entries
-- Step 2 — When the user reads a page block header → Underlined URL followed by the open_in_new icon
+- Step 2 — When the user reads a page block header → URL link followed by the open_in_new icon, underlined on hover
 - Step 3 — And the user clicks the URL → The page opens in a new browser tab; the GEO panel stays open in the first tab
 
 **TC-GEO-1549-019 - [Figma] Dropped texts are not shown** (Figma E10, AC-2, AC-4) | Priority: Low | Smoke: No | Regression: No | Functional | Label: figma | error
 
-- Description: [Figma] Verify that the texts dropped at the design review are not shown: "{n} pages", "Page {n}", "{rating}/5", "of 20 reviews". Figma gap E10 (rationale "Dropped after review"), consistent with PO decision D3 (GEO-1497 comment 865680). Related AC-2 / AC-4.
+- Description: [Figma] Verify that the texts dropped at the design review are not shown: "{n} pages", "Page {n}", "{rating}/5", "of 20 reviews". Figma gap E10 (rationale "Dropped after review"), consistent with PO decision D3 (GEO-1497 comment 865680). Covers AC-2 / AC-4.
 - Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a grouped article and a one-page article. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
 - Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: Grouped article and one-page article] → The grouped articles of the source are listed with their page blocks and entries
 - Step 2 — When the user reads the article rows, page blocks and entries, expanded → All texts shown
@@ -804,7 +807,7 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 
 **TC-GEO-1549-020 - [Figma] Article chip is rendered in upper case** (Figma E2, AC-2) | Priority: Low | Smoke: No | Regression: No | UI | Label: figma | happy
 
-- Description: [Figma] Verify the style of the article chip: the string "17 negative reviews" is rendered in upper case. Figma gap E2 (frames 1.1 to 2.1 show "17 NEGATIVE REVIEWS"; text-case style). Related AC-2.
+- Description: [Figma] Verify the style of the article chip: the string "17 negative reviews" is rendered in upper case. Figma gap E2 (frames 1.1 to 2.1 show "17 NEGATIVE REVIEWS"; text-case style). Covers AC-2.
 - Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a grouped article. Design: Figma GEO-1497, figmaScreens/14_GEO-1226_Review_pages/02_1.1_Review_page_as_one_article_quotes_only_first_10_reviews.png.
 - Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: Grouped article with 17 (or N) negative reviews] → The grouped articles of the source are listed with their page blocks and entries
 - Step 2 — When the user reads the chip under the URL line → Chip shown
@@ -812,7 +815,7 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 
 **TC-GEO-1549-021 - [Figma] One-page and grouped URL lines look the same but only one is a link** (Figma E9, AC-3) | Priority: Low | Smoke: No | Regression: No | UI | Label: figma | happy
 
-- Description: [Figma] Verify that the URL line of a one-page article and of a grouped article share the same grey style while only the one-page line is a link. Figma gap E9 (frame 1.4). Related AC-3.
+- Description: [Figma] Verify that the URL line of a one-page article and of a grouped article share the same grey style while only the one-page line is a link. Figma gap E9 (frame 1.4). Covers AC-3.
 - Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a one-page article and a grouped article in the same tab. Design: Figma GEO-1497, figmaScreens/14_GEO-1226_Review_pages/05_1.4_One-page_review_page_no_page_block_reviews_under_the_title.png. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
 - Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: One-page article above a grouped article (Figma 1.4)] → The grouped articles of the source are listed with their page blocks and entries
 - Step 2 — When the user compares the two URL lines → Same grey text style
@@ -830,7 +833,7 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 
 **TC-GEO-1549-023 - Show more reviews and Show more articles work together in one tab** (AC-5, Figma E17) | Priority: Medium | Smoke: No | Regression: No | Functional | Label: review-show-more | state
 
-- Description: Exploratory check of the article Show more ("Show N more reviews", AC-5) combined with the list Show more ("Show N more articles", GEO-1161) in the same tab. Figma gap E17 (AC without design; frame 1.0 shows "Show 8 more articles").
+- Description: Exploratory check of the article Show more ("Show N more reviews", AC-5) combined with the list Show more ("Show N more articles", GEO-1161) in the same tab. Figma gap E17 (AC without design; frame 1.0 shows "Show 8 more articles"). Covers AC-5.
 - Precondition: Staging https://staging-geo.onclusive.com/geo, main QA account logged in, interface language British English (en-GB), checked with GET /geo/api/v1/auth/me. The analysis used has run at least once after the review-v1 deploy (pages are re-judged only at the next run, GEO-1547 TAC2). Candidate data to confirm in the JDD (phase 5, open point P6). Data: a Review Sites source with more than 10 articles in one tab and one article with more than 10 reviews. Review mode has no UI marker (open point P9): confirm with the dev or the panel API response (reviews[] / pageTitle) which pages got review mode.
 - Step 1 — Given the Negative perception tab of the panel of a Review Sites source is open [data: Tab with > 10 articles, one of them with > 10 reviews] → The grouped articles of the source are listed with their page blocks and entries
 - Step 2 — When the user clicks "Show N more reviews" in the article → Only that article expands; the list button "Show N more articles" keeps its number
@@ -872,3 +875,17 @@ GEO-1204 cases outside this epic (USPS prc.gov press release still not negative,
 - Step 3 — Then the chip and page block counts read the ES plural and singular forms → [expected ES text to confirm from the strings sheet, P7]
 - Step 4 — And the button reads the ES plural and singular forms [data: Articles with 17 and 11 reviews] → [expected ES text to confirm from the strings sheet, P7]
 - Step 5 — And the user restores the interface language to British English [data: Settings > language en-GB] → Interface back in en-GB; /auth/me returns en-GB
+
+## Sync 2026-11-12 (/sync-tcs-epic, full history since 2026-10-07)
+
+Jira ACs unchanged (epic, GEO-1547 / 1548 / 1549 match the local files). Changes mirrored from the CSV (79 TCs before = 79 after, 314 → 315 step rows):
+
+| TC | Action | Source |
+|---|---|---|
+| TC-GEO-1547-007 | UPDATE — title, description, precondition, Given data; step 3 rewritten ("a review that criticises the brand is listed even when rated 4–5★", cardekho Fortuner 4.2★ example) and new step 4 "no entry is a review holding no criticism of the brand"; company-reply step unchanged. Rerun | PO decision GEO-1583 comment 876255 (Quentin Reant, 2026-11-11): "Any criticism = listed please" |
+| TC-GEO-1547-010 | UPDATE — description, precondition and Given data: page P holds no criticism of the brand (a 4–5★ review with a complaint makes the page negative). Rerun | same |
+| TC-GEO-1547-025 | UPDATE data (C-3 closed) — automobile-magazine.fr "Défauts de batterie 12 V chez Toyota et Lexus…" listed without a quote; FIX REF "Covers AC-7 (unchanged rule)". Rerun with GEO-1580 | GEO-1580 QA comment 875748 (2026-11-10) |
+| TC-GEO-1548-024 | Review file aligned with the CSV (C-9 of 2026-11-05 was not mirrored) | GEO-1226 comment 873111 |
+| TC-GEO-1549-018, TC-GEO-1547-025 step 2 | Review file aligned with the CSV (C-6 of 2026-11-04 "underlined on hover" and the step 2 test data were not mirrored) | RUN-FINDINGS C-6 |
+| TC-GEO-1549-010, -016, -017, -018, -019, -020, -021, -023 | FIX REF "Related AC-N" → "Covers AC-N" (010 AC-5, 016 AC-7, 017 / 018 AC-1, 019 AC-2 / AC-4, 020 AC-2, 021 AC-3, 023 AC-5). TC-GEO-1549-022 unchanged (regression of unchanged texts, no AC) | user decision 2026-11-12 |
+| TC-GEO-1547-006, TC-GEO-1547-024 | KEEP strict — open bugs GEO-1583 (site-written text, QA 876201) and GEO-1580 (Ready for QA 2026-11-11) | — |

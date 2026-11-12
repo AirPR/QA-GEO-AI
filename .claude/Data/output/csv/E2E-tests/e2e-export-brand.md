@@ -17,8 +17,8 @@
 
 | Field | Value |
 |---|---|
-| Status | NEW |
-| Description | End-to-end: Export a brand analysis to PowerPoint, PDF and Excel. Pass 2 — cross-epic (scenarios 201-202). Epics: GEO-152, GEO-1068, GEO-1513. Consolidates TC-GEO-1173-001, TC-GEO-1124-001, TC-GEO-1269-001, TC-GEO-1173-002, TC-GEO-1269-002, TC-GEO-1269-006, TC-GEO-1184-009. |
+| Status | NEW; labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | End-to-end: Export a brand analysis to PowerPoint, PDF and Excel. Pass 2 — cross-epic (scenarios 201-202). Epics: GEO-152, GEO-1068, GEO-1513. Consolidates TC-GEO-1173-001, TC-GEO-1124-001, TC-GEO-1269-001, TC-GEO-1173-002, TC-GEO-1269-002, TC-GEO-1269-006, TC-GEO-1184-009. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): step 27 refers to the order noted at step 24 (was "step 1"). |
 | Priority | High |
 | Stories | GEO-1173, GEO-1124, GEO-1269, GEO-1184 |
 | Precondition | Toyota 439acd96 (brand, export allowed), period Sep 28 – Oct 4, 2026 for the concept checks; Downloads parsed by the spec (pptx / pdf / xlsx readers) |
@@ -27,7 +27,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | — |
+| Last result | PARTIAL 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -57,4 +57,4 @@
 | 24 | Given the user has exported the analysis as "Presentation .pptx" with "Coverage" selected in "Sort by" | Action Center https://staging-geo.onclusive.com/geo/dashboard/{uuid}/actions of the chosen analysis - period "Last 7 days" | A .pptx file is downloaded and the order of the Target Sources slide (top 3 cards and table) is noted |
 | 25 | When the user selects "Prompts" in "Sort by" |  | The cards are re-sorted by prompt count |
 | 26 | And the user exports the analysis again as "Presentation .pptx" |  | A .pptx file is downloaded |
-| 27 | Then the exported order is not affected by the on-screen sort |  | The Target Sources slide order is the same as in step 1 (assumed, open question to the PO) |
+| 27 | Then the exported order is not affected by the on-screen sort |  | The Target Sources slide order is the same as in step 24 (assumed, open question to the PO) |

@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-11",
+  "mode": "B",
+  "source": "E2E suite run 2026-11-10 (point 8), confirmed on staging 2026-11-11, not reproduced on production",
+  "bugs": [
+    {
+      "bug_id": "BUG-geo-category-001",
+      "story_key": "geo-category",
+      "status": "created",
+      "summary": "[GEO-Category] Prompt detail ranking lists the same brand several times instead of folding products into their brand family",
+      "issuetype": "Bug",
+      "priority": "Medium",
+      "parent": "GEO-1498",
+      "links": [
+        {
+          "type": "Relates",
+          "key": "GEO-1553"
+        },
+        {
+          "type": "Relates",
+          "key": "GEO-1530"
+        }
+      ],
+      "fixVersion": {
+        "id": "33004",
+        "name": "1.4"
+      },
+      "assignee": {
+        "displayName": "Abdenasser Aroukhsiss",
+        "accountId": "712020:c3b70d4b-ff45-4f0b-9feb-9cd412e1d06a"
+      },
+      "component": {
+        "id": "25539",
+        "name": "GEO Module"
+      },
+      "customfield_13220": "Automated QA",
+      "customfield_13208": "Does not exist in Production",
+      "customfield_17549": "Roadmap Work",
+      "sprint": {
+        "id": 14638,
+        "name": "GEO + Digimind Sprint 2",
+        "state": "active"
+      },
+      "labels": [],
+      "description": {
+        "description": "In the prompt detail panel of a Visibility prompt, the \"Ranking - {Engine}\" list shows the same brand on several rows. The detail API returns one ranking row per product, with the product in `name` (e.g. \"Toyota Prius\") and the brand in `family` (\"Toyota\"); the panel prints `family` on every row without folding the rows, so a brand with several products is listed several times and the positions are misleading. The panel title is built from the first row's `name` (\"Toyota Prius's Position\"), which names a product instead of the brand (the product-name title already shows on production; the duplicated rows do not, since the production API has no `family` field yet). Scope on staging: 70 of the 100 Visibility prompt × engine pairs of Toyota > Voitures hybrides (ChatGPT 22/25, Gemini 23/25, Perplexity 17/25, Grok 8/25), in English, French and Spanish prompts.",
+        "steps": [
+          "Open the Toyota analysis on staging (organisation QA-GEO) > category \"Voitures hybrides\" > Prompts Analysis, Visibility tab (Last 7 days, All Countries).",
+          "Click the prompt \"Best hybrid cars?\" (United States).",
+          "In the detail panel, select the ChatGPT engine tab.",
+          "Read the \"Ranking - ChatGPT\" list and the panel title."
+        ],
+        "expected": "One entry per brand family at the position of its first mention, with the name the engine wrote shown below it when it differs (GEO-1553 AC3: \"they fold into one entry for the brand at the position of its first mention\"; GEO-1498, 27 Oct: \"it shows the brand family, as the questions table does since GEO-1530, with the name the engine wrote below it when it differs\"). The panel title names the brand. — to confirm",
+        "actual": "Toyota appears at #2, #4, #6 and #7 (API: Toyota Prius, Toyota Camry Hybrid, Toyota Corolla Hybrid, Toyota Crown) and Hyundai at #3, #5 and #9 (Hyundai Elantra Hybrid, Hyundai Sonata Hybrid, Hyundai Ioniq Hybrid). The title reads \"Toyota Prius's Position\".",
+        "environment": {
+          "url_observed": "[Toyota > Voitures hybrides (staging)](https://staging-geo.onclusive.com/geo/dashboard/439acd96-0b1b-4da4-9e07-612d38e9783e)",
+          "environment": "staging, organisation QA-GEO, interface language en-GB, frontend bundle index-LJ2T_Um0.js",
+          "production_check": "production (Toyota bfbb34ce, organisation Onclusive, bundle index-Dezqq5Hb.js): 0 duplicated rows in 358 Visibility prompt × engine rankings; the API has no `family` field",
+          "api": "GET .../categories/{categoryId}/questions/{questionId}/detail?providerKey=openai -> ranking[] rows {rank, name, family, domain, isTarget}",
+          "browser": "Chromium (MCP Playwright)",
+          "component": "GEO Module"
+        }
+      },
+      "attachment": {
+        "path": ".claude/Data/output/bugs/statique-bugs/E2E-20261111/bug_point8_final.png",
+        "kind": "image",
+        "jira_name": "bug_point8_ranking_duplicates_20261111.png",
+        "caption": "Ranking - ChatGPT on \"Best hybrid cars?\": the duplicated brand rows are framed in red; the caption lists the product names returned by the API.",
+        "jira_attachment_id": "777943"
+      },
+      "jira_key": "GEO-1594",
+      "jira_id": "403112",
+      "jira_url": "https://onclusive.atlassian.net/browse/GEO-1594"
+    }
+  ]
+}

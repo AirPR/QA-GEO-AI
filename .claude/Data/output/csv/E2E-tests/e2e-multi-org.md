@@ -17,17 +17,17 @@
 
 | Field | Value |
 |---|---|
-| Status | NEW — spec blocked: needs a multi-organisation account |
-| Description | End-to-end: A multi-organisation user lands in the last organisation, switches and gets the rights of each. Pass 1 — per feature, older versions (GEO-R1.15 GEO-681). Assumptions: The source steps have no Expected result column value: the Then text is the assertion. Consolidates TC-GEO-1055-001, TC-GEO-1056-001, TC-GEO-1057-002. |
+| Status | NEW; labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | End-to-end: A multi-organisation user lands in the last organisation, switches and gets the rights of each. Pass 1 — per feature, older versions (GEO-R1.15 GEO-681). Assumptions: The source steps have no Expected result column value: the Then text is the assertion. Consolidates TC-GEO-1055-001, TC-GEO-1056-001, TC-GEO-1057-002. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): multi-organisation account = +geo (Editor in Onclusive and QA-GEO), A = QA-GEO, B = Onclusive; steps 7-10 still need a Reader membership in B (open point). |
 | Priority | High |
 | Stories | GEO-1055, GEO-1056, GEO-1057 |
-| Precondition | User member of two organisations, editor in A and reader in B (missing — open point) |
+| Precondition | Account +geo (GEO_USER_EDITOR_EMAIL / GEO_USER_EDITOR_PASSWORD in .env), member of two organisations: A = QA-GEO and B = Onclusive (Editor in both); steps 7-10 need the user to be Reader in B (not available — open point, a role change is a data write); end the run back in QA-GEO and check /auth/me |
 | Labels | e2e-suite |
 | QA Parent | GEO-681 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | — |
+| Last result | PARTIAL 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|

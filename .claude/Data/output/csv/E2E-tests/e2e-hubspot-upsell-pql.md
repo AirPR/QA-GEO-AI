@@ -7,14 +7,14 @@
 
 | Scenario | Title | Status | Stories |
 |---|---|---|---|
-| [E2E-UPSELL-PQL-001](#e2e-upsell-pql-001) | Modal See it in action affichée au clic | KEEP | GEO-237 |
-| [E2E-UPSELL-PQL-002](#e2e-upsell-pql-002) | Confirm activé après coche de la checkbox | KEEP | GEO-237 |
-| [E2E-UPSELL-PQL-003](#e2e-upsell-pql-003) | Fermeture modal sans confirmation -> aucun appel backend | KEEP | GEO-237 |
-| [E2E-UPSELL-PQL-004](#e2e-upsell-pql-004) | Confirmation + cookies accordés -> appel direct sans JitBridgeModal | KEEP | GEO-237 |
-| [E2E-UPSELL-PQL-005](#e2e-upsell-pql-005) | Idempotence - un seul appel HubSpot par session | KEEP | GEO-237 |
-| [E2E-UPSELL-PQL-006](#e2e-upsell-pql-006) | Erreur HubSpot non-bloquante pour l'utilisateur | KEEP | GEO-237 |
-| [E2E-UPSELL-PQL-007](#e2e-upsell-pql-007) | Les 5 boutons "Speak to Us" déclenchent la même logique | KEEP | GEO-237 |
-| [E2E-UPSELL-PQL-008](#e2e-upsell-pql-008) | Réponse 401 ne déclenche pas de redirection Auth0 | KEEP | GEO-237 |
+| [E2E-UPSELL-PQL-001](#e2e-upsell-pql-001) | Modal See it in action affichée au clic | UPDATE | GEO-237 |
+| [E2E-UPSELL-PQL-002](#e2e-upsell-pql-002) | Confirm activé après coche de la checkbox | UPDATE | GEO-237 |
+| [E2E-UPSELL-PQL-003](#e2e-upsell-pql-003) | Fermeture modal sans confirmation -> aucun appel backend | UPDATE | GEO-237 |
+| [E2E-UPSELL-PQL-004](#e2e-upsell-pql-004) | Confirmation + cookies accordés -> appel direct sans JitBridgeModal | UPDATE | GEO-237 |
+| [E2E-UPSELL-PQL-005](#e2e-upsell-pql-005) | Idempotence - un seul appel HubSpot par session | UPDATE | GEO-237 |
+| [E2E-UPSELL-PQL-006](#e2e-upsell-pql-006) | Erreur HubSpot non-bloquante pour l'utilisateur | UPDATE | GEO-237 |
+| [E2E-UPSELL-PQL-007](#e2e-upsell-pql-007) | Les 5 boutons "Speak to us" déclenchent la même logique | UPDATE | GEO-237 |
+| [E2E-UPSELL-PQL-008](#e2e-upsell-pql-008) | Réponse 401 ne déclenche pas de redirection Auth0 | UPDATE | GEO-237 |
 
 ---
 
@@ -24,22 +24,22 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP — rebuilt from the spec texts; needs the upsell storageState (regenerate before the run); last run failed — check the account / page in the spec phase |
-| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-001 (GEO-237). Former id: TC-GEO-237-001. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — rebuilt from the spec texts; runs with the PQL account (GEO_USER_PQL_*) after "Accept all" in the cookie banner |
+| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-001 (GEO-237). Former id: TC-GEO-237-001. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): precondition = PQL account (GEO_USER_PQL_*) with "Accept all" cookie consent instead of storageState-upsell.json / UPSELL_USER_EMAIL; button label "Speak to us" (UI casing). |
 | Priority | High |
 | Stories | GEO-237 |
-| Precondition | Upsell account (module not activated) with storageState-upsell.json (UPSELL_USER_EMAIL in .env); upsell page Measure |
+| Precondition | PQL account (module not activated): GEO_USER_PQL_EMAIL / GEO_USER_PQL_PASSWORD in .env; cookie consent reset then "Accept all" in the cookie banner (functional cookies granted, so the See it in action modal opens instead of the JitBridgeModal); upsell page Measure (/geo/upsell) |
 | Labels | e2e-suite |
 | QA Parent | GEO-200 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 FAIL (8 failed in the file) |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
 | 1 | Given l'user est sur la page upsell Measure |  | L'user est sur la page upsell Measure |
-| 2 | When il clique sur un bouton "Speak to Us" |  | Il clique sur un bouton "Speak to Us" |
+| 2 | When il clique sur un bouton "Speak to us" |  | Il clique sur un bouton "Speak to us" |
 | 3 | Then la modal s'ouvre avec le titre "See it in action", la description, la checkbox décochée et le bouton Confirm désactivé |  | La modal s'ouvre avec le titre "See it in action", la description, la checkbox décochée et le bouton Confirm désactivé |
 
 ---
@@ -50,17 +50,17 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP — rebuilt from the spec texts; needs the upsell storageState (regenerate before the run); last run failed — check the account / page in the spec phase |
-| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-002 (GEO-237). Former id: TC-GEO-237-002. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — rebuilt from the spec texts; runs with the PQL account (GEO_USER_PQL_*) after "Accept all" in the cookie banner |
+| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-002 (GEO-237). Former id: TC-GEO-237-002. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): precondition = PQL account (GEO_USER_PQL_*) with "Accept all" cookie consent instead of storageState-upsell.json / UPSELL_USER_EMAIL; button label "Speak to us" (UI casing). |
 | Priority | High |
 | Stories | GEO-237 |
-| Precondition | Upsell account (module not activated) with storageState-upsell.json (UPSELL_USER_EMAIL in .env); upsell page Measure |
+| Precondition | PQL account (module not activated): GEO_USER_PQL_EMAIL / GEO_USER_PQL_PASSWORD in .env; cookie consent reset then "Accept all" in the cookie banner (functional cookies granted, so the See it in action modal opens instead of the JitBridgeModal); upsell page Measure (/geo/upsell) |
 | Labels | e2e-suite |
 | QA Parent | GEO-200 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 FAIL (8 failed in the file) |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -76,17 +76,17 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP — rebuilt from the spec texts; needs the upsell storageState (regenerate before the run); last run failed — check the account / page in the spec phase |
-| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-003 (GEO-237). Former id: TC-GEO-237-003. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — rebuilt from the spec texts; runs with the PQL account (GEO_USER_PQL_*) after "Accept all" in the cookie banner |
+| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-003 (GEO-237). Former id: TC-GEO-237-003. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): precondition = PQL account (GEO_USER_PQL_*) with "Accept all" cookie consent instead of storageState-upsell.json / UPSELL_USER_EMAIL; button label "Speak to us" (UI casing). |
 | Priority | High |
 | Stories | GEO-237 |
-| Precondition | Upsell account (module not activated) with storageState-upsell.json (UPSELL_USER_EMAIL in .env); upsell page Measure |
+| Precondition | PQL account (module not activated): GEO_USER_PQL_EMAIL / GEO_USER_PQL_PASSWORD in .env; cookie consent reset then "Accept all" in the cookie banner (functional cookies granted, so the See it in action modal opens instead of the JitBridgeModal); upsell page Measure (/geo/upsell) |
 | Labels | e2e-suite |
 | QA Parent | GEO-200 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 FAIL (8 failed in the file) |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -102,17 +102,17 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP — rebuilt from the spec texts; needs the upsell storageState (regenerate before the run); last run failed — check the account / page in the spec phase |
-| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-007 (GEO-237). Former id: TC-GEO-237-007. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — rebuilt from the spec texts; runs with the PQL account (GEO_USER_PQL_*) after "Accept all" in the cookie banner |
+| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-007 (GEO-237). Former id: TC-GEO-237-007. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): precondition = PQL account (GEO_USER_PQL_*) with "Accept all" cookie consent instead of storageState-upsell.json / UPSELL_USER_EMAIL; button label "Speak to us" (UI casing). |
 | Priority | High |
 | Stories | GEO-237 |
-| Precondition | Upsell account (module not activated) with storageState-upsell.json (UPSELL_USER_EMAIL in .env); upsell page Measure |
+| Precondition | PQL account (module not activated): GEO_USER_PQL_EMAIL / GEO_USER_PQL_PASSWORD in .env; cookie consent reset then "Accept all" in the cookie banner (functional cookies granted, so the See it in action modal opens instead of the JitBridgeModal); upsell page Measure (/geo/upsell) |
 | Labels | e2e-suite |
 | QA Parent | GEO-200 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 FAIL (8 failed in the file) |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -128,22 +128,22 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP — rebuilt from the spec texts; needs the upsell storageState (regenerate before the run); last run failed — check the account / page in the spec phase |
-| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-008 (GEO-237). Former id: TC-GEO-237-008. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — rebuilt from the spec texts; runs with the PQL account (GEO_USER_PQL_*) after "Accept all" in the cookie banner |
+| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-008 (GEO-237). Former id: TC-GEO-237-008. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): precondition = PQL account (GEO_USER_PQL_*) with "Accept all" cookie consent instead of storageState-upsell.json / UPSELL_USER_EMAIL; button label "Speak to us" (UI casing). |
 | Priority | High |
 | Stories | GEO-237 |
-| Precondition | Upsell account (module not activated) with storageState-upsell.json (UPSELL_USER_EMAIL in .env); upsell page Measure |
+| Precondition | PQL account (module not activated): GEO_USER_PQL_EMAIL / GEO_USER_PQL_PASSWORD in .env; cookie consent reset then "Accept all" in the cookie banner (functional cookies granted, so the See it in action modal opens instead of the JitBridgeModal); upsell page Measure (/geo/upsell) |
 | Labels | e2e-suite |
 | QA Parent | GEO-200 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 FAIL (8 failed in the file) |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given l'user a déjà cliqué "Speak to Us" et confirmé - l'événement a été envoyé |  | L'user a déjà cliqué "Speak to Us" et confirmé - l'événement a été envoyé |
-| 2 | When il clique à nouveau sur un autre "Speak to Us" de la page et confirme |  | Il clique à nouveau sur un autre "Speak to Us" de la page et confirme |
+| 1 | Given l'user a déjà cliqué "Speak to us" et confirmé - l'événement a été envoyé |  | L'user a déjà cliqué "Speak to us" et confirmé - l'événement a été envoyé |
+| 2 | When il clique à nouveau sur un autre "Speak to us" de la page et confirme |  | Il clique à nouveau sur un autre "Speak to us" de la page et confirme |
 | 3 | Then aucun deuxième appel POST /api/v1/upsell/hubspot n'est effectué |  | Aucun deuxième appel POST /api/v1/upsell/hubspot n'est effectué |
 
 ---
@@ -154,17 +154,17 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP — rebuilt from the spec texts; needs the upsell storageState (regenerate before the run); last run failed — check the account / page in the spec phase |
-| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-010 (GEO-237). Former id: TC-GEO-237-010. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — rebuilt from the spec texts; runs with the PQL account (GEO_USER_PQL_*) after "Accept all" in the cookie banner |
+| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-010 (GEO-237). Former id: TC-GEO-237-010. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): precondition = PQL account (GEO_USER_PQL_*) with "Accept all" cookie consent instead of storageState-upsell.json / UPSELL_USER_EMAIL; button label "Speak to us" (UI casing). |
 | Priority | High |
 | Stories | GEO-237 |
-| Precondition | Upsell account (module not activated) with storageState-upsell.json (UPSELL_USER_EMAIL in .env); upsell page Measure |
+| Precondition | PQL account (module not activated): GEO_USER_PQL_EMAIL / GEO_USER_PQL_PASSWORD in .env; cookie consent reset then "Accept all" in the cookie banner (functional cookies granted, so the See it in action modal opens instead of the JitBridgeModal); upsell page Measure (/geo/upsell) |
 | Labels | e2e-suite |
 | QA Parent | GEO-200 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 FAIL (8 failed in the file) |
+| Last result | PARTIAL 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -176,25 +176,25 @@
 
 ## E2E-UPSELL-PQL-007
 
-**Les 5 boutons "Speak to Us" déclenchent la même logique**
+**Les 5 boutons "Speak to us" déclenchent la même logique**
 
 | Field | Value |
 |---|---|
-| Status | KEEP — rebuilt from the spec texts; needs the upsell storageState (regenerate before the run); last run failed — check the account / page in the spec phase |
-| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-011 (GEO-237). Former id: TC-GEO-237-011. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — rebuilt from the spec texts; runs with the PQL account (GEO_USER_PQL_*) after "Accept all" in the cookie banner |
+| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-011 (GEO-237). Former id: TC-GEO-237-011. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): precondition = PQL account (GEO_USER_PQL_*) with "Accept all" cookie consent instead of storageState-upsell.json / UPSELL_USER_EMAIL; button label "Speak to us" (UI casing). |
 | Priority | High |
 | Stories | GEO-237 |
-| Precondition | Upsell account (module not activated) with storageState-upsell.json (UPSELL_USER_EMAIL in .env); upsell page Measure |
+| Precondition | PQL account (module not activated): GEO_USER_PQL_EMAIL / GEO_USER_PQL_PASSWORD in .env; cookie consent reset then "Accept all" in the cookie banner (functional cookies granted, so the See it in action modal opens instead of the JitBridgeModal); upsell page Measure (/geo/upsell) |
 | Labels | e2e-suite |
 | QA Parent | GEO-200 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 FAIL (8 failed in the file) |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
-| 1 | Given les 5 instances du bouton "Speak to Us" sont présentes sur la page upsell Measure |  | Les 5 instances du bouton "Speak to Us" sont présentes sur la page upsell Measure |
+| 1 | Given les 5 instances du bouton "Speak to us" sont présentes sur la page upsell Measure |  | Les 5 instances du bouton "Speak to us" sont présentes sur la page upsell Measure |
 | 2 | When l'user clique sur n'importe laquelle des 5 instances |  | L'user clique sur n'importe laquelle des 5 instances |
 | 3 | Then la modal SeeItInActionModal s'ouvre à chaque fois et la même logique s'applique quel que soit le bouton |  | La modal SeeItInActionModal s'ouvre à chaque fois et la même logique s'applique quel que soit le bouton |
 
@@ -206,17 +206,17 @@
 
 | Field | Value |
 |---|---|
-| Status | KEEP — rebuilt from the spec texts; needs the upsell storageState (regenerate before the run); last run failed — check the account / page in the spec phase |
-| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-012 (GEO-237). Former id: TC-GEO-237-012. |
+| Status | UPDATE; aligned on the observed result 2026-11-11 (user decision) — rebuilt from the spec texts; runs with the PQL account (GEO_USER_PQL_*) after "Accept all" in the cookie banner |
+| Description | Hubspot PQL feedback from the upsell page (See it in action modal). Scenario rebuilt from the test()/test.step() texts of e2e-hubspot-upsell-pql.spec.js (no archive CSV); expected results = the step texts. No newer TC changes the upsell flow (KEEP). Note: the spec TC numbers do not match the ids of GEO-R1.0/testcases-coverage-storyGEO-237.csv. Consolidates spec TC-GEO-237-012 (GEO-237). Former id: TC-GEO-237-012. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): precondition = PQL account (GEO_USER_PQL_*) with "Accept all" cookie consent instead of storageState-upsell.json / UPSELL_USER_EMAIL; button label "Speak to us" (UI casing). |
 | Priority | High |
 | Stories | GEO-237 |
-| Precondition | Upsell account (module not activated) with storageState-upsell.json (UPSELL_USER_EMAIL in .env); upsell page Measure |
+| Precondition | PQL account (module not activated): GEO_USER_PQL_EMAIL / GEO_USER_PQL_PASSWORD in .env; cookie consent reset then "Accept all" in the cookie banner (functional cookies granted, so the See it in action modal opens instead of the JitBridgeModal); upsell page Measure (/geo/upsell) |
 | Labels | e2e-suite |
 | QA Parent | GEO-200 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | suite 30/05 FAIL (8 failed in the file) |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|

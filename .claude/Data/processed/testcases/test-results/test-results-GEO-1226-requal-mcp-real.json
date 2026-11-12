@@ -4,14 +4,14 @@
   "runMode": "requalification",
   "mode": "structured",
   "url": "https://staging-geo.onclusive.com/geo",
-  "context": "Requalification of TCs of the rerun 04112026-1340 after user decisions of 2026-11-04 (P2 answered, CSV alignment C-6). No new execution; screenshots are those of the rerun. 2026-11-05: TC-GEO-1548-015 / 016 / 024 requalified after the PO answer 873111 (P5, P1); screenshots of the rerun 04112026-1255. 2026-11-09: 9 TCs waiting for staging data (P6) requalified on the dev unit-test evidence 873345 (7 PASS, 2 PARTIAL). TC-GEO-1549-001 requalified PASS on the GEO-1584 retest (2026-11-05). TC-GEO-1547-023 requalified PASS after the CSV data adaptation (2026-11-09).",
+  "context": "Requalification of TCs of the rerun 04112026-1340 after user decisions of 2026-11-04 (P2 answered, CSV alignment C-6). No new execution; screenshots are those of the rerun. 2026-11-05: TC-GEO-1548-015 / 016 / 024 requalified after the PO answer 873111 (P5, P1); screenshots of the rerun 04112026-1255. 2026-11-09: 9 TCs waiting for staging data (P6) requalified on the dev unit-test evidence 873345 (7 PASS, 2 PARTIAL). TC-GEO-1549-001 requalified PASS on the GEO-1584 retest (2026-11-05). TC-GEO-1547-023 requalified PASS after the CSV data adaptation (2026-11-09). TC-GEO-1547-001 / TC-GEO-1548-024 requalified PASS after the retests of GEO-1582 / GEO-1585 (2026-11-09).",
   "summary": {
-    "total": 16,
-    "pass": 13,
-    "fail": 1,
+    "total": 17,
+    "pass": 15,
+    "fail": 0,
     "skip": 0,
     "partial": 2,
-    "successRate": 81.3
+    "successRate": 88.2
   },
   "results": [
     {
@@ -143,39 +143,6 @@
         }
       ],
       "notes": "Requalified PASS after the PO answer P5 (GEO-1226 comment 873111, 2026-11-04: XLSX is enough for the per-article number; PDF / PPTX keep the top 10 sources and their count must be the number of articles, same as the card) and the CSV alignment of 2026-11-05. Evidence of the rerun 04112026-1255: last slide, row 5 trustpilot.com 'Negative perception in 9 articles' = card / tab 'Negative perception (9)' (Orange 16cdf040, Last 30 days, ChatGPT + Gemini); no review text. Recheck when GEO-1585 is fixed (the count should drop). Export 'Presentation .pptx' (3 s); step3_then = text runs of slide32.xml extracted locally. Step 4 PASS: no review text on any slide. Same P5 remark as TC-GEO-1548-015 (PO question rather than bug)."
-    },
-    {
-      "tc_id": "TC-GEO-1548-024",
-      "title": "Page without stored reviews inside a grouped article",
-      "story_id": "GEO-1548",
-      "status": "FAIL",
-      "duration": 0,
-      "error": "Step \"And a grouped article with no stored review is not counted as negative\" - expected: \"Not listed in the Negative perception tab, not counted in the tab, on the source card or in the export\" (PO 873111). Observed (Orange 16cdf040, Last 30 days, trustpilot.com): the grouped article ie.trustpilot.com/review/www.orange.ma (grouped = true, reviewCount 0, pages = []) is listed as an empty row and counted in \"Negative perception (9)\", on the card (9) and in the XLSX (row 193, Negative reviews 0). Known bug GEO-1585.",
-      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
-      "screenshots": [
-        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step1_given.png",
-        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step2_when.png",
-        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step3_then.png"
-      ],
-      "steps": [
-        {
-          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
-          "status": "PASS"
-        },
-        {
-          "title": "When the user reads the page blocks of the article",
-          "status": "PASS"
-        },
-        {
-          "title": "Then the page without stored reviews shows no classic passage",
-          "status": "PASS"
-        },
-        {
-          "title": "And a grouped article with no stored review is not counted as negative",
-          "status": "FAIL"
-        }
-      ],
-      "notes": "Requalified after the PO answer P1 (GEO-1226 comment 873111, 2026-11-04) and the CSV alignment of 2026-11-05: no classic passage for the merged page = PASS; the empty grouped article still counts as negative = FAIL, bug GEO-1585. P1 open - behaviour recorded. Orange 16cdf040 trustpilot.com, Last 30 days, ChatGPT + Gemini. The grouped article for ie.trustpilot.com/review/www.orange.ma (API grouped=true, reviewCount 0, pages=[]) merges the 03/11 run page ie.trustpilot.com/review/www.orange.ma (no reviews stored) and the 04/11 page ie.trustpilot.com/review/www.orange.ma?page=2 (no reviews stored, judged NAMED_NEGATIVELY with a classic passage 'Orange is an absolutely terrible service...' - shown as such in Last 7 days). Shown in the panel: title 'https://ie.trustpilot.com/review/www.orange.ma' (B-2) + URL line ie.trustpilot.com/review/www.orange.ma as plain text (no link), NO page block, NO entry, NO classic passage, NO chip (green frame). Effect on the tabs: the article counts for the Negative perception verdict ('Negative perception (9)', card 9, XLSX row 193 'Negative reviews' 0). Same display for the grouped www.trustpilot.com/review/www.orange.fr article (title 'Read Customer Service Reviews of www.orange.fr', no link, no passage). So a page without stored reviews inside a grouped article is not shown at all (its classic passage is dropped) but still makes the article negative. To confirm with the PO (P1)."
     },
     {
       "tc_id": "TC-GEO-1548-006",
@@ -576,6 +543,76 @@
         }
       ],
       "notes": "Requalified PASS after the CSV data adaptation of 2026-11-09 (user decision: the GEO-1192 prc.gov FY2023 PDF and comparador-alarmas.es securitas-direct page are no longer cited). Evidence of the rerun 09112026-1113: MSC routard.com forum in Negative perception (1) with one passage, no page block, no chip (step3a_routard); USPS prc.gov press release in Negative perception (1) with one passage, no chip (step3b_prc). The quality of the prc.gov passage (title of a related press release) is tracked in GEO-1204 (PO scope question 874966). Earlier notes: (1) MSC dc801726 routard.com (#9, Journalism): 'Negative perception (1)', article 'Croisière sur le MSC SEASHORE à eviter - Croisières - Forums Routard.com' (routard.com/forums/t/croisiere-sur-le-msc-seashore-a-eviter/340911) with ONE passage 'Première et dernière croisière avec MSC Seashore, très beau bateau, propre et bien entretenu. L'embarquement à Marseille à durée 4h00 sans…', no page block, no 'N negative reviews' chip -> OK (step3a_routard). The second cited routard thread (croisiere-msc-mediterannee-depart-le-4-mars-2023) is a positive article. (2) USPS 3e6da2fd (run 09/11): the GEO-1192 page prc.gov FY2023FinancialReport.pdf is not cited; cited-urls for prc.gov = the press release + www.prc.gov/sites/default/files/reports/2803%202804.pdf (another document, cited but not judged negative, not in the panel). The prc.gov press release (the GEO-1204 'still not negative' case) is now in 'Negative perception (1)' with one passage 'PRC Questions the Reliability of USPS Service Performance Measurement System', no chip (step3b_prc) - relevant to the GEO-1204 non-review scope question. (3) Verisure 183bdb00: comparador-alarmas.es/opiniones-alarmas/securitas-direct (GEO-1192 QA retest page, 1.15/5) is not cited; cited-urls for comparador-alarmas.es = /negocios and /mejores-alarmas, neither is a Target Source (panel API 404, absent from the 43 sources, step3_then) - generic comparison pages, not equivalent, so no adaptation. In GEO-1192 the dev listed Verisure / Securitas Direct as out of scope (former brand name); QA saw it negative on 06/10. To finish the TC: a run citing those two pages, or a CSV data update (user decision)."
+    },
+    {
+      "tc_id": "TC-GEO-1547-001",
+      "title": "Page with 4 negative reviews lists 4 entries, one per review",
+      "story_id": "GEO-1547",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-001_step1_given.png",
+        "screenshots-GEO-1226-GEO1547-rerun-mcp/TC-GEO-1547-001_step2_when.png",
+        "screenshots-GEO-1226-retest-bugs/TC-GEO-1547-001_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the user is on Actions Center > Target Sources of analysis A",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user opens the panel of the Review Sites source and selects the tab \"Negative perception\"",
+          "status": "PASS"
+        },
+        {
+          "title": "And the user opens the live page P of one page block and counts the reviews that criticise the brand",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page block of P lists one entry per negative review",
+          "status": "PASS"
+        },
+        {
+          "title": "And each entry is a different review of the live page",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Requalified PASS after the retest of GEO-1582 (2026-11-09, FIXED, comment 875218, Passed QA): article-wide dedup; no review repeated in any grouped article of Orange / Toyota / Victoria's Secret (expanded, texts compared), page block counts and chips equal the distinct entries; API check of every review source of QA-GEO and the 40 GEO Stress Test analyses. step3_then = GEO-1582 proof. Earlier run: Data: (1) Toyota 439acd96 ocu.org \"Reclamaciones y opiniones TOYOTA ESPAÑA SLU | OCU\" (single-company complaints page, Review Sites): \"4 NEGATIVE REVIEWS\" + 4 entries; live page (reachable) shows 5 complaints: the 4 listed ones (J. M. 02/11, D. D. 07/10, \"Problemas inyector Adblue\", \"Reclamación Toyota Yaris Batería\") + 1 unfilled OCU template complaint (\"Estimados/as señores/as: En fecha [….] adquirí en su [elegir una opción…]\") not listed - 4 different users, no duplicate -> one entry per negative review OK on this page. (2) Orange trustpilot.com (TC example data): Trustpilot blocks the test browser (HTTP 403 AWS WAF, also via curl) so live counting is impossible there, but the duplicates are visible in the panel itself. Same pattern on pages ?page=2 and ?page=4 of www.orange.ma and ?page=4 of fr.trustpilot.com/review/www.orange.ma: their first 4 entries are the first 4 entries of page 1 (see SIDE_trustpilot_page2_repeats_page1.png) - looks like the capture keeps the highlighted reviews shown on every page."
+    },
+    {
+      "tc_id": "TC-GEO-1548-024",
+      "title": "Page without stored reviews inside a grouped article",
+      "story_id": "GEO-1548",
+      "status": "PASS",
+      "duration": 0,
+      "error": null,
+      "url": "https://staging-geo.onclusive.com/geo/dashboard/16cdf040-35aa-42b9-b4e2-e9f6300d50dc/actions",
+      "screenshots": [
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step1_given.png",
+        "screenshots-GEO-1226-GEO1548-rerun-mcp/TC-GEO-1548-024_step2_when.png",
+        "screenshots-GEO-1226-retest-bugs/TC-GEO-1548-024_step3_then.png"
+      ],
+      "steps": [
+        {
+          "title": "Given the Negative perception tab of the panel of a Review Sites source is open",
+          "status": "PASS"
+        },
+        {
+          "title": "When the user reads the page blocks of the article",
+          "status": "PASS"
+        },
+        {
+          "title": "Then the page without stored reviews shows no classic passage",
+          "status": "PASS"
+        },
+        {
+          "title": "And a grouped article with no stored review is not counted as negative",
+          "status": "PASS"
+        }
+      ],
+      "notes": "Requalified PASS after the retest of GEO-1585 (2026-11-09, comment 875228, Passed QA): no grouped article without stored review left on staging (QA-GEO and 40 GEO Stress Test analyses, panel API); card = tab = articles listed = XLSX (Orange trustpilot.com Last 30 days, 9); PO rule 873111 accepted on the 5 dev tests (fix note 875189). step3_then = GEO-1585 proof. Earlier: Requalified after the PO answer P1 (GEO-1226 comment 873111, 2026-11-04) and the CSV alignment of 2026-11-05: no classic passage for the merged page = PASS; the empty grouped article still counts as negative = FAIL, bug GEO-1585. P1 open - behaviour recorded. Orange 16cdf040 trustpilot.com, Last 30 days, ChatGPT + Gemini. The grouped article for ie.trustpilot.com/review/www.orange.ma (API grouped=true, reviewCount 0, pages=[]) merges the 03/11 run page ie.trustpilot.com/review/www.orange.ma (no reviews stored) and the 04/11 page ie.trustpilot.com/review/www.orange.ma?page=2 (no reviews stored, judged NAMED_NEGATIVELY with a classic passage 'Orange is an absolutely terrible service...' - shown as such in Last 7 days). Shown in the panel: title 'https://ie.trustpilot.com/review/www.orange.ma' (B-2) + URL line ie.trustpilot.com/review/www.orange.ma as plain text (no link), NO page block, NO entry, NO classic passage, NO chip (green frame). Effect on the tabs: the article counts for the Negative perception verdict ('Negative perception (9)', card 9, XLSX row 193 'Negative reviews' 0). Same display for the grouped www.trustpilot.com/review/www.orange.fr article (title 'Read Customer Service Reviews of www.orange.fr', no link, no passage). So a page without stored reviews inside a grouped article is not shown at all (its classic passage is dropped) but still makes the article negative. To confirm with the PO (P1)."
     }
   ]
 }

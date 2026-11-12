@@ -17,8 +17,8 @@
 
 | Field | Value |
 |---|---|
-| Status | NEW; aligned on the observed result 2026-11-04 (user decision) |
-| Description | End-to-end: Prioritise Target Sources in the Action Center of a brand analysis. Pass 1 — per epic (GEO-152 R1.2 + GEO-1513 R1.3). Assumptions: Source B = a source with both reasons and 3 engines (e.g. frandroid.com) — JDD. Epics: GEO-152, GEO-1513. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): step 15 — the "All" engine tab shows the distinct prompt count ("All (N)", observed "All (86)"), consistent with step 24. Consolidates TC-GEO-1118-006, TC-GEO-1120-017, TC-GEO-1166-002, TC-GEO-1178-003, TC-GEO-1178-010, TC-GEO-1184-001, TC-GEO-1184-002, TC-GEO-1184-008, TC-GEO-1166-004, TC-GEO-1168-013, TC-GEO-1168-014. |
+| Status | NEW; aligned on the observed result 2026-11-04 (user decision); labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | End-to-end: Prioritise Target Sources in the Action Center of a brand analysis. Pass 1 — per epic (GEO-152 R1.2 + GEO-1513 R1.3). Assumptions: Source B = a source with both reasons and 3 engines (e.g. autobild.es on Toyota, staging) — JDD. Epics: GEO-152, GEO-1513. Aligned 2026-11-04 on the MCP run of 04/11 (user decision): step 15 — the "All" engine tab shows the distinct prompt count ("All (N)", observed "All (86)"), consistent with step 24. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): staging test data named — source B = autobild.es (frandroid.com not a both-reason source on Toyota), C1 = Voitures hybrides. Consolidates TC-GEO-1118-006, TC-GEO-1120-017, TC-GEO-1166-002, TC-GEO-1178-003, TC-GEO-1178-010, TC-GEO-1184-001, TC-GEO-1184-002, TC-GEO-1184-008, TC-GEO-1166-004, TC-GEO-1168-013, TC-GEO-1168-014. |
 | Priority | High |
 | Stories | GEO-1118, GEO-1120, GEO-1166, GEO-1178, GEO-1184, GEO-1168 |
 | Precondition | Brand analysis Toyota 439acd96-0b1b-4da4-9e07-612d38e9783e (staging), Target Sources verified; Sort labels "Coverage" / "Prompts" kept by PO decision (GEO-1513 F-1, GEO-1184 Passed QA 27/10) |
@@ -27,7 +27,7 @@
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -40,7 +40,7 @@
 | 7 | When the user clicks "Next source" |  | The panel stays open (no close / reopen) and its content is replaced by the source ranked #2 |
 | 8 | Then the panel header, badges, article tabs and prompts belong to the source of card #2 |  | The header reads "#2 · {domain of card 2}" with its source type and reason badges; the footer reads "Source 2 of N" |
 | 9 | And the selected state behind the panel moved to card #2 |  | Card #2 shows the selected state and card #1 no longer does |
-| 10 | When the user opens the details panel of source B | Source B (e.g. frandroid.com) | The panel opens with the header "#k · {domain of B}" |
+| 10 | When the user opens the details panel of source B | Source B (e.g. autobild.es on Toyota) | The panel opens with the header "#k · {domain of B}" |
 | 11 | Then both article tabs are displayed at the top of the panel, each with its icon |  | A two-segment control shows "Lack of visibility (a)" with the eye-off icon and "Negative perception (b)" with the thumb-down icon |
 | 12 | And the "Lack of visibility" tab is the first tab |  | "Lack of visibility (a)" is the left segment, before "Negative perception (b)" |
 | 13 | And the "Lack of visibility" tab is selected by default |  | "Lack of visibility (a)" is the active (white) segment, "None of these articles mentions Toyota anywhere on the page." is shown and its articles are listed |
@@ -69,5 +69,5 @@
 | 36 | When the user opens the Category filter |  | The list of categories is displayed |
 | 37 | Then the options are the categories of the analysis | Categories listed in the left menu | Every category of the left menu is listed, and no other category |
 | 38 | And the options are in the same order as the left menu |  | The option order matches the left menu order exactly |
-| 39 | When the user selects category C1 in the Category filter | Category: C1 | The Category dropdown shows C1 and the list re-renders |
+| 39 | When the user selects category C1 in the Category filter | Category: C1 (e.g. Voitures hybrides on Toyota) | The Category dropdown shows C1 and the list re-renders |
 | 40 | Then only sources with at least one missing or negative article in C1 answers are listed |  | The total is lower than or equal to the total of step 1 and no card shows a 0 count |

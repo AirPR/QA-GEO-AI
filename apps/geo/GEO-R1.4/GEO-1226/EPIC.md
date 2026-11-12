@@ -1,11 +1,11 @@
 # Target Sources Improvements for Review Pages
 
 **Epic ID:** GEO-1226
-**Status:** [READY FOR QA] Ready for QA
+**Status:** [QA IN PROGRESS] QA In Progress
 **Assigned to:** Abdenasser Aroukhsiss
 **Fix version:** 1.4
 **Created:** 2026-10-07
-**Updated:** 2026-11-02
+**Updated:** 2026-11-11
 **Jira link:** https://onclusive.atlassian.net/browse/GEO-1226
 
 ## Description / Functional Need
@@ -68,6 +68,8 @@ Strings (locked 2026-10-22, EN/FR/ES): tab "GEO-1226 Review pages" of the [Targe
 - Each entry is the review quoted verbatim, at most 140 characters, shortened with "…" on a word boundary when needed (same rule as GEO-1201). It does not need to contain the brand name: the GEO-1183 rule stays for other sources.
 - A page is negative when it holds at least one negative review. The page title, the site menu, a banner or a positive review are never quoted (GEO-1224).
 
+> **PO decision 2026-11-11 (GEO-1583 comment 876255, Quentin Reant):** "Any criticism = listed please" — a review that criticises the brand is listed even when it is rated 4 or 5 stars (answer to the dev question 876222 on the conflict between "every review that criticises the brand" and "a positive review is never quoted"). The Jira scope text is not updated yet (synced 2026-11-12).
+
 ### 3. Panel
 
 - Under the article, the reviews are listed by page, in page order. Each page block starts with the page URL as a link that opens the page, then its count, eg: fr.trustpilot.com/review/cnp.fr?page=2 and "4 negative reviews", then its reviews. The URL shows in full even when it is long.
@@ -91,11 +93,11 @@ _No "Out of Scope" section in the Jira description._ Limits stated in the scope:
 
 | ID | Type | Title | Status |
 |----|------|-------|--------|
-| GEO-1547 | Story | STORY-49.1: List every negative review of a review page | [READY FOR QA] Ready for QA |
-| GEO-1548 | Story | STORY-49.2: Group the pages of a review page into one article | [READY FOR QA] Ready for QA |
-| GEO-1549 | Story | STORY-49.3: Show review pages in the Target Sources panel | [READY FOR QA] Ready for QA |
+| GEO-1547 | Story | STORY-49.1: List every negative review of a review page | [READY FOR QA] Ready for QA (2026-11-11) |
+| GEO-1548 | Story | STORY-49.2: Group the pages of a review page into one article | [QA IN PROGRESS] QA In Progress |
+| GEO-1549 | Story | STORY-49.3: Show review pages in the Target Sources panel | [QA IN PROGRESS] QA In Progress |
 
-Other children, not imported: GEO-1204 (Bug, Ready for QA), GEO-1497 (Design Task, Done).
+Other children, not imported: GEO-1204 (Bug, Passed QA 2026-11-10), GEO-1497 (Design Task, Done).
 
 ## Architecture
 

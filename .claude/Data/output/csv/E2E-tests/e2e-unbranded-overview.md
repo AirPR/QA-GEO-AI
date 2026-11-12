@@ -17,36 +17,36 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — test data fixed 2026-11-05 (user decision, not a bug): the analysis must not contain a custom Other prompt that the engines cannot answer |
-| Description | End-to-end: Unbranded analysis: list entry and Overview built for a topic. Pass 1 — per epic (GEO-1209 + GEO-1068). Assumptions: Expected texts quote the topic "Postal services"; the JDD topic replaces it if another analysis is used. Epics: GEO-1209, GEO-1068. Consolidates TC-GEO-1243-014, TC-GEO-1243-001, TC-GEO-1243-002, TC-GEO-1243-003, TC-GEO-1243-009, TC-GEO-1266-003, TC-GEO-1266-006, TC-GEO-1268-004, TC-GEO-1268-007, TC-GEO-1267-003, TC-GEO-1267-005, TC-GEO-1243-010, TC-GEO-1243-011, TC-GEO-1243-012. Updated 2026-11-05 after the MCP run of 02/11 (user decision, not a bug — the test prompt was bad): the off-topic topics "clarification needed" and "vague question" came from Gemini non-answers to the QA custom Other prompt "Which bike gives most average?"; GEO-1243 rule Q3 relies on the prompts only (no filter on the answers), and "motorcycles" / "fuel efficiency" are real answer content. TC-GEO-1243-009 passes with well-formed prompts. Possible PO improvement (not raised): leave non-answers out of the topics. |
+| Status | UPDATE — test data fixed 2026-11-05 (user decision, not a bug): the analysis must not contain a custom Other prompt that the engines cannot answer; labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | End-to-end: Unbranded analysis: list entry and Overview built for a topic. Pass 1 — per epic (GEO-1209 + GEO-1068). Assumptions: Expected texts quote the topic "Postal services"; the JDD topic replaces it if another analysis is used. Epics: GEO-1209, GEO-1068. Consolidates TC-GEO-1243-014, TC-GEO-1243-001, TC-GEO-1243-002, TC-GEO-1243-003, TC-GEO-1243-009, TC-GEO-1266-003, TC-GEO-1266-006, TC-GEO-1268-004, TC-GEO-1268-007, TC-GEO-1267-003, TC-GEO-1267-005, TC-GEO-1243-010, TC-GEO-1243-011, TC-GEO-1243-012. Updated 2026-11-05 after the MCP run of 02/11 (user decision, not a bug — the test prompt was bad): the off-topic topics "clarification needed" and "vague question" came from Gemini non-answers to the QA custom Other prompt "Which bike gives most average?"; GEO-1243 rule Q3 relies on the prompts only (no filter on the answers), and "motorcycles" / "fuel efficiency" are real answer content. TC-GEO-1243-009 passes with well-formed prompts. Possible PO improvement (not raised): leave non-answers out of the topics. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): UA = bike d3fd1b30 (the "Postal services" analysis is not on staging), so the expected "P" / "Postal services" read "B" / "bike"; 'AI Citation Sources' renamed 'AI Engines Citation Sources'. |
 | Priority | High |
 | Stories | GEO-1243, GEO-1266, GEO-1268, GEO-1267 |
-| Precondition | Existing unbranded analysis UA "Postal services" (or JDD topic), collection completed, with Category Topics prompts; every prompt is well-formed and answerable (no vague custom Other prompt such as "Which bike gives most average?"); Flag ON |
+| Precondition | Existing unbranded analysis UA = bike d3fd1b30 (staging QA-GEO, the only unbranded analysis; or JDD topic), collection completed, with Category Topics prompts; every prompt is well-formed and answerable (no vague custom Other prompt such as "Which bike gives most average?"); Flag ON |
 | Labels | e2e-suite |
 | QA Parent | GEO-1209 |
 | Components / QA Component | GEO / GEO Module |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 02/11 (MCP) — test data fixed 2026-11-05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
 | 1 | Given the user is on the GEO dashboard of organisation T |  | The analyses list is displayed |
 | 2 | When the list shows analysis UA |  | The column header reads "Brand / Topic" |
-| 3 | Then UA shows the topic with its first letter |  | A letter avatar "P" and "Postal services" |
+| 3 | Then UA shows the topic with its first letter |  | A letter avatar "B" and "bike" |
 | 4 | And no domain is shown for UA |  | No domain or website under the topic |
 | 5 | When the user opens analysis UA |  | The analysis loads with its sidebar |
-| 6 | Then the sidebar block shows the topic first letter in the logo slot |  | A letter avatar "P" is shown where a brand logo shows today |
-| 7 | And the block shows the topic |  | "Postal services" is displayed next to the avatar |
+| 6 | Then the sidebar block shows the topic first letter in the logo slot |  | A letter avatar "B" is shown where a brand logo shows today |
+| 7 | And the block shows the topic |  | "bike" is displayed next to the avatar |
 | 8 | And no extra header, mode label or date is shown |  | No "Unbranded analysis" label, no generation date and no header above the block or the Overview |
-| 9 | When the Overview renders |  | InBrief, Top Topics, Share of Voice, the landscape table and AI Citation Sources are shown |
+| 9 | When the Overview renders |  | InBrief, Top Topics, Share of Voice, the landscape table and AI Engines Citation Sources are shown |
 | 10 | Then the scope bar and the KPI cards with their deltas are not shown |  | No scope bar, no KPI card, no delta |
 | 11 | And Time Evolution and Category Prioritization are not shown |  | Neither widget is on the Overview |
 | 12 | And Corporate Reputation, Brand Territory and the Brand Image hint are not shown |  | None of the three is on the Overview |
 | 13 | When the user reads InBrief |  | InBrief shows exactly 3 bullets |
 | 14 | And the caption is displayed |  | "Category summary generated by artificial intelligence" |
 | 15 | When the widget loads |  | It is titled "Top Topics in the Category" |
-| 16 | Then each topic describes the category | Analysis whose prompts are all well-formed (see Precondition) | Every topic is an aspect of postal services (e.g. delivery times, tracking), not a brand |
+| 16 | Then each topic describes the category | Analysis whose prompts are all well-formed (see Precondition) | Every topic is an aspect of bikes (e.g. frame material, suspension system, wheel size), not a brand |
 | 17 | And no topic names a brand and no brand tag is shown |  | No brand name in any topic label; no brand tag |
 | 18 | And each topic shows its sentiment and frequency as in Top Concepts today |  | Positive / Mixed / Negative grouping and the frequency are displayed per topic |
 | 19 | When the user looks at the rows of Top Topics |  | Each row shows the topic, its frequency % and the meta line "{q} quotes • {n} sources • {Positive \| Mixed \| Negative}" |
@@ -63,7 +63,7 @@
 | 30 | When the ring loads |  | The subtitle reads "How the answers split across entities" |
 | 31 | Then no slice is enlarged and there is no centre value |  | All slices have the same radius; the centre of the ring is empty |
 | 32 | And the ring keeps the brand analysis calculation |  | Top 10 brands by SOV and "Others" for the rest; the slices add up to 100 % |
-| 33 | When the table loads |  | It is titled "Postal services landscape" |
+| 33 | When the table loads |  | It is titled "bike landscape" |
 | 34 | Then no row is highlighted |  | Every brand row has the same style |
 | 35 | And no tooltip says "your brand" | Hover each column header and info icon | No tooltip contains "your brand" |
 | 36 | When the widget loads |  | Its subtitle refers to the topic, not to "your brand" |

@@ -119,6 +119,10 @@ for (const k of shotDirs) {
   const key = n => n.replace(/^(\d{2})(\d{2})(\d{4})-(\d{4})$/, '$3$2$1$4');
   const runs = fs.readdirSync(path.join(REPORTS, 'runs')).filter(n => /^\d{8}-\d{4}$/.test(n)).sort((a, b) => key(b).localeCompare(key(a)));
   for (const r of runs) cands.push(path.join(REPORTS, 'runs', r, dir));
+  // Per-run folders are not kept after consolidation: fall back on the earlier consolidated folders of the epic, newest first
+  const prev = fs.readdirSync(path.join(REPORTS, 'runs')).filter(n => n.startsWith(`${args.version}_${args.epic}_`) && path.join(REPORTS, 'runs', n) !== out)
+    .sort((a, b) => key(b.split('_').pop()).localeCompare(key(a.split('_').pop())));
+  for (const r of prev) cands.push(path.join(REPORTS, 'runs', r, dir));
   const found = cands.filter(c => fs.existsSync(c));
   found.forEach(src => copyDir(src, path.join(out, dir)));
   if (!found.length && !fs.existsSync(path.join(out, dir))) missing.push(dir);

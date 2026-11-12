@@ -31,7 +31,7 @@
 | Components / QA Component | Top Concepts widget / E2E sort |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 04/11 (MCP) — TC aligned on the observed result |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -66,7 +66,7 @@
 | Components / QA Component | Top Concepts widget / E2E filter |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 30/05 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -98,7 +98,7 @@
 | Components / QA Component | Top Concepts widget / E2E detail-panel |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 30/05 |
+| Last result | PASS 10/11 (MCP) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -122,8 +122,8 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — widget heading "Top Topics Associated with Your Brand" (TC-GEO-1266-002); sources unchanged (TC-GEO-1267-006) — label |
-| Description | Verifies that every source row exposed by the Top Concepts widget (both inside the inline detail panel — subset — and inside the All sources modal — full set) carries a non-empty title a non-empty subtitle (URL/domain) a visible publisher logo (e.g. Vogue's V Forbes's F) at least one visible LLM logo image (img with alt matching chatgpt/claude/gemini/grok/openai/perplexity) and a visible navigation link to open the source. The panel and modal share the same contract. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: widget heading "Top Topics Associated with Your Brand" (TC-GEO-1266-002); sources unchanged (TC-GEO-1267-006); driven by Given step → TC-GEO-1266-002. Consolidates archive E2E-TOP-CONCEPT-004 (GEO-75). Archived in GEO-R1.0/e2e-category-top-concept.csv. |
+| Status | UPDATE — widget heading "Top Topics Associated with Your Brand" (TC-GEO-1266-002); sources unchanged (TC-GEO-1267-006) — label; labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Verifies that every source row exposed by the Top Concepts widget (both inside the inline detail panel — subset — and inside the All sources modal — full set) carries a non-empty title a non-empty subtitle (URL/domain) a visible publisher logo (e.g. Vogue's V Forbes's F) at least one visible LLM logo image (img with alt matching chatgpt/claude/gemini/grok/openai/perplexity) and a visible navigation link to open the source. The panel and modal share the same contract. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: widget heading "Top Topics Associated with Your Brand" (TC-GEO-1266-002); sources unchanged (TC-GEO-1267-006); driven by Given step → TC-GEO-1266-002. Consolidates archive E2E-TOP-CONCEPT-004 (GEO-75). Archived in GEO-R1.0/e2e-category-top-concept.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): sources are listed directly in the panel (no Sources section to switch to); each source row is itself the link (no 'Open <title>' label). |
 | Priority | High |
 | Stories | GEO-75 |
 | Precondition | The user is authenticated and the category contains at least one concept with sources |
@@ -132,14 +132,14 @@
 | Components / QA Component | Top Concepts widget / E2E sources |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 30/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
 | 1 | Given an authenticated user opens the category page with concepts | Category URL: BASE_URL/dashboard/{dashboard_uuid}/category/{category_uuid} | The Top Topics widget is visible |
 | 2 | When the user opens the detail panel of the first concept | Click on the first concept button | The detail panel opens with the Close detail panel button visible |
-| 3 | And the user switches to the Sources section inside the panel | Click Sources section in the panel | The Sources content is shown with a subset of sources and the All sources button |
-| 4 | Then every source row in the detail panel carries a title subtitle publisher logo at least one LLM logo image and a navigation link | Panel sources subset (visible inside #identity outside any radix popover) | Each source row in the panel exposes: a non-empty title a non-empty subtitle (URL/domain) a visible publisher/source logo image at least one visible LLM logo image (img with alt attribute matching chatgpt/claude/gemini/grok/openai/perplexity img.naturalWidth>0) and a visible navigation link with href (Open <title>) |
+| 3 | And the user switches to the Sources section inside the panel | Sources are listed directly in the panel (no separate Sources section to switch to) | The Sources content is shown with a subset of sources and the All sources button |
+| 4 | Then every source row in the detail panel carries a title subtitle publisher logo at least one LLM logo image and a navigation link | Panel sources subset (visible inside #identity outside any radix popover) | Each source row in the panel exposes: a non-empty title a non-empty subtitle (URL/domain) a visible publisher/source logo image at least one visible LLM logo image (img with alt attribute matching chatgpt/claude/gemini/grok/openai/perplexity img.naturalWidth>0) and a visible navigation link with href (the row itself is the link: a[href] target=_blank, data-testid 'dashboard-concept-sources-item' — no separate 'Open <title>' label) |
 | 5 | When the user opens the All sources modal | Click All sources button | The All sources modal opens with the Search by title or URL input visible |
 | 6 | Then every source row in the All sources modal carries a title subtitle publisher logo at least one LLM logo image and a navigation link | Modal sources full set (inside [id^=radix-] popover) | Each source row in the modal exposes: a non-empty title a non-empty subtitle (URL/domain) a visible publisher/source logo image at least one LLM logo image (img with alt attribute matching chatgpt/claude/gemini/grok/openai/perplexity img.naturalWidth>0) and a visible navigation link with href |
 | 7 | And the All sources modal contains at least as many source rows as the panel (full set vs subset) | Modal source count vs panel source count | modalSources.length >= panelSources.length (the modal must expose at least as many sources as the inline panel — the modal is the full set the panel a subset) |
@@ -152,8 +152,8 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — widget heading "Top Topics Associated with Your Brand" (TC-GEO-1266-002); sources unchanged (TC-GEO-1267-006) — label; empty-state text aligned on the observed result 2026-11-05 (user decision) — label |
-| Description | Verifies that searching a non-matching term in the All sources modal displays the No sources match your search empty state and that closing the modal and the panel restores the original page state. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: widget heading "Top Topics Associated with Your Brand" (TC-GEO-1266-002); sources unchanged (TC-GEO-1267-006); driven by Given step → TC-GEO-1266-002. Aligned 2026-11-05 on the MCP run of 30/10 (user decision, not a bug): the empty-state message reads "No sources match your search" with no final period — the old text came from the R1.0 E2E (Figma) and the copy changed after the PASS of 30/05. The "{n} sources" count in the modal header is not checked by this scenario. Stories 1266–1268 are covered in the GEO-1068 CSV. Consolidates archive E2E-TOP-CONCEPT-005 (GEO-75). Archived in GEO-R1.0/e2e-category-top-concept.csv. |
+| Status | UPDATE — widget heading "Top Topics Associated with Your Brand" (TC-GEO-1266-002); sources unchanged (TC-GEO-1267-006) — label; empty-state text aligned on the observed result 2026-11-05 (user decision) — label; labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | Verifies that searching a non-matching term in the All sources modal displays the No sources match your search empty state and that closing the modal and the panel restores the original page state. Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate: widget heading "Top Topics Associated with Your Brand" (TC-GEO-1266-002); sources unchanged (TC-GEO-1267-006); driven by Given step → TC-GEO-1266-002. Aligned 2026-11-05 on the MCP run of 30/10 (user decision, not a bug): the empty-state message reads "No sources match your search" with no final period — the old text came from the R1.0 E2E (Figma) and the copy changed after the PASS of 30/05. The "{n} sources" count in the modal header is not checked by this scenario. Stories 1266–1268 are covered in the GEO-1068 CSV. Consolidates archive E2E-TOP-CONCEPT-005 (GEO-75). Archived in GEO-R1.0/e2e-category-top-concept.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): sources are listed directly in the panel (no Sources section to click before All sources). |
 | Priority | High |
 | Stories | GEO-75 |
 | Precondition | The user is authenticated and the category contains concepts with sources |
@@ -162,12 +162,12 @@
 | Components / QA Component | Top Concepts widget / E2E search |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | FAIL 30/10 (MCP) — expected text updated 2026-11-05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
 | 1 | Given an authenticated user opens the category page with concepts | Category URL: BASE_URL/dashboard/{dashboard_uuid}/category/{category_uuid} | The Top Topics widget is visible |
-| 2 | When the user opens the detail panel of the first concept and the All sources modal | Click first concept then Sources then All sources | The All sources modal is open with the Search by title or URL input visible |
+| 2 | When the user opens the detail panel of the first concept and the All sources modal | Click first concept then All sources (sources are listed directly in the panel) | The All sources modal is open with the Search by title or URL input visible |
 | 3 | When the user types 1555555 in the search input | Search query: 1555555 (non-matching) | The input value is updated and the source list reacts to the query |
 | 4 | Then the message No sources match your search is visible inside the modal | Empty state message: No sources match your search | The text No sources match your search (no final period) is rendered inside the All sources modal |
 | 5 | When the user presses Escape to close the All sources modal | Keyboard: Escape | The All sources modal is dismissed and the detail panel remains visible |

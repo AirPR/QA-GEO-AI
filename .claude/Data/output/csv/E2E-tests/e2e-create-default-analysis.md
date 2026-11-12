@@ -17,8 +17,8 @@
 
 | Field | Value |
 |---|---|
-| Status | UPDATE — new 5-step wizard, prompt pool, Summary, creation confirmation (GEO-R1.3) — behaviour change (confirmed at the gate) |
-| Description | End-to-end: Create a brand analysis for a suggested brand with the new wizard (flag ON). Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate (new GEO-R1.3 wizard / dashboard). Assumptions: The analysis keeps only 5 prompts (QA rule): the untick step unticks every suggestion but 5, so the ring / "N selected" figures of TC-GEO-1229-003 scale to the real counts; Brand data of TC-GEO-1260-004 (Nike) replaces Chanel; the JDD may keep Chanel if the user prefers (same expected wording with the other brand name); Archive steps 15-16 ("Last update" column, "In progress") are kept: no newer TC describes this column on the R1.3 dashboard; verify the label on staging before the spec update. Known bugs: TC-GEO-1240-004 step 2 relies on the Analysis table header; GEO-1546 (Ready for QA) removes the duplicated "N analyses" label there (no impact on the Prompts column itself). Consolidates TC-GEO-1241-001, TC-GEO-1241-003, TC-GEO-1231-003, TC-GEO-1260-004, TC-GEO-1231-004, TC-GEO-1231-010, TC-GEO-1232-001, archive E2E-CREATE-DEFAULT-001, TC-GEO-1233-001, TC-GEO-1229-003, TC-GEO-1236-001, TC-GEO-1237-001, TC-GEO-1237-006, TC-GEO-1237-010, TC-GEO-1240-004. Former id: E2E-CREATE-DEFAULT-001. Archived in GEO-R1.0/e2e-create-default-analysis.csv. |
+| Status | UPDATE — new 5-step wizard, prompt pool, Summary, creation confirmation (GEO-R1.3) — behaviour change (confirmed at the gate); labels / test data aligned 2026-11-11 (MCP run of 10/11) |
+| Description | End-to-end: Create a brand analysis for a suggested brand with the new wizard (flag ON). Updated 2026-10-28 at the e2e-suite-GEO-R1.3 review gate (new GEO-R1.3 wizard / dashboard). Assumptions: The analysis keeps only 5 prompts (QA rule): the untick step unticks every suggestion but 5, so the ring / "N selected" figures of TC-GEO-1229-003 scale to the real counts; Brand data of TC-GEO-1260-004 (Nike) replaces Chanel; the JDD may keep Chanel if the user prefers (same expected wording with the other brand name); Archive steps 15-16 ("Last update" column, "In progress") are kept: no newer TC describes this column on the R1.3 dashboard; verify the label on staging before the spec update. Known bugs: TC-GEO-1240-004 step 2 relies on the Analysis table header; GEO-1546 (Ready for QA) removes the duplicated "N analyses" label there (no impact on the Prompts column itself). Consolidates TC-GEO-1241-001, TC-GEO-1241-003, TC-GEO-1231-003, TC-GEO-1260-004, TC-GEO-1231-004, TC-GEO-1231-010, TC-GEO-1232-001, archive E2E-CREATE-DEFAULT-001, TC-GEO-1233-001, TC-GEO-1229-003, TC-GEO-1236-001, TC-GEO-1237-001, TC-GEO-1237-006, TC-GEO-1237-010, TC-GEO-1240-004. Former id: E2E-CREATE-DEFAULT-001. Archived in GEO-R1.0/e2e-create-default-analysis.csv. Aligned 2026-11-11 on the MCP run of 10/11 (user decision): brand S = Lacoste (lacoste.com — a Nike analysis already exists in QA-GEO, pick a suggested brand with no analysis); step 36 checks the row of brand S (was "Chanel", copy/paste); "markets" renamed "countries" (GEO-1514); step 24 mentions the "Remove this Brand Image prompt?" confirmation. |
 | Priority | High |
 | Stories | GEO-1241, GEO-1231, GEO-1260, GEO-1232, GEO-104, GEO-1233, GEO-1229, GEO-1236, GEO-1237, GEO-1240 |
 | Precondition | Staging, QA account allowed to create analyses, interface language en-GB, unbranded flag ON; Room in the prompt pool of the organisation for 5 prompts; ChatGPT and Gemini allowed for the organisation (TC-GEO-1237-006) |
@@ -27,7 +27,7 @@
 | Components / QA Component | Wizard / E2E flow |
 | Smoke / Regression | Yes / Yes |
 | UI/Functional · Test type | Functional · Automated |
-| Last result | PASS 18/05 |
+| Last result | PASS 10/11 (MCP) — TC aligned on the observed result (labels / test data) |
 
 | # | Step | Test data | Expected result |
 |---|---|---|---|
@@ -40,8 +40,8 @@
 | 7 | And the mode pill shows the mode |  | The product bar pill reads "Brand analysis" |
 | 8 | Then the brand question is displayed |  | "What brand are you analysing?" |
 | 9 | And the countries question is displayed |  | "Which countries do you want to analyse?" |
-| 10 | When the user types the name of a suggested brand | S = "Nike" | The dropdown lists Brandfetch suggestions with their logo and domain, plus a "Custom Brand" row for "Nike" |
-| 11 | And the user selects the suggestion | "Nike" (nike.com) | The selected brand card shows today's card: the Nike logo, the name and the domain |
+| 10 | When the user types the name of a suggested brand | S = "Lacoste" (a suggested brand with no analysis in the organisation) | The dropdown lists Brandfetch suggestions with their logo and domain, plus a "Custom Brand" row for "Lacoste" |
+| 11 | And the user selects the suggestion | "Lacoste" (lacoste.com) | The selected brand card shows today's card: the Lacoste logo, the name and the domain |
 | 12 | Then no website field is displayed |  | No "What is your brand's website? (optional)" field is shown anywhere on the step |
 | 13 | When the user clicks Add country |  | The composer opens with a country select and a language select |
 | 14 | Then the language select is disabled until a country is picked |  | The language select is greyed and cannot be opened |
@@ -54,7 +54,7 @@
 | 21 | And the Editor accepts the AI-discovered categories without modification | Default AI-discovered categories (no edits) | At least one AI-discovered category is visible on Step 2 |
 | 22 | When the user clicks Generate Prompts and generation ends |  | The Prompts step shows one table with every prompt |
 | 23 | And each prompt carries the category and type that produced it |  | Each C1 row shows Category C1 and its type badge |
-| 24 | When the user unticks 3 prompts | Untick every prompt but 5 (QA rule: test analyses keep 5 prompts) | The 3 rows are greyed and the ring reads "U + 37 / P" |
+| 24 | When the user unticks 3 prompts | Untick every prompt but 5 (QA rule: test analyses keep 5 prompts) — unticking a Brand Image prompt opens "Remove this Brand Image prompt?" (Cancel / Remove); Remove only unticks the row | The 3 rows are greyed and the ring reads "U + 37 / P" |
 | 25 | Then the unticked prompts consume no slot |  | "37 selected" is shown and the popover "this analysis" part reads 37 |
 | 26 | When the user hovers the ring |  | The popover opens |
 | 27 | Then the popover splits other analyses, this analysis and free slots |  | Other analyses = U, Kept in this analysis = 40, Free = P - U - 40 |
@@ -63,9 +63,9 @@
 | 30 | Then each allowed engine is a toggle, with ChatGPT and Gemini on by default |  | One toggle per allowed engine; ChatGPT and Gemini are on when allowed, every other allowed engine is off; if neither ChatGPT nor Gemini is allowed, every allowed engine is on |
 | 31 | And the other engines are not shown |  | No engine outside the allowed list; no "Available on higher plans" or Upgrade block |
 | 32 | When the user clicks Create Analysis |  | The analysis is scheduled and the "Analysis created" confirmation opens; Back to Dashboard is hidden |
-| 33 | Then the confirmation states the prompts, markets, categories and engines |  | 133 prompts, 2 markets, 2 categories and the names of the 3 engines |
+| 33 | Then the confirmation states the prompts, countries, categories and engines |  | 133 prompts, 2 countries, 2 categories and the names of the 3 engines |
 | 34 | When the user clicks View analysis |  | The new analysis opens |
 | 35 | When the Editor navigates back to the reports list (BASE_URL) | Navigation to BASE_URL — reports list page | The reports list page is displayed with all existing analyses |
-| 36 | Then the Chanel analysis row shows the value In progress in the Last update column | Brand: Chanel — Last update column | The Last update column of the Chanel row displays In progress indicating the analysis is running |
+| 36 | Then the analysis row of brand S shows the value In progress in the Last update column | Brand: S (Lacoste) — Last update column | The Last update column of the row of brand S displays In progress indicating the analysis is running |
 | 37 | Then a "Prompts" column is shown after Categories |  | "Prompts" header right after "Categories" |
-| 38 | And the value of an analysis equals its kept prompts across its markets | Analysis A (Manage Scope > Prompts: ticked rows) | The Prompts value of A equals its number of ticked rows |
+| 38 | And the value of an analysis equals its kept prompts across its countries | Analysis A (Manage Scope > Prompts: ticked rows) | The Prompts value of A equals its number of ticked rows |

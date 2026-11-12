@@ -14,11 +14,11 @@
 - Scenario 4: Entry Quoted Verbatim - Verify that every entry is found word for word on the live page, in the language of the page, and that its page block opens that page.
 - Scenario 5: Review Without the Brand Name - Verify that on a review page about one company of the brand family a negative review that does not name the brand (e.g. "A EVITER ABSOLUMENT - POUR PRENDRE VOTRE ARGENT ILS SONT FORTS") is listed (Figma 1.1).
 - Scenario 6: No Page Chrome Quoted - Verify that no entry is the page title, a menu, a banner or a summary written by the site.
-- Scenario 7: No Positive Review or Company Reply - Verify that no entry is a positive review or a reply from the company.
+- Scenario 7: Criticism Listed Even in a 4–5★ Review, No Company Reply - Verify that a review that criticises the brand is listed even when it is rated 4 or 5 stars, and that a review holding no criticism of the brand or a reply from the company is never listed (PO decision GEO-1583 comment 876255, 2026-11-11: "Any criticism = listed").
 - Scenario 8: Ten Entries per Page - Verify that a page with more than 10 negative reviews lists 10 entries and its count reads "10 negative reviews", with nothing saying that more exist.
 - Scenario 9: Cap and Cut on One Page - Verify that a page with 11 or more negative reviews, one of them longer than 140 characters, lists 10 entries and the long one ends with "…" on a word boundary within 140 characters.
 - Scenario 10: Page With One Negative Review - Verify that a review page holding a single negative review is negative and shows its page block with "1 negative review".
-- Scenario 11: Review Page With No Negative Review - Verify that a review page with no negative review is not listed in Negative perception.
+- Scenario 11: Review Page With No Negative Review - Verify that a review page whose reviews hold no criticism of the brand is not listed in Negative perception.
 - Scenario 12: Comparison Page Keeps Today's Rule - Verify that a comparison page rating several companies on a Review Sites domain (e.g. seedly.sg, lecomparateurassurance.com) keeps one passage per page that names the brand (PO 869090).
 - Scenario 13: App Store Pages Out of Scope - Verify that a Google Play or App Store page keeps today's one-passage rule and gets no review layout (PO 869090).
 - Scenario 14: Other Sources Keep One Passage - Verify that a page of a source not classified Review Sites keeps one passage per page that names the brand, as today.
