@@ -1,6 +1,6 @@
 ### QA Test Plan for GEO-1005 — Add Google AI Overviews as a Tracked Surface
 
-**Updated:** 2026-11-13 | **Source CSV:** pending | **Status:** DRAFT for review
+**Updated:** 2026-11-13 | **Source CSV:** pending | **Status:** Approved 2026-11-13
 
 **Objective:** Verify that Google AI Overviews becomes one more engine of the analysis: it can be allowed in the back office and selected in the wizard and Manage Scope after Gemini, with its name, Google "G" logo and green colour; it is captured per country from the Google Search page through the capture vendor with no API fallback, the full AI Overview after "Show more", no capture in the excluded countries and an amber line in the Review step, the add-country dialog and Manage Scope; a prompt with no AI Overview is a "Not triggered" result left out of every metric, the trends and the Excel Raw Data, and an excluded country shows "Not available"; the AI Overview is read by the shared reader of GEO-678 and shown in the full answer card of GEO-1498; and it shows wherever engines show (filters, per-engine breakdowns, pills, Actions Center, exports) in the fixed engine order ChatGPT, Gemini, Google AI Overviews, the place of Google AI Mode, Grok, Claude, Perplexity. Images (GEO-1599 AC2 to AC5) are moved to GEO-1608 and are not tested here.
 

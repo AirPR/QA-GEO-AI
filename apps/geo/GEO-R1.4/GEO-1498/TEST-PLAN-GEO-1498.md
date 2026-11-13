@@ -1,6 +1,6 @@
 ### QA Test Plan for GEO-1498 — Natural Answer Display in the Question Panel
 
-**Updated:** 2026-11-13 | **Source CSV:** pending | **Status:** DRAFT for review
+**Updated:** 2026-11-13 | **Source CSV:** pending | **Status:** Approved 2026-11-13
 
 **Objective:** Verify that the question panel lets the user read the full answer an engine gave and check every extracted result against it: the panel opens on a row click only, as a 470px full-height drawer that behaves like the Target Sources drawer in both shells; the answer card clamps long answers at about 8 lines with "Show full answer", renders rich content, counts characters and keeps the question and the engine pinned; every ranked brand is highlighted and a ranking row scrolls to its first mention; the result card, the answer, the section "Extracted from this answer" and the sources come in that order; inline citations share one numbering with the Sources card and the Excel export; a failed extraction or a not counted answer changes only its own block. Competitive answers move to four outcomes (Chosen, Conditional, Not chosen, Overlooked) on the AI Choice donut card, the questions table, the engine pills, the outcome cards and Brand Rankings, the metric is named AI Choice everywhere with new definitions and a new Share of Voice tooltip, and the Excel Raw Data sheet carries the full answer, a new "Ranking" column and no Favorability column. Analyses run before this epic keep their excerpt and stored places. Images in the answer card (GEO-1608) are not part of this plan.
 

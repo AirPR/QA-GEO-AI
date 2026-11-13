@@ -1,6 +1,6 @@
 ### QA Test Plan for GEO-1537 — Show the Brands Behind Others
 
-**Updated:** 2026-11-13 | **Source CSV:** pending | **Status:** DRAFT for review
+**Updated:** 2026-11-13 | **Source CSV:** pending | **Status:** Approved 2026-11-13
 
 **Objective:** Verify that the brands behind the Others slice of the Share of Voice donut are no longer a black box: hovering or focusing Others (slice or legend item) on the overview, a category tab or the landscape of an unbranded analysis opens a tooltip with Others, its value and its brand count, the first 10 brands sorted by exact Share of Voice and "and N more brands, see the export", with the same filters as the donut and an Others value equal to the sum of its brands; the Excel export adds next to each brand ranking table a Share of Voice table of the first 100 brands with a last "and N more brands" row, the ranking table matching the app; the PowerPoint and PDF donut show the top 10 brands, an Others chip and a line under the donut, on the same data as the dashboard (whole selected period, or the last analysis date when no period is selected). Whole numbers, "~0%" under 0.5%, number formats and FR / ES strings are checked on every surface.
 
