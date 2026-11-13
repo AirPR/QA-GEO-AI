@@ -1,0 +1,87 @@
+{
+  "epic": {
+    "id": "GEO-1532",
+    "key": "GEO-1532",
+    "title": "EPIC-052: Align the Lite Analysis on Natural Answers",
+    "status": "Backlog",
+    "assignee": "Quentin.Reant",
+    "created": "2026-10-23",
+    "updated": "2026-10-27",
+    "updatedAt": "2026-10-27T06:16:27.471-0400",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1532",
+    "fixVersions": [
+      "1.4"
+    ],
+    "functionalNeed": "The Lite Analysis (the free analysis a prospect gets before buying) still asks the engines for a fixed JSON structure and computes its metrics the old way: Share of Voice over 10 slots per visibility answer, Average Position with a penalty of 11 when the brand is absent, and the answer language forced to the insights language (GEO-918). Once GEO-678 ships, the full analysis reads natural answers with new rules, so a prospect would see one Share of Voice in the Lite Analysis and a different one after purchase.\n\nThe goal is to run the Lite Analysis on the same reader and the same formulas as the full analysis. This is low priority: it can ship after GEO-678, and until then the gap is accepted.",
+    "scope": [
+      "User Story 1.1: Use the natural answer reader in the Lite Analysis",
+      "User Story 1.2: Use the same formulas as the full analysis"
+    ],
+    "outOfScope": [
+      "[CHANGED 27 OCT] Any change to the layout of the Lite Analysis screens or to the upsell flow, except the Perception answer card of story 1.1",
+      "Rendered capture for the Lite Analysis: it follows the route set for each engine in production"
+    ],
+    "dependencies": [
+      "GEO-678 (Natural Answer Collection and Parsing)",
+      "[NEW 27 OCT] GEO-1498 (Natural Answer Display): the answer card reused in the Perception rows"
+    ],
+    "references": [],
+    "plannedStories": [
+      {
+        "ref": "1.1",
+        "title": "Use the natural answer reader in the Lite Analysis",
+        "storyId": "TBD",
+        "userStoryText": "As a prospect, I want the Lite Analysis to measure the same answers as the full product, so that the numbers I see before buying are the ones I get after.",
+        "userStory": {
+          "as": "prospect",
+          "want": "the Lite Analysis to measure the same answers as the full product",
+          "so": "the numbers I see before buying are the ones I get after"
+        },
+        "notes": [],
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "text": "Given a Lite Analysis, When a question is sent, Then it is sent the same way as in the full analysis (GEO-678 stories 1.1 and 1.11), with no JSON structure and no language rule"
+          },
+          {
+            "id": "AC2",
+            "text": "Given a Lite Analysis answer, When it is read, Then the same reading rules as GEO-678 apply (brand recognition, ranking by first mention, competitive outcomes, sources)"
+          },
+          {
+            "id": "AC3",
+            "text": "[NEW 27 OCT] Given a Perception prompt of the Lite Analysis, When I expand its row, Then the answer shows in the same answer card as the question panel of GEO-1498 (markdown rendered, clamped with \"Show full answer\", character count), not as plain text, so headings, lists and tables never show as raw markdown"
+          }
+        ]
+      },
+      {
+        "ref": "1.2",
+        "title": "Use the same formulas as the full analysis",
+        "storyId": "TBD",
+        "userStoryText": "As a prospect, I want the Lite Analysis metrics to use the full analysis formulas, so that my Share of Voice and position do not change after purchase.",
+        "userStory": {
+          "as": "prospect",
+          "want": "the Lite Analysis metrics to use the full analysis formulas",
+          "so": "my Share of Voice and position do not change after purchase"
+        },
+        "notes": [],
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "text": "Given a Lite Analysis, When Share of Voice is computed, Then it uses the GEO-678 formula (each brand family once per answer, over the brand families the answer names)"
+          },
+          {
+            "id": "AC2",
+            "text": "Given a Lite Analysis, When Average Position is computed, Then it is the mean rank over the answers where the brand is named, ranks 1 to 10, with no penalty, as in the full analysis (GEO-1195)"
+          },
+          {
+            "id": "AC3",
+            "text": "Given a Lite Analysis, When AI Choice is computed, Then it is Chosen plus Conditional over the counted competitive answers, as in the full analysis"
+          }
+        ]
+      }
+    ],
+    "ignoredChildren": [],
+    "importNote": "No child Story / Task in Jira at import time: the stories are written in the epic description with \"Story ID: TBD\". They are kept in plannedStories (verbatim) and are not in stories[].",
+    "stories": []
+  }
+}

@@ -3001,3 +3001,27 @@ TÂCHE 103 : Synchro GEO-1226 (GEO-R1.4) sur tout l historique (12/11/2026)
 4. Quand des steps d un TC changent (ex. TC-GEO-1547-007 : +1 step), le
    real.json existant n est pas mis à jour : le relancer produit un nouveau
    real.json de rerun.
+
+================================================================================
+TÂCHE 104 : Release 1.4 — synchro des questions, import et plan de test (13/11/2026)
+================================================================================
+1. /sync-tcs-epic sur des epics sans dossier local ni CSV : mode "questions
+   seules" (accord utilisateur) → phase 1 + 2b uniquement, --since = date du
+   fichier PO-PM-QUESTIONS-{VERSION}.md ; on met à jour les statuts du fichier
+   de questions, aucun CSV touché.
+2. Erreur API 403 "Please run /login" (Cloudflare) : les sous-agents s arrêtent
+   en cours de route. Après /login : vérifier sur disque (git status, dossiers,
+   .tmp-jira/) ce qui a été écrit, puis relancer le MÊME agent via SendMessage
+   ("reprends où tu t es arrêté") au lieu d en lancer un nouveau.
+3. Epic sans Story / Task dans Jira (stories "Story ID: TBD" dans la description,
+   ex. GEO-1006, GEO-1212, GEO-1532) : l import crée EPIC.md / README / INDEX /
+   epic-data.json avec plannedStories[] (AC verbatim), pas de STORY_*.md ; le plan
+   de release n en tire aucun scénario (listé + points ouverts cross-epic).
+   Ré-importer quand les stories existent.
+4. /gen-test-plan avec plusieurs epics d une même fixVersion → mode release
+   (--release 1.4 --epics …) : un plan de release + un plan par epic écrits en
+   DRAFT. Il remplace les brouillons par epic montrés avant (scénarios moins
+   nombreux une fois les stories lues depuis les fichiers importés).
+5. Répartition 1.4 : GEO-678 = collecte et parsing (+ effet sur les métriques),
+   GEO-1498 = affichage (panneau, Excel, nom AI Choice), GEO-1005 = capture AI
+   Overviews ; images (GEO-1599 AC2–AC5, GEO-1608) hors plan.

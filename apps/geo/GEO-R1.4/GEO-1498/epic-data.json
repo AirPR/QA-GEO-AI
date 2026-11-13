@@ -1,0 +1,1909 @@
+{
+  "epic": {
+    "id": "GEO-1498",
+    "key": "GEO-1498",
+    "title": "EPIC-053: Natural Answer Display in the Question Panel",
+    "status": "Ready for QA",
+    "assignee": "Abdenasser Aroukhsiss",
+    "created": "2026-10-19",
+    "updated": "2026-11-13",
+    "updatedAt": "2026-11-13T04:27:12.197-0500",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1498",
+    "fixVersions": [
+      "1.4"
+    ],
+    "functionalNeed": "With Natural Answer Parsing (EPIC-027, GEO-678), engines answer the way they would for a real user and the ranking, the competitive outcome, the perception themes and the sources are extracted from that answer afterwards. The stored answer becomes full prose: several paragraphs, lists, inline citation markers, and lengths that vary a lot between engines (24 words for Claude against 442 for ChatGPT in the design examples).\n\nThe question panel was built for a short, predictable answer. Today it shows only the text the engine wrote about the brand (Visibility and Competitive) or the extracted answer text (Perception), with the citation tags stripped. It does not hold a full answer.\n\n[CHANGED 27 OCT] This epic owns the display only. The goal is that the user reads the full answer an engine gave and can check every extracted result against it. Competitive answers move from Won / Lost to four outcomes (Chosen, Conditional, Not chosen, Overlooked, defined in GEO-678), so the AI Choice card, the questions table and the question panel change with them. GEO-678 owns the parsing and stays parsing only. GEO-678 blocks this epic: the panel reads its output (outcomes, brand family, Not counted), so any change to that output during the build is reflected here before either ships. The design is GEO-1017 (Figma: Measure - GEO Module, page \"Natural answer display\").\n\nThe architect will go into the implementation details.\n\n---\n\n### Host Shells\n\nThe question panel opens from the questions table of a category view. Today it opens inline next to the table, which shrinks to make room. With this epic it becomes a full-height drawer over the page and over the host top bar, as drawn in GEO-1017 (frame 09, and the Unified Platform frame of the second round). It renders the same in both shells, and it opens only when the user clicks a row: no question opens by itself any more (the first-question auto-open of GEO-315 and GEO-345 is removed).\n\n| Shell | How it is selected | Chrome it mounts | Chrome it does NOT mount |\n|---|---|---|---|\n| Unified Platform, standalone | Onclusive Social native mode off | GEO sidebar, GEO top bar, organisation control, user menu | - |\n| Inside Onclusive Social | Onclusive Social native mode on | Onclusive Social top bar only | GEO sidebar, GEO top bar |\n\n- Nothing in this epic needs the settings entry or the organisation control.\n- [CHANGED 27 OCT] Inside Onclusive Social, the drawer and the citation mini card follow the Onclusive Social frame of GEO-1017 and behave like the target sources drawer (native dialog, focus trap, arrow keys to the previous or next question), with the same 470px width in both shells.\n- The sticky panel header (story 1.2) sits at the top of the drawer, which covers the host top bar in both shells, as in frame 09.\n\n---\n\n### Surfaces and States\n\nSurfaces in scope: the question panel on screen, the AI Choice KPI card, the competitive rows of the questions table, the AI Choice column of Brand Rankings, the name of the metric wherever it appears (prioritization matrices, trend graph, upsell results, PowerPoint and PDF), and the Raw Data sheet of the Excel export.\n\nNo change: scheduled emails, and the PowerPoint and PDF ring, which keeps one colour (only the metric name changes there).\n\nStates\n\n| State | Answer card | Extracted blocks |\n|---|---|---|\n| Loading | Skeleton of frame 04e | Skeleton of frame 04e |\n| Engine added after the last run | \"Analysis pending\", as today | Not shown |\n| Panel failed to load | Error with Retry, as today | Not shown |\n| Full answer, longer than the clamp | Clamped at about 8 lines, \"Show full answer\" | Rendered |\n| Full answer, shorter than the clamp | Shown in full, no control | Rendered |\n| One extraction failed | Shown in full | The failed block keeps its title and shows one amber italic line instead of its content |\n| Analysis run before this epic shipped | [CHANGED 27 OCT] The tracked brand's excerpt, as today (no full answer is stored for those dates) | Rendered as today, a competitive win shows Chosen and a loss Not chosen |\n| Answer that names no brand (Visibility) | Shown in full | Verdict \"No brands named\", no ranking rows |\n| Answer with no inline citations | Shown in full, \"no inline citations\" in the header | Rendered |\n| Answer not counted (cut, refused, empty) | \"{engine} returned no answer for this run\" | Not shown, engine pill marked \"Not counted\" |\n\nIn the Excel Raw Data sheet, an analysis run before this epic shipped keeps the existing content of the \"Response\" column, and its \"Ranking\" column is filled from the stored ranking. The EPIC text is the Excel spec, there is no frame.\n\nProvability\n\n| Label | Produced by |\n|---|---|\n| \"{n} characters · {n} citations\" | Number of characters of the answer, number of sources cited in the text |\n| \"Extracted from {engine}'s answer\" | The engine of the selected answer |\n| \"Source {n} of {total}\" | The citation number of the marker and the number of sources cited in the text |\n| Brand highlight in the answer | The brand mentions that GEO-678 finds in the answer |",
+    "scope": [
+      "GEO-1564 STORY-53.1: Read the full answer in the question panel",
+      "GEO-1565 STORY-53.2: Keep the question and the engine visible while reading",
+      "GEO-1566 STORY-53.3: Trace the extracted results back to the answer",
+      "GEO-1567 STORY-53.4: Resolve inline citations to their sources",
+      "GEO-1568 STORY-53.5: Keep the answer readable when parsing fails",
+      "GEO-1569 STORY-53.6: Export the full answer to Excel",
+      "GEO-1570 STORY-53.7: Show the competitive outcome in four buckets",
+      "GEO-1571 STORY-53.8: Name the competitive metric AI Choice everywhere",
+      "GEO-1572 STORY-53.9: Open the question panel as a drawer in both shells",
+      "GEO-1608 STORY-53.10: Show the images of the answer card"
+    ],
+    "scopeBoundaries": {
+      "Dependencies": "- GEO-678 (Natural Answer Parsing) must give the display, for each answer: the full answer text, the places where each brand is mentioned (including the other names an engine uses for it), the source each citation marker points to, the outcome of a Competitive question for each brand with the brand or brands picked, and which extractions failed or were not counted. Without them stories 1.3, 1.4, 1.5 and 1.7 cannot ship.\n- GEO-1017: design of this epic."
+    },
+    "outOfScope": [
+      "The parsing itself (GEO-678).",
+      "[CHANGED 27 OCT] Images inside answers and the fullscreen image viewer (frames 08a and 08b): they come with AI Overviews (GEO-1005) and AI Mode (GEO-1006), which reuse this answer card. The \"Not triggered\" pill for a prompt with no AI Overview is in GEO-1005.",
+      "Verbatim brand passages per source (GEO-676).",
+      "Nothing left on colours: the ring, the table badges, the tab badges and the cards follow production colours as set in story 1.7."
+    ],
+    "acceptanceCriteria": [
+      {
+        "userStory": "1.1",
+        "title": "Read the full answer in the question panel",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want to read the full answer an engine gave to a question, so that I see exactly what a real user would get.",
+        "criteria": [
+          {
+            "text": "Given an answer longer than about 8 lines, When I open the question panel, Then the answer shows its first 8 lines behind a fade with a \"Show full answer\" link",
+            "given": "an answer longer than about 8 lines",
+            "when": "I open the question panel",
+            "then": "the answer shows its first 8 lines behind a fade with a \"Show full answer\" link"
+          },
+          {
+            "text": "Given an answer shorter than the clamp, When I open the panel, Then it shows in full with no expand control",
+            "given": "an answer shorter than the clamp",
+            "when": "I open the panel",
+            "then": "it shows in full with no expand control"
+          },
+          {
+            "text": "Given a clamped answer, When I click \"Show full answer\", Then it expands in place and the panel scrolls internally, the panel width does not change",
+            "given": "a clamped answer",
+            "when": "I click \"Show full answer\"",
+            "then": "it expands in place and the panel scrolls internally, the panel width does not change"
+          },
+          {
+            "text": "Given an expanded answer, When I click \"Show less\" at the bottom, Then the answer collapses and the panel scrolls back to the top of the answer card",
+            "given": "an expanded answer",
+            "when": "I click \"Show less\" at the bottom",
+            "then": "the answer collapses and the panel scrolls back to the top of the answer card"
+          },
+          {
+            "text": "Given an answer that contains headings, bold text, lists, tables, long URLs or code blocks, When it renders, Then each one renders as formatted content and nothing overflows the panel width",
+            "given": "an answer that contains headings, bold text, lists, tables, long URLs or code blocks",
+            "when": "it renders",
+            "then": "each one renders as formatted content and nothing overflows the panel width"
+          },
+          {
+            "text": "Given I compare engines with very different answer lengths, When I switch engine tab, Then the header, tags, engine tabs and verdict stay at the same position, and a short answer ends without empty space",
+            "given": "I compare engines with very different answer lengths",
+            "when": "I switch engine tab",
+            "then": "the header, tags, engine tabs and verdict stay at the same position, and a short answer ends without empty space"
+          },
+          {
+            "text": "Given the answer header, When it renders, Then it counts characters, not words, so it works the same for Japanese or Chinese answers",
+            "given": "the answer header",
+            "when": "it renders",
+            "then": "it counts characters, not words, so it works the same for Japanese or Chinese answers"
+          }
+        ]
+      },
+      {
+        "userStory": "1.2",
+        "title": "Keep the question and the engine visible while reading",
+        "storyId": "TBD",
+        "statement": "As a GEO user reading a long answer, I want to always see which question and which engine I am reading, so that I don't lose context while I scroll.",
+        "criteria": [
+          {
+            "text": "Given an expanded answer, When I scroll the panel, Then the question stays pinned at the top together with the engine of the answer",
+            "given": "an expanded answer",
+            "when": "I scroll the panel",
+            "then": "the question stays pinned at the top together with the engine of the answer"
+          },
+          {
+            "text": "Given an expanded answer, When I switch engine tab, Then the new tab opens clamped and at the top, as in GEO-1017",
+            "given": "an expanded answer",
+            "when": "I switch engine tab",
+            "then": "the new tab opens clamped and at the top, as in GEO-1017"
+          }
+        ]
+      },
+      {
+        "userStory": "1.3",
+        "title": "Trace the extracted results back to the answer",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want to see where each extracted result comes from in the answer, so that I can check the ranking, the competitive outcome and the verdict myself.",
+        "criteria": [
+          {
+            "text": "Given an answer, When it renders, Then the tracked brand and its competitors are highlighted in the text, the tracked brand with its own style, and brand names inside a table of the answer are not highlighted",
+            "given": "an answer",
+            "when": "it renders",
+            "then": "the tracked brand and its competitors are highlighted in the text, the tracked brand with its own style, and brand names inside a table of the answer are not highlighted"
+          },
+          {
+            "text": "Given an engine that names a brand differently from the analysis (eg: \"Claude\" for Anthropic), When the answer renders, Then that name is highlighted as the brand too",
+            "given": "an engine that names a brand differently from the analysis (eg: \"Claude\" for Anthropic)",
+            "when": "the answer renders",
+            "then": "that name is highlighted as the brand too"
+          },
+          {
+            "text": "Given the extracted ranking, When I click a brand row, Then the answer expands if needed, scrolls to the first mention of that brand and highlights it",
+            "given": "the extracted ranking",
+            "when": "I click a brand row",
+            "then": "the answer expands if needed, scrolls to the first mention of that brand and highlights it"
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given a Competitive question, When the panel renders, Then it shows the outcome card of story 1.7 and not a ranking, and clicking a brand of the card scrolls to its first mention in the answer; the \"About {brand}\" card of today goes, and brands carry no text badge: the tracked brand keeps its highlight, as today (the chosen brand has no style of its own)"
+          },
+          {
+            "text": "[NEW 27 OCT] Given a brand in the outcome card or the ranking, When it renders, Then it shows the brand family, as the questions table does since GEO-1530, with the name the engine wrote below it when it differs (eg: \"BTL Aesthetics\", then \"Emsculpt Neo\"), so the user finds it in the highlighted answer"
+          },
+          {
+            "text": "[NEW 27 OCT] Given an unbranded analysis (no tracked brand), When the panel of a Competitive question renders, Then each engine tab shows the full answer, then a winner card \"{brand} was chosen\" when the answer picks one brand with no condition (frame 10g), otherwise one card for each brand the answer picks under a condition, under \"Brands the answer picks, derived from the answer above\" (frame 10h); there is no result card above the answer and the pill has no badge"
+          },
+          {
+            "text": "Given a Visibility answer that names no brand, When the panel renders, Then the answer shows in full with the verdict \"No brands named\" on the red card, the line \"{engine} answered without naming any brand, so this answer has no ranking.\" and no ranking rows; \"Unranked\" keeps its current meaning in the questions table (no engine names the brand)",
+            "given": "a Visibility answer that names no brand",
+            "when": "the panel renders",
+            "then": "the answer shows in full with the verdict \"No brands named\" on the red card, the line \"{engine} answered without naming any brand, so this answer has no ranking.\" and no ranking rows; \"Unranked\" keeps its current meaning in the questions table (no engine names the brand)"
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given any extracted block (verdict, ranking, competitive outcome, themes), When it renders, Then the result card above the answer carries \"Extracted from {engine}'s answer\", and every block below the answer sits in the section \"Extracted from this answer\""
+          },
+          {
+            "text": "[NEW 27 OCT] Given the question panel, When it renders, Then it shows from top to bottom: the result card, the answer card, the section \"Extracted from this answer\", then the sources; the section has one subtitle line that says what it holds: \"Brand ranking derived from the answer above\" with the ranking rows (Visibility), \"Winning brand derived from the answer above\" with one brand card (Competitive, Chosen and Not chosen), \"Brands the answer picks, derived from the answer above\" with one card per brand (Competitive, Conditional and Overlooked, frames 10b and 10d), \"Winner derived from the answer above\" with the \"{brand} was chosen\" card (unbranded), \"Perception themes derived from the answer above\" with one grey tag per theme, text only, no click (Perception, frame 04a), as in GEO-1017 frames 01, 10a, 10b, 10c, 10g and 04"
+          },
+          {
+            "text": "[NEW 27 OCT] Given an answer with nothing to extract (\"No brands named\", not counted), When the panel renders, Then the section \"Extracted from this answer\" is not shown and the sources follow the answer card (frames 04f, 04d); when one extraction failed, the section stays with its subtitle and the amber line of story 1.5 replaces its content (frames 04, 04c, 10f)"
+          },
+          {
+            "text": "Given the ranking, When it renders, Then each brand shows its own logo, the tracked brand included (instead of today's check mark), the tracked brand row keeps its highlight, and the list shows every brand the answer names (no top-5 cap)",
+            "given": "the ranking",
+            "when": "it renders",
+            "then": "each brand shows its own logo, the tracked brand included (instead of today's check mark), the tracked brand row keeps its highlight, and the list shows every brand the answer names (no top-5 cap)"
+          }
+        ]
+      },
+      {
+        "userStory": "1.4",
+        "title": "Resolve inline citations to their sources",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want to see which source backs each claim of the answer without leaving the text, so that I can judge the answer quickly.",
+        "criteria": [
+          {
+            "text": "Given an answer with citation markers [n], When it renders, Then each marker uses one numbering shared with the Sources card of the panel",
+            "given": "an answer with citation markers [n]",
+            "when": "it renders",
+            "then": "each marker uses one numbering shared with the Sources card of the panel"
+          },
+          {
+            "text": "Given an engine that numbers its citations out of order or skips numbers (eg: [1] [4] [2] [5]), When the answer renders, Then the sources are renumbered 1 to n in the order they are first cited (here [1] [2] [3] [4]), every marker takes the number of its source, and the Sources card and the Excel export use the same numbers",
+            "given": "an engine that numbers its citations out of order or skips numbers (eg: [1] [4] [2] [5])",
+            "when": "the answer renders",
+            "then": "the sources are renumbered 1 to n in the order they are first cited (here [1] [2] [3] [4]), every marker takes the number of its source, and the Sources card and the Excel export use the same numbers"
+          },
+          {
+            "text": "Given a citation marker, When I hover or click it, Then a mini card shows the source title, the domain and \"Source {n} of {total}\", and the matching row in the Sources card is highlighted",
+            "given": "a citation marker",
+            "when": "I hover or click it",
+            "then": "a mini card shows the source title, the domain and \"Source {n} of {total}\", and the matching row in the Sources card is highlighted"
+          },
+          {
+            "text": "Given two markers that point to the same page, When the answer renders, Then both markers show the same number and the page shows once in the Sources card, with that one number",
+            "given": "two markers that point to the same page",
+            "when": "the answer renders",
+            "then": "both markers show the same number and the page shows once in the Sources card, with that one number"
+          },
+          {
+            "text": "Given the numbering, the two numbers per row and the opening of the full list on a source, When they are built, Then they apply to the Sources card of the question panel only, and the other surfaces that use the Sources card (Brand Image panel, concept detail, citation details) stay as today",
+            "given": "the numbering, the two numbers per row and the opening of the full list on a source",
+            "when": "they are built",
+            "then": "they apply to the Sources card of the question panel only, and the other surfaces that use the Sources card (Brand Image panel, concept detail, citation details) stay as today"
+          },
+          {
+            "text": "Given the Sources card, When it renders, Then it lists the sources the engine used for this answer, the sources cited in the text first with their numbers, then the others without a number",
+            "given": "the Sources card",
+            "when": "it renders",
+            "then": "it lists the sources the engine used for this answer, the sources cited in the text first with their numbers, then the others without a number"
+          },
+          {
+            "text": "Given a marker that points to a source outside the visible rows of the Sources card, When I click it, Then the full list opens on that source and highlights it",
+            "given": "a marker that points to a source outside the visible rows of the Sources card",
+            "when": "I click it",
+            "then": "the full list opens on that source and highlights it"
+          },
+          {
+            "text": "Given the answer header, When it shows \"{n} citations\", Then the count matches the numbered sources in the Sources card",
+            "given": "the answer header",
+            "when": "it shows \"{n} citations\"",
+            "then": "the count matches the numbered sources in the Sources card"
+          },
+          {
+            "text": "Given the Sources card, When it shows \"All sources {n}\", Then the count includes every source the engine used for this answer, cited in the text or not",
+            "given": "the Sources card",
+            "when": "it shows \"All sources {n}\"",
+            "then": "the count includes every source the engine used for this answer, cited in the text or not"
+          }
+        ]
+      },
+      {
+        "userStory": "1.5",
+        "title": "Keep the answer readable when parsing fails",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want to read the answer even when part of it could not be parsed, so that one failed extraction never hides the rest.",
+        "criteria": [
+          {
+            "text": "Given an answer where one extraction failed (eg: perception themes, ranking, competitive outcome), When the panel renders, Then only that block changes: it keeps its title and shows one amber italic line instead of its content, as Corporate Reputation does for \"AI consolidation unavailable\", and the answer and the other blocks render normally",
+            "given": "an answer where one extraction failed (eg: perception themes, ranking, competitive outcome)",
+            "when": "the panel renders",
+            "then": "only that block changes: it keeps its title and shows one amber italic line instead of its content, as Corporate Reputation does for \"AI consolidation unavailable\", and the answer and the other blocks render normally"
+          },
+          {
+            "text": "Given an extraction that failed, When the analysis metrics are computed, Then that answer is left out of the metric the extraction feeds, it is not counted as unranked or not chosen",
+            "given": "an extraction that failed",
+            "when": "the analysis metrics are computed",
+            "then": "that answer is left out of the metric the extraction feeds, it is not counted as unranked or not chosen"
+          },
+          {
+            "text": "Given an extraction that failed, When the next analysis run happens, Then the new run extracts it again from its own answers, and the analysis date where it failed keeps its line, which reads \"{Themes} could not be extracted from this answer. The next analysis run extracts its own answers; this date stays as it is.\" (never \"will retry on the next analysis run\")",
+            "given": "an extraction that failed",
+            "when": "the next analysis run happens",
+            "then": "the new run extracts it again from its own answers, and the analysis date where it failed keeps its line, which reads \"{Themes} could not be extracted from this answer. The next analysis run extracts its own answers; this date stays as it is.\" (never \"will retry on the next analysis run\")"
+          },
+          {
+            "text": "Given an engine answer that is empty, cut or refused, When I open its tab, Then it is not counted: the pill is marked \"Not counted\", the panel says \"{engine} returned no answer for this run\" and shows no extracted block",
+            "given": "an engine answer that is empty, cut or refused",
+            "when": "I open its tab",
+            "then": "it is not counted: the pill is marked \"Not counted\", the panel says \"{engine} returned no answer for this run\" and shows no extracted block"
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given an analysis run before this epic shipped, When I open a question, Then the answer card shows the tracked brand's excerpt as today, as no full answer is stored for those dates, with no clamp, no character count and no highlight, and the extracted blocks and sources show as for any other answer"
+          }
+        ]
+      },
+      {
+        "userStory": "1.6",
+        "title": "Export the full answer to Excel",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want the full answer of each engine in the Excel export, so that I can read and share the answers outside the product.",
+        "criteria": [
+          {
+            "text": "Given an analysis run with natural answers, When I export it to Excel, Then the \"Response\" column of the Raw Data sheet carries the full answer of each engine for every question type",
+            "given": "an analysis run with natural answers",
+            "when": "I export it to Excel",
+            "then": "the \"Response\" column of the Raw Data sheet carries the full answer of each engine for every question type"
+          },
+          {
+            "text": "Given a Visibility question, When it is exported, Then the brand ranking that the \"Response\" column carries today moves to a new \"Ranking\" column next to it, in the same format; for a Competitive question the full answer replaces the \"About {brand}\" and \"About winner\" text the cell has today",
+            "given": "a Visibility question",
+            "when": "it is exported",
+            "then": "the brand ranking that the \"Response\" column carries today moves to a new \"Ranking\" column next to it, in the same format; for a Competitive question the full answer replaces the \"About {brand}\" and \"About winner\" text the cell has today"
+          },
+          {
+            "text": "Given a Competitive question, When it is exported, Then the \"Ranking\" column carries the outcome (Chosen, Conditional, Not chosen or Overlooked) followed by the brand or brands the answer picks",
+            "given": "a Competitive question",
+            "when": "it is exported",
+            "then": "the \"Ranking\" column carries the outcome (Chosen, Conditional, Not chosen or Overlooked) followed by the brand or brands the answer picks"
+          },
+          {
+            "text": "Given a Perception, Other or Brand Image question, When it is exported, Then the \"Ranking\" column says \"N/A\", as the other cells of the export",
+            "given": "a Perception, Other or Brand Image question",
+            "when": "it is exported",
+            "then": "the \"Ranking\" column says \"N/A\", as the other cells of the export"
+          },
+          {
+            "text": "Given a Brand Image question, When it is exported, Then its rows keep one row per dimension with the dimension bullets in the \"Response\" column, as today",
+            "given": "a Brand Image question",
+            "when": "it is exported",
+            "then": "its rows keep one row per dimension with the dimension bullets in the \"Response\" column, as today"
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given an analysis run before this epic shipped, When I export it, Then the Raw Data sheet has the same columns as a new analysis, including \"Ranking\"; a Visibility row keeps the ranking its \"Response\" carries today, so the ranking shows in both columns"
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given an answer with citation markers, When it is exported, Then the markers [n] stay in the text and the \"Source URLs\" column lists the cited sources in the same numbering, then the uncited ones without a number; the numbering is the panel's (one number per page), so a URL that does not fit the cell does not shift the numbers after it; answers that are not counted no longer appear (today they show as \"No ranking returned\" or \"No usable content returned\")"
+          },
+          {
+            "text": "[NEW 27 OCT] Given the Raw Data sheet, When it is exported, Then the \"Favorability\" column is removed: the outcome and the ranking columns carry that information"
+          },
+          {
+            "text": "Given an answer longer than an Excel cell can hold, When it is exported, Then it is shortened and marked the same way as any other long cell of the export today",
+            "given": "an answer longer than an Excel cell can hold",
+            "when": "it is exported",
+            "then": "it is shortened and marked the same way as any other long cell of the export today"
+          }
+        ]
+      },
+      {
+        "userStory": "1.7",
+        "title": "Show the competitive outcome in four buckets",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want to see when engines choose my brand, choose it only in some cases, or do not choose it, so that I understand how strong my position is in head-to-head questions.",
+        "criteria": [
+          {
+            "text": "Given a competitive outcome, When it is shown anywhere, Then it uses one of four labels: \"Chosen\", \"Conditional\", \"Not chosen\", \"Overlooked\" (French: \"Choisie\", \"Sous conditions\", \"Non choisie\", \"Ignorée\"; Spanish: \"Elegida\", \"Condicional\", \"No elegida\", \"Ignorada\")",
+            "given": "a competitive outcome",
+            "when": "it is shown anywhere",
+            "then": "it uses one of four labels: \"Chosen\", \"Conditional\", \"Not chosen\", \"Overlooked\" (French: \"Choisie\", \"Sous conditions\", \"Non choisie\", \"Ignorée\"; Spanish: \"Elegida\", \"Condicional\", \"No elegida\", \"Ignorada\")"
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given any place that shows the competitive metric, When it renders, Then the metric is named \"AI Choice\" (French \"Choix IA\", Spanish \"Elección de IA\"), with the same capitalisation everywhere: the matrix tooltips are already renamed (GEO-1524); this replaces \"AI choice\" in PowerPoint, \"Choix de l'IA\" and \"Elección de la IA\" in the trend graph, \"Elección IA\" in the Spanish upsell KPI and its upgrade gate, the unbranded Brand Rankings tooltip in 4 locales, \"LLM Choice %\" in the upsell results \"AI choice\" in the trend graph, \"Choix LLM %\" and \"Elección LLM %\" in the upsell rankings, \"LLM choice\" in PowerPoint and PDF, and the definitions of the KPI and Brand Rankings tooltips, which say \"win rate\" and \"100% means AI engines always pick your brand\" today and must describe Chosen plus Conditional"
+          },
+          {
+            "text": "[NEW 27 OCT] Given the Share of Voice KPI tooltip, When it renders, Then it reads \"Your share of all the brands named in AI responses. In each answer, every brand counts once, however many of its products are named: if Nike Air Max and Nike Pegasus both appear in the same answer, Nike counts as 1 mention.\" (en-GB and en-US), French \"Votre part parmi toutes les marques citées dans les réponses des IA. Dans chaque réponse, chaque marque compte une seule fois, quel que soit le nombre de ses produits cités : si Nike Air Max et Nike Pegasus apparaissent dans la même réponse, Nike compte pour 1 mention.\", Spanish \"Su cuota entre todas las marcas mencionadas en las respuestas de la IA. En cada respuesta, cada marca cuenta una sola vez, sea cual sea el número de sus productos mencionados: si Nike Air Max y Nike Pegasus aparecen en la misma respuesta, Nike cuenta como 1 mención.\""
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given the AI Choice KPI card, When it renders, Then it keeps the layout of the other KPI cards (icon in the ring, value on the right, quality pill and delta, as today), and the ring becomes a donut in four parts: Chosen and Conditional highlighted (Chosen solid, Conditional lighter), Not chosen and Overlooked muted, the value being Chosen plus Conditional; the ring is amber on the Overview and on the category view, which loses its quality colour: Chosen #F59E0B, Conditional #FCD34D, Not chosen #CBD5E1, Overlooked #E2E8F0, the icon in amber"
+          },
+          {
+            "text": "Given the AI Choice donut, When I hover it, Then it shows the number and the share of answers in each of the four outcomes",
+            "given": "the AI Choice donut",
+            "when": "I hover it",
+            "then": "it shows the number and the share of answers in each of the four outcomes"
+          },
+          {
+            "text": "Given a competitive row of the questions table, When every counted engine is Chosen, or the counted engines mix Chosen and Conditional, Then the \"Winner / Themes\" cell shows my brand with its logo, as today, so the cell agrees with the Favorable filter",
+            "given": "a competitive row of the questions table",
+            "when": "every counted engine is Chosen, or the counted engines mix Chosen and Conditional",
+            "then": "the \"Winner / Themes\" cell shows my brand with its logo, as today, so the cell agrees with the Favorable filter"
+          },
+          {
+            "text": "Given a competitive row, When every counted engine is Conditional, Then the cell shows \"Conditional\" in the green badge (green-50 fill, green-200 border, green-700 text)",
+            "given": "a competitive row",
+            "when": "every counted engine is Conditional",
+            "then": "the cell shows \"Conditional\" in the green badge (green-50 fill, green-200 border, green-700 text)"
+          },
+          {
+            "text": "Given a competitive row, When every counted engine is Not chosen and picked the same competitor with no condition, Then the cell shows that competitor with its logo, as today",
+            "given": "a competitive row",
+            "when": "every counted engine is Not chosen and picked the same competitor with no condition",
+            "then": "the cell shows that competitor with its logo, as today"
+          },
+          {
+            "text": "Given a competitive row, When every counted engine is Not chosen with different picks, or the counted engines mix Not chosen and Overlooked, Then the cell shows \"Not chosen\" in plain grey text, as \"Lost\" today, so the cell agrees with the Not Favorable filter (eg: Gemini picks UPS, ChatGPT gives UPS and FedEx the conditions, the cell shows \"Not chosen\")",
+            "given": "a competitive row",
+            "when": "every counted engine is Not chosen with different picks, or the counted engines mix Not chosen and Overlooked",
+            "then": "the cell shows \"Not chosen\" in plain grey text, as \"Lost\" today, so the cell agrees with the Not Favorable filter (eg: Gemini picks UPS, ChatGPT gives UPS and FedEx the conditions, the cell shows \"Not chosen\")"
+          },
+          {
+            "text": "Given a competitive row, When every counted engine is Overlooked, Then the cell shows \"Overlooked\" in the red badge (red-50 fill, red-200 border, red-700 text)",
+            "given": "a competitive row",
+            "when": "every counted engine is Overlooked",
+            "then": "the cell shows \"Overlooked\" in the red badge (red-50 fill, red-200 border, red-700 text)"
+          },
+          {
+            "text": "Given a competitive row, When the counted engines mix a Chosen or Conditional outcome with a Not chosen or Overlooked one, Then the cell shows \"Split\", as today",
+            "given": "a competitive row",
+            "when": "the counted engines mix a Chosen or Conditional outcome with a Not chosen or Overlooked one",
+            "then": "the cell shows \"Split\", as today"
+          },
+          {
+            "text": "Given an unbranded analysis (no tracked brand), When a competitive row renders, Then the cell shows the brand that every counted engine chose with no condition, otherwise \"Split\"",
+            "given": "an unbranded analysis (no tracked brand)",
+            "when": "a competitive row renders",
+            "then": "the cell shows the brand that every counted engine chose with no condition, otherwise \"Split\""
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given an engine that is not counted for a question, or whose outcome could not be extracted, When the cell, the favorability and AI Choice are computed, Then that engine is left out"
+          },
+          {
+            "text": "[NEW 27 OCT] Given a competitive row where no engine is counted, When it renders, Then the cell shows the grey \"Not counted\" chip and the row is neither Favorable nor Not favorable in the filter and the header bar"
+          },
+          {
+            "text": "Given the favorability filter and the header bar of the questions table, When they count competitive questions, Then Favorable means every counted engine is Chosen or Conditional, Not Favorable means every counted engine is Not chosen or Overlooked, and Split is a mix",
+            "given": "the favorability filter and the header bar of the questions table",
+            "when": "they count competitive questions",
+            "then": "Favorable means every counted engine is Chosen or Conditional, Not Favorable means every counted engine is Not chosen or Overlooked, and Split is a mix"
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given the question panel of a competitive question, When it renders, Then each engine pill shows the outcome of that engine in the badge that shows the rank today, same size and place: emerald for Chosen and Conditional (as \"#1\"), red for Not chosen and Overlooked (as \"#--\"), grey \"Not counted\" when the engine is not counted or its outcome could not be extracted; the pill keeps the production layout, its compact form with many engines included"
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given an engine whose outcome is Chosen, When its tab is open, Then the card is titled \"{brand}'s results - {engine}\" with \"Chosen\" as its headline, on the green card of a win today; Conditional uses the green card too, Not chosen and Overlooked the red card of a loss today, and the card carries no text badge"
+          },
+          {
+            "text": "Given an engine whose outcome is Conditional or Overlooked, When its tab is open, Then the card shows the outcome only, with no condition per brand: the user reads why in the answer, shown above the card",
+            "given": "an engine whose outcome is Conditional or Overlooked",
+            "when": "its tab is open",
+            "then": "the card shows the outcome only, with no condition per brand: the user reads why in the answer, shown above the card"
+          },
+          {
+            "text": "Given an engine whose outcome is Not chosen, When its tab is open, Then the card shows \"Not chosen\" and \"{brand} was chosen\" for the brand or brands the answer picks",
+            "given": "an engine whose outcome is Not chosen",
+            "when": "its tab is open",
+            "then": "the card shows \"Not chosen\" and \"{brand} was chosen\" for the brand or brands the answer picks"
+          },
+          {
+            "text": "Given an answer that is not counted, When its engine tab is open, Then the pill is marked \"Not counted\" and the tab shows \"{engine} returned no answer for this run\", without the \"may not have responded yet\" line",
+            "given": "an answer that is not counted",
+            "when": "its engine tab is open",
+            "then": "the pill is marked \"Not counted\" and the tab shows \"{engine} returned no answer for this run\", without the \"may not have responded yet\" line"
+          },
+          {
+            "text": "[CHANGED 27 OCT] Given the AI Choice column of Brand Rankings, When it renders, Then each brand shows Chosen plus Conditional, with no tooltip on the value, as today; a brand with no outcome in the scope shows the existing \"—\", configured or not, a brand that is not configured gets no win from a competitive answer, and a configured brand with outcomes but never chosen shows 0%"
+          }
+        ]
+      }
+    ],
+    "externalSpecs": [],
+    "ignoredChildren": [
+      {
+        "key": "GEO-1606",
+        "type": "Bug",
+        "status": "Done",
+        "summary": "[GEO-Category] Prompt detail panel: brands in the ranking of a natural answer show initials instead of their logo"
+      },
+      {
+        "key": "GEO-1605",
+        "type": "Bug",
+        "status": "Done",
+        "summary": "[GEO-Category] Prompt detail panel: clicking a ranking row scrolls its mention under the sticky engine tabs"
+      },
+      {
+        "key": "GEO-1604",
+        "type": "Bug",
+        "status": "Done",
+        "summary": "[GEO-Category] Prompt detail panel: numbered lists in a natural answer lose their numbers and show an empty bullet line"
+      },
+      {
+        "key": "GEO-1603",
+        "type": "Bug",
+        "status": "Done",
+        "summary": "[GEO-Category] Prompt detail panel: closing the drawer by clicking the backdrop leaves the focus on the page body"
+      },
+      {
+        "key": "GEO-1602",
+        "type": "Bug",
+        "status": "Done",
+        "summary": "[GEO-Category] Prompt detail panel: the engine tabs leave a 16 px gap under the header once sticky, the answer scrolls through it"
+      },
+      {
+        "key": "GEO-1601",
+        "type": "Bug",
+        "status": "Done",
+        "summary": "[GEO-Category] Prompt detail panel: a short natural answer is clipped with no fade and no \"Show full answer\" link"
+      },
+      {
+        "key": "GEO-1594",
+        "type": "Bug",
+        "status": "Ready for QA",
+        "summary": "[GEO-Category] Prompt detail ranking lists the same brand several times instead of folding products into their brand family"
+      },
+      {
+        "key": "GEO-1017",
+        "type": "Design Task",
+        "status": "Done",
+        "summary": "Design the natural answer display in the question detail"
+      }
+    ],
+    "stories": [
+      {
+        "id": "GEO-1564",
+        "type": "Story",
+        "title": "STORY-53.1: Read the full answer in the question panel",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-28",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:18:02.361-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1564",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to read the full answer an engine gave to a question",
+          "so": "I see exactly what a real user would get."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.1)",
+            "group": null,
+            "text": "Given an answer longer than about 8 lines, When I open the question panel, Then the answer shows its first 8 lines behind a fade with a \"Show full answer\" link",
+            "given": "an answer longer than about 8 lines",
+            "when": "I open the question panel",
+            "then": "the answer shows its first 8 lines behind a fade with a \"Show full answer\" link"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.1)",
+            "group": null,
+            "text": "Given an answer shorter than the clamp, When I open the panel, Then it shows in full with no expand control",
+            "given": "an answer shorter than the clamp",
+            "when": "I open the panel",
+            "then": "it shows in full with no expand control"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.1)",
+            "group": null,
+            "text": "Given a clamped answer, When I click \"Show full answer\", Then it expands in place and the panel scrolls internally, the panel width does not change",
+            "given": "a clamped answer",
+            "when": "I click \"Show full answer\"",
+            "then": "it expands in place and the panel scrolls internally, the panel width does not change"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.1)",
+            "group": null,
+            "text": "Given an expanded answer, When I click \"Show less\" at the bottom, Then the answer collapses and the panel scrolls back to the top of the answer card",
+            "given": "an expanded answer",
+            "when": "I click \"Show less\" at the bottom",
+            "then": "the answer collapses and the panel scrolls back to the top of the answer card"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.1)",
+            "group": null,
+            "text": "Given an answer that contains headings, bold text, lists, tables, long URLs or code blocks, When it renders, Then each one renders as formatted content and nothing overflows the panel width",
+            "given": "an answer that contains headings, bold text, lists, tables, long URLs or code blocks",
+            "when": "it renders",
+            "then": "each one renders as formatted content and nothing overflows the panel width"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.1)",
+            "group": null,
+            "text": "Given I compare engines with very different answer lengths, When I switch engine tab, Then the header, tags, engine tabs and verdict stay at the same position, and a short answer ends without empty space",
+            "given": "I compare engines with very different answer lengths",
+            "when": "I switch engine tab",
+            "then": "the header, tags, engine tabs and verdict stay at the same position, and a short answer ends without empty space"
+          },
+          {
+            "id": "AC7",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.1)",
+            "group": null,
+            "text": "Given the answer header, When it renders, Then it counts characters, not words, so it works the same for Japanese or Chinese answers",
+            "given": "the answer header",
+            "when": "it renders",
+            "then": "it counts characters, not words, so it works the same for Japanese or Chinese answers"
+          },
+          {
+            "id": "AC1",
+            "title": "Long answer clamped",
+            "section": "Acceptance Criteria (from story file, copied on review)",
+            "group": null,
+            "text": "**AC1 — Long answer clamped**\n- Given: an answer longer than about 8 lines\n- When: I open the question panel\n- Then: the answer shows its first 8 lines behind a fade with a \"Show full answer\" link",
+            "given": "an answer longer than about 8 lines",
+            "when": "I open the question panel",
+            "then": "the answer shows its first 8 lines behind a fade with a \"Show full answer\" link"
+          },
+          {
+            "id": "AC2",
+            "title": "Short answer in full",
+            "section": "Acceptance Criteria (from story file, copied on review)",
+            "group": null,
+            "text": "**AC2 — Short answer in full**\n- Given: an answer shorter than the clamp\n- When: I open the panel\n- Then: it shows in full with no expand control",
+            "given": "an answer shorter than the clamp",
+            "when": "I open the panel",
+            "then": "it shows in full with no expand control"
+          },
+          {
+            "id": "AC3",
+            "title": "Expand in place",
+            "section": "Acceptance Criteria (from story file, copied on review)",
+            "group": null,
+            "text": "**AC3 — Expand in place**\n- Given: a clamped answer\n- When: I click \"Show full answer\"\n- Then: it expands in place and the panel scrolls internally, the panel width does not change",
+            "given": "a clamped answer",
+            "when": "I click \"Show full answer\"",
+            "then": "it expands in place and the panel scrolls internally, the panel width does not change"
+          },
+          {
+            "id": "AC4",
+            "title": "Collapse scrolls back",
+            "section": "Acceptance Criteria (from story file, copied on review)",
+            "group": null,
+            "text": "**AC4 — Collapse scrolls back**\n- Given: an expanded answer\n- When: I click \"Show less\" at the bottom\n- Then: the answer collapses and the panel scrolls back to the top of the answer card",
+            "given": "an expanded answer",
+            "when": "I click \"Show less\" at the bottom",
+            "then": "the answer collapses and the panel scrolls back to the top of the answer card"
+          },
+          {
+            "id": "AC5",
+            "title": "Rich content renders safely",
+            "section": "Acceptance Criteria (from story file, copied on review)",
+            "group": null,
+            "text": "**AC5 — Rich content renders safely**\n- Given: an answer that contains headings, bold text, lists, tables, long URLs or code blocks\n- When: it renders\n- Then: each one renders as formatted content and nothing overflows the panel width",
+            "given": "an answer that contains headings, bold text, lists, tables, long URLs or code blocks",
+            "when": "it renders",
+            "then": "each one renders as formatted content and nothing overflows the panel width"
+          },
+          {
+            "id": "AC6",
+            "title": "Stable layout across engines",
+            "section": "Acceptance Criteria (from story file, copied on review)",
+            "group": null,
+            "text": "**AC6 — Stable layout across engines**\n- Given: I compare engines with very different answer lengths\n- When: I switch engine tab\n- Then: the header, tags, engine tabs and verdict stay at the same position, and a short answer ends without empty space",
+            "given": "I compare engines with very different answer lengths",
+            "when": "I switch engine tab",
+            "then": "the header, tags, engine tabs and verdict stay at the same position, and a short answer ends without empty space"
+          },
+          {
+            "id": "AC7",
+            "title": "Character count, not word count",
+            "section": "Acceptance Criteria (from story file, copied on review)",
+            "group": null,
+            "text": "**AC7 — Character count, not word count**\n- Given: the answer header\n- When: it renders\n- Then: it counts characters, not words, so it works the same for Japanese or Chinese answers",
+            "given": "the answer header",
+            "when": "it renders",
+            "then": "it counts characters, not words, so it works the same for Japanese or Chinese answers"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Display only, depends on STORY-50.1 (GEO-1550, full raw answer stored). The panel is the drawer of STORY-53.9. States of the answer card (loading, pending, error, not counted, analysis run before this epic): STORY-53.5. Design: GEO-1017 (Figma \"Measure - GEO Module\", page \"Natural answer display\").\n\n\n---"
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "53-1-read-the-full-answer-in-the-question-panel.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-53/53-1-read-the-full-answer-in-the-question-panel.md"
+          }
+        ],
+        "related": [
+          {
+            "key": "GEO-1601",
+            "link": "relates to",
+            "type": "Bug",
+            "status": "Done",
+            "summary": "[GEO-Category] Prompt detail panel: a short natural answer is clipped with no fade and no \"Show full answer\" link"
+          },
+          {
+            "key": "GEO-1604",
+            "link": "relates to",
+            "type": "Bug",
+            "status": "Done",
+            "summary": "[GEO-Category] Prompt detail panel: numbered lists in a natural answer lose their numbers and show an empty bullet line"
+          }
+        ],
+        "blockedBy": [
+          "GEO-1550",
+          "GEO-1572",
+          "GEO-1565"
+        ],
+        "blocks": [
+          "GEO-1566",
+          "GEO-1567"
+        ]
+      },
+      {
+        "id": "GEO-1565",
+        "type": "Story",
+        "title": "STORY-53.2: Keep the question and the engine visible while reading",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-28",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:18:03.793-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1565",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user reading a long answer",
+          "want": "to always see which question and which engine I am reading",
+          "so": "I don't lose context while I scroll."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.2)",
+            "group": null,
+            "text": "Given an expanded answer, When I scroll the panel, Then the question stays pinned at the top together with the engine of the answer",
+            "given": "an expanded answer",
+            "when": "I scroll the panel",
+            "then": "the question stays pinned at the top together with the engine of the answer"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.2)",
+            "group": null,
+            "text": "Given an expanded answer, When I switch engine tab, Then the new tab opens clamped and at the top, as in GEO-1017",
+            "given": "an expanded answer",
+            "when": "I switch engine tab",
+            "then": "the new tab opens clamped and at the top, as in GEO-1017"
+          }
+        ],
+        "technicalAcceptanceCriteria": [
+          {
+            "id": "TAC1",
+            "title": "Pinned row",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC1 — Pinned row**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given the drawer open on a Visibility question with 3 engines"
+          },
+          {
+            "id": "TAC2",
+            "title": "Scroll reset on an engine change",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC2 — Scroll reset on an engine change**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given the drawer open, the scroll container at `scrollTop = 400`"
+          },
+          {
+            "id": "TAC3",
+            "title": "Collapsed on an engine change",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC3 — Collapsed on an engine change**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given a **legacy** (non-reader) Visibility answer and a Perception answer longer than the 500-character preview, « Show more » clicked — the 500-character preview / « Show more » is the legacy excerpt path only, kept exactly as before this story; a reader row (STORY-53.1, GEO-1564) uses the 8-line / 184px clamp and « Show full answer » instead, and resets the same way on an engine change, tested in 53.1's own spec"
+          },
+          {
+            "id": "TAC4",
+            "title": "No regression on a new question",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC4 — No regression on a new question**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given the drawer open on a scrolled question"
+          }
+        ],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Display only. The sticky header sits at the top of the drawer of STORY-53.9, which covers the host top bar in both shells (frame 09): depends on STORY-53.9. Clamp and expand: STORY-53.1. Design: GEO-1017 (Figma \"Measure - GEO Module\", page \"Natural answer display\")."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "53-2-keep-the-question-and-the-engine-visible-while-reading.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-53/53-2-keep-the-question-and-the-engine-visible-while-reading.md"
+          }
+        ],
+        "related": [
+          {
+            "key": "GEO-1602",
+            "link": "relates to",
+            "type": "Bug",
+            "status": "Done",
+            "summary": "[GEO-Category] Prompt detail panel: the engine tabs leave a 16 px gap under the header once sticky, the answer scrolls through it"
+          }
+        ],
+        "blockedBy": [
+          "GEO-1572"
+        ],
+        "blocks": [
+          "GEO-1564"
+        ]
+      },
+      {
+        "id": "GEO-1566",
+        "type": "Story",
+        "title": "STORY-53.3: Trace the extracted results back to the answer",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-28",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:18:05.361-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1566",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to see where each extracted result comes from in the answer",
+          "so": "I can check the ranking, the competitive outcome and the verdict myself."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given an answer, When it renders, Then every brand of the extracted ranking is highlighted in the text, the tracked brand with its own style, and brand names inside a table of the answer are not highlighted (PM, 2026-10-30, answer on GEO-1498 to ADR-11 question 6: \"every brand of the extracted ranking is highlighted, otherwise clicking a ranking row could lead to nothing in the answer\"; this supersedes the epic's original \"tracked brand and its competitors\" wording)",
+            "given": "an answer",
+            "when": "it renders",
+            "then": "every brand of the extracted ranking is highlighted in the text, the tracked brand with its own style, and brand names inside a table of the answer are not highlighted (PM, 2026-10-30, answer on GEO-1498 to ADR-11 question 6: \"every brand of the extracted ranking is highlighted, otherwise clicking a ranking row could lead to nothing in the answer\"; this supersedes the epic's original \"tracked brand and its competitors\" wording)"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given an engine that names a brand differently from the analysis (eg: \"Claude\" for Anthropic), When the answer renders, Then that name is highlighted as the brand too",
+            "given": "an engine that names a brand differently from the analysis (eg: \"Claude\" for Anthropic)",
+            "when": "the answer renders",
+            "then": "that name is highlighted as the brand too"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given the extracted ranking, When I click a brand row, Then the answer expands if needed, scrolls to the first mention of that brand and highlights it",
+            "given": "the extracted ranking",
+            "when": "I click a brand row",
+            "then": "the answer expands if needed, scrolls to the first mention of that brand and highlights it"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given a Competitive question, When the panel renders, Then it shows the outcome card of story 1.7 and not a ranking, and clicking a brand of the card scrolls to its first mention in the answer; the \"About {brand}\" card of today goes, and brands carry no text badge: the tracked brand keeps its highlight, as today (the chosen brand has no style of its own)",
+            "given": "a Competitive question",
+            "when": "the panel renders",
+            "then": "it shows the outcome card of story 1.7 and not a ranking, and clicking a brand of the card scrolls to its first mention in the answer; the \"About {brand}\" card of today goes, and brands carry no text badge: the tracked brand keeps its highlight, as today (the chosen brand has no style of its own)"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given a brand in the outcome card or the ranking, When it renders, Then it shows the brand family, as the questions table does since GEO-1530, with the name the engine wrote below it when it differs (eg: \"BTL Aesthetics\", then \"Emsculpt Neo\"), so the user finds it in the highlighted answer",
+            "given": "a brand in the outcome card or the ranking",
+            "when": "it renders",
+            "then": "it shows the brand family, as the questions table does since GEO-1530, with the name the engine wrote below it when it differs (eg: \"BTL Aesthetics\", then \"Emsculpt Neo\"), so the user finds it in the highlighted answer"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given an unbranded analysis (no tracked brand), When the panel of a Competitive question renders, Then each engine tab shows the full answer, then a winner card \"{brand} was chosen\" when the answer picks one brand with no condition (frame 10g), otherwise one card for each brand the answer picks under a condition, under \"Brands the answer picks, derived from the answer above\" (frame 10h); there is no result card above the answer and the pill has no badge",
+            "given": "an unbranded analysis (no tracked brand)",
+            "when": "the panel of a Competitive question renders",
+            "then": "each engine tab shows the full answer, then a winner card \"{brand} was chosen\" when the answer picks one brand with no condition (frame 10g), otherwise one card for each brand the answer picks under a condition, under \"Brands the answer picks, derived from the answer above\" (frame 10h); there is no result card above the answer and the pill has no badge"
+          },
+          {
+            "id": "AC7",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given a Visibility answer that names no brand, When the panel renders, Then the answer shows in full with the verdict \"No brands named\" on the red card, the line \"{engine} answered without naming any brand, so this answer has no ranking.\" and no ranking rows; \"Unranked\" keeps its current meaning in the questions table (no engine names the brand)",
+            "given": "a Visibility answer that names no brand",
+            "when": "the panel renders",
+            "then": "the answer shows in full with the verdict \"No brands named\" on the red card, the line \"{engine} answered without naming any brand, so this answer has no ranking.\" and no ranking rows; \"Unranked\" keeps its current meaning in the questions table (no engine names the brand)"
+          },
+          {
+            "id": "AC8",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given any extracted block (verdict, ranking, competitive outcome, themes), When it renders, Then the result card above the answer carries \"Extracted from {engine}'s answer\", and every block below the answer sits in the section \"Extracted from this answer\"",
+            "given": "any extracted block (verdict, ranking, competitive outcome, themes)",
+            "when": "it renders",
+            "then": "the result card above the answer carries \"Extracted from {engine}'s answer\", and every block below the answer sits in the section \"Extracted from this answer\""
+          },
+          {
+            "id": "AC9",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given the question panel, When it renders, Then it shows from top to bottom: the result card, the answer card, the section \"Extracted from this answer\", then the sources; the section has one subtitle line that says what it holds: \"Brand ranking derived from the answer above\" with the ranking rows (Visibility), \"Winning brand derived from the answer above\" with one brand card (Competitive, Chosen and Not chosen), \"Brands the answer picks, derived from the answer above\" with one card per brand (Competitive, Conditional and Overlooked, frames 10b and 10d), \"Winner derived from the answer above\" with the \"{brand} was chosen\" card (unbranded), \"Perception themes derived from the answer above\" with one grey tag per theme, text only, no click (Perception, frame 04a), as in GEO-1017 frames 01, 10a, 10b, 10c, 10g and 04",
+            "given": "the question panel",
+            "when": "it renders",
+            "then": "it shows from top to bottom: the result card, the answer card, the section \"Extracted from this answer\", then the sources; the section has one subtitle line that says what it holds: \"Brand ranking derived from the answer above\" with the ranking rows (Visibility), \"Winning brand derived from the answer above\" with one brand card (Competitive, Chosen and Not chosen), \"Brands the answer picks, derived from the answer above\" with one card per brand (Competitive, Conditional and Overlooked, frames 10b and 10d), \"Winner derived from the answer above\" with the \"{brand} was chosen\" card (unbranded), \"Perception themes derived from the answer above\" with one grey tag per theme, text only, no click (Perception, frame 04a), as in GEO-1017 frames 01, 10a, 10b, 10c, 10g and 04"
+          },
+          {
+            "id": "AC10",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given an answer with nothing to extract (\"No brands named\", not counted), When the panel renders, Then the section \"Extracted from this answer\" is not shown and the sources follow the answer card (frames 04f, 04d); when one extraction failed, the section stays with its subtitle and the amber line of story 1.5 replaces its content (frames 04, 04c, 10f)",
+            "given": "an answer with nothing to extract (\"No brands named\", not counted)",
+            "when": "the panel renders",
+            "then": "the section \"Extracted from this answer\" is not shown and the sources follow the answer card (frames 04f, 04d); when one extraction failed, the section stays with its subtitle and the amber line of story 1.5 replaces its content (frames 04, 04c, 10f)"
+          },
+          {
+            "id": "AC11",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.3)",
+            "group": null,
+            "text": "Given the ranking, When it renders, Then each brand shows its own logo, the tracked brand included (instead of today's check mark), the tracked brand row keeps its highlight, the list shows every brand the answer names with no top-5 cap, and products of the same brand are folded into one row per brand family (GEO-1553), ranked at the family's best (smallest) rank",
+            "given": "the ranking",
+            "when": "it renders",
+            "then": "each brand shows its own logo, the tracked brand included (instead of today's check mark), the tracked brand row keeps its highlight, the list shows every brand the answer names with no top-5 cap, and products of the same brand are folded into one row per brand family (GEO-1553), ranked at the family's best (smallest) rank"
+          },
+          {
+            "id": "AC12",
+            "section": "Change 12 Nov 2026: answers collected the old way (GEO-1594)",
+            "group": null,
+            "text": "Given an analysis date collected before natural answers (one stored row per product, eg: \"Toyota Prius\", \"Toyota Camry Hybrid\"), When the Visibility panel renders, Then the ranking shows one row per brand family, numbered 1, 2, 3… with no gap in the order of each brand's best place (a product never pushes the next brand down, GEO-678 US 1.4), with the product the engine ranked below the brand when it differs (eg: \"Toyota\", then \"Toyota Prius\")",
+            "given": "an analysis date collected before natural answers (one stored row per product, eg: \"Toyota Prius\", \"Toyota Camry Hybrid\")",
+            "when": "the Visibility panel renders",
+            "then": "the ranking shows one row per brand family, numbered 1, 2, 3… with no gap in the order of each brand's best place (a product never pushes the next brand down, GEO-678 US 1.4), with the product the engine ranked below the brand when it differs (eg: \"Toyota\", then \"Toyota Prius\")"
+          },
+          {
+            "id": "AC13",
+            "section": "Change 12 Nov 2026: answers collected the old way (GEO-1594)",
+            "group": null,
+            "text": "Given the same answer, When the panel renders, Then the position card reads \"{brand}'s Position\", never a product name, and the rank on the card, on the engine tab and on the brand's row in the list is the same number",
+            "given": "the same answer",
+            "when": "the panel renders",
+            "then": "the position card reads \"{brand}'s Position\", never a product name, and the rank on the card, on the engine tab and on the brand's row in the list is the same number"
+          },
+          {
+            "id": "AC14",
+            "section": "Change 12 Nov 2026: answers collected the old way (GEO-1594)",
+            "group": null,
+            "text": "Given those dates, When Average Position, Brand Rankings, the questions table or the Excel export are computed, Then they keep the stored places, as before (US 1.7: older dates are not re-read)",
+            "given": "those dates",
+            "when": "Average Position, Brand Rankings, the questions table or the Excel export are computed",
+            "then": "they keep the stored places, as before (US 1.7: older dates are not re-read)"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Display only, depends on STORY-50.2 (GEO-1551, mention positions), STORY-50.3 (GEO-1552, brand family and other names), STORY-50.4 (GEO-1553, ranking) and STORY-50.5 (GEO-1554, competitive outcome and picked brands). Story 1.7 = STORY-53.7, story 1.5 = STORY-53.5. Design: GEO-1017 (Figma \"Measure - GEO Module\", page \"Natural answer display\")."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "53-3-trace-the-extracted-results-back-to-the-answer.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-53/53-3-trace-the-extracted-results-back-to-the-answer.md"
+          }
+        ],
+        "related": [
+          {
+            "key": "GEO-1605",
+            "link": "relates to",
+            "type": "Bug",
+            "status": "Done",
+            "summary": "[GEO-Category] Prompt detail panel: clicking a ranking row scrolls its mention under the sticky engine tabs"
+          },
+          {
+            "key": "GEO-1606",
+            "link": "relates to",
+            "type": "Bug",
+            "status": "Done",
+            "summary": "[GEO-Category] Prompt detail panel: brands in the ranking of a natural answer show initials instead of their logo"
+          }
+        ],
+        "blockedBy": [
+          "GEO-1551",
+          "GEO-1552",
+          "GEO-1553",
+          "GEO-1554",
+          "GEO-1564",
+          "GEO-1567"
+        ],
+        "blocks": [
+          "GEO-1568",
+          "GEO-1570"
+        ]
+      },
+      {
+        "id": "GEO-1567",
+        "type": "Story",
+        "title": "STORY-53.4: Resolve inline citations to their sources",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-28",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:18:06.698-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1567",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to see which source backs each claim of the answer without leaving the text",
+          "so": "I can judge the answer quickly."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.4)",
+            "group": null,
+            "text": "Given an answer with citation markers [n], When it renders, Then each marker uses one numbering shared with the Sources card of the panel",
+            "given": "an answer with citation markers [n]",
+            "when": "it renders",
+            "then": "each marker uses one numbering shared with the Sources card of the panel"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.4)",
+            "group": null,
+            "text": "Given an engine that numbers its citations out of order or skips numbers (eg: [1] [4] [2] [5]), When the answer renders, Then the sources are renumbered 1 to n in the order they are first cited (here [1] [2] [3] [4]), every marker takes the number of its source, and the Sources card and the Excel export use the same numbers",
+            "given": "an engine that numbers its citations out of order or skips numbers (eg: [1] [4] [2] [5])",
+            "when": "the answer renders",
+            "then": "the sources are renumbered 1 to n in the order they are first cited (here [1] [2] [3] [4]), every marker takes the number of its source, and the Sources card and the Excel export use the same numbers"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.4)",
+            "group": null,
+            "text": "Given a citation marker, When I hover or click it, Then a mini card shows the source title, the domain and \"Source {n} of {total}\", and the matching row in the Sources card is highlighted",
+            "given": "a citation marker",
+            "when": "I hover or click it",
+            "then": "a mini card shows the source title, the domain and \"Source {n} of {total}\", and the matching row in the Sources card is highlighted"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.4)",
+            "group": null,
+            "text": "Given two markers that point to the same page, When the answer renders, Then both markers show the same number and the page shows once in the Sources card, with that one number",
+            "given": "two markers that point to the same page",
+            "when": "the answer renders",
+            "then": "both markers show the same number and the page shows once in the Sources card, with that one number"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.4)",
+            "group": null,
+            "text": "Given the numbering, the two numbers per row and the opening of the full list on a source, When they are built, Then they apply to the Sources card of the question panel only, and the other surfaces that use the Sources card (Brand Image panel, concept detail, citation details) stay as today",
+            "given": "the numbering, the two numbers per row and the opening of the full list on a source",
+            "when": "they are built",
+            "then": "they apply to the Sources card of the question panel only, and the other surfaces that use the Sources card (Brand Image panel, concept detail, citation details) stay as today"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.4)",
+            "group": null,
+            "text": "Given the Sources card, When it renders, Then it lists the sources the engine used for this answer, the sources cited in the text first with their numbers, then the others without a number",
+            "given": "the Sources card",
+            "when": "it renders",
+            "then": "it lists the sources the engine used for this answer, the sources cited in the text first with their numbers, then the others without a number"
+          },
+          {
+            "id": "AC7",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.4)",
+            "group": null,
+            "text": "Given a marker that points to a source outside the visible rows of the Sources card, When I click it, Then the full list opens on that source and highlights it",
+            "given": "a marker that points to a source outside the visible rows of the Sources card",
+            "when": "I click it",
+            "then": "the full list opens on that source and highlights it"
+          },
+          {
+            "id": "AC8",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.4)",
+            "group": null,
+            "text": "Given the answer header, When it shows \"{n} citations\", Then the count matches the numbered sources in the Sources card",
+            "given": "the answer header",
+            "when": "it shows \"{n} citations\"",
+            "then": "the count matches the numbered sources in the Sources card"
+          },
+          {
+            "id": "AC9",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.4)",
+            "group": null,
+            "text": "Given the Sources card, When it shows \"All sources {n}\", Then the count includes every source the engine used for this answer, cited in the text or not",
+            "given": "the Sources card",
+            "when": "it shows \"All sources {n}\"",
+            "then": "the count includes every source the engine used for this answer, cited in the text or not"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Display only, depends on STORY-50.2 (GEO-1551, link between each citation marker and its source). The same numbering is used by the Excel export (STORY-53.6). Design: GEO-1017 (Figma \"Measure - GEO Module\", page \"Natural answer display\").\n\n\n---"
+          },
+          {
+            "heading": "Implementation summary (review, 2026-11-04)",
+            "text": "Backend: `AnswerComposer` second overload (citation part) — validates and groups citation ranges (`UrlNormalizer.canonicalize`), renumbers 1..n in order of first citation, unions with stored `response_sources`, filters excluded domains (shared matcher with `ResponseSourceExtractor` via `DomainNormalizer.parseExcludedCsv`), shifts carried mentions, keeps a non-domain link's label as text with `[n]` appended right after it. Runs only when a `FULL` row's `reader_version` is set and `sourcesState = OK`; otherwise the 53.1 no-citation overload is used unchanged. `AnswerDto`/`SourceDto` gained additive `citations`/`citationCount`/`number` fields; new `CitationDto`.\n\nFrontend: `remarkAnswerDecorations.ts` (remark plugin, hand-rolled mdast walker — no new dependency), `CitationMarker` (controlled `Tooltip` mini card, hover/focus/click/Escape per AC3/AC7), `CitationContext` (shared with the sibling `SourcesSection`, reset on engine switch), numbered opt-in mode on `SourcesSection`/`SourcesModal`/`SourceItem` (chip, dash for uncited, divider before uncited rows, scroll-to-row). i18n in all 4 locales (French/Spanish at the spec's own proposed texts, PM confirmation pending).\n\nTests: backend `AnswerComposerTest` (16, TAC1-TAC7 + T-E) + 2 new `QuestionDetailServiceTest` cases; frontend `remarkAnswerDecorations.test.ts` (6, incl. TAC13 and T-B), `CitationMarker.test.tsx` (6, TAC10/TAC11), `Sources.test.tsx` (+7, incl. TAC12), `AnswerMarkdown.test.tsx` (+2). Full regression: backend 3621/3621; frontend 3030/3032 (2 confirmed pre-existing unrelated flaky tests: `ReportListView` TAC5, `AddCategoryDialog` — both pass in isolation, neither touched by this branch); `pnpm build` green.\n\nOpen items flagged, implemented at the spec's own proposed defaults (not yet confirmed): P1 (FR/ES copy), P2 (AC5 \"two numbers per row\", non-blocking), D1-D4 (design). Not done this session: TAC14 (staging p95 timing) and the browser check on staging in both shells with real citations."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "53-4-resolve-inline-citations-to-their-sources.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-53/53-4-resolve-inline-citations-to-their-sources.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1551",
+          "GEO-1564",
+          "GEO-1572",
+          "GEO-1555"
+        ],
+        "blocks": [
+          "GEO-1569",
+          "GEO-1566"
+        ]
+      },
+      {
+        "id": "GEO-1568",
+        "type": "Story",
+        "title": "STORY-53.5: Keep the answer readable when parsing fails",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-28",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:18:08.079-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1568",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to read the answer even when part of it could not be parsed",
+          "so": "one failed extraction never hides the rest."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.5)",
+            "group": null,
+            "text": "Given an answer where one extraction failed (eg: perception themes, ranking, competitive outcome), When the panel renders, Then only that block changes: it keeps its title and shows one amber italic line instead of its content, as Corporate Reputation does for \"AI consolidation unavailable\", and the answer and the other blocks render normally",
+            "given": "an answer where one extraction failed (eg: perception themes, ranking, competitive outcome)",
+            "when": "the panel renders",
+            "then": "only that block changes: it keeps its title and shows one amber italic line instead of its content, as Corporate Reputation does for \"AI consolidation unavailable\", and the answer and the other blocks render normally"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.5)",
+            "group": null,
+            "text": "Given an extraction that failed, When the analysis metrics are computed, Then that answer is left out of the metric the extraction feeds, it is not counted as unranked or not chosen",
+            "given": "an extraction that failed",
+            "when": "the analysis metrics are computed",
+            "then": "that answer is left out of the metric the extraction feeds, it is not counted as unranked or not chosen"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.5)",
+            "group": null,
+            "text": "Given an extraction that failed, When the next analysis run happens, Then the new run extracts it again from its own answers, and the analysis date where it failed keeps its line, which reads \"{Themes} could not be extracted from this answer. The next analysis run extracts its own answers; this date stays as it is.\" (never \"will retry on the next analysis run\")",
+            "given": "an extraction that failed",
+            "when": "the next analysis run happens",
+            "then": "the new run extracts it again from its own answers, and the analysis date where it failed keeps its line, which reads \"{Themes} could not be extracted from this answer. The next analysis run extracts its own answers; this date stays as it is.\" (never \"will retry on the next analysis run\")"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.5)",
+            "group": null,
+            "text": "Given an engine answer that is empty, cut or refused, When I open its tab, Then it is not counted: the pill is marked \"Not counted\", the panel says \"{engine} returned no answer for this run\" and shows no extracted block",
+            "given": "an engine answer that is empty, cut or refused",
+            "when": "I open its tab",
+            "then": "it is not counted: the pill is marked \"Not counted\", the panel says \"{engine} returned no answer for this run\" and shows no extracted block"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.5)",
+            "group": null,
+            "text": "Given an analysis run before this epic shipped, When I open a question, Then the answer card shows the tracked brand's excerpt as today, as no full answer is stored for those dates, with no clamp, no character count and no highlight, and the extracted blocks and sources show as for any other answer",
+            "given": "an analysis run before this epic shipped",
+            "when": "I open a question",
+            "then": "the answer card shows the tracked brand's excerpt as today, as no full answer is stored for those dates, with no clamp, no character count and no highlight, and the extracted blocks and sources show as for any other answer"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "States of the panel (GEO-1498, \"Surfaces and States\")",
+            "text": "| State | Answer card | Extracted blocks |\n|---|---|---|\n| Loading | Skeleton of frame 04e | Skeleton of frame 04e |\n| Engine added after the last run | \"Analysis pending\", as today | Not shown |\n| Panel failed to load | Error with Retry, as today | Not shown |\n| One extraction failed | Shown in full | The failed block keeps its title and shows one amber italic line instead of its content |\n| Analysis run before this epic shipped | The tracked brand's excerpt, as today (no full answer is stored for those dates) | Rendered as today, a competitive win shows Chosen and a loss Not chosen |\n| Answer with no inline citations | Shown in full, \"no inline citations\" in the header | Rendered |\n| Answer not counted (cut, refused, empty) | \"{engine} returned no answer for this run\" | Not shown, engine pill marked \"Not counted\" |"
+          },
+          {
+            "heading": "Scope note",
+            "text": "Display only, depends on STORY-50.6 (GEO-1555, answer status and state of each extraction). The metric exclusion (AC2) is computed by STORY-50.6 / STORY-50.7 and only checked here. Design: GEO-1017 (Figma \"Measure - GEO Module\", page \"Natural answer display\", frames 04, 04c, 04d, 04e, 04f, 10f)."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "53-5-keep-the-answer-readable-when-parsing-fails.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-53/53-5-keep-the-answer-readable-when-parsing-fails.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1555",
+          "GEO-1556",
+          "GEO-1566"
+        ],
+        "blocks": [
+          "GEO-1570"
+        ]
+      },
+      {
+        "id": "GEO-1569",
+        "type": "Story",
+        "title": "STORY-53.6: Export the full answer to Excel",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-28",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:18:09.368-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1569",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "the full answer of each engine in the Excel export",
+          "so": "I can read and share the answers outside the product."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.6)",
+            "group": null,
+            "text": "Given an analysis run with natural answers, When I export it to Excel, Then the \"Response\" column of the Raw Data sheet carries the full answer of each engine for every question type",
+            "given": "an analysis run with natural answers",
+            "when": "I export it to Excel",
+            "then": "the \"Response\" column of the Raw Data sheet carries the full answer of each engine for every question type"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.6)",
+            "group": null,
+            "text": "Given a Visibility question, When it is exported, Then the brand ranking that the \"Response\" column carries today moves to a new \"Ranking\" column next to it, in the same format; for a Competitive question the full answer replaces the \"About {brand}\" and \"About winner\" text the cell has today",
+            "given": "a Visibility question",
+            "when": "it is exported",
+            "then": "the brand ranking that the \"Response\" column carries today moves to a new \"Ranking\" column next to it, in the same format; for a Competitive question the full answer replaces the \"About {brand}\" and \"About winner\" text the cell has today"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.6)",
+            "group": null,
+            "text": "Given a Competitive question, When it is exported, Then the \"Ranking\" column carries the outcome (Chosen, Conditional, Not chosen or Overlooked) followed by the brand or brands the answer picks",
+            "given": "a Competitive question",
+            "when": "it is exported",
+            "then": "the \"Ranking\" column carries the outcome (Chosen, Conditional, Not chosen or Overlooked) followed by the brand or brands the answer picks"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.6)",
+            "group": null,
+            "text": "Given a Perception, Other or Brand Image question, When it is exported, Then the \"Ranking\" column says \"N/A\", as the other cells of the export",
+            "given": "a Perception, Other or Brand Image question",
+            "when": "it is exported",
+            "then": "the \"Ranking\" column says \"N/A\", as the other cells of the export"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.6)",
+            "group": null,
+            "text": "Given a Brand Image question, When it is exported, Then its rows keep one row per dimension with the dimension bullets in the \"Response\" column, as today",
+            "given": "a Brand Image question",
+            "when": "it is exported",
+            "then": "its rows keep one row per dimension with the dimension bullets in the \"Response\" column, as today"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.6)",
+            "group": null,
+            "text": "Given an analysis run before this epic shipped, When I export it, Then the Raw Data sheet has the same columns as a new analysis, including \"Ranking\"; a Visibility row keeps the ranking its \"Response\" carries today, so the ranking shows in both columns",
+            "given": "an analysis run before this epic shipped",
+            "when": "I export it",
+            "then": "the Raw Data sheet has the same columns as a new analysis, including \"Ranking\"; a Visibility row keeps the ranking its \"Response\" carries today, so the ranking shows in both columns"
+          },
+          {
+            "id": "AC7",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.6)",
+            "group": null,
+            "text": "Given an answer with citation markers, When it is exported, Then the markers [n] stay in the text and the \"Source URLs\" column lists the cited sources in the same numbering, then the uncited ones without a number; the numbering is the panel's (one number per page), so a URL that does not fit the cell does not shift the numbers after it; only a **natural** answer that is not counted (cut, refused, empty) no longer appears — a row of an analysis run before this epic that reads \"No ranking returned\" or \"No usable content returned\" stays as today (PM, 2026-10-29, answer on GEO-1498: \"only the not-counted natural answers disappear, rows of analyses run before this epic that read 'No ranking returned' / 'No usable content returned' stay as today, per the compatibility rule of story 1.6\")",
+            "given": "an answer with citation markers",
+            "when": "it is exported",
+            "then": "the markers [n] stay in the text and the \"Source URLs\" column lists the cited sources in the same numbering, then the uncited ones without a number; the numbering is the panel's (one number per page), so a URL that does not fit the cell does not shift the numbers after it; only a natural answer that is not counted (cut, refused, empty) no longer appears — a row of an analysis run before this epic that reads \"No ranking returned\" or \"No usable content returned\" stays as today (PM, 2026-10-29, answer on GEO-1498: \"only the not-counted natural answers disappear, rows of analyses run before this epic that read 'No ranking returned' / 'No usable content returned' stay as today, per the compatibility rule of story 1.6\")"
+          },
+          {
+            "id": "AC8",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.6)",
+            "group": null,
+            "text": "Given the Raw Data sheet, When it is exported, Then the \"Favorability\" column is removed: the outcome and the ranking columns carry that information",
+            "given": "the Raw Data sheet",
+            "when": "it is exported",
+            "then": "the \"Favorability\" column is removed: the outcome and the ranking columns carry that information"
+          },
+          {
+            "id": "AC9",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.6)",
+            "group": null,
+            "text": "Given an answer longer than an Excel cell can hold, When it is exported, Then it is shortened and marked the same way as any other long cell of the export today",
+            "given": "an answer longer than an Excel cell can hold",
+            "when": "it is exported",
+            "then": "it is shortened and marked the same way as any other long cell of the export today"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Backend export only, the EPIC text is the Excel spec (no frame). Depends on STORY-50.1 (GEO-1550, full answer), STORY-50.2 (GEO-1551, citations), STORY-50.4 (GEO-1553, ranking), STORY-50.5 (GEO-1554, outcome) and STORY-50.6 (GEO-1555, not counted), and reuses the citation numbering of STORY-53.4. Scheduled emails, PowerPoint and PDF content do not change (metric name only: STORY-53.8)."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "53-6-export-the-full-answer-to-excel.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-53/53-6-export-the-full-answer-to-excel.md"
+          }
+        ],
+        "related": [
+          {
+            "key": "GEO-1607",
+            "link": "relates to",
+            "type": "Bug",
+            "status": "Done",
+            "summary": "[GEO-Enrichment] Natural competitive answer read as \"Chosen\" next to an \"Overlooked\" brand: Excel Raw Data shows \"Chosen\" with no brand"
+          }
+        ],
+        "blockedBy": [
+          "GEO-1550",
+          "GEO-1551",
+          "GEO-1553",
+          "GEO-1554",
+          "GEO-1555",
+          "GEO-1567",
+          "GEO-1556",
+          "GEO-1557",
+          "GEO-1576"
+        ],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1570",
+        "type": "Story",
+        "title": "STORY-53.7: Show the competitive outcome in four buckets",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-28",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:18:10.744-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1570",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to see when engines choose my brand, choose it only in some cases, or do not choose it",
+          "so": "I understand how strong my position is in head-to-head questions."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given a competitive outcome, When it is shown anywhere, Then it uses one of four labels: \"Chosen\", \"Conditional\", \"Not chosen\", \"Overlooked\" (French: \"Choisie\", \"Sous conditions\", \"Non choisie\", \"Ignorée\"; Spanish: \"Elegida\", \"Condicional\", \"No elegida\", \"Ignorada\")",
+            "given": "a competitive outcome",
+            "when": "it is shown anywhere",
+            "then": "it uses one of four labels: \"Chosen\", \"Conditional\", \"Not chosen\", \"Overlooked\" (French: \"Choisie\", \"Sous conditions\", \"Non choisie\", \"Ignorée\"; Spanish: \"Elegida\", \"Condicional\", \"No elegida\", \"Ignorada\")"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given the AI Choice KPI card, When it renders, Then it keeps the layout of the other KPI cards (icon in the ring, value on the right, quality pill and delta, as today), and the ring becomes a donut in four parts: Chosen and Conditional highlighted (Chosen solid, Conditional lighter), Not chosen and Overlooked muted, the value being Chosen plus Conditional; the ring is amber on the Overview and on the category view, which loses its quality colour: Chosen #F59E0B, Conditional #FCD34D, Not chosen #CBD5E1, Overlooked #E2E8F0, the icon in amber",
+            "given": "the AI Choice KPI card",
+            "when": "it renders",
+            "then": "it keeps the layout of the other KPI cards (icon in the ring, value on the right, quality pill and delta, as today), and the ring becomes a donut in four parts: Chosen and Conditional highlighted (Chosen solid, Conditional lighter), Not chosen and Overlooked muted, the value being Chosen plus Conditional; the ring is amber on the Overview and on the category view, which loses its quality colour: Chosen #F59E0B, Conditional #FCD34D, Not chosen #CBD5E1, Overlooked #E2E8F0, the icon in amber"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given the AI Choice donut, When I hover it, Then it shows the number and the share of answers in each of the four outcomes",
+            "given": "the AI Choice donut",
+            "when": "I hover it",
+            "then": "it shows the number and the share of answers in each of the four outcomes"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given a competitive row of the questions table, When every counted engine is Chosen, or the counted engines mix Chosen and Conditional, Then the \"Winner / Themes\" cell shows my brand with its logo, as today, so the cell agrees with the Favorable filter",
+            "given": "a competitive row of the questions table",
+            "when": "every counted engine is Chosen, or the counted engines mix Chosen and Conditional",
+            "then": "the \"Winner / Themes\" cell shows my brand with its logo, as today, so the cell agrees with the Favorable filter"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given a competitive row, When every counted engine is Conditional, Then the cell shows \"Conditional\" in the green badge (green-50 fill, green-200 border, green-700 text)",
+            "given": "a competitive row",
+            "when": "every counted engine is Conditional",
+            "then": "the cell shows \"Conditional\" in the green badge (green-50 fill, green-200 border, green-700 text)"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given a competitive row, When every counted engine is Not chosen and picked the same competitor with no condition, Then the cell shows that competitor with its logo, as today",
+            "given": "a competitive row",
+            "when": "every counted engine is Not chosen and picked the same competitor with no condition",
+            "then": "the cell shows that competitor with its logo, as today"
+          },
+          {
+            "id": "AC7",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given a competitive row, When every counted engine is Not chosen with different picks, or the counted engines mix Not chosen and Overlooked, Then the cell shows \"Not chosen\" in plain grey text, as \"Lost\" today, so the cell agrees with the Not Favorable filter (eg: Gemini picks UPS, ChatGPT gives UPS and FedEx the conditions, the cell shows \"Not chosen\")",
+            "given": "a competitive row",
+            "when": "every counted engine is Not chosen with different picks, or the counted engines mix Not chosen and Overlooked",
+            "then": "the cell shows \"Not chosen\" in plain grey text, as \"Lost\" today, so the cell agrees with the Not Favorable filter (eg: Gemini picks UPS, ChatGPT gives UPS and FedEx the conditions, the cell shows \"Not chosen\")"
+          },
+          {
+            "id": "AC8",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given a competitive row, When every counted engine is Overlooked, Then the cell shows \"Overlooked\" in the red badge (red-50 fill, red-200 border, red-700 text)",
+            "given": "a competitive row",
+            "when": "every counted engine is Overlooked",
+            "then": "the cell shows \"Overlooked\" in the red badge (red-50 fill, red-200 border, red-700 text)"
+          },
+          {
+            "id": "AC9",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given a competitive row, When the counted engines mix a Chosen or Conditional outcome with a Not chosen or Overlooked one, Then the cell shows \"Split\", as today",
+            "given": "a competitive row",
+            "when": "the counted engines mix a Chosen or Conditional outcome with a Not chosen or Overlooked one",
+            "then": "the cell shows \"Split\", as today"
+          },
+          {
+            "id": "AC10",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given an unbranded analysis (no tracked brand), When a competitive row renders, Then the cell shows the brand that every counted engine chose with no condition, otherwise \"Split\"",
+            "given": "an unbranded analysis (no tracked brand)",
+            "when": "a competitive row renders",
+            "then": "the cell shows the brand that every counted engine chose with no condition, otherwise \"Split\""
+          },
+          {
+            "id": "AC11",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given an engine that is not counted for a question, or whose outcome could not be extracted, When the cell, the favorability and AI Choice are computed, Then that engine is left out",
+            "given": "an engine that is not counted for a question, or whose outcome could not be extracted",
+            "when": "the cell, the favorability and AI Choice are computed",
+            "then": "that engine is left out"
+          },
+          {
+            "id": "AC12",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given a competitive row where no engine is counted, When it renders, Then the cell shows the grey \"Not counted\" chip and the row is neither Favorable nor Not favorable in the filter and the header bar",
+            "given": "a competitive row where no engine is counted",
+            "when": "it renders",
+            "then": "the cell shows the grey \"Not counted\" chip and the row is neither Favorable nor Not favorable in the filter and the header bar"
+          },
+          {
+            "id": "AC13",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given the favorability filter and the header bar of the questions table, When they count competitive questions, Then Favorable means every counted engine is Chosen or Conditional, Not Favorable means every counted engine is Not chosen or Overlooked, and Split is a mix",
+            "given": "the favorability filter and the header bar of the questions table",
+            "when": "they count competitive questions",
+            "then": "Favorable means every counted engine is Chosen or Conditional, Not Favorable means every counted engine is Not chosen or Overlooked, and Split is a mix"
+          },
+          {
+            "id": "AC14",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given the question panel of a competitive question, When it renders, Then each engine pill shows the outcome of that engine in the badge that shows the rank today, same size and place: emerald for Chosen and Conditional (as \"#1\"), red for Not chosen and Overlooked (as \"#--\"), grey \"Not counted\" when the engine is not counted or its outcome could not be extracted; the pill keeps the production layout, its compact form with many engines included",
+            "given": "the question panel of a competitive question",
+            "when": "it renders",
+            "then": "each engine pill shows the outcome of that engine in the badge that shows the rank today, same size and place: emerald for Chosen and Conditional (as \"#1\"), red for Not chosen and Overlooked (as \"#--\"), grey \"Not counted\" when the engine is not counted or its outcome could not be extracted; the pill keeps the production layout, its compact form with many engines included"
+          },
+          {
+            "id": "AC15",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given an engine whose outcome is Chosen, When its tab is open, Then the card is titled \"{brand}'s results - {engine}\" with \"Chosen\" as its headline, on the green card of a win today; Conditional uses the green card too, Not chosen and Overlooked the red card of a loss today, and the card carries no text badge",
+            "given": "an engine whose outcome is Chosen",
+            "when": "its tab is open",
+            "then": "the card is titled \"{brand}'s results - {engine}\" with \"Chosen\" as its headline, on the green card of a win today; Conditional uses the green card too, Not chosen and Overlooked the red card of a loss today, and the card carries no text badge"
+          },
+          {
+            "id": "AC16",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given an engine whose outcome is Conditional or Overlooked, When its tab is open, Then the card shows the outcome only, with no condition per brand: the user reads why in the answer, shown above the card",
+            "given": "an engine whose outcome is Conditional or Overlooked",
+            "when": "its tab is open",
+            "then": "the card shows the outcome only, with no condition per brand: the user reads why in the answer, shown above the card"
+          },
+          {
+            "id": "AC17",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given an engine whose outcome is Not chosen, When its tab is open, Then the card shows \"Not chosen\" and \"{brand} was chosen\" for the brand or brands the answer picks",
+            "given": "an engine whose outcome is Not chosen",
+            "when": "its tab is open",
+            "then": "the card shows \"Not chosen\" and \"{brand} was chosen\" for the brand or brands the answer picks"
+          },
+          {
+            "id": "AC18",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given an answer that is not counted, When its engine tab is open, Then the pill is marked \"Not counted\" and the tab shows \"{engine} returned no answer for this run\", without the \"may not have responded yet\" line",
+            "given": "an answer that is not counted",
+            "when": "its engine tab is open",
+            "then": "the pill is marked \"Not counted\" and the tab shows \"{engine} returned no answer for this run\", without the \"may not have responded yet\" line"
+          },
+          {
+            "id": "AC19",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 1 of 2)",
+            "group": null,
+            "text": "Given the AI Choice column of Brand Rankings, When it renders, Then each brand shows Chosen plus Conditional, with no tooltip on the value, as today; a brand with no outcome in the scope shows the existing \"—\", configured or not, a brand that is not configured gets no win from a competitive answer, and a configured brand with outcomes but never chosen shows 0%",
+            "given": "the AI Choice column of Brand Rankings",
+            "when": "it renders",
+            "then": "each brand shows Chosen plus Conditional, with no tooltip on the value, as today; a brand with no outcome in the scope shows the existing \"—\", configured or not, a brand that is not configured gets no win from a competitive answer, and a configured brand with outcomes but never chosen shows 0%"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "User Story 1.7 is split in two: this story carries the four outcomes on screen; the metric name \"AI Choice\" and the Share of Voice tooltip are STORY-53.8. Depends on STORY-50.5 (GEO-1554, outcomes and picked brands), STORY-50.6 (GEO-1555, not counted) and STORY-50.7 (GEO-1556, AI Choice = Chosen + Conditional computed by the backend). The PowerPoint and PDF ring keeps one colour. Design: GEO-1017 (Figma \"Measure - GEO Module\", page \"Natural answer display\")."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "53-7-show-the-competitive-outcome-in-four-buckets.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-53/53-7-show-the-competitive-outcome-in-four-buckets.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1554",
+          "GEO-1555",
+          "GEO-1556",
+          "GEO-1566",
+          "GEO-1568"
+        ],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1571",
+        "type": "Story",
+        "title": "STORY-53.8: Name the competitive metric AI Choice everywhere",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-28",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:18:12.121-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1571",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to see when engines choose my brand, choose it only in some cases, or do not choose it",
+          "so": "I understand how strong my position is in head-to-head questions."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 2 of 2)",
+            "group": null,
+            "text": "Given any place that shows the competitive metric, When it renders, Then the metric is named \"AI Choice\" (French \"Choix IA\", Spanish \"Elección de IA\"), with the same capitalisation everywhere: the matrix tooltips are already renamed (GEO-1524); this replaces \"AI choice\" in PowerPoint, \"Choix de l'IA\" and \"Elección de la IA\" in the trend graph, \"Elección IA\" in the Spanish upsell KPI and its upgrade gate, the unbranded Brand Rankings tooltip in 4 locales, \"LLM Choice %\" in the upsell results \"AI choice\" in the trend graph, \"Choix LLM %\" and \"Elección LLM %\" in the upsell rankings, \"LLM choice\" in PowerPoint and PDF, and the definitions of the KPI and Brand Rankings tooltips, which say \"win rate\" and \"100% means AI engines always pick your brand\" today and must describe Chosen plus Conditional",
+            "given": "any place that shows the competitive metric",
+            "when": "it renders",
+            "then": "the metric is named \"AI Choice\" (French \"Choix IA\", Spanish \"Elección de IA\"), with the same capitalisation everywhere: the matrix tooltips are already renamed (GEO-1524); this replaces \"AI choice\" in PowerPoint, \"Choix de l'IA\" and \"Elección de la IA\" in the trend graph, \"Elección IA\" in the Spanish upsell KPI and its upgrade gate, the unbranded Brand Rankings tooltip in 4 locales, \"LLM Choice %\" in the upsell results \"AI choice\" in the trend graph, \"Choix LLM %\" and \"Elección LLM %\" in the upsell rankings, \"LLM choice\" in PowerPoint and PDF, and the definitions of the KPI and Brand Rankings tooltips, which say \"win rate\" and \"100% means AI engines always pick your brand\" today and must describe Chosen plus Conditional"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1498, User Story 1.7, part 2 of 2)",
+            "group": null,
+            "text": "Given the Share of Voice KPI tooltip, When it renders, Then it reads \"Your share of all the brands named in AI responses. In each answer, every brand counts once, however many of its products are named: if Nike Air Max and Nike Pegasus both appear in the same answer, Nike counts as 1 mention.\" (en-GB and en-US), French \"Votre part parmi toutes les marques citées dans les réponses des IA. Dans chaque réponse, chaque marque compte une seule fois, quel que soit le nombre de ses produits cités : si Nike Air Max et Nike Pegasus apparaissent dans la même réponse, Nike compte pour 1 mention.\", Spanish \"Su cuota entre todas las marcas mencionadas en las respuestas de la IA. En cada respuesta, cada marca cuenta una sola vez, sea cual sea el número de sus productos mencionados: si Nike Air Max y Nike Pegasus aparecen en la misma respuesta, Nike cuenta como 1 mención.\"",
+            "given": "the Share of Voice KPI tooltip",
+            "when": "it renders",
+            "then": "it reads \"Your share of all the brands named in AI responses. In each answer, every brand counts once, however many of its products are named: if Nike Air Max and Nike Pegasus both appear in the same answer, Nike counts as 1 mention.\" (en-GB and en-US), French \"Votre part parmi toutes les marques citées dans les réponses des IA. Dans chaque réponse, chaque marque compte une seule fois, quel que soit le nombre de ses produits cités : si Nike Air Max et Nike Pegasus apparaissent dans la même réponse, Nike compte pour 1 mention.\", Spanish \"Su cuota entre todas las marcas mencionadas en las respuestas de la IA. En cada respuesta, cada marca cuenta una sola vez, sea cual sea el número de sus productos mencionados: si Nike Air Max y Nike Pegasus aparecen en la misma respuesta, Nike cuenta como 1 mención.\""
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "User Story 1.7 is split in two: the four outcomes on screen are STORY-53.7; this story carries the metric name and the tooltip texts in every surface (prioritization matrices, trend graph, upsell results, PowerPoint and PDF, KPI and Brand Rankings tooltips) and the 4 locales. The new definitions describe the AI Choice and Share of Voice computed by STORY-50.7 (GEO-1556): the renaming can be built now, but the tooltip texts ship with STORY-50.7. Scheduled emails do not change."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "53-8-name-the-competitive-metric-ai-choice-everywhere.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-53/53-8-name-the-competitive-metric-ai-choice-everywhere.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1556"
+        ],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1572",
+        "type": "Story",
+        "title": "STORY-53.9: Open the question panel as a drawer in both shells",
+        "status": "Ready for QA",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-10-28",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:18:13.709-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1572",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "the question panel to open as a full-height drawer when I click a question, in GEO and inside Onclusive Social",
+          "so": "a long answer has room to be read."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1498, section \"Host Shells\")",
+            "group": null,
+            "text": "Given the questions table of a category view, When I click a row, Then the question panel opens as a full-height drawer over the page and over the host top bar, as drawn in GEO-1017 (frame 09, and the Unified Platform frame of the second round), instead of opening inline next to the table, which shrinks to make room today",
+            "given": "the questions table of a category view",
+            "when": "I click a row",
+            "then": "the question panel opens as a full-height drawer over the page and over the host top bar, as drawn in GEO-1017 (frame 09, and the Unified Platform frame of the second round), instead of opening inline next to the table, which shrinks to make room today"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1498, section \"Host Shells\")",
+            "group": null,
+            "text": "Given a category view, When it opens, Then no question opens by itself any more (the first-question auto-open of GEO-315 and GEO-345 is removed): the panel opens only when the user clicks a row",
+            "given": "a category view",
+            "when": "it opens",
+            "then": "no question opens by itself any more (the first-question auto-open of GEO-315 and GEO-345 is removed): the panel opens only when the user clicks a row"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1498, section \"Host Shells\")",
+            "group": null,
+            "text": "Given the Unified Platform standalone shell (Onclusive Social native mode off), When the drawer opens, Then it renders the same as inside Onclusive Social, with the GEO sidebar, GEO top bar, organisation control and user menu mounted, and it behaves like the target sources drawer too (native dialog, focus trap, arrow keys to the previous or next question) — same as the next criterion (PM, 2026-10-30, answer on GEO-1498: \"focus trap and arrow keys in both shells, it is the same drawer as Target Sources so it should behave the same way\")",
+            "given": "the Unified Platform standalone shell (Onclusive Social native mode off)",
+            "when": "the drawer opens",
+            "then": "it renders the same as inside Onclusive Social, with the GEO sidebar, GEO top bar, organisation control and user menu mounted, and it behaves like the target sources drawer too (native dialog, focus trap, arrow keys to the previous or next question) — same as the next criterion (PM, 2026-10-30, answer on GEO-1498: \"focus trap and arrow keys in both shells, it is the same drawer as Target Sources so it should behave the same way\")"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1498, section \"Host Shells\")",
+            "group": null,
+            "text": "Given the Onclusive Social shell (Onclusive Social native mode on), When the drawer opens, Then only the Onclusive Social top bar is mounted (no GEO sidebar, no GEO top bar), and the drawer and the citation mini card follow the Onclusive Social frame of GEO-1017 and behave like the target sources drawer (native dialog, focus trap, arrow keys to the previous or next question)",
+            "given": "the Onclusive Social shell (Onclusive Social native mode on)",
+            "when": "the drawer opens",
+            "then": "only the Onclusive Social top bar is mounted (no GEO sidebar, no GEO top bar), and the drawer and the citation mini card follow the Onclusive Social frame of GEO-1017 and behave like the target sources drawer (native dialog, focus trap, arrow keys to the previous or next question)"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1498, section \"Host Shells\")",
+            "group": null,
+            "text": "Given either shell, When the drawer opens, Then it is 470px wide",
+            "given": "either shell",
+            "when": "the drawer opens",
+            "then": "it is 470px wide"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1498, section \"Host Shells\")",
+            "group": null,
+            "text": "Given either shell, When the drawer opens, Then the sticky panel header (story 1.2) sits at the top of the drawer, which covers the host top bar, as in frame 09",
+            "given": "either shell",
+            "when": "the drawer opens",
+            "then": "the sticky panel header (story 1.2) sits at the top of the drawer, which covers the host top bar, as in frame 09"
+          }
+        ],
+        "technicalAcceptanceCriteria": [
+          {
+            "id": "TAC1",
+            "title": "One mechanism",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC1 — One mechanism**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given the Target Sources drawer, the question drawer (and `VersionHistoryDrawer` if T3 is in scope)"
+          },
+          {
+            "id": "TAC2",
+            "title": "Target Sources unchanged",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC2 — Target Sources unchanged**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given the T1 refactor"
+          },
+          {
+            "id": "TAC3",
+            "title": "No auto-open",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC3 — No auto-open**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given a category with questions of every type"
+          },
+          {
+            "id": "TAC4",
+            "title": "Drawer opens and closes",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC4 — Drawer opens and closes**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given the table"
+          },
+          {
+            "id": "TAC5",
+            "title": "Previous / next",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC5 — Previous / next**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given a filtered table of 3 rows and the drawer open on the second"
+          },
+          {
+            "id": "TAC6",
+            "title": "Tooltips and « All sources » above the drawer",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC6 — Tooltips and « All sources » above the drawer**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given the drawer open on a Visibility question with sources"
+          },
+          {
+            "id": "TAC7",
+            "title": "Both shells",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC7 — Both shells**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given `useIsOnclusiveSocialNativeMode` true, then false"
+          },
+          {
+            "id": "TAC8",
+            "title": "Engine tab list",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC8 — Engine tab list**"
+          },
+          {
+            "id": null,
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "Given a Competitive question with 3 engines, then a Perception question with 3 engines"
+          }
+        ],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Display only, no dependency on GEO-678: can start first. STORY-53.2 (sticky header) builds on it. Design: GEO-1017 (Figma \"Measure - GEO Module\", page \"Natural answer display\", frame 09 and the Unified Platform / Onclusive Social frames of the second round)."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "53-9-open-the-question-panel-as-a-drawer-in-both-shells.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/developer/docs/implementation-artifacts/epics/epic-53/53-9-open-the-question-panel-as-a-drawer-in-both-shells.md"
+          }
+        ],
+        "related": [
+          {
+            "key": "GEO-1603",
+            "link": "relates to",
+            "type": "Bug",
+            "status": "Done",
+            "summary": "[GEO-Category] Prompt detail panel: closing the drawer by clicking the backdrop leaves the focus on the page body"
+          }
+        ],
+        "blockedBy": [],
+        "blocks": [
+          "GEO-1565",
+          "GEO-1564",
+          "GEO-1567"
+        ]
+      },
+      {
+        "id": "GEO-1608",
+        "type": "Story",
+        "title": "STORY-53.10: Show the images of the answer card",
+        "status": "Backlog",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-11-12",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T10:43:15.748-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1608",
+        "fixVersions": [],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to see the images of an answer where the engine showed them",
+          "so": "I read the answer as the engine gave it."
+        },
+        "context": "Follow-up of STORY-54.5 (GEO-1599, question P1, option A, decided with the PM on 2026-11-12): the images of the answer card are a feature of the card for **all engines**, not only AI Overviews. ChatGPT first.",
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (the image criteria of the epic's story 1.5, GEO-1005, generalised to every engine)",
+            "group": null,
+            "text": "Given an answer with images, When it renders, Then the images show in the answer at the place the engine showed them, as drawn in frames 08a and 08b of GEO-1017, and clicking an image opens it fullscreen, with Escape and the back button of frame 08b (\"Back to answer\") to come back to the answer",
+            "given": "an answer with images",
+            "when": "it renders",
+            "then": "the images show in the answer at the place the engine showed them, as drawn in frames 08a and 08b of GEO-1017, and clicking an image opens it fullscreen, with Escape and the back button of frame 08b (\"Back to answer\") to come back to the answer"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (the image criteria of the epic's story 1.5, GEO-1005, generalised to every engine)",
+            "group": null,
+            "text": "Given a captured image with a caption, When it renders, Then the caption and its source show under the image, as in frame 08a, and the fullscreen view shows the full credit with the title of the source page, as in frame 08b",
+            "given": "a captured image with a caption",
+            "when": "it renders",
+            "then": "the caption and its source show under the image, as in frame 08a, and the fullscreen view shows the full credit with the title of the source page, as in frame 08b"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (the image criteria of the epic's story 1.5, GEO-1005, generalised to every engine)",
+            "group": null,
+            "text": "Given a captured image with no caption, When it renders, Then the caption line is not shown, in the answer and in the fullscreen view",
+            "given": "a captured image with no caption",
+            "when": "it renders",
+            "then": "the caption line is not shown, in the answer and in the fullscreen view"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (the image criteria of the epic's story 1.5, GEO-1005, generalised to every engine)",
+            "group": null,
+            "text": "Given an answer with several images, When I open one of them fullscreen, Then the viewer shows that image only, with no previous or next control, as in frame 08b, and I go back to the answer to open another one",
+            "given": "an answer with several images",
+            "when": "I open one of them fullscreen",
+            "then": "the viewer shows that image only, with no previous or next control, as in frame 08b, and I go back to the answer to open another one"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (the image criteria of the epic's story 1.5, GEO-1005, generalised to every engine)",
+            "group": null,
+            "text": "Given an image that does not load, When the answer renders, Then the image is hidden and the text of the answer is not changed",
+            "given": "an image that does not load",
+            "when": "the answer renders",
+            "then": "the image is hidden and the text of the answer is not changed"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (the image criteria of the epic's story 1.5, GEO-1005, generalised to every engine)",
+            "group": null,
+            "text": "Given the answer header, When it counts characters and citations, Then images are not counted",
+            "given": "the answer header",
+            "when": "it counts characters and citations",
+            "then": "images are not counted"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "What we measured on 2026-11-12 (the three engines captured through the vendor)",
+            "text": "Method: the same prompt, \"What are the best running shoes for flat feet?\" (country US), asked (1) in a real browser, signed in (Gemini Pro on the work account, ChatGPT Free, Google Search with its AI Overview), then (2) to the capture vendor (Cloro) with the default request. Extra vendor calls: ChatGPT with `include.shopping`, Gemini with `include.rawResponse`. About 8 billed calls in all, plus the earlier AI Overview sample (165 prompts) and recordings.\n\n| Engine | What the real page shows | What the vendor returns |\n|---|---|---|\n| **Google AI Overviews** | Bulleted text; to its right, source cards with a thumbnail (RunRepeat, Shoe Station) and a YouTube video. No image inside the text for this question. | `aioverview`: `text`, `markdown`, `sources` (no thumbnail), `citationPills`, `videos`. **No image field**, in the 159 captured AI Overviews or in the recordings. A page-level `inlineImages` block exists on pages without an AI Overview (3 images in one case), with no position in any answer. |\n| **ChatGPT** | A product thumbnail beside each model (Brooks Adrenaline GTS 25, ASICS Gel-Kayano 33, New Balance Fresh Foam X 860 v15, ...), with tags such as \"Best overall\". | Default request: text only (also on two prompts that asked for pictures). **With **`include.shopping` (paid add-on): `inlineProducts`, 7 products, each with 1 image (`image_urls`, hosted on `images.openai.com`), plus `title`, `description`, `price`, `featured_tag`, `position`; `shoppingCards` was empty. No marker of the product in the text, only the product's `position` in the list. |\n| **Gemini** | A carousel of product images (Brooks Adrenaline GTS 25, ASICS Gel-Kayano 33, Saucony Hurricane 26, ...), each with a caption \"Source: ...\". | Default request: `text`, `sources`, `citationPills` only. No `shoppingCards`, no `places`, on this prompt and on a places prompt (\"best coffee shops near the Eiffel Tower\"). With `include.rawResponse` (562,000 characters): 11 image-looking URLs, which are Google thumbnails of the source pages (`encrypted-tbn*.gstatic.com`), and the shoe names, but **not the carousel images**. |\n\nWhat the vendor's documentation says (docs for the ChatGPT and Gemini endpoints): ChatGPT images are product images only, in `shoppingCards[].products[].image_urls`, `inlineProducts[].product.image_urls` and `entities[].product.image_urls`, and come only with `include.shopping`; Gemini lists `places[].thumbnail`, `shoppingCards[].thumbnail` and `shoppingCards[].images` with no paid option, but we did not get them. The AI Overview endpoint documents no image field.\n\nWhat this means:\n\n- The only images we can obtain today are ChatGPT **product** images, behind a paid option. They exist on product-type questions only, not on reputation or perception prompts.\n- For Gemini the image shows in the real page and the vendor does not return it: a limit of what the vendor extracts, or a difference of session (a signed-in Pro account against the vendor's anonymous one). We cannot tell which with two prompts.\n- For AI Overviews there is nothing to show in the answer; the only images are source thumbnails and videos, which the vendor does not return as images.\n- None of the images has a position in the text, a caption or a credit as drawn in frames 08a and 08b (only a title, a price and a tag for a ChatGPT product).\n- The image URLs are hosted by the engines (`images.openai.com`, Google), see the security point below.\n\nLimits of the measurement: one product prompt compared in the browser, one signed-in account per engine, a handful of vendor calls. Not measured: the engines' API route (OpenRouter), and the engines that are not captured (Claude and Grok are account-gated and never captured, Perplexity is not reachable).\n\nQuestions to put to the vendor: (1) are AI Overview images extracted, and in which field and with which option? (2) when are `shoppingCards` and `places` filled for Gemini? (3) is there an option, other than `include.shopping`, that returns the images of ChatGPT's informative answers? Questions for the PM: is a block of product images acceptable instead of images in the text, and is the cost of the ChatGPT `shopping` option (billed on every capture) acceptable?"
+          },
+          {
+            "heading": "What is known today (to verify when the story starts)",
+            "text": "- The PM measured images in 28 of 30 ChatGPT answers of the GEO-678 Cloro dataset (not re-checked here: our default requests returned none, the measurements above explain when they appear); 0 of 24 AI Overviews measured in the 54.x spike had one inside the answer.\n- The answer renderer (`AnswerMarkdown`) ignores images on purpose today; the application has no image viewer; the cleaned capture record keeps no image field (the raw capture may hold them).\n- The thumbnails of captured images can be hosted by another site (Google or the engine's), and the application sets no image content-security rule today: showing them is a hosting and security decision for the team to take in this story.\n- Frames 08a and 08b of GEO-1017 are cited by the epic but have no recorded node id in the repository."
+          },
+          {
+            "heading": "Scope note",
+            "text": "Depends on STORY-53.1 (the full answer card) and on the capture storing the images it receives (for ChatGPT, a request option that is billed). Frontend and, probably, a field in the capture record and the question-detail response. Design: GEO-1017 frames 08a and 08b. Not part of STORY-54.5 (GEO-1599)."
+          }
+        ],
+        "externalSpecs": [],
+        "related": [],
+        "blockedBy": [],
+        "blocks": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,958 @@
+{
+  "epic": {
+    "id": "GEO-1537",
+    "key": "GEO-1537",
+    "title": "EPIC-051: Show the Brands Behind Others",
+    "status": "Ready for QA",
+    "assignee": "Youssef.AitLaydi",
+    "created": "2026-10-26",
+    "updated": "2026-11-13",
+    "updatedAt": "2026-11-13T04:27:10.985-0500",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1537",
+    "fixVersions": [
+      "1.4"
+    ],
+    "functionalNeed": "The Share of Voice donut shows the top 10 brands and puts the rest in one Others slice, and today hovering that slice only shows its name. On a category with many small brands, Others can be one of the largest slices and the user has no way to know what is inside it, not in the app and not in the exports.\n\nThe goal is to list the brands behind Others in the donut tooltip, to give the full Share of Voice list in the Excel export, and to name Others in the PowerPoint and PDF donut, where today it is a grey slice with no label. This was story 1.8 of GEO-678. It does not depend on natural answers, but it needs the Share of Voice formula of GEO-1556 (see Dependencies). [CHANGED 2026-11-05]",
+    "scope": [
+      "GEO-1588 STORY-51.1: List the brands in the Others tooltip",
+      "GEO-1589 STORY-51.2: Give the full Share of Voice list in the Excel export",
+      "GEO-1590 STORY-51.3: Name Others in the PowerPoint and PDF donut",
+      "GEO-1587 STORY-51.4: Serve every brand behind Others from the Share of Voice distribution"
+    ],
+    "scopeBoundaries": {
+      "Dependencies": "- GEO-1556 (story 50.7 of GEO-678). With the formula live today, each answer counts 10 positions even when it names fewer or more brands, so the Share of Voice of all brands does not add up to 100% and Others can never be the exact sum of its brands. GEO-1556 changes the formula so all brands add up to 100% on every analysis date. US 1.1 AC3 can only pass once it ships. [CHANGED 2026-11-05]\n- The full brand list behind Others. Today the app only receives the top 10 brands and Others is computed as what is left, so the brands inside it never reach the app. The tooltip, the deck line and the Excel table need every brand with its Share of Voice and the brand count, from the same data as the donut. [NEW 2026-11-05]"
+    },
+    "outOfScope": [
+      "A full Share of Voice table slide in the deck: the full list lives in the Excel export",
+      "Any change to the Share of Voice formula (GEO-678 owns it)",
+      "One decimal in the tooltip, the deck line and the Excel table: Share of Voice stays in whole numbers as today [NEW 2026-11-05]",
+      "The free Lite analysis: its Share of Voice donut keeps today's behaviour [NEW 2026-11-05]"
+    ],
+    "acceptanceCriteria": [
+      {
+        "userStory": "1.1",
+        "title": "List the brands in the Others tooltip",
+        "storyId": "TBD",
+        "statement": "As a user, I want to see which brands make up Others in the Share of Voice donut, so that a large Others slice is never a black box.",
+        "criteria": [
+          {
+            "text": "Given the Share of Voice donut shows an Others slice, When I hover it, Then a tooltip lists the brands in Others with their Share of Voice, from the highest, up to 10 brands",
+            "given": "the Share of Voice donut shows an Others slice",
+            "when": "I hover it",
+            "then": "a tooltip lists the brands in Others with their Share of Voice, from the highest, up to 10 brands"
+          },
+          {
+            "text": "Given Others holds more than 10 brands, When I hover the slice, Then the tooltip ends with \"and {N} more brands, see the export\"",
+            "given": "Others holds more than 10 brands",
+            "when": "I hover the slice",
+            "then": "the tooltip ends with \"and {N} more brands, see the export\""
+          },
+          {
+            "text": "Given the brands in Others, When the donut is drawn, Then the Others value is the sum of their Share of Voice, so the list always adds up to the slice, on every analysis date",
+            "given": "the brands in Others",
+            "when": "the donut is drawn",
+            "then": "the Others value is the sum of their Share of Voice, so the list always adds up to the slice, on every analysis date"
+          },
+          {
+            "text": "Given filters on the dashboard (period, country, AI engine, category), When I hover Others, Then the list uses the same filters as the donut",
+            "given": "filters on the dashboard (period, country, AI engine, category)",
+            "when": "I hover Others",
+            "then": "the list uses the same filters as the donut"
+          },
+          {
+            "text": "Given the overview, a category tab or the landscape of an unbranded analysis, When the donut shows Others, Then the tooltip behaves the same way on each of them",
+            "given": "the overview, a category tab or the landscape of an unbranded analysis",
+            "when": "the donut shows Others",
+            "then": "the tooltip behaves the same way on each of them"
+          },
+          {
+            "text": "Given the Others tooltip, When it opens, Then its header shows Others, its Share of Voice and the number of brands it holds (\"{n} brands\", \"1 brand\") [NEW 2026-11-05]",
+            "given": "the Others tooltip",
+            "when": "it opens",
+            "then": "its header shows Others, its Share of Voice and the number of brands it holds (\"{n} brands\", \"1 brand\") [NEW 2026-11-05]"
+          },
+          {
+            "text": "Given the Others tooltip, When it opens, Then it uses the data variant of the design system Tooltip (dark, with a tail pointing to the slice) and opens on the side of the slice with room [NEW 2026-11-05]",
+            "given": "the Others tooltip",
+            "when": "it opens",
+            "then": "it uses the data variant of the design system Tooltip (dark, with a tail pointing to the slice) and opens on the side of the slice with room [NEW 2026-11-05]"
+          },
+          {
+            "text": "Given two brands, When they are listed in the tooltip, the deck line or the Excel table, Then they are sorted by their exact Share of Voice, before rounding, and only brands with the exact same value are sorted by brand name from A to Z (two rows can then both read \"2%\") [CHANGED 2026-11-10]",
+            "given": "two brands",
+            "when": "they are listed in the tooltip, the deck line or the Excel table",
+            "then": "they are sorted by their exact Share of Voice, before rounding, and only brands with the exact same value are sorted by brand name from A to Z (two rows can then both read \"2%\") [CHANGED 2026-11-10]"
+          },
+          {
+            "text": "Given the Others slice or the Others item in the legend, When I hover it or reach it with the keyboard, Then the Others tooltip opens [NEW 2026-11-05]",
+            "given": "the Others slice or the Others item in the legend",
+            "when": "I hover it or reach it with the keyboard",
+            "then": "the Others tooltip opens [NEW 2026-11-05]"
+          },
+          {
+            "text": "Given the tracked brand is in Others, When the tooltip or the deck line lists it, Then it has no particular treatment and is listed like any other brand [NEW 2026-11-05]",
+            "given": "the tracked brand is in Others",
+            "when": "the tooltip or the deck line lists it",
+            "then": "it has no particular treatment and is listed like any other brand [NEW 2026-11-05]"
+          },
+          {
+            "text": "Given a brand with a Share of Voice under 0.5%, When it is listed in the tooltip, the deck line or the Excel table, Then its Share of Voice shows as \"~0%\" [NEW 2026-11-05]",
+            "given": "a brand with a Share of Voice under 0.5%",
+            "when": "it is listed in the tooltip, the deck line or the Excel table",
+            "then": "its Share of Voice shows as \"~0%\" [NEW 2026-11-05]"
+          }
+        ]
+      },
+      {
+        "userStory": "1.2",
+        "title": "Give the full Share of Voice list in the Excel export",
+        "storyId": "TBD",
+        "statement": "As a user, I want every brand and its Share of Voice in the export, so that I can see and reuse the brands the donut groups in Others.",
+        "criteria": [
+          {
+            "text": "Given an Excel export, When it is generated, Then every sheet with a brand ranking table (overview, each category, and the landscape of an unbranded analysis) also has a Share of Voice table with the first 100 brands of its scope, then the number of brands left out: rank by Share of Voice, brand and Share of Voice %, with the tracked brand highlighted as in the ranking table [CHANGED 2026-11-10]",
+            "given": "an Excel export",
+            "when": "it is generated",
+            "then": "every sheet with a brand ranking table (overview, each category, and the landscape of an unbranded analysis) also has a Share of Voice table with the first 100 brands of its scope, then the number of brands left out: rank by Share of Voice, brand and Share of Voice %, with the tracked brand highlighted as in the ranking table [CHANGED 2026-11-10]"
+          },
+          {
+            "text": "Given a scope that names more than 100 brands, When the Share of Voice table is generated, Then it lists the first 100 brands, the 10 donut slices included, in the same order as the donut, and a last row says \"and {N} more brands\" (\"and 1 more brand\" for one) [NEW 2026-11-10]",
+            "given": "a scope that names more than 100 brands",
+            "when": "the Share of Voice table is generated",
+            "then": "it lists the first 100 brands, the 10 donut slices included, in the same order as the donut, and a last row says \"and {N} more brands\" (\"and 1 more brand\" for one) [NEW 2026-11-10]"
+          },
+          {
+            "text": "Given the brand ranking table of the Excel export, When it is generated, Then it shows the same brands, columns and order as the table in the app, so the Share of Voice column it has today goes",
+            "given": "the brand ranking table of the Excel export",
+            "when": "it is generated",
+            "then": "it shows the same brands, columns and order as the table in the app, so the Share of Voice column it has today goes"
+          },
+          {
+            "text": "Given the Share of Voice table of a sheet, When it is generated, Then it sits to the right of the brand ranking table, one empty column apart, starting on the same row, under the title \"Share of Voice\" [NEW 2026-11-05]",
+            "given": "the Share of Voice table of a sheet",
+            "when": "it is generated",
+            "then": "it sits to the right of the brand ranking table, one empty column apart, starting on the same row, under the title \"Share of Voice\" [NEW 2026-11-05]"
+          }
+        ]
+      },
+      {
+        "userStory": "1.3",
+        "title": "Name Others in the PowerPoint and PDF donut",
+        "storyId": "TBD",
+        "statement": "As a user who presents the deck, I want the Others slice named and its brands listed, so that the people I present to can read the donut without the app.",
+        "criteria": [
+          {
+            "text": "Given a PowerPoint or PDF export, When a Share of Voice donut is drawn, Then it shows the top 10 brands and Others, as on the dashboard [CHANGED 2026-11-05]",
+            "given": "a PowerPoint or PDF export",
+            "when": "a Share of Voice donut is drawn",
+            "then": "it shows the top 10 brands and Others, as on the dashboard [CHANGED 2026-11-05]"
+          },
+          {
+            "text": "Given the donut shows an Others slice, When the legend is drawn, Then Others is in the legend with its Share of Voice %, after the brands, in the same grey as the slice",
+            "given": "the donut shows an Others slice",
+            "when": "the legend is drawn",
+            "then": "Others is in the legend with its Share of Voice %, after the brands, in the same grey as the slice"
+          },
+          {
+            "text": "Given the donut shows an Others slice, When the slide is drawn, Then one line under the donut lists the brands in Others with their Share of Voice, from the highest, up to 10 brands, and ends with \"and {N} more brands, see the Excel export\" when Others holds more than 10",
+            "given": "the donut shows an Others slice",
+            "when": "the slide is drawn",
+            "then": "one line under the donut lists the brands in Others with their Share of Voice, from the highest, up to 10 brands, and ends with \"and {N} more brands, see the Excel export\" when Others holds more than 10"
+          },
+          {
+            "text": "Given the PDF export, When it is generated, Then it shows the same donut, legend and line as the PowerPoint export",
+            "given": "the PDF export",
+            "when": "it is generated",
+            "then": "it shows the same donut, legend and line as the PowerPoint export"
+          },
+          {
+            "text": "Given a PowerPoint, PDF or Excel export, When the Share of Voice donut, the line under it or the Excel Share of Voice table is generated, Then it uses the same data as the Share of Voice donut of the dashboard for the selected period and filters, so the brands and values match the app [CHANGED 2026-11-13]",
+            "given": "a PowerPoint, PDF or Excel export",
+            "when": "the Share of Voice donut, the line under it or the Excel Share of Voice table is generated",
+            "then": "it uses the same data as the Share of Voice donut of the dashboard for the selected period and filters, so the brands and values match the app [CHANGED 2026-11-13]"
+          },
+          {
+            "text": "Given the line under the donut, When it is drawn, Then it fits on 2 lines at most, and when the brands do not fit it lists fewer of them and the \"and {N} more brands\" count grows [NEW 2026-11-05]",
+            "given": "the line under the donut",
+            "when": "it is drawn",
+            "then": "it fits on 2 lines at most, and when the brands do not fit it lists fewer of them and the \"and {N} more brands\" count grows [NEW 2026-11-05]"
+          }
+        ]
+      }
+    ],
+    "externalSpecs": [],
+    "ignoredChildren": [
+      {
+        "key": "GEO-1543",
+        "type": "Design Task",
+        "status": "Done",
+        "summary": "Design the brands behind Others in the Share of Voice donut and the exports"
+      }
+    ],
+    "stories": [
+      {
+        "id": "GEO-1588",
+        "type": "Story",
+        "title": "STORY-51.1: List the brands in the Others tooltip",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-11-09",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:17:58.096-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1588",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a user",
+          "want": "to see which brands make up Others in the Share of Voice donut",
+          "so": "a large Others slice is never a black box."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given the Share of Voice donut shows an Others slice, When I hover it, Then a tooltip lists the brands in Others with their Share of Voice, from the highest, up to 10 brands",
+            "given": "the Share of Voice donut shows an Others slice",
+            "when": "I hover it",
+            "then": "a tooltip lists the brands in Others with their Share of Voice, from the highest, up to 10 brands"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given Others holds more than 10 brands, When I hover the slice, Then the tooltip ends with \"and {N} more brands, see the export\"",
+            "given": "Others holds more than 10 brands",
+            "when": "I hover the slice",
+            "then": "the tooltip ends with \"and {N} more brands, see the export\""
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given the brands in Others, When the donut is drawn, Then the Others value is the sum of their Share of Voice, so the list always adds up to the slice, on every analysis date",
+            "given": "the brands in Others",
+            "when": "the donut is drawn",
+            "then": "the Others value is the sum of their Share of Voice, so the list always adds up to the slice, on every analysis date"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given filters on the dashboard (period, country, AI engine, category), When I hover Others, Then the list uses the same filters as the donut",
+            "given": "filters on the dashboard (period, country, AI engine, category)",
+            "when": "I hover Others",
+            "then": "the list uses the same filters as the donut"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given the overview, a category tab or the landscape of an unbranded analysis, When the donut shows Others, Then the tooltip behaves the same way on each of them",
+            "given": "the overview, a category tab or the landscape of an unbranded analysis",
+            "when": "the donut shows Others",
+            "then": "the tooltip behaves the same way on each of them"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given the Others tooltip, When it opens, Then its header shows Others, its Share of Voice and the number of brands it holds (\"{n} brands\", \"1 brand\")",
+            "given": "the Others tooltip",
+            "when": "it opens",
+            "then": "its header shows Others, its Share of Voice and the number of brands it holds (\"{n} brands\", \"1 brand\")"
+          },
+          {
+            "id": "AC7",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given the Others tooltip, When it opens, Then it uses the data variant of the design system Tooltip (dark, with a tail pointing to the slice) and opens on the side of the slice with room",
+            "given": "the Others tooltip",
+            "when": "it opens",
+            "then": "it uses the data variant of the design system Tooltip (dark, with a tail pointing to the slice) and opens on the side of the slice with room"
+          },
+          {
+            "id": "AC8",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given two brands, When they are listed in the tooltip, the deck line or the Excel table, Then they are sorted by their exact Share of Voice, before rounding, and only brands with the exact same value are sorted by brand name from A to Z (two rows can then both read \"2%\")",
+            "given": "two brands",
+            "when": "they are listed in the tooltip, the deck line or the Excel table",
+            "then": "they are sorted by their exact Share of Voice, before rounding, and only brands with the exact same value are sorted by brand name from A to Z (two rows can then both read \"2%\")"
+          },
+          {
+            "id": "AC9",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given the Others slice or the Others item in the legend, When I hover it or reach it with the keyboard, Then the Others tooltip opens",
+            "given": "the Others slice or the Others item in the legend",
+            "when": "I hover it or reach it with the keyboard",
+            "then": "the Others tooltip opens"
+          },
+          {
+            "id": "AC10",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given the tracked brand is in Others, When the tooltip or the deck line lists it, Then it has no particular treatment and is listed like any other brand",
+            "given": "the tracked brand is in Others",
+            "when": "the tooltip or the deck line lists it",
+            "then": "it has no particular treatment and is listed like any other brand"
+          },
+          {
+            "id": "AC11",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.1)",
+            "group": null,
+            "text": "Given a brand with a Share of Voice under 0.5%, When it is listed in the tooltip, the deck line or the Excel table, Then its Share of Voice shows as \"~0%\"",
+            "given": "a brand with a Share of Voice under 0.5%",
+            "when": "it is listed in the tooltip, the deck line or the Excel table",
+            "then": "its Share of Voice shows as \"~0%\""
+          }
+        ],
+        "technicalAcceptanceCriteria": [
+          {
+            "id": "TAC1",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC1** — With `others` of 48 brands: hovering the Others arc shows the header « Others 58% », « 48 brands », exactly 10 rows in the received order, and « and 38 more brands, see the export »."
+          },
+          {
+            "id": "TAC2",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC2** — With `others` of 6 brands: 6 rows, no overflow line, no second divider."
+          },
+          {
+            "id": "TAC3",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC3** — With `others` of 1 brand: « 1 brand » (singular); with 11: « and 1 more brand, see the export »."
+          },
+          {
+            "id": "TAC4",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC4** — Focusing the Others legend button with Tab opens the tooltip; Escape closes it; focusing the Others arc opens it too and shows the blue outline; the svg has `role=\"group\"` and the arc `role=\"button\"` with its label."
+          },
+          {
+            "id": "TAC5",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC5** — A brand at 0.3 % in `others.brands` shows « ~0% »; the tracked brand in `others.brands` has the same markup as the others."
+          },
+          {
+            "id": "TAC6",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC6** — The header % equals the Others legend item % and the slice label (GEO-1528 value), including the case where `Math.round(others.sov)` differs from it by 1; when the GEO-1528 value is 0 with the slice drawn, all three read « ~0% »."
+          },
+          {
+            "id": "TAC7",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC7** — Without `others` (Lite), or with `others.sov` ≤ 0.05 (no slice), the Others arc and legend item have no `tabIndex`, no button, no tooltip; all 22 existing tests stay green unchanged."
+          },
+          {
+            "id": "TAC8",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC8** — The `side` passed to `SovOthersTooltip`: arc `right` on the neutral card, `left` on the branded card; legend item `top` in both."
+          },
+          {
+            "id": "TAC9",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC9** — Hovering a brand slice still shows the name pill; hovering Others does not when the tooltip is active, and still does without `others` (Lite)."
+          },
+          {
+            "id": "TAC10",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC10** — `pnpm check`, `pnpm lint:i18n` and `pnpm test` green; the four locale files have the same new keys (parity test)."
+          },
+          {
+            "id": "TAC11",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC11** — Hovering the Others arc opens the tooltip and the `<path>` gets `aria-describedby` (Radix `asChild` on SVG works)."
+          },
+          {
+            "id": "TAC12",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC12** — (PM 2026-11-10, 875646) With `others.brandCount` = 1,427: header « 1,427 brands » and « and 1,417 more brands, see the export » (FR « 1 427 marques » / « et 1 417 autres marques, voir l'export », ES « 1.427 marcas » / « y 1.417 marcas más, ver la exportación »), the Others arc label too; same numbers as the Excel table and the deck line."
+          }
+        ],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Frontend only, on the overview, a category tab and the landscape of an unbranded analysis; the free Lite analysis donut is unchanged. Brand slices keep today's hover. Values in whole numbers (the Figma frames show one decimal, the epic rules it out). The tooltip header shows the same whole number as the Others slice and legend item. Data from STORY-51.4. Design: GEO-1543 (Figma « Measure - GEO Module », page « GEO-1543 - Brands behind Others in Share of Voice », flow 1)."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "51-1-list-the-brands-in-the-others-tooltip.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/feature/GEO-1537-epic-51-others-brands/docs/implementation-artifacts/epics/epic-51/51-1-list-the-brands-in-the-others-tooltip.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1587"
+        ],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1589",
+        "type": "Story",
+        "title": "STORY-51.2: Give the full Share of Voice list in the Excel export",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-11-09",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T21:22:36.556-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1589",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a user",
+          "want": "every brand and its Share of Voice in the export",
+          "so": "I can see and reuse the brands the donut groups in Others."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.2)",
+            "group": null,
+            "text": "Given an Excel export, When it is generated, Then every sheet with a brand ranking table (overview, each category, and the landscape of an unbranded analysis) also has a Share of Voice table with the first 100 brands of its scope, then the number of brands left out: rank by Share of Voice, brand and Share of Voice %, with the tracked brand highlighted as in the ranking table",
+            "given": "an Excel export",
+            "when": "it is generated",
+            "then": "every sheet with a brand ranking table (overview, each category, and the landscape of an unbranded analysis) also has a Share of Voice table with the first 100 brands of its scope, then the number of brands left out: rank by Share of Voice, brand and Share of Voice %, with the tracked brand highlighted as in the ranking table"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.2)",
+            "group": null,
+            "text": "Given a scope that names more than 100 brands, When the Share of Voice table is generated, Then it lists the first 100 brands, the 10 donut slices included, in the same order as the donut, and a last row says \"and {N} more brands\" (\"and 1 more brand\" for one)",
+            "given": "a scope that names more than 100 brands",
+            "when": "the Share of Voice table is generated",
+            "then": "it lists the first 100 brands, the 10 donut slices included, in the same order as the donut, and a last row says \"and {N} more brands\" (\"and 1 more brand\" for one)"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.2)",
+            "group": null,
+            "text": "Given the brand ranking table of the Excel export, When it is generated, Then it shows the same brands, columns and order as the table in the app, so the Share of Voice column it has today goes",
+            "given": "the brand ranking table of the Excel export",
+            "when": "it is generated",
+            "then": "it shows the same brands, columns and order as the table in the app, so the Share of Voice column it has today goes"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.2)",
+            "group": null,
+            "text": "Given the Share of Voice table of a sheet, When it is generated, Then it sits to the right of the brand ranking table, one empty column apart, starting on the same row, under the title \"Share of Voice\"",
+            "given": "the Share of Voice table of a sheet",
+            "when": "it is generated",
+            "then": "it sits to the right of the brand ranking table, one empty column apart, starting on the same row, under the title \"Share of Voice\""
+          },
+          {
+            "id": "AC5",
+            "section": "Shared criteria that apply to the Excel table (GEO-1537, US 1.1 and US 1.3)",
+            "group": null,
+            "text": "Given two brands, When they are listed in the tooltip, the deck line or the Excel table, Then they are sorted by their exact Share of Voice, before rounding, and only brands with the exact same value are sorted by brand name from A to Z (two rows can then both read \"2%\")",
+            "given": "two brands",
+            "when": "they are listed in the tooltip, the deck line or the Excel table",
+            "then": "they are sorted by their exact Share of Voice, before rounding, and only brands with the exact same value are sorted by brand name from A to Z (two rows can then both read \"2%\")"
+          },
+          {
+            "id": "AC6",
+            "section": "Shared criteria that apply to the Excel table (GEO-1537, US 1.1 and US 1.3)",
+            "group": null,
+            "text": "Given a brand with a Share of Voice under 0.5%, When it is listed in the tooltip, the deck line or the Excel table, Then its Share of Voice shows as \"~0%\"",
+            "given": "a brand with a Share of Voice under 0.5%",
+            "when": "it is listed in the tooltip, the deck line or the Excel table",
+            "then": "its Share of Voice shows as \"~0%\""
+          },
+          {
+            "id": "AC7",
+            "section": "Shared criteria that apply to the Excel table (GEO-1537, US 1.1 and US 1.3)",
+            "group": null,
+            "text": "Given a PowerPoint, PDF or Excel export, When the Share of Voice donut, the line under it or the Excel Share of Voice table is generated, Then it uses the same data as the Share of Voice donut of the dashboard for the selected period and filters, so the brands and values match the app (today the deck slices use the last analysis date of the period only, while the number in the hole uses the whole period)",
+            "given": "a PowerPoint, PDF or Excel export",
+            "when": "the Share of Voice donut, the line under it or the Excel Share of Voice table is generated",
+            "then": "it uses the same data as the Share of Voice donut of the dashboard for the selected period and filters, so the brands and values match the app (today the deck slices use the last analysis date of the period only, while the number in the hole uses the whole period)"
+          }
+        ],
+        "technicalAcceptanceCriteria": [
+          {
+            "id": null,
+            "section": "Design Acceptance Criteria (GEO-1543, D4)",
+            "group": null,
+            "text": "**DAC1 — Layout (frame 2.1):** Given an overview sheet, When it is generated, Then the ranking table is in columns A–E (Rank, Brand, Visibility %, Avg Position, AI Choice %), column F is empty and the Share of Voice table is in G–I (Rank, Brand, Share of Voice %), both starting on the same row (the section-title row)"
+          },
+          {
+            "id": null,
+            "section": "Design Acceptance Criteria (GEO-1543, D4)",
+            "group": null,
+            "text": "**DAC2 — Styles:** Given the Share of Voice table, When it is generated, Then its title row « Share of Voice » uses the sub-section style of « Brand ranking », its header row the table-header style, and the tracked brand row the ranking table's highlight (yellow-50, the workbook's styles win — design comment 875353); cells left-aligned like every % cell of the workbook"
+          },
+          {
+            "id": null,
+            "section": "Design Acceptance Criteria (GEO-1543, D4)",
+            "group": null,
+            "text": "**DAC3 — Category sheet (frame 2.2):** Given a category sheet, When it is generated, Then it has the same two tables for the category scope"
+          },
+          {
+            "id": "TAC1",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC1** — Given an overview sheet with 48 brands in scope, When it is generated, Then the ranking table is in A–E (10 rows, no SOV column, ordered by Visibility % desc, rank 1..10), F is empty on those rows, the SOV table is in G–I with 48 rows in the distribution's order, rank 1..48, title « Share of Voice » on exactly the ranking title's row"
+          },
+          {
+            "id": "TAC2",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC2** — Given an export with or without a period, When the SOV table is generated, Then its values come from the same service call and the same snapshots as the dashboard distribution of the same scope"
+          },
+          {
+            "id": "TAC3",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC3** — Given the tracked brand, When both tables are generated, Then its row is highlighted in both tables, every flagged row when several are; unbranded workbook: no highlight in the SOV table"
+          },
+          {
+            "id": "TAC4",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC4** — Given brands at 0.3 %, 0.00 and 12.4 %, When the SOV table is generated, Then they show « ~0% », « ~0% » and « 12% »"
+          },
+          {
+            "id": "TAC5",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC5** — Given 48 SOV rows and 10 ranking rows, When the sheet is generated, Then the next section (sources) starts below the row of the 48th brand and no cell of the ranking table is lost"
+          },
+          {
+            "id": "TAC6",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC6** — Given a category sheet, When it is generated, Then it has the same two tables for the category scope; the Other category sheet has no SOV table"
+          },
+          {
+            "id": "TAC7",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC7** — Given an unbranded workbook, When it is generated, Then the landscape ranking table and the SOV table are both on the overview sheet and on each category sheet"
+          },
+          {
+            "id": "TAC8",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC8** — Given a French or Spanish export, When the SOV table is generated, Then its title and header read « Part de voix » / « Part de voix % » or « Cuota de voz » / « Cuota de voz % »"
+          },
+          {
+            "id": "TAC9",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC9** — Given an empty distribution, When the sheet is generated, Then there is no SOV table, the ranking table is unchanged and no exception is raised"
+          },
+          {
+            "id": "TAC10",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC10** — Given another organisation's report, When it is exported, Then the export still returns 404 (the distribution call is scoped by organisation)"
+          },
+          {
+            "id": "TAC11",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC11** — (PM 2026-11-10) Given a scope with 120 brands, When the SOV table is generated, Then it has 100 brand rows (rank 1..100) then « and 20 more brands » in column G (one cell, H–I empty), and the next section starts below that row; 101 brands → « and 1 more brand »; 100 brands or fewer → no such row (N counts every brand of the scope, the slices included); FR « et N autres marques », ES « y N marcas más »"
+          },
+          {
+            "id": "TAC12",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC12** — (PM 2026-11-10, 875646) Given a scope with 26,491 brands, When the SOV table is generated, Then the last row reads EN « and 26,391 more brands », FR « et 26 391 autres marques », ES « y 26.391 marcas más »; numbers from 1,000 to 9,999 are grouped the same way as in the tooltip (« y 1.417 marcas más »)"
+          }
+        ],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Backend only. The Share of Voice table reads the same data as the dashboard donut (whole period). The ranking table, like the app, shows the last analysis date of the period, ordered by Visibility %. Whole numbers, « ~0% » under 0.5 % (the Figma frames show one decimal, the epic rules it out). When the Share of Voice table is longer than the ranking table, the next section starts below it. Data from STORY-51.4. Design: GEO-1543 (flow 2)."
+          },
+          {
+            "heading": "Code review (2026-11-10)",
+            "text": "Second review of the « first 100 brands » change: no functional defect. TAC11 corrected (101 brands, not 91, give « and 1 more brand »), tests added at the 100 / 101 boundary, Javadoc repaired. Two product questions asked on GEO-1537 and answered the same day (875646): thousands separator added (TAC12, reviewed, no defect), tracked brand beyond rank 100 kept as is. Still to check by hand: open an export in Excel and LibreOffice."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "51-2-give-the-full-share-of-voice-list-in-the-excel-export.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/feature/GEO-1537-epic-51-others-brands/docs/implementation-artifacts/epics/epic-51/51-2-give-the-full-share-of-voice-list-in-the-excel-export.md"
+          }
+        ],
+        "related": [
+          {
+            "key": "GEO-1591",
+            "link": "relates to",
+            "type": "Bug",
+            "status": "Done",
+            "summary": "Excel export fails with a 504 on a long period of a large analysis"
+          }
+        ],
+        "blockedBy": [
+          "GEO-1587"
+        ],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1590",
+        "type": "Story",
+        "title": "STORY-51.3: Name Others in the PowerPoint and PDF donut",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-11-09",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T21:22:37.557-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1590",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a user who presents the deck",
+          "want": "the Others slice named and its brands listed",
+          "so": "the people I present to can read the donut without the app."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.3)",
+            "group": null,
+            "text": "Given a PowerPoint or PDF export, When a Share of Voice donut is drawn, Then it shows the top 10 brands and Others, as on the dashboard",
+            "given": "a PowerPoint or PDF export",
+            "when": "a Share of Voice donut is drawn",
+            "then": "it shows the top 10 brands and Others, as on the dashboard"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.3)",
+            "group": null,
+            "text": "Given the donut shows an Others slice, When the legend is drawn, Then Others is in the legend with its Share of Voice %, after the brands, in the same grey as the slice",
+            "given": "the donut shows an Others slice",
+            "when": "the legend is drawn",
+            "then": "Others is in the legend with its Share of Voice %, after the brands, in the same grey as the slice"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.3)",
+            "group": null,
+            "text": "Given the donut shows an Others slice, When the slide is drawn, Then one line under the donut lists the brands in Others with their Share of Voice, from the highest, up to 10 brands, and ends with \"and {N} more brands, see the Excel export\" when Others holds more than 10",
+            "given": "the donut shows an Others slice",
+            "when": "the slide is drawn",
+            "then": "one line under the donut lists the brands in Others with their Share of Voice, from the highest, up to 10 brands, and ends with \"and {N} more brands, see the Excel export\" when Others holds more than 10"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.3)",
+            "group": null,
+            "text": "Given the PDF export, When it is generated, Then it shows the same donut, legend and line as the PowerPoint export",
+            "given": "the PDF export",
+            "when": "it is generated",
+            "then": "it shows the same donut, legend and line as the PowerPoint export"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.3)",
+            "group": null,
+            "text": "Given a PowerPoint, PDF or Excel export, When the Share of Voice donut, the line under it or the Excel Share of Voice table is generated, Then it uses the same data as the Share of Voice donut of the dashboard for the selected period and filters, so the brands and values match the app (today the deck slices use the last analysis date of the period only, while the number in the hole uses the whole period)",
+            "given": "a PowerPoint, PDF or Excel export",
+            "when": "the Share of Voice donut, the line under it or the Excel Share of Voice table is generated",
+            "then": "it uses the same data as the Share of Voice donut of the dashboard for the selected period and filters, so the brands and values match the app (today the deck slices use the last analysis date of the period only, while the number in the hole uses the whole period)"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1537, User Story 1.3)",
+            "group": null,
+            "text": "Given the line under the donut, When it is drawn, Then it fits on 2 lines at most, and when the brands do not fit it lists fewer of them and the \"and {N} more brands\" count grows",
+            "given": "the line under the donut",
+            "when": "it is drawn",
+            "then": "it fits on 2 lines at most, and when the brands do not fit it lists fewer of them and the \"and {N} more brands\" count grows"
+          },
+          {
+            "id": "AC7",
+            "section": "Shared criteria that apply to the deck line (GEO-1537, US 1.1)",
+            "group": null,
+            "text": "Given two brands, When they are listed in the tooltip, the deck line or the Excel table, Then they are sorted by their exact Share of Voice, before rounding, and only brands with the exact same value are sorted by brand name from A to Z (two rows can then both read \"2%\")",
+            "given": "two brands",
+            "when": "they are listed in the tooltip, the deck line or the Excel table",
+            "then": "they are sorted by their exact Share of Voice, before rounding, and only brands with the exact same value are sorted by brand name from A to Z (two rows can then both read \"2%\")"
+          },
+          {
+            "id": "AC8",
+            "section": "Shared criteria that apply to the deck line (GEO-1537, US 1.1)",
+            "group": null,
+            "text": "Given the tracked brand is in Others, When the tooltip or the deck line lists it, Then it has no particular treatment and is listed like any other brand",
+            "given": "the tracked brand is in Others",
+            "when": "the tooltip or the deck line lists it",
+            "then": "it has no particular treatment and is listed like any other brand"
+          },
+          {
+            "id": "AC9",
+            "section": "Shared criteria that apply to the deck line (GEO-1537, US 1.1)",
+            "group": null,
+            "text": "Given a brand with a Share of Voice under 0.5%, When it is listed in the tooltip, the deck line or the Excel table, Then its Share of Voice shows as \"~0%\"",
+            "given": "a brand with a Share of Voice under 0.5%",
+            "when": "it is listed in the tooltip, the deck line or the Excel table",
+            "then": "its Share of Voice shows as \"~0%\""
+          }
+        ],
+        "technicalAcceptanceCriteria": [
+          {
+            "id": null,
+            "section": "Design Acceptance Criteria (GEO-1543, D5)",
+            "group": null,
+            "text": "**Slide (frame 3.1):** Given a branded deck, When the KPI overview slide is drawn, Then the donut stays under the 4 KPI cards, the cards do not move, the Share of Voice card keeps its height, and its chart area shrinks to make room for the line; the centre shows the brand name, its Share of Voice and the evolution pill"
+          },
+          {
+            "id": null,
+            "section": "Design Acceptance Criteria (GEO-1543, D5)",
+            "group": null,
+            "text": "**Legend:** Given the donut shows an Others slice, When the legend is drawn, Then the brand chips are laid out as today and the Others chip comes last, grey (slate), « Others 58% », regular weight like the other brands"
+          },
+          {
+            "id": null,
+            "section": "Design Acceptance Criteria (GEO-1543, D5)",
+            "group": null,
+            "text": "**Others line:** Given the donut shows an Others slice, When the line is drawn, Then it sits under the chips, centred, 675 pt wide, 7 pt text, 10.5 pt line height, slate-500, 2 lines at most, with the lead « Others 58%: » in bold"
+          },
+          {
+            "id": null,
+            "section": "Design Acceptance Criteria (GEO-1543, D5)",
+            "group": null,
+            "text": "**Others callout:** Given the Others slice is large enough, When the donut is drawn, Then it gets its « 58% » outside label like the brand slices"
+          },
+          {
+            "id": null,
+            "section": "Design Acceptance Criteria (GEO-1543, D5)",
+            "group": null,
+            "text": "**Unbranded (frame 3.2):** Given an unbranded deck, When its Share of Voice slide is drawn, Then it shows the same chip and line under its donut, with no « and N more » part when Others holds 10 brands or fewer"
+          },
+          {
+            "id": "TAC1",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC1** — Given an export with or without a period, When the overview and category donuts are fetched, Then the distribution is read with the dashboard's scope: the period's snapshots and period key (else the anchor snapshot alone), the category, the markets and the AI engines"
+          },
+          {
+            "id": "TAC2",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC2** — Given the tracked brand is outside the top 10, When the KPI slide is drawn, Then it is not added to the slices and the centre still shows the entity name and the Share of Voice KPI of the period"
+          },
+          {
+            "id": "TAC3",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC3** — Given the frame 3.1 data (48 brands in Others), When the line is computed at 675 pt, Then it reads « Others 58%: », 10 brands, « and 38 more brands, see the Excel export »; with a narrow box it lists fewer brands, the count grows, and it never takes more than 2 lines"
+          },
+          {
+            "id": "TAC4",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC4** — Given 6 brands in Others, When the line is computed, Then all 6 are listed with no « more » part; Given 11 brands that all fit, Then 10 are listed + « and 1 more brand, see the Excel export »"
+          },
+          {
+            "id": "TAC5",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC5** — Given a brand at 0.3 % in the line, When it is drawn, Then it reads « ~0% »; the tracked brand in Others has no bold or colour"
+          },
+          {
+            "id": "TAC6",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC6** — Given an Others slice, When the legend is drawn, Then the Others chip is the last chip, grey, and its value is the dashboard slice's value"
+          },
+          {
+            "id": "TAC7",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC7** — Given no Others, When the donut is drawn, Then there is no chip and no line, and the legend height, donut radius, ring width and centre stack are as today"
+          },
+          {
+            "id": "TAC8",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC8** — Given a deck with Others, When the PDF is generated, Then it is generated without error with one page per slide (the Others text is checked on the deck the PDF is drawn from)"
+          },
+          {
+            "id": "TAC9",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC9** — Given a French or Spanish deck, When the donut is drawn, Then it reads « Autres … » / « Otros … » with the singular and plural forms of the « more » part"
+          },
+          {
+            "id": "TAC10",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC10** — Given a branded KPI slide with an Others line and a 2-row legend, with and without the evolution pill, When it is drawn, Then the pill and the name and value texts are inside the donut hole, the line ends inside the card, and the centre value is the Share of Voice KPI of the period"
+          },
+          {
+            "id": "TAC11",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC11** — (PM 2026-11-10, 875646) Given 1,427 brands behind Others, When the line is computed, Then it ends with « and 1,417 more brands, see the Excel export » (FR « et 1 417 autres marques, voir l'export Excel », ES « y 1.417 marcas más, ver la exportación de Excel ») and still fits on 2 lines; the number is never split across the two lines"
+          }
+        ],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Backend only; the PDF is the deck rendered, so it follows. Every deck donut (overview and category KPI slides, Share of Voice slide of an unbranded deck) uses the dashboard's data; the tracked brand is no longer forced into the slices. The hole shows the Share of Voice of the whole period, as the dashboard. Whole numbers (the Figma frames show one decimal). Data from STORY-51.4. Design: GEO-1543 (flow 3)."
+          },
+          {
+            "heading": "Implementation notes (2026-11-09)",
+            "text": "- The Others slice follows the dashboard as shipped by STORY-51.1: its size and its display threshold (> 0.05) use the summed Share of Voice of the brands behind Others.\n- With a 3-row legend the donut hole keeps at least 42 pt and the ring thins (6 pt minimum); when the Others line is drawn the legend keeps 3 rows at most, longer brand names cut with « … ».\n- **Code review:** Chinese and Japanese brand names are measured in the font they are drawn with, so the Others line stays on 2 lines for them too (they could take a third line before the fix); a long entity name in the hole is cut with « … » so it never wraps; the « Others » chip itself is never cut.\n- **Cost check on staging:** Toyota (QA-GEO), « All reports » (147 snapshots, 2 categories): the deck adds about 1.6 s with a cold cache and about nothing once the dashboard donut was opened; today's PowerPoint takes 114 s on the server because of the Time Evolution slides (bug GEO-1591, not this story), the PDF adds 3 s of rendering."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "51-3-name-others-in-the-powerpoint-and-pdf-donut.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/feature/GEO-1537-epic-51-others-brands/docs/implementation-artifacts/epics/epic-51/51-3-name-others-in-the-powerpoint-and-pdf-donut.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1587"
+        ],
+        "blocks": []
+      },
+      {
+        "id": "GEO-1587",
+        "type": "Story",
+        "title": "STORY-51.4: Serve every brand behind Others from the Share of Voice distribution",
+        "status": "Ready for QA",
+        "assignee": "Youssef.AitLaydi",
+        "created": "2026-11-09",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:17:56.759-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1587",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "the Share of Voice donut, the Excel export and the deck to read the brands behind Others from one list computed once",
+          "so": "the brands listed under Others always add up to the Others slice and match the app everywhere."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (OS-Team, derived from GEO-1537 « Dependencies », US 1.1 AC3 / AC8, US 1.3 AC5)",
+            "group": null,
+            "text": "Given a Share of Voice donut scope (overview or category, period, countries, AI engines), When the Share of Voice distribution is requested, Then it returns the brands of the slices (top 10, as today) and every other brand named in the scope with its Share of Voice, the number of those brands and the Others value",
+            "given": "a Share of Voice donut scope (overview or category, period, countries, AI engines)",
+            "when": "the Share of Voice distribution is requested",
+            "then": "it returns the brands of the slices (top 10, as today) and every other brand named in the scope with its Share of Voice, the number of those brands and the Others value"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (OS-Team, derived from GEO-1537 « Dependencies », US 1.1 AC3 / AC8, US 1.3 AC5)",
+            "group": null,
+            "text": "Given the brands outside the top 10, When the Others value is returned, Then it is the sum of their exact Share of Voice (before rounding), so the listed brands always add up to the slice, on every analysis date",
+            "given": "the brands outside the top 10",
+            "when": "the Others value is returned",
+            "then": "it is the sum of their exact Share of Voice (before rounding), so the listed brands always add up to the slice, on every analysis date"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (OS-Team, derived from GEO-1537 « Dependencies », US 1.1 AC3 / AC8, US 1.3 AC5)",
+            "group": null,
+            "text": "Given brands in the distribution, When they are returned, Then they are sorted by Share of Voice from the highest, and only brands with the exact same Share of Voice, before rounding, by brand name from A to Z",
+            "given": "brands in the distribution",
+            "when": "they are returned",
+            "then": "they are sorted by Share of Voice from the highest, and only brands with the exact same Share of Voice, before rounding, by brand name from A to Z"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (OS-Team, derived from GEO-1537 « Dependencies », US 1.1 AC3 / AC8, US 1.3 AC5)",
+            "group": null,
+            "text": "Given an export scope (period, countries, AI engines, category), When an export asks for the Share of Voice distribution, Then it gets the same result as the dashboard donut for the same scope, from the same cache",
+            "given": "an export scope (period, countries, AI engines, category)",
+            "when": "an export asks for the Share of Voice distribution",
+            "then": "it gets the same result as the dashboard donut for the same scope, from the same cache"
+          }
+        ],
+        "technicalAcceptanceCriteria": [
+          {
+            "id": "TAC1",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC1** — With 15 brand families named in scope, the response has 10 `brands` and `others.brandCount = 5`, `others.brands` the 5 others in order; `Σ brands.sov + others.sov = 100` within rounding (± 0.01 per brand)."
+          },
+          {
+            "id": "TAC2",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC2** — With 10 families or fewer, all ≥ 0.5 %, `others` is absent from the response. With one family outside the slices at 0.03 %, `others` is present (the Excel export lists it) even though the donut draws no Others slice under 0.05 % — STORY-51.1 hides the tooltip in that case."
+          },
+          {
+            "id": "TAC3",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC3** — A family at 0.4 % ranked 9th by value is not in `brands` but is in `others.brands`; a family at an exact 0.496 % (0.50 rounded to 2 decimals) stays a slice."
+          },
+          {
+            "id": "TAC4",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC4** — Two families with the same exact Share of Voice come out « Alpha » before « beta » (case-insensitive), in `brands` and in `others.brands`. With 12 families at the same exact Share of Voice, the first 10 by name are the slices and the last 2 are in `others.brands`."
+          },
+          {
+            "id": "TAC5",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC5** — No family named in scope → `brands = []`, no `others` (today's empty case unchanged)."
+          },
+          {
+            "id": "TAC6",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC6** — `isTargetBrand` is set on the tracked brand wherever it lands (slice or Others); unbranded analyses never set it. Matching is unchanged and the same as Brand Rankings (containment), so on the full list more than one family can carry `isTargetBrand = true`; STORY-51.2 decides how it highlights them."
+          },
+          {
+            "id": "TAC7",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC7** — Cross-tenant: the Share of Voice distribution requested with another organisation's id returns 404 (new service test)."
+          },
+          {
+            "id": "TAC8",
+            "section": "Technical Acceptance Criteria",
+            "group": null,
+            "text": "**TAC8** — The export scope gives the distribution the same snapshot ids and period key as the dashboard endpoint, with and without a period."
+          }
+        ],
+        "technicalNotes": [
+          {
+            "heading": "Scope note",
+            "text": "Backend shared foundation of the epic, no Jira user story of its own (the epic's « Dependencies »: the full brand list behind Others). Almost no visible change: same slices and same Others slice, except between brands with exactly the same Share of Voice, whose order can change (A to Z), and, when the 10th and 11th brands tie, which one is the 10th slice. Depends on GEO-1556 (story 50.7b, done). Blocks STORY-51.1, STORY-51.2 and STORY-51.3. Design reference: GEO-1543 (rationale D2)."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "51-4-serve-every-brand-behind-others-from-the-share-of-voice-distribution.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/feature/GEO-1537-epic-51-others-brands/docs/implementation-artifacts/epics/epic-51/51-4-serve-every-brand-behind-others-from-the-share-of-voice-distribution.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [],
+        "blocks": [
+          "GEO-1588",
+          "GEO-1589",
+          "GEO-1590"
+        ]
+      }
+    ]
+  }
+}

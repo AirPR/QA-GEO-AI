@@ -1,0 +1,966 @@
+{
+  "epic": {
+    "id": "GEO-1005",
+    "key": "GEO-1005",
+    "title": "EPIC-054: Add Google AI Overviews as a Tracked Surface",
+    "status": "Action Needed",
+    "assignee": "Abdenasser Aroukhsiss",
+    "created": "2026-07-20",
+    "updated": "2026-11-12",
+    "updatedAt": "2026-11-12T21:03:48.461-0500",
+    "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1005",
+    "fixVersions": [
+      "1.4"
+    ],
+    "functionalNeed": "Google AI Overviews is the AI summary shown at the top of Google Search results. For many audiences it is the AI answer they see most, and today GEO cannot say whether a brand appears in it: it has no official API, so the analysis does not track it.\n\nThe goal is to add AI Overviews as one more engine of the analysis, with the same metrics, the same question panel and the same exports as the other engines. The answer can only be read on the rendered Google page, so this epic uses the rendered capture and the shared answer reader of GEO-678 (Natural Answer Collection and Parsing), and the full answer card of GEO-1498 (Natural Answer Display). It adds what is specific to AI Overviews: Google does not show an AI Overview for every query, there is no API to fall back on, and the answer can carry images.\n\nProduction capture waits for the vendor contract (GEO-678) and the approval to capture the Google surfaces. The legal sign-off on UI capture is obtained (11 Nov 2026). (Updated 2026-11-12) Google AI Mode is a different surface, in GEO-1006.\n\nChange log: 12 Nov 2026, after the review of the stories GEO-1595 to GEO-1600: a new organisation needs at least one engine (story 1.1), a run with no applicable engine fails (story 1.2), softer \"Not triggered\" tab text (story 1.3), full engine order (story 1.6), legal sign-off status and vendor spend (scope boundaries).\n\nThe architect will go into the implementation details.\n\n---\n\nNaming\n\n| Where | Text |\n|---|---|\n| Engine name, everywhere an engine name shows (wizard, Manage Scope, back office, filters, pills, tabs, exports) | \"Google AI Overviews\" |\n| Compact pills (4 engines or more), as today | Logo only, \"Google AI Overviews\" in the tooltip |\n| Stored description, not shown, as for every engine today (en-GB, en-US) | \"An AI-generated summary from Google, powered by Gemini, shown above Google Search results with links to its sources.\" |\n| Stored description (fr-FR) | \"Un résumé généré par l'IA de Google, propulsé par Gemini, affiché au-dessus des résultats de recherche Google avec des liens vers ses sources.\" |\n| Stored description (es-ES) | \"Un resumen generado por la IA de Google, impulsado por Gemini, que aparece encima de los resultados de búsqueda de Google con enlaces a sus fuentes.\" |\n\nLogo: the Google \"G\" in its four colours, next to the name \"AI Overviews\". The file is attached to this epic (google-g.svg) and is also in the Onclusive Design System brand logos. Google gives AI Overviews no icon of its own, and the Gemini spark is already the logo of the Gemini engine in GEO: the spark would make the two engines look the same. On the wizard and Manage Scope card, the border colour is Google green (#34A853), and the same colour is the engine colour in the Brand Territory pie: Gemini is already blue, so a third blue would make the engines look the same.",
+    "scope": [
+      "GEO-1595 STORY-54.1: Select AI Overviews as an engine",
+      "GEO-1596 STORY-54.2: Capture the AI Overview per country",
+      "GEO-1597 STORY-54.3: Handle the prompts where Google shows no AI Overview",
+      "GEO-1598 STORY-54.4: Read the AI Overview like any other answer",
+      "GEO-1599 STORY-54.5: Read the AI Overview in the question panel",
+      "GEO-1600 STORY-54.6: Show AI Overviews everywhere engines show"
+    ],
+    "scopeBoundaries": {
+      "Dependencies": "- GEO-678: the rendered capture, the vendor layer, the country setting and the shared reader. Without them stories 1.2 and 1.4 cannot ship.\n- GEO-1498: the full answer card and the \"Not counted\" state. The images and the fullscreen viewer of story 1.5 are moved from GEO-1498 to this epic and to GEO-1006, and are built once, in whichever of the two ships first.",
+      "Vendor spend": "- Each AI Overviews capture costs 7 Cloro credits, whether Google shows an AI Overview or not. No daily budget and no credit alert are built: the team watches the Cloro vendor dashboard (Updated 2026-11-12)"
+    },
+    "outOfScope": [
+      "Google AI Mode (GEO-1006).",
+      "The Lite Analysis (GEO-1532).",
+      "The queries Google runs behind the AI Overview, and the AI Overview of a follow-up search.",
+      "Reading brands inside images.",
+      "The vendor contract (GEO-678). The legal sign-off on UI capture is obtained (11 Nov 2026).",
+      "Approval to capture the Google surfaces: to confirm, the legal sign-off may not cover it.",
+      "Before the build, the team measures on a sample of prompts how often Google shows an AI Overview (eg: \"AI Overview shown for 12 of 40 questions\"), and then we decide whether the analysis shows this share as coverage context."
+    ],
+    "acceptanceCriteria": [
+      {
+        "userStory": "1.1",
+        "title": "Select AI Overviews as an engine",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want to add Google AI Overviews to my analysis, so that I measure my brand in the AI answer my audience sees on Google.",
+        "criteria": [
+          {
+            "text": "Given an organisation whose allowed AI engines include Google AI Overviews, When I open the engine step of the wizard or Manage Scope, Then it shows as one more engine card, after Gemini, with its name and logo, as the other engines (no description shows, as today)",
+            "given": "an organisation whose allowed AI engines include Google AI Overviews",
+            "when": "I open the engine step of the wizard or Manage Scope",
+            "then": "it shows as one more engine card, after Gemini, with its name and logo, as the other engines (no description shows, as today)"
+          },
+          {
+            "text": "Given the back office, When I create or edit an organisation, Then Google AI Overviews is one more option of the allowed AI engines, off by default for new and existing organisations, as every engine today",
+            "given": "the back office",
+            "when": "I create or edit an organisation",
+            "then": "Google AI Overviews is one more option of the allowed AI engines, off by default for new and existing organisations, as every engine today"
+          },
+          {
+            "text": "Given the back office, When I create an organisation, Then at least one engine must be ticked: the Create button stays disabled while no engine is ticked, and a new organisation gets only the engines ticked (today the backend gives every active engine when none is ticked, which would give Google AI Overviews to every new organisation). Editing an organisation is unchanged, and existing organisations are not changed",
+            "given": "the back office",
+            "when": "I create an organisation",
+            "then": "at least one engine must be ticked: the Create button stays disabled while no engine is ticked, and a new organisation gets only the engines ticked (today the backend gives every active engine when none is ticked, which would give Google AI Overviews to every new organisation). Editing an organisation is unchanged, and existing organisations are not changed"
+          },
+          {
+            "text": "Given I turn on Google AI Overviews, When the prompt pool is computed, Then nothing changes: the pool counts prompts, never engines (GEO-1002)",
+            "given": "I turn on Google AI Overviews",
+            "when": "the prompt pool is computed",
+            "then": "nothing changes: the pool counts prompts, never engines (GEO-1002)"
+          },
+          {
+            "text": "Given an existing analysis, When I turn Google AI Overviews on in Manage Scope, Then it is collected from the next run, as for any engine added today",
+            "given": "an existing analysis",
+            "when": "I turn Google AI Overviews on in Manage Scope",
+            "then": "it is collected from the next run, as for any engine added today"
+          }
+        ]
+      },
+      {
+        "userStory": "1.2",
+        "title": "Capture the AI Overview per country",
+        "storyId": "TBD",
+        "statement": "As a customer tracking several countries, I want the AI Overview captured in each country, so that I see what users in that country get.",
+        "criteria": [
+          {
+            "text": "Given a prompt configured for a country, When collection runs, Then the AI Overview is captured from a Google Search page of that country, through the capture vendor of GEO-678 and its country setting, with no instruction added to the question",
+            "given": "a prompt configured for a country",
+            "when": "collection runs",
+            "then": "the AI Overview is captured from a Google Search page of that country, through the capture vendor of GEO-678 and its country setting, with no instruction added to the question"
+          },
+          {
+            "text": "Given an AI Overview that Google shows in part behind \"Show more\", When it is captured, Then the full AI Overview is stored, as a user reads it after \"Show more\"",
+            "given": "an AI Overview that Google shows in part behind \"Show more\"",
+            "when": "it is captured",
+            "then": "the full AI Overview is stored, as a user reads it after \"Show more\""
+          },
+          {
+            "text": "Given a captured AI Overview, When it is stored, Then the raw answer is kept with its route, vendor, country and date, as for any engine of GEO-678 (answer text, images, sources and the place of each source in the answer)",
+            "given": "a captured AI Overview",
+            "when": "it is stored",
+            "then": "the raw answer is kept with its route, vendor, country and date, as for any engine of GEO-678 (answer text, images, sources and the place of each source in the answer)"
+          },
+          {
+            "text": "Given the vendor returns no usable AI Overview (vendor down, page not reached, capture cut), When the run ends, Then the answer is not counted (GEO-678 story 1.6): there is no API for AI Overviews, so there is no API fallback, and the question is never sent to the Gemini API in its place",
+            "given": "the vendor returns no usable AI Overview (vendor down, page not reached, capture cut)",
+            "when": "the run ends",
+            "then": "the answer is not counted (GEO-678 story 1.6): there is no API for AI Overviews, so there is no API fallback, and the question is never sent to the Gemini API in its place"
+          },
+          {
+            "text": "Given a country where the capture vendor cannot capture AI Overviews (on 6 Nov 2026, 6 of the 196 GEO countries: China, Cuba, Ethiopia, Iceland, Iran, Sri Lanka), When collection runs in that country, Then no AI Overview is collected there",
+            "given": "a country where the capture vendor cannot capture AI Overviews (on 6 Nov 2026, 6 of the 196 GEO countries: China, Cuba, Ethiopia, Iceland, Iran, Sri Lanka)",
+            "when": "collection runs in that country",
+            "then": "no AI Overview is collected there"
+          },
+          {
+            "text": "Given I selected Google AI Overviews and one country or more where it is not available, When the Review step of the wizard renders, Then the amber banner that lists what is left out today (countries and categories) adds the line \"Google AI Overviews won't apply to {countries}.\" with every such country named (eg: \"Google AI Overviews won't apply to China and Iran.\"), and the creation of the analysis stays allowed",
+            "given": "I selected Google AI Overviews and one country or more where it is not available",
+            "when": "the Review step of the wizard renders",
+            "then": "the amber banner that lists what is left out today (countries and categories) adds the line \"Google AI Overviews won't apply to {countries}.\" with every such country named (eg: \"Google AI Overviews won't apply to China and Iran.\"), and the creation of the analysis stays allowed"
+          },
+          {
+            "text": "Given every country I selected is one where Google AI Overviews is not available, When the Review step renders, Then the line reads \"Google AI Overviews won't apply to any of your selected countries.\" and the creation stays allowed, even when Google AI Overviews is the only engine selected",
+            "given": "every country I selected is one where Google AI Overviews is not available",
+            "when": "the Review step renders",
+            "then": "the line reads \"Google AI Overviews won't apply to any of your selected countries.\" and the creation stays allowed, even when Google AI Overviews is the only engine selected"
+          },
+          {
+            "text": "Given an analysis where no selected engine applies to any selected country (eg: Google AI Overviews is the only engine and every selected country is excluded), When a run starts, Then the run fails with a clear message (\"No selected engine applies to the selected countries.\"), and it is never left in progress or announced as complete",
+            "given": "an analysis where no selected engine applies to any selected country (eg: Google AI Overviews is the only engine and every selected country is excluded)",
+            "when": "a run starts",
+            "then": "the run fails with a clear message (\"No selected engine applies to the selected countries.\"), and it is never left in progress or announced as complete"
+          },
+          {
+            "text": "Given both Google engines are selected and each one leaves out countries, When the Review step renders, Then one banner shows, with one line for each engine",
+            "given": "both Google engines are selected and each one leaves out countries",
+            "when": "the Review step renders",
+            "then": "one banner shows, with one line for each engine"
+          },
+          {
+            "text": "Given Manage Scope, When I add a country where Google AI Overviews is not available to an analysis with Google AI Overviews, Then the add-country dialog shows the same line (\"Google AI Overviews won't apply to {countries}.\") before I confirm, and adding the country stays allowed",
+            "given": "Manage Scope",
+            "when": "I add a country where Google AI Overviews is not available to an analysis with Google AI Overviews",
+            "then": "the add-country dialog shows the same line (\"Google AI Overviews won't apply to {countries}.\") before I confirm, and adding the country stays allowed"
+          },
+          {
+            "text": "Given Manage Scope of an analysis with Google AI Overviews and one country or more where it is not available, When I turn Google AI Overviews on, or open Manage Scope later, Then the same amber line shows under the AI engines of Manage Scope, for as long as the analysis has such a country",
+            "given": "Manage Scope of an analysis with Google AI Overviews and one country or more where it is not available",
+            "when": "I turn Google AI Overviews on, or open Manage Scope later",
+            "then": "the same amber line shows under the AI engines of Manage Scope, for as long as the analysis has such a country"
+          }
+        ]
+      },
+      {
+        "userStory": "1.3",
+        "title": "Handle the prompts where Google shows no AI Overview",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want to know when Google shows no AI Overview for a question, so that I do not read it as my brand being absent.",
+        "criteria": [
+          {
+            "text": "Given a prompt for which the Google page of that country shows no AI Overview, When capture runs, Then the absence is stored as \"not triggered\", which is a result and not a failed capture",
+            "given": "a prompt for which the Google page of that country shows no AI Overview",
+            "when": "capture runs",
+            "then": "the absence is stored as \"not triggered\", which is a result and not a failed capture"
+          },
+          {
+            "text": "Given a country where the vendor cannot capture AI Overviews, When I open a question of that country, Then the AI Overviews pill shows \"Not available\" in the same grey badge, and its tab shows \"Google AI Overviews is not available in {country}\" with no extracted block and no sources, as frame 04d draws \"Not counted\"",
+            "given": "a country where the vendor cannot capture AI Overviews",
+            "when": "I open a question of that country",
+            "then": "the AI Overviews pill shows \"Not available\" in the same grey badge, and its tab shows \"Google AI Overviews is not available in {country}\" with no extracted block and no sources, as frame 04d draws \"Not counted\""
+          },
+          {
+            "text": "Given a prompt with no AI Overview, When the metrics are computed, Then AI Overviews is left out of every metric for that prompt and that date: it does not count as not named, unranked or not chosen",
+            "given": "a prompt with no AI Overview",
+            "when": "the metrics are computed",
+            "then": "AI Overviews is left out of every metric for that prompt and that date: it does not count as not named, unranked or not chosen"
+          },
+          {
+            "text": "Given a prompt with no AI Overview, When I open the question panel, Then the AI Overviews pill shows \"Not triggered\" in the grey badge of \"Not counted\" (GEO-1498, frame 04d), in the place and size of the rank badge, compact form included, and its tab shows \"No AI Overview was returned for this question in {country}.\" (fr-FR \"Aucune AI Overview n'a été renvoyée pour cette question ({country}).\", es-ES \"No se ha devuelto ninguna AI Overview para esta pregunta ({country}).\") with no extracted block and no sources: the text says what the capture vendor received, which can differ from what a signed-in user sees (Updated 2026-11-12)",
+            "given": "a prompt with no AI Overview",
+            "when": "I open the question panel",
+            "then": "the AI Overviews pill shows \"Not triggered\" in the grey badge of \"Not counted\" (GEO-1498, frame 04d), in the place and size of the rank badge, compact form included, and its tab shows \"No AI Overview was returned for this question in {country}.\" (fr-FR \"Aucune AI Overview n'a été renvoyée pour cette question ({country}).\", es-ES \"No se ha devuelto ninguna AI Overview para esta pregunta ({country}).\") with no extracted block and no sources: the text says what the capture vendor received, which can differ from what a signed-in user sees (Updated 2026-11-12)"
+          },
+          {
+            "text": "Given a prompt that had an AI Overview on one date and none on the next, When I read the trends, Then the date with no AI Overview gives no AI Overviews value for that prompt, as for an answer that is not counted",
+            "given": "a prompt that had an AI Overview on one date and none on the next",
+            "when": "I read the trends",
+            "then": "the date with no AI Overview gives no AI Overviews value for that prompt, as for an answer that is not counted"
+          },
+          {
+            "text": "Given the Excel Raw Data sheet, When a prompt has no AI Overview, Then it has no AI Overviews row, as for answers that are not counted (GEO-1498 story 1.6)",
+            "given": "the Excel Raw Data sheet",
+            "when": "a prompt has no AI Overview",
+            "then": "it has no AI Overviews row, as for answers that are not counted (GEO-1498 story 1.6)"
+          }
+        ]
+      },
+      {
+        "userStory": "1.4",
+        "title": "Read the AI Overview like any other answer",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want the AI Overview read with the same rules as the other engines, so that its rankings, outcomes, themes and sources compare with theirs.",
+        "criteria": [
+          {
+            "text": "Given a captured AI Overview, When it is parsed, Then the shared reader of GEO-678 extracts the ranking, the competitive outcome, the themes and tone and the sources with the same rules as for the other engines, brand family included",
+            "given": "a captured AI Overview",
+            "when": "it is parsed",
+            "then": "the shared reader of GEO-678 extracts the ranking, the competitive outcome, the themes and tone and the sources with the same rules as for the other engines, brand family included"
+          },
+          {
+            "text": "Given the widget text and markup that the Google page leaves in a capture (eg: \"Show more\", \"AI responses may include mistakes\", the feedback buttons), When the answer is stored for parsing, Then it is removed first, as GEO-678 story 1.10 does for the other rendered answers",
+            "given": "the widget text and markup that the Google page leaves in a capture (eg: \"Show more\", \"AI responses may include mistakes\", the feedback buttons)",
+            "when": "the answer is stored for parsing",
+            "then": "it is removed first, as GEO-678 story 1.10 does for the other rendered answers"
+          },
+          {
+            "text": "Given an AI Overview that cites sources as links next to its paragraphs and not as numbered markers, When the sources are read, Then each source keeps the place where the AI Overview cites it, so the panel numbers them as in GEO-1498 story 1.4",
+            "given": "an AI Overview that cites sources as links next to its paragraphs and not as numbered markers",
+            "when": "the sources are read",
+            "then": "each source keeps the place where the AI Overview cites it, so the panel numbers them as in GEO-1498 story 1.4"
+          },
+          {
+            "text": "Given an image in the AI Overview, When the answer is parsed, Then the image is not read: brands, outcomes and themes come from the text only",
+            "given": "an image in the AI Overview",
+            "when": "the answer is parsed",
+            "then": "the image is not read: brands, outcomes and themes come from the text only"
+          }
+        ]
+      },
+      {
+        "userStory": "1.5",
+        "title": "Read the AI Overview in the question panel",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want to read the AI Overview as Google showed it, so that I can check the extracted results against it.",
+        "criteria": [
+          {
+            "text": "Given an AI Overview, When I open its tab in the question panel, Then it uses the full answer card of GEO-1498 (clamp, \"Show full answer\", brand highlights, citation mini card, Sources card) with no change",
+            "given": "an AI Overview",
+            "when": "I open its tab in the question panel",
+            "then": "it uses the full answer card of GEO-1498 (clamp, \"Show full answer\", brand highlights, citation mini card, Sources card) with no change"
+          },
+          {
+            "text": "Given an AI Overview with images, When it renders, Then the images show in the answer at the place Google showed them, as drawn in frames 08a and 08b of GEO-1017, and clicking an image opens it fullscreen, with Escape and the back button of frame 08b (\"Back to answer\") to come back to the answer",
+            "given": "an AI Overview with images",
+            "when": "it renders",
+            "then": "the images show in the answer at the place Google showed them, as drawn in frames 08a and 08b of GEO-1017, and clicking an image opens it fullscreen, with Escape and the back button of frame 08b (\"Back to answer\") to come back to the answer"
+          },
+          {
+            "text": "Given a captured image with a caption, When it renders, Then the caption and its source show under the image, as in frame 08a (\"The traditional US \"Big Three\" carriers · Source: Portal Warehousing\"), and the fullscreen view shows the full credit with the title of the source page, as in frame 08b",
+            "given": "a captured image with a caption",
+            "when": "it renders",
+            "then": "the caption and its source show under the image, as in frame 08a (\"The traditional US \"Big Three\" carriers · Source: Portal Warehousing\"), and the fullscreen view shows the full credit with the title of the source page, as in frame 08b"
+          },
+          {
+            "text": "Given a captured image with no caption, When it renders, Then the caption line is not shown, in the answer and in the fullscreen view",
+            "given": "a captured image with no caption",
+            "when": "it renders",
+            "then": "the caption line is not shown, in the answer and in the fullscreen view"
+          },
+          {
+            "text": "Given an answer with several images, When I open one of them fullscreen, Then the viewer shows that image only, with no previous or next control, as in frame 08b, and I go back to the answer to open another one",
+            "given": "an answer with several images",
+            "when": "I open one of them fullscreen",
+            "then": "the viewer shows that image only, with no previous or next control, as in frame 08b, and I go back to the answer to open another one"
+          },
+          {
+            "text": "Given an image that does not load, When the answer renders, Then the image is hidden and the text of the answer is not changed",
+            "given": "an image that does not load",
+            "when": "the answer renders",
+            "then": "the image is hidden and the text of the answer is not changed"
+          },
+          {
+            "text": "Given the answer header, When it counts characters and citations, Then images are not counted",
+            "given": "the answer header",
+            "when": "it counts characters and citations",
+            "then": "images are not counted"
+          },
+          {
+            "text": "Given an AI Overview with no numbered citation, When it renders, Then the header shows \"no inline citations\" and the Sources card lists the sources, as for any engine in GEO-1498",
+            "given": "an AI Overview with no numbered citation",
+            "when": "it renders",
+            "then": "the header shows \"no inline citations\" and the Sources card lists the sources, as for any engine in GEO-1498"
+          }
+        ]
+      },
+      {
+        "userStory": "1.6",
+        "title": "Show AI Overviews everywhere engines show",
+        "storyId": "TBD",
+        "statement": "As a GEO user, I want AI Overviews shown like the other engines, so that I compare it with them on every view.",
+        "criteria": [
+          {
+            "text": "Given an analysis with AI Overviews, When I use an engine filter or read a per-engine breakdown (KPIs, Brand Rankings, trends, sources, the Corporate Reputation panel, the Brand Territory pie, the Related Prompts modal), Then AI Overviews is one more engine, with its name and its logo",
+            "given": "an analysis with AI Overviews",
+            "when": "I use an engine filter or read a per-engine breakdown (KPIs, Brand Rankings, trends, sources, the Corporate Reputation panel, the Brand Territory pie, the Related Prompts modal)",
+            "then": "AI Overviews is one more engine, with its name and its logo"
+          },
+          {
+            "text": "Given the engine order, When engines show in a list (wizard, Manage Scope, filters, question panel pills, Actions Center tabs, engine lists of the exports), Then AI Overviews takes the same place everywhere: ChatGPT, Gemini, Google AI Overviews, Google AI Mode, then Grok, Claude and Perplexity",
+            "given": "the engine order",
+            "when": "engines show in a list (wizard, Manage Scope, filters, question panel pills, Actions Center tabs, engine lists of the exports)",
+            "then": "AI Overviews takes the same place everywhere: ChatGPT, Gemini, Google AI Overviews, Google AI Mode, then Grok, Claude and Perplexity"
+          },
+          {
+            "text": "Given an analysis with 4 engines or more, When the question panel pills render in their compact form, Then the AI Overviews pill shows its logo only and \"Google AI Overviews\" in the tooltip, as for every engine today",
+            "given": "an analysis with 4 engines or more",
+            "when": "the question panel pills render in their compact form",
+            "then": "the AI Overviews pill shows its logo only and \"Google AI Overviews\" in the tooltip, as for every engine today"
+          },
+          {
+            "text": "Given the logo of AI Overviews, When any view shows an engine logo (wizard, Manage Scope, back office, engine filters, pills, Sources card, Actions Center, exports), Then the AI Overviews logo shows there, and never a blank or a default icon",
+            "given": "the logo of AI Overviews",
+            "when": "any view shows an engine logo (wizard, Manage Scope, back office, engine filters, pills, Sources card, Actions Center, exports)",
+            "then": "the AI Overviews logo shows there, and never a blank or a default icon"
+          },
+          {
+            "text": "Given an analysis with AI Overviews, When I export it to Excel, PowerPoint or PDF, Then AI Overviews shows wherever the export shows an engine, with the name \"Google AI Overviews\"",
+            "given": "an analysis with AI Overviews",
+            "when": "I export it to Excel, PowerPoint or PDF",
+            "then": "AI Overviews shows wherever the export shows an engine, with the name \"Google AI Overviews\""
+          },
+          {
+            "text": "Given an analysis without AI Overviews, When I open it, Then AI Overviews shows nowhere and the other engines show as today",
+            "given": "an analysis without AI Overviews",
+            "when": "I open it",
+            "then": "AI Overviews shows nowhere and the other engines show as today"
+          }
+        ]
+      }
+    ],
+    "externalSpecs": [],
+    "ignoredChildren": [],
+    "stories": [
+      {
+        "id": "GEO-1595",
+        "type": "Story",
+        "title": "STORY-54.1: Select AI Overviews as an engine",
+        "status": "Code Review",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-11-11",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T05:55:40.442-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1595",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to add Google AI Overviews to my analysis",
+          "so": "I measure my brand in the AI answer my audience sees on Google."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.1)",
+            "group": null,
+            "text": "Given an organisation whose allowed AI engines include Google AI Overviews, When I open the engine step of the wizard or Manage Scope, Then it shows as one more engine card, after Gemini, with its name and logo, as the other engines (no description shows, as today)",
+            "given": "an organisation whose allowed AI engines include Google AI Overviews",
+            "when": "I open the engine step of the wizard or Manage Scope",
+            "then": "it shows as one more engine card, after Gemini, with its name and logo, as the other engines (no description shows, as today)"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.1)",
+            "group": null,
+            "text": "Given the back office, When I create or edit an organisation, Then Google AI Overviews is one more option of the allowed AI engines, off by default for new and existing organisations, as every engine today",
+            "given": "the back office",
+            "when": "I create or edit an organisation",
+            "then": "Google AI Overviews is one more option of the allowed AI engines, off by default for new and existing organisations, as every engine today"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.1)",
+            "group": null,
+            "text": "Given I turn on Google AI Overviews, When the prompt pool is computed, Then nothing changes: the pool counts prompts, never engines (GEO-1002)",
+            "given": "I turn on Google AI Overviews",
+            "when": "the prompt pool is computed",
+            "then": "nothing changes: the pool counts prompts, never engines (GEO-1002)"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.1)",
+            "group": null,
+            "text": "Given an existing analysis, When I turn Google AI Overviews on in Manage Scope, Then it is collected from the next run, as for any engine added today",
+            "given": "an existing analysis",
+            "when": "I turn Google AI Overviews on in Manage Scope",
+            "then": "it is collected from the next run, as for any engine added today"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.1)",
+            "group": null,
+            "text": "Given the back office, When I create an organisation, Then at least one AI engine is required, so that no engine is given to a new organisation without anyone choosing it (added to the epic by the PM, 2026-11-12)",
+            "given": "the back office",
+            "when": "I create an organisation",
+            "then": "at least one AI engine is required, so that no engine is given to a new organisation without anyone choosing it (added to the epic by the PM, 2026-11-12)"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "What the code adds to the epic text",
+            "text": "- **Back office: creating an organisation now requires at least one engine** (validated by the PM, 2026-11-12, and now an AC of the epic). Today the form shows every engine off, but the backend gives a new organisation every active engine when nothing is ticked (the creation request carries no engine list; the form sends the chosen engines in a second call, only if at least one is ticked). Left as is, AI Overviews would be granted to every new organisation created without ticking anything, which contradicts \"off by default\". The story sends the engine list in the creation request, makes it required (the Create button is disabled while no engine is ticked, and the API refuses an empty list), stores it in the same transaction as the organisation, and removes the implicit \"every active engine\" default. Editing an organisation is unchanged. Existing organisations already do not have the engine and are not changed (no backfill).\n- \"After Gemini\" needs the order of the later engines to be shifted: the current orders are 1 to 5 with no gap. The shift is relative, because the production values were not checked. The order everywhere is the database one (validated by the PM, 2026-11-12, and written in story 1.6 of the epic): ChatGPT, Gemini, Google AI Overviews, the free slot kept for Google AI Mode, then Grok, Claude, Perplexity. In the PowerPoint export the engines read Grok then Claude (accepted by the PM).\n- Engine presentation (names, logos, colours, order) is hard-coded in about eleven places and nothing tests it. The story starts with a separate refactor, with zero change for the five existing engines and characterization tests written first, then adds the engine.\n- The engine row is created inactive and activated per environment: the epic says production capture waits for the legal sign-off, the vendor contract and the approval to capture the Google surfaces, and the engine has no API to fall back on."
+          },
+          {
+            "heading": "Scope note",
+            "text": "Two PRs, both to the integration branch: PR 1 \"engine presentation refactor\" (no behaviour change), PR 2 \"AI Overviews engine\" (one database migration, creation of an organisation with its engines, back office, wizard, Manage Scope). First story of the epic: the others depend on its migration. Design: GEO-1017 (Figma \"Measure - GEO Module\"), logo `google-g.svg` attached to GEO-1005, border and pie colour #34A853."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "54-1-select-ai-overviews-as-an-engine.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/docs/GEO-1005-epic-54-stories/docs/implementation-artifacts/epics/epic-54/54-1-select-ai-overviews-as-an-engine.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [],
+        "blocks": [
+          "GEO-1596"
+        ]
+      },
+      {
+        "id": "GEO-1596",
+        "type": "Story",
+        "title": "STORY-54.2: Capture the AI Overview per country",
+        "status": "Code Review",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-11-11",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T14:00:35.473-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1596",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a customer tracking several countries",
+          "want": "the AI Overview captured in each country",
+          "so": "I see what users in that country get."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given a prompt configured for a country, When collection runs, Then the AI Overview is captured from a Google Search page of that country, through the capture vendor of GEO-678 and its country setting, with no instruction added to the question",
+            "given": "a prompt configured for a country",
+            "when": "collection runs",
+            "then": "the AI Overview is captured from a Google Search page of that country, through the capture vendor of GEO-678 and its country setting, with no instruction added to the question"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given an AI Overview that Google shows in part behind \"Show more\", When it is captured, Then the full AI Overview is stored, as a user reads it after \"Show more\"",
+            "given": "an AI Overview that Google shows in part behind \"Show more\"",
+            "when": "it is captured",
+            "then": "the full AI Overview is stored, as a user reads it after \"Show more\""
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given a captured AI Overview, When it is stored, Then the raw answer is kept with its route, vendor, country and date, as for any engine of GEO-678 (answer text, images, sources and the place of each source in the answer)",
+            "given": "a captured AI Overview",
+            "when": "it is stored",
+            "then": "the raw answer is kept with its route, vendor, country and date, as for any engine of GEO-678 (answer text, images, sources and the place of each source in the answer)"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given the vendor returns no usable AI Overview (vendor down, page not reached, capture cut), When the run ends, Then the answer is not counted (GEO-678 story 1.6): there is no API for AI Overviews, so there is no API fallback, and the question is never sent to the Gemini API in its place",
+            "given": "the vendor returns no usable AI Overview (vendor down, page not reached, capture cut)",
+            "when": "the run ends",
+            "then": "the answer is not counted (GEO-678 story 1.6): there is no API for AI Overviews, so there is no API fallback, and the question is never sent to the Gemini API in its place"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given a country where the capture vendor cannot capture AI Overviews (on 6 Nov 2026, 6 of the 196 GEO countries: China, Cuba, Ethiopia, Iceland, Iran, Sri Lanka), When collection runs in that country, Then no AI Overview is collected there",
+            "given": "a country where the capture vendor cannot capture AI Overviews (on 6 Nov 2026, 6 of the 196 GEO countries: China, Cuba, Ethiopia, Iceland, Iran, Sri Lanka)",
+            "when": "collection runs in that country",
+            "then": "no AI Overview is collected there"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given I selected Google AI Overviews and one country or more where it is not available, When the Review step of the wizard renders, Then the amber banner that lists what is left out today (countries and categories) adds the line \"Google AI Overviews won't apply to {countries}.\" with every such country named (eg: \"Google AI Overviews won't apply to China and Iran.\"), and the creation of the analysis stays allowed",
+            "given": "I selected Google AI Overviews and one country or more where it is not available",
+            "when": "the Review step of the wizard renders",
+            "then": "the amber banner that lists what is left out today (countries and categories) adds the line \"Google AI Overviews won't apply to {countries}.\" with every such country named (eg: \"Google AI Overviews won't apply to China and Iran.\"), and the creation of the analysis stays allowed"
+          },
+          {
+            "id": "AC7",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given every country I selected is one where Google AI Overviews is not available, When the Review step renders, Then the line reads \"Google AI Overviews won't apply to any of your selected countries.\" and the creation stays allowed, even when Google AI Overviews is the only engine selected",
+            "given": "every country I selected is one where Google AI Overviews is not available",
+            "when": "the Review step renders",
+            "then": "the line reads \"Google AI Overviews won't apply to any of your selected countries.\" and the creation stays allowed, even when Google AI Overviews is the only engine selected"
+          },
+          {
+            "id": "AC8",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given no engine of the analysis applies to the selected countries, When the run starts, Then the run fails with the message \"No selected engine applies to the selected countries.\" (added to the epic by the PM, 2026-11-12)",
+            "given": "no engine of the analysis applies to the selected countries",
+            "when": "the run starts",
+            "then": "the run fails with the message \"No selected engine applies to the selected countries.\" (added to the epic by the PM, 2026-11-12)"
+          },
+          {
+            "id": "AC9",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given both Google engines are selected and each one leaves out countries, When the Review step renders, Then one banner shows, with one line for each engine",
+            "given": "both Google engines are selected and each one leaves out countries",
+            "when": "the Review step renders",
+            "then": "one banner shows, with one line for each engine"
+          },
+          {
+            "id": "AC10",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given Manage Scope, When I add a country where Google AI Overviews is not available to an analysis with Google AI Overviews, Then the add-country dialog shows the same line (\"Google AI Overviews won't apply to {countries}.\") before I confirm, and adding the country stays allowed",
+            "given": "Manage Scope",
+            "when": "I add a country where Google AI Overviews is not available to an analysis with Google AI Overviews",
+            "then": "the add-country dialog shows the same line (\"Google AI Overviews won't apply to {countries}.\") before I confirm, and adding the country stays allowed"
+          },
+          {
+            "id": "AC11",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.2)",
+            "group": null,
+            "text": "Given Manage Scope of an analysis with Google AI Overviews and one country or more where it is not available, When I turn Google AI Overviews on, or open Manage Scope later, Then the same amber line shows under the AI engines of Manage Scope, for as long as the analysis has such a country",
+            "given": "Manage Scope of an analysis with Google AI Overviews and one country or more where it is not available",
+            "when": "I turn Google AI Overviews on, or open Manage Scope later",
+            "then": "the same amber line shows under the AI engines of Manage Scope, for as long as the analysis has such a country"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "What the code and the vendor measurements add to the epic text",
+            "text": "- The vendor has no AI Overviews route: the AI Overview is part of a Google Search capture (another endpoint, request body and response root than ChatGPT and Gemini), so the capture layer becomes a registry of per-surface strategies keyed by data.\n- \"No API fallback\" cannot be a single flag. Today every failed capture goes back to the engine's API, the organisation guards also downgrade to the API, and a report only completes if the capture step itself emits a terminal event. The story makes \"no API request, ever, for this engine\" an invariant in the backend, the message and Flink, and writes the exemption of the epic 50 rule (\"every failed capture falls back to the API\") in the docs.\n- An excluded country is not refused by the vendor: it answers like \"Google showed no AI Overview\", billed. So the backend sends no question at all for an excluded country, in both analysis phases, with consistent totals.\n- \"Show more\": the vendor does not document it, but all 31 recorded vendor AI Overviews end like a complete answer (closing questions or a closing sentence, none stops mid-list), which indicates the vendor returns the unfolded text. It is indirect evidence (the content changes on each call), so the story carries a verification task on more queries.\n- Capture failure rate on real prompts (PM request, 2026-11-12): 0 failed captures out of 165 (three analyses; fr-FR, es-ES, ar-MA, en-GB, en-US; HTTP 200 on every call, median 10.7 s, maximum 28.2 s). Small sample, one call per prompt and pass."
+          },
+          {
+            "heading": "Questions for the PM",
+            "text": "**P1 — A run where every question is skipped.** The epic keeps creation allowed when AI Overviews is the only engine and every selected country is excluded, and does not say what the run then does. At run time there is nothing to dispatch.\n\n- Option A — the run fails with a clear message (\"no selected engine applies to the selected countries\"), like an analysis with no usable engine today. Option B — the run completes with zero responses and shows nothing.\n- Answered by the PM on 2026-11-12: option A, the run fails with the message \"No selected engine applies to the selected countries.\"\n- If unanswered: A ships. Without any rule the code would leave the report in \"processing\" and announce \"Analysis complete\" with an empty status, which must not ship."
+          },
+          {
+            "heading": "Scope note",
+            "text": "Depends on STORY-54.1 (the engine row and its columns). Covers the capture strategies, the no-API invariant, the excluded-country table and its use in both analysis phases, and the amber lines in the Review step, the add-country dialog and Manage Scope. Deploy order: Flink first, backend second. Out of repository: the engine key to add to the Flink provider list in the deployment overlays. Production capture also waits for the vendor contract and the approval to capture the Google surfaces (decisions of GEO-678)."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "54-2-capture-the-ai-overview-per-country.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/docs/GEO-1005-epic-54-stories/docs/implementation-artifacts/epics/epic-54/54-2-capture-the-ai-overview-per-country.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1595"
+        ],
+        "blocks": [
+          "GEO-1597"
+        ]
+      },
+      {
+        "id": "GEO-1597",
+        "type": "Story",
+        "title": "STORY-54.3: Handle the prompts where Google shows no AI Overview",
+        "status": "Code Review",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-11-11",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T14:00:38.592-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1597",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to know when Google shows no AI Overview for a question",
+          "so": "I do not read it as my brand being absent."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.3)",
+            "group": null,
+            "text": "Given a prompt for which the Google page of that country shows no AI Overview, When capture runs, Then the absence is stored as \"not triggered\", which is a result and not a failed capture",
+            "given": "a prompt for which the Google page of that country shows no AI Overview",
+            "when": "capture runs",
+            "then": "the absence is stored as \"not triggered\", which is a result and not a failed capture"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.3)",
+            "group": null,
+            "text": "Given a country where the vendor cannot capture AI Overviews, When I open a question of that country, Then the AI Overviews pill shows \"Not available\" in the same grey badge, and its tab shows \"Google AI Overviews is not available in {country}\" with no extracted block and no sources, as frame 04d draws \"Not counted\"",
+            "given": "a country where the vendor cannot capture AI Overviews",
+            "when": "I open a question of that country",
+            "then": "the AI Overviews pill shows \"Not available\" in the same grey badge, and its tab shows \"Google AI Overviews is not available in {country}\" with no extracted block and no sources, as frame 04d draws \"Not counted\""
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.3)",
+            "group": null,
+            "text": "Given a prompt with no AI Overview, When the metrics are computed, Then AI Overviews is left out of every metric for that prompt and that date: it does not count as not named, unranked or not chosen",
+            "given": "a prompt with no AI Overview",
+            "when": "the metrics are computed",
+            "then": "AI Overviews is left out of every metric for that prompt and that date: it does not count as not named, unranked or not chosen"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.3)",
+            "group": null,
+            "text": "Given a prompt with no AI Overview, When I open the question panel, Then the AI Overviews pill shows \"Not triggered\" in the grey badge of \"Not counted\" (GEO-1498, frame 04d), in the place and size of the rank badge, compact form included, and its tab shows \"No AI Overview was returned for this question in {country}.\" (en-GB, en-US), \"Aucune AI Overview n'a été renvoyée pour cette question ({country}).\" (fr-FR), \"No se ha devuelto ninguna AI Overview para esta pregunta ({country}).\" (es-ES), with no extracted block and no sources",
+            "given": "a prompt with no AI Overview",
+            "when": "I open the question panel",
+            "then": "the AI Overviews pill shows \"Not triggered\" in the grey badge of \"Not counted\" (GEO-1498, frame 04d), in the place and size of the rank badge, compact form included, and its tab shows \"No AI Overview was returned for this question in {country}.\" (en-GB, en-US), \"Aucune AI Overview n'a été renvoyée pour cette question ({country}).\" (fr-FR), \"No se ha devuelto ninguna AI Overview para esta pregunta ({country}).\" (es-ES), with no extracted block and no sources"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.3)",
+            "group": null,
+            "text": "Given a prompt that had an AI Overview on one date and none on the next, When I read the trends, Then the date with no AI Overview gives no AI Overviews value for that prompt, as for an answer that is not counted",
+            "given": "a prompt that had an AI Overview on one date and none on the next",
+            "when": "I read the trends",
+            "then": "the date with no AI Overview gives no AI Overviews value for that prompt, as for an answer that is not counted"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.3)",
+            "group": null,
+            "text": "Given the Excel Raw Data sheet, When a prompt has no AI Overview, Then it has no AI Overviews row, as for answers that are not counted (GEO-1498 story 1.6)",
+            "given": "the Excel Raw Data sheet",
+            "when": "a prompt has no AI Overview",
+            "then": "it has no AI Overviews row, as for answers that are not counted (GEO-1498 story 1.6)"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "What the code and the vendor measurements add to the epic text",
+            "text": "- \"Not triggered\" is an observed fact and is stored as a result: a new reason on the existing \"not counted\" mechanism. \"Not available\" is a configuration fact (no question is dispatched for an excluded country, see STORY-54.2) and is computed when the panel is read: the question detail only loads successful rows, so the backend has to build the entry of an engine that has no row.\n- A failed capture is not a reason: stories 50.6 and 50.9 settled that it stays a failed row with its cause. It shows in the panel as for every engine today (\"No data available\", the panel loads only successful rows); the failure is recorded and visible in the report health view.\n- Without a distinct success path, an absent AI Overview would end as a cut capture and, with no API, as a failed row. The vendor answers \"200\" with the AI Overview key absent, billed.\n- Measured: 24 of 25 test queries had an AI Overview. The one absence was absent in 5 of 5 vendor calls while a signed-in browser showed one, so \"not triggered\" describes what the vendor's session received. The epic's wording is kept as written.\n- Share of prompts with an AI Overview on real prompts (PM request, 2026-11-12): 97 % over 165 prompts of three analyses (160 with, 5 without on the first pass; 159 and 6 on the second). By market: en-US 100 % (15), es-ES 100 % (30), ar-MA 100 % (30), fr-FR 98 % (60), en-GB 87 % (30). The absences concentrate on generic visibility prompts: four UK visibility prompts had none on both passes, the other absences differ from one pass to the other, so \"not triggered\" is not stable for every prompt. Small sample, UK from a single analysis.\n- The new reason needs its database CHECK replaced before any writer is deployed; a build older than the value fails when it loads such a row."
+          },
+          {
+            "heading": "Scope note",
+            "text": "Depends on STORY-54.2. Design: GEO-1017, frame 04d \"Not counted\". Includes one database migration (the \"not counted\" reason CHECK), to be applied before the backend that writes the new reason is deployed."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "54-3-handle-the-prompts-where-google-shows-no-ai-overview.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/docs/GEO-1005-epic-54-stories/docs/implementation-artifacts/epics/epic-54/54-3-handle-the-prompts-where-google-shows-no-ai-overview.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1596"
+        ],
+        "blocks": [
+          "GEO-1598"
+        ]
+      },
+      {
+        "id": "GEO-1598",
+        "type": "Story",
+        "title": "STORY-54.4: Read the AI Overview like any other answer",
+        "status": "Code Review",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-11-11",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:11:14.292-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1598",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "the AI Overview read with the same rules as the other engines",
+          "so": "its rankings, outcomes, themes and sources compare with theirs."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.4)",
+            "group": null,
+            "text": "Given a captured AI Overview, When it is parsed, Then the shared reader of GEO-678 extracts the ranking, the competitive outcome, the themes and tone and the sources with the same rules as for the other engines, brand family included",
+            "given": "a captured AI Overview",
+            "when": "it is parsed",
+            "then": "the shared reader of GEO-678 extracts the ranking, the competitive outcome, the themes and tone and the sources with the same rules as for the other engines, brand family included"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.4)",
+            "group": null,
+            "text": "Given the widget text and markup that the Google page leaves in a capture (eg: \"Show more\", \"AI responses may include mistakes\", the feedback buttons), When the answer is stored for parsing, Then it is removed first, as GEO-678 story 1.10 does for the other rendered answers",
+            "given": "the widget text and markup that the Google page leaves in a capture (eg: \"Show more\", \"AI responses may include mistakes\", the feedback buttons)",
+            "when": "the answer is stored for parsing",
+            "then": "it is removed first, as GEO-678 story 1.10 does for the other rendered answers"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.4)",
+            "group": null,
+            "text": "Given an AI Overview that cites sources as links next to its paragraphs and not as numbered markers, When the sources are read, Then each source keeps the place where the AI Overview cites it, so the panel numbers them as in GEO-1498 story 1.4",
+            "given": "an AI Overview that cites sources as links next to its paragraphs and not as numbered markers",
+            "when": "the sources are read",
+            "then": "each source keeps the place where the AI Overview cites it, so the panel numbers them as in GEO-1498 story 1.4"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.4)",
+            "group": null,
+            "text": "Given an image in the AI Overview, When the answer is parsed, Then the image is not read: brands, outcomes and themes come from the text only",
+            "given": "an image in the AI Overview",
+            "when": "the answer is parsed",
+            "then": "the image is not read: brands, outcomes and themes come from the text only"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "What the code and the vendor measurements add to the epic text",
+            "text": "- The shared reader needs no change and has no engine-specific branch. It reads one grouped call per question across all engines, so an extra engine adds records to each call (checked with six).\n- The place of each citation is the real work. A captured answer carries no citation place today (plain text, vendor citation pills without offsets). The vendor gives the places only in an optional markdown version of the answer, and story 50.9 (AC4) says parsing must never rely on markdown created by a capture vendor. The story keeps that rule and delivers the epic's criterion: the capture step reads the markdown once and stores plain text plus the places; the reader never parses vendor markdown.\n- The captured path also has no way to receive citation places and no guard that the places match the stored text: the story adds both.\n- Page residue: none was found in 24 measured AI Overviews, so the cleaning is minimal and defensive (whole-line removals only). The engine's own closing questions are prose and are kept.\n- Images, videos, shopping cards, organic results and ads stay in the raw capture and are never read or counted."
+          },
+          {
+            "heading": "Scope note",
+            "text": "Depends on STORY-54.2 (the capture strategy and its request) and STORY-54.3 (blank answers are excluded before the reader). No database migration. No frontend change expected (checked in STORY-54.5)."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "54-4-read-the-ai-overview-like-any-other-answer.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/docs/GEO-1005-epic-54-stories/docs/implementation-artifacts/epics/epic-54/54-4-read-the-ai-overview-like-any-other-answer.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1597"
+        ],
+        "blocks": [
+          "GEO-1599"
+        ]
+      },
+      {
+        "id": "GEO-1599",
+        "type": "Story",
+        "title": "STORY-54.5: Read the AI Overview in the question panel",
+        "status": "Code Review",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-11-11",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T14:00:51.355-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1599",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "to read the AI Overview as Google showed it",
+          "so": "I can check the extracted results against it."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.5)",
+            "group": null,
+            "text": "Given an AI Overview, When I open its tab in the question panel, Then it uses the full answer card of GEO-1498 (clamp, \"Show full answer\", brand highlights, citation mini card, Sources card) with no change",
+            "given": "an AI Overview",
+            "when": "I open its tab in the question panel",
+            "then": "it uses the full answer card of GEO-1498 (clamp, \"Show full answer\", brand highlights, citation mini card, Sources card) with no change"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.5)",
+            "group": null,
+            "text": "Given an AI Overview with images, When it renders, Then the images show in the answer at the place Google showed them, as drawn in frames 08a and 08b of GEO-1017, and clicking an image opens it fullscreen, with Escape and the back button of frame 08b (\"Back to answer\") to come back to the answer",
+            "given": "an AI Overview with images",
+            "when": "it renders",
+            "then": "the images show in the answer at the place Google showed them, as drawn in frames 08a and 08b of GEO-1017, and clicking an image opens it fullscreen, with Escape and the back button of frame 08b (\"Back to answer\") to come back to the answer"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.5)",
+            "group": null,
+            "text": "Given a captured image with a caption, When it renders, Then the caption and its source show under the image, as in frame 08a (\"The traditional US \"Big Three\" carriers · Source: Portal Warehousing\"), and the fullscreen view shows the full credit with the title of the source page, as in frame 08b",
+            "given": "a captured image with a caption",
+            "when": "it renders",
+            "then": "the caption and its source show under the image, as in frame 08a (\"The traditional US \"Big Three\" carriers · Source: Portal Warehousing\"), and the fullscreen view shows the full credit with the title of the source page, as in frame 08b"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.5)",
+            "group": null,
+            "text": "Given a captured image with no caption, When it renders, Then the caption line is not shown, in the answer and in the fullscreen view",
+            "given": "a captured image with no caption",
+            "when": "it renders",
+            "then": "the caption line is not shown, in the answer and in the fullscreen view"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.5)",
+            "group": null,
+            "text": "Given an answer with several images, When I open one of them fullscreen, Then the viewer shows that image only, with no previous or next control, as in frame 08b, and I go back to the answer to open another one",
+            "given": "an answer with several images",
+            "when": "I open one of them fullscreen",
+            "then": "the viewer shows that image only, with no previous or next control, as in frame 08b, and I go back to the answer to open another one"
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.5)",
+            "group": null,
+            "text": "Given an image that does not load, When the answer renders, Then the image is hidden and the text of the answer is not changed",
+            "given": "an image that does not load",
+            "when": "the answer renders",
+            "then": "the image is hidden and the text of the answer is not changed"
+          },
+          {
+            "id": "AC7",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.5)",
+            "group": null,
+            "text": "Given the answer header, When it counts characters and citations, Then images are not counted",
+            "given": "the answer header",
+            "when": "it counts characters and citations",
+            "then": "images are not counted"
+          },
+          {
+            "id": "AC8",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.5)",
+            "group": null,
+            "text": "Given an AI Overview with no numbered citation, When it renders, Then the header shows \"no inline citations\" and the Sources card lists the sources, as for any engine in GEO-1498",
+            "given": "an AI Overview with no numbered citation",
+            "when": "it renders",
+            "then": "the header shows \"no inline citations\" and the Sources card lists the sources, as for any engine in GEO-1498"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "Deviation from the epic text",
+            "text": "The criteria about images (the second to the fifth, and the sixth and seventh for what they say about images) cannot be met from the data the capture vendor returns, so this story builds nothing for them.\n\n- Covered by this story, as verification and tests with no change expected: the first criterion (the full answer card) and the last (no numbered citation).\n- Already true because images are never rendered: the sixth (an image that does not load is hidden) and the seventh (images are not counted in the header).\n- Not covered: the second to the fifth (images in the answer, captions and credit, the fullscreen viewer). They stay visibly unmet; question P1 is settled (option A, 2026-11-12) and they move to GEO-1608.\n\nWhy: the vendor returns **no image inside the AI Overview**: 0 images in 24 measured AI Overviews. What it returns: \"videos\" (title, source, platform, duration, a thumbnail hosted by Google) in 19 of 24, and, in 1 of 24, a block of page-level images (title, source, link, thumbnail) that Google shows on the results page, with no position in the answer. The epic's own example (the \"Big Three\" carriers image) is not reproducible: the matching measured query returned none. The application also has no image viewer today and its answer renderer ignores images on purpose. The viewer the epic says is \"built once, in whichever epic ships first\" is not built here; epic 55 inherits the same question. The measured sample is small (24 AI Overviews, US and FR, queries written for the test): a wider sample before closing question P1 is cheap."
+          },
+          {
+            "heading": "Questions for the PM",
+            "text": "**P1 — Images in the AI Overview.** The epic asks for images shown in the answer at the place Google showed them, with caption, credit and a fullscreen view. The capture vendor returns no image inside the AI Overview (see above).\n\n- Option A — postpone images (nothing is built; the criteria stay visibly unmet) and revisit when the vendor or the design changes.\n- Option B — show the AI Overview's videos in a block apart, below the answer (not \"at the place Google showed them\").\n- Option C — show the page-level images in a block apart, when present (1 in 24).\n- Answered on 2026-11-12 (PM proposal, team agreed): option A for this story. Images of the answer card (all engines, ChatGPT first, frames 08a and 08b) move to the follow-up story GEO-1608 (STORY-53.10) under GEO-1498.\n- If unanswered: A ships. Users see the AI Overview text and sources but no image or video, which is also what the vendor's data supports.\n- Note for B and C: the thumbnails are Google-hosted URLs (or inline base64 data), so showing them loads images from another site, and the application sets no image content-security rule today. That would be a hosting and security decision to take then; it does not arise while A holds."
+          },
+          {
+            "heading": "Scope note",
+            "text": "Frontend verification and tests only; no migration, no backend change expected. Depends on STORY-54.3 and STORY-54.4. Design: GEO-1017 frames 01, 02, 03, 05 (answer card). Frames 08a and 08b are cited by the epic but have no recorded node id in the repository: the story asks to locate them for the day images are decided."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "54-5-read-the-ai-overview-in-the-question-panel.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/docs/GEO-1005-epic-54-stories/docs/implementation-artifacts/epics/epic-54/54-5-read-the-ai-overview-in-the-question-panel.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1598"
+        ],
+        "blocks": [
+          "GEO-1600"
+        ]
+      },
+      {
+        "id": "GEO-1600",
+        "type": "Story",
+        "title": "STORY-54.6: Show AI Overviews everywhere engines show",
+        "status": "Code Review",
+        "assignee": "Abdenasser Aroukhsiss",
+        "created": "2026-11-11",
+        "updated": "2026-11-12",
+        "updatedAt": "2026-11-12T12:53:43.076-0500",
+        "jiraUrl": "https://onclusive.atlassian.net/browse/GEO-1600",
+        "fixVersions": [
+          "1.4"
+        ],
+        "userStory": {
+          "as": "a GEO user",
+          "want": "AI Overviews shown like the other engines",
+          "so": "I compare it with them on every view."
+        },
+        "acceptanceCriteria": [
+          {
+            "id": "AC1",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.6)",
+            "group": null,
+            "text": "Given an analysis with AI Overviews, When I use an engine filter or read a per-engine breakdown (KPIs, Brand Rankings, trends, sources, the Corporate Reputation panel, the Brand Territory pie, the Related Prompts modal), Then AI Overviews is one more engine, with its name and its logo",
+            "given": "an analysis with AI Overviews",
+            "when": "I use an engine filter or read a per-engine breakdown (KPIs, Brand Rankings, trends, sources, the Corporate Reputation panel, the Brand Territory pie, the Related Prompts modal)",
+            "then": "AI Overviews is one more engine, with its name and its logo"
+          },
+          {
+            "id": "AC2",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.6)",
+            "group": null,
+            "text": "Given the engine order, When engines show in a list (wizard, Manage Scope, filters, question panel pills, Actions Center tabs, engine lists of the exports), Then AI Overviews takes the same place everywhere: ChatGPT, Gemini, Google AI Overviews, Google AI Mode, then Grok, Claude and Perplexity (full order added to the epic by the PM, 2026-11-12)",
+            "given": "the engine order",
+            "when": "engines show in a list (wizard, Manage Scope, filters, question panel pills, Actions Center tabs, engine lists of the exports)",
+            "then": "AI Overviews takes the same place everywhere: ChatGPT, Gemini, Google AI Overviews, Google AI Mode, then Grok, Claude and Perplexity (full order added to the epic by the PM, 2026-11-12)"
+          },
+          {
+            "id": "AC3",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.6)",
+            "group": null,
+            "text": "Given an analysis with 4 engines or more, When the question panel pills render in their compact form, Then the AI Overviews pill shows its logo only and \"Google AI Overviews\" in the tooltip, as for every engine today",
+            "given": "an analysis with 4 engines or more",
+            "when": "the question panel pills render in their compact form",
+            "then": "the AI Overviews pill shows its logo only and \"Google AI Overviews\" in the tooltip, as for every engine today"
+          },
+          {
+            "id": "AC4",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.6)",
+            "group": null,
+            "text": "Given the logo of AI Overviews, When any view shows an engine logo (wizard, Manage Scope, back office, engine filters, pills, Sources card, Actions Center, exports), Then the AI Overviews logo shows there, and never a blank or a default icon",
+            "given": "the logo of AI Overviews",
+            "when": "any view shows an engine logo (wizard, Manage Scope, back office, engine filters, pills, Sources card, Actions Center, exports)",
+            "then": "the AI Overviews logo shows there, and never a blank or a default icon"
+          },
+          {
+            "id": "AC5",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.6)",
+            "group": null,
+            "text": "Given an analysis with AI Overviews, When I export it to Excel, PowerPoint or PDF, Then AI Overviews shows wherever the export shows an engine, with the name \"Google AI Overviews\"",
+            "given": "an analysis with AI Overviews",
+            "when": "I export it to Excel, PowerPoint or PDF",
+            "then": "AI Overviews shows wherever the export shows an engine, with the name \"Google AI Overviews\""
+          },
+          {
+            "id": "AC6",
+            "section": "Functional Acceptance Criteria (GEO-1005, User Story 1.6)",
+            "group": null,
+            "text": "Given an analysis without AI Overviews, When I open it, Then AI Overviews shows nowhere and the other engines show as today",
+            "given": "an analysis without AI Overviews",
+            "when": "I open it",
+            "then": "AI Overviews shows nowhere and the other engines show as today"
+          }
+        ],
+        "technicalAcceptanceCriteria": [],
+        "technicalNotes": [
+          {
+            "heading": "What the code adds to the epic text",
+            "text": "- Most of this story is already true once STORY-54.1 has moved engine names and order to the database and logos and colours to one registry. What is left is to prove it on every surface and to catch the places the refactor may miss: the improvement card logo, the Actions Center fallback (a text instead of a logo for an unknown engine), the compact pills (which already overflowed once on staging) and the export classes that used to name engines with fixed lists.\n- The deliverable is a six-engine test fixture and one sweep test per surface, plus the five-engine analysis pinned as unchanged.\n- The order of the other engines is the database one (Grok, Claude, Perplexity), validated by the PM on 2026-11-12: the PowerPoint export lists Grok before Claude, as the screens do."
+          },
+          {
+            "heading": "Scope note",
+            "text": "Closes the epic. Depends on STORY-54.1 (presentation refactor), STORY-54.3 (states) and STORY-54.5 (the panel). Frontend and exports; no migration. Lite Analysis is out of scope (GEO-1532)."
+          }
+        ],
+        "externalSpecs": [
+          {
+            "label": "54-6-show-ai-overviews-everywhere-engines-show.md",
+            "url": "https://github.com/AirPR/geo-analytics/blob/docs/GEO-1005-epic-54-stories/docs/implementation-artifacts/epics/epic-54/54-6-show-ai-overviews-everywhere-engines-show.md"
+          }
+        ],
+        "related": [],
+        "blockedBy": [
+          "GEO-1599"
+        ],
+        "blocks": []
+      }
+    ]
+  }
+}
