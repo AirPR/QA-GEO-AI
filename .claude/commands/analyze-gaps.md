@@ -20,7 +20,7 @@ Example: `/analyze-gaps 174 https://onclusive.atlassian.net/browse/GEO-174`
   - Serve as Confluence fallback if the Confluence site shares the same base URL
 
 ## Prerequisites
-- Operational MCP Atlassian access (`mcp__claude_ai_Atlassian__*`) — auth is handled by OAuth, **no JIRA_* env vars required**
+- `JIRA_URL`, `JIRA_EMAIL`, `JIRA_TOKEN` in `.env` — the same Atlassian API token reads Jira and Confluence (same site). Jira REST: read `.env` once for `JIRA_URL`, `JIRA_EMAIL`, `JIRA_TOKEN` (never print the token); `curl -u "$JIRA_EMAIL:$JIRA_TOKEN"`. Windows: save every response to `.tmp-jira/` and parse it with `node -e "const j=require('./.tmp-jira/...')"` (no `/dev/stdin`). No Atlassian connector (MCP).
 - Epic CSV present: `.claude/Data/output/csv/testcases - epic{ID}.csv`
 - Valid Confluence access for "Complete Spec" pages linked in stories
 
@@ -41,7 +41,7 @@ Example: `/analyze-gaps 174 https://onclusive.atlassian.net/browse/GEO-174`
 
 1. **List epic User Stories**
    - JQL: `parent = {EPIC_KEY}` (or `"Epic Link" = {EPIC_KEY}` depending on Jira config)
-   - Tool: `mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql`
+   - REST: `POST {JIRA_URL}/rest/api/3/search/jql` with `{"jql":"parent = {EPIC_KEY}","fields":["summary","description","status"],"maxResults":100}` (follow `nextPageToken`)
    - Keep `key`, `summary`, `description`, `status`
 
 2. **Per story — extract Confluence link**
@@ -54,7 +54,7 @@ Example: `/analyze-gaps 174 https://onclusive.atlassian.net/browse/GEO-174`
    - If link found but 404/401 on fetch → mark `broken_confluence_link` (bucket: no-link)
 
 3. **Per story — extract ACs from Confluence**
-   - Load page via `mcp__claude_ai_Atlassian__getConfluencePage` (format `view` or `storage`)
+   - Load page via REST `GET {JIRA_URL}/wiki/api/v2/pages/{pageId}?body-format=storage` (page id taken from the link `/pages/{pageId}/`; for a short `/x/...` link, follow the redirect with `curl -L` first)
    - Locate the "Acceptance Criteria" / "AC" section
    - Extract numbered items according to these patterns (priority order):
      - `AC1:`, `AC1 -`, `AC1.` at start of line or bullet

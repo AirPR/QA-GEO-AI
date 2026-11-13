@@ -36,10 +36,13 @@ Source: PNG screenshots in `.claude/Data/output/bugs/statique-bugs/`. Workflow:
 
 ## Tools Used
 - Read (reading results, CSV files, and PNG images in mode B)
-- Bash (Jira REST calls for attachments via curl)
-- mcp__claude_ai_Atlassian__createJiraIssue (ticket creation)
-- mcp__claude_ai_Atlassian__editJiraIssue (assignee, labels, description after creation if needed)
-- mcp__claude_ai_Atlassian__lookupJiraAccountId (assignee resolution)
+- Bash (curl, Jira REST with `JIRA_EMAIL` / `JIRA_TOKEN` from `.env`, responses saved in `.tmp-jira/`):
+  - `POST /rest/api/3/search/jql` (duplicate search)
+  - `POST /rest/api/3/issue` (ticket creation)
+  - `PUT /rest/api/3/issue/{KEY}` (assignee, labels, description after creation if needed)
+  - `POST /rest/api/3/issue/{KEY}/attachments` (evidence)
+  - Assignee resolution: `JIRA_ASSIGNEES` / `JIRA_ASSIGNEE_DEFAULT` from `.env`, else `GET /rest/api/3/user/search?query={name}`
+- No Atlassian connector (MCP)
 
 ## Reference
 Full prompt and steps: see `.claude/commands/create-bugs.md`

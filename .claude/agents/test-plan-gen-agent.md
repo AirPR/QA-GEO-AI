@@ -161,9 +161,9 @@ In the response, report: issues read, comments read, comments applied (id → sc
 ### Mode B — Jira source (`--jira-source {TICKET}`, or an epic not imported locally in release mode)
 
 When `--jira-source` is provided, or in release mode for an epic without local folder:
-1. Fetch the ticket via MCP `getJiraIssue`
+1. Fetch the ticket via REST `GET {JIRA_URL}/rest/api/3/issue/{TICKET}?fields=summary,status,issuetype,description` (same auth as Level 3)
 2. Extract ACs from the description (same filtering rules as Mode A)
-3. If the ticket is an Epic, also fetch its child Stories via `searchJiraIssuesUsingJql` and extract their ACs
+3. If the ticket is an Epic, also fetch its child Stories via `POST {JIRA_URL}/rest/api/3/search/jql` (`parent = "{TICKET}"`, fields `summary,status,issuetype,description`) and extract their ACs
 4. Use the fetched data exactly as Mode A (same grouping, filtering, scenario rules)
 
 In both modes, use **GEO-1110** as the canonical format reference — mirror its structure in every generated plan.
@@ -369,15 +369,15 @@ Before displaying the plan to the user, verify:
 - A plan already on disk is the previous version: compare, mark changed scenarios `*(new)*` / `*(corrected)*`, and overwrite only after approval (epic mode) or as DRAFT (release mode).
 
 ### If `--jira {TICKET}` is provided (without `--create-subtask`):
-Update the Jira ticket description using MCP `editJiraIssue` with `contentFormat: "markdown"`.
+Update the Jira ticket description via REST `PUT {JIRA_URL}/rest/api/2/issue/{TICKET}` with `{"fields":{"description":"<plan in wiki markup>"}}` (v2 takes wiki markup: `h3.`/`h4.` headings, `*bold*`, `||header||` / `|cell|` tables, `*` bullets). Write the body to `.tmp-jira/` and send it with `--data @file`. Verify with a GET afterwards.
 
 ### If `--jira {TICKET}` + `--create-subtask` are both provided:
-Create a Sub-task under the ticket using MCP `createJiraIssue` with:
+Create a Sub-task under the ticket via REST `POST {JIRA_URL}/rest/api/2/issue` (body in `.tmp-jira/`, `--data @file`) with:
 - **Summary**: `QA-{TICKET}-{Epic Title}-Tests`
 - **Parent**: the `--jira` ticket key
 - **Issue Type**: Sub-task (ID 5)
-- **Reporter**: current user's account ID (fetch via `atlassianUserInfo`)
-- **Description**: full formatted test plan in markdown
+- **Reporter**: current user's account ID (`GET {JIRA_URL}/rest/api/3/myself` → `accountId`)
+- **Description**: full formatted test plan in wiki markup (as above)
 
 Do not create the sub-task until all required fields are confirmed and the user has validated the plan.
 
@@ -385,10 +385,6 @@ Do not create the sub-task until all required fields are confirmed and the user 
 
 ## Tools Used
 - `Read` / `Glob` — reading EPIC.md and STORY_*.md / TASK_*.md files
-- `Bash` (curl, read-only) — Jira REST comments of epic, stories/tasks, sub-tasks and linked bugs into `.tmp-jira/`
-- `mcp__claude_ai_Atlassian__getJiraIssue` — fetching ticket when `--jira-source` provided
-- `mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql` — fetching child stories
-- `mcp__claude_ai_Atlassian__atlassianUserInfo` — getting current user ID for sub-task reporter
+- `Bash` (curl, Jira REST with `JIRA_EMAIL` / `JIRA_TOKEN` from `.env`, responses in `.tmp-jira/`) — comments of epic, stories/tasks, sub-tasks and linked bugs; ticket and child stories when `--jira-source` is provided; current user (`/myself`) for the sub-task reporter. No Atlassian connector (MCP)
 - `Write` — writing the plan files (epic mode: after user confirmation; release mode: as DRAFT, then status updated on approval)
-- `mcp__claude_ai_Atlassian__editJiraIssue` — updating ticket description (after user confirmation)
-- `mcp__claude_ai_Atlassian__createJiraIssue` — creating Sub-task (after user confirmation, only with `--create-subtask`)
+- `Bash` (curl, Jira REST) — updating ticket description (after user confirmation); creating the Sub-task (after user confirmation, only with `--create-subtask`)

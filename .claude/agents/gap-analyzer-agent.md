@@ -43,9 +43,10 @@ At the top of the report (epic): global summary `N stories | M documented ACs | 
 - Run on a single epic at a time (epic 174 first) before multi-epic generalisation.
 
 ## Tools Used
-- mcp__claude_ai_Atlassian__searchJiraIssuesUsingJql (list epic stories)
-- mcp__claude_ai_Atlassian__getJiraIssue (retrieve description + Confluence link)
-- mcp__claude_ai_Atlassian__getConfluencePage (retrieve "Complete Spec" content)
+- Bash (curl, REST with `JIRA_EMAIL` / `JIRA_TOKEN` from `.env`, responses in `.tmp-jira/`; same token for Jira and Confluence):
+  - `POST /rest/api/3/search/jql` (list epic stories with description + Confluence link)
+  - `GET /wiki/api/v2/pages/{pageId}?body-format=storage` ("Complete Spec" content)
+- No Atlassian connector (MCP)
 - Read (epic CSV + optionally raw/jira/stories_raw.json already fetched)
 - Write (final markdown report)
 - Bash/Node to parse CSV and extract ACs from Confluence HTML

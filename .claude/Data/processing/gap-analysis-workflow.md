@@ -100,7 +100,7 @@ Le script lit le CSV existant pour trouver le `max(TC{N})` par story et continue
 ## Pré-requis d'exécution
 
 1. **GitHub access** : token avec scope `repo` autorisé pour l'org `AirPR` (SSO authorized). Token dans `.env` (`GITHUB_TOKEN=…`), jamais en clair dans la conversation.
-2. **MCP Atlassian** : OAuth déjà configuré côté Claude Code. Pas de variable d'env `JIRA_*` requise pour ces scripts (lecture Jira faite par l'agent en amont, hors script Node).
+2. **API Jira / Confluence** : `JIRA_URL`, `JIRA_EMAIL`, `JIRA_TOKEN` dans `.env` (le même token lit Jira et Confluence). Lecture Jira faite par l'agent en amont via curl REST, hors script Node — plus de connecteur Atlassian (MCP).
 3. **Métadonnées stories** : fichier `_stories-epic{ID}.json` à constituer **manuellement** ou via l'agent au premier run (Jira + parsing des liens "Spec complète"). Format :
    ```json
    {

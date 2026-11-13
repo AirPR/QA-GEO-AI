@@ -42,12 +42,13 @@ Flow:
 4. **Generate a draft** `.claude/Data/output/bugs/bugs_to_create_YYYYMMDD.json` with all fields filled
 5. **Present the draft to the user** and **wait for explicit confirmation** before any API call
 6. After confirmation: create tickets in Jira (mode B confirmation is MANDATORY, mode A is not)
-7. Attach each PNG via REST `/rest/api/3/issue/{key}/attachments` (MCP Atlassian does not handle file uploads)
+7. Attach each PNG via REST `/rest/api/3/issue/{key}/attachments`
 8. Update the JSON with `jira_key`, `jira_url`, `attachment.jira_attachment_id`
 
 ## Common Prerequisites
 
 - Jira environment variables defined (`JIRA_URL`, `JIRA_TOKEN`, `JIRA_EMAIL`, `JIRA_PROJECT_KEY`)
+- Every Jira call goes through REST with the token — Jira REST: read `.env` once for `JIRA_URL`, `JIRA_EMAIL`, `JIRA_TOKEN` (never print the token); `curl -u "$JIRA_EMAIL:$JIRA_TOKEN"`. Windows: save every response to `.tmp-jira/` and parse it with `node -e "const j=require('./.tmp-jira/...')"` (no `/dev/stdin`). No Atlassian connector (MCP).
 - `JIRA_ASSIGNEE_DEFAULT`: accountId of the default assignee (fallback if no assignee specified)
 - `JIRA_ASSIGNEES`: list of available assignees in `DisplayName:accountId` format, comma-separated
   ```
@@ -71,7 +72,7 @@ Flow:
    - High     : important test failed, workaround difficult
    - Medium   : alternative test failed, workaround possible
    - Low      : edge-case or cosmetic test
-3. Search for duplicates in Jira (same component + same error message)
+3. Search for duplicates in Jira (same component + same error message): `POST /rest/api/3/search/jql` with a JQL on `project`, `issuetype = Bug` and the summary / error text
 4. For new bugs, build the complete ticket
 5. Create tickets via Jira API
    - Attach only the screenshot of the failing step (type: 'Error'), not the Given/When/Then screenshots
@@ -142,7 +143,7 @@ Present all drafts of a session in ONE table (title, priority, link, expected, e
       - **Sprint** (`customfield_10006`, rule 2026-10-21): the current sprint **"GEO + Digimind Sprint 1"** (id `14578`) → `"customfield_10006": 14578` (a number, not an object).
         Before each creation, check that this sprint is still active (`GET /rest/agile/1.0/sprint/14578` → `state: "active"`, or read `customfield_10006` on a recent GEO bug); if it is closed, ask the user which sprint to use. Show the sprint in the draft. Verify after creation that `customfield_10006` holds it.
       - `assignee_account_id` (if provided)
-   b. Attach the file (PNG or video) via curl REST (MCP does not support upload) — Jira API accepts any MIME type:
+   b. Attach the file (PNG or video) via curl REST — Jira API accepts any MIME type:
       ```bash
       curl -u "$JIRA_EMAIL:$JIRA_TOKEN" -X POST \
         -H "X-Atlassian-Token: no-check" \

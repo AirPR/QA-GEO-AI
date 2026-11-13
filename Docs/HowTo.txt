@@ -3034,3 +3034,11 @@ TÂCHE 104 : Release 1.4 — synchro des questions, import et plan de test (13/1
    les importe) ; xlsx installé depuis le CDN SheetJS (0.20.3) car la version npm
    0.18.5 n est plus maintenue — mise à jour : npm install -D
    https://cdn.sheetjs.com/xlsx-<version>/xlsx-<version>.tgz. readFile inchangé.
+8. Plus de connecteur Atlassian (MCP) dans le workflow (13/11) : /create-bugs,
+   /gen-test-plan et /analyze-gaps passent par curl REST avec JIRA_EMAIL /
+   JIRA_TOKEN du .env, comme les autres commandes. Le même token lit Confluence
+   (GET {JIRA_URL}/wiki/api/v2/pages/{id}?body-format=storage). Description et
+   sous-tâche de plan de test : REST v2 en wiki markup (PUT /rest/api/2/issue/{KEY},
+   POST /rest/api/2/issue). Reporter : GET /rest/api/3/myself ; assignee :
+   JIRA_ASSIGNEES du .env, sinon GET /rest/api/3/user/search?query=... (le .env de
+   QA-GEO-AI est une copie de celui de QA-Workflow1, jamais commité).
