@@ -30,7 +30,7 @@ To retest: bug GEO-1591 (Excel export 504 on a long period of a large analysis, 
 | # | Point | Status | Source | QA assumption | Asked |
 |---|---|---|---|---|---|
 | Q1 | Engine not switched at release: display of one analysis date mixing a switched engine and a structured engine | OPEN | Quentin 870232 point 7 (29/10), no dev answer; GEO-1562 AC3 ("an engine not yet switched… stays on its API route"); 876571 (Abdenasser, 12/11): "reste une question ouverte" | No TC for a mixed date until answered | 876544 → Youssef, Abdenasser |
-| Q2 | GEO-1567 P1 (FR / ES copy), P2 (AC5 "two numbers per row") and GEO-1564 D1 (clamp 184 px / 8 lines) built at the proposed defaults, "not yet confirmed" | OPEN | GEO-1567 implementation summary (Abdenasser, 04/11); GEO-1564 D1 (Abdenasser, 04/11) | Test the proposed defaults, marked "pending PO / design" | Not asked (draft D4) |
+| Q2 | GEO-1567 P1 (FR / ES copy), P2 (AC5 "two numbers per row") and GEO-1564 D1 (clamp 184 px / 8 lines) built at the proposed defaults, "not yet confirmed" | OPEN | GEO-1567 implementation summary (Abdenasser, 04/11); GEO-1564 D1 (Abdenasser, 04/11) | Test the proposed defaults, marked "pending PO / design" | 877395 (13/11) → Quentin, Jalal |
 | T1 | GEO-1572 AC2: focus trap and arrow keys in both shells | ANSWERED | GEO-1572 edited 12/11 (Abdenasser, 876571) — now AC3 | Both shells | 876544 |
 | T2 | GEO-1566 AC1: every brand of the extracted ranking is highlighted | ANSWERED | GEO-1566 edited 12/11 (Abdenasser, 876571) | Every ranked brand | 876544 |
 | T3 | GEO-1566 AC4: chosen brand has no style of its own | ANSWERED | Epic edit 27/10 (Quentin) replaced the "left border" line; GEO-1017 "Decided on 26 Oct" list is outdated on this point | No style on the chosen brand | — |
@@ -72,7 +72,7 @@ To retest: GEO-1607 (Excel shows "Conditional · Decathlon", Done 11/11).
 
 ### D4 — GEO-1567, new comment → Quentin + Jalal
 
-Still valid on 2026-11-13 (no answer since 12/11).
+Posted on 2026-11-13 (comment 877395).
 
 > @Quentin @Jalal The implementation summary of this story lists open items built at the spec's proposed defaults, "not yet confirmed". Can you confirm them so we can test them as final?
 > 1. P1 — FR / ES copy (as implemented)
