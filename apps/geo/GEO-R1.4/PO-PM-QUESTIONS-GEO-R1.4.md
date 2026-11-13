@@ -91,3 +91,18 @@ Still valid on 2026-11-13 (no answer since 12/11).
 > 3. Questions Analysis table: the ACs and Figma cover "Not triggered" / "Not available" in the question panel only (frame 04d). How do these states show in the table?
 > 4. Excluded-country list: the epic gives 6 countries as of 6 Nov (China, Cuba, Ethiopia, Iceland, Iran, Sri Lanka) and 876069 says the vendor list can change. We use this list as the baseline unless you tell us otherwise.
 > 5. The epic says approval to capture the Google surfaces is still "to confirm". Who gives it and when? Until then we test on staging only.
+
+### D6 — GEO-678, new comment → dev (Youssef and / or Abdenasser, to choose)
+
+Not asked (kept on 2026-11-13, to post later). Dev requests, not PO questions. Already asked and waiting: mixed date display (876544), GEO-1537 Jira texts (876543, 876976, 876977).
+
+| # | Request | Why | Blocked scenarios |
+|---|---|---|---|
+| 1 | A way to force a failed capture, a failed extraction and a failed fallback to the API | Cannot be triggered from the UI | 39, 41, 42, 74, 76 |
+| 2 | Dev evidence (stored rows or test reports): raw body, route, vendor, capture time and locale, country parameter or hint | Not visible in the UI | 2, 64, 65, 71, 72 |
+| 3 | Engines switched to natural answers and to rendered capture on staging, and the organisations they apply to (staging guards) | Needed to pick the test data | Collection scenarios |
+
+> @dev Before testing natural answers on staging, can you help us with:
+> 1. A way to force a failed capture, a failed extraction and a failed API fallback (Scenarios 39, 41, 42, 74, 76 of the test plan).
+> 2. Evidence for what the UI does not show — raw body, route, vendor, capture time and locale, country parameter or hint — as stored rows or test reports (Scenarios 2, 64, 65, 71, 72).
+> 3. The engines switched to natural answers and to rendered capture on staging, and the organisations they apply to.
